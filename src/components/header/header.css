@@ -1,0 +1,21 @@
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background-color: yellow;
+  padding: 20px 20px;
+}
+
+.header div {
+  display: flex;
+  flex-direction: row;
+  gap: 32px;
+}
+
+.header a {
+  text-transform: uppercase;
+  font-weight: bold;
+  text-decoration: none;
+  color: black;
+  font-size: clamp(1rem, 2vw + 0.5rem, 2rem);
+}
