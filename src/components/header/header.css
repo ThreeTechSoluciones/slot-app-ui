@@ -3,6 +3,7 @@
   flex-direction: row;
   justify-content: space-between;
   background-color: yellow;
+  height: 3rem;
   padding: 20px 20px;
 }
 
