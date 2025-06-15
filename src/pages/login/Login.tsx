@@ -26,8 +26,9 @@ function Login() {
   const onSubmit = ({ username, password }: { username: string, password: string }) => {
     signin(encryptToBase64(`${username}:${password}`))
       .unwrap()
-      .then(() => navigate('/home'))
-      .catch((error) => console.error('Error al ingresar', error))
+      .then(() => {
+        navigate('/home')
+      })
   } 
 
   return (
