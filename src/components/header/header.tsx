@@ -1,9 +1,14 @@
+import { persistor } from '../../app/store/store';
 import useAuthentication from '../../hooks/useAuthentication';
 import './header.css'
 
 function Header() {
 
   const { isAuthenticated } = useAuthentication()
+
+  const handleLogout = () => {
+    persistor.purge(); 
+  }
 
   return (
     <header className='header'>
@@ -15,7 +20,7 @@ function Header() {
         </div>
         <div>
           <a href='/nuevo-alumno'>Nuevo alumno</a>
-          <a href='/login'>Salir</a>
+          <a href='/login' onClick={handleLogout}>Salir</a>
         </div>
         </>
       )}
