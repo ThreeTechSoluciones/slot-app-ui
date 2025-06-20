@@ -1,0 +1,48 @@
+.table {
+  background-color: #7c7c7c;
+  border-radius: 20px;
+  width: 90%;
+  height: 40px;
+
+  border-collapse: collapse;
+  align-self: self-start;
+  margin-top: 30px;
+}
+
+.thead th {
+  color: white;
+}
+
+.tbody {
+  background-color: white;
+}
+
+.tbody td {
+  color: black;
+  text-align: center;
+  padding: 5px;
+  object-fit: contain;
+}
+
+.tbody tr {
+  border-bottom: 2px solid #000;
+}
+
+.icon {
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.icon:hover {
+  transform: scale(1.2);
+}
+
+.btn-payment {
+  background-color: #d9d9d9;
+  padding: 3px 20px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+}
