@@ -1,6 +1,8 @@
+import { useSigninMutation } from '../app/services/AuthService';
+
 const useAuthentication = () => {
-  const isAuthenticated = true;
-  return { isAuthenticated } 
+  const [ , { data } ] = useSigninMutation({ fixedCacheKey: 'shared-auth' })
+  return { isAuthenticated: data?.accessToken != null, userId: data?.userId } 
 }
 
 export default useAuthentication
