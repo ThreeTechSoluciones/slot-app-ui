@@ -31,7 +31,7 @@ function Home() {
             </td>
 
             <td>
-              <div className="container">
+              <div className="actions-container">
                 <button
                   className="btn-payment"
                   onClick={() => alert(`Registrar pago de ${student.name}`)}
@@ -41,7 +41,7 @@ function Home() {
               </div>
             </td>
             <td>
-              <div className="container">
+              <div className="actions-container">
                 <img
                   src={infoIcon}
                   alt="Info"
@@ -51,7 +51,7 @@ function Home() {
               </div>
             </td>
             <td>
-              <div className="container">
+              <div className="actions-container">
                 <img
                   src={trashIcon}
                   alt="Eliminar"
