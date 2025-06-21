@@ -31,28 +31,34 @@ function Home() {
             </td>
 
             <td>
-              <button
-                className="btn-payment"
-                onClick={() => alert(`Registrar pago de ${student.name}`)}
-              >
-                Registrar
-              </button>
+              <div className="container">
+                <button
+                  className="btn-payment"
+                  onClick={() => alert(`Registrar pago de ${student.name}`)}
+                >
+                  Registrar
+                </button>
+              </div>
             </td>
             <td>
-              <img
-                src={infoIcon}
-                alt="Info"
-                className="icon"
-                onClick={() => alert(`Info de ${student.name}`)}
-              />
+              <div className="container">
+                <img
+                  src={infoIcon}
+                  alt="Info"
+                  className="icon"
+                  onClick={() => alert(`Info de ${student.name}`)}
+                />
+              </div>
             </td>
             <td>
-              <img
-                src={trashIcon}
-                alt="eliminar"
-                className="icon"
-                onClick={() => alert(`¿Desea eliminar a ${student.name}?`)}
-              />
+              <div className="container">
+                <img
+                  src={trashIcon}
+                  alt="Eliminar"
+                  className="icon"
+                  onClick={() => alert(`¿Desea eliminar a ${student.name}?`)}
+                />
+              </div>
             </td>
           </tr>
         ))}

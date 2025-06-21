@@ -2,15 +2,13 @@
   background-color: #7c7c7c;
   border-radius: 20px;
   width: 90%;
-  height: 40px;
-
   border-collapse: collapse;
-  align-self: self-start;
   margin-top: 30px;
 }
 
 .thead th {
   color: white;
+  font-size: clamp(0.5rem, 2vw, 1.5rem);
 }
 
 .tbody {
@@ -18,14 +16,17 @@
 }
 
 .tbody td {
-  color: black;
+  font-size: clamp(0.5rem, 2vw, 1.5rem);
   text-align: center;
-  padding: 5px;
-  object-fit: contain;
 }
 
 .tbody tr {
   border-bottom: 2px solid #000;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
 }
 
 .icon {
@@ -41,8 +42,19 @@
 
 .btn-payment {
   background-color: #d9d9d9;
-  padding: 3px 20px;
+  font-size: clamp(0.5rem, 2vw, 1.5rem);
+  padding: 1px 25px;
   border: none;
   border-radius: 20px;
   cursor: pointer;
+}
+
+.btn-payment:hover {
+  color: #7c7c7c;
+}
+
+.btn-payment:active {
+  transform: scale(0.95);
+  background-color: #c4c4c4;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
 }
