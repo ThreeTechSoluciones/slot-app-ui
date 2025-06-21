@@ -1,0 +1,60 @@
+.table {
+  background-color: #7c7c7c;
+  border-radius: 20px;
+  width: 90%;
+  border-collapse: collapse;
+  margin-top: 30px;
+}
+
+.thead th {
+  color: white;
+  font-size: clamp(0.5rem, 2vw, 1.5rem);
+}
+
+.tbody {
+  background-color: white;
+}
+
+.tbody td {
+  font-size: clamp(0.5rem, 2vw, 1.5rem);
+  text-align: center;
+}
+
+.tbody tr {
+  border-bottom: 2px solid #000;
+}
+
+.actions-container {
+  display: flex;
+  justify-content: center;
+}
+
+.icon {
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.icon:hover {
+  transform: scale(1.2);
+}
+
+.btn-payment {
+  background-color: #d9d9d9;
+  font-size: clamp(0.5rem, 2vw, 1.5rem);
+  padding: 1px 25px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.btn-payment:hover {
+  color: #7c7c7c;
+}
+
+.btn-payment:active {
+  transform: scale(0.95);
+  background-color: #c4c4c4;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
