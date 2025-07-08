@@ -8,19 +8,10 @@ import "react-datepicker/dist/react-datepicker.css";
 import { Controller } from "react-hook-form";
 import { ErrorMessage } from "../../components/header/ErrorMessage";
 import { PaymentType } from "../../app/types/responses/Enum";
+import * as yup from "yup";
 
-type FormData = {
-  name: string;
-  lastname: string;
-  phoneNumber: string;
-  pathologies?: string | undefined;
-  birthday: Date;
-  paymentType: string;
-  classesPerWeek: number;
-  addmisionDate: Date;
-  payDay?: number;
-  extraDays?: number;
-};
+type FormData = yup.InferType<typeof studentsScheme>;
+
 function Students() {
   const navigate = useNavigate();
   const {
@@ -44,26 +35,25 @@ function Students() {
     <form className="form-container" onSubmit={handleSubmit(onSubmit)}>
       <div className="form-group">
         <div className="column1">
-          <input {...register("name")} placeholder="Nombre" />
+          <label>Nombre:</label>
+          <input {...register("name")} />
           <ErrorMessage error={errors.name} />
 
-          <input {...register("lastname")} placeholder="Apellido" />
+          <label>Apelido:</label>
+          <input {...register("lastname")} />
           <ErrorMessage error={errors.lastname} />
 
-          <input
-            {...register("phoneNumber")}
-            type="tel"
-            placeholder="Nro Teléfono"
-          />
+          <label>Número de Telefono:</label>
+          <input {...register("phoneNumber")} type="tel" />
           <ErrorMessage error={errors.phoneNumber} />
 
+          <label>Fecha de Nacimiento:</label>
           <Controller
             {...register("birthday")}
             name="birthday"
             control={control}
             render={({ field }) => (
               <DatePicker
-                placeholderText="Fecha de Nacimiento"
                 selected={field.value}
                 onChange={(date) => field.onChange(date)}
                 dateFormat="dd/MM/yyyy"
@@ -76,14 +66,14 @@ function Students() {
             )}
           />
           <ErrorMessage error={errors.birthday} />
-          <input
-            {...register("pathologies")}
-            type="text"
-            placeholder="Patologías/Enfermedades"
-          />
+
+          <label>Patologías/Enfermedades:</label>
+          <input {...register("pathologies")} type="text" />
+          <ErrorMessage error={errors.pathologies} />
         </div>
 
         <div className="column2">
+          <label>Fecha de Ingreso:</label>
           <div>
             <Controller
               {...register("addmisionDate")}
@@ -91,7 +81,6 @@ function Students() {
               control={control}
               render={({ field }) => (
                 <DatePicker
-                  placeholderText="Fecha de ingreso"
                   onChange={(date) => field.onChange(date)}
                   selected={field.value ?? null}
                   dateFormat="dd/MM/yyyy"
@@ -101,10 +90,8 @@ function Students() {
             <ErrorMessage error={errors.addmisionDate} />
           </div>
 
+          <label>Tipo de Pago:</label>
           <select className="paymentType" {...register("paymentType")}>
-            <option value="" disabled hidden>
-              Tipo de Pago
-            </option>
             {Object.values(PaymentType).map((name) => (
               <option key={name} value={name}>
                 {name}
@@ -112,23 +99,23 @@ function Students() {
             ))}
           </select>
           <ErrorMessage error={errors.paymentType} />
-          <input
-            type="number"
-            {...register("classesPerWeek")}
-            placeholder="Días a la Semana"
-          />
+
+          <label>Días a la Semana:</label>
+          <input type="number" {...register("classesPerWeek")} />
           <ErrorMessage error={errors.classesPerWeek} />
+
+          <label>Día de Pago:</label>
           <input
-            {...register("payDay")}
+            {...register("paymentDay")}
             type="number"
-            placeholder="Día de Pago"
             disabled={paymentTypeSelected !== "Día específico"}
           />
-          <ErrorMessage error={errors.payDay} />
+          <ErrorMessage error={errors.paymentDay} />
+
+          <label>Días Extras:</label>
           <input
             {...register("extraDays")}
             type="number"
-            placeholder="Días Extras"
             disabled={paymentTypeSelected !== "Del 1 al 10"}
           />
           <ErrorMessage error={errors.extraDays} />

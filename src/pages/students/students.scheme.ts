@@ -10,7 +10,7 @@ export const studentsScheme = yup.object({
     .min(8, "Debe tener al menos 8 caracteres")
     .max(15, "No puede superar los 15 caracteres")
     .matches(/^[+0-9\s-]+$/, "Solo se permiten números"),
-  pathologies: yup.string().notRequired(),
+  pathologies: yup.string().notRequired().default(""),
   birthday: yup
     .date()
     .required("Debe ingresar una fecha de nacimiento")
@@ -26,8 +26,9 @@ export const studentsScheme = yup.object({
     .min(1, "Debe ser al menos 1 día")
     .max(7, "No puede superar los 7 días"),
   addmisionDate: yup.date().required("La fecha de ingreso es obligatoria"),
-  payDay: yup
+  paymentDay: yup
     .number()
+    .default(0)
     .transform((value, originalValue) => {
       return originalValue === "" ? undefined : value;
     })
@@ -43,6 +44,7 @@ export const studentsScheme = yup.object({
     }),
   extraDays: yup
     .number()
+    .default(0)
     .transform((value, originalValue) => {
       return originalValue === "" ? undefined : value;
     })
