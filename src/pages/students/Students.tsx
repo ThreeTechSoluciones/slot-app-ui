@@ -13,12 +13,13 @@ type FormData = {
   name: string;
   lastname: string;
   phoneNumber: string;
+  pathologies?: string | undefined;
   birthday: Date;
   paymentType: string;
   classesPerWeek: number;
   addmisionDate: Date;
-  payDay: string;
-  extraDays: string;
+  payDay?: number;
+  extraDays?: number;
 };
 function Students() {
   const navigate = useNavigate();
@@ -57,6 +58,7 @@ function Students() {
           <ErrorMessage error={errors.phoneNumber} />
 
           <Controller
+            {...register("birthday")}
             name="birthday"
             control={control}
             render={({ field }) => (
@@ -74,12 +76,17 @@ function Students() {
             )}
           />
           <ErrorMessage error={errors.birthday} />
-          <input type="text" placeholder="Patologías/Enfermedades" />
+          <input
+            {...register("pathologies")}
+            type="text"
+            placeholder="Patologías/Enfermedades"
+          />
         </div>
 
         <div className="column2">
           <div>
             <Controller
+              {...register("addmisionDate")}
               name="addmisionDate"
               control={control}
               render={({ field }) => (
@@ -112,13 +119,15 @@ function Students() {
           />
           <ErrorMessage error={errors.classesPerWeek} />
           <input
-            type="text"
+            {...register("payDay")}
+            type="number"
             placeholder="Día de Pago"
             disabled={paymentTypeSelected !== "Día específico"}
           />
           <ErrorMessage error={errors.payDay} />
           <input
-            type="text"
+            {...register("extraDays")}
+            type="number"
             placeholder="Días Extras"
             disabled={paymentTypeSelected !== "Del 1 al 10"}
           />
