@@ -1,22 +1,59 @@
 .header {
+  width: 100vw;
+  height: 4rem;
   display: flex;
+  align-items: center;
   flex-direction: row;
   justify-content: space-between;
   background-color: #f0e21e;
-  height: 3rem;
-  padding: 20px 20px;
 }
-
-.header div {
+.header-left,
+.header-center-right,
+.header-right {
   display: flex;
-  flex-direction: row;
-  gap: 32px;
+  align-items: center;
+}
+.header a {
+  color: black;
+  font-weight: 800;
+  font-family: sans-serif;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-size: clamp(1rem, 2vw + 0.5rem, 1.5rem);
+  padding: 0.5rem 2.3rem;
 }
 
-.header a {
-  text-transform: uppercase;
-  font-weight: bold;
-  text-decoration: none;
-  color: black;
-  font-size: clamp(1rem, 2vw + 0.5rem, 2rem);
+.header .new-student {
+  background-color: #7c7c7c;
+  color: white;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+}
+.icon {
+  filter: brightness(0) invert(1);
+  margin-left: 0.5rem;
+  width: 20px;
+  height: 20px;
+}
+.logo {
+  width: 80px;
+  height: auto;
+}
+
+@media (max-width: 768px) {
+  .header {
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+  }
+  .header a {
+    font-size: 0.5rem;
+    padding: 0.3rem 1rem;
+  }
+  .header-left,
+  .header-center-right,
+  .header-right {
+    justify-content: center;
+  }
 }
