@@ -1,32 +1,60 @@
 export const MOCKED_STUDENTS = [
-  { name: "Rocío", lastname: "Menardi", status: "A término" },
-  { name: "Graciela", lastname: "Pérez", status: "A término" },
-  { name: "Lautaro", lastname: "Díaz", status: "Vencido" },
-  { name: "Martina", lastname: "Sosa", status: "A término" },
-  { name: "Bruno", lastname: "Alvarez", status: "Vencido" },
-  { name: "Camila", lastname: "Juárez", status: "A término" },
-  { name: "Ignacio", lastname: "Mendoza", status: "Vencido" },
-  { name: "Valentina", lastname: "Torres", status: "A término" },
-  { name: "Emilia", lastname: "Gómez", status: "Vencido" },
-  { name: "Santiago", lastname: "Martínez", status: "A término" },
-  { name: "Julián", lastname: "Romero", status: "Vencido" },
-  { name: "Malena", lastname: "Figueroa", status: "A término" },
-  { name: "Tomás", lastname: "Castro", status: "Vencido" },
-  { name: "Ailén", lastname: "Salas", status: "A término" },
-  { name: "Federico", lastname: "López", status: "Vencido" },
-  { name: "Renata", lastname: "Moreno", status: "A término" },
-  { name: "Nicolás", lastname: "Barrios", status: "Vencido" },
-  { name: "Mía", lastname: "Herrera", status: "A término" },
-  { name: "Benjamín", lastname: "Paz", status: "Vencido" },
-  { name: "Florencia", lastname: "Cabrera", status: "A término" },
-  { name: "Agustín", lastname: "Peralta", status: "Vencido" },
-  { name: "Lucía", lastname: "Bustos", status: "A término" },
-  { name: "Mateo", lastname: "Aranda", status: "Vencido" },
-  { name: "Abril", lastname: "Silva", status: "A término" },
-  { name: "Joaquín", lastname: "Vega", status: "Vencido" },
-  { name: "Valeria", lastname: "Correa", status: "A término" },
-  { name: "Lucas", lastname: "Ríos", status: "Vencido" },
-  { name: "Elena", lastname: "Navarro", status: "A término" },
-  { name: "Franco", lastname: "Maldonado", status: "Vencido" },
-  { name: "Bianca", lastname: "Serrano", status: "A término" },
+  { id: 1, name: "Rocío", lastname: "Menardi", status: "A término" },
+  { id: 2, name: "Graciela", lastname: "Pérez", status: "A término" },
+  { id: 3, name: "Lautaro", lastname: "Díaz", status: "Vencido" },
+  { id: 4, name: "Martina", lastname: "Sosa", status: "A término" },
+  { id: 5, name: "Federico", lastname: "Sanchez", status: "Vencido" },
+  { id: 6, name: "Camila", lastname: "Juárez", status: "A término" },
+  { id: 7, name: "Ignacio", lastname: "Mendoza", status: "Vencido" },
+  { id: 8, name: "Valentina", lastname: "Torres", status: "A término" },
 ];
+
+export const MOCKED_STUDENT = {
+  name: 'Federico',
+  lastname: 'Sanchez',
+  birthday: '14/02/2000',
+  pathologies: undefined,
+  admissionDate: '23/03/2025',
+  plan: {
+    planType: 'Día específico',
+    daysPerWeek: 3,
+    paymentDueDate: 23
+  },
+  payments: [
+    {
+      number: 1,
+      date: '23/03/2025',
+      amount: 23000,
+      status: 'En término',
+      payed: true
+    },
+    {
+      number: 2,
+      date: '23/04/2025',
+      amount: 23000,
+      status: 'En término',
+      payed: true
+    },
+    {
+      number: 3,
+      date: '23/05/2025',
+      amount: 26593.2,
+      status: 'En término',
+      payed: true
+    },
+    {
+      number: 4,
+      date: '23/06/2025',
+      amount: 26593.2,
+      status: 'Vencido',
+      payed: false
+    },
+    {
+      number: 5,
+      date: '23/07/2025',
+      amount: 26593.2,
+      status: 'En término',
+      payed: false
+    },
+  ]
+}
