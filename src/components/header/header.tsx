@@ -18,13 +18,11 @@ function Header() {
             <a href="/home">Listado de alumnos</a>
             <a href="/cuotas">Cuotas mensuales</a>
           </div>
-          <div className="header-center-right">
+          <div className="header-right">
             <a href="/nuevo-alumno" className="new-student">
               Nuevo alumno
-              <img src={PlusIcon} alt="Plus" className="icon" />
+              <img src={PlusIcon} alt="Plus" className="plus-icon" />
             </a>
-          </div>
-          <div className="header-right">
             <a href="/login" onClick={handleLogout}>
               Salir
             </a>
