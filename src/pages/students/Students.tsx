@@ -6,7 +6,7 @@ import { useNavigate } from "react-router";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Controller } from "react-hook-form";
-import { ErrorMessage } from "../../components/header/ErrorMessage";
+import { ErrorMessage } from "../../components/errorMessage/ErrorMessage";
 import { PaymentType } from "../../app/types/responses/Enum";
 import * as yup from "yup";
 
