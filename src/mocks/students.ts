@@ -58,14 +58,3 @@ export const MOCKED_STUDENT = {
     },
   ]
 }
-
-// Nombre y apellido
-// Numero de telefono
-// Fecha de cumpleaños
-// Patologías
-// Fecha de inicio
-// El plan
-  // Tipo de plan del alumno
-  // Cantidad de dias a la semana
-  // La fecha de vencimiento de pago
-// Su lista de pagos
