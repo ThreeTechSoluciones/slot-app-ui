@@ -1,11 +1,9 @@
-// import { useLocation } from 'react-router';
 import { MOCKED_STUDENT } from '../../mocks/students';
 import { HeaderProperty, InformationContainer, Label, MainContainer, PaymentInfo, PaymentsContainer, PaymentsTable, Row, StudentInfo, StudentInfoContainer, SubTitle, TableBody, TableHeader, Title } from './StudentDetail.styles';
 import CheckIcon from '../../assets/check.webp'
 
 const StudentDetail = () => {
 
-  // const { studentId } = useLocation().state
   const student = MOCKED_STUDENT;
 
   return (
@@ -61,7 +59,7 @@ const StudentDetail = () => {
               <Row>
                 <PaymentInfo>{payment.number}</PaymentInfo>
                 <PaymentInfo>{payment.date}</PaymentInfo>
-                <PaymentInfo>{payment.amount}</PaymentInfo>
+                <PaymentInfo>${payment.amount}</PaymentInfo>
                 <PaymentInfo 
                   color={payment.status === 'Vencido' ? 'red' : 'black'}
                 >{payment.status}</PaymentInfo>
