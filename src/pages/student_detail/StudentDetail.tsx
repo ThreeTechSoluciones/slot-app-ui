@@ -1,21 +1,20 @@
 import { MOCKED_STUDENT } from '../../mocks/students';
 import { HeaderProperty, InformationContainer, Label, MainContainer, PaymentInfo, PaymentsContainer, PaymentsTable, Row, StudentInfo, StudentInfoContainer, SubTitle, TableBody, TableHeader, Title } from './StudentDetail.styles';
 import CheckIcon from '../../assets/check.webp'
+import { formatCurrency } from '../../utils/Formatter';
 
 const StudentDetail = () => {
 
   const student = MOCKED_STUDENT;
 
+  
+
   return (
     <MainContainer>
-      <Title>Informacion del alumno</Title>
+      <Title>ALUMNO: {student.name} {student.lastname}</Title>
       <StudentInfoContainer>
         <div>
-          <SubTitle>Informacion personal</SubTitle>
-          <InformationContainer>
-            <Label>Nombre: </Label>
-            <StudentInfo>{student.name} {student.lastname}</StudentInfo>
-          </InformationContainer>
+          <SubTitle>Información personal</SubTitle>
           <InformationContainer>
             <Label>Fecha de nacimiento:</Label>
             <StudentInfo>{student.birthday}</StudentInfo>
@@ -24,10 +23,14 @@ const StudentDetail = () => {
             <Label>Fecha de ingreso:</Label>
             <StudentInfo>{student.admissionDate}</StudentInfo>
           </InformationContainer>
+          <InformationContainer>
+            <Label>Direccion:</Label>
+            <StudentInfo>{student.address}</StudentInfo>
+          </InformationContainer>
         
         </div>
         <div>
-          <SubTitle>Informacion de su plan</SubTitle>
+          <SubTitle>Información de su plan</SubTitle>
           <InformationContainer>
             <Label>Tipo de plan:</Label>
             <StudentInfo>{student.plan.planType}</StudentInfo>
@@ -43,7 +46,7 @@ const StudentDetail = () => {
         </div>
       </StudentInfoContainer>
       <PaymentsContainer>
-        <SubTitle>Informacion de sus pagos</SubTitle>
+        <SubTitle>PAGOS</SubTitle>
         <PaymentsTable>
           <TableHeader>
             <tr>
@@ -56,10 +59,10 @@ const StudentDetail = () => {
           </TableHeader>
           <TableBody>
             {student.payments.map((payment) => (
-              <Row>
+              <Row key={payment.number}>
                 <PaymentInfo>{payment.number}</PaymentInfo>
                 <PaymentInfo>{payment.date}</PaymentInfo>
-                <PaymentInfo>${payment.amount}</PaymentInfo>
+                <PaymentInfo>{formatCurrency(payment.amount)}</PaymentInfo>
                 <PaymentInfo 
                   color={payment.status === 'Vencido' ? 'red' : 'black'}
                 >{payment.status}</PaymentInfo>

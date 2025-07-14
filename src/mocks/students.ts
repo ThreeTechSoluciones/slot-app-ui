@@ -15,6 +15,7 @@ export const MOCKED_STUDENT = {
   birthday: '14/02/2000',
   pathologies: undefined,
   admissionDate: '23/03/2025',
+  address: 'Constancio Vigil 1821',
   plan: {
     planType: 'Día específico',
     daysPerWeek: 3,

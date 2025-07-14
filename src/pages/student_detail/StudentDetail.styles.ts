@@ -3,6 +3,7 @@ import styled from 'styled-components'
 export const MainContainer = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
   margin: 0px 20px;
   width: 100%;
   height: 100%;
@@ -15,6 +16,7 @@ export const StudentInfoContainer = styled.div`
   width: 100%;
   background-color:rgba(125, 125, 125, 0.1);
   padding: 10px 0px;
+  border-radius: 3rem;
   @media (max-width: 768px) {
     background-color: white;
     flex-direction: column;
@@ -43,7 +45,7 @@ export const PaymentsContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
   width: 100%;
 `
 
@@ -78,7 +80,6 @@ export const Row = styled.tr`
 `
 export const Title = styled.h1`
   font-size: clamp(1rem, 2vw + 0.5rem, 2rem);
-  border-bottom: 1px solid rgb(171, 160, 160);
   width: fit-content;
 `
 
