@@ -2,7 +2,12 @@ import { MOCKED_STUDENTS } from "../../mocks/students";
 import "./Home.css";
 import infoIcon from "../../assets/info-icon.webp";
 import trashIcon from "../../assets/trash-icon.webp";
+import { useNavigate } from 'react-router';
+
 function Home() {
+
+  const navigate = useNavigate()
+
   return (
     <table className="table">
       <thead className="thead">
@@ -46,8 +51,7 @@ function Home() {
                   src={infoIcon}
                   alt="Info"
                   className="icon"
-                  onClick={() => alert(`Info de ${student.name}`)}
-                />
+                  onClick={() => navigate('/detalle-alumno', { state: { studentId: student.id }})} />
               </div>
             </td>
             <td>
