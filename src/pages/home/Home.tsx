@@ -2,24 +2,28 @@ import { MOCKED_STUDENTS } from "../../mocks/students";
 import "./Home.css";
 import infoIcon from "../../assets/info-icon.webp";
 import trashIcon from "../../assets/trash-icon.webp";
+import activateIcon from "../../assets/activate-icon.svg";
 function Home() {
   return (
     <table className="table">
       <thead className="thead">
         <tr>
           <th>Filtros</th>
+          <th>DNI</th>
           <th>Nombre</th>
           <th>Apellido</th>
           <th>Estado</th>
+          <th>Habilitado</th>
           <th>Pago</th>
           <th>Info</th>
-          <th>Eliminar</th>
+          <th>Eliminar/Dar Alta</th>
         </tr>
       </thead>
       <tbody className="tbody">
         {MOCKED_STUDENTS.map((student) => (
           <tr>
             <td></td>
+            <td>{student.dni}</td>
             <td>{student.name}</td>
             <td>{student.lastname}</td>
             <td
@@ -29,7 +33,13 @@ function Home() {
             >
               <strong> {student.status}</strong>
             </td>
-
+            <td
+              style={{
+                color: student.isActive ? "#00bf63" : "#ff3131",
+              }}
+            >
+              <strong>{student.isActive ? "Activo" : "Inactivo"}</strong>
+            </td>
             <td>
               <div className="actions-container">
                 <button
@@ -52,12 +62,23 @@ function Home() {
             </td>
             <td>
               <div className="actions-container">
-                <img
-                  src={trashIcon}
-                  alt="Eliminar"
-                  className="icon"
-                  onClick={() => alert(`¿Desea eliminar a ${student.name}?`)}
-                />
+                {!student.isActive ? (
+                  <img
+                    src={activateIcon}
+                    alt="Dar de alta"
+                    className="icon"
+                    onClick={() =>
+                      alert(`¿Desea dar de alta a ${student.name}?`)
+                    }
+                  />
+                ) : (
+                  <img
+                    src={trashIcon}
+                    alt="Eliminar"
+                    className="icon"
+                    onClick={() => alert(`¿Desea eliminar a ${student.name}?`)}
+                  />
+                )}
               </div>
             </td>
           </tr>
