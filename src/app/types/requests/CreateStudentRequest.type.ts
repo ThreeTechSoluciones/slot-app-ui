@@ -1,6 +1,5 @@
-import type { PlanType } from '../models/PlanType';
-
 export type CreateStudentRequest = {
+  dni: number;
   name: string;
   lastName: string;
   cellphoneNumber: string;

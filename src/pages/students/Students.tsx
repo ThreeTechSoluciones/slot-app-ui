@@ -45,6 +45,7 @@ function Students() {
   }, [resetField, paymentTypeSelected])
   
   const onSubmit = ({
+    dni,
     name,
     lastname,
     phoneNumber,
@@ -59,6 +60,7 @@ function Students() {
     if (!userId) return;
     
     createStudent({
+      dni,
       name,
       lastName: lastname,
       cellphoneNumber: phoneNumber,
@@ -82,6 +84,10 @@ function Students() {
     <form className="form-container" onSubmit={handleSubmit(onSubmit)}>
       <div className="form-group">
         <div className="column1">
+          <label>DNI:</label>
+          <input {...register("dni")} type='number'/>
+          <ErrorMessage error={errors.dni} />
+
           <label>Nombre:</label>
           <input {...register("name")} />
           <ErrorMessage error={errors.name} />

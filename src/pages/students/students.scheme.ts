@@ -2,6 +2,7 @@ import * as yup from "yup";
 import { PlanType } from "../../app/types/models/PlanType";
 
 export const studentsScheme = yup.object({
+  dni: yup.number().required("Debe ingresar el DNI"),
   name: yup.string().required("Debe ingresar el nombre"),
   lastname: yup.string().required("Debe ingresar el apellido"),
   phoneNumber: yup
