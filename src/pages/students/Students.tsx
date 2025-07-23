@@ -56,23 +56,8 @@ function Students() {
     paymentDay,
     extraDays
   }: FormData) => {
-
     if (!userId) return;
-
-    console.log('___data', {
-      name,
-      lastName: lastname,
-      cellphoneNumber: phoneNumber,
-      planType: paymentType,
-      classesPerWeek,
-      extraClasses: extraDays,
-      paymentDay,
-      birthday,
-      admissionDate,
-      pathologies,
-      userId
-    })
-
+    
     createStudent({
       name,
       lastName: lastname,
