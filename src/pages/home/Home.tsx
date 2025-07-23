@@ -1,7 +1,7 @@
-import { MOCKED_STUDENTS } from "../../mocks/students";
 import "./Home.css";
 import infoIcon from "../../assets/info-icon.webp";
 import trashIcon from "../../assets/trash-icon.webp";
+import activateIcon from "../../assets/activate-icon.svg";
 import { useNavigate } from "react-router";
 import { useGetUserStudentsQuery } from "../../app/services/UserService";
 import useAuthentication from "../../hooks/useAuthentication";
@@ -9,7 +9,6 @@ import useAuthentication from "../../hooks/useAuthentication";
 function Home() {
   const { userId } = useAuthentication();
   const { data } = useGetUserStudentsQuery(userId!);
-  console.log("pepito", data);
   const navigate = useNavigate();
 
   return (
@@ -17,18 +16,20 @@ function Home() {
       <thead className="thead">
         <tr>
           <th>Filtros</th>
+          <th>DNI</th>
           <th>Nombre</th>
           <th>Apellido</th>
           <th>Estado</th>
+          <th>Habilitado</th>
           <th>Pago</th>
           <th>Info</th>
-          <th>Eliminar</th>
+          <th>Eliminar/Dar Alta</th>
         </tr>
       </thead>
       <tbody className="tbody">
         {data &&
           data.map((student) => (
-            <tr>
+            <tr key={student.id}>
               <td></td>
               <td>{student.name}</td>
               <td>{student.lastname}</td>
@@ -37,9 +38,15 @@ function Home() {
                   color: student.status === "A término" ? "#00bf63" : "#ff3131",
                 }}
               >
-                <strong> {student.status}</strong>
+                <strong>{student.status}</strong>
               </td>
-
+              <td>
+                <strong
+                  style={{ color: student.isActive ? "#00bf63" : "#ff3131" }}
+                >
+                  {student.isActive ? "Activo" : "Inactivo"}
+                </strong>
+              </td>
               <td>
                 <div className="actions-container">
                   <button
@@ -66,12 +73,25 @@ function Home() {
               </td>
               <td>
                 <div className="actions-container">
-                  <img
-                    src={trashIcon}
-                    alt="Eliminar"
-                    className="icon"
-                    onClick={() => alert(`¿Desea eliminar a ${student.name}?`)}
-                  />
+                  {!student.isActive ? (
+                    <img
+                      src={activateIcon}
+                      alt="Dar de alta"
+                      className="icon"
+                      onClick={() =>
+                        alert(`¿Desea dar de alta a ${student.name}?`)
+                      }
+                    />
+                  ) : (
+                    <img
+                      src={trashIcon}
+                      alt="Eliminar"
+                      className="icon"
+                      onClick={() =>
+                        alert(`¿Desea eliminar a ${student.name}?`)
+                      }
+                    />
+                  )}
                 </div>
               </td>
             </tr>
@@ -80,5 +100,4 @@ function Home() {
     </table>
   );
 }
-
 export default Home;
