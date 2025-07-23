@@ -12,6 +12,7 @@ import * as yup from "yup";
 import { useCreateStudentMutation } from '../../app/services/StudentService';
 import useAuthentication from '../../hooks/useAuthentication';
 import { useEffect } from 'react';
+import toast from 'react-hot-toast';
 
 type FormData = yup.InferType<typeof studentsScheme>;
 
@@ -31,7 +32,8 @@ function Students() {
     resolver: yupResolver(studentsScheme),
     defaultValues: {
       birthday: new Date(),
-      admissionDate: new Date()
+      admissionDate: new Date(),
+      pathologies: null
     },
   });
 
@@ -55,7 +57,21 @@ function Students() {
     extraDays
   }: FormData) => {
 
-    if (!userId)
+    if (!userId) return;
+
+    console.log('___data', {
+      name,
+      lastName: lastname,
+      cellphoneNumber: phoneNumber,
+      planType: paymentType,
+      classesPerWeek,
+      extraClasses: extraDays,
+      paymentDay,
+      birthday,
+      admissionDate,
+      pathologies,
+      userId
+    })
 
     createStudent({
       name,
@@ -69,6 +85,10 @@ function Students() {
       admissionDate,
       pathologies,
       userId
+    }).unwrap()
+    .then(() => {
+      toast.success('Estudiante registrado correctamente')
+      navigate('/home')
     })
   };
 
@@ -158,7 +178,7 @@ function Students() {
           <input
             {...register("extraDays")}
             type="number"
-            disabled={paymentTypeSelected !== "Del 1 al 10"}
+            disabled={paymentTypeSelected !== "Principio de mes"}
           />
           <ErrorMessage error={errors.extraDays} />
         </div>
