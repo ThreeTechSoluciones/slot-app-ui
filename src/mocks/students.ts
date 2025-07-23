@@ -1,5 +1,6 @@
 export const MOCKED_STUDENTS = [
   {
+    id: 1,
     dni: "44888222",
     name: "Rocío",
     lastname: "Menardi",
@@ -7,6 +8,7 @@ export const MOCKED_STUDENTS = [
     isActive: true,
   },
   {
+    id: 2,
     dni: "44888222",
     name: "Graciela",
     lastname: "Pérez",
@@ -14,6 +16,7 @@ export const MOCKED_STUDENTS = [
     isActive: true,
   },
   {
+    id: 3,
     dni: "44888222",
     name: "Lautaro",
     lastname: "Díaz",
@@ -21,6 +24,7 @@ export const MOCKED_STUDENTS = [
     isActive: false,
   },
   {
+    id: 4,
     dni: "44888222",
     name: "Martina",
     lastname: "Sosa",
@@ -28,6 +32,7 @@ export const MOCKED_STUDENTS = [
     isActive: false,
   },
   {
+    id: 5,
     dni: "44888222",
     name: "Bruno",
     lastname: "Alvarez",
@@ -35,6 +40,7 @@ export const MOCKED_STUDENTS = [
     isActive: false,
   },
   {
+    id: 6,
     dni: "44888222",
     name: "Camila",
     lastname: "Juárez",
@@ -42,6 +48,7 @@ export const MOCKED_STUDENTS = [
     isActive: false,
   },
   {
+    id: 7,
     dni: "44888222",
     name: "Ignacio",
     lastname: "Mendoza",
@@ -49,6 +56,7 @@ export const MOCKED_STUDENTS = [
     isActive: true,
   },
   {
+    id: 8,
     dni: "44888222",
     name: "Valentina",
     lastname: "Torres",
@@ -56,6 +64,7 @@ export const MOCKED_STUDENTS = [
     isActive: true,
   },
   {
+    id: 9,
     dni: "44888222",
     name: "Emilia",
     lastname: "Gómez",
@@ -63,6 +72,7 @@ export const MOCKED_STUDENTS = [
     isActive: true,
   },
   {
+    id: 10,
     dni: "44888222",
     name: "Santiago",
     lastname: "Martínez",
@@ -70,6 +80,7 @@ export const MOCKED_STUDENTS = [
     isActive: true,
   },
   {
+    id: 11,
     dni: "44888222",
     name: "Julián",
     lastname: "Romero",
@@ -77,6 +88,7 @@ export const MOCKED_STUDENTS = [
     isActive: true,
   },
   {
+    id: 12,
     dni: "44888222",
     name: "Malena",
     lastname: "Figueroa",
@@ -84,6 +96,7 @@ export const MOCKED_STUDENTS = [
     isActive: true,
   },
   {
+    id: 13,
     dni: "44888222",
     name: "Tomás",
     lastname: "Castro",
@@ -91,6 +104,7 @@ export const MOCKED_STUDENTS = [
     isActive: true,
   },
   {
+    id: 14,
     dni: "44888222",
     name: "Ailén",
     lastname: "Salas",
@@ -98,6 +112,7 @@ export const MOCKED_STUDENTS = [
     isActive: true,
   },
   {
+    id: 15,
     dni: "44888222",
     name: "Federico",
     lastname: "López",
@@ -105,6 +120,7 @@ export const MOCKED_STUDENTS = [
     isActive: true,
   },
   {
+    id: 16,
     dni: "44888222",
     name: "Renata",
     lastname: "Moreno",
@@ -112,6 +128,7 @@ export const MOCKED_STUDENTS = [
     isActive: true,
   },
   {
+    id: 17,
     dni: "44888222",
     name: "Nicolás",
     lastname: "Barrios",
@@ -119,6 +136,7 @@ export const MOCKED_STUDENTS = [
     isActive: true,
   },
   {
+    id: 18,
     dni: "44888222",
     name: "Mía",
     lastname: "Herrera",
@@ -126,6 +144,7 @@ export const MOCKED_STUDENTS = [
     isActive: true,
   },
   {
+    id: 19,
     dni: "44888222",
     name: "Benjamín",
     lastname: "Paz",
@@ -133,6 +152,7 @@ export const MOCKED_STUDENTS = [
     isActive: true,
   },
   {
+    id: 20,
     dni: "44888222",
     name: "Florencia",
     lastname: "Cabrera",
@@ -140,6 +160,7 @@ export const MOCKED_STUDENTS = [
     isActive: false,
   },
   {
+    id: 21,
     dni: "44888222",
     name: "Agustín",
     lastname: "Peralta",
@@ -147,6 +168,7 @@ export const MOCKED_STUDENTS = [
     isActive: true,
   },
   {
+    id: 22,
     dni: "44888222",
     name: "Lucía",
     lastname: "Bustos",
@@ -154,6 +176,7 @@ export const MOCKED_STUDENTS = [
     isActive: true,
   },
   {
+    id: 23,
     dni: "44888222",
     name: "Mateo",
     lastname: "Aranda",
@@ -161,103 +184,62 @@ export const MOCKED_STUDENTS = [
     isActive: true,
   },
   {
+    id: 24,
     dni: "44888222",
     name: "Abril",
     lastname: "Silva",
     status: "A término",
     isActive: true,
   },
-  {
-    dni: "44888222",
-    name: "Joaquín",
-    lastname: "Vega",
-    status: "Vencido",
-    isActive: true,
-  },
-  {
-    dni: "44888222",
-    name: "Valeria",
-    lastname: "Correa",
-    status: "A término",
-    isActive: false,
-  },
-  {
-    dni: "44888222",
-    name: "Lucas",
-    lastname: "Ríos",
-    status: "Vencido",
-    isActive: true,
-  },
-  {
-    dni: "44888222",
-    name: "Elena",
-    lastname: "Navarro",
-    status: "A término",
-    isActive: true,
-  },
-  {
-    dni: "44888222",
-    name: "Franco",
-    lastname: "Maldonado",
-    status: "Vencido",
-    isActive: true,
-  },
-  {
-    dni: "44888222",
-    name: "Bianca",
-    lastname: "Serrano",
-    status: "A término",
-    isActive: true,
-  },
 ];
 
 export const MOCKED_STUDENT = {
-  name: 'Federico',
-  lastname: 'Sanchez',
-  birthday: '14/02/2000',
+  name: "Federico",
+  lastname: "Sanchez",
+  birthday: "14/02/2000",
   pathologies: undefined,
-  admissionDate: '23/03/2025',
-  address: 'Constancio Vigil 1821',
+  admissionDate: "23/03/2025",
+  address: "Constancio Vigil 1821",
   plan: {
-    planType: 'Día específico',
+    planType: "Día específico",
     daysPerWeek: 3,
-    paymentDueDate: 23
+    paymentDueDate: 23,
   },
   payments: [
     {
       number: 1,
-      date: '23/03/2025',
+      date: "23/03/2025",
       amount: 23000,
-      status: 'En término',
-      payed: true
+      status: "En término",
+      payed: true,
     },
     {
       number: 2,
-      date: '23/04/2025',
+      date: "23/04/2025",
       amount: 23000,
-      status: 'En término',
-      payed: true
+      status: "En término",
+      payed: true,
     },
     {
       number: 3,
-      date: '23/05/2025',
+      date: "23/05/2025",
       amount: 26593.2,
-      status: 'En término',
-      payed: true
+      status: "En término",
+      payed: true,
     },
     {
       number: 4,
-      date: '23/06/2025',
+      date: "23/06/2025",
       amount: 26593.2,
-      status: 'Vencido',
-      payed: false
+      status: "Vencido",
+      payed: false,
     },
     {
       number: 5,
-      date: '23/07/2025',
+      date: "23/07/2025",
       amount: 26593.2,
-      status: 'En término',
-      payed: false
+      status: "En término",
+      payed: false,
     },
-  ]
-}
+  ],
+};
