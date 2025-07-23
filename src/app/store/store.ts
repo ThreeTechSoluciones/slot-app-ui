@@ -1,4 +1,4 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit'
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import {
   persistStore,
   persistReducer,
@@ -13,35 +13,40 @@ import storageSession from 'redux-persist/lib/storage/session';
 import { AuthService } from '../services/AuthService'
 import { errorHandler } from '../errorHandler/errorHandler';
 import { StudentService } from '../services/StudentService';
+import { UserService } from '../services/UserService';
+
 
 const reducers = combineReducers({
   [AuthService.reducerPath]: AuthService.reducer,
+  [UserService.reducerPath]: UserService.reducer,
   [StudentService.reducerPath]: StudentService.reducer
-})
+
+});
 
 const persistConfig = {
-  key: 'root',
+  key: "root",
   version: 1,
   storage: storageSession,
-  whitelist: ['auth']
-}
+  whitelist: ["auth"],
+};
 
-const persistedReducer = persistReducer(persistConfig, reducers)
+const persistedReducer = persistReducer(persistConfig, reducers);
 
 export const store = configureStore({
   reducer: persistedReducer,
-  
-  middleware: (getDefaultMiddleware) => 
+
+  middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
     })
-    .concat(errorHandler)
-    .concat(AuthService.middleware)
-    .concat(StudentService.middleware)
-})
+      .concat(errorHandler)
+      .concat(AuthService.middleware)
+      .concat(UserService.middleware)
+      .concat(StudentService.middleware)
+});
 
-export const persistor = persistStore(store)
-export type RootState = ReturnType<typeof store.getState>
-export type AppDispatch = typeof store.dispatch
+export const persistor = persistStore(store);
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;

@@ -1,4 +1,8 @@
-export type StudentResponse = {
+export interface StudentResponse {
+  id: string;
+  dni: string;
   name: string;
-  lastName: string;
+  lastname: string;
+  status: string;
+  isActive: boolean;
 }
