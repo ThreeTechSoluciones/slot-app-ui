@@ -1,14 +1,20 @@
+.students-container {
+  width: 100%;
+  padding-top: 10px;
+  min-height: 100vh;
+}
 .table {
   background-color: #7c7c7c;
   border-radius: 20px;
   width: 90%;
   border-collapse: collapse;
-  margin-top: 30px;
+  margin: 20px auto 0 auto;
 }
 
 .thead th {
   color: white;
   font-size: clamp(0.5rem, 2vw, 1.5rem);
+  white-space: nowrap;
 }
 
 .tbody {
