@@ -38,7 +38,7 @@ function Home() {
                 <td
                   style={{
                     color:
-                      student.status === "A término" ? "#00bf63" : "#ff3131",
+                      student.status === "En término" ? "#00bf63" : "#ff3131",
                   }}
                 >
                   <strong>{student.status}</strong>
