@@ -7,30 +7,72 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Controller } from "react-hook-form";
 import { ErrorMessage } from "../../components/header/ErrorMessage";
-import { PaymentType } from "../../app/types/responses/Enum";
+import { PlanType } from "../../app/types/models/PlanType";
 import * as yup from "yup";
+import { useCreateStudentMutation } from '../../app/services/StudentService';
+import useAuthentication from '../../hooks/useAuthentication';
+import { useEffect } from 'react';
 
 type FormData = yup.InferType<typeof studentsScheme>;
 
 function Students() {
   const navigate = useNavigate();
+  const [createStudent] = useCreateStudentMutation()
+  const { userId } = useAuthentication()
+
   const {
     register,
     handleSubmit,
     watch,
+    resetField,
     control,
     formState: { errors },
   } = useForm<FormData>({
     resolver: yupResolver(studentsScheme),
     defaultValues: {
       birthday: new Date(),
-      addmisionDate: new Date(),
+      admissionDate: new Date()
     },
   });
-  const onSubmit = (data: FormData) => {
-    console.log("Formulario enviado con datos:", data);
-  };
+
   const paymentTypeSelected = watch("paymentType");
+
+  useEffect(() => {
+    resetField('extraDays')
+    resetField('paymentDay')
+  }, [resetField, paymentTypeSelected])
+  
+  const onSubmit = ({
+    name,
+    lastname,
+    phoneNumber,
+    pathologies,
+    birthday,
+    paymentType,
+    classesPerWeek,
+    admissionDate,
+    paymentDay,
+    extraDays
+  }: FormData) => {
+
+    if (!userId)
+
+    createStudent({
+      name,
+      lastName: lastname,
+      cellphoneNumber: phoneNumber,
+      planType: paymentType,
+      classesPerWeek,
+      extraClasses: extraDays,
+      paymentDay,
+      birthday,
+      admissionDate,
+      pathologies,
+      userId
+    })
+  };
+
+
   return (
     <form className="form-container" onSubmit={handleSubmit(onSubmit)}>
       <div className="form-group">
@@ -76,8 +118,8 @@ function Students() {
           <label>Fecha de Ingreso:</label>
           <div>
             <Controller
-              {...register("addmisionDate")}
-              name="addmisionDate"
+              {...register("admissionDate")}
+              name="admissionDate"
               control={control}
               render={({ field }) => (
                 <DatePicker
@@ -87,12 +129,12 @@ function Students() {
                 />
               )}
             />
-            <ErrorMessage error={errors.addmisionDate} />
+            <ErrorMessage error={errors.admissionDate} />
           </div>
 
           <label>Tipo de Pago:</label>
           <select className="paymentType" {...register("paymentType")}>
-            {Object.values(PaymentType).map((name) => (
+            {Object.values(PlanType).map((name) => (
               <option key={name} value={name}>
                 {name}
               </option>

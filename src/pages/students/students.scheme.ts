@@ -1,5 +1,5 @@
 import * as yup from "yup";
-import { PaymentType } from "../../app/types/responses/Enum";
+import { PlanType } from "../../app/types/models/PlanType";
 
 export const studentsScheme = yup.object({
   name: yup.string().required("Debe ingresar el nombre"),
@@ -10,7 +10,7 @@ export const studentsScheme = yup.object({
     .min(8, "Debe tener al menos 8 caracteres")
     .max(15, "No puede superar los 15 caracteres")
     .matches(/^[+0-9\s-]+$/, "Solo se permiten números"),
-  pathologies: yup.string().notRequired().default(""),
+  pathologies: yup.string().notRequired().default(''),
   birthday: yup
     .date()
     .required("Debe ingresar una fecha de nacimiento")
@@ -25,7 +25,7 @@ export const studentsScheme = yup.object({
     .required("Debe ingresar la cantidad de días")
     .min(1, "Debe ser al menos 1 día")
     .max(7, "No puede superar los 7 días"),
-  addmisionDate: yup.date().required("La fecha de ingreso es obligatoria"),
+  admissionDate: yup.date().required("La fecha de ingreso es obligatoria"),
   paymentDay: yup
     .number()
     .default(0)
@@ -33,7 +33,7 @@ export const studentsScheme = yup.object({
       return originalValue === "" ? undefined : value;
     })
     .when("paymentType", {
-      is: (val: string) => val === PaymentType.DIA_ESPECIFICO,
+      is: (val: string) => val === PlanType.DIA_ESPECIFICO,
       then: (schema) =>
         schema
           .required("Debe ingresar el día de pago")
@@ -49,7 +49,7 @@ export const studentsScheme = yup.object({
       return originalValue === "" ? undefined : value;
     })
     .when("paymentType", {
-      is: (val: string) => val === PaymentType.PRINCIPIO_MES,
+      is: (val: string) => val === PlanType.PRINCIPIO_MES,
       then: (schema) =>
         schema
           .required("Debe ingresar los días extras")

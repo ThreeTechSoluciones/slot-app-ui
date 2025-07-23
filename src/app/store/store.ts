@@ -12,9 +12,11 @@ import {
 import storageSession from 'redux-persist/lib/storage/session';
 import { AuthService } from '../services/AuthService'
 import { errorHandler } from '../errorHandler/errorHandler';
+import { StudentService } from '../services/StudentService';
 
 const reducers = combineReducers({
   [AuthService.reducerPath]: AuthService.reducer,
+  [StudentService.reducerPath]: StudentService.reducer
 })
 
 const persistConfig = {
@@ -37,6 +39,7 @@ export const store = configureStore({
     })
     .concat(errorHandler)
     .concat(AuthService.middleware)
+    .concat(StudentService.middleware)
 })
 
 export const persistor = persistStore(store)
