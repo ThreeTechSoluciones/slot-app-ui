@@ -8,15 +8,19 @@ import {
   PERSIST,
   PURGE,
   REGISTER,
-} from "redux-persist";
-import storageSession from "redux-persist/lib/storage/session";
-import { AuthService } from "../services/AuthService";
-import { errorHandler } from "../errorHandler/errorHandler";
-import { UserService } from "../services/UserService";
+} from 'redux-persist'
+import storageSession from 'redux-persist/lib/storage/session';
+import { AuthService } from '../services/AuthService'
+import { errorHandler } from '../errorHandler/errorHandler';
+import { StudentService } from '../services/StudentService';
+import { UserService } from '../services/UserService';
+
 
 const reducers = combineReducers({
   [AuthService.reducerPath]: AuthService.reducer,
   [UserService.reducerPath]: UserService.reducer,
+  [StudentService.reducerPath]: StudentService.reducer
+
 });
 
 const persistConfig = {
@@ -39,7 +43,8 @@ export const store = configureStore({
     })
       .concat(errorHandler)
       .concat(AuthService.middleware)
-      .concat(UserService.middleware),
+      .concat(UserService.middleware)
+      .concat(StudentService.middleware)
 });
 
 export const persistor = persistStore(store);
