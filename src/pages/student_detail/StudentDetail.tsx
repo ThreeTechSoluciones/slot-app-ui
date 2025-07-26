@@ -54,7 +54,7 @@ const StudentDetail = () => {
           </InformationContainer>
           <InformationContainer>
             <Label>Día de pago:</Label>
-            <StudentInfo>{student.paymentDay || student.planType}</StudentInfo>
+            <StudentInfo>{student.paymentDay || (student.planType == "Principio de mes" && "Del 1 al 10")}</StudentInfo>
           </InformationContainer>
         </div>
       </StudentInfoContainer>
