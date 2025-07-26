@@ -6,6 +6,7 @@ import { useNavigate } from "react-router";
 import { useGetUserStudentsQuery } from "../../app/services/UserService";
 import useAuthentication from "../../hooks/useAuthentication";
 import { useDeleteStudentMutation } from "../../app/services/StudentService";
+import toast from "react-hot-toast";
 
 function Home() {
   const { userId } = useAuthentication();
@@ -16,14 +17,12 @@ function Home() {
   const handleDelete = async (studentId: string, studentName: string) => {
     const confirmDelete = window.confirm(`¿Desea eliminar a ${studentName}?`);
     if (!confirmDelete) return;
-
-    try {
-      await deleteStudent(studentId).unwrap();
-      refetch();
-    } catch (error) {
-      console.error("Error al eliminar estudiante:", error);
-      alert("Ocurrió un error al eliminar al estudiante.");
-    }
+    deleteStudent(studentId)
+      .unwrap()
+      .catch((error) => {
+        console.error("Error al eliminar estudiante:", error);
+        toast.error("Ocurrió un error al eliminar al estudiante.");
+      });
   };
   return (
     <div className="students-container">

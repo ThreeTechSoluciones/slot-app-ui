@@ -3,12 +3,14 @@ import type { StudentResponse } from "../types/responses/StudentResponse.type";
 
 export const UserService = createApi({
   reducerPath: "users",
+  tagTypes: ["userStudents"],
   baseQuery: fetchBaseQuery({
     baseUrl: `${import.meta.env.VITE_BACKEND_URL}/users`,
   }),
   endpoints: (builder) => ({
     getUserStudents: builder.query<StudentResponse[], string>({
       query: (userId) => `/${userId}/students`,
+      providesTags: ["userStudents"],
     }),
   }),
 });
