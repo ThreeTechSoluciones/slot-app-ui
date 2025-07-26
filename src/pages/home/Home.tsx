@@ -5,12 +5,26 @@ import activateIcon from "../../assets/activate-icon.svg";
 import { useNavigate } from "react-router";
 import { useGetUserStudentsQuery } from "../../app/services/UserService";
 import useAuthentication from "../../hooks/useAuthentication";
+import { useDeleteStudentMutation } from "../../app/services/StudentService";
 
 function Home() {
   const { userId } = useAuthentication();
-  const { data: students } = useGetUserStudentsQuery(userId!);
+  const { data: students, refetch } = useGetUserStudentsQuery(userId!);
+  const [deleteStudent] = useDeleteStudentMutation();
   const navigate = useNavigate();
 
+  const handleDelete = async (studentId: string, studentName: string) => {
+    const confirmDelete = window.confirm(`¿Desea eliminar a ${studentName}?`);
+    if (!confirmDelete) return;
+
+    try {
+      await deleteStudent(studentId).unwrap();
+      refetch();
+    } catch (error) {
+      console.error("Error al eliminar estudiante:", error);
+      alert("Ocurrió un error al eliminar al estudiante.");
+    }
+  };
   return (
     <div className="students-container">
       <table className="table">
@@ -90,9 +104,7 @@ function Home() {
                         src={trashIcon}
                         alt="Eliminar"
                         className="icon"
-                        onClick={() =>
-                          alert(`¿Desea eliminar a ${student.name}?`)
-                        }
+                        onClick={() => handleDelete(student.id, student.name)}
                       />
                     )}
                   </div>
