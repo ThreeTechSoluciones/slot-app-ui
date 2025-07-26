@@ -10,7 +10,7 @@ import toast from "react-hot-toast";
 
 function Home() {
   const { userId } = useAuthentication();
-  const { data: students, refetch } = useGetUserStudentsQuery(userId!);
+  const { data: students } = useGetUserStudentsQuery(userId!);
   const [deleteStudent] = useDeleteStudentMutation();
   const navigate = useNavigate();
 
