@@ -1,5 +1,8 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { UserService } from "./UserService";
+import type { CreateStudentRequest } from "../types/requests/CreateStudentRequest.type";
+import type { StudentResponse } from "../types/responses/StudentResponse.type";
+import type { StudentDetailResponse } from "../types/responses/StudentDetailResponse.type";
 
 export const StudentService = createApi({
   reducerPath: "students",
@@ -17,7 +20,21 @@ export const StudentService = createApi({
         dispatch(UserService.util.invalidateTags(["userStudents"]));
       },
     }),
+    createStudent: builder.mutation<StudentResponse, CreateStudentRequest>({
+      query: (request: CreateStudentRequest) => ({
+        url: "",
+        method: "POST",
+        body: request,
+      }),
+    }),
+    getStudentById: builder.query<StudentDetailResponse, string>({
+      query: (id) => `/${id}`,
+    }),
   }),
 });
 
-export const { useDeleteStudentMutation } = StudentService;
+export const {
+  useDeleteStudentMutation,
+  useCreateStudentMutation,
+  useGetStudentByIdQuery,
+} = StudentService;

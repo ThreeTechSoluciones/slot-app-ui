@@ -1,17 +1,26 @@
-import { MOCKED_STUDENT } from '../../mocks/students';
-import { HeaderProperty, InformationContainer, Label, MainContainer, PaymentInfo, PaymentsContainer, PaymentsTable, Row, StudentInfo, StudentInfoContainer, SubTitle, TableBody, TableHeader, Title } from './StudentDetail.styles';
-import CheckIcon from '../../assets/check.webp'
+import { HeaderProperty, InformationContainer, Label, MainContainer, NotFoundStudentMessage, PaymentInfo, PaymentsContainer, PaymentsTable, Row, StudentInfo, StudentInfoContainer, SubTitle, TableBody, TableHeader, Title } from './StudentDetail.styles';
 import { formatCurrency } from '../../utils/Formatter';
+import { useLocation } from 'react-router';
+import { useGetStudentByIdQuery } from '../../app/services/StudentService';
+import CheckIcon from '../../assets/check.webp'
 
 const StudentDetail = () => {
 
-  const student = MOCKED_STUDENT;
+  const { studentId } = useLocation().state;
+  const { data: student, isError } = useGetStudentByIdQuery(studentId)
 
-  
+  if (isError || !student) return (
+    <div>
+      <NotFoundStudentMessage>
+        Ocurrió un error al buscar la información del alumno. <br />
+        Intente nuevamente
+      </NotFoundStudentMessage>
+    </div>
+  )
 
   return (
     <MainContainer>
-      <Title>ALUMNO: {student.name} {student.lastname}</Title>
+      <Title>ALUMNO: {student.name} {student.lastName}</Title>
       <StudentInfoContainer>
         <div>
           <SubTitle>Información personal</SubTitle>
@@ -24,8 +33,12 @@ const StudentDetail = () => {
             <StudentInfo>{student.admissionDate}</StudentInfo>
           </InformationContainer>
           <InformationContainer>
-            <Label>Direccion:</Label>
-            <StudentInfo>{student.address}</StudentInfo>
+            <Label>Numero de teléfono:</Label>
+            <StudentInfo>{student.cellphoneNumber}</StudentInfo>
+          </InformationContainer>
+          <InformationContainer>
+            <Label>Patologías:</Label>
+            <StudentInfo>{student.pathologies}</StudentInfo>
           </InformationContainer>
         
         </div>
@@ -33,15 +46,15 @@ const StudentDetail = () => {
           <SubTitle>Información de su plan</SubTitle>
           <InformationContainer>
             <Label>Tipo de plan:</Label>
-            <StudentInfo>{student.plan.planType}</StudentInfo>
+            <StudentInfo>{student.planType}</StudentInfo>
           </InformationContainer>
           <InformationContainer>
             <Label>Dias a la semana:</Label>
-            <StudentInfo>{student.plan.daysPerWeek}</StudentInfo>
+            <StudentInfo>{student.classesPerWeek}</StudentInfo>
           </InformationContainer>
           <InformationContainer>
             <Label>Día de pago:</Label>
-            <StudentInfo>{student.plan.paymentDueDate}</StudentInfo>
+            <StudentInfo>{student.paymentDay || (student.planType == "Principio de mes" && "Del 1 al 10")}</StudentInfo>
           </InformationContainer>
         </div>
       </StudentInfoContainer>
@@ -61,12 +74,12 @@ const StudentDetail = () => {
             {student.payments.map((payment) => (
               <Row key={payment.number}>
                 <PaymentInfo>{payment.number}</PaymentInfo>
-                <PaymentInfo>{payment.date}</PaymentInfo>
+                <PaymentInfo>{payment.paymentDate}</PaymentInfo>
                 <PaymentInfo>{formatCurrency(payment.amount)}</PaymentInfo>
                 <PaymentInfo 
                   color={payment.status === 'Vencido' ? 'red' : 'black'}
                 >{payment.status}</PaymentInfo>
-                <PaymentInfo>{payment.payed && <img 
+                <PaymentInfo>{payment.paymentDate && <img 
                   src={CheckIcon}
                   width={30}
                 />}</PaymentInfo>

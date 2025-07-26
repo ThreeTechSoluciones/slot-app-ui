@@ -89,3 +89,7 @@ export const SubTitle = styled.h2`
   margin: 0px;
   margin-bottom: 10px;
 `
+
+export const NotFoundStudentMessage = styled.p`
+  font-size: clamp(1rem, 2vw + 0.5rem, 3rem);
+`
