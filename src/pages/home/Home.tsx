@@ -2,6 +2,7 @@ import "./Home.css";
 import infoIcon from "../../assets/info-icon.webp";
 import trashIcon from "../../assets/trash-icon.webp";
 import activateIcon from "../../assets/activate-icon.svg";
+import editIcon from "../../assets/edit-icon.png";
 import { useNavigate } from "react-router";
 import { useGetUserStudentsQuery } from "../../app/services/UserService";
 import useAuthentication from "../../hooks/useAuthentication";
@@ -38,6 +39,7 @@ function Home() {
             <th>Pago</th>
             <th>Info</th>
             <th>Eliminar/Dar Alta</th>
+            <th>Editar</th>
           </tr>
         </thead>
         <tbody className="tbody">
@@ -93,7 +95,7 @@ function Home() {
                       <img
                         src={activateIcon}
                         alt="Dar de alta"
-                        className="icon"
+                        className="activate-icon"
                         onClick={() =>
                           alert(`¿Desea dar de alta a ${student.name}?`)
                         }
@@ -106,6 +108,20 @@ function Home() {
                         onClick={() => handleDelete(student.id, student.name)}
                       />
                     )}
+                  </div>
+                </td>
+                <td>
+                  <div className="actions-container">
+                    <img
+                      src={editIcon}
+                      alt="Editar"
+                      className="edit-icon"
+                      onClick={() =>
+                        navigate("/editar-alumno", {
+                          state: { studentId: student.id },
+                        })
+                      }
+                    />
                   </div>
                 </td>
               </tr>

@@ -35,17 +35,29 @@
   justify-content: center;
 }
 
-.icon {
-  width: 30px;
-  height: 30px;
+.icon,
+.edit-icon,
+.activate-icon {
   cursor: pointer;
   transition: transform 0.2s ease;
 }
-
-.icon:hover {
+.icon {
+  width: 30px;
+  height: 30px;
+}
+.activate-icon {
+  width: 35px;
+  height: 35px;
+}
+.edit-icon {
+  width: 50px;
+  height: 50px;
+}
+.icon:hover,
+.activate-icon:hover,
+.edit-icon:hover {
   transform: scale(1.2);
 }
-
 .btn-payment {
   background-color: #d9d9d9;
   font-size: clamp(0.5rem, 2vw, 1.5rem);
