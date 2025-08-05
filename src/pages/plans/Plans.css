@@ -5,6 +5,22 @@
   padding: 2rem;
 }
 
+.selectContainer {
+  display: flex;
+  flex-direction: column;
+  margin-left: 20%;
+  margin-right: auto;
+  width: 350px;
+}
+
+.select {
+  padding: 0.75rem 1rem;
+  border-radius: 30px;
+  font-size: 1rem;
+  border: 2px solid #1d1c1c;
+  background-color: #d9d9d9;
+}
+
 .amountsContainer {
   width: 300px;
   margin-left: auto;
@@ -31,6 +47,31 @@
 .input {
   padding: 0.75rem 1rem;
   font-size: 1rem;
-  border-radius: 20px;
+  border-radius: 30px;
   border: 2px solid #1d1c1c;
+}
+.submitContainer {
+  display: flex;
+  justify-content: center;
+}
+.submitButton {
+  align-items: center;
+  margin-top: 1rem;
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  border-radius: 30px;
+  background-color: #7c7c7c;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.5s ease, transform 0.1s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.submitButton:hover {
+  background-color: #1d1c1c;
+}
+
+.submitButton:active {
+  transform: scale(0.96);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 }
