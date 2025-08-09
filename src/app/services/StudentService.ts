@@ -7,6 +7,7 @@ import type { UpdateStudentRequest } from "../types/requests/UpdateStudentReques
 
 export const StudentService = createApi({
   reducerPath: "students",
+  tagTypes: ["Student"],
   baseQuery: fetchBaseQuery({
     baseUrl: `${import.meta.env.VITE_BACKEND_URL}/students`,
   }),
@@ -30,14 +31,18 @@ export const StudentService = createApi({
     }),
     getStudentById: builder.query<StudentDetailResponse, string>({
       query: (id) => `/${id}`,
+      providesTags: (_result, _error, id) => [{ type: "Student", id }],
     }),
 
     updateStudent: builder.mutation<void, UpdateStudentRequest>({
       query: ({ studentId, body }) => ({
-        url: `/students/${studentId}`,
+        url: `/${studentId}`,
         method: "PATCH",
         body,
       }),
+      invalidatesTags: (_result, _error, { studentId }) => [
+        { type: "Student", id: studentId },
+      ],
     }),
   }),
 });

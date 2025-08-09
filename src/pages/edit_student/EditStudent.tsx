@@ -11,6 +11,7 @@ import { useUpdateStudentMutation } from "../../app/services/StudentService";
 import useAuthentication from "../../hooks/useAuthentication";
 import toast from "react-hot-toast";
 import { PlanType } from "../../app/types/models/PlanType";
+import { useGetUserStudentsQuery } from "../../app/services/UserService";
 
 type FormData = yup.InferType<typeof studentsScheme>;
 
@@ -20,12 +21,11 @@ function parseDateFromString(dateStr: string): Date {
 }
 function EditStudent() {
   const { studentId } = useLocation().state;
-  console.log("EditStudent studentId:", studentId);
   const { data: student } = useGetStudentByIdQuery(studentId);
   const navigate = useNavigate();
   const { userId } = useAuthentication();
   const [updateStudent] = useUpdateStudentMutation();
-
+  const { refetch } = useGetUserStudentsQuery(userId!);
   console.log("EditStudent studentId:", student);
 
   const {
@@ -79,6 +79,7 @@ function EditStudent() {
         },
       }).unwrap();
       toast.success("Alumno actualizado con éxito");
+      await refetch();
       navigate("/home");
     } catch (err) {
       console.error("Error al actualizar estudiante:", err);
