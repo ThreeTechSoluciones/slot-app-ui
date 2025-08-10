@@ -37,6 +37,7 @@
 .actualAmount input {
   background-color: #d9d9d9;
 }
+
 .label {
   margin-bottom: 0.5rem;
   font-weight: bold;
@@ -50,6 +51,7 @@
   border-radius: 30px;
   border: 2px solid #1d1c1c;
 }
+
 .submitContainer {
   display: flex;
   justify-content: center;

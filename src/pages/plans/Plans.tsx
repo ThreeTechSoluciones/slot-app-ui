@@ -1,38 +1,41 @@
 import "./Plans.css";
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import {
-  useGetPriceByIdQuery,
+  useGetUserPricesQuery,
   useUpdatePriceMutation,
 } from "../../app/services/PriceService";
 import toast from "react-hot-toast";
+import useAuthentication from "../../hooks/useAuthentication";
 
 function Plans() {
+  const { userId } = useAuthentication();
+  const { data: prices, refetch } = useGetUserPricesQuery(userId!);
   const [newAmount, setNewAmount] = useState("");
-  const [selectedOption, setSelectedOption] = useState("");
+  const [selectedPriceId, setSelectedPriceId] = useState("");
+  const [updatePrice, { isLoading: isUpdating }] = useUpdatePriceMutation();
+  const selectedPrice = prices?.find((p) => p.id === selectedPriceId);
 
-  const { data: price, isFetching } = useGetPriceByIdQuery(selectedOption, {
-    skip: !selectedOption,
-  });
-
-  const [updatePrice] = useUpdatePriceMutation();
-
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!selectedOption || !newAmount) {
-      toast.error("Selecciona un plan y un nuevo monto");
+    if (!selectedPriceId) {
+      toast.error("Por favor, selecciona un plan.");
       return;
     }
-
+    if (!newAmount || isNaN(Number(newAmount))) {
+      toast.error("Ingresa un monto válido.");
+      return;
+    }
     try {
       await updatePrice({
-        priceId: selectedOption,
+        priceId: selectedPriceId,
         amount: Number(newAmount),
       }).unwrap();
       toast.success("Precio actualizado con éxito");
       setNewAmount("");
-    } catch (error) {
+      await refetch();
+    } catch (err) {
       toast.error("Error al actualizar el precio");
-      console.error(error);
+      console.error(err);
     }
   };
 
@@ -45,42 +48,50 @@ function Plans() {
         <select
           id="planSelect"
           className="select"
-          value={selectedOption}
-          onChange={(e) => setSelectedOption(e.target.value)}
+          value={selectedPriceId}
+          onChange={(e) => setSelectedPriceId(e.target.value)}
         >
-          <option value=""></option>
-          <option value="id-plan-1">1 Día</option>
-          <option value="id-plan-2">2 Días</option>
-          <option value="id-plan-3">3 Días</option>
-          <option value="id-plan-4">4 Días</option>
-          <option value="id-plan-clase">Clase</option>
+          <option value="">-- Selecciona una opción --</option>
+          {prices?.map((price) => (
+            <option key={price.id} value={price.id}>
+              {price.name}
+            </option>
+          ))}
         </select>
       </div>
 
-      <form className="amountsContainer" onSubmit={handleSubmit}>
-        <div className="actualAmount">
-          <label className="label">Monto Actual</label>
-          <input
-            className="input"
-            readOnly
-            value={isFetching ? "Cargando..." : price ? `$${price.amount}` : ""}
-          />
-        </div>
-        <div className="newAmount">
-          <label className="label">Monto Nuevo</label>
-          <input
-            className="input"
-            type="number"
-            value={newAmount}
-            onChange={(e) => setNewAmount(e.target.value)}
-          />
-        </div>
-        <div className="submitContainer">
-          <button type="submit" className="submitButton">
-            Registrar
-          </button>
-        </div>
-      </form>
+      {selectedPrice && (
+        <form className="amountsContainer" onSubmit={handleSubmit}>
+          <div className="actualAmount">
+            <label className="label">Monto Actual</label>
+            <input
+              className="input"
+              readOnly
+              value={`$${selectedPrice.amount}`}
+            />
+          </div>
+          <div className="newAmount">
+            <label className="label">Monto Nuevo</label>
+            <input
+              className="input"
+              type="text"
+              value={newAmount}
+              onChange={(e) => setNewAmount(e.target.value)}
+              disabled={isUpdating}
+              placeholder="0,00"
+            />
+          </div>
+          <div className="submitContainer">
+            <button
+              type="submit"
+              className="submitButton"
+              disabled={isUpdating}
+            >
+              {isUpdating ? "Actualizando..." : "Registrar"}
+            </button>
+          </div>
+        </form>
+      )}
     </div>
   );
 }
