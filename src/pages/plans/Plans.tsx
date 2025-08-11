@@ -6,37 +6,51 @@ import {
 } from "../../app/services/PriceService";
 import toast from "react-hot-toast";
 import useAuthentication from "../../hooks/useAuthentication";
+import { formatCurrency } from "../../utils/Formatter";
 
 function Plans() {
   const { userId } = useAuthentication();
   const { data: prices, refetch } = useGetUserPricesQuery(userId!);
-  const [newAmount, setNewAmount] = useState("");
+  const [newAmount, setNewAmount] = useState<number | "">("");
   const [selectedPriceId, setSelectedPriceId] = useState("");
   const [updatePrice, { isLoading: isUpdating }] = useUpdatePriceMutation();
   const selectedPrice = prices?.find((p) => p.id === selectedPriceId);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const rawValue = e.target.value.replace(/\D/g, "");
+    if (rawValue === "") {
+      setNewAmount("");
+    } else {
+      setNewAmount(Number(rawValue) / 100);
+    }
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!selectedPriceId) {
       toast.error("Por favor, selecciona un plan.");
       return;
     }
+
     if (!newAmount || isNaN(Number(newAmount))) {
       toast.error("Ingresa un monto válido.");
       return;
     }
-    try {
-      await updatePrice({
-        priceId: selectedPriceId,
-        amount: Number(newAmount),
-      }).unwrap();
-      toast.success("Precio actualizado con éxito");
-      setNewAmount("");
-      await refetch();
-    } catch (err) {
-      toast.error("Error al actualizar el precio");
-      console.error(err);
-    }
+
+    updatePrice({
+      priceId: selectedPriceId,
+      amount: Number(newAmount),
+    })
+      .unwrap()
+      .then(() => {
+        toast.success("Precio actualizado con éxito");
+        setNewAmount("");
+        refetch();
+      })
+      .catch((err) => {
+        toast.error("Error al actualizar el precio");
+        console.error(err);
+      });
   };
 
   return (
@@ -67,7 +81,7 @@ function Plans() {
             <input
               className="input"
               readOnly
-              value={`$${selectedPrice.amount}`}
+              value={formatCurrency(selectedPrice.amount)}
             />
           </div>
           <div className="newAmount">
@@ -75,8 +89,8 @@ function Plans() {
             <input
               className="input"
               type="text"
-              value={newAmount}
-              onChange={(e) => setNewAmount(e.target.value)}
+              value={newAmount === "" ? "" : formatCurrency(newAmount)}
+              onChange={handleAmountChange}
               disabled={isUpdating}
               placeholder="0,00"
             />
