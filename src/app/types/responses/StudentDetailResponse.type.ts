@@ -9,7 +9,6 @@ export interface StudentDetailResponse {
   admissionDate: string;
   planType: string;
   classesPerWeek: number;
-  extraDays: number;
   paymentDay: number;
   payments: PaymentDetailResponse[];
 }

@@ -28,6 +28,10 @@ export const StudentService = createApi({
         method: "POST",
         body: request,
       }),
+      onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
+        await queryFulfilled;
+        dispatch(UserService.util.invalidateTags(["userStudents"]));
+      },
     }),
     getStudentById: builder.query<StudentDetailResponse, string>({
       query: (id) => `/${id}`,
@@ -35,14 +39,18 @@ export const StudentService = createApi({
     }),
 
     updateStudent: builder.mutation<void, UpdateStudentRequest>({
-      query: ({ studentId, body }) => ({
+      query: ({ studentId, ...patch }) => ({
         url: `/${studentId}`,
         method: "PATCH",
-        body,
+        body: patch,
       }),
       invalidatesTags: (_result, _error, { studentId }) => [
         { type: "Student", id: studentId },
       ],
+      onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
+        await queryFulfilled;
+        dispatch(UserService.util.invalidateTags(["userStudents"]));
+      },
     }),
   }),
 });

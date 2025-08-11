@@ -1,7 +1,15 @@
-import type { CreateStudentRequest } from "./CreateStudentRequest.type";
-
-type UpdateStudentRequest = {
+export type UpdateStudentRequest = {
   studentId: string;
-  body: CreateStudentRequest;
+  dni: number;
+  name: string;
+  lastName: string;
+  cellphoneNumber: string;
+  planType: string;
+  classesPerWeek: number;
+  extraClasses?: number;
+  paymentDay?: number;
+  birthday: Date;
+  admissionDate: Date;
+  pathologies: string | null;
+  userId: string;
 };
-export type { UpdateStudentRequest };

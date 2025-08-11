@@ -11,7 +11,6 @@ import { useUpdateStudentMutation } from "../../app/services/StudentService";
 import useAuthentication from "../../hooks/useAuthentication";
 import toast from "react-hot-toast";
 import { PlanType } from "../../app/types/models/PlanType";
-import { useGetUserStudentsQuery } from "../../app/services/UserService";
 
 type FormData = yup.InferType<typeof studentsScheme>;
 
@@ -20,13 +19,11 @@ function parseDateFromString(dateStr: string): Date {
   return new Date(Number(year), Number(month) - 1, Number(day));
 }
 function EditStudent() {
-  const { studentId } = useLocation().state;
-  const { data: student } = useGetStudentByIdQuery(studentId);
   const navigate = useNavigate();
   const { userId } = useAuthentication();
+  const { studentId } = useLocation().state;
+  const { data: student } = useGetStudentByIdQuery(studentId);
   const [updateStudent] = useUpdateStudentMutation();
-  const { refetch } = useGetUserStudentsQuery(userId!);
-  console.log("EditStudent studentId:", student);
 
   const {
     register,
@@ -41,7 +38,7 @@ function EditStudent() {
   const paymentTypeSelected = watch("paymentType");
 
   useEffect(() => {
-    if (student && student.birthday && student.admissionDate) {
+    if (student) {
       reset({
         dni: student.dni,
         name: student.name,
@@ -51,7 +48,6 @@ function EditStudent() {
         admissionDate: parseDateFromString(student.admissionDate),
         paymentType: student.planType,
         classesPerWeek: student.classesPerWeek,
-        extraDays: student.extraDays ?? 0,
         paymentDay: student.paymentDay,
         pathologies: student.pathologies ?? "",
       });
@@ -60,31 +56,28 @@ function EditStudent() {
 
   const onSubmit = async (data: FormData) => {
     if (!userId || !student?.id) return;
-    try {
-      await updateStudent({
-        studentId: student.id,
-        body: {
-          dni: data.dni,
-          name: data.name,
-          lastName: data.lastname,
-          cellphoneNumber: data.phoneNumber,
-          planType: data.paymentType,
-          classesPerWeek: data.classesPerWeek,
-          extraClasses: data.extraDays,
-          paymentDay: data.paymentDay,
-          birthday: data.birthday,
-          admissionDate: data.admissionDate,
-          pathologies: data.pathologies,
-          userId,
-        },
-      }).unwrap();
-      toast.success("Alumno actualizado con éxito");
-      await refetch();
-      navigate("/home");
-    } catch (err) {
-      console.error("Error al actualizar estudiante:", err);
-      toast.error("Hubo un error al actualizar");
-    }
+    await updateStudent({
+      studentId: student.id,
+      dni: data.dni,
+      name: data.name,
+      lastName: data.lastname,
+      cellphoneNumber: data.phoneNumber,
+      planType: data.paymentType,
+      classesPerWeek: data.classesPerWeek,
+      paymentDay: data.paymentDay,
+      birthday: data.birthday,
+      admissionDate: data.admissionDate,
+      pathologies: data.pathologies,
+      userId,
+    })
+      .unwrap()
+      .then(() => {
+        toast.success("Alumno actualizado con éxito");
+        navigate("/home");
+      })
+      .catch((error) => {
+        toast.error(error);
+      });
   };
 
   return (
@@ -125,13 +118,12 @@ function EditStudent() {
             )}
           />
           <ErrorMessage error={errors.birthday} />
-
-          <label>Patologías:</label>
-          <input {...register("pathologies")} type="text" />
-          <ErrorMessage error={errors.pathologies} />
         </div>
 
         <div className="column2">
+          <label>Patologías:</label>
+          <input {...register("pathologies")} type="text" />
+          <ErrorMessage error={errors.pathologies} />
           <label>Fecha de Ingreso:</label>
           <Controller
             name="admissionDate"
@@ -167,14 +159,6 @@ function EditStudent() {
             disabled={paymentTypeSelected !== "Día específico"}
           />
           <ErrorMessage error={errors.paymentDay} />
-
-          <label>Días Extras:</label>
-          <input
-            type="number"
-            {...register("extraDays")}
-            disabled={paymentTypeSelected !== "Principio de mes"}
-          />
-          <ErrorMessage error={errors.extraDays} />
         </div>
       </div>
 

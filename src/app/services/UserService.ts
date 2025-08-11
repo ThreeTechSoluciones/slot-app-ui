@@ -10,6 +10,7 @@ export const UserService = createApi({
   endpoints: (builder) => ({
     getUserStudents: builder.query<StudentResponse[], string>({
       query: (userId) => `/${userId}/students`,
+      providesTags: ["userStudents"],
     }),
   }),
 });
