@@ -1,5 +1,5 @@
 import "./Plans.css";
-import { useEffect, useState, type FormEvent } from "react";
+import { useState } from "react";
 import {
   useGetUserPricesQuery,
   useUpdatePriceMutation,
@@ -51,7 +51,7 @@ function Plans() {
           value={selectedPriceId}
           onChange={(e) => setSelectedPriceId(e.target.value)}
         >
-          <option value="">-- Selecciona una opción --</option>
+          <option value="">- Selecciona una opción -</option>
           {prices?.map((price) => (
             <option key={price.id} value={price.id}>
               {price.name}
