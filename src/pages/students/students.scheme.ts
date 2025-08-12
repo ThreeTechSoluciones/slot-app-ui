@@ -1,7 +1,7 @@
 import * as yup from "yup";
 import { PlanType } from "../../app/types/models/PlanType";
 
-export const studentsScheme = yup.object({
+export const commonStudentsScheme = yup.object().shape({
   dni: yup.number().required("Debe ingresar el DNI"),
   name: yup.string().required("Debe ingresar el nombre"),
   lastname: yup.string().required("Debe ingresar el apellido"),
@@ -29,9 +29,10 @@ export const studentsScheme = yup.object({
   admissionDate: yup.date().required("La fecha de ingreso es obligatoria"),
   paymentDay: yup
     .number()
+    .nullable()
     .default(null)
     .transform((value, originalValue) => {
-      return originalValue === "" ? undefined : value;
+      return originalValue === "" ? null : value;
     })
     .when("paymentType", {
       is: (val: string) => val === PlanType.DIA_ESPECIFICO,
@@ -43,6 +44,9 @@ export const studentsScheme = yup.object({
           .max(31, "Como máximo debe ser el día 31"),
       otherwise: (schema) => schema.notRequired(),
     }),
+});
+
+export const studentsScheme = commonStudentsScheme.shape({
   extraDays: yup
     .number()
     .default(0)

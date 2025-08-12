@@ -4,20 +4,17 @@ import { ErrorMessage } from "../../components/header/ErrorMessage";
 import DatePicker from "react-datepicker";
 import { Controller, useForm } from "react-hook-form";
 import { useEffect } from "react";
-import { studentsScheme } from "../students/students.scheme";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useUpdateStudentMutation } from "../../app/services/StudentService";
 import useAuthentication from "../../hooks/useAuthentication";
 import toast from "react-hot-toast";
 import { PlanType } from "../../app/types/models/PlanType";
+import { parseDateFromString } from "../../utils/Formatter";
+import { commonStudentsScheme } from "../students/students.scheme";
 
-type FormData = yup.InferType<typeof studentsScheme>;
+type FormData = yup.InferType<typeof commonStudentsScheme>;
 
-function parseDateFromString(dateStr: string): Date {
-  const [day, month, year] = dateStr.split("/");
-  return new Date(Number(year), Number(month) - 1, Number(day));
-}
 function EditStudent() {
   const navigate = useNavigate();
   const { userId } = useAuthentication();
@@ -30,12 +27,20 @@ function EditStudent() {
     handleSubmit,
     watch,
     reset,
+    setValue,
     control,
     formState: { errors },
   } = useForm<FormData>({
-    resolver: yupResolver(studentsScheme),
+    resolver: yupResolver(commonStudentsScheme),
   });
+
   const paymentTypeSelected = watch("paymentType");
+
+  useEffect(() => {
+    if (paymentTypeSelected === "Principio de mes") {
+      setValue("paymentDay", null);
+    }
+  }, [paymentTypeSelected, setValue]);
 
   useEffect(() => {
     if (student) {
@@ -74,9 +79,6 @@ function EditStudent() {
       .then(() => {
         toast.success("Alumno actualizado con éxito");
         navigate("/home");
-      })
-      .catch((error) => {
-        toast.error(error);
       });
   };
 
@@ -155,8 +157,15 @@ function EditStudent() {
           <label>Día de Pago:</label>
           <input
             type="number"
-            {...register("paymentDay")}
-            disabled={paymentTypeSelected !== "Día específico"}
+            {...register("paymentDay", {
+              setValueAs: (value) =>
+                paymentTypeSelected === "Principio de mes"
+                  ? null
+                  : value === ""
+                  ? null
+                  : Number(value),
+            })}
+            disabled={paymentTypeSelected === "Principio de mes"}
           />
           <ErrorMessage error={errors.paymentDay} />
         </div>

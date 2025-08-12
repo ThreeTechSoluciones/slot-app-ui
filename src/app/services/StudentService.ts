@@ -39,10 +39,10 @@ export const StudentService = createApi({
     }),
 
     updateStudent: builder.mutation<void, UpdateStudentRequest>({
-      query: ({ studentId, ...patch }) => ({
+      query: ({ studentId, ...payload }) => ({
         url: `/${studentId}`,
         method: "PATCH",
-        body: patch,
+        body: payload,
       }),
       invalidatesTags: (_result, _error, { studentId }) => [
         { type: "Student", id: studentId },
