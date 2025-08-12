@@ -1,15 +1,14 @@
 .plansContainer {
   width: 100%;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   padding: 2rem;
+  justify-content: space-evenly;
 }
 
 .selectContainer {
   display: flex;
   flex-direction: column;
-  margin-left: 20%;
-  margin-right: auto;
   width: 350px;
 }
 
@@ -23,8 +22,6 @@
 
 .amountsContainer {
   width: 300px;
-  margin-left: auto;
-  margin-right: 20%;
 }
 
 .actualAmount,
@@ -76,4 +73,18 @@
 .submitButton:active {
   transform: scale(0.96);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+@media (max-width: 600px) {
+  .plansContainer {
+    flex-direction: column;
+    padding: 1rem;
+    align-items: center;
+  }
+
+  .selectContainer,
+  .amountsContainer {
+    width: 100%;
+    max-width: 350px;
+  }
 }

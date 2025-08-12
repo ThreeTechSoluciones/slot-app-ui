@@ -14,15 +14,11 @@ import { AuthService } from "../services/AuthService";
 import { errorHandler } from "../errorHandler/errorHandler";
 import { UserService } from "../services/UserService";
 import { StudentService } from "../services/StudentService";
-import { PriceService } from "../services/PriceService";
-import { UserPriceService } from "../services/PriceService";
 
 const reducers = combineReducers({
   [AuthService.reducerPath]: AuthService.reducer,
   [UserService.reducerPath]: UserService.reducer,
   [StudentService.reducerPath]: StudentService.reducer,
-  [PriceService.reducerPath]: PriceService.reducer,
-  [UserPriceService.reducerPath]: UserPriceService.reducer,
 });
 
 const persistConfig = {
@@ -46,9 +42,7 @@ export const store = configureStore({
       .concat(errorHandler)
       .concat(AuthService.middleware)
       .concat(UserService.middleware)
-      .concat(StudentService.middleware)
-      .concat(PriceService.middleware)
-      .concat(UserPriceService.middleware),
+      .concat(StudentService.middleware),
 });
 
 export const persistor = persistStore(store);

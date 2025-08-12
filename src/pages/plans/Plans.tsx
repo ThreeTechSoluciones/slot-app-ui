@@ -3,26 +3,22 @@ import { useState } from "react";
 import {
   useGetUserPricesQuery,
   useUpdatePriceMutation,
-} from "../../app/services/PriceService";
+} from "../../app/services/UserService";
 import toast from "react-hot-toast";
 import useAuthentication from "../../hooks/useAuthentication";
 import { formatCurrency } from "../../utils/Formatter";
 
 function Plans() {
   const { userId } = useAuthentication();
-  const { data: prices, refetch } = useGetUserPricesQuery(userId!);
-  const [newAmount, setNewAmount] = useState<number | "">("");
+  const { data: prices } = useGetUserPricesQuery(userId!);
+  const [newAmount, setNewAmount] = useState<number>(0);
   const [selectedPriceId, setSelectedPriceId] = useState("");
   const [updatePrice, { isLoading: isUpdating }] = useUpdatePriceMutation();
   const selectedPrice = prices?.find((p) => p.id === selectedPriceId);
 
   const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const rawValue = e.target.value.replace(/\D/g, "");
-    if (rawValue === "") {
-      setNewAmount("");
-    } else {
-      setNewAmount(Number(rawValue) / 100);
-    }
+    const rawValue = e.target.value.replace(/[^\d]/g, "");
+    setNewAmount(Number(rawValue) / 100);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -44,12 +40,7 @@ function Plans() {
       .unwrap()
       .then(() => {
         toast.success("Precio actualizado con éxito");
-        setNewAmount("");
-        refetch();
-      })
-      .catch((err) => {
-        toast.error("Error al actualizar el precio");
-        console.error(err);
+        setNewAmount(0);
       });
   };
 
@@ -66,46 +57,42 @@ function Plans() {
           onChange={(e) => setSelectedPriceId(e.target.value)}
         >
           <option value="">- Selecciona una opción -</option>
-          {prices?.map((price) => (
-            <option key={price.id} value={price.id}>
-              {price.name}
-            </option>
-          ))}
+          {prices &&
+            prices.map((price) => (
+              <option key={price.id} value={price.id}>
+                {price.name}
+              </option>
+            ))}
         </select>
       </div>
 
-      {selectedPrice && (
-        <form className="amountsContainer" onSubmit={handleSubmit}>
-          <div className="actualAmount">
-            <label className="label">Monto Actual</label>
-            <input
-              className="input"
-              readOnly
-              value={formatCurrency(selectedPrice.amount)}
-            />
-          </div>
-          <div className="newAmount">
-            <label className="label">Monto Nuevo</label>
-            <input
-              className="input"
-              type="text"
-              value={newAmount === "" ? "" : formatCurrency(newAmount)}
-              onChange={handleAmountChange}
-              disabled={isUpdating}
-              placeholder="0,00"
-            />
-          </div>
-          <div className="submitContainer">
-            <button
-              type="submit"
-              className="submitButton"
-              disabled={isUpdating}
-            >
-              {isUpdating ? "Actualizando..." : "Registrar"}
-            </button>
-          </div>
-        </form>
-      )}
+      <form className="amountsContainer" onSubmit={handleSubmit}>
+        <div className="actualAmount">
+          <label className="label">Monto Actual</label>
+          <input
+            className="input"
+            type="text"
+            readOnly
+            value={formatCurrency(selectedPrice?.amount ?? 0)}
+          />
+        </div>
+        <div className="newAmount">
+          <label className="label">Monto Nuevo</label>
+          <input
+            className="input"
+            type="text"
+            value={formatCurrency(newAmount)}
+            onChange={handleAmountChange}
+            disabled={isUpdating}
+            placeholder="0,00"
+          />
+        </div>
+        <div className="submitContainer">
+          <button type="submit" className="submitButton" disabled={isUpdating}>
+            {isUpdating ? "Actualizando..." : "Registrar"}
+          </button>
+        </div>
+      </form>
     </div>
   );
 }
