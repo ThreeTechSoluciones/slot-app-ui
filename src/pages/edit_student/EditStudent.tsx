@@ -27,7 +27,7 @@ function EditStudent() {
     handleSubmit,
     watch,
     reset,
-    setValue,
+    resetField,
     control,
     formState: { errors },
   } = useForm<FormData>({
@@ -38,9 +38,9 @@ function EditStudent() {
 
   useEffect(() => {
     if (paymentTypeSelected === "Principio de mes") {
-      setValue("paymentDay", null);
+      resetField("paymentDay", { defaultValue: null });
     }
-  }, [paymentTypeSelected, setValue]);
+  }, [paymentTypeSelected, resetField]);
 
   useEffect(() => {
     if (student) {
