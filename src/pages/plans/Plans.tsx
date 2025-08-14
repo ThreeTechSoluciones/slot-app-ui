@@ -1,9 +1,7 @@
 import "./Plans.css";
 import { useState } from "react";
-import {
-  useGetUserPricesQuery,
-  useUpdatePriceMutation,
-} from "../../app/services/UserService";
+import { useGetUserPricesQuery } from "../../app/services/UserService";
+import { useUpdatePriceMutation } from "../../app/services/PriceService";
 import toast from "react-hot-toast";
 import useAuthentication from "../../hooks/useAuthentication";
 import { formatCurrency } from "../../utils/Formatter";

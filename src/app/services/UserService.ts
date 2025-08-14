@@ -6,16 +6,16 @@ export const UserService = createApi({
   reducerPath: "users",
   tagTypes: ["userStudents", "userPrices"],
   baseQuery: fetchBaseQuery({
-    baseUrl: import.meta.env.VITE_BACKEND_URL,
+    baseUrl: `${import.meta.env.VITE_BACKEND_URL}/users`,
   }),
   endpoints: (builder) => ({
     getUserStudents: builder.query<StudentResponse[], string>({
-      query: (userId) => `/users/${userId}/students`,
+      query: (userId) => `${userId}/students`,
       providesTags: ["userStudents"],
     }),
 
     getUserPrices: builder.query<PriceResponse[], string>({
-      query: (userId) => `/users/${userId}/prices`,
+      query: (userId) => `${userId}/prices`,
       providesTags: (result) =>
         result
           ? [
@@ -24,23 +24,7 @@ export const UserService = createApi({
             ]
           : [{ type: "userPrices", id: "LIST" }],
     }),
-
-    updatePrice: builder.mutation<void, { priceId: string; amount: number }>({
-      query: ({ priceId, amount }) => ({
-        url: `/prices/${priceId}`,
-        method: "PATCH",
-        body: { amount },
-      }),
-      invalidatesTags: (_result, _error, { priceId }) => [
-        { type: "userPrices", id: priceId },
-        { type: "userPrices", id: "LIST" },
-      ],
-    }),
   }),
 });
 
-export const {
-  useGetUserStudentsQuery,
-  useGetUserPricesQuery,
-  useUpdatePriceMutation,
-} = UserService;
+export const { useGetUserStudentsQuery, useGetUserPricesQuery } = UserService;
