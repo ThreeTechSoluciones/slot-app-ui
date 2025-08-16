@@ -9,17 +9,17 @@ import { Controller } from "react-hook-form";
 import { ErrorMessage } from "../../components/header/ErrorMessage";
 import { PlanType } from "../../app/types/models/PlanType";
 import * as yup from "yup";
-import { useCreateStudentMutation } from '../../app/services/StudentService';
-import useAuthentication from '../../hooks/useAuthentication';
-import { useEffect } from 'react';
-import toast from 'react-hot-toast';
+import { useCreateStudentMutation } from "../../app/services/StudentService";
+import useAuthentication from "../../hooks/useAuthentication";
+import { useEffect } from "react";
+import toast from "react-hot-toast";
 
 type FormData = yup.InferType<typeof studentsScheme>;
 
 function Students() {
   const navigate = useNavigate();
-  const [createStudent] = useCreateStudentMutation()
-  const { userId } = useAuthentication()
+  const [createStudent] = useCreateStudentMutation();
+  const { userId } = useAuthentication();
 
   const {
     register,
@@ -33,17 +33,17 @@ function Students() {
     defaultValues: {
       birthday: new Date(),
       admissionDate: new Date(),
-      pathologies: null
+      pathologies: null,
     },
   });
 
   const paymentTypeSelected = watch("paymentType");
 
   useEffect(() => {
-    resetField('extraDays')
-    resetField('paymentDay')
-  }, [resetField, paymentTypeSelected])
-  
+    resetField("extraDays");
+    resetField("paymentDay");
+  }, [resetField, paymentTypeSelected]);
+
   const onSubmit = ({
     dni,
     name,
@@ -55,10 +55,10 @@ function Students() {
     classesPerWeek,
     admissionDate,
     paymentDay,
-    extraDays
+    extraDays,
   }: FormData) => {
     if (!userId) return;
-    
+
     createStudent({
       dni,
       name,
@@ -71,21 +71,21 @@ function Students() {
       birthday,
       admissionDate,
       pathologies,
-      userId
-    }).unwrap()
-    .then(() => {
-      toast.success('Estudiante registrado correctamente')
-      navigate('/home')
+      userId,
     })
+      .unwrap()
+      .then(() => {
+        toast.success("Estudiante registrado correctamente");
+        navigate("/home");
+      });
   };
-
 
   return (
     <form className="form-container" onSubmit={handleSubmit(onSubmit)}>
       <div className="form-group">
         <div className="column1">
           <label>DNI:</label>
-          <input {...register("dni")} type='number'/>
+          <input {...register("dni")} type="number" />
           <ErrorMessage error={errors.dni} />
 
           <label>Nombre:</label>

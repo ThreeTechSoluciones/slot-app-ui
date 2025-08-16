@@ -38,7 +38,7 @@ function EditStudent() {
 
   useEffect(() => {
     if (paymentTypeSelected === "Principio de mes") {
-      resetField("paymentDay", { defaultValue: null });
+      resetField("paymentDay");
     }
   }, [paymentTypeSelected, resetField]);
 
