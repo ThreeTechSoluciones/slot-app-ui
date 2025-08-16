@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { UserService } from "./UserService";
 
 export const PriceService = createApi({
   reducerPath: "prices",
@@ -13,10 +14,12 @@ export const PriceService = createApi({
         method: "PATCH",
         body: { amount },
       }),
-      invalidatesTags: (_result, _error, { priceId }) => [
-        { type: "userPrices", id: priceId },
-        { type: "userPrices", id: "LIST" },
-      ],
+      async onQueryStarted({ priceId }, { dispatch, queryFulfilled }) {
+        await queryFulfilled;
+        dispatch(
+          UserService.util.invalidateTags([{ type: "userPrices", id: priceId }])
+        );
+      },
     }),
   }),
 });
