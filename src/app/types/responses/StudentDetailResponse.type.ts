@@ -1,5 +1,6 @@
 export interface StudentDetailResponse {
   id: string;
+  dni: number;
   name: string;
   lastName: string;
   cellphoneNumber: string;
@@ -9,7 +10,7 @@ export interface StudentDetailResponse {
   planType: string;
   classesPerWeek: number;
   paymentDay: number;
-  payments: PaymentDetailResponse[]
+  payments: PaymentDetailResponse[];
 }
 
 interface PaymentDetailResponse {
@@ -20,4 +21,3 @@ interface PaymentDetailResponse {
   status: string;
   expirationDate: string;
 }
-

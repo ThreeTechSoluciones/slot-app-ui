@@ -1,4 +1,5 @@
-export type CreateStudentRequest = {
+export type UpdateStudentRequest = {
+  studentId: string;
   dni: number;
   name: string;
   lastName: string;
