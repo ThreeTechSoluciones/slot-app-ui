@@ -2,15 +2,18 @@ import * as yup from "yup";
 import { PlanType } from "../../app/types/models/PlanType";
 
 export const commonStudentsScheme = yup.object().shape({
-  dni: yup.number().required("Debe ingresar el DNI"),
+  dni: yup
+    .number()
+    .required("Debe ingresar el DNI")
+    .max(8, "DNI no puede tener más de 8 números"),
   name: yup.string().required("Debe ingresar el nombre"),
   lastname: yup.string().required("Debe ingresar el apellido"),
   phoneNumber: yup
     .string()
     .required("Debe ingresar un número de teléfono")
-    .min(8, "Debe tener al menos 8 caracteres")
-    .max(15, "No puede superar los 15 caracteres")
-    .matches(/^[+0-9\s-]+$/, "Solo se permiten números"),
+    .min(10, "Debe tener al menos 10 caracteres")
+    .max(11, "No puede tener más de 11 caracteres")
+    .matches(/^[0-9]+$/, "Solo se permiten números, sin espacios"),
   pathologies: yup.string().notRequired().default(null),
   birthday: yup
     .date()
