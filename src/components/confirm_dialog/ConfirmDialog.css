@@ -8,32 +8,52 @@
 }
 
 .confirm-box {
-  font-size: clamp(0.5rem, 1.25vw, 1.5rem);
+  font-size: clamp(1vw, 1.2vw, 5vw);
   white-space: nowrap;          
   background: white;
   padding: 20px;
   border-radius: 15px;
   border: 5px solid #f0e21e; 
-  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
   text-align: center;
+  min-width: 20vw; 
+  max-width: 50vw;
+  width: fit-content;
+  min-height: 10vh;
+  max-height: 20vh;
+  height: auto; 
+  @media (max-width: 600px) {
+    width: 80vw;
+    height: 10vh;
+    font-size: clamp(0.5vw, 3vw, 3vw);
+  }
 }
 
 .confirm-actions {
-  margin-top: 15px;
   display: flex;
   justify-content: center;
-  gap: 10px;
+  gap: 1vw;
 }
 
 .btn-confirm {
   background-color: #00bf63;
   color: white;
   border: none;
-  padding: 8px 15px;
   border-radius: 5px;
   cursor: pointer;
   opacity: 0.8;
   transition: transform 0.2s ease, opacity 0.2s ease;
+  width: 8vw;
+  height: 4.5vh;
+  font-size: clamp(0.2vw, 1vw, 3vw);
+  @media (max-width: 600px) {
+    width: 30vw;
+    height: 4vh;
+    font-size: clamp(0.5vw, 3vw, 3vw);
+  }
 }
 
 .btn-confirm:hover {
@@ -45,11 +65,18 @@
   background-color: #ff3131;
   color: white;
   border: none;
-  padding: 8px 15px;
   border-radius: 5px;
   cursor: pointer;
   opacity: 0.8;
   transition: transform 0.2s ease, opacity 0.2s ease;
+  width: 8vw;
+  height: 4.5vh;
+  font-size: clamp(0.2vw, 1vw, 3vw);
+  @media (max-width: 600px) {
+    width: 30vw;
+    height: 4vh;
+    font-size: clamp(0.5vw, 3vw, 3vw);
+  }
 }
 
 .btn-cancel:hover {

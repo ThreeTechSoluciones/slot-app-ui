@@ -7,7 +7,7 @@ import { useGetUserStudentsQuery } from "../../app/services/UserService";
 import useAuthentication from "../../hooks/useAuthentication";
 import { useDeleteStudentMutation } from "../../app/services/StudentService";
 import toast from "react-hot-toast";
-import { ConfirmDialog } from "../../components/confirmDialog/ConfirmDialog"; 
+import { ConfirmDialog } from "../../components/confirm_dialog/ConfirmDialog"; 
 import { useState } from "react";
 
 function Home() {
@@ -22,18 +22,20 @@ function Home() {
     setStudentToDelete({ id: studentId, name: studentName });
     setConfirmDialogOpen(true);
   };
-  const confirmDelete = async () => {
+  const handleConfirmDeleteClick = () => {
     if (!studentToDelete) return;
     deleteStudent(studentToDelete.id)
       .unwrap()
+      .then(() => {
+        setConfirmDialogOpen(false);
+        setStudentToDelete(null);
+      })
       .catch((error) => {
         console.error("Error al eliminar estudiante:", error);
         toast.error("Ocurrió un error al eliminar al estudiante.");
       });
-    setConfirmDialogOpen(false);
-    setStudentToDelete(null); 
   };
-  const cancelDelete = () => {
+  const handleCancelDeleteClick = () => {
     setConfirmDialogOpen(false);
     setStudentToDelete(null);
   };
@@ -129,8 +131,8 @@ function Home() {
       {confirmDialogOpen && studentToDelete && (
         <ConfirmDialog
           message={`¿Desea eliminar a ${studentToDelete.name}?`}
-          onConfirm={confirmDelete}
-          onCancel={cancelDelete}
+          onConfirm={handleConfirmDeleteClick}
+          onCancel={handleCancelDeleteClick}
         />
       )}
     </div>
