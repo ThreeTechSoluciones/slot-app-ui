@@ -2,7 +2,10 @@ import * as yup from "yup";
 import { PlanType } from "../../app/types/models/PlanType";
 
 export const commonStudentsScheme = yup.object().shape({
-  dni: yup.number().required("Debe ingresar el DNI"),
+  dni: yup
+    .number()
+    .required("Debe ingresar el DNI")
+    .max(8, "DNI no puede tener más de 8 números"),
   name: yup.string().required("Debe ingresar el nombre"),
   lastname: yup.string().required("Debe ingresar el apellido"),
   phoneNumber: yup
