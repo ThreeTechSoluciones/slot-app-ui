@@ -7,24 +7,35 @@ import { useNavigate } from "react-router";
 import { useGetUserStudentsQuery } from "../../app/services/UserService";
 import useAuthentication from "../../hooks/useAuthentication";
 import { useDeleteStudentMutation } from "../../app/services/StudentService";
-import toast from "react-hot-toast";
+import { ConfirmDialog } from "../../components/confirm_dialog/ConfirmDialog"; 
+import { useState } from "react";
 
 function Home() {
   const { userId } = useAuthentication();
   const { data: students } = useGetUserStudentsQuery(userId!);
   const [deleteStudent] = useDeleteStudentMutation();
   const navigate = useNavigate();
+  const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
+  const [studentToDelete, setStudentToDelete] = useState<{id: string, name: string} | null>(null);
 
   const handleDelete = async (studentId: string, studentName: string) => {
-    const confirmDelete = window.confirm(`¿Desea eliminar a ${studentName}?`);
-    if (!confirmDelete) return;
-    deleteStudent(studentId)
-      .unwrap()
-      .catch((error) => {
-        console.error("Error al eliminar estudiante:", error);
-        toast.error("Ocurrió un error al eliminar al estudiante.");
-      });
+    setStudentToDelete({ id: studentId, name: studentName });
+    setConfirmDialogOpen(true);
   };
+  const handleConfirmDeleteClick = () => {
+    if (!studentToDelete) return;
+    deleteStudent(studentToDelete.id)
+      .unwrap()
+      .then(() => {
+        setConfirmDialogOpen(false);
+        setStudentToDelete(null);
+      })
+  };
+  const handleCancelDeleteClick = () => {
+    setConfirmDialogOpen(false);
+    setStudentToDelete(null);
+  };
+
   return (
     <div className="students-container">
       <table className="table">
@@ -128,6 +139,13 @@ function Home() {
             ))}
         </tbody>
       </table>
+      {confirmDialogOpen && studentToDelete && (
+        <ConfirmDialog
+          message={`¿Desea eliminar a ${studentToDelete.name}?`}
+          onConfirm={handleConfirmDeleteClick}
+          onCancel={handleCancelDeleteClick}
+        />
+      )}
     </div>
   );
 }
