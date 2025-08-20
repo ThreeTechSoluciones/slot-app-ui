@@ -6,7 +6,6 @@ import { useNavigate } from "react-router";
 import { useGetUserStudentsQuery } from "../../app/services/UserService";
 import useAuthentication from "../../hooks/useAuthentication";
 import { useDeleteStudentMutation } from "../../app/services/StudentService";
-import toast from "react-hot-toast";
 import { ConfirmDialog } from "../../components/confirm_dialog/ConfirmDialog"; 
 import { useState } from "react";
 
@@ -30,10 +29,6 @@ function Home() {
         setConfirmDialogOpen(false);
         setStudentToDelete(null);
       })
-      .catch((error) => {
-        console.error("Error al eliminar estudiante:", error);
-        toast.error("Ocurrió un error al eliminar al estudiante.");
-      });
   };
   const handleCancelDeleteClick = () => {
     setConfirmDialogOpen(false);
