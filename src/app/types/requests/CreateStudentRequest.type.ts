@@ -1,5 +1,5 @@
 export type CreateStudentRequest = {
-  dni: number;
+  dni: string;
   name: string;
   lastName: string;
   cellphoneNumber: string;

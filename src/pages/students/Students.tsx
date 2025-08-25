@@ -85,7 +85,7 @@ function Students() {
       <div className="form-group">
         <div className="column1">
           <label>DNI:</label>
-          <input {...register("dni")} type="number" />
+          <input {...register("dni")} type="text" />
           <ErrorMessage error={errors.dni} />
 
           <label>Nombre:</label>

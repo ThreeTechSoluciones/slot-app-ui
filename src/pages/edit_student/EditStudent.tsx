@@ -45,7 +45,7 @@ function EditStudent() {
   useEffect(() => {
     if (student) {
       reset({
-        dni: student.dni,
+        dni: String(student.dni),
         name: student.name,
         lastname: student.lastName,
         phoneNumber: student.cellphoneNumber,
