@@ -3,10 +3,10 @@ import { PlanType } from "../../app/types/models/PlanType";
 
 export const commonStudentsScheme = yup.object().shape({
   dni: yup
-    .string()
+    .number()
     .required("Debe ingresar el DNI")
-    .max(8, "DNI no puede tener más de 8 números")
-    .matches(/^\d+$/, "El DNI solo puede contener números"),
+    .integer("El DNI no puede contener decimales")
+    .max(99999999, "DNI no puede tener más de 8 números"),
   name: yup.string().required("Debe ingresar el nombre"),
   lastname: yup.string().required("Debe ingresar el apellido"),
   phoneNumber: yup

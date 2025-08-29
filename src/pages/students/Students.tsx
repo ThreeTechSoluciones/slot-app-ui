@@ -85,7 +85,15 @@ function Students() {
       <div className="form-group">
         <div className="column1">
           <label>DNI:</label>
-          <input {...register("dni")} type="text" />
+          <input
+            {...register("dni")}
+            type="text"
+            onKeyDown={(e) => {
+              if (e.key === "." || e.key === ",") {
+                e.preventDefault();
+              }
+            }}
+          />
           <ErrorMessage error={errors.dni} />
 
           <label>Nombre:</label>

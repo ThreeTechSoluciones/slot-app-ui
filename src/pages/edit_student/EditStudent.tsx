@@ -12,6 +12,7 @@ import toast from "react-hot-toast";
 import { PlanType } from "../../app/types/models/PlanType";
 import { parseDateFromString } from "../../utils/Formatter";
 import { commonStudentsScheme } from "../students/students.scheme";
+import "./EditStudent.css";
 
 type FormData = yup.InferType<typeof commonStudentsScheme>;
 
@@ -45,7 +46,7 @@ function EditStudent() {
   useEffect(() => {
     if (student) {
       reset({
-        dni: String(student.dni),
+        dni: student.dni,
         name: student.name,
         lastname: student.lastName,
         phoneNumber: student.cellphoneNumber,
@@ -87,7 +88,15 @@ function EditStudent() {
       <div className="form-group">
         <div className="column1">
           <label>DNI:</label>
-          <input {...register("dni")} type="number" />
+          <input
+            {...register("dni")}
+            type="number"
+            onKeyDown={(e) => {
+              if (e.key === "." || e.key === ",") {
+                e.preventDefault();
+              }
+            }}
+          />
           <ErrorMessage error={errors.dni} />
 
           <label>Nombre:</label>

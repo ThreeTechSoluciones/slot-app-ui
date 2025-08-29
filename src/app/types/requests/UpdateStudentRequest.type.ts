@@ -1,6 +1,6 @@
 export type UpdateStudentRequest = {
   studentId: string;
-  dni: string;
+  dni: number;
   name: string;
   lastName: string;
   cellphoneNumber: string;
