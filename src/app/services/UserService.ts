@@ -24,7 +24,40 @@ export const UserService = createApi({
             ]
           : [{ type: "userPrices", id: "LIST" }],
     }),
+    getStudentsByFilter: builder.query<
+      StudentResponse[],
+      {
+        userId: string;
+        studentName?: string;
+        studentLastname?: string;
+        studentDni?: string;
+      }
+    >({
+      query: ({ userId, studentName, studentLastname, studentDni }) => {
+        const filters = new URLSearchParams();
+
+        if (studentName) filters.append("studentName", studentName);
+        if (studentLastname) filters.append("studentLastname", studentLastname);
+        if (studentDni) filters.append("studentDni", studentDni);
+
+        return `/${userId}/students?${filters.toString()}`;
+      },
+      providesTags: (result) =>
+        result
+          ? [
+              { type: "userStudents", id: "LIST" },
+              ...result.map(({ id }) => ({
+                type: "userStudents" as const,
+                id,
+              })),
+            ]
+          : [{ type: "userStudents", id: "LIST" }],
+    }),
   }),
 });
 
-export const { useGetUserStudentsQuery, useGetUserPricesQuery } = UserService;
+export const {
+  useGetUserStudentsQuery,
+  useGetUserPricesQuery,
+  useGetStudentsByFilterQuery,
+} = UserService;

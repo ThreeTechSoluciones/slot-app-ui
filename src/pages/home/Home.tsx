@@ -4,16 +4,17 @@ import trashIcon from "../../assets/trash-icon.webp";
 import activateIcon from "../../assets/activate-icon.svg";
 import editIcon from "../../assets/edit-icon.png";
 import { useNavigate } from "react-router";
-import { useGetUserStudentsQuery } from "../../app/services/UserService";
 import useAuthentication from "../../hooks/useAuthentication";
 import { useDeleteStudentMutation } from "../../app/services/StudentService";
 import { ConfirmDialog } from "../../components/confirm_dialog/ConfirmDialog";
-import { HiOutlineSearch } from "react-icons/hi";
+
 import { useState } from "react";
+import { useGetStudentsByFilterQuery } from "../../app/services/UserService";
+import FilterInput from "../../components/filter/filter";
+import { skipToken } from "@reduxjs/toolkit/query";
 
 function Home() {
   const { userId } = useAuthentication();
-  const { data: students } = useGetUserStudentsQuery(userId!);
   const [deleteStudent] = useDeleteStudentMutation();
   const navigate = useNavigate();
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
@@ -21,6 +22,19 @@ function Home() {
     id: string;
     name: string;
   } | null>(null);
+  const [studentName, setStudentName] = useState("");
+  const [studentLastname, setStudentLastname] = useState("");
+  const [studentDni, setStudentDni] = useState("");
+  const {
+    data: students,
+    error,
+    isLoading,
+  } = useGetStudentsByFilterQuery(
+    userId ? { userId, studentName, studentLastname, studentDni } : skipToken
+  );
+
+  if (isLoading) return <p>Cargando...</p>;
+  if (error) return <p>Error al cargar estudiantes</p>;
 
   const handleDelete = async (studentId: string, studentName: string) => {
     setStudentToDelete({ id: studentId, name: studentName });
@@ -46,14 +60,21 @@ function Home() {
         <thead className="thead">
           <tr>
             <th>
-              <div className="filter-container">
-                <HiOutlineSearch className="filter-icon" />
-                <input
-                  type="text"
-                  placeholder="Buscar..."
-                  className="filter-input"
-                />
-              </div>
+              <FilterInput
+                placeholder="Nombre..."
+                value={studentName}
+                onChange={setStudentName}
+              />
+              <FilterInput
+                placeholder="Apellido..."
+                value={studentLastname}
+                onChange={setStudentLastname}
+              />
+              <FilterInput
+                placeholder="DNI..."
+                value={studentDni}
+                onChange={setStudentDni}
+              />
             </th>
             <th>DNI</th>
             <th>Nombre</th>
