@@ -45,16 +45,7 @@ function Home() {
       <table className="table">
         <thead className="thead">
           <tr>
-            <th>
-              <div className="filter-container">
-                <HiOutlineSearch className="filter-icon" />
-                <input
-                  type="text"
-                  placeholder="Buscar..."
-                  className="filter-input"
-                />
-              </div>
-            </th>
+            <th>Filtros</th>
             <th>DNI</th>
             <th>Nombre</th>
             <th>Apellido</th>

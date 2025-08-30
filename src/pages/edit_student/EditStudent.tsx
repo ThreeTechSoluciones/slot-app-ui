@@ -13,6 +13,7 @@ import { PlanType } from "../../app/types/models/PlanType";
 import { parseDateFromString } from "../../utils/Formatter";
 import { commonStudentsScheme } from "../students/students.scheme";
 import "./EditStudent.css";
+import OnlyNumberInput from "../../components/OnlyNumberInput";
 
 type FormData = yup.InferType<typeof commonStudentsScheme>;
 
@@ -88,15 +89,7 @@ function EditStudent() {
       <div className="form-group">
         <div className="column1">
           <label>DNI:</label>
-          <input
-            {...register("dni")}
-            type="number"
-            onKeyDown={(e) => {
-              if (e.key === "." || e.key === ",") {
-                e.preventDefault();
-              }
-            }}
-          />
+          <OnlyNumberInput {...register("dni")} />
           <ErrorMessage error={errors.dni} />
 
           <label>Nombre:</label>
