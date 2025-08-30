@@ -7,7 +7,8 @@ import { useNavigate } from "react-router";
 import { useGetUserStudentsQuery } from "../../app/services/UserService";
 import useAuthentication from "../../hooks/useAuthentication";
 import { useDeleteStudentMutation } from "../../app/services/StudentService";
-import { ConfirmDialog } from "../../components/confirm_dialog/ConfirmDialog"; 
+import { ConfirmDialog } from "../../components/confirm_dialog/ConfirmDialog";
+import { HiOutlineSearch } from "react-icons/hi";
 import { useState } from "react";
 
 function Home() {
@@ -16,7 +17,10 @@ function Home() {
   const [deleteStudent] = useDeleteStudentMutation();
   const navigate = useNavigate();
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
-  const [studentToDelete, setStudentToDelete] = useState<{id: string, name: string} | null>(null);
+  const [studentToDelete, setStudentToDelete] = useState<{
+    id: string;
+    name: string;
+  } | null>(null);
 
   const handleDelete = async (studentId: string, studentName: string) => {
     setStudentToDelete({ id: studentId, name: studentName });
@@ -29,7 +33,7 @@ function Home() {
       .then(() => {
         setConfirmDialogOpen(false);
         setStudentToDelete(null);
-      })
+      });
   };
   const handleCancelDeleteClick = () => {
     setConfirmDialogOpen(false);
@@ -41,7 +45,16 @@ function Home() {
       <table className="table">
         <thead className="thead">
           <tr>
-            <th>Filtros</th>
+            <th>
+              <div className="filter-container">
+                <HiOutlineSearch className="filter-icon" />
+                <input
+                  type="text"
+                  placeholder="Buscar..."
+                  className="filter-input"
+                />
+              </div>
+            </th>
             <th>DNI</th>
             <th>Nombre</th>
             <th>Apellido</th>
