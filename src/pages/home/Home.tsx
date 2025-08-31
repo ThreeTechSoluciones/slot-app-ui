@@ -3,7 +3,6 @@ import infoIcon from "../../assets/info-icon.webp";
 import trashIcon from "../../assets/trash-icon.webp";
 import activateIcon from "../../assets/activate-icon.svg";
 import editIcon from "../../assets/edit-icon.png";
-import { HiOutlineSearch } from "react-icons/hi";
 import { useNavigate } from "react-router";
 import { useGetUserStudentsQuery } from "../../app/services/UserService";
 import useAuthentication from "../../hooks/useAuthentication";

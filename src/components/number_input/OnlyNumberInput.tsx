@@ -1,3 +1,5 @@
+import "./OnlyNumberInput.styles";
+import { NumberInput } from "./OnlyNumberInput.styles";
 interface OnlyNumberInputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
   register?: any;
@@ -8,7 +10,7 @@ const OnlyNumberInput: React.FC<OnlyNumberInputProps> = ({
   ...props
 }) => {
   return (
-    <input
+    <NumberInput
       {...register}
       type="number"
       onKeyDown={(e) => {

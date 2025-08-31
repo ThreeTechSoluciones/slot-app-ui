@@ -13,7 +13,7 @@ import { PlanType } from "../../app/types/models/PlanType";
 import { parseDateFromString } from "../../utils/Formatter";
 import { commonStudentsScheme } from "../students/students.scheme";
 import "./EditStudent.css";
-import OnlyNumberInput from "../../components/OnlyNumberInput";
+import OnlyNumberInput from "../../components/number_input/OnlyNumberInput";
 
 type FormData = yup.InferType<typeof commonStudentsScheme>;
 
