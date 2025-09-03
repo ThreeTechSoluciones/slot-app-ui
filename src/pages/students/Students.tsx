@@ -13,6 +13,7 @@ import { useCreateStudentMutation } from "../../app/services/StudentService";
 import useAuthentication from "../../hooks/useAuthentication";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
+import OnlyNumberInput from "../../components/number_input/OnlyNumberInput";
 
 type FormData = yup.InferType<typeof studentsScheme>;
 
@@ -85,7 +86,7 @@ function Students() {
       <div className="form-group">
         <div className="column1">
           <label>DNI:</label>
-          <input {...register("dni")} type="number" />
+          <OnlyNumberInput {...register("dni")} />
           <ErrorMessage error={errors.dni} />
 
           <label>Nombre:</label>

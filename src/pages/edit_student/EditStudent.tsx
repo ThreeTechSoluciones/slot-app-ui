@@ -12,6 +12,8 @@ import toast from "react-hot-toast";
 import { PlanType } from "../../app/types/models/PlanType";
 import { parseDateFromString } from "../../utils/Formatter";
 import { commonStudentsScheme } from "../students/students.scheme";
+import "./EditStudent.css";
+import OnlyNumberInput from "../../components/number_input/OnlyNumberInput";
 
 type FormData = yup.InferType<typeof commonStudentsScheme>;
 
@@ -87,7 +89,7 @@ function EditStudent() {
       <div className="form-group">
         <div className="column1">
           <label>DNI:</label>
-          <input {...register("dni")} type="number" />
+          <OnlyNumberInput {...register("dni")} />
           <ErrorMessage error={errors.dni} />
 
           <label>Nombre:</label>

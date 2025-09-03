@@ -7,7 +7,7 @@ import { useNavigate } from "react-router";
 import { useGetUserStudentsQuery } from "../../app/services/UserService";
 import useAuthentication from "../../hooks/useAuthentication";
 import { useDeleteStudentMutation } from "../../app/services/StudentService";
-import { ConfirmDialog } from "../../components/confirm_dialog/ConfirmDialog"; 
+import { ConfirmDialog } from "../../components/confirm_dialog/ConfirmDialog";
 import { useState } from "react";
 
 function Home() {
@@ -16,7 +16,10 @@ function Home() {
   const [deleteStudent] = useDeleteStudentMutation();
   const navigate = useNavigate();
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
-  const [studentToDelete, setStudentToDelete] = useState<{id: string, name: string} | null>(null);
+  const [studentToDelete, setStudentToDelete] = useState<{
+    id: string;
+    name: string;
+  } | null>(null);
 
   const handleDelete = async (studentId: string, studentName: string) => {
     setStudentToDelete({ id: studentId, name: studentName });
@@ -29,7 +32,7 @@ function Home() {
       .then(() => {
         setConfirmDialogOpen(false);
         setStudentToDelete(null);
-      })
+      });
   };
   const handleCancelDeleteClick = () => {
     setConfirmDialogOpen(false);
@@ -58,7 +61,7 @@ function Home() {
             students.map((student) => (
               <tr key={student.id}>
                 <td></td>
-                <td>{student.dni}</td>
+                <td>{student.dni} </td>
                 <td>{student.name}</td>
                 <td>{student.lastname}</td>
                 <td
