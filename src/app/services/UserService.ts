@@ -9,22 +9,7 @@ export const UserService = createApi({
     baseUrl: `${import.meta.env.VITE_BACKEND_URL}/users`,
   }),
   endpoints: (builder) => ({
-    getUserStudents: builder.query<StudentResponse[], string>({
-      query: (userId) => `${userId}/students`,
-      providesTags: ["userStudents"],
-    }),
-
-    getUserPrices: builder.query<PriceResponse[], string>({
-      query: (userId) => `${userId}/prices`,
-      providesTags: (result) =>
-        result
-          ? [
-              { type: "userPrices", id: "LIST" },
-              ...result.map(({ id }) => ({ type: "userPrices" as const, id })),
-            ]
-          : [{ type: "userPrices", id: "LIST" }],
-    }),
-    getStudentsByFilter: builder.query<
+    getUserStudents: builder.query<
       StudentResponse[],
       {
         userId: string;
@@ -36,7 +21,7 @@ export const UserService = createApi({
 
         if (filter) params.append("filter", filter);
 
-        return `/${userId}/students?${params.toString()}`;
+        return `/${userId}/students?${params}`;
       },
       providesTags: (result) =>
         result
@@ -49,11 +34,18 @@ export const UserService = createApi({
             ]
           : [{ type: "userStudents", id: "LIST" }],
     }),
+
+    getUserPrices: builder.query<PriceResponse[], string>({
+      query: (userId) => `${userId}/prices`,
+      providesTags: (result) =>
+        result
+          ? [
+              { type: "userPrices", id: "LIST" },
+              ...result.map(({ id }) => ({ type: "userPrices" as const, id })),
+            ]
+          : [{ type: "userPrices", id: "LIST" }],
+    }),
   }),
 });
 
-export const {
-  useGetUserStudentsQuery,
-  useGetUserPricesQuery,
-  useGetStudentsByFilterQuery,
-} = UserService;
+export const { useGetUserStudentsQuery, useGetUserPricesQuery } = UserService;

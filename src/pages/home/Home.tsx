@@ -8,7 +8,7 @@ import useAuthentication from "../../hooks/useAuthentication";
 import { useDeleteStudentMutation } from "../../app/services/StudentService";
 import { ConfirmDialog } from "../../components/confirm_dialog/ConfirmDialog";
 import { useState } from "react";
-import { useGetStudentsByFilterQuery } from "../../app/services/UserService";
+import { useGetUserStudentsQuery } from "../../app/services/UserService";
 import FilterInput from "../../components/filter/filter";
 import { skipToken } from "@reduxjs/toolkit/query";
 
@@ -27,7 +27,7 @@ function Home() {
     data: students,
     error,
     isLoading,
-  } = useGetStudentsByFilterQuery(userId ? { userId, filter } : skipToken);
+  } = useGetUserStudentsQuery(userId ? { userId, filter } : skipToken);
 
   if (isLoading) return <p>Cargando...</p>;
   if (error) return <p>Error al cargar estudiantes</p>;
