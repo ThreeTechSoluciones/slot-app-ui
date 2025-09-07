@@ -18,9 +18,7 @@ export const UserService = createApi({
     >({
       query: ({ userId, filter }) => {
         const params = new URLSearchParams();
-
         if (filter) params.append("filter", filter);
-
         return `/${userId}/students?${params}`;
       },
       providesTags: (result) =>

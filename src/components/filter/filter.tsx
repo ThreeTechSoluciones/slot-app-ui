@@ -1,42 +1,53 @@
 import { HiOutlineSearch } from "react-icons/hi";
-import "./filter.css";
+import { FilterInputStyled, IconWrapper, FilterDiv } from "./Filter.styles";
+import { useEffect, useState } from "react";
 
-interface FilterInputProps {
+interface FilterProps {
   placeholder?: string;
-  value?: string;
-  onChange?: (value: string) => void;
-  onClear?: () => void;
-  onSubmit?: (value: string) => void;
+  value: string;
+  onChange: (value: string) => void;
+  onDebouncedChange?: (value: string) => void;
+  debounceTime?: number;
 }
-const FilterInput: React.FC<FilterInputProps> = ({
-  placeholder = "Buscar por DNI, nombre o apellido",
+
+const Filter: React.FC<FilterProps> = ({
+  placeholder,
   value,
   onChange,
-  onClear,
-  onSubmit,
+  onDebouncedChange,
+  debounceTime = 500,
 }) => {
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter" && onSubmit) {
-      onSubmit(value ?? "");
-    }
-    if (e.key === "Escape" && onClear) {
-      onClear();
-    }
+  const [internalValue, setInternalValue] = useState(value);
+
+  useEffect(() => {
+    setInternalValue(value);
+  }, [value]);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      onDebouncedChange?.(internalValue);
+    }, debounceTime);
+
+    return () => clearTimeout(handler);
+  }, [internalValue, debounceTime, onDebouncedChange]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInternalValue(e.target.value);
+    onChange?.(e.target.value);
   };
   return (
-    <div className="filter-container">
-      <input
+    <FilterDiv>
+      <FilterInputStyled
         type="text"
         placeholder={placeholder}
-        value={value}
-        onChange={(e) => onChange?.(e.target.value)}
-        onKeyDown={handleKeyDown}
-        className="filter-input"
+        value={internalValue}
+        onChange={handleChange}
       />
-      {value && <button onClick={onClear}>×</button>}
-      <HiOutlineSearch className="filter-icon" />
-    </div>
+      <IconWrapper>
+        <HiOutlineSearch />
+      </IconWrapper>
+    </FilterDiv>
   );
 };
 
-export default FilterInput;
+export default Filter;
