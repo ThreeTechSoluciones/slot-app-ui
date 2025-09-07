@@ -5,7 +5,8 @@ export const commonStudentsScheme = yup.object().shape({
   dni: yup
     .number()
     .required("Debe ingresar el DNI")
-    .max(8, "DNI no puede tener más de 8 números"),
+    .integer("El DNI no puede contener decimales")
+    .max(99999999, "DNI no puede tener más de 8 números"),
   name: yup.string().required("Debe ingresar el nombre"),
   lastname: yup.string().required("Debe ingresar el apellido"),
   phoneNumber: yup
