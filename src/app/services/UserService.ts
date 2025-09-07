@@ -28,19 +28,15 @@ export const UserService = createApi({
       StudentResponse[],
       {
         userId: string;
-        studentName?: string;
-        studentLastname?: string;
-        studentDni?: string;
+        filter?: string;
       }
     >({
-      query: ({ userId, studentName, studentLastname, studentDni }) => {
-        const filters = new URLSearchParams();
+      query: ({ userId, filter }) => {
+        const params = new URLSearchParams();
 
-        if (studentName) filters.append("studentName", studentName);
-        if (studentLastname) filters.append("studentLastname", studentLastname);
-        if (studentDni) filters.append("studentDni", studentDni);
+        if (filter) params.append("filter", filter);
 
-        return `/${userId}/students?${filters.toString()}`;
+        return `/${userId}/students?${params.toString()}`;
       },
       providesTags: (result) =>
         result

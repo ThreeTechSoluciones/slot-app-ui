@@ -7,7 +7,6 @@ import { useNavigate } from "react-router";
 import useAuthentication from "../../hooks/useAuthentication";
 import { useDeleteStudentMutation } from "../../app/services/StudentService";
 import { ConfirmDialog } from "../../components/confirm_dialog/ConfirmDialog";
-
 import { useState } from "react";
 import { useGetStudentsByFilterQuery } from "../../app/services/UserService";
 import FilterInput from "../../components/filter/filter";
@@ -22,16 +21,13 @@ function Home() {
     id: string;
     name: string;
   } | null>(null);
-  const [studentName, setStudentName] = useState("");
-  const [studentLastname, setStudentLastname] = useState("");
-  const [studentDni, setStudentDni] = useState("");
+  const [filter, setFilter] = useState("");
+
   const {
     data: students,
     error,
     isLoading,
-  } = useGetStudentsByFilterQuery(
-    userId ? { userId, studentName, studentLastname, studentDni } : skipToken
-  );
+  } = useGetStudentsByFilterQuery(userId ? { userId, filter } : skipToken);
 
   if (isLoading) return <p>Cargando...</p>;
   if (error) return <p>Error al cargar estudiantes</p>;
@@ -56,26 +52,10 @@ function Home() {
 
   return (
     <div className="students-container">
+      <FilterInput value={filter} onChange={setFilter} />
       <table className="table">
         <thead className="thead">
           <tr>
-            <th>
-              <FilterInput
-                placeholder="Nombre..."
-                value={studentName}
-                onChange={setStudentName}
-              />
-              <FilterInput
-                placeholder="Apellido..."
-                value={studentLastname}
-                onChange={setStudentLastname}
-              />
-              <FilterInput
-                placeholder="DNI..."
-                value={studentDni}
-                onChange={setStudentDni}
-              />
-            </th>
             <th>DNI</th>
             <th>Nombre</th>
             <th>Apellido</th>
@@ -91,7 +71,6 @@ function Home() {
           {students &&
             students.map((student) => (
               <tr key={student.id}>
-                <td></td>
                 <td>{student.dni}</td>
                 <td>{student.name}</td>
                 <td>{student.lastname}</td>

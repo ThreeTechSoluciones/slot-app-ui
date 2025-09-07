@@ -7,13 +7,12 @@ interface FilterInputProps {
   onChange?: (value: string) => void;
 }
 const FilterInput: React.FC<FilterInputProps> = ({
-  placeholder = "Buscar...",
+  placeholder = "Buscar por DNI, nombre o apellido",
   value,
   onChange,
 }) => {
   return (
     <div className="filter-container">
-      <HiOutlineSearch className="filter-icon" />
       <input
         type="text"
         placeholder={placeholder}
@@ -21,6 +20,7 @@ const FilterInput: React.FC<FilterInputProps> = ({
         onChange={(e) => onChange?.(e.target.value)}
         className="filter-input"
       />
+      <HiOutlineSearch className="filter-icon" />
     </div>
   );
 };
