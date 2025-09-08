@@ -17,6 +17,7 @@ function Home() {
   const [deleteStudent] = useDeleteStudentMutation();
   const navigate = useNavigate();
   const [filter, setFilter] = useState("");
+  const [debouncedFilter, setDebouncedFilter] = useState("");
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
   const [studentToDelete, setStudentToDelete] = useState<{
     id: string;
@@ -27,7 +28,9 @@ function Home() {
     data: students,
     error,
     isLoading,
-  } = useGetUserStudentsQuery(userId ? { userId } : skipToken);
+  } = useGetUserStudentsQuery(
+    userId ? { userId, filter: debouncedFilter } : skipToken
+  );
 
   if (isLoading) return <p>Cargando...</p>;
   if (error) return <p>Error al cargar estudiantes</p>;
@@ -55,6 +58,7 @@ function Home() {
       <Filter
         value={filter}
         onChange={setFilter}
+        onDebouncedChange={setDebouncedFilter}
         placeholder="Buscar por DNI, nombre o apellido"
       />
       <table className="table">

@@ -15,7 +15,7 @@ const Filter: React.FC<FilterProps> = ({
   value,
   onChange,
   onDebouncedChange,
-  debounceTime = 500,
+  debounceTime = 700,
 }) => {
   const [internalValue, setInternalValue] = useState(value);
 
