@@ -6,7 +6,6 @@ interface FilterProps {
   placeholder?: string;
   value: string;
   onChange: (value: string) => void;
-  onDebouncedChange?: (value: string) => void;
   debounceTime?: number;
 }
 
@@ -14,7 +13,6 @@ const Filter: React.FC<FilterProps> = ({
   placeholder,
   value,
   onChange,
-  onDebouncedChange,
   debounceTime = 700,
 }) => {
   const [internalValue, setInternalValue] = useState(value);
@@ -25,11 +23,11 @@ const Filter: React.FC<FilterProps> = ({
 
   useEffect(() => {
     const handler = setTimeout(() => {
-      onDebouncedChange?.(internalValue);
+      onChange(internalValue);
     }, debounceTime);
 
     return () => clearTimeout(handler);
-  }, [internalValue, debounceTime, onDebouncedChange]);
+  }, [internalValue, debounceTime]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInternalValue(e.target.value);

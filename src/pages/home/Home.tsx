@@ -9,7 +9,7 @@ import { useDeleteStudentMutation } from "../../app/services/StudentService";
 import { ConfirmDialog } from "../../components/confirm_dialog/ConfirmDialog";
 import { useState } from "react";
 import { useGetUserStudentsQuery } from "../../app/services/UserService";
-import Filter from "../../components/filter/Filter";
+import Filter from "../../components/filter/Filter_filter";
 import { skipToken } from "@reduxjs/toolkit/query";
 
 function Home() {
@@ -17,7 +17,6 @@ function Home() {
   const [deleteStudent] = useDeleteStudentMutation();
   const navigate = useNavigate();
   const [filter, setFilter] = useState("");
-  const [debouncedFilter, setDebouncedFilter] = useState("");
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
   const [studentToDelete, setStudentToDelete] = useState<{
     id: string;
@@ -28,9 +27,7 @@ function Home() {
     data: students,
     error,
     isLoading,
-  } = useGetUserStudentsQuery(
-    userId ? { userId, filter: debouncedFilter } : skipToken
-  );
+  } = useGetUserStudentsQuery(userId ? { userId, filter } : skipToken);
 
   if (isLoading) return <p>Cargando...</p>;
   if (error) return <p>Error al cargar estudiantes</p>;
@@ -58,7 +55,6 @@ function Home() {
       <Filter
         value={filter}
         onChange={setFilter}
-        onDebouncedChange={setDebouncedFilter}
         placeholder="Buscar por DNI, nombre o apellido"
       />
       <table className="table">
