@@ -9,7 +9,7 @@ import { useDeleteStudentMutation } from "../../app/services/StudentService";
 import { ConfirmDialog } from "../../components/confirm_dialog/ConfirmDialog";
 import { useState } from "react";
 import { useGetUserStudentsQuery } from "../../app/services/UserService";
-import Filter from "../../components/filter/Filter_filter";
+import Filter from "../../components/filter/FilterSearch";
 import { skipToken } from "@reduxjs/toolkit/query";
 
 function Home() {

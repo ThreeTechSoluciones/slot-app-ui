@@ -1,5 +1,9 @@
 import { HiOutlineSearch } from "react-icons/hi";
-import { FilterInputStyled, IconWrapper, FilterDiv } from "./Filter.styles";
+import {
+  FilterInputStyled,
+  IconWrapper,
+  FilterDiv,
+} from "./FilterSearch.styles";
 import { useEffect, useState } from "react";
 
 interface FilterProps {
