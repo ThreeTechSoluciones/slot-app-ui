@@ -17,7 +17,7 @@ const Filter: React.FC<FilterProps> = ({
   placeholder,
   value,
   onChange,
-  debounceTime = 700,
+  debounceTime = 400,
 }) => {
   const [internalValue, setInternalValue] = useState(value);
 
@@ -35,7 +35,6 @@ const Filter: React.FC<FilterProps> = ({
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInternalValue(e.target.value);
-    onChange?.(e.target.value);
   };
   return (
     <FilterDiv>
