@@ -2,7 +2,7 @@ import { useSigninMutation } from "../app/services/AuthService";
 
 const useAuthentication = () => {
   const [, { data }] = useSigninMutation({ fixedCacheKey: "shared-auth" });
-
+  console.log('updating useAuth')
   if (!data) return { isAuthenticated: false };
 
   return {

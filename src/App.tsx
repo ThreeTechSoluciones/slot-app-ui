@@ -8,11 +8,14 @@ import Students from "./pages/students/Students";
 import { PrivateRoute } from "./routes/PrivateRoutes";
 import StudentDetail from "./pages/student_detail/StudentDetail";
 import EditStudent from "./pages/edit_student/EditStudent";
+import useAuthentication from "./hooks/useAuthentication";
 
 function App() {
+  const { isAuthenticated } = useAuthentication();
+  console.log('updated???', isAuthenticated)
   return (
     <>
-      <Header />
+      { isAuthenticated ? <Header /> : null }
       <main className="content">
         <Routes>
           <Route path="/login" element={<Login />} />
