@@ -9,9 +9,28 @@ export const UserService = createApi({
     baseUrl: `${import.meta.env.VITE_BACKEND_URL}/users`,
   }),
   endpoints: (builder) => ({
-    getUserStudents: builder.query<StudentResponse[], string>({
-      query: (userId) => `${userId}/students`,
-      providesTags: ["userStudents"],
+    getUserStudents: builder.query<
+      StudentResponse[],
+      {
+        userId: string;
+        filter?: string;
+      }
+    >({
+      query: ({ userId, filter }) => {
+        const params = new URLSearchParams();
+        if (filter) params.append("filter", filter);
+        return `/${userId}/students?${params}`;
+      },
+      providesTags: (result) =>
+        result
+          ? [
+              { type: "userStudents", id: "LIST" },
+              ...result.map(({ id }) => ({
+                type: "userStudents" as const,
+                id,
+              })),
+            ]
+          : [{ type: "userStudents", id: "LIST" }],
     }),
 
     getUserPrices: builder.query<PriceResponse[], string>({

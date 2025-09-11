@@ -1,10 +1,12 @@
 import "./Home.css";
 import { useNavigate } from "react-router";
-import { useGetUserStudentsQuery } from "../../app/services/UserService";
 import useAuthentication from "../../hooks/useAuthentication";
 import { useDeleteStudentMutation } from "../../app/services/StudentService";
 import { ConfirmDialog } from "../../components/confirm_dialog/ConfirmDialog";
 import { useState } from "react";
+import { useGetUserStudentsQuery } from "../../app/services/UserService";
+import Filter from "../../components/filter/FilterSearch";
+import { skipToken } from "@reduxjs/toolkit/query";
 import Table from "../../components/table/Table";
 import type { StudentResponse } from "../../app/types/responses/StudentResponse.type";
 import type { Column } from "../../app/types/table";
@@ -12,14 +14,23 @@ import dotsIcon from "../../assets/dots-icon.png";
 
 function Home() {
   const { userId } = useAuthentication();
-  const { data: students } = useGetUserStudentsQuery(userId!);
   const [deleteStudent] = useDeleteStudentMutation();
   const navigate = useNavigate();
+  const [filter, setFilter] = useState("");
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
   const [studentToDelete, setStudentToDelete] = useState<{
     id: string;
     name: string;
   } | null>(null);
+
+  const {
+    data: students,
+    error,
+    isLoading,
+  } = useGetUserStudentsQuery(userId ? { userId, filter } : skipToken);
+
+  if (isLoading) return <p>Cargando...</p>;
+  if (error) return <p>Error al cargar estudiantes</p>;
 
   const handleDelete = async (studentId: string, studentName: string) => {
     setStudentToDelete({ id: studentId, name: studentName });
