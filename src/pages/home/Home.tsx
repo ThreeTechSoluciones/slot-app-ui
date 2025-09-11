@@ -1,14 +1,14 @@
 import "./Home.css";
-import infoIcon from "../../assets/info-icon.webp";
-import trashIcon from "../../assets/trash-icon.webp";
-import activateIcon from "../../assets/activate-icon.svg";
-import editIcon from "../../assets/edit-icon.png";
 import { useNavigate } from "react-router";
 import { useGetUserStudentsQuery } from "../../app/services/UserService";
 import useAuthentication from "../../hooks/useAuthentication";
 import { useDeleteStudentMutation } from "../../app/services/StudentService";
 import { ConfirmDialog } from "../../components/confirm_dialog/ConfirmDialog";
 import { useState } from "react";
+import Table from "../../components/table/Table";
+import type { StudentResponse } from "../../app/types/responses/StudentResponse.type";
+import type { Column } from "../../app/types/table";
+import dotsIcon from "../../assets/dots-icon.png";
 
 function Home() {
   const { userId } = useAuthentication();
@@ -39,109 +39,45 @@ function Home() {
     setStudentToDelete(null);
   };
 
+  const columns: Column<StudentResponse>[] = [
+    { header: "DNI", accessor: "dni" },
+    { header: "Nombre", accessor: "name" },
+    { header: "Apellido", accessor: "lastname" },
+    {
+      header: "Situación",
+      render: (student: StudentResponse) => (
+        <strong
+          style={{
+            color: student.status === "En término" ? "#00bf63" : "#ff3131",
+          }}
+        >
+          {student.status}
+        </strong>
+      ),
+    },
+    {
+      header: "Estado",
+      render: (student: StudentResponse) => (
+        <strong style={{ color: student.isActive ? "#00bf63" : "#ff3131" }}>
+          {student.isActive ? "Activo" : "Inactivo"}
+        </strong>
+      ),
+    },
+    {
+      header: "Acciones",
+      render: (student: StudentResponse) => (
+        <div className="actions-container">
+          <button>
+            <img src={dotsIcon} alt="Dots" className="dots-icon" />
+          </button>
+        </div>
+      ),
+    },
+  ];
+
   return (
     <div className="students-container">
-      <table className="table">
-        <thead className="thead">
-          <tr>
-            <th>Filtros</th>
-            <th>DNI</th>
-            <th>Nombre</th>
-            <th>Apellido</th>
-            <th>Estado</th>
-            <th>Habilitado</th>
-            <th>Pago</th>
-            <th>Info</th>
-            <th>Eliminar/Dar Alta</th>
-            <th>Editar</th>
-          </tr>
-        </thead>
-        <tbody className="tbody">
-          {students &&
-            students.map((student) => (
-              <tr key={student.id}>
-                <td></td>
-                <td>{student.dni} </td>
-                <td>{student.name}</td>
-                <td>{student.lastname}</td>
-                <td
-                  style={{
-                    color:
-                      student.status === "En término" ? "#00bf63" : "#ff3131",
-                  }}
-                >
-                  <strong>{student.status}</strong>
-                </td>
-                <td>
-                  <strong
-                    style={{ color: student.isActive ? "#00bf63" : "#ff3131" }}
-                  >
-                    {student.isActive ? "Activo" : "Inactivo"}
-                  </strong>
-                </td>
-                <td>
-                  <div className="actions-container">
-                    <button
-                      className="btn-payment"
-                      onClick={() => alert(`Registrar pago de ${student.name}`)}
-                    >
-                      Registrar
-                    </button>
-                  </div>
-                </td>
-                <td>
-                  <div className="actions-container">
-                    <img
-                      src={infoIcon}
-                      alt="Info"
-                      className="icon"
-                      onClick={() =>
-                        navigate("/detalle-alumno", {
-                          state: { studentId: student.id },
-                        })
-                      }
-                    />
-                  </div>
-                </td>
-                <td>
-                  <div className="actions-container">
-                    {!student.isActive ? (
-                      <img
-                        src={activateIcon}
-                        alt="Dar de alta"
-                        className="activate-icon"
-                        onClick={() =>
-                          alert(`¿Desea dar de alta a ${student.name}?`)
-                        }
-                      />
-                    ) : (
-                      <img
-                        src={trashIcon}
-                        alt="Eliminar"
-                        className="icon"
-                        onClick={() => handleDelete(student.id, student.name)}
-                      />
-                    )}
-                  </div>
-                </td>
-                <td>
-                  <div className="actions-container">
-                    <img
-                      src={editIcon}
-                      alt="Editar"
-                      className="edit-icon"
-                      onClick={() =>
-                        navigate("/editar-alumno", {
-                          state: { studentId: student.id },
-                        })
-                      }
-                    />
-                  </div>
-                </td>
-              </tr>
-            ))}
-        </tbody>
-      </table>
+      <Table columns={columns} data={students ?? []} />;
       {confirmDialogOpen && studentToDelete && (
         <ConfirmDialog
           message={`¿Desea eliminar a ${studentToDelete.name}?`}
