@@ -17,18 +17,19 @@ import { useNavigate } from "react-router";
 import { ConfirmDialog } from "../confirm_dialog/ConfirmDialog";
 import { useState } from "react";
 
+
+
 function Header() {
 
   const { isAuthenticated } = useAuthentication();
-  
-  const handleLogout = async () => {
-    await persistor.purge()
-      .then(() => {
-        navigate(Login);
-        setShowConfirm(false);
-      })
-      .catch((error) => console.log(' error purgando la sesion', error))
+
+  const handleLogout = () => {
+      persistor.purge();
+      setShowConfirm(false);
+      navigate(Login);
+      window.location.reload();
   };
+
 
   const navigate = useNavigate();
 

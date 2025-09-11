@@ -4,7 +4,8 @@ export const MainContainer = styled.div`
     display:flex; 
     width: 100%;
     min-height: 96px; 
-    background-color: #F0E21E;box-sizing: border-box;
+    background-color: #F0E21E;
+    box-sizing: border-box;
     justify-content: space-between;
 `
 export const SecondaryContainer = styled.div`
@@ -31,9 +32,8 @@ export const Options = styled.div`
     &:hover {
       cursor:pointer;
       font-size:17px;
-       font-weight:bold;
-       transition: font-size 0.3s ease;
-
+      font-weight:bold;
+      transition: font-size 0.3s ease;
 `
 
 export const NewStudent = styled(Options)`
