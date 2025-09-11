@@ -4,7 +4,7 @@ import Header from "./components/header/header";
 import Login from "./pages/login/Login";
 import Home from "./pages/home/Home";
 import Plans from "./pages/plans/Plans";
-import Students from "./pages/students/Students";
+import PersonalData from "./pages/students/PersonalData";
 import { PrivateRoute } from "./routes/PrivateRoutes";
 import StudentDetail from "./pages/student_detail/StudentDetail";
 import EditStudent from "./pages/edit_student/EditStudent";
@@ -20,7 +20,7 @@ function App() {
           <Route element={<PrivateRoute />}>
             <Route path="/home" element={<Home />} />
             <Route path="/cuotas" element={<Plans />} />
-            <Route path="/nuevo-alumno" element={<Students />} />
+            <Route path="/nuevo-alumno" element={<PersonalData />} />
             <Route path="/detalle-alumno" element={<StudentDetail />} />
             <Route path="/editar-alumno" element={<EditStudent />} />
           </Route>
