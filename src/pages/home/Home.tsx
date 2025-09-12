@@ -1,4 +1,4 @@
-import { StudentsContainer } from "./Home.styles";
+import { SituationText, StatusText, StudentsContainer } from "./Home.styles";
 import { useNavigate } from "react-router";
 import useAuthentication from "../../hooks/useAuthentication";
 import {
@@ -6,7 +6,7 @@ import {
   useDeleteStudentMutation,
 } from "../../app/services/StudentService";
 import { ConfirmDialog } from "../../components/confirm_dialog/ConfirmDialog";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Filter from "../../components/filter/FilterSearch";
 import Table from "../../components/table/Table";
 import type { StudentResponse } from "../../app/types/responses/StudentResponse.type";
@@ -14,15 +14,19 @@ import type { Column } from "../../app/types/table";
 import dotsIcon from "../../assets/dots-icon.png";
 import { useGetUserStudentsQuery } from "../../app/services/UserService";
 import { DropdownMenu } from "../../components/dropdownMenu/DropdownMenu";
+import { SortableButton } from "../../components/sort_button/SortButton";
+import { skipToken } from "@reduxjs/toolkit/query/react";
 
 function Home() {
   const { userId } = useAuthentication();
-  const { data: students } = useGetUserStudentsQuery({ userId: userId! });
   const [deleteStudent] = useDeleteStudentMutation();
   const [activateStudent] = useActivateStudentMutation();
   const navigate = useNavigate();
-  const [filter, setFilter] = useState("");
-
+  const [studentList, setStudentList] = useState<StudentResponse[]>([]);
+  const [filter, setFilter] = useState<string>("");
+  const { data: students } = useGetUserStudentsQuery(
+    userId ? { userId, filter } : skipToken
+  );
   const [studentAction, setStudentAction] = useState<{
     id: string;
     name: string;
@@ -59,28 +63,69 @@ function Home() {
     setConfirmDialogOpen(false);
     setStudentAction(null);
   };
+  useEffect(() => {
+    if (students) {
+      setStudentList(students);
+    }
+  }, [students]);
+
+  const sortByField = (field: keyof StudentResponse, asc: boolean) => {
+    const sorted = [...studentList].sort((a, b) => {
+      const valueA = a[field];
+      const valueB = b[field];
+
+      if (field === "dni") {
+        return asc
+          ? Number(valueA) - Number(valueB)
+          : Number(valueB) - Number(valueA);
+      }
+      return asc
+        ? String(valueA).localeCompare(String(valueB))
+        : String(valueB).localeCompare(String(valueA));
+    });
+
+    setStudentList(sorted);
+  };
   const columns: Column<StudentResponse>[] = [
-    { header: "DNI", accessor: "dni" },
-    { header: "Nombre", accessor: "name" },
-    { header: "Apellido", accessor: "lastname" },
+    {
+      header: (
+        <SortableButton text="DNI" onSort={(asc) => sortByField("dni", asc)} />
+      ),
+      accessor: "dni",
+    },
+
+    {
+      header: (
+        <SortableButton
+          text="Nombre"
+          onSort={(asc) => sortByField("name", asc)}
+        />
+      ),
+      accessor: "name",
+    },
+    {
+      header: (
+        <SortableButton
+          text="Apellido"
+          onSort={(asc) => sortByField("lastname", asc)}
+        />
+      ),
+      accessor: "lastname",
+    },
     {
       header: "Situación",
       render: (student: StudentResponse) => (
-        <strong
-          style={{
-            color: student.status === "En término" ? "#00bf63" : "#ff3131",
-          }}
-        >
-          {student.status}
-        </strong>
+        <SituationText status={student.status ? "Al día" : "Debe"}>
+          {student.status ? "Al día" : "Debe"}
+        </SituationText>
       ),
     },
     {
       header: "Estado",
       render: (student: StudentResponse) => (
-        <strong style={{ color: student.isActive ? "#00bf63" : "#ff3131" }}>
+        <StatusText $isActive={student.isActive}>
           {student.isActive ? "Activo" : "Inactivo"}
-        </strong>
+        </StatusText>
       ),
     },
     {
@@ -123,7 +168,7 @@ function Home() {
         onChange={setFilter}
         placeholder="Buscar por DNI, nombre o apellido"
       />
-      <Table columns={columns} data={students ?? []} />;
+      <Table columns={columns} data={studentList} />;
       {confirmDialogOpen && studentAction && (
         <ConfirmDialog
           message={`¿Desea ${studentAction.type} a ${studentAction.name}?`}

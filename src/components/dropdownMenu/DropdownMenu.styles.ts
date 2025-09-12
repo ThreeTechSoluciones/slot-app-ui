@@ -22,7 +22,7 @@ export const DropdownMenuStyle = styled.div`
 export const ButtonOption = styled.button`
   background: none;
   border: none;
-  padding: 8px 12px;
+  padding: 8px 15px;
   text-align: center;
   cursor: pointer;
 
