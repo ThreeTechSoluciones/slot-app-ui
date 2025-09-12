@@ -1,4 +1,5 @@
 import type { Column } from "../../app/types/table";
+import { TableStyle, Thead, Tbody, Td, Tr } from "./Table.styles";
 
 interface TableProps<T> {
   columns: Column<T>[];
@@ -9,33 +10,32 @@ interface TableProps<T> {
 function Table<T extends { id: string | number }>({
   columns,
   data,
-  className,
 }: TableProps<T>) {
   return (
-    <table className={`table ${className || ""}`}>
-      <thead className="thead">
-        <tr>
+    <TableStyle>
+      <Thead>
+        <Tr>
           {columns.map((col, index) => (
             <th key={index}>{col.header}</th>
           ))}
-        </tr>
-      </thead>
-      <tbody className="tbody">
+        </Tr>
+      </Thead>
+      <Tbody>
         {data.map((row) => (
-          <tr key={row.id}>
+          <Tr key={row.id}>
             {columns.map((col, index) => (
-              <td key={index}>
+              <Td key={index}>
                 {col.render
                   ? col.render(row)
                   : col.accessor
                   ? String(row[col.accessor])
                   : null}
-              </td>
+              </Td>
             ))}
-          </tr>
+          </Tr>
         ))}
-      </tbody>
-    </table>
+      </Tbody>
+    </TableStyle>
   );
 }
 

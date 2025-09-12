@@ -1,55 +1,64 @@
-import "./Home.css";
+import { StudentsContainer } from "./Home.styles";
 import { useNavigate } from "react-router";
 import useAuthentication from "../../hooks/useAuthentication";
-import { useDeleteStudentMutation } from "../../app/services/StudentService";
+import {
+  useActivateStudentMutation,
+  useDeleteStudentMutation,
+} from "../../app/services/StudentService";
 import { ConfirmDialog } from "../../components/confirm_dialog/ConfirmDialog";
 import { useState } from "react";
-import { useGetUserStudentsQuery } from "../../app/services/UserService";
 import Filter from "../../components/filter/FilterSearch";
-import { skipToken } from "@reduxjs/toolkit/query";
 import Table from "../../components/table/Table";
 import type { StudentResponse } from "../../app/types/responses/StudentResponse.type";
 import type { Column } from "../../app/types/table";
 import dotsIcon from "../../assets/dots-icon.png";
+import { useGetUserStudentsQuery } from "../../app/services/UserService";
+import { DropdownMenu } from "../../components/dropdownMenu/DropdownMenu";
 
 function Home() {
   const { userId } = useAuthentication();
+  const { data: students } = useGetUserStudentsQuery({ userId: userId! });
   const [deleteStudent] = useDeleteStudentMutation();
+  const [activateStudent] = useActivateStudentMutation();
   const navigate = useNavigate();
   const [filter, setFilter] = useState("");
-  const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
-  const [studentToDelete, setStudentToDelete] = useState<{
+
+  const [studentAction, setStudentAction] = useState<{
     id: string;
     name: string;
+    type: "Dar de alta" | "Dar de baja";
   } | null>(null);
+  const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
 
-  const {
-    data: students,
-    error,
-    isLoading,
-  } = useGetUserStudentsQuery(userId ? { userId, filter } : skipToken);
-
-  if (isLoading) return <p>Cargando...</p>;
-  if (error) return <p>Error al cargar estudiantes</p>;
-
-  const handleDelete = async (studentId: string, studentName: string) => {
-    setStudentToDelete({ id: studentId, name: studentName });
+  const actionHandlers: Record<
+    "Dar de alta" | "Dar de baja",
+    (studentId: string) => void
+  > = {
+    "Dar de baja": (studentId) => {
+      deleteStudent(studentId).unwrap();
+    },
+    "Dar de alta": (studentId) => {
+      activateStudent(studentId).unwrap();
+    },
+  };
+  const handleActionClick = (
+    studentId: string,
+    studentName: string,
+    type: "Dar de alta" | "Dar de baja"
+  ) => {
+    setStudentAction({ id: studentId, name: studentName, type });
     setConfirmDialogOpen(true);
   };
-  const handleConfirmDeleteClick = () => {
-    if (!studentToDelete) return;
-    deleteStudent(studentToDelete.id)
-      .unwrap()
-      .then(() => {
-        setConfirmDialogOpen(false);
-        setStudentToDelete(null);
-      });
-  };
-  const handleCancelDeleteClick = () => {
+  const handleConfirmClick = () => {
+    if (!studentAction) return;
+    actionHandlers[studentAction.type](studentAction.id);
     setConfirmDialogOpen(false);
-    setStudentToDelete(null);
+    setStudentAction(null);
   };
-
+  const handleCancelClick = () => {
+    setConfirmDialogOpen(false);
+    setStudentAction(null);
+  };
   const columns: Column<StudentResponse>[] = [
     { header: "DNI", accessor: "dni" },
     { header: "Nombre", accessor: "name" },
@@ -77,26 +86,53 @@ function Home() {
     {
       header: "Acciones",
       render: (student: StudentResponse) => (
-        <div className="actions-container">
-          <button>
-            <img src={dotsIcon} alt="Dots" className="dots-icon" />
-          </button>
-        </div>
+        <DropdownMenu
+          icon={dotsIcon}
+          options={[
+            {
+              label: "Ver cuotas",
+              onClick: () => navigate(`/cuotas`),
+            },
+            {
+              label: "Ver alumno",
+              onClick: () => navigate(`/detalle-alumno/${student.id}`),
+            },
+            {
+              label: "Editar alumno",
+              onClick: () => navigate(`/editar-alumno/${student.id}`),
+            },
+            {
+              label: student.isActive ? "Dar de baja" : "Dar de alta",
+              onClick: () =>
+                handleActionClick(
+                  student.id,
+                  student.name,
+                  student.isActive ? "Dar de baja" : "Dar de alta"
+                ),
+            },
+          ]}
+        />
       ),
     },
   ];
 
   return (
-    <div className="students-container">
+    <StudentsContainer>
+      <Filter
+        value={filter}
+        onChange={setFilter}
+        placeholder="Buscar por DNI, nombre o apellido"
+      />
       <Table columns={columns} data={students ?? []} />;
-      {confirmDialogOpen && studentToDelete && (
+      {confirmDialogOpen && studentAction && (
         <ConfirmDialog
-          message={`¿Desea eliminar a ${studentToDelete.name}?`}
-          onConfirm={handleConfirmDeleteClick}
-          onCancel={handleCancelDeleteClick}
+          message={`¿Desea ${studentAction.type} a ${studentAction.name}?`}
+          onConfirm={handleConfirmClick}
+          onCancel={handleCancelClick}
         />
       )}
-    </div>
+      |
+    </StudentsContainer>
   );
 }
 export default Home;

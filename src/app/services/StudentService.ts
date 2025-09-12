@@ -52,6 +52,16 @@ export const StudentService = createApi({
         dispatch(UserService.util.invalidateTags(["userStudents"]));
       },
     }),
+    activateStudent: builder.mutation<void, string>({
+      query: (studentId) => ({
+        url: `/${studentId}/activate`,
+        method: "POST",
+      }),
+      onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
+        await queryFulfilled;
+        dispatch(UserService.util.invalidateTags(["userStudents"]));
+      },
+    }),
   }),
 });
 
@@ -60,4 +70,5 @@ export const {
   useCreateStudentMutation,
   useGetStudentByIdQuery,
   useUpdateStudentMutation,
+  useActivateStudentMutation,
 } = StudentService;

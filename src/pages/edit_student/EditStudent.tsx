@@ -1,4 +1,4 @@
-import { useNavigate, useLocation } from "react-router";
+import { useNavigate } from "react-router";
 import { useGetStudentByIdQuery } from "../../app/services/StudentService";
 import { ErrorMessage } from "../../components/header/ErrorMessage";
 import DatePicker from "react-datepicker";
@@ -12,6 +12,7 @@ import toast from "react-hot-toast";
 import { PlanType } from "../../app/types/models/PlanType";
 import { parseDateFromString } from "../../utils/Formatter";
 import { commonStudentsScheme } from "../students/students.scheme";
+import { useParams } from "react-router-dom";
 import "./EditStudent.css";
 import OnlyNumberInput from "../../components/number_input/OnlyNumberInput";
 
@@ -20,8 +21,8 @@ type FormData = yup.InferType<typeof commonStudentsScheme>;
 function EditStudent() {
   const navigate = useNavigate();
   const { userId } = useAuthentication();
-  const { studentId } = useLocation().state;
-  const { data: student } = useGetStudentByIdQuery(studentId);
+  const { studentId } = useParams<{ studentId: string }>();
+  const { data: student } = useGetStudentByIdQuery(studentId!);
   const [updateStudent] = useUpdateStudentMutation();
 
   const {
