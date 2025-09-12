@@ -7,7 +7,6 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Controller } from "react-hook-form";
 import { ErrorMessage } from "../../components/header/ErrorMessage";
-import { PlanType } from "../../app/types/models/PlanType";
 import * as yup from "yup";
 import { useCreateStudentMutation } from "../../app/services/StudentService";
 import useAuthentication from "../../hooks/useAuthentication";

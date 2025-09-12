@@ -1,5 +1,5 @@
 import * as yup from "yup";
-import { PlanType } from "../../app/types/models/PlanType";
+import { PlanTypeName } from "../../app/types/models/PlanTypeName";
 
 export const personalDataScheme = yup.object().shape({
   dni: yup

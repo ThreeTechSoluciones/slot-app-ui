@@ -14,15 +14,17 @@ export const FormContainer=styled.form`
     display: flex;
     flex-direction: column;
 `
-export const Input=styled.input`
+export const Input=styled.input<{ disabled?: boolean }>`
     width:392px;
     height: 56px;
     border-radius:10px;
-    background:none;
-    border:1px solid black;
+    background:${(props) => (props.disabled ? SECONDARY_COLOR: "none")};
+    border:${(props) => (props.disabled ? SECONDARY_COLOR: "1px solid black")};
     color:black;
     font-size:12px;
     padding-left:16px;
+    &:: placeholder {
+        color: ${(props) => (props.disabled ? SECONDARY_COLOR: "black")};;
 `
 
 export const InputDate=styled(Input)`
@@ -89,4 +91,16 @@ export const Button=styled.button`
     &:hover{
         cursor:pointer;
         background: ${TERCIARY_COLOR};
+`
+
+export const Select=styled.select`
+    width:408px;
+    height: 56px;
+    border-radius:10px;
+    background:none;
+    border:1px solid black;
+    color:black;
+    font-size:12px;
+    padding-left:16px;
+    padding-right:16px;
 `

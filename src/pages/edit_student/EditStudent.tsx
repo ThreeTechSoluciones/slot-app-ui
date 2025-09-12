@@ -1,4 +1,4 @@
-import { useNavigate, useLocation } from "react-router";
+/*import { useNavigate, useLocation } from "react-router";
 import { useGetStudentByIdQuery } from "../../app/services/StudentService";
 import { ErrorMessage } from "../../components/header/ErrorMessage";
 import DatePicker from "react-datepicker";
@@ -9,7 +9,7 @@ import * as yup from "yup";
 import { useUpdateStudentMutation } from "../../app/services/StudentService";
 import useAuthentication from "../../hooks/useAuthentication";
 import toast from "react-hot-toast";
-import { PlanType } from "../../app/types/models/PlanType";
+import { PlanTypeName } from "../../app/types/models/PlanTypeName";
 import { parseDateFromString } from "../../utils/Formatter";
 import {  personalDataScheme } from "../students/PersonalData.scheme";
 import "./EditStudent.css";
@@ -190,3 +190,4 @@ function EditStudent() {
 }
 
 export default EditStudent;
+*/

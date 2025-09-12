@@ -1,8 +1,8 @@
 import * as yup from "yup";
-import { PlanType } from "../../app/types/models/PlanType";
+import { PlanTypeName } from "../../app/types/models/PlanTypeName";
 
 
-export const commonStudentsScheme = yup.object().shape({
+export const classDataScheme = yup.object().shape({
 paymentType: yup.string().required("Debe seleccionar un tipo de pago"),
   classesPerWeek: yup
     .number()
@@ -10,6 +10,7 @@ paymentType: yup.string().required("Debe seleccionar un tipo de pago"),
     .required("Debe ingresar la cantidad de días")
     .min(1, "Debe ser al menos 1 día")
     .max(7, "No puede superar los 7 días"),
+    plan:yup.string().required("Debe seleccionar un plan"),
   admissionDate: yup.date().required("La fecha de ingreso es obligatoria"),
   paymentDay: yup
     .number()
@@ -19,7 +20,7 @@ paymentType: yup.string().required("Debe seleccionar un tipo de pago"),
       return originalValue === "" ? null : value;
     })
     .when("paymentType", {
-      is: (val: string) => val === PlanType.DIA_ESPECIFICO,
+      is: (val: string) => val === PlanTypeName.DIA_ESPECIFICO,
       then: (schema) =>
         schema
           .required("Debe ingresar el día de pago")
@@ -30,7 +31,7 @@ paymentType: yup.string().required("Debe seleccionar un tipo de pago"),
     }),
 });
 
-export const studentsScheme = commonStudentsScheme.shape({
+export const studentsScheme = classDataScheme.shape({
   extraDays: yup
     .number()
     .default(0)
@@ -38,7 +39,7 @@ export const studentsScheme = commonStudentsScheme.shape({
       return originalValue === "" ? undefined : value;
     })
     .when("paymentType", {
-      is: (val: string) => val === PlanType.PRINCIPIO_MES,
+      is: (val: string) => val === PlanTypeName.PRINCIPIO_MES,
       then: (schema) =>
         schema
           .required("Debe ingresar los días extras")
