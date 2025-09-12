@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { PRIMARY_COLOR, SECONDARY_COLOR, TERCIARY_COLOR,TEXT_COLOR } from "../../utils/Stylesheet"; "../../utils/Stylesheet";
 
 export const MainContainer=styled.div`
     display: flex;
@@ -6,25 +7,12 @@ export const MainContainer=styled.div`
     align-items: center;
     width: 100%;
     height: 1024px;
-    margin-top:64px;
+    margin-top: 32px; 
+    font-family:'Roboto', sans-serif; 
 `
-    
-
-export const Button=styled.button`
-    width:192px;
-    height: 48px;
-    background: #F0E21E;
-    border-radius:10px;
-    border:none;
-    font-size:12px;
-    color:black;
-`
-
-
 export const FormContainer=styled.form`
     display: flex;
     flex-direction: column;
-    gap: 32px;
 `
 export const Input=styled.input`
     width:392px;
@@ -37,26 +25,24 @@ export const Input=styled.input`
     padding-left:16px;
 `
 
-export const InputDate=styled.input`
-width:372px;
-    height: 56px;
-    border-radius:10px;
-    background:none;
-    border:1px solid black;
-    color:black;
-    padding-left:16px;
+export const InputDate=styled(Input)`
+    width:376px;
     padding-right:16px;
+     font-family: 'Roboto', sans-serif;
+    
 `
-export const Description=styled.input`
+
+export const Description=styled.textarea`
     width:392px;
-    height: 32px;
+    height:108px;
     border-radius:10px;
     background:none;
     border:1px solid black;
-    color:black;
+    color:${TEXT_COLOR};
     font-size:12px;
     padding-left:16px;
-    padding-bottom:98px;
+    padding-top:16px;
+    font-family: 'Roboto', sans-serif;
 `
 
 export const Title=styled.h1`
@@ -67,6 +53,7 @@ export const Title=styled.h1`
 export const ButtonsContainer=styled.div`
     display: flex;  
     gap: 24px;
+    margin-top:32px;
     `
 export const TitleContainer=styled.div`
     width: 100%;
@@ -84,3 +71,22 @@ export const ErrorMessage=styled.p`
     text-align:center;
     align-items:center;
 ` 
+export const Label=styled.p`
+    font-size: 16px;
+    font-weight: bold;
+    margin-top:8px;
+    margin-bottom:8px;
+    padding:0px;
+` 
+export const Button=styled.button`
+    width:192px;
+    height: 48px;
+    background:${PRIMARY_COLOR};
+    border-radius:10px;
+    border:none;
+    font-size:12px;
+    color:black;
+    &:hover{
+        cursor:pointer;
+        background: ${TERCIARY_COLOR};
+`

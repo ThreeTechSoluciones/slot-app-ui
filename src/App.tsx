@@ -8,6 +8,7 @@ import PersonalData from "./pages/students/PersonalData";
 import { PrivateRoute } from "./routes/PrivateRoutes";
 import StudentDetail from "./pages/student_detail/StudentDetail";
 import EditStudent from "./pages/edit_student/EditStudent";
+import ClassData from "./pages/students/ClassData";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
             <Route path="/nuevo-alumno" element={<PersonalData />} />
             <Route path="/detalle-alumno" element={<StudentDetail />} />
             <Route path="/editar-alumno" element={<EditStudent />} />
+            <Route path="/datos-del-turno" element={<ClassData />} />
           </Route>
 
           <Route path="/" element={<Navigate to="/login" />} />

@@ -11,11 +11,11 @@ import useAuthentication from "../../hooks/useAuthentication";
 import toast from "react-hot-toast";
 import { PlanType } from "../../app/types/models/PlanType";
 import { parseDateFromString } from "../../utils/Formatter";
-import { commonStudentsScheme } from "../students/students.scheme";
+import {  personalDataScheme } from "../students/PersonalData.scheme";
 import "./EditStudent.css";
 import OnlyNumberInput from "../../components/number_input/OnlyNumberInput";
 
-type FormData = yup.InferType<typeof commonStudentsScheme>;
+type FormData = yup.InferType<typeof personalDataScheme>;
 
 function EditStudent() {
   const navigate = useNavigate();
