@@ -21,7 +21,7 @@ function App() {
           <Route element={<PrivateRoute />}>
             <Route path="/home" element={<Home />} />
             <Route path="/cuotas" element={<Plans />} />
-            <Route path="/nuevo-alumno" element={<PersonalData />} />
+            <Route path="/datos-personales" element={<PersonalData />} />
             <Route path="/detalle-alumno" element={<StudentDetail />} />
   
             <Route path="/datos-del-turno" element={<ClassData />} />

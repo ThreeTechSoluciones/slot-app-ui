@@ -1,10 +1,11 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { MainContainer, FormContainer, Input, Description, InputDate, Button, Title, ButtonsContainer, TitleContainer, Label} from "./PersonalData.styles";
+import { MainContainer, FormContainer, Input, Description, InputDate, Button, Title, ButtonsContainer, TitleContainer, Label} from "./Students.styles";
 import { personalDataScheme} from "./PersonalData.scheme";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { ErrorMessage } from "../../components/header/ErrorMessage";
 import { useNavigate } from "react-router";
+
 
 
 function PersonalData() {
@@ -17,14 +18,22 @@ type FormData = yup.InferType<typeof personalDataScheme>;
   } = useForm<FormData>({
     resolver: yupResolver(personalDataScheme),
      defaultValues: {
+    name:"",
+    lastName:"",
+    dni:"",
     birthday: new Date(),
+    cellphoneNumber:"",
+    pathologies:"", 
+    
   },
   });
 
   const navigate = useNavigate();
-const onSubmit = (data: FormData) => {
-    console.log("Datos validados:", data);
-    navigate("/datos-del-turno");
+
+
+const onSubmit = (personalData: FormData) => {
+    console.log("Datos validados:", personalData);
+    navigate("/datos-del-turno" ,{ state: { ...personalData } });
   };
   
     return (
@@ -40,8 +49,8 @@ const onSubmit = (data: FormData) => {
                 </div>
                 <div>
                   <Label>Apellido*</Label>
-                <Input placeholder="Apellido" {...register("lastname")}></Input>
-                <ErrorMessage error={errors.lastname} />
+                <Input placeholder="Apellido" {...register("lastName")}></Input>
+                <ErrorMessage error={errors.lastName} />
                 </div>
                 <div>
                   <Label>DNI*</Label>
@@ -55,8 +64,8 @@ const onSubmit = (data: FormData) => {
                 </div>
                 <div>
                   <Label>Número de teléfono*</Label>
-                  <Input placeholder="Número de teléfono" {...register("phoneNumber")}></Input>
-                <ErrorMessage error={errors.phoneNumber} />
+                  <Input placeholder="Número de teléfono" {...register("cellphoneNumber")}></Input>
+                <ErrorMessage error={errors.cellphoneNumber} />
                 </div>
                 <div>
                   <Label>Patologías o enfermedades</Label>

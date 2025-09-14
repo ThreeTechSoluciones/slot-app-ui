@@ -8,8 +8,8 @@ export const personalDataScheme = yup.object().shape({
     .matches(/^[0-9]+$/, "Solo se permiten números, sin puntos ni espacios")
     .max(8, "DNI no puede tener más de 8 números"),
   name: yup.string().required("Debe ingresar el nombre"),
-  lastname: yup.string().required("Debe ingresar el apellido"),
-  phoneNumber: yup
+  lastName: yup.string().required("Debe ingresar el apellido"),
+  cellphoneNumber: yup
     .string()
     .required("Debe ingresar un número de teléfono")
     .min(10, "Debe tener al menos 10 caracteres")

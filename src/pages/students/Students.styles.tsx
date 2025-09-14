@@ -94,7 +94,7 @@ export const Button=styled.button`
 `
 
 export const Select=styled.select`
-    width:408px;
+    width:410px;
     height: 56px;
     border-radius:10px;
     background:none;
@@ -102,5 +102,30 @@ export const Select=styled.select`
     color:black;
     font-size:12px;
     padding-left:16px;
-    padding-right:16px;
+   
+`
+export const Input2=styled(Input)`
+    width:176px;
+`   
+export const InputsContainer=styled.div`
+    display: flex;
+    gap:16px;
+`  
+export const TurnosContainer=styled.div`
+    display: flex;
+    flex-direction: row;
+   
+`   
+export const Icon=styled.img`
+        width:24px;
+        height:24px;
+        position:absolute;
+        margin-left:360px;
+        margin-top:16px;
+        &:hover{   
+            cursor:pointer;
+            transform: scale(1.1);
+`
+export const Container=styled.div`
+    margin:0;
 `
