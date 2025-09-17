@@ -22,8 +22,6 @@ export const classDataScheme = yup.object().shape({
     .nullable()
     .transform((value, originalValue) => (originalValue === "" ? null : value))
     .matches(/^[0-9]+$/, "Solo se permiten números"),
-  planType:yup
-    .string().required("Debe seleccionar un plan"),
   paymentDay: yup
     .number()
     .typeError("Solo se permiten números")

@@ -76,7 +76,7 @@ export const ErrorMessage=styled.p`
 export const Label=styled.p`
     font-size: 16px;
     font-weight: bold;
-    margin-top:8px;
+    margin-top:8ipx;
     margin-bottom:8px;
     padding:0px;
 ` 
@@ -110,6 +110,7 @@ export const Input2=styled(Input)`
 export const InputsContainer=styled.div`
     display: flex;
     gap:16px;
+   
 `  
 export const TurnosContainer=styled.div`
     display: flex;
@@ -128,4 +129,9 @@ export const Icon=styled.img`
 `
 export const Container=styled.div`
     margin:0;
+`
+
+export const Text=styled.p`
+    font-size: 12px;
+    color: ${TEXT_COLOR};
 `

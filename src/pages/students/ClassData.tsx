@@ -1,5 +1,5 @@
 
-import { MainContainer, TitleContainer, FormContainer, Label, InputDate, Input, Title , Button, ButtonsContainer, Select, Input2, InputsContainer, TurnosContainer, Container,Icon} from "./Students.styles";
+import { MainContainer, TitleContainer, FormContainer, Label, InputDate, Input, Title , Button, ButtonsContainer, Select, Input2, InputsContainer, TurnosContainer, Container,Icon, Text} from "./Students.styles";
 import { PlanTypeName } from "../../app/types/models/PlanTypeName";
 import { Plan } from "../../app/types/models/Plan";
 import { useForm } from "react-hook-form";
@@ -27,7 +27,6 @@ function ClassData() {
 
     const PlanTypeNameArray = Object.values(PlanTypeName);
 
-    const PlanArray = Object.values(Plan);
 
     const {
     register,
@@ -45,8 +44,6 @@ function ClassData() {
 
   const PlanTypeNameSelected = watch("paymentType");
 
-  const PlanSelected = watch("planType");
-
   const [createStudent]=useCreateStudentMutation();
 
   const navigate = useNavigate();
@@ -56,14 +53,12 @@ function ClassData() {
   
 
   const onSubmit = async(data: FormData) => {
-    const finalData={...personalData,...data, userId:userId};
+    const classData={...personalData,...data, userId:userId};
     try{
-      await createStudent(finalData).unwrap();
-      console.log("Datos validados:", finalData);
-    navigate("/home");
+      console.log("Datos validados:", classData);
     } catch (error) {
       console.error("Error al crear el alumno:", error);
-      console.log(finalData)
+      console.log(classData)
     }
     
     
@@ -77,11 +72,6 @@ function ClassData() {
           </TitleContainer>
           <FormContainer onSubmit={handleSubmit(onSubmit)}>
             <div>
-              <Label>Fecha de ingreso*</Label> 
-              <InputDate type="date" {...register("admissionDate")}></InputDate>
-              <ErrorMessage error={errors.admissionDate} />
-            </div>
-            <div>
               <Label>Forma de pago*</Label>
               <Select {...register("paymentType")}>Forma de pago*
                 <option value="" disabled selected>Seleccione una opción</option>
@@ -93,8 +83,13 @@ function ClassData() {
               </div>
               <div>
               <Label>Datos del pago</Label>
+            
                 {PlanTypeNameSelected === "" && (
-                  <Input disabled={PlanTypeNameSelected===""}></Input>)}
+                    <div>
+                       <Text>Este campo se habilitará una vez seleccione el plan de pago</Text>
+                  <Input disabled={PlanTypeNameSelected===""}></Input>
+                    </div>)}
+                    
                 {PlanTypeNameSelected === "Día específico" && (
                   <><Input placeholder="Día de pago"  {...register("paymentDay")}/>
                   <ErrorMessage error={errors.paymentDay} /></>
@@ -111,32 +106,10 @@ function ClassData() {
                     </div>
                     
                   </InputsContainer>)}
-              </div>
-              <div>
-                <Label>Plan</Label>
-                  <Select {...register("planType")}>
-                    <option value="" disabled selected>Seleccione una opción</option>
-                    {PlanArray.map((plan)=>(
-                      <option key={plan} value={plan}>{plan}</option>
-                    ))}
-                  </Select>
-                   <ErrorMessage error={errors.planType} />
-              </div>
-              <div>
-                <Label>Turnos*</Label>
-                <TurnosContainer>
-                  <Container>
-                  <Input placeholder="Asignar turnos" readOnly disabled={PlanSelected===""}></Input>
-                  {/*PlanSelected!="" && (
-                    <ErrorMessage  error={errors.classes} />
-                  )*/}
-                  </Container>
-                  <Icon src={plusIcon} ></Icon>
-                </TurnosContainer> 
-              </div>        
+              </div>    
               <ButtonsContainer>
                 <Button type="button" onClick={()=>navigate("/datos-personales")}>Atrás</Button>
-                <Button type="submit">Registrar</Button>
+                <Button type="submit">Siguiente</Button>
               </ButtonsContainer>
           </FormContainer> 
         </MainContainer>
