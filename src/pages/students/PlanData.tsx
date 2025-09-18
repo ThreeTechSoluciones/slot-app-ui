@@ -2,10 +2,12 @@ import { useForm } from "react-hook-form";
 import { Plan } from "../../app/types/models/Plan";
 import { ErrorMessage } from "../../components/header/ErrorMessage";
 import { planDataScheme } from "./PlanData.scheme";
-import { MainContainer, Label, Select, Title, TitleContainer, SecondaryContainer} from "./PlanData.styles";
+import { MainContainer, Label, Select, Title, TitleContainer, SecondaryContainer, Button, ButtonsContainer} from "./PlanData.styles";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Calender from "../../components/calender/calender";
+import { useNavigate } from "react-router";
+
 
 
 
@@ -13,14 +15,10 @@ function PlanData() {
 
     type FormData = yup.InferType<typeof planDataScheme>;
     const PlanArray = Object.values(Plan);
-
+    const navigate=useNavigate();
 
     const {
         register,
-        handleSubmit,
-        watch,
-        resetField,
-        control,
         formState: { errors },
       } = useForm<FormData>({
         resolver: yupResolver(planDataScheme),
@@ -31,8 +29,6 @@ function PlanData() {
             <TitleContainer> 
                 <Title>REGISTRAR NUEVO ALUMNO</Title>
             </TitleContainer>
-            
-            
             <SecondaryContainer>
                 <Label>Plan</Label>
                   <Select {...register("planType")}>
@@ -42,8 +38,12 @@ function PlanData() {
                     ))}
                   </Select>
                    <ErrorMessage error={errors.planType} />
+                   <Calender />
               </SecondaryContainer>
-              <Calender />
+              <ButtonsContainer>
+                <Button onClick={() => navigate("/datos-del-turno")}>Atrás</Button>
+                <Button>Registrar</Button>
+              </ButtonsContainer>
         </MainContainer>    
          
     )

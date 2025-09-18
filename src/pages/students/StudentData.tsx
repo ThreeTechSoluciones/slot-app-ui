@@ -9,7 +9,7 @@ import { MainContainer,
         ButtonsContainer, 
         TitleContainer, 
         Label} 
-        from "./Students.styles";
+        from "./StudentData.styles";
 import { StudentDataScheme } from "./StudentData.scheme";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";

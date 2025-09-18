@@ -15,7 +15,6 @@ function Calender() {
               <Hora key={turno}>{turno}</Hora>
             ) : (
               <Hora key={idx} style={{ opacity: 0.5, pointerEvents: "none", border: "2px solid gray" }}>
-                -
               </Hora>
             );
           })}

@@ -46,6 +46,7 @@ function PaymentData() {
     const onSubmit = (paymentData: FormData) => {
       const data={...studentData,...paymentData, };
       console.log("Datos validados:", data);
+      navigate("/datos-del-plan",{ state: { ...data }});
     };
   
     return(
