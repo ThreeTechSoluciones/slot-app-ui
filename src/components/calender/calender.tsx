@@ -1,16 +1,27 @@
 import { calenderData } from "./calenderData"
-import { Column, MainContainer } from "./calender.styles"
+import { Column, MainContainer, Day, Hora} from "./calender.styles"
 
-function Calender (){
-    return(
-        <MainContainer>
-            {calenderData.map((day)=>(
-            <Column key={day.dia}>
-                <h3>{day.dia}</h3>
-            </Column>
-            ))}
-                
-        </MainContainer>
-    )
+const maxTurnos = Math.max(...calenderData.map(day => day.turnos.length)); 
+
+function Calender() {
+  return (
+    <MainContainer>
+      {calenderData.map((day) => (
+        <Column key={day.dia}>
+          <Day>{day.dia}</Day>
+          {Array.from({ length: maxTurnos }).map((_, idx) => {
+            const turno = day.turnos[idx];
+            return turno ? (
+              <Hora key={turno}>{turno}</Hora>
+            ) : (
+              <Hora key={idx} style={{ opacity: 0.5, pointerEvents: "none", border: "2px solid gray" }}>
+                -
+              </Hora>
+            );
+          })}
+        </Column>
+      ))}
+    </MainContainer>
+  );
 }
 export default Calender;
