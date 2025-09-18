@@ -4,11 +4,11 @@ import Header from "./components/header/header";
 import Login from "./pages/login/Login";
 import Home from "./pages/home/Home";
 import Plans from "./pages/plans/Plans";
-import PersonalData from "./pages/students/PersonalData";
+import StudentData from "./pages/students/StudentData";
 import { PrivateRoute } from "./routes/PrivateRoutes";
 import StudentDetail from "./pages/student_detail/StudentDetail";
 //import EditStudent from "./pages/edit_student/EditStudent";
-import ClassData from "./pages/students/ClassData";
+import PaymentData from "./pages/students/PaymentData";
 import PlanData from "./pages/students/PlanData";
 import Calender from  "./components/calender/calender";
 
@@ -23,10 +23,10 @@ function App() {
           <Route element={<PrivateRoute />}>
             <Route path="/home" element={<Home />} />
             <Route path="/cuotas" element={<Plans />} />
-            <Route path="/datos-personales" element={<PersonalData />} />
+            <Route path="/datos-personales" element={<StudentData />} />
             <Route path="/detalle-alumno" element={<StudentDetail />} />
   
-            <Route path="/datos-del-turno" element={<ClassData />} />
+            <Route path="/datos-del-turno" element={<PaymentData />} />
             <Route path="/datos-del-plan" element={<PlanData />} />
             <Route path="/calendario" element={<Calender />} />
             

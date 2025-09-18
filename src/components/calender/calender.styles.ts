@@ -1,5 +1,6 @@
 import styled from "styled-components";
-import { SECONDARY_COLOR } from "../../utils/Stylesheet";
+import { FONT_FAMILY, SECONDARY_COLOR, SUCCESS_COLOR } from "../../utils/Stylesheet";
+
 
 export const MainContainer = styled.div`
     display:flex;
@@ -8,10 +9,9 @@ export const MainContainer = styled.div`
     align-items: flex-start;
     border-left:5px solid ${SECONDARY_COLOR};
     border-bottom:5px solid ${SECONDARY_COLOR};
-    font-family: 'Roboto', sans-serif;
     margin-top:32px;
     margin-bottom:32px;
-    max-height: 30vw;     // corregido el typo
+    max-height: 25vw;     // corregido el typo
     overflow-x: auto;  
     
 `  
@@ -41,20 +41,22 @@ margin-top: 0px;
     font-weight: bold;
     color: black;
     background-color:${SECONDARY_COLOR};
+    family-font= ${FONT_FAMILY};
 `
 export const Hora = styled.button`
 display:flex;   
 width: 72px;
-    height:24px;
+    height:28px;
     border-radius:10px;
     justify-content:center;
     align-items:center;
-    border:solid 2px green;
+    border:solid 2px ${SUCCESS_COLOR};
     text-align:Center;
     justify-content:center;
     items-align:center;
     color:black;
     background-color: white;
+    family-font=${FONT_FAMILY};
     &:hover{   
             cursor:pointer;
            

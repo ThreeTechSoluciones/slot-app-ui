@@ -2,9 +2,10 @@ import { useForm } from "react-hook-form";
 import { Plan } from "../../app/types/models/Plan";
 import { ErrorMessage } from "../../components/header/ErrorMessage";
 import { planDataScheme } from "./PlanData.scheme";
-import { MainContainer, Label, Select, Title, TitleContainer} from "./Students.styles";
+import { MainContainer, Label, Select, Title, TitleContainer, SecondaryContainer} from "./PlanData.styles";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import Calender from "../../components/calender/calender";
 
 
 
@@ -32,7 +33,7 @@ function PlanData() {
             </TitleContainer>
             
             
-            <div>
+            <SecondaryContainer>
                 <Label>Plan</Label>
                   <Select {...register("planType")}>
                     <option value="" disabled selected>Seleccione una opción</option>
@@ -41,8 +42,10 @@ function PlanData() {
                     ))}
                   </Select>
                    <ErrorMessage error={errors.planType} />
-              </div>
+              </SecondaryContainer>
+              <Calender />
         </MainContainer>    
+         
     )
 }
 

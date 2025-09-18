@@ -1,5 +1,9 @@
+import "@fontsource/inter/500.css";
 export const PRIMARY_COLOR="#F0E21E";
 export const SECONDARY_COLOR="#F0F0F0";
-export const TERCIARY_COLOR="#7C7C7C"; 
+export const TERTIARY_COLOR="#7C7C7C"; 
 export const TEXT_COLOR="#000000";
 export const BACKGROUND_COLOR="#FFFFFF";
+export const ERROR_COLOR="#E32626"
+export const SUCCESS_COLOR="#20C92B"
+export const FONT_FAMILY = "'Inter', sans-serif";
