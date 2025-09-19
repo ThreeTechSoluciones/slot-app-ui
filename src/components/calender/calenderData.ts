@@ -1,23 +1,23 @@
-export const calenderData =
-[
+
+export const calenderData = [
   {
-    "dia": "Lun",
-    "turnos": ["09:00", "13:00", "17:00"]
+    day: "Lun",
+    shifts: [{id:"25", hour:"9:00"}]
   },
   {
-    "dia": "Mar",
-    "turnos": ["09:00", "13:00", "17:00"]
+    day: "Mar",
+    shifts: [{id:"26", hour:"9:00"}]
   },
   {
-    "dia": "Mie",
-    "turnos": ["09:00", "13:00", "17:00", "18:00"]
+    day: "Mie",
+    shifts: [{id:"27", hour:"9:00"}]
   },
   {
-    "dia": "Jue",
-    "turnos": ["09:00", "13:00", "17:00"]
+    day: "Jue",
+    shifts: [{id:"28", hour:"9:00"}]
   },
   {
-    "dia": "Vie",
-    "turnos": ["09:00", "13:00", "17:00","09:00", "13:00", "17:00","09:00", "13:00", "17:00", "09:00", "13:00", "17:00"]
-  },
-]
+    day: "Vie",
+    shifts: [{id:"29", hour:"9:00"}]
+  }
+];

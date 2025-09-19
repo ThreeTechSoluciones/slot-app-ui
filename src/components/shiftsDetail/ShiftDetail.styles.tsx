@@ -7,13 +7,15 @@ import { BORDER_RADIUS,
 
 
 export const ShiftDetailContainer = styled.div `
-    width:100%;
+    width:620px;
+    max-width:620px;
     height:172px;
     border: 5px solid ${SECONDARY_COLOR};
     display:flex;
     flex-direction: column;
     border-radius:${BORDER_RADIUS};
     gap:16px;  
+    overflow-x: auto;
 `
 
 export const Title = styled.h2 `
@@ -30,7 +32,10 @@ export const ShiftContainer = styled.div`
     display:flex;
     flex-direction:row;
     gap:24px;
-    margin-left:32px;
+    padding-left:32px;
+     min-width: max-content; 
+     overflow-x: auto; 
+      max-width: 100%;
 `
 export const Shift = styled.div`
     display:flex;

@@ -1,17 +1,25 @@
 import { useState } from "react";
 
-export function useShiftHandler() {
-  const [shifts, setShifts] = useState<{ day: string[]; hour: string[] }>({
-    day: [],
-    hour: []
-  });
+type Shift={
+    id: string;
+    day: string;
+    hour: string;
+}
 
-  const newShift = (day: string, hour: string) => {
-    setShifts(prev => ({
-      day: [...prev.day, day],
-      hour: [...prev.hour, hour]
-    }));
+export function useShiftHandler() {
+
+  const [shifts, setShifts] = useState<Shift[]>([]);
+
+  const newShift = (id:string, day:string, hour:string) => {
+    setShifts((prev) => [...prev, { id, day, hour }]);
   };
 
-  return { shifts, newShift};
+  const removeShift = (id:string, day:string, hour:string) => {
+    setShifts((prev) =>
+      prev.filter((s) => !(s.id === id ))
+    );
+  };
+
+  return { shifts, newShift, removeShift };
 }
+

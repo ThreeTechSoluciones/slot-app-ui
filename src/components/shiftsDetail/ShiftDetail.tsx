@@ -8,11 +8,14 @@ import { ShiftDetailContainer,
 import CalenderIcon from "../../assets/CalenderIcon.png"
 
 
+type Shift={
+    id: string;
+    day: string;
+    hour: string;
+}
+
 interface ShiftDetailProps {
-    shifts: {
-        day: string[];
-        hour : string [];
-    }
+    shifts: Shift[];
 }
 
 function ShiftDetail({shifts}: ShiftDetailProps){
@@ -23,10 +26,10 @@ function ShiftDetail({shifts}: ShiftDetailProps){
                 <img src={CalenderIcon} width={"24px"} height={"24px"}></img>Turnos asignados
             </Title>
             <ShiftContainer>
-                {shifts.day.map((day, index)=>(
-                    <Shift key={index}>
-                        <Text1>{day}</Text1>
-                        <Text2>{shifts.hour[index]} hs</Text2>
+                {shifts.map((shift, id)=>(
+                    <Shift key={shift.id}>
+                        <Text1>{shift.day}</Text1>
+                        <Text2>{shift.hour} hs</Text2>
                     </Shift>
                 ))}
             </ShiftContainer>

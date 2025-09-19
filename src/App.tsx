@@ -10,7 +10,7 @@ import StudentDetail from "./pages/student_detail/StudentDetail";
 //import EditStudent from "./pages/edit_student/EditStudent";
 import PaymentData from "./pages/students/PaymentData";
 import PlanData from "./pages/students/PlanData";
-import Calender from  "./components/calender/calender";
+
 
 
 function App() {
@@ -29,7 +29,7 @@ function App() {
   
             <Route path="/datos-del-turno" element={<PaymentData />} />
             <Route path="/datos-del-plan" element={<PlanData />} />
-            <Route path="/calendario" element={<Calender />} />
+           
             
             
             

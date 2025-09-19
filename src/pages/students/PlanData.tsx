@@ -18,7 +18,7 @@ function PlanData() {
     const PlanArray = Object.values(Plan);
     const navigate=useNavigate();
     
-    const {shifts, newShift}=useShiftHandler();
+    const {shifts, newShift, removeShift}=useShiftHandler();
     const {
         register,
         formState: { errors },
@@ -40,7 +40,7 @@ function PlanData() {
                     ))}
                   </Select>
                    <ErrorMessage error={errors.planType} />
-                   <Calender onSeleccionTurno={newShift} />
+                   <Calender  selectedShifts={shifts}  onSeleccionTurno={newShift} onEliminarTurno={removeShift}  />
                    <ShiftDetail shifts ={shifts}/>
               </SecondaryContainer>
               <ButtonsContainer>
