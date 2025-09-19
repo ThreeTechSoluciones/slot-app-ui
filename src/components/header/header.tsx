@@ -1,4 +1,3 @@
-import { persistor } from "../../app/store/store";
 import useAuthentication from "../../hooks/useAuthentication";
 import PlusIcon from "../../assets/plus-icon.webp";
 import LogoCeci from "../../assets/logoCeci.png";
