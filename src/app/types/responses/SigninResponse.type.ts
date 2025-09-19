@@ -1,5 +1,5 @@
 export interface SigninResponse {
-  userId: string;
-  accessToken: string;
-  refreshToken: string;
+  userId: string | null;
+  accessToken: string | null;
+  refreshToken: string | null;
 }

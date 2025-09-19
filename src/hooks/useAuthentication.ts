@@ -1,14 +1,14 @@
-import { useSigninMutation } from "../app/services/AuthService";
+import { useSelector } from "react-redux";
+import { store } from "../app/store/store";
 
 const useAuthentication = () => {
-  const [, { data }] = useSigninMutation({ fixedCacheKey: "shared-auth" });
-  console.log('updating useAuth')
-  if (!data) return { isAuthenticated: false };
+  const auth = useSelector((state: ReturnType<typeof store.getState>) => state.auth);
+  if(!auth.user) return { isAuthenticated: false };
 
   return {
-    isAuthenticated: data.accessToken != null,
-    userId: data.userId,
-    accessToken: data.accessToken,
+    isAuthenticated: auth.user.accessToken != null,
+    userId: auth.user.userId,
+    accessToken: auth.user.accessToken,
   };
 };
 
