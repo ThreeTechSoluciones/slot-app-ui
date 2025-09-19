@@ -7,3 +7,4 @@ export const BACKGROUND_COLOR="#FFFFFF";
 export const ERROR_COLOR="#E32626"
 export const SUCCESS_COLOR="#20C92B"
 export const FONT_FAMILY = "'Inter', sans-serif";
+export const BORDER_RADIUS= "10px";

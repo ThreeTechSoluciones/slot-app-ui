@@ -12,6 +12,7 @@ import PaymentData from "./pages/students/PaymentData";
 import PlanData from "./pages/students/PlanData";
 import Calender from  "./components/calender/calender";
 
+
 function App() {
   return (
     <>
@@ -29,6 +30,8 @@ function App() {
             <Route path="/datos-del-turno" element={<PaymentData />} />
             <Route path="/datos-del-plan" element={<PlanData />} />
             <Route path="/calendario" element={<Calender />} />
+            
+            
             
           </Route>
 

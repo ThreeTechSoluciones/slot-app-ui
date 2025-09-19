@@ -7,7 +7,8 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Calender from "../../components/calender/calender";
 import { useNavigate } from "react-router";
-
+import ShiftDetail from "../../components/shiftsDetail/ShiftDetail";
+import { useShiftHandler } from "../../components/calender/ShiftHandler";
 
 
 
@@ -16,7 +17,8 @@ function PlanData() {
     type FormData = yup.InferType<typeof planDataScheme>;
     const PlanArray = Object.values(Plan);
     const navigate=useNavigate();
-
+    
+    const {shifts, newShift}=useShiftHandler();
     const {
         register,
         formState: { errors },
@@ -38,7 +40,8 @@ function PlanData() {
                     ))}
                   </Select>
                    <ErrorMessage error={errors.planType} />
-                   <Calender />
+                   <Calender onSeleccionTurno={newShift} />
+                   <ShiftDetail shifts ={shifts}/>
               </SecondaryContainer>
               <ButtonsContainer>
                 <Button onClick={() => navigate("/datos-del-turno")}>Atrás</Button>
