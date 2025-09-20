@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, {keyframes} from "styled-components";
 
 export const MainContainer = styled.div`
     display:flex; 
@@ -16,16 +16,37 @@ export const SecondaryContainer = styled.div`
     align-items: center; 
     font-size:16px;  
 `
-export const TerciaryContainer = styled(SecondaryContainer)`
+export const TertiaryContainer = styled(SecondaryContainer)`
   gap:24px;
   margin-right:80px;    
 `
+
+const blurEffect = keyframes`
+  0% {
+    filter: blur(0);
+  }
+  50% {
+    filter: blur(1px);
+  }
+  100% {
+    filter: blur(0);
+  }
+`;
+
+const boldEffect = keyframes`
+  0% {
+    font-weight: 400;
+  }
+  100% {
+    font-weight: 700;
+  }
+`;
 
 export const Options = styled.div`
     width: 172px;
     min-height: 16px; 
     display:flex;
-    justify-content:Center;
+    justify-content:center;
     text-align:center;
     align-items: center; 
     border-right: 2px solid black;
@@ -33,7 +54,9 @@ export const Options = styled.div`
       cursor:pointer;
       font-size:17px;
       font-weight:bold;
-      transition: font-size 0.3s ease;
+      transition: font-size 0.3s ease-in-out;
+      animation: ${blurEffect} 0.5s forwards, ${boldEffect} 0.3s forwards;
+    }
 `
 
 export const NewStudent = styled(Options)`
@@ -47,7 +70,7 @@ export const NewStudent = styled(Options)`
 `
 
 export const Logo = styled.div`
- width: 72px;
+  width: 72px;
   height: 72px;
   border-radius: 50%;
   overflow: hidden;
@@ -58,7 +81,6 @@ export const Logo = styled.div`
   }
 
 `
-
 export const Photo= styled(Logo)`
   border: 2px solid black;
 `
@@ -66,7 +88,7 @@ export const Logout= styled.div`
   width: 88px;
   min-height: 54px; 
   display:flex;
-  justify-content:Center;
+  justify-content:center;
   text-align:center;
   align-items: center; 
   line-height:16px;
@@ -78,10 +100,15 @@ export const Logout= styled.div`
     cursor:pointer;
     font-size:17px;
     font-weight:bold;
-    transition: font-size 0.3s ease;
+    transition: font-size 0.3s ease-in-out;
+    animation: ${blurEffect} 0.5s forwards, ${boldEffect} 0.3s forwards;
     img {
     width: 34px;
     height: 34px;
+    }
   }
-
 `
+
+
+
+

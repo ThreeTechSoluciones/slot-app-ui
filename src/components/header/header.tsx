@@ -7,7 +7,7 @@ import PerfilPicture from "../../assets/perfil.jpg"
 import {MisAlumnos, NuevoAlumno, MisPlanes, Login} from "../../routes/routes"
 import { MainContainer, 
         SecondaryContainer, 
-        TerciaryContainer , 
+        TertiaryContainer , 
         Logo,  
         NewStudent, 
         Logout, 
@@ -47,7 +47,7 @@ function Header() {
               src={PlusIcon}
             /></NewStudent>
       </SecondaryContainer>
-      <TerciaryContainer>
+      <TertiaryContainer>
         <Logout onClick={() => setShowConfirm(true)}><img 
               src={LogoutIcon}
             />Cerrar sesión</Logout>
@@ -59,7 +59,7 @@ function Header() {
         />
       )}
         <Photo>  <img src={PerfilPicture} alt="Foto de perfil" /></Photo>
-      </TerciaryContainer>
+      </TertiaryContainer>
 
     </MainContainer>
     )
