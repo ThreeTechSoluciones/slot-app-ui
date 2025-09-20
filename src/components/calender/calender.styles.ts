@@ -11,7 +11,7 @@ export const MainContainer = styled.div`
     border-bottom:5px solid ${SECONDARY_COLOR};
     margin-top:32px;
     margin-bottom:32px;
-    max-height: 20vw;     // corregido el typo
+    max-height: 20vw;     
     overflow-x: auto;  
     
 `  
