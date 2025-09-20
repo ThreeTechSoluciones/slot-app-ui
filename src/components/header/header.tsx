@@ -1,4 +1,3 @@
-import { persistor } from "../../app/store/store";
 import useAuthentication from "../../hooks/useAuthentication";
 import PlusIcon from "../../assets/plus-icon.webp";
 import LogoCeci from "../../assets/logoCeci.png";
@@ -16,18 +15,18 @@ import { MainContainer,
 import { useNavigate } from "react-router";
 import { ConfirmDialog } from "../confirm_dialog/ConfirmDialog";
 import { useState } from "react";
-
-
+import { useDispatch } from "react-redux";
+import { clearUser } from "../../app/slices/AuthSlice";
 
 function Header() {
 
+  const dispatch = useDispatch();
   const { isAuthenticated } = useAuthentication();
 
   const handleLogout = () => {
-      persistor.purge();
-      setShowConfirm(false);
-      navigate(Login);
-      window.location.reload();
+    setShowConfirm(false);
+    dispatch(clearUser())
+    navigate(Login);
   };
 
 

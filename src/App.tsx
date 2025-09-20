@@ -12,7 +12,6 @@ import useAuthentication from "./hooks/useAuthentication";
 
 function App() {
   const { isAuthenticated } = useAuthentication();
-  console.log('updated???', isAuthenticated)
   return (
     <>
       { isAuthenticated ? <Header /> : null }
