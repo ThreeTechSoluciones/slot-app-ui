@@ -28,92 +28,93 @@ import toast from "react-hot-toast";
 
 function PlanData() {
 
-    type FormData = yup.InferType<typeof planDataScheme>;
+  type FormData = yup.InferType<typeof planDataScheme>;
    
-    const navigate=useNavigate();
+  const navigate=useNavigate();
 
-    const [createStudent] = useCreateStudentMutation();
+  const { userId } = useAuthentication();
+
+  const [createStudent] = useCreateStudentMutation();
+
+  const { data: planTypes } = useGetUserPlansQuery(userId!);
     
-    const {shifts, newShift, removeShift}=useShiftHandler();
+  const {shifts, newShift, removeShift}=useShiftHandler();
+
+  const studentDataFromSlice = useSelector(
+      (state: RootState) => state.studentRegistrationForm
+  );
+
+  const studentRegistrationForm = useSelector((state: RootState) => state.studentRegistrationForm);
+  
+  const dispatch = useDispatch();
     
-    const {
-        register,
-        getValues,
-        handleSubmit,
-        formState: { errors },
-      } = useForm<FormData>({
-        resolver: yupResolver(planDataScheme),
-      });
-
-      const { userId } = useAuthentication();
+  const {
+    register,
+    handleSubmit,
+    getValues,
+    formState: { errors },
+  } = useForm<FormData>({
+    resolver: yupResolver(planDataScheme),
+    defaultValues: studentRegistrationForm,
+  });
+  
+  const onSubmit = async (planData: FormData) => {
     
-      const { data: planTypes } = useGetUserPlansQuery(userId!);
+    if (!userId) {
+      throw new Error("No se encontró un userId válido");
+    }
 
-      const studentDataFromSlice = useSelector(
-  (state: RootState) => state.studentRegistrationForm
-);
-
-const dispatch = useDispatch();
-
-const onSubmit = async (planData: FormData) => {
-  console.log("hola")
-  if (!userId) {
-  throw new Error("No se encontró un userId válido");
-}
-
-  const createStudentRequest = {
-    ...studentDataFromSlice,
-    ...planData,
-    userId,
-    admissionDate: new Date(),
-     pathologies: studentDataFromSlice.pathologies ?? null,
-     extraClasses: studentDataFromSlice.extraClasses ?? undefined,
+    const createStudentRequest = {
+      ...studentDataFromSlice,
+      ...planData,
+      admissionDate: new Date(),
+      userId,
+      pathologies: studentDataFromSlice.pathologies ?? null,
+      extraClasses: studentDataFromSlice.extraClasses ?? undefined,
       classPrice: studentDataFromSlice.classPrice ?? undefined,
       paymentDay: studentDataFromSlice.paymentDay ?? undefined,
-  };
-  dispatch(setStudentData(createStudentRequest));
-  console.log(createStudentRequest)
+      birthday: new Date(studentDataFromSlice.birthday),
+    };
+      
+      try {
+        await createStudent(createStudentRequest).unwrap();;
+        navigate("/home")
+        toast.success("Estudiante creado con éxito") 
+      } catch (error) {
+      toast.error("Ha ocurrido un error en la creación del estudiante");
+      }
+    };
 
-  
-
-  try {
-    await createStudent(createStudentRequest);
-    console.log("Estudiante creado");
-    toast.success("Estudiante creado con éxito")
-    navigate("/home")
-  } catch (error) {
-    console.error("Error al crear el estudiante", error);
-  }
-};
-
-
-
+    const stepBack = () => {
+        const planData = getValues();
+        dispatch(setStudentData(planData));
+        navigate("/datos-del-turno");
+      };
     
-    return(
-        <MainContainer>
-            <TitleContainer> 
-                <Title>REGISTRAR NUEVO ALUMNO</Title>
-            </TitleContainer>
-            <FormContainer onSubmit={handleSubmit(onSubmit)}>
-                <Label>Plan</Label>
-                  <Select {...register("planId")}>
-                    <option value="" disabled selected>Seleccione una opción</option>
-                    {planTypes?.map((plan)=>(
-                      <option key={plan.id} value={plan.id}>{plan.name}</option>
-                    ))}
-                  </Select>
-                   <ErrorMessage error={errors.planId} />
-                   <Calender  selectedShifts={shifts}  onSeleccionTurno={newShift} onDeleteShift={removeShift}  />
-                   <ShiftDetail shifts ={shifts}/>
-              <ButtonsContainer>
-                <Button onClick={() => navigate("/datos-del-turno")}>Atrás</Button>
-                <Button type="submit">Registrar</Button>
-              </ButtonsContainer>
-              </FormContainer>
-              
-        </MainContainer>    
-         
-    )
+
+  return(
+    <MainContainer>
+      <TitleContainer> 
+        <Title>REGISTRAR NUEVO ALUMNO</Title>
+      </TitleContainer>
+      <FormContainer onSubmit={handleSubmit(onSubmit)}>
+        <Label>Plan</Label>
+        <Select {...register("planId")}>
+          <option value="" disabled selected>Seleccione una opción</option>
+          {planTypes?.map((plan)=>(
+            <option key={plan.id} value={plan.id}>{plan.name}</option>
+          ))}
+        </Select>
+        <ErrorMessage error={errors.planId} />
+        <Calender  selectedShifts={shifts}  onSeleccionTurno={newShift} onDeleteShift={removeShift}  />
+        <ShiftDetail shifts ={shifts}/>
+        <ButtonsContainer>
+          <Button type="button" onClick={stepBack}>Atrás</Button>
+          <Button type="submit">Registrar</Button>
+        </ButtonsContainer>
+      </FormContainer>
+    </MainContainer>        
+  )
 }
 export default PlanData;
 

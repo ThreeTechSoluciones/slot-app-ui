@@ -6,7 +6,7 @@ interface StudentRegistrationForm {
   lastName: string;
   dni: string;
   cellphoneNumber: string;
-  birthday: Date;
+  birthday: string;
   pathologies?: string|null; 
   paymentPlanName: string;
   extraClasses?: number; 
@@ -20,7 +20,7 @@ const initialState : StudentRegistrationForm ={
     lastName:"",
     dni:"",
     cellphoneNumber:"",
-    birthday:new Date(),
+    birthday:"",
     pathologies:"",
     paymentPlanName:"",
     planId:"",

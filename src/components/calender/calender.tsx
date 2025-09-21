@@ -26,7 +26,7 @@ function Calender({
             const shift = day.shifts[idx];
             const isSelected = selectedShifts.some(s => s.id === shift.id);
             return shift ? (
-              <Hora key={shift.id} onClick={() => {
+              <Hora type="button" key={shift.id} onClick={() => {
                 if (isSelected) {
                   onDeleteShift(shift.id, day.day, shift.hour); 
                 } else {
@@ -37,7 +37,7 @@ function Calender({
                 {shift.hour}
               </Hora>
             ) : (
-              <Hora key={idx} style={{ opacity: 0.5, pointerEvents: "none", border: "2px solid gray" }}>
+              <Hora key={idx} type="button" style={{ opacity: 0.5, pointerEvents: "none", border: "2px solid gray" }}>
               </Hora>
             );
           })}

@@ -19,14 +19,26 @@ export const StudentDataScheme = yup.object().shape({
   pathologies: yup
     .string().notRequired().default(null),
   birthday: yup
-    .date()
+    .string()
     .required("Debe ingresar una fecha de nacimiento")
     //esto se aplica para evitar que el campo quede vacío y de error de formato
     .transform((value, originalValue) => {
       return originalValue === "" ? null : value;
     })
-    .max(
-      new Date(new Date().setFullYear(new Date().getFullYear() - 15)),
-      "Debe tener al menos 15 años"
-    ),
+    .test("age", "El estudiante debe ser mayor de 15 años", (value) => {
+      if (!value) return false;
+
+      const today = new Date(); // ✅ definimos hoy dentro del test
+      const birthDate = new Date(value);
+
+      let age = today.getFullYear() - birthDate.getFullYear();
+      const m = today.getMonth() - birthDate.getMonth();
+      if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+      }
+
+      return age >= 15;
+    }),
 });
+   
+

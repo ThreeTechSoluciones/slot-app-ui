@@ -3,7 +3,8 @@ import { PRIMARY_COLOR,
         SECONDARY_COLOR, 
         TERTIARY_COLOR,
         TEXT_COLOR, 
-        FONT_FAMILY } 
+        FONT_FAMILY, 
+        BORDER_RADIUS} 
     from "../../utils/Stylesheet"; 
 
 export const MainContainer=styled.div`
@@ -36,7 +37,7 @@ export const BaseStyle = styled.input`
     width:392px;
     height: 56px;
     border: 1px solid black;
-    border-radius:10px;
+    border-radius:${BORDER_RADIUS};
     font-size:12px;
     padding-left:16px;
     background:none;
@@ -44,11 +45,17 @@ export const BaseStyle = styled.input`
     font-family: ${FONT_FAMILY};
     &::placeholder {
         color: ${ TERTIARY_COLOR};
+    }
+`
+export const FormContainer = styled.form`
+    display:flex;
+    align-items:right;
+    flex-direction:column;  
 `
 export const Select = styled(BaseStyle).attrs({ as: "select" })`
     width:410px;
     height: 56px;
-    border-radius:10px;
+    border-radius:${BORDER_RADIUS};
     background:none;
     border:1px solid black;
     color:black;
@@ -61,6 +68,7 @@ export const Input = styled(BaseStyle)<{ disabled?: boolean }>`
     border:${(props) => (props.disabled ? SECONDARY_COLOR: "1px solid black")};
     &::placeholder {
         color: ${(props) => (props.disabled ? SECONDARY_COLOR: TERTIARY_COLOR)};;
+    }
 `
 export const Input2=styled(Input)`
     width:176px;
@@ -74,28 +82,26 @@ export const ButtonsContainer=styled.div`
     gap: 24px;
     margin-top:32px;
     margin-bottom: 32px;
+    text-align:center;
+    align-items:center;
+    justify-content:center;
  `
 export const Button=styled.button`
     width:192px;
     height: 48px;
     background:${PRIMARY_COLOR};
     font-family: ${FONT_FAMILY};
-    border-radius:10px;
+    border-radius:${BORDER_RADIUS};
     border:none;
     font-size:12px;
     color:black;
     &:hover{
         cursor:pointer;
         background: ${TERTIARY_COLOR};
+    }
 `
 export const Text=styled.p`
     font-size: 12px;
     color: ${TEXT_COLOR};
     font-family: ${FONT_FAMILY};
-`
-export const FormContainer = styled.form`
-    display:flex;
-    align-items:right;
-    flex-direction:column;
-    
 `

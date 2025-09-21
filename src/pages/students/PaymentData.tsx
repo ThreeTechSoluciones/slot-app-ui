@@ -31,43 +31,41 @@ function PaymentData() {
   const studentRegistrationForm = useSelector((state: RootState) => state.studentRegistrationForm);
   
   const PlanTypeNameArray = Object.values(PlanTypeName);
-    const {
-      register,
-      handleSubmit,
-      watch,
-       getValues, 
-      formState: { errors },
-    } = useForm<FormData>({
-      resolver: yupResolver(paymentDataScheme) as any,
-      defaultValues:studentRegistrationForm,
-    });
 
-    const PlanTypeNameSelected = watch("paymentPlanName");
+  const {
+    register,
+    handleSubmit,
+    watch,
+    getValues, 
+    formState: { errors },
+  } = useForm<FormData>({
+    resolver: yupResolver(paymentDataScheme) as any,
+    defaultValues:studentRegistrationForm,
+  });
 
-    const navigate = useNavigate();
+  const PlanTypeNameSelected = watch("paymentPlanName");
 
-    const onSubmit = (paymentData: FormData) => {
-      const normalizedData = {
-    ...paymentData,
-    extraClasses: paymentData.extraClasses ?? undefined,
-    classPrice: paymentData.classPrice ?? undefined,
-    paymentDay: paymentData.paymentDay ?? undefined,
+  const navigate = useNavigate();
+
+  const normalizePaymentData = (data: FormData) => ({
+    ...data,
+    extraClasses: data.extraClasses ?? undefined,
+    classPrice: data.classPrice ?? undefined,
+    paymentDay: data.paymentDay ?? undefined,
+  });
+
+  const onSubmit = (paymentData: FormData) => {
+    const normalizedData = normalizePaymentData(paymentData);
+    dispatch(setStudentData(normalizedData)); 
+    navigate("/datos-del-plan");
   };
-      dispatch(setStudentData(normalizedData)); 
-      navigate("/datos-del-plan");
-    };
 
-    const stepBack =()=>{
-      const paymentData = getValues();
-       const normalizedData = {
-    ...paymentData,
-    extraClasses: paymentData.extraClasses ?? undefined,
-    classPrice: paymentData.classPrice ?? undefined,
-    paymentDay: paymentData.paymentDay ?? undefined,
+  const stepBack = () => {
+    const paymentData = getValues();
+    const normalizedData = normalizePaymentData(paymentData);
+    dispatch(setStudentData(normalizedData));
+    navigate("/datos-personales");
   };
-      dispatch(setStudentData(normalizedData));
-      navigate("/datos-personales");
-    }
 
     return(
       <MainContainer>

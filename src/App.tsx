@@ -20,21 +20,14 @@ function App() {
       <main className="content">
         <Routes>
           <Route path="/login" element={<Login />} />
-
           <Route element={<PrivateRoute />}>
             <Route path="/home" element={<Home />} />
             <Route path="/cuotas" element={<Plans />} />
             <Route path="/datos-personales" element={<StudentData />} />
             <Route path="/detalle-alumno" element={<StudentDetail />} />
-  
             <Route path="/datos-del-turno" element={<PaymentData />} />
-            <Route path="/datos-del-plan" element={<PlanData />} />
-           
-            
-            
-            
+            <Route path="/datos-del-plan" element={<PlanData />} />  
           </Route>
-
           <Route path="/" element={<Navigate to="/login" />} />
         </Routes>
       </main>

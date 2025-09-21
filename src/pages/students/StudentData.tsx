@@ -30,14 +30,23 @@ function StudentData() {
 
   type FormData = yup.InferType<typeof StudentDataScheme>;
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormData>({
-    resolver: yupResolver(StudentDataScheme),
-    defaultValues: studentRegistrationForm,
-  });
+ 
+
+const {
+  register,
+  handleSubmit,
+  formState: { errors },
+} = useForm<FormData>({
+  resolver: yupResolver(StudentDataScheme),
+  defaultValues: {
+  ...studentRegistrationForm, 
+  birthday: studentRegistrationForm.birthday
+    ? new Date(studentRegistrationForm.birthday).toISOString().split('T')[0]
+    : "", 
+}
+});
+
+
 
   const navigate = useNavigate();
   
@@ -45,6 +54,9 @@ function StudentData() {
     const normalizedStudentData = {
       ...studentData,
       pathologies: studentData.pathologies ?? undefined,
+       birthday: studentData.birthday
+      ? new Date(studentData.birthday).toISOString()
+      : undefined,
     };
     dispatch(setStudentData(normalizedStudentData)),
     navigate("/datos-del-turno");

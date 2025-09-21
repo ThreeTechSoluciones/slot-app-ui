@@ -9,8 +9,9 @@ export const paymentDataScheme = yup.object().shape({
   extraClasses: yup
     .number()
     .transform((value, originalValue) => {
-      return originalValue === "" ? undefined : value;
-      })
+    return originalValue === "" ? undefined : value;
+  })
+    .typeError("Solo se permiten números")
     .notRequired()
     .when("paymentType", {
       is: (val: string) => val === PlanTypeName.PRINCIPIO_MES,
@@ -23,8 +24,11 @@ export const paymentDataScheme = yup.object().shape({
     }),
   classPrice:yup
     .number()
+    .transform((value, originalValue) => {
+    return originalValue === "" ? undefined : value;
+    })
+    .typeError("Solo se permiten números")
     .notRequired()
-    .transform((value, originalValue) => (originalValue === "" ? null : value))
     .when("paymentType", {
       is: (val: string) => val === PlanTypeName.PRINCIPIO_MES,
       then: (schema) =>
@@ -35,6 +39,7 @@ export const paymentDataScheme = yup.object().shape({
     }),
   paymentDay: yup
     .number()
+    .typeError("Solo se permiten números")
     .when("paymentType", {
       is: (val: string) => val === PlanTypeName.DIA_ESPECIFICO,
       then: (schema) =>
