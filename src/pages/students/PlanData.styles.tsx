@@ -23,11 +23,6 @@ export const Title=styled.h1`
     margin-right:80px;
     margin-top: 32px;
     font-family: ${FONT_FAMILY}
-    `
-
-export const FormContainer=styled.form`
-    display: flex;
-    flex-direction: column;
 `
 export const Label=styled.p`
     font-size: 16px;
@@ -98,7 +93,7 @@ export const Text=styled.p`
     color: ${TEXT_COLOR};
     font-family: ${FONT_FAMILY};
 `
-export const SecondaryContainer = styled.div`
+export const FormContainer = styled.form`
     display:flex;
     align-items:right;
     flex-direction:column;

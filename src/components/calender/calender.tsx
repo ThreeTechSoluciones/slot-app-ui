@@ -1,20 +1,18 @@
 import { calenderData } from "./calenderData"
 import { Column, MainContainer, Day, Hora} from "./calender.styles"
-import { useShiftHandler } from "./ShiftHandler";
 import { SUCCESS_COLOR } from "../../utils/Stylesheet";
 
-//pasar directamente el id del turno, ponerlo como key en el button
 
 const maxTurnos = Math.max(...calenderData.map(day => day.shifts.length)); 
 
 function Calender({
       selectedShifts,
       onSeleccionTurno,
-      onEliminarTurno
+      onDeleteShift
     }: {
       selectedShifts: { id: string }[];
       onSeleccionTurno: (id: string, day: string, hour: string) => void;
-      onEliminarTurno: (id: string, day: string, hour: string) => void;
+      onDeleteShift: (id: string, day: string, hour: string) => void;
     }) {
 
       
@@ -30,7 +28,7 @@ function Calender({
             return shift ? (
               <Hora key={shift.id} onClick={() => {
                 if (isSelected) {
-                  onEliminarTurno(shift.id, day.day, shift.hour); 
+                  onDeleteShift(shift.id, day.day, shift.hour); 
                 } else {
                   onSeleccionTurno(shift.id, day.day, shift.hour); 
                 }

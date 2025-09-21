@@ -1,10 +1,11 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import type { StudentResponse } from "../types/responses/StudentResponse.type";
 import type { PriceResponse } from "../types/responses/PriceResponse.type";
+import type { PlanResponse } from "../types/responses/PlanResponse.type";
 
 export const UserService = createApi({
   reducerPath: "users",
-  tagTypes: ["userStudents", "userPrices"],
+  tagTypes: ["userStudents", "userPrices", "userPlans"],
   baseQuery: fetchBaseQuery({
     baseUrl: `${import.meta.env.VITE_BACKEND_URL}/users`,
   }),
@@ -24,7 +25,17 @@ export const UserService = createApi({
             ]
           : [{ type: "userPrices", id: "LIST" }],
     }),
+    getUserPlans: builder.query<PlanResponse[], string>({
+    query: (userId) => `${userId}/plans`,
+    providesTags: (result) =>
+      result
+        ? [
+            { type: "userPlans", id: "LIST" },             
+            ...result.map(({ id }) => ({ type: "userPlans" as const, id })),  
+          ]
+        : [{ type: "userPlans", id: "LIST" }],
+   }),
   }),
 });
 
-export const { useGetUserStudentsQuery, useGetUserPricesQuery } = UserService;
+export const { useGetUserStudentsQuery, useGetUserPricesQuery, useGetUserPlansQuery } = UserService;

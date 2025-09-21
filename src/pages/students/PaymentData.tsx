@@ -1,4 +1,3 @@
-
 import { MainContainer, 
         TitleContainer, 
         FormContainer, 
@@ -15,40 +14,61 @@ import { PlanTypeName } from "../../app/types/models/PlanTypeName";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { classDataScheme } from "./ClassData.scheme";
+import { paymentDataScheme } from "./PaymentData.scheme";
 import { ErrorMessage } from "../../components/header/ErrorMessage";
 import { useNavigate } from "react-router";
-import { useLocation } from "react-router-dom";
+import { setStudentData } from "./StudentRegistrationFormSlice";
+import type { RootState } from "../../app/store/store";
+import { useDispatch, useSelector } from "react-redux";
 
 
 function PaymentData() {
 
-  type FormData = yup.InferType<typeof classDataScheme>;
-  
-  const location = useLocation();
-  
-  const studentData = location.state;  //se utiliza para recuperar los datos almacenados del paso anterior
+  type FormData = yup.InferType<typeof paymentDataScheme>;
+
+  const dispatch = useDispatch();
+    
+  const studentRegistrationForm = useSelector((state: RootState) => state.studentRegistrationForm);
   
   const PlanTypeNameArray = Object.values(PlanTypeName);
     const {
       register,
       handleSubmit,
       watch,
+       getValues, 
       formState: { errors },
     } = useForm<FormData>({
-      resolver: yupResolver(classDataScheme) as any,
+      resolver: yupResolver(paymentDataScheme) as any,
+      defaultValues:studentRegistrationForm,
     });
 
-    const PlanTypeNameSelected = watch("paymentType");
+    const PlanTypeNameSelected = watch("paymentPlanName");
 
     const navigate = useNavigate();
 
     const onSubmit = (paymentData: FormData) => {
-      const data={...studentData,...paymentData, };
-      console.log("Datos validados:", data);
-      navigate("/datos-del-plan",{ state: { ...data }});
+      const normalizedData = {
+    ...paymentData,
+    extraClasses: paymentData.extraClasses ?? undefined,
+    classPrice: paymentData.classPrice ?? undefined,
+    paymentDay: paymentData.paymentDay ?? undefined,
+  };
+      dispatch(setStudentData(normalizedData)); 
+      navigate("/datos-del-plan");
     };
-  
+
+    const stepBack =()=>{
+      const paymentData = getValues();
+       const normalizedData = {
+    ...paymentData,
+    extraClasses: paymentData.extraClasses ?? undefined,
+    classPrice: paymentData.classPrice ?? undefined,
+    paymentDay: paymentData.paymentDay ?? undefined,
+  };
+      dispatch(setStudentData(normalizedData));
+      navigate("/datos-personales");
+    }
+
     return(
       <MainContainer>
         <TitleContainer>
@@ -57,13 +77,13 @@ function PaymentData() {
         <FormContainer onSubmit={handleSubmit(onSubmit)}>
           <div>
             <Label>Forma de pago</Label>
-            <Select {...register("paymentType")}>Plan de pago*
+            <Select {...register("paymentPlanName")}>Plan de pago*
                 <option value="" disabled selected>Seleccione una opción</option>
                 {PlanTypeNameArray.map((planType) => (
                   <option key={planType} value={planType}>{planType}</option>
                 ))}
             </Select>
-            <ErrorMessage error={errors.paymentType} />
+            <ErrorMessage error={errors.paymentPlanName} />
           </div>
           <div>
             <Label>Datos del pago</Label>
@@ -84,13 +104,13 @@ function PaymentData() {
                     <ErrorMessage error={errors.extraClasses} />
                   </div>
                   <div>
-                    <Input2 placeholder="Precio clase individual" {...register("price")}></Input2>
-                    <ErrorMessage error={errors.price} />
+                    <Input2 placeholder="Precio clase individual" {...register("classPrice")}></Input2>
+                    <ErrorMessage error={errors.classPrice} />
                   </div>
                 </InputsContainer>)}
           </div>    
           <ButtonsContainer>
-            <Button type="button" onClick={()=>navigate("/datos-personales")}>Atrás</Button>
+            <Button type="button" onClick={stepBack}>Atrás</Button>
             <Button type="submit">Siguiente</Button>
           </ButtonsContainer>
         </FormContainer> 

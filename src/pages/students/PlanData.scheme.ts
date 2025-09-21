@@ -1,6 +1,6 @@
 import * as yup from "yup";
 
 export const planDataScheme = yup.object().shape({
-      planType:yup
+      planId:yup
         .string().required("Debe seleccionar un plan"),
 });

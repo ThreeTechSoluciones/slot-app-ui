@@ -15,12 +15,15 @@ import { errorHandler } from "../errorHandler/errorHandler";
 import { UserService } from "../services/UserService";
 import { StudentService } from "../services/StudentService";
 import { PriceService } from "../services/PriceService";
+import studentFormReducer from "../../pages/students/StudentRegistrationFormSlice";
+
 
 const reducers = combineReducers({
   [AuthService.reducerPath]: AuthService.reducer,
   [UserService.reducerPath]: UserService.reducer,
   [StudentService.reducerPath]: StudentService.reducer,
   [PriceService.reducerPath]: PriceService.reducer,
+  studentRegistrationForm: studentFormReducer,
 });
 
 const persistConfig = {
@@ -34,6 +37,7 @@ const persistedReducer = persistReducer(persistConfig, reducers);
 
 export const store = configureStore({
   reducer: persistedReducer,
+   
 
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

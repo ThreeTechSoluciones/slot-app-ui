@@ -86,5 +86,6 @@ export const Button=styled.button`
     &:hover{
         cursor:pointer;
         background: ${TERTIARY_COLOR};
+    }
 `
 

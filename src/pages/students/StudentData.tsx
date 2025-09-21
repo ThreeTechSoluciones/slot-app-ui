@@ -15,8 +15,18 @@ import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { ErrorMessage } from "../../components/header/ErrorMessage";
 import { useNavigate } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+import { resetStudentData, setStudentData } from "./StudentRegistrationFormSlice";
+import type { RootState } from "../../app/store/store";
+
+
+
 
 function StudentData() {
+
+  const dispatch = useDispatch();
+  
+  const studentRegistrationForm = useSelector((state: RootState) => state.studentRegistrationForm);
 
   type FormData = yup.InferType<typeof StudentDataScheme>;
 
@@ -26,20 +36,18 @@ function StudentData() {
     formState: { errors },
   } = useForm<FormData>({
     resolver: yupResolver(StudentDataScheme),
-    defaultValues: {
-      name:"",
-      lastName:"",
-      dni:"",
-      birthday: new Date(),
-      cellphoneNumber:"",
-      pathologies:"", 
-  },
+    defaultValues: studentRegistrationForm,
   });
 
   const navigate = useNavigate();
   
   const onSubmit = (studentData: FormData) => {
-    navigate("/datos-del-turno" ,{ state: { ...studentData }});
+    const normalizedStudentData = {
+      ...studentData,
+      pathologies: studentData.pathologies ?? undefined,
+    };
+    dispatch(setStudentData(normalizedStudentData)),
+    navigate("/datos-del-turno");
   };
   
   return (
@@ -79,7 +87,7 @@ function StudentData() {
           <ErrorMessage error={errors.pathologies} />
         </div>
         <ButtonsContainer>
-          <Button type="button" onClick={() => navigate("/nuevo-alumno")}>Cancelar</Button>
+          <Button type="button" onClick={() =>{navigate("/nuevo-alumno"); dispatch(resetStudentData())}}>Cancelar</Button>
           <Button type="submit">Siguiente</Button>
         </ButtonsContainer>
       </FormContainer> 
