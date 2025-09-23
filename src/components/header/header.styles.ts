@@ -1,6 +1,11 @@
 import styled, {keyframes} from "styled-components";
 
-export const MainContainer = styled.div`
+interface OptionProps {
+  isLast?: boolean;  
+  hasImg?: boolean;  
+}
+
+export const MainContainer = styled.header`
     display:flex; 
     width: 100%;
     min-height: 96px; 
@@ -8,7 +13,7 @@ export const MainContainer = styled.div`
     box-sizing: border-box;
     justify-content: space-between;
 `
-export const SecondaryContainer = styled.div`
+export const LeftOptionsContainer = styled.section`
     display:flex;
     flex-direction: row;
     margin-left:80px;
@@ -16,7 +21,7 @@ export const SecondaryContainer = styled.div`
     align-items: center; 
     font-size:16px;  
 `
-export const TertiaryContainer = styled(SecondaryContainer)`
+export const RightOptionsContainer = styled(LeftOptionsContainer)`
   gap:24px;
   margin-right:80px;    
 `
@@ -42,31 +47,27 @@ const boldEffect = keyframes`
   }
 `;
 
-export const Options = styled.div`
+export const Option = styled.div<OptionProps>`
     width: 172px;
     min-height: 16px; 
     display:flex;
     justify-content:center;
     text-align:center;
     align-items: center; 
-    border-right: 2px solid black;
+    border-right: ${({ isLast }) => (isLast ? "none" : "2px solid black")};
+    gap: ${({ hasImg }) => (hasImg ? "6px" : "0")};
     &:hover {
       cursor:pointer;
       font-size:17px;
       font-weight:bold;
       transition: font-size 0.3s ease-in-out;
-      animation: ${blurEffect} 0.5s forwards, ${boldEffect} 0.3s forwards;
+      animation: ${blurEffect} 0.2s forwards, ${boldEffect} 0.3s forwards;
     }
-`
-
-export const NewStudent = styled(Options)`
-    gap:6px;
-    border:none;
     img {
-    width: 16px;
-    height: 16px;
-    padding-top:4px;
-  }
+      width: ${({ hasImg }) => (hasImg ? "16px" : "0")};
+      height: ${({ hasImg }) => (hasImg ? "16px" : "0")};
+      padding-top: ${({ hasImg }) => (hasImg ? "4px" : "0")};
+    }
 `
 
 export const Logo = styled.div`
@@ -79,29 +80,19 @@ export const Logo = styled.div`
     height: 100%;
     object-fit: cover;
   }
-
 `
 export const Photo= styled(Logo)`
   border: 2px solid black;
 `
-export const Logout= styled.div`
+export const Logout= styled(Option)`
   width: 88px;
   min-height: 54px; 
-  display:flex;
-  justify-content:center;
-  text-align:center;
-  align-items: center; 
   line-height:16px;
+  border:none;
   img {
     width: 32px;
     height: 32px;
   }
-  &:hover {
-    cursor:pointer;
-    font-size:17px;
-    font-weight:bold;
-    transition: font-size 0.3s ease-in-out;
-    animation: ${blurEffect} 0.5s forwards, ${boldEffect} 0.3s forwards;
     img {
     width: 34px;
     height: 34px;
