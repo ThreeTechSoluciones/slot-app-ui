@@ -7,10 +7,10 @@ import { MainContainer,
         Button, 
         ButtonsContainer, 
         Select, 
-        Input2, 
+        SmallInput, 
         InputsContainer,
         Text} from "./PaymentData.styles";
-import { PlanTypeName } from "../../app/types/models/PlanTypeName";
+import { PaymentPlanName } from "../../app/types/models/PaymentPlanName";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -30,7 +30,7 @@ function PaymentData() {
     
   const studentRegistrationForm = useSelector((state: RootState) => state.studentRegistrationForm);
   
-  const PlanTypeNameArray = Object.values(PlanTypeName);
+  const PlanTypeNameArray = Object.values(PaymentPlanName);
 
   const {
     register,
@@ -43,7 +43,7 @@ function PaymentData() {
     defaultValues:studentRegistrationForm,
   });
 
-  const PlanTypeNameSelected = watch("paymentPlanName");
+  const PaymentPlanNameSelected = watch("paymentPlanName");
 
   const navigate = useNavigate();
 
@@ -64,7 +64,7 @@ function PaymentData() {
     const paymentData = getValues();
     const normalizedData = normalizePaymentData(paymentData);
     dispatch(setStudentData(normalizedData));
-    navigate("/datos-personales");
+    navigate("/datos-del-alumno");
   };
 
     return(
@@ -85,24 +85,24 @@ function PaymentData() {
           </div>
           <div>
             <Label>Datos del pago</Label>
-              {PlanTypeNameSelected === "" && (
+              {PaymentPlanNameSelected === "" && (
                 <div>
                   <Text>Este campo se habilitará una vez seleccione el plan de pago</Text>
-                  <Input disabled={PlanTypeNameSelected===""}></Input>
+                  <Input disabled={PaymentPlanNameSelected===""}></Input>
                 </div>)}
-              {PlanTypeNameSelected === "Día específico" && (
+              {PaymentPlanNameSelected === "Día específico" && (
                 <>
                   <Input placeholder="Día de pago"  {...register("paymentDay")}/>
                   <ErrorMessage error={errors.paymentDay} /></>
               )}
-              {PlanTypeNameSelected === "Principio de mes" && (
+              {PaymentPlanNameSelected=== "Principio de mes" && (
                 <InputsContainer>
                   <div>
-                    <Input2 placeholder="Clases extras" {...register("extraClasses")}></Input2>
+                    <SmallInput placeholder="Clases extras" {...register("extraClasses")}></SmallInput>
                     <ErrorMessage error={errors.extraClasses} />
                   </div>
                   <div>
-                    <Input2 placeholder="Precio clase individual" {...register("classPrice")}></Input2>
+                    <SmallInput placeholder="Precio clase individual" {...register("classPrice")}></SmallInput>
                     <ErrorMessage error={errors.classPrice} />
                   </div>
                 </InputsContainer>)}

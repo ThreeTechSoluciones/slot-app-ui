@@ -20,8 +20,6 @@ import { resetStudentData, setStudentData } from "./StudentRegistrationFormSlice
 import type { RootState } from "../../app/store/store";
 
 
-
-
 function StudentData() {
 
   const dispatch = useDispatch();
@@ -30,23 +28,19 @@ function StudentData() {
 
   type FormData = yup.InferType<typeof StudentDataScheme>;
 
- 
-
-const {
-  register,
-  handleSubmit,
-  formState: { errors },
-} = useForm<FormData>({
-  resolver: yupResolver(StudentDataScheme),
-  defaultValues: {
-  ...studentRegistrationForm, 
-  birthday: studentRegistrationForm.birthday
-    ? new Date(studentRegistrationForm.birthday).toISOString().split('T')[0]
-    : "", 
-}
-});
-
-
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>({
+    resolver: yupResolver(StudentDataScheme),
+    defaultValues: {
+    ...studentRegistrationForm, 
+    birthday: studentRegistrationForm.birthday
+      ? new Date(studentRegistrationForm.birthday).toISOString().split('T')[0]
+      : "", 
+  }
+  });
 
   const navigate = useNavigate();
   
@@ -59,7 +53,7 @@ const {
       : undefined,
     };
     dispatch(setStudentData(normalizedStudentData)),
-    navigate("/datos-del-turno");
+    navigate("/datos-del-pago");
   };
   
   return (

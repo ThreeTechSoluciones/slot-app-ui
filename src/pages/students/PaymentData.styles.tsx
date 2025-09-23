@@ -67,7 +67,7 @@ export const Input = styled(BaseStyle)<{ disabled?: boolean }>`
     &::placeholder {
         color: ${(props) => (props.disabled ? SECONDARY_COLOR: TERTIARY_COLOR)};;
 `
-export const Input2=styled(Input)`
+export const SmallInput=styled(Input)`
     width:176px;
 `   
 export const InputsContainer=styled.div`

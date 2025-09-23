@@ -25,7 +25,6 @@ import { setStudentData } from "./StudentRegistrationFormSlice";
 import toast from "react-hot-toast";
 
 
-
 function PlanData() {
 
   type FormData = yup.InferType<typeof planDataScheme>;
@@ -79,7 +78,7 @@ function PlanData() {
       try {
         await createStudent(createStudentRequest).unwrap();;
         navigate("/home")
-        toast.success("Estudiante creado con éxito") 
+        toast.success("El estudiante ha sido registrado") 
       } catch (error) {
       toast.error("Ha ocurrido un error en la creación del estudiante");
       }
@@ -88,10 +87,9 @@ function PlanData() {
     const stepBack = () => {
         const planData = getValues();
         dispatch(setStudentData(planData));
-        navigate("/datos-del-turno");
+        navigate("/datos-del-plan");
       };
     
-
   return(
     <MainContainer>
       <TitleContainer> 
