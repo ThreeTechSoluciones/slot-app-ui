@@ -6,14 +6,14 @@ import {
 } from "./FilterSearch.styles";
 import { useEffect, useState } from "react";
 
-interface FilterProps {
+interface FilterSearchProps {
   placeholder?: string;
   value: string;
   onChange: (value: string) => void;
   debounceTime?: number;
 }
 
-const Filter: React.FC<FilterProps> = ({
+const FilterSearch: React.FC<FilterSearchProps> = ({
   placeholder,
   value,
   onChange,
@@ -51,4 +51,4 @@ const Filter: React.FC<FilterProps> = ({
   );
 };
 
-export default Filter;
+export default FilterSearch;

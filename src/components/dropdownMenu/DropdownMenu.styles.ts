@@ -3,8 +3,25 @@ import styled from "styled-components";
 export const DropdownContainer = styled.div`
   position: relative;
 `;
-export const ButtonDots = styled.div`
-  background: none;
+interface ButtonTriggerProps {
+  imgWidth?: string;
+  imgHeight?: string;
+}
+export const ButtonTrigger = styled.div<ButtonTriggerProps>`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem;
+  border-radius: 10px;
+  cursor: pointer;
+  gap: 24px;
+  &:hover {
+    background: #e6e6e6;
+  }
+  img {
+    width: ${(props) => props.imgWidth};
+    height: ${(props) => props.imgHeight};
+  }
 `;
 export const DropdownMenuStyle = styled.div`
   position: absolute;
@@ -17,12 +34,14 @@ export const DropdownMenuStyle = styled.div`
   border: 1px solid #ccc;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   z-index: 10;
+  width: max-content;
+  min-width: 100px;
 `;
 
 export const ButtonOption = styled.button`
   background: none;
   border: none;
-  padding: 8px 15px;
+  padding: 10px 9px;
   text-align: center;
   cursor: pointer;
 

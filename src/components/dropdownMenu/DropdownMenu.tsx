@@ -1,7 +1,7 @@
 import { useState } from "react";
 import {
-  ButtonDots,
   ButtonOption,
+  ButtonTrigger,
   DropdownContainer,
   DropdownMenuStyle,
 } from "./DropdownMenu.styles";
@@ -13,10 +13,11 @@ interface MenuOption {
 
 interface DropdownMenuProps {
   options: MenuOption[];
-  icon: string;
+  label?: string;
+  icon?: React.ReactNode;
 }
 
-export function DropdownMenu({ options, icon }: DropdownMenuProps) {
+export function DropdownMenu({ options, label, icon }: DropdownMenuProps) {
   const [open, setOpen] = useState(false);
 
   const handleToggle = () => setOpen(!open);
@@ -28,9 +29,10 @@ export function DropdownMenu({ options, icon }: DropdownMenuProps) {
 
   return (
     <DropdownContainer>
-      <ButtonDots onClick={handleToggle}>
-        <img src={icon} alt="Menu" className="dots-icon" />
-      </ButtonDots>
+      <ButtonTrigger onClick={handleToggle}>
+        {label && <span>{label}</span>}
+        {icon}
+      </ButtonTrigger>
 
       {open && (
         <DropdownMenuStyle>

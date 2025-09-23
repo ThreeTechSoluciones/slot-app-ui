@@ -1,13 +1,12 @@
-import { SituationText, StatusText, StudentsContainer } from "./Home.styles";
+import {
+  SituationText,
+  StatusText,
+  StudentsContainer,
+  FiltersContainer,
+} from "./Home.styles";
 import { useNavigate } from "react-router";
 import useAuthentication from "../../hooks/useAuthentication";
-import {
-  useActivateStudentMutation,
-  useDeleteStudentMutation,
-} from "../../app/services/StudentService";
-import { ConfirmDialog } from "../../components/confirm_dialog/ConfirmDialog";
-import { useEffect, useState } from "react";
-import Filter from "../../components/filter/FilterSearch";
+import { useEffect, useMemo, useState } from "react";
 import Table from "../../components/table/Table";
 import type { StudentResponse } from "../../app/types/responses/StudentResponse.type";
 import type { Column } from "../../app/types/table";
@@ -16,58 +15,28 @@ import { useGetUserStudentsQuery } from "../../app/services/UserService";
 import { DropdownMenu } from "../../components/dropdownMenu/DropdownMenu";
 import { SortableButton } from "../../components/sort_button/SortButton";
 import { skipToken } from "@reduxjs/toolkit/query/react";
+import FilterSearch from "../../components/filter_search/FilterSearch";
+import Filter from "../../components/filter/Filter";
 
 function Home() {
   const { userId } = useAuthentication();
-  const [deleteStudent] = useDeleteStudentMutation();
-  const [activateStudent] = useActivateStudentMutation();
   const navigate = useNavigate();
   const [studentList, setStudentList] = useState<StudentResponse[]>([]);
   const [filter, setFilter] = useState<string>("");
   const { data: students } = useGetUserStudentsQuery(
     userId ? { userId, filter } : skipToken
   );
-  const [studentAction, setStudentAction] = useState<{
-    id: string;
-    name: string;
-    type: "Dar de alta" | "Dar de baja";
-  } | null>(null);
-  const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
-
-  const actionHandlers: Record<
-    "Dar de alta" | "Dar de baja",
-    (studentId: string) => void
-  > = {
-    "Dar de baja": (studentId) => {
-      deleteStudent(studentId).unwrap();
-    },
-    "Dar de alta": (studentId) => {
-      activateStudent(studentId).unwrap();
-    },
-  };
-  const handleActionClick = (
-    studentId: string,
-    studentName: string,
-    type: "Dar de alta" | "Dar de baja"
-  ) => {
-    setStudentAction({ id: studentId, name: studentName, type });
-    setConfirmDialogOpen(true);
-  };
-  const handleConfirmClick = () => {
-    if (!studentAction) return;
-    actionHandlers[studentAction.type](studentAction.id);
-    setConfirmDialogOpen(false);
-    setStudentAction(null);
-  };
-  const handleCancelClick = () => {
-    setConfirmDialogOpen(false);
-    setStudentAction(null);
-  };
   useEffect(() => {
     if (students) {
       setStudentList(students);
     }
   }, [students]);
+  const sortedStudents = useMemo(() => {
+    return [...studentList].sort((a, b) => {
+      if (a.isActive !== b.isActive) return a.isActive ? -1 : 1;
+      return 0;
+    });
+  }, [studentList]);
 
   const sortByField = (field: keyof StudentResponse, asc: boolean) => {
     const sorted = [...studentList].sort((a, b) => {
@@ -132,7 +101,7 @@ function Home() {
       header: "Acciones",
       render: (student: StudentResponse) => (
         <DropdownMenu
-          icon={dotsIcon}
+          icon={<img src={dotsIcon} alt="Opciones" width={30} height={30} />}
           options={[
             {
               label: "Ver cuotas",
@@ -143,17 +112,8 @@ function Home() {
               onClick: () => navigate(`/detalle-alumno/${student.id}`),
             },
             {
-              label: "Editar alumno",
-              onClick: () => navigate(`/editar-alumno/${student.id}`),
-            },
-            {
-              label: student.isActive ? "Dar de baja" : "Dar de alta",
-              onClick: () =>
-                handleActionClick(
-                  student.id,
-                  student.name,
-                  student.isActive ? "Dar de baja" : "Dar de alta"
-                ),
+              label: "Modificar turnos",
+              onClick: () => navigate(`/editar-alumno/${student.id}`), // cambiar ruta cuando esté la pantalla de modifcar turnos
             },
           ]}
         />
@@ -163,20 +123,30 @@ function Home() {
 
   return (
     <StudentsContainer>
-      <Filter
-        value={filter}
-        onChange={setFilter}
-        placeholder="Buscar por DNI, nombre o apellido"
-      />
-      <Table columns={columns} data={studentList} />;
-      {confirmDialogOpen && studentAction && (
-        <ConfirmDialog
-          message={`¿Desea ${studentAction.type} a ${studentAction.name}?`}
-          onConfirm={handleConfirmClick}
-          onCancel={handleCancelClick}
+      <FiltersContainer>
+        <FilterSearch
+          value={filter}
+          onChange={setFilter}
+          placeholder="Buscar por DNI, nombre o apellido"
         />
-      )}
-      |
+        <Filter
+          placeholder="Filtrar por situación"
+          options={[
+            { label: "Debe", value: "debe" },
+            { label: "Al día", value: "aldia" },
+          ]}
+          onSelect={(value) => console.log("Filtro seleccionado:", value)}
+        />
+        <Filter
+          placeholder="Filtrar por estado"
+          options={[
+            { label: "Activo", value: "activo" },
+            { label: "Inactivo", value: "inactivo" },
+          ]}
+          onSelect={(value) => console.log("Filtro seleccionado:", value)}
+        />
+      </FiltersContainer>
+      <Table columns={columns} data={sortedStudents} />;
     </StudentsContainer>
   );
 }

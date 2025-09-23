@@ -22,7 +22,7 @@ export const FilterInputStyled = styled.input`
   }
 
   &::placeholder {
-    color: #ccc;
+    color: black;
   }
 `;
 export const IconWrapper = styled.div`

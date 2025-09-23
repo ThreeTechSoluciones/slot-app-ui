@@ -1,8 +1,12 @@
 import styled from "styled-components";
 export const StudentsContainer = styled.div`
   width: 100%;
-  padding-top: 10px;
+  /* padding-top: 10px; */
   min-height: 100vh;
+`;
+export const FiltersContainer = styled.div`
+  display: flex;
+  padding: 10px;
 `;
 interface StatusProps {
   $isActive: boolean;
