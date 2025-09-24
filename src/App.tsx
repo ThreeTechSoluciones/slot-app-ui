@@ -4,12 +4,12 @@ import Header from "./components/header/header";
 import Login from "./pages/login/Login";
 import Home from "./pages/home/Home";
 import Plans from "./pages/plans/Plans";
-import StudentData from "./pages/students/StudentData";
+import StudentData from "./pages/students/forms/StudentData";
 import { PrivateRoute } from "./routes/PrivateRoutes";
 import StudentDetail from "./pages/student_detail/StudentDetail";
 //import EditStudent from "./pages/edit_student/EditStudent";
-import PaymentData from "./pages/students/PaymentData";
-import PlanData from "./pages/students/PlanData";
+import PaymentData from "./pages/students/forms/PaymentData";
+import PlanData from "./pages/students/forms/PlanData";
 
 
 

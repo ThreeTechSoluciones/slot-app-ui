@@ -9,16 +9,16 @@ import { MainContainer,
         Select, 
         SmallInput, 
         InputsContainer,
-        Text} from "./PaymentData.styles";
-import { PaymentPlanName } from "../../app/types/models/PaymentPlanName";
+        Text} from "../styles/PaymentData.styles";
+import { PaymentPlanName } from "../../../app/types/models/PaymentPlanName";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { paymentDataScheme } from "./PaymentData.scheme";
-import { ErrorMessage } from "../../components/header/ErrorMessage";
+import { paymentDataScheme } from "../schemes/PaymentData.scheme";
+import { ErrorMessage } from "../../../components/header/ErrorMessage";
 import { useNavigate } from "react-router";
-import { setStudentData } from "./StudentRegistrationFormSlice";
-import type { RootState } from "../../app/store/store";
+import { setStudentData } from "../StudentRegistrationFormSlice";
+import type { RootState } from "../../../app/store/store";
 import { useDispatch, useSelector } from "react-redux";
 
 

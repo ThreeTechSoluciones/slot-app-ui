@@ -9,15 +9,15 @@ import { MainContainer,
         ButtonsContainer, 
         TitleContainer, 
         Label} 
-        from "./StudentData.styles";
-import { StudentDataScheme } from "./StudentData.scheme";
+        from "../styles/StudentData.styles";
+import { StudentDataScheme } from "../schemes/StudentData.scheme";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
-import { ErrorMessage } from "../../components/header/ErrorMessage";
+import { ErrorMessage } from "../../../components/header/ErrorMessage";
 import { useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import { resetStudentData, setStudentData } from "./StudentRegistrationFormSlice";
-import type { RootState } from "../../app/store/store";
+import { resetStudentData, setStudentData } from "../StudentRegistrationFormSlice";
+import type { RootState } from "../../../app/store/store";
 
 
 function StudentData() {

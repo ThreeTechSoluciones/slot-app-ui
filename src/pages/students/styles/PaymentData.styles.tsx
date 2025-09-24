@@ -4,7 +4,7 @@ import { PRIMARY_COLOR,
         TERTIARY_COLOR,
         TEXT_COLOR, 
         FONT_FAMILY } 
-    from "../../utils/Stylesheet"; 
+    from "../../../utils/Stylesheet"; 
 
 export const MainContainer=styled.div`
     display: flex;

@@ -5,7 +5,7 @@ import { PRIMARY_COLOR,
         TEXT_COLOR, 
         FONT_FAMILY, 
         BORDER_RADIUS} 
-    from "../../utils/Stylesheet"; 
+    from "../../../utils/Stylesheet"; 
 
 export const MainContainer=styled.div`
     display: flex;
@@ -14,6 +14,7 @@ export const MainContainer=styled.div`
     width: 100%;
     min-height: 100vh;
 `
+
 export const TitleContainer=styled.div`
     width: 100%;
     margin-left:80px;
@@ -70,9 +71,6 @@ export const Input = styled(BaseStyle)<{ disabled?: boolean }>`
         color: ${(props) => (props.disabled ? SECONDARY_COLOR: TERTIARY_COLOR)};;
     }
 `
-export const Input2=styled(Input)`
-    width:176px;
-`   
 export const InputsContainer=styled.div`
     display: flex;
     gap:16px; 
@@ -100,8 +98,4 @@ export const Button=styled.button`
         background: ${TERTIARY_COLOR};
     }
 `
-export const Text=styled.p`
-    font-size: 12px;
-    color: ${TEXT_COLOR};
-    font-family: ${FONT_FAMILY};
-`
+

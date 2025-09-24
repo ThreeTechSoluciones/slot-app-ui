@@ -1,5 +1,5 @@
 import * as yup from "yup";
-import { PaymentPlanName } from "../../app/types/models/PaymentPlanName";
+import { PaymentPlanName } from "../../../app/types/models/PaymentPlanName";
 
 
 export const paymentDataScheme = yup.object().shape({

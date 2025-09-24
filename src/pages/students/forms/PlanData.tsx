@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
-import { ErrorMessage } from "../../components/header/ErrorMessage";
-import { planDataScheme } from "./PlanData.scheme";
+import { ErrorMessage } from "../../../components/header/ErrorMessage";
+import { planDataScheme } from "../schemes/PlanData.scheme";
 import { MainContainer,
         Label, 
         Select, 
@@ -9,19 +9,19 @@ import { MainContainer,
         FormContainer, 
         Button, 
         ButtonsContainer} 
-        from "./PlanData.styles";
+        from "../styles/PlanData.styles";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import Calender from "../../components/calender/calender";
+import Calender from "../../../components/shiftRegistrationCalendar/ShiftRegistrationCalendar";
 import { useNavigate } from "react-router";
-import ShiftDetail from "../../components/shiftsDetail/ShiftDetail";
-import { useShiftHandler } from "../../components/calender/ShiftHandler";
-import useAuthentication from "../../hooks/useAuthentication";
-import { useGetUserPlansQuery } from "../../app/services/UserService";
-import { useCreateStudentMutation } from "../../app/services/StudentService";
+import ShiftDetail from "../../../components/shiftsDetail/ShiftDetail";
+import { useShiftHandler } from "../../../components/shiftRegistrationCalendar/UseShiftHandler";
+import useAuthentication from "../../../hooks/useAuthentication";
+import { useGetUserPlansQuery } from "../../../app/services/UserService";
+import { useCreateStudentMutation } from "../../../app/services/StudentService";
 import { useDispatch,useSelector } from "react-redux";
-import type { RootState } from "../../app/store/store";
-import { setStudentData } from "./StudentRegistrationFormSlice";
+import type { RootState } from "../../../app/store/store";
+import { setStudentData } from "../StudentRegistrationFormSlice";
 import toast from "react-hot-toast";
 
 
@@ -37,7 +37,7 @@ function PlanData() {
 
   const { data: planTypes } = useGetUserPlansQuery(userId!);
     
-  const {shifts, newShift, removeShift}=useShiftHandler();
+  const { shifts, removeShift, newShift} = useShiftHandler()
 
   const studentDataFromSlice = useSelector(
       (state: RootState) => state.studentRegistrationForm
