@@ -1,17 +1,16 @@
 import styled from "styled-components";
 export const StudentsContainer = styled.div`
   width: 100%;
-  /* padding-top: 10px; */
+  padding-top: 20px;
   min-height: 100vh;
 `;
 export const FiltersContainer = styled.div`
   display: flex;
-  padding: 10px;
 `;
 interface StatusProps {
   $isActive: boolean;
 }
-
+export const ButtonContainer = styled.div``;
 export const StatusText = styled.strong<StatusProps>`
   background-color: ${(props) => (props.$isActive ? "#20C92B" : "#7C7C7C")};
   color: white;

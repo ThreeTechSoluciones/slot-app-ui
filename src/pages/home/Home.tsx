@@ -3,6 +3,7 @@ import {
   StatusText,
   StudentsContainer,
   FiltersContainer,
+  ButtonContainer,
 } from "./Home.styles";
 import { useNavigate } from "react-router";
 import useAuthentication from "../../hooks/useAuthentication";
@@ -17,6 +18,7 @@ import { SortableButton } from "../../components/sort_button/SortButton";
 import { skipToken } from "@reduxjs/toolkit/query/react";
 import FilterSearch from "../../components/filter_search/FilterSearch";
 import Filter from "../../components/filter/Filter";
+import Button from "../../components/button/Button";
 
 function Home() {
   const { userId } = useAuthentication();
@@ -145,6 +147,14 @@ function Home() {
           ]}
           onSelect={(value) => console.log("Filtro seleccionado:", value)}
         />
+        <ButtonContainer>
+          <Button variant="primary" size="large">
+            Limpiar filtros
+          </Button>
+          <Button variant="primary" size="large">
+            Nuevo alumno
+          </Button>
+        </ButtonContainer>
       </FiltersContainer>
       <Table columns={columns} data={sortedStudents} />;
     </StudentsContainer>
