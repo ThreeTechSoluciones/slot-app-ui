@@ -1,6 +1,10 @@
 import styled from "styled-components";
-import { FONT_FAMILY, SECONDARY_COLOR, SUCCESS_COLOR } from "../../utils/Stylesheet";
+import { BORDER_RADIUS, FONT_FAMILY, SECONDARY_COLOR, SUCCESS_COLOR, TERTIARY_COLOR } from "../../utils/Stylesheet";
 
+interface HourProps  {
+    isAvailable?: boolean;
+    isUnavailable?: boolean;
+}
 
 export const MainContainer = styled.div`
     display:flex;
@@ -29,36 +33,41 @@ export const Column = styled.div`
 `   
 
 export const Day = styled.p`
-display: flex;
-height: 32px;
-width: 120px;
+    display: flex;
+    height: 32px;
+    width: 120px;
     justify-content: center;
     align-items: center;    
-margin-top: 0px;
+    margin-top: 0px;
     margin-bottom: 0px;
     padding: 0px;
     font-size: 16px;
     font-weight: bold;
     color: black;
     background-color:${SECONDARY_COLOR};
-    family-font= ${FONT_FAMILY};
+    font-family= ${FONT_FAMILY};
 `
-export const Hora = styled.button`
-display:flex;   
-width: 72px;
+export const Hour = styled.button<HourProps>`
+    display:flex;   
+    width: 72px;
     height:28px;
-    border-radius:10px;
+    border-radius:${BORDER_RADIUS};
     justify-content:center;
     align-items:center;
-    border:solid 2px ${SUCCESS_COLOR};
     text-align:Center;
     justify-content:center;
     items-align:center;
     color:black;
     background-color: white;
-    family-font=${FONT_FAMILY};
-    &:hover{   
-            cursor:pointer;
+    font-family=${FONT_FAMILY};
+    border:${(props)=>
+        props.isAvailable?`solid 2px ${SUCCESS_COLOR}`
+        :props.isUnavailable?`solid 2px ${TERTIARY_COLOR}`
+        :"none"};
+    &:hover {
+        cursor: ${(props) => (props.isAvailable ? "pointer" : "default")};
+    }
+    
            
 `
 
