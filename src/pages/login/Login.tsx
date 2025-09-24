@@ -1,14 +1,23 @@
 import './Login.css'
-import Logo from '../../assets/Logo.png'
+import LogoCeci from '../../assets/Logo.png'
 import PasswordIcon from '../../assets/password-icon.png'
 import UserIcon from '../../assets/user-icon.png'
-import ErrorIcon from '../../assets/error-icon.png'
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { loginScheme } from './login.scheme'
 import { useSigninMutation } from '../../app/services/AuthService'
 import { encryptToBase64 } from '../../utils/Base64Utils'
 import { useNavigate } from 'react-router'
+import { MainContainer,
+        Logo,
+        Title,
+        Img,
+        Form,
+        Input,
+        Button,
+        Label,
+        InputContainer
+ } from './Login.styles'
 
 function Login() {
 
@@ -32,56 +41,28 @@ function Login() {
   } 
 
   return (
-    <div className='login'>
-      <form className='login-form' onSubmit={handleSubmit(onSubmit)}>
-        <div>
-          <div className='input-container'>
-            <img 
-              src={UserIcon}
-              width={40}
-              height={40}
-            />
-            <input 
-              placeholder='Usuario'
-              {...register("username")}
-            />
-          </div>
-          {errors.username && (
-            <div className='error-container'>
-              <img src={ErrorIcon} width={30} height={30}/>
-              <p className='error-message'>{errors.username.message}</p>
-            </div>
-          )}
-        </div>
-        <div>
-          <div className='input-container'>
-            <img 
-              src={PasswordIcon}
-              width={40}
-              height={30}
-            />
-            <input 
-              placeholder='Contraseña'
-              {...register("password")}
-            />
-          </div>
-          {errors.password && (
-            <div className='error-container'>
-              <img src={ErrorIcon} width={30} height={30}/>
-              <p className='error-message'>{errors.password.message}</p>
-            </div>
-          )}
-        </div>
-        <button className='submit-button' type='submit'>Iniciar sesion</button>
-      </form>
-      <section className='login-image-container'>
-        <img 
-          src={Logo} 
-          draggable="false"
-        />
-      </section>
-    </div>
+    <MainContainer>
+      <Title>BIENVENIDO DE NUEVO</Title>
+       <Logo><img src={LogoCeci} alt="Logo" /></Logo>
+      <Form>
+      
+          <Label>Usuario*</Label>
+          <InputContainer>
+           <Input placeholder="Usuario"></Input>
+            <img src={UserIcon} width={"24"} height={"24"}></img>
+          </InputContainer>
+         
+          
+          <Label>Contraseña*</Label>
+        <Input placeholder="Contraseña"></Input>
+    
+        
+     
+          <Button>Aceptar</Button>
+        
+      </Form>
+    </MainContainer>
   )
+    
 }
-
 export default Login;
