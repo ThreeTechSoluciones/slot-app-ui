@@ -1,7 +1,8 @@
 import './Login.css'
 import LogoCeci from '../../assets/Logo.png'
-import PasswordIcon from '../../assets/password-icon.png'
-import UserIcon from '../../assets/user-icon.png'
+import OpenEyeIcon from '../../assets/openEye4.png'
+import ClosedEyeIcon from "../../assets/closeEye3.png"
+import UserIcon from '../../assets/user2.png'
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { loginScheme } from './login.scheme'
@@ -9,19 +10,23 @@ import { useSigninMutation } from '../../app/services/AuthService'
 import { encryptToBase64 } from '../../utils/Base64Utils'
 import { useNavigate } from 'react-router'
 import { MainContainer,
-        Logo,
         Title,
-        Img,
+        Logo,
         Form,
+        Label,
+        InputContainer,
         Input,
         Button,
-        Label,
-        InputContainer
+        Img   
  } from './Login.styles'
+import { useState } from 'react'
+import toast from 'react-hot-toast'
+import { ErrorMessage } from "../../components/errors/ErrorMessage"
 
 function Login() {
 
   const [ signin ] = useSigninMutation({ fixedCacheKey: 'shared-auth' })
+
   const navigate = useNavigate()
 
   const {
@@ -37,32 +42,45 @@ function Login() {
       .unwrap()
       .then(() => {
         navigate('/home')
+        toast.success(`¡Bienvenido/a ${username}, has iniciado sesión con éxito!`);
       })
   } 
 
+  const [showPassword, setShowPassword] = useState(false)
+
+  const changePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
+  };
+
   return (
     <MainContainer>
-      <Title>BIENVENIDO DE NUEVO</Title>
-       <Logo><img src={LogoCeci} alt="Logo" /></Logo>
-      <Form>
-      
-          <Label>Usuario*</Label>
-          <InputContainer>
-           <Input placeholder="Usuario"></Input>
-            <img src={UserIcon} width={"24"} height={"24"}></img>
+      <Title>¡BIENVENIDO DE NUEVO!</Title>
+      <Logo><img src={LogoCeci} alt="Logo" /></Logo>
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <Label>Usuario*</Label>
+        <InputContainer>
+          <Input placeholder="Usuario"
+            {...register("username")}></Input>
+            <Img src={UserIcon} width={"24"} height={"24"}></Img>
           </InputContainer>
-         
-          
+          <ErrorMessage error={errors.username} />
           <Label>Contraseña*</Label>
-        <Input placeholder="Contraseña"></Input>
-    
-        
-     
-          <Button>Aceptar</Button>
-        
+          <InputContainer>
+            <Input 
+              type={showPassword? "text" : "password"} 
+              placeholder="Contraseña"  
+              {...register("password")}>
+            </Input>
+            {showPassword? (
+              <Img isInteractive onClick={changePasswordVisibility} src={OpenEyeIcon} width={"24"} height={"24"}  />
+            ):(
+              <Img isInteractive onClick={changePasswordVisibility} src={ClosedEyeIcon} width={"24"} height={"24" } /> 
+            )}
+         </InputContainer>
+         <ErrorMessage error={errors.password} />
+         <Button type="submit">Aceptar</Button>
       </Form>
     </MainContainer>
-  )
-    
+  )   
 }
 export default Login;

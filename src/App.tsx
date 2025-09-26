@@ -12,7 +12,6 @@ import EditStudent from "./pages/edit_student/EditStudent";
 function App() {
   return (
     <>
-      <Header />
       <main className="content">
         <Routes>
           <Route path="/login" element={<Login />} />

@@ -6,7 +6,7 @@ import { useNavigate } from "react-router";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Controller } from "react-hook-form";
-import { ErrorMessage } from "../../components/header/ErrorMessage";
+import { ErrorMessage } from "../../components/errors/ErrorMessage"
 import { PlanType } from "../../app/types/models/PlanType";
 import * as yup from "yup";
 import { useCreateStudentMutation } from "../../app/services/StudentService";
