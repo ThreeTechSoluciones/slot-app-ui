@@ -1,8 +1,8 @@
 import styled, {keyframes} from "styled-components";
 
 interface OptionProps {
-  isLast?: boolean;  
-  hasImg?: boolean;  
+  $isLast?: boolean;  
+  $hasImg?: boolean;  
 }
 
 export const MainContainer = styled.header`
@@ -48,14 +48,14 @@ const boldEffect = keyframes`
 `;
 
 export const Option = styled.div<OptionProps>`
-    width: 172px;
     min-height: 16px; 
     display:flex;
     justify-content:center;
     text-align:center;
     align-items: center; 
-    border-right: ${({ isLast }) => (isLast ? "none" : "2px solid black")};
-    gap: ${({ hasImg }) => (hasImg ? "6px" : "0")};
+    width: ${({ $hasImg }) => ($hasImg ? "200px" : "172px")};
+    border-right: ${({ $isLast }) => ($isLast ? "none" : "2px solid black")};
+    gap: ${({ $hasImg }) => ($hasImg ? "4px" : "0")};
     &:hover {
       cursor:pointer;
       font-size:17px;
@@ -64,9 +64,9 @@ export const Option = styled.div<OptionProps>`
       animation: ${blurEffect} 0.2s forwards, ${boldEffect} 0.3s forwards;
     }
     img {
-      width: ${({ hasImg }) => (hasImg ? "16px" : "0")};
-      height: ${({ hasImg }) => (hasImg ? "16px" : "0")};
-      padding-top: ${({ hasImg }) => (hasImg ? "4px" : "0")};
+      width: ${({ $hasImg }) => ($hasImg ? "16px" : "0")};
+      height: ${({ $hasImg }) => ($hasImg ? "16px" : "0")};
+      padding-top: ${({ $hasImg }) => ($hasImg ? "4px" : "0")};
     }
 `
 

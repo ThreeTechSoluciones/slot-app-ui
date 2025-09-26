@@ -39,12 +39,13 @@ function Header() {
         <Option onClick={()=>navigate(MisAlumnos)}>Mis alumnos</Option>
         <Option onClick={()=>navigate(MisPlanes)}>Mis planes</Option>
         <Option
-           isLast 
-           hasImg 
+           $isLast 
+           $hasImg 
            onClick={()=>navigate(NuevoAlumno)}> 
-           <p>Nuevo alumno</p> 
+           Nuevo alumno
           <img src={PlusIcon}/>
         </Option>
+        
       </LeftOptionsContainer>
       <RightOptionsContainer>
         <Logout

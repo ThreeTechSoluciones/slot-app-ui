@@ -22,7 +22,7 @@ function App() {
           <Route path={DetalleAlumno} element={<StudentDetail />} />
           <Route path={EditarAlumno} element={<EditStudent />} />
         </Route>
-        <Route path="/" element={<Navigate to="/login" />} />
+        <Route path="/" element={<Navigate to={IniciarSesion} />} />
       </Routes>
     </>
   );
