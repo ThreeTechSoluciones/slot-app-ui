@@ -39,7 +39,7 @@ function Home() {
       return 0;
     });
   }, [studentList]);
-
+  console.log("Student List:", studentList);
   const sortByField = (field: keyof StudentResponse, asc: boolean) => {
     const sorted = [...studentList].sort((a, b) => {
       const valueA = a[field];
