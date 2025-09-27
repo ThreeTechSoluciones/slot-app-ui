@@ -1,5 +1,5 @@
 import './Login.css'
-import Logo from '../../assets/Logo.png'
+import Logo from '../../assets/logoCeci.png'
 import PasswordIcon from '../../assets/password-icon.png'
 import UserIcon from '../../assets/user-icon.png'
 import ErrorIcon from '../../assets/error-icon.png'

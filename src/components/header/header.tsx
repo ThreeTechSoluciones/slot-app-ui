@@ -1,37 +1,70 @@
-import { persistor } from "../../app/store/store";
-import useAuthentication from "../../hooks/useAuthentication";
-import "./header.css";
 import PlusIcon from "../../assets/plus-icon.webp";
-import Logo from "../../assets/logo.png";
+import LogoCeci from "../../assets/logoCeci.png";
+import LogoutIcon from "../../assets/logout.png"
+import PerfilPicture from "../../assets/perfil.jpg"
+import {MisAlumnos, NuevoAlumno, MisPlanes} from "../../routes/RoutesUtils"
+import { MainContainer, 
+        LeftOptionsContainer, 
+        RightOptionsContainer , 
+        Logo,  
+        Logout, 
+        Photo, 
+        Option} from "./header.styles";
+import { useNavigate } from "react-router";
+import { ConfirmDialog } from "../confirm_dialog/ConfirmDialog";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { clearUser } from "../../app/slices/AuthSlice";
+import toast from "react-hot-toast";
+
 function Header() {
-  const { isAuthenticated } = useAuthentication();
+
+  const dispatch = useDispatch();
 
   const handleLogout = () => {
-    persistor.purge();
+    setShowConfirm(false);
+    dispatch(clearUser());
+    toast.success("Has cerrado sesión con éxito")
   };
 
-  return (
-    <header className="header">
-      {isAuthenticated && (
-        <>
-          <div className="header-left">
-            <a href="/home">Listado de alumnos</a>
-            <a href="/cuotas">Cuotas mensuales</a>
-          </div>
-          <div className="header-right">
-            <a href="/nuevo-alumno" className="new-student">
-              Nuevo alumno
-              <img src={PlusIcon} alt="Plus" className="plus-icon" />
-            </a>
-            <a href="/login" onClick={handleLogout}>
-              Salir
-            </a>
-            <img src={Logo} alt="Logo" className="logo"></img>
-          </div>
-        </>
-      )}
-    </header>
-  );
-}
+  const navigate = useNavigate();
 
+  const [showConfirm, setShowConfirm] = useState(false);
+
+  return (
+    <MainContainer>
+      <LeftOptionsContainer>
+        <Logo><img src={LogoCeci} alt="Logo" /></Logo>
+        <Option>Calendario</Option>
+        <Option onClick={()=>navigate(MisAlumnos)}>Mis alumnos</Option>
+        <Option onClick={()=>navigate(MisPlanes)}>Mis planes</Option>
+        <Option
+           $isLast 
+           $hasImg 
+           onClick={()=>navigate(NuevoAlumno)}> 
+           Nuevo alumno
+          <img src={PlusIcon}/>
+        </Option>
+        
+      </LeftOptionsContainer>
+      <RightOptionsContainer>
+        <Logout
+          onClick={() => setShowConfirm(true)}>
+          <img src={LogoutIcon}/>
+          Cerrar sesión
+        </Logout>   
+        <Photo>  
+          <img src={PerfilPicture} alt="Foto de perfil" />
+        </Photo>
+      </RightOptionsContainer>
+      {showConfirm && (
+        <ConfirmDialog
+          message="¿Estás seguro de que quieres cerrar sesión?"
+          onConfirm={handleLogout}
+          onCancel={() => setShowConfirm(false)}
+        />
+      )}
+    </MainContainer>
+    )
+};
 export default Header;
