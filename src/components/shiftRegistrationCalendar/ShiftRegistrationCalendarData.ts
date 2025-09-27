@@ -31,5 +31,4 @@ export const shiftRegistrationCalendarData = [
     day: "Vie",
     shifts: [{id:"29", hour:"9:00",status: "Unavailable"}]
   },
-  
 ];
