@@ -15,15 +15,14 @@ import { errorHandler } from "../errorHandler/errorHandler";
 import { UserService } from "../services/UserService";
 import { StudentService } from "../services/StudentService";
 import { PriceService } from "../services/PriceService";
-import studentFormReducer from "../../pages/students/StudentRegistrationFormSlice";
+
 
 
 const reducers = combineReducers({
   [AuthService.reducerPath]: AuthService.reducer,
   [UserService.reducerPath]: UserService.reducer,
   [StudentService.reducerPath]: StudentService.reducer,
-  [PriceService.reducerPath]: PriceService.reducer,
-  studentRegistrationForm: studentFormReducer,
+  [PriceService.reducerPath]: PriceService.reducer
 });
 
 const persistConfig = {

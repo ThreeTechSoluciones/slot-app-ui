@@ -1,34 +1,43 @@
 import { MainContainer, 
-        TitleContainer, 
         FormContainer, 
         Label, 
         Input, 
-        Title, 
         Button, 
         ButtonsContainer, 
         Select, 
         SmallInput, 
         InputsContainer,
-        Text} from "../styles/PaymentData.styles";
-import { PaymentPlanName } from "../../../app/types/models/PaymentPlanName";
+        Text} from "./PaymentData.styles";
+import { PaymentPlanName } from "../../../../app/types/models/PaymentPlanName";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { paymentDataScheme } from "../schemes/PaymentData.scheme";
-import { ErrorMessage} from "../../../components/error_message/ErrorMessage"
-import { useNavigate } from "react-router";
-import { setStudentData } from "../StudentRegistrationFormSlice";
-import type { RootState } from "../../../app/store/store";
-import { useDispatch, useSelector } from "react-redux";
+import { paymentDataScheme } from "./PaymentData.scheme";
+import { ErrorMessage} from "../../../../components/error_message/ErrorMessage"
+import type { PaymentDataProps } from "../../create-student/CreateStudent";
 
+interface FormProp {
+  createStudentCall: (data: PaymentDataProps) => void;
+  paymentData:PaymentDataProps | undefined;
+  stepBack:()=>void;
+}
 
-function PaymentData() {
+function PaymentData({
+  createStudentCall,
+  paymentData,
+  stepBack
+}: FormProp) {
+
 
   type FormData = yup.InferType<typeof paymentDataScheme>;
-
-  const dispatch = useDispatch();
     
-  const studentRegistrationForm = useSelector((state: RootState) => state.studentRegistrationForm);
+  const studentRegistrationForm = paymentData ||
+  {
+    paymentPlanName:"",
+    classPrice:null,
+    extraClasses:null,
+    paymentDay:undefined,
+  };
   
   const PlanTypeNameArray = Object.values(PaymentPlanName);
 
@@ -36,42 +45,25 @@ function PaymentData() {
     register,
     handleSubmit,
     watch,
-    getValues, 
     formState: { errors },
   } = useForm<FormData>({
     resolver: yupResolver(paymentDataScheme) as any,
-    defaultValues:studentRegistrationForm,
+    defaultValues:{...studentRegistrationForm},
   });
 
   const PaymentPlanNameSelected = watch("paymentPlanName");
 
-  const navigate = useNavigate();
-
-  const normalizePaymentData = (data: FormData) => ({
-    ...data,
-    extraClasses: data.extraClasses ?? undefined,
-    classPrice: data.classPrice ?? undefined,
-    paymentDay: data.paymentDay ?? undefined,
-  });
-
   const onSubmit = (paymentData: FormData) => {
-    const normalizedData = normalizePaymentData(paymentData);
-    dispatch(setStudentData(normalizedData)); 
-    navigate("/nuevo-alumno/datos-del-plan");
-  };
-
-  const stepBack = () => {
-    const paymentData = getValues();
-    const normalizedData = normalizePaymentData(paymentData);
-    dispatch(setStudentData(normalizedData));
-    navigate("/nuevo-alumno/datos-del-alumno");
+     createStudentCall({
+      paymentPlanName: paymentData.paymentPlanName,
+      paymentDay: paymentData.paymentDay,
+      classPrice:paymentData.classPrice,
+      extraClasses:paymentData.extraClasses
+    })
   };
 
     return(
       <MainContainer>
-        <TitleContainer>
-          <Title>REGISTRAR NUEVO ALUMNO</Title>
-        </TitleContainer>
         <FormContainer onSubmit={handleSubmit(onSubmit)}>
           <div>
             <Label>Forma de pago</Label>

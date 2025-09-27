@@ -5,26 +5,37 @@ import { MainContainer,
         Description, 
         InputDate, 
         Button, 
-        Title, 
         ButtonsContainer, 
-        TitleContainer, 
         Label} 
-        from "../styles/StudentData.styles";
-import { StudentDataScheme } from "../schemes/StudentData.scheme";
+        from "./StudentData.styles";
+import { StudentDataScheme } from "./StudentData.scheme";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
-import { ErrorMessage} from "../../../components/error_message/ErrorMessage";
+import { ErrorMessage} from "../../../../components/error_message/ErrorMessage";
 import { useNavigate } from "react-router";
-import { useDispatch, useSelector } from "react-redux";
-import { resetStudentData, setStudentData } from "../StudentRegistrationFormSlice";
-import type { RootState } from "../../../app/store/store";
+import type { StudentDataProps } from "../../create-student/CreateStudent";
 
+interface FormProp {
+  createStudentCall: (data: StudentDataProps) => void;
+  studentData: StudentDataProps | undefined;
+}
 
-function StudentData() {
+function StudentData({
+  createStudentCall,
+  studentData
+}: FormProp) {
 
-  const dispatch = useDispatch();
   
-  const studentRegistrationForm = useSelector((state: RootState) => state.studentRegistrationForm);
+  const studentRegistrationForm = studentData || {
+    name:"",
+    lastName:"",
+    dni:"",
+    cellphoneNumber:"",
+    birthday:"",
+    pathologies:"",
+    paymentPlanName:"",
+    planId:"",
+  };
 
   type FormData = yup.InferType<typeof StudentDataScheme>;
 
@@ -36,31 +47,25 @@ function StudentData() {
     resolver: yupResolver(StudentDataScheme),
     defaultValues: {
     ...studentRegistrationForm, 
-    birthday: studentRegistrationForm.birthday
-      ? new Date(studentRegistrationForm.birthday).toISOString().split('T')[0]
-      : "", 
   }
   });
 
   const navigate = useNavigate();
   
   const onSubmit = (studentData: FormData) => {
-    const normalizedStudentData = {
-      ...studentData,
-      pathologies: studentData.pathologies ?? undefined,
-       birthday: studentData.birthday
-      ? new Date(studentData.birthday).toISOString()
-      : undefined,
-    };
-    dispatch(setStudentData(normalizedStudentData)),
-    navigate("/nuevo-alumno/datos-del-pago");
+    createStudentCall({
+      name: studentData.name,
+      lastName: studentData.lastName,
+      dni: studentData.dni,
+      cellphoneNumber: studentData.cellphoneNumber,
+      birthday: studentData.birthday,
+      pathologies: studentData.pathologies
+    })
+
   };
   
   return (
     <MainContainer>
-      <TitleContainer>
-        <Title>REGISTRAR NUEVO ALUMNO</Title>
-      </TitleContainer>
       <FormContainer onSubmit={handleSubmit(onSubmit)}>
         <div>
           <Label>Nombre*</Label> 
@@ -93,7 +98,7 @@ function StudentData() {
           <ErrorMessage error={errors.pathologies} />
         </div>
         <ButtonsContainer>
-          <Button type="button" onClick={() =>{navigate("/nuevo-alumno"); dispatch(resetStudentData())}}>Cancelar</Button>
+          <Button type="button" onClick={() =>{navigate("/nuevo-alumno");}}>Cancelar</Button>
           <Button type="submit">Siguiente</Button>
         </ButtonsContainer>
       </FormContainer> 

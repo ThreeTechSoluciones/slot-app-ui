@@ -5,7 +5,7 @@ import { PRIMARY_COLOR,
         TEXT_COLOR, 
         FONT_FAMILY, 
         BORDER_RADIUS} 
-    from "../../../utils/Stylesheet"; 
+    from "../../../../utils/Stylesheet"; 
 
 export const MainContainer=styled.div`
     display: flex;

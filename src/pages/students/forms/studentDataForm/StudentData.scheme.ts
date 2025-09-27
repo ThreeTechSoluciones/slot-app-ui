@@ -25,18 +25,6 @@ export const StudentDataScheme = yup.object().shape({
     .transform((value, originalValue) => {
       return originalValue === "" ? null : value;
     })
-    .test("age", "El estudiante debe ser mayor de 15 años", (value) => {
-      //esta validación hay que confirmar si la dejamos
-      if (!value) return false;
-      const today = new Date(); 
-      const birthDate = new Date(value);
-      let age = today.getFullYear() - birthDate.getFullYear();
-      const m = today.getMonth() - birthDate.getMonth();
-      if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-        age--;
-      }
-      return age >= 15;
-    }),
 });
    
 
