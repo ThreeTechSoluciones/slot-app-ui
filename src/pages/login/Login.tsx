@@ -1,8 +1,7 @@
-import './Login.css'
 import LogoCeci from '../../assets/Logo.png'
-import OpenEyeIcon from '../../assets/openEye4.png'
-import ClosedEyeIcon from "../../assets/closeEye3.png"
-import UserIcon from '../../assets/user2.png'
+import OpenEyeIcon from "../../assets/openEye-icon.png"
+import ClosedEyeIcon from "../../assets/closeEye-icon.png"
+import UserIcon from "../../assets/userIcon.png"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { loginScheme } from './login.scheme'

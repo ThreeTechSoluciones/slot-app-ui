@@ -1,4 +1,4 @@
-import ErrorIcon from "../../assets/error-icon2.png";
+import ErrorIcon from "../../assets/error-icon.png";
 import type { FieldError } from "react-hook-form";
 import { ErrorMessageStyle} from "./ErrorMessage.styles"
 
