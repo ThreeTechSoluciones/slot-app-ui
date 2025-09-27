@@ -1,57 +1,66 @@
-import { shiftRegistrationCalendarData } from "./ShiftRegistrationCalendarData";
 import { MainContainer, 
         Column,
         Day,
-        Hour
+        Hour,
+        WarningContainer
       } from "./ShiftRegistrationCalendar.styles";
 import { SUCCESS_COLOR } from "../../utils/Stylesheet";
+import type { Shifts } from "../../app/types/responses/ShiftsResponse";
 
 
-const maxTurnos = Math.max(...shiftRegistrationCalendarData.map(day => day.shifts.length)); 
-
-type CalenderProps = {
+type CalendarProps = {
   selectedShifts: { id: string }[];
-  onSeleccionTurno: (id: string, day: string, hour: string) => void;
+  onSelectShift : (id: string, day: string, hour: string) => void;
   onDeleteShift: (id: string, day: string, hour: string) => void;
+  listShifts: Shifts[];
 }
 
-function Calender({
+function ShiftRegistrationCalendar({
       selectedShifts,
-      onSeleccionTurno,
+      onSelectShift ,
       onDeleteShift,
-    }: CalenderProps) {
+      listShifts,
+    }: CalendarProps) {
+
+  const maxTurnos = Math.max(...listShifts.map(day => day.shifts.length)); 
   
-      return (
-        <MainContainer>
-        {shiftRegistrationCalendarData.map((day) => (
-          <Column key={day.day}>
-            <Day>{day.day}</Day>
+  return (
+    <MainContainer>
+      {listShifts.length > 0 ? (
+      listShifts.map((day) => (
+        <Column key={day.day}>
+          <Day>{day.day}</Day>
             {Array.from({ length: maxTurnos }).map((_, idx) => {
             const shift = day.shifts[idx];
             //caso 1 (que no exista el turno o que el turno exista pero está ocupado)
             if (!shift || shift.status==="Unavailable"){ 
-            return (
-              <Hour isUnavailable key={idx} type="button" ></Hour>
-            )
+              return (
+                <Hour key={idx} type="button" ></Hour>
+              )
             };
             //caso 2 (que el turno exista y esté habilitado. En este caso podemos seleccionarlo y deseleccionarlo)
             const isSelected = selectedShifts.some(s => s.id === shift.id);
             return (
-              <Hour isAvailable type="button" key={shift.id} onClick={() => {
-                if (isSelected) {
+              <Hour $isAvailable type="button" key={shift.id} onClick={() => {
+              if (isSelected) {
                   onDeleteShift(shift.id, day.day, shift.hour); 
-                } else {
-                  onSeleccionTurno(shift.id, day.day, shift.hour); 
+              } else {
+                  onSelectShift (shift.id, day.day, shift.hour); 
                 }
-                }}
-                style={{ backgroundColor: isSelected ? SUCCESS_COLOR : undefined }}>
-                {shift.hour}
+              }}
+              style={{ backgroundColor: isSelected ? SUCCESS_COLOR : undefined }}>
+              {shift.hour}
               </Hour>
             );
             })}
           </Column>
-        ))}
-      </MainContainer>
-    );
-  }
-export default Calender;
+        ))
+      ):(
+        <WarningContainer>
+          <p>No hay turnos cargados</p>
+        </WarningContainer>
+      )}
+    </MainContainer>
+  );
+}
+export default ShiftRegistrationCalendar;

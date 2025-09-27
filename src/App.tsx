@@ -23,10 +23,10 @@ function App() {
           <Route element={<PrivateRoute />}>
             <Route path="/home" element={<Home />} />
             <Route path="/cuotas" element={<Plans />} />
-            <Route path="/datos-del-alumno" element={<StudentData />} />
+            <Route path="/nuevo-alumno/datos-del-estudiante" element={<StudentData />} />
             <Route path="/detalle-alumno" element={<StudentDetail />} />
-            <Route path="/datos-del-pago" element={<PaymentData />} />
-            <Route path="/datos-del-plan" element={<PlanData />} />  
+            <Route path="/nuevo-alumno/datos-del-pago" element={<PaymentData />} />
+            <Route path="/nuevo-alumno/datos-del-plan" element={<PlanData />} />  
           </Route>
           <Route path="/" element={<Navigate to="/login" />} />
         </Routes>

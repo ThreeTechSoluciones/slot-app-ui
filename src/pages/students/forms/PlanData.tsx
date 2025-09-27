@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
-import { ErrorMessage } from "../../../components/header/ErrorMessage";
+import { ErrorMessage} from "../../../components/error_message/ErrorMessage";
 import { planDataScheme } from "../schemes/PlanData.scheme";
+import { shiftRegistrationCalendarData } from "../../../components/shiftRegistrationCalendar/ShiftRegistrationCalendarData";
 import { MainContainer,
         Label, 
         Select, 
@@ -12,7 +13,7 @@ import { MainContainer,
         from "../styles/PlanData.styles";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import Calender from "../../../components/shiftRegistrationCalendar/ShiftRegistrationCalendar";
+import ShiftRegistrationCalendar from "../../../components/shiftRegistrationCalendar/ShiftRegistrationCalendar";
 import { useNavigate } from "react-router";
 import ShiftDetail from "../../../components/shiftsDetail/ShiftDetail";
 import { useShiftHandler } from "../../../components/shiftRegistrationCalendar/UseShiftHandler";
@@ -75,19 +76,21 @@ function PlanData() {
       birthday: new Date(studentDataFromSlice.birthday),
     };
       
-      try {
-        await createStudent(createStudentRequest).unwrap();;
-        navigate("/home")
-        toast.success("El estudiante ha sido registrado") 
-      } catch (error) {
+    createStudent(createStudentRequest)
+    .unwrap()
+    .then(() => {
+      navigate("/home");
+      toast.success("El estudiante ha sido registrado");
+    })
+    .catch(() => {
       toast.error("Ha ocurrido un error en la creación del estudiante");
-      }
-    };
+    });
+  };
 
     const stepBack = () => {
         const planData = getValues();
         dispatch(setStudentData(planData));
-        navigate("/datos-del-plan");
+        navigate("/nuevo-alumno/datos-del-pago");
       };
     
   return(
@@ -104,7 +107,7 @@ function PlanData() {
           ))}
         </Select>
         <ErrorMessage error={errors.planId} />
-        <Calender  selectedShifts={shifts}  onSeleccionTurno={newShift} onDeleteShift={removeShift}  />
+        <ShiftRegistrationCalendar  listShifts={shiftRegistrationCalendarData} selectedShifts={shifts}   onSelectShift ={newShift} onDeleteShift={removeShift}  />
         <ShiftDetail shifts ={shifts}/>
         <ButtonsContainer>
           <Button type="button" onClick={stepBack}>Atrás</Button>

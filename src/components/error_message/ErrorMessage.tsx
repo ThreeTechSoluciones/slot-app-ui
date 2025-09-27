@@ -1,6 +1,6 @@
 import ErrorIcon from "../../assets/error-icon.png";
 import type { FieldError } from "react-hook-form";
-import { ErrorMessageStyle} from "./ErrorMessage.styles";
+import { ErrorMessageStyle} from "../error_message/ErrorMessage.styles";
 
 type ErrorMessageProps = {
   error?: FieldError;

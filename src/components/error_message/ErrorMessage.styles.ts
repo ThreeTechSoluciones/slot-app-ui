@@ -8,6 +8,6 @@ export const ErrorMessageStyle=styled.p`
     padding: 3px 0 0 0;
     display: flex;
     align-items: center;
-    margin:0px;
+     margin: 3px 0px 0px 0px;
     gap:6px;
 ` 

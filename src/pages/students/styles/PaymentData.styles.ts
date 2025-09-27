@@ -22,7 +22,8 @@ export const Title=styled.h1`
     font-size: 24px;
     margin-right:80px;
     margin-top: 32px;
-    font-family: ${FONT_FAMILY}
+    font-family: ${FONT_FAMILY};
+    font-weight:bold;
     `
 
 export const FormContainer=styled.form`

@@ -15,7 +15,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { paymentDataScheme } from "../schemes/PaymentData.scheme";
-import { ErrorMessage } from "../../../components/header/ErrorMessage";
+import { ErrorMessage} from "../../../components/error_message/ErrorMessage"
 import { useNavigate } from "react-router";
 import { setStudentData } from "../StudentRegistrationFormSlice";
 import type { RootState } from "../../../app/store/store";
@@ -57,14 +57,14 @@ function PaymentData() {
   const onSubmit = (paymentData: FormData) => {
     const normalizedData = normalizePaymentData(paymentData);
     dispatch(setStudentData(normalizedData)); 
-    navigate("/datos-del-plan");
+    navigate("/nuevo-alumno/datos-del-plan");
   };
 
   const stepBack = () => {
     const paymentData = getValues();
     const normalizedData = normalizePaymentData(paymentData);
     dispatch(setStudentData(normalizedData));
-    navigate("/datos-del-alumno");
+    navigate("/nuevo-alumno/datos-del-alumno");
   };
 
     return(

@@ -13,7 +13,7 @@ import { MainContainer,
 import { StudentDataScheme } from "../schemes/StudentData.scheme";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
-import { ErrorMessage } from "../../../components/header/ErrorMessage";
+import { ErrorMessage} from "../../../components/error_message/ErrorMessage";
 import { useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { resetStudentData, setStudentData } from "../StudentRegistrationFormSlice";
@@ -53,7 +53,7 @@ function StudentData() {
       : undefined,
     };
     dispatch(setStudentData(normalizedStudentData)),
-    navigate("/datos-del-pago");
+    navigate("/nuevo-alumno/datos-del-pago");
   };
   
   return (
@@ -64,32 +64,32 @@ function StudentData() {
       <FormContainer onSubmit={handleSubmit(onSubmit)}>
         <div>
           <Label>Nombre*</Label> 
-          <Input placeholder="Nombre" {...register("name")}></Input>
+          <Input placeholder="Juan" {...register("name")}></Input>
           <ErrorMessage error={errors.name} />
         </div>
         <div>
           <Label>Apellido*</Label>
-          <Input placeholder="Apellido" {...register("lastName")}></Input>
+          <Input placeholder="Gomez" {...register("lastName")}></Input>
           <ErrorMessage error={errors.lastName} />
         </div>
         <div>
           <Label>DNI*</Label>
-          <Input placeholder="DNI (ingresar solo números, sin puntos ni espacios)" {...register("dni")} ></Input>
+          <Input placeholder="56987256 (ingresar solo números, sin puntos ni espacios)" {...register("dni")} ></Input>
           <ErrorMessage error={errors.dni} />
         </div>
         <div>
           <Label>Fecha de nacimiento*</Label>
-          <InputDate placeholder="Fecha de nacimiento" type="date" {...register("birthday")}></InputDate>
+          <InputDate type="date" {...register("birthday")}></InputDate>
           <ErrorMessage error={errors.birthday} />
         </div>
         <div>
           <Label>Número de teléfono*</Label>
-          <Input placeholder="Número de teléfono" {...register("cellphoneNumber")}></Input>
+          <Input placeholder="3534698523" {...register("cellphoneNumber")}></Input>
           <ErrorMessage error={errors.cellphoneNumber} />
         </div>
         <div>
           <Label>Patologías o enfermedades</Label>
-          <Description placeholder="Patologías/enfermedades" {...register("pathologies")}></Description>
+          <Description placeholder="Hernia de disco" {...register("pathologies")}></Description>
           <ErrorMessage error={errors.pathologies} />
         </div>
         <ButtonsContainer>

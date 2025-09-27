@@ -6,8 +6,7 @@ import { BORDER_RADIUS,
        } from "../../utils/Stylesheet";
 
 interface HourProps  {
-    isAvailable?: boolean;
-    isUnavailable?: boolean;
+    $isAvailable?: boolean;
 }
 
 export const MainContainer = styled.div`
@@ -62,13 +61,19 @@ export const Hour = styled.button<HourProps>`
     items-align:center;
     color:black;
     background-color:${(props)=>
-        props.isAvailable? `white` : SECONDARY_COLOR};
+        props.$isAvailable? `white` : SECONDARY_COLOR};
     border:${(props)=>
-        props.isAvailable?`solid 2px ${SUCCESS_COLOR}`
-        :props.isUnavailable?`solid 2px ${SECONDARY_COLOR}`
-        :"none"};
+         props.$isAvailable ? `2px solid ${SUCCESS_COLOR}` : `2px solid ${SECONDARY_COLOR}`};
     &:hover {
-        cursor: ${(props) => (props.isAvailable ? "pointer" : "default")};
+        cursor: ${(props) => (props.$isAvailable ? "pointer" : "default")};
     }           
 `
 
+export const WarningContainer = styled.div`
+    width:100%;
+    display:flex;
+    justify-content:center;
+    border-right:5px solid ${SECONDARY_COLOR};
+    border-top:5px solid ${SECONDARY_COLOR};
+    font-family: ${FONT_FAMILY};
+`

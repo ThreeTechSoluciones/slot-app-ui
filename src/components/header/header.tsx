@@ -19,7 +19,7 @@ function Header() {
             <a href="/cuotas">Cuotas mensuales</a>
           </div>
           <div className="header-right">
-            <a href="/datos-del-alumno" className="new-student">
+            <a href="/nuevo-alumno/datos-del-estudiante" className="new-student">
               Nuevo alumno
               <img src={PlusIcon} alt="Plus" className="plus-icon" />
             </a>
