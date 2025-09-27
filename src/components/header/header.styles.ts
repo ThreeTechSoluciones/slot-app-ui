@@ -56,11 +56,11 @@ export const Option = styled.div<OptionProps>`
     width: ${({ $hasImg }) => ($hasImg ? "200px" : "172px")};
     border-right: ${({ $isLast }) => ($isLast ? "none" : "2px solid black")};
     gap: ${({ $hasImg }) => ($hasImg ? "4px" : "0")};
+    transition: font-size 0.3s ease-in-out;
     &:hover {
       cursor:pointer;
       font-size:17px;
       font-weight:bold;
-      transition: font-size 0.3s ease-in-out;
       animation: ${blurEffect} 0.2s forwards, ${boldEffect} 0.3s forwards;
     }
     img {
