@@ -86,9 +86,7 @@ function Home() {
     {
       header: "Situación",
       render: (student: StudentResponse) => (
-        <SituationText status={student.status ? "Al día" : "Debe"}>
-          {student.status ? "Al día" : "Debe"}
-        </SituationText>
+        <SituationText status={student.status}>{student.status}</SituationText>
       ),
     },
     {

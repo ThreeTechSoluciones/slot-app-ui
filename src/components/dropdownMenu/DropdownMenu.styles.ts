@@ -40,8 +40,10 @@ export const DropdownMenuStyle = styled.div`
 
 export const ButtonOption = styled.button`
   background: none;
+  color: black;
   border: none;
   padding: 10px 9px;
+  font-size: 16px;
   text-align: center;
   cursor: pointer;
 

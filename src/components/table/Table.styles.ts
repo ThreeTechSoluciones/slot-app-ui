@@ -1,10 +1,11 @@
 import styled from "styled-components";
 export const TableStyle = styled.table`
-  width: 90%;
+  width: calc(100% - 160px);
   border-collapse: collapse;
   margin: 20px auto 0 auto;
   background-color: #f0e21e;
-  border-radius: 20px;
+  border-radius: 10px;
+  table-layout: fixed;
 `;
 
 export const Thead = styled.thead`
@@ -26,10 +27,12 @@ export const Tbody = styled.tbody`
   }
 `;
 export const Td = styled.td`
-  font-size: clamp(0.5rem, 2vw, 1.5rem);
+  font-size: 16px;
   text-align: center;
+  vertical-align: middle;
 `;
 
 export const Tr = styled.tr`
   border-bottom: transparent;
+  height: 56px;
 `;
