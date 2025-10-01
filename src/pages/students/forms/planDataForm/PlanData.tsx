@@ -16,18 +16,18 @@ import ShiftDetail from "../../../../components/shiftsDetail/ShiftDetail";
 import { useShiftHandler } from "../../../../components/shiftRegistrationCalendar/UseShiftHandler";
 import useAuthentication from "../../../../hooks/useAuthentication";
 import { useGetUserPlansQuery } from "../../../../app/services/UserService";
-import type { PlanDataProps } from "../../create-student/CreateStudent";
+import type { FormProp } from "../../create-student/FormProp.type";
 
-interface FormProp {
-  createStudentCall: (data: PlanDataProps) => void;
-    planData: PlanDataProps | undefined;
-    stepBack:()=>void;
+
+export interface PlanDataProps {
+    planId: string;
 }
+
 function PlanData({
-  createStudentCall,
-  planData,
-  stepBack
-}: FormProp) {
+  onNext,
+  onBack,
+  data
+}: FormProp<PlanDataProps>) {
 
   type FormData = yup.InferType<typeof planDataScheme>;
   
@@ -37,9 +37,9 @@ function PlanData({
     
   const { shifts, removeShift, newShift} = useShiftHandler()
 
-  const studentRegistrationForm = planData || {
-    planId:"",
-  };
+  const DEFAULT_PLAN_DATA = { planId:""}
+
+  const studentRegistrationForm = data || DEFAULT_PLAN_DATA;
     
   const {
     register,
@@ -52,7 +52,7 @@ function PlanData({
   
   const onSubmit = async (planData: FormData) => {
    
-    createStudentCall(planData)
+    onNext(planData)
       
   }
     
@@ -70,7 +70,7 @@ function PlanData({
         <ShiftRegistrationCalendar  listShifts={shiftRegistrationCalendarData} selectedShifts={shifts}   onSelectShift ={newShift} onDeleteShift={removeShift}  />
         <ShiftDetail shifts ={shifts}/>
         <ButtonsContainer>
-          <Button type="button" onClick={stepBack}>Atrás</Button>
+          <Button type="button" onClick={onBack}>Atrás</Button>
           <Button type="submit">Registrar</Button>
         </ButtonsContainer>
       </FormContainer>

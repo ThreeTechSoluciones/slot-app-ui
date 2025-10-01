@@ -2,7 +2,9 @@ import styled from "styled-components";
 import { BORDER_RADIUS, 
         FONT_FAMILY, 
         SECONDARY_COLOR, 
-        SUCCESS_COLOR, 
+        SUCCESS_COLOR,
+        TERTIARY_COLOR,
+        TEXT_COLOR, 
        } from "../../utils/Stylesheet";
 
 interface HourProps  {
@@ -62,11 +64,12 @@ export const Hour = styled.button<HourProps>`
     color:black;
     background-color:${(props)=>
         props.$isAvailable? `white` : SECONDARY_COLOR};
+    color:${(props)=> props.$isAvailable?`${TEXT_COLOR}`:`${TERTIARY_COLOR}`};
     border:${(props)=>
          props.$isAvailable ? `2px solid ${SUCCESS_COLOR}` : `2px solid ${SECONDARY_COLOR}`};
     &:hover {
         cursor: ${(props) => (props.$isAvailable ? "pointer" : "default")};
-    }           
+    }
 `
 
 export const WarningContainer = styled.div`

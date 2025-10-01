@@ -13,20 +13,25 @@ import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { ErrorMessage} from "../../../../components/error_message/ErrorMessage";
 import { useNavigate } from "react-router";
-import type { StudentDataProps } from "../../create-student/CreateStudent";
+import type { FormProp } from "../../create-student/FormProp.type";
 
-interface FormProp {
-  createStudentCall: (data: StudentDataProps) => void;
-  studentData: StudentDataProps | undefined;
+
+export interface StudentDataProps  {
+    name:string;
+    lastName:string;
+    dni:string;
+    cellphoneNumber: string;
+    birthday: string;
+    pathologies?: string | null;
 }
 
 function StudentData({
-  createStudentCall,
-  studentData
-}: FormProp) {
+  onNext,
+  onBack,
+  data
+}: FormProp<StudentDataProps>) {
 
-  
-  const studentRegistrationForm = studentData || {
+  const DEFAULT_STUDENT_DATA = {
     name:"",
     lastName:"",
     dni:"",
@@ -36,6 +41,7 @@ function StudentData({
     paymentPlanName:"",
     planId:"",
   };
+  const studentRegistrationForm = data || DEFAULT_STUDENT_DATA
 
   type FormData = yup.InferType<typeof StudentDataScheme>;
 
@@ -53,15 +59,7 @@ function StudentData({
   const navigate = useNavigate();
   
   const onSubmit = (studentData: FormData) => {
-    createStudentCall({
-      name: studentData.name,
-      lastName: studentData.lastName,
-      dni: studentData.dni,
-      cellphoneNumber: studentData.cellphoneNumber,
-      birthday: studentData.birthday,
-      pathologies: studentData.pathologies
-    })
-
+    onNext({...studentData})
   };
   
   return (
@@ -98,7 +96,7 @@ function StudentData({
           <ErrorMessage error={errors.pathologies} />
         </div>
         <ButtonsContainer>
-          <Button type="button" onClick={() =>{navigate("/nuevo-alumno");}}>Cancelar</Button>
+          <Button type="button" onClick={onBack}>Cancelar</Button>
           <Button type="submit">Siguiente</Button>
         </ButtonsContainer>
       </FormContainer> 

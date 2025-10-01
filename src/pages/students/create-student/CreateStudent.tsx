@@ -1,7 +1,7 @@
-import { useState } from "react";
-import StudentData from "../forms/studentDataForm/StudentData";
-import PaymentData from "../forms/paymentDataForm/PaymentData";
-import PlanData from "../forms/planDataForm/PlanData";
+import { useState, type JSX } from "react";
+import StudentData, { type StudentDataProps } from "../forms/studentDataForm/StudentData";
+import PaymentData, { type PaymentDataProps } from "../forms/paymentDataForm/PaymentData";
+import PlanData, { type PlanDataProps } from "../forms/planDataForm/PlanData";
 import { useCreateStudentMutation } from "../../../app/services/StudentService";
 import useAuthentication from "../../../hooks/useAuthentication";
 import { useNavigate } from "react-router";
@@ -12,26 +12,6 @@ import {TitleContainer,
         MainContainer
 }from "./CreateStudent.styles";
 
-export interface StudentDataProps  {
-    name:string;
-    lastName:string;
-    dni:string;
-    cellphoneNumber: string;
-    birthday: string;
-    pathologies?: string | null;
-}
-
-export interface PaymentDataProps {
-    paymentPlanName:string;
-    extraClasses?: number|null|undefined;
-    classPrice?:number|null|undefined;
-    paymentDay?: number |undefined;
-}
-
-export interface PlanDataProps {
-    planId: string;
-}
-
 
 function CreateStudent() {
   const [studentData, setStudentData] = useState<StudentDataProps | undefined>(undefined);
@@ -41,6 +21,8 @@ function CreateStudent() {
   const [count, setCount] = useState<number>(1)
 
   const [createStudent]=useCreateStudentMutation();
+
+  const Navigate= useNavigate();
 
   const {userId}= useAuthentication()
 
@@ -84,28 +66,19 @@ function CreateStudent() {
         setCount(count - 1)
     }
 
+     const FormComponentMap : Map <number, JSX.Element> = new Map([
+      [1, <StudentData onNext={handleStudentDataForm} onBack ={()=>Navigate("/home")} data={studentData}/>],
+      [2, <PaymentData onNext={handlePaymentDataForm} onBack={stepBack} data={paymentData}/>],
+      [3, <PlanData onNext={handlePlanDataForm} onBack={stepBack} data={planData}/>]
+     ])
+
     return (
         <MainContainer>
             <TitleContainer>
-                    <Title>REGISTRAR NUEVO ALUMNO</Title>
+                    <Title>REGISTRAR NUEVO ALUMNO</Title>     
             </TitleContainer>
-            {count == 1 && <StudentData 
-                    createStudentCall={handleStudentDataForm}
-                    studentData={studentData} 
-                /> 
-            }
-            {count == 2 && <PaymentData
-                        createStudentCall={handlePaymentDataForm}
-                        paymentData={paymentData}
-                        stepBack={stepBack}
-                />   
-            }
-            {count == 3 && <PlanData
-                        createStudentCall={handlePlanDataForm}
-                        planData={planData}
-                        stepBack={stepBack}
-                />   
-            }
+             { FormComponentMap.get(count) }
+          
         </MainContainer>
     )
 }

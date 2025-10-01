@@ -16,51 +16,62 @@ type CalendarProps = {
 }
 
 function ShiftRegistrationCalendar({
-      selectedShifts,
-      onSelectShift ,
-      onDeleteShift,
-      listShifts,
-    }: CalendarProps) {
-
-  const maxTurnos = Math.max(...listShifts.map(day => day.shifts.length)); 
-  
+  selectedShifts,
+  onSelectShift ,
+  onDeleteShift,
+  listShifts,
+}: CalendarProps) {
   return (
     <MainContainer>
-      {listShifts.length > 0 ? (
-      listShifts.map((day) => (
-        <Column key={day.day}>
-          <Day>{day.day}</Day>
-            {Array.from({ length: maxTurnos }).map((_, idx) => {
-            const shift = day.shifts[idx];
-            //caso 1 (que no exista el turno o que el turno exista pero está ocupado)
-            if (!shift || shift.status==="Unavailable"){ 
-              return (
-                <Hour key={idx} type="button" ></Hour>
-              )
-            };
-            //caso 2 (que el turno exista y esté habilitado. En este caso podemos seleccionarlo y deseleccionarlo)
-            const isSelected = selectedShifts.some(s => s.id === shift.id);
-            return (
-              <Hour $isAvailable type="button" key={shift.id} onClick={() => {
-              if (isSelected) {
-                  onDeleteShift(shift.id, day.day, shift.hour); 
-              } else {
-                  onSelectShift (shift.id, day.day, shift.hour); 
-                }
-              }}
-              style={{ backgroundColor: isSelected ? SUCCESS_COLOR : undefined }}>
-              {shift.hour}
-              </Hour>
-            );
-            })}
-          </Column>
-        ))
-      ):(
-        <WarningContainer>
-          <p>No hay turnos cargados</p>
-        </WarningContainer>
-      )}
+      {listShifts.length > 0 ? 
+        <Shifts 
+          selectedShifts={selectedShifts}
+          onSelectShift={onSelectShift}
+          onDeleteShift={onDeleteShift}
+          listShifts={listShifts}
+        /> : 
+        <WarningMessage />
+      }
     </MainContainer>
   );
 }
 export default ShiftRegistrationCalendar;
+const WarningMessage = () => (
+  <WarningContainer>
+    No hay turnos disponibles para los próximos días.
+  </WarningContainer>
+);
+const Shifts = ({
+  selectedShifts,
+  onSelectShift ,
+  onDeleteShift,
+  listShifts,
+}: CalendarProps ) => {
+  const maxTurnos = Math.max(...listShifts.map(day => day.shifts.length)); 
+  return (
+    listShifts.map((day) => (
+      <Column key={day.day}>
+        <Day>{day.day}</Day>
+        {
+          Array.from({ length: maxTurnos }).map((_, idx) => {
+            const shift = day.shifts[idx];
+            const isSelected = selectedShifts.some(s => s.id === (shift && shift.id));
+            const isAvailable = shift && shift.status === "Available";
+            return (
+              <Hour 
+                $isAvailable={isAvailable}
+                type="button" 
+                key={shift ? `key-${shift.id}` : `empty-${idx}`}
+                onClick={() => isSelected ? onDeleteShift(shift.id, day.day, shift.hour) : onSelectShift(shift.id, day.day, shift.hour)} 
+                disabled={!isAvailable}
+                style={{ backgroundColor: isSelected ? SUCCESS_COLOR : undefined }}
+              >
+                {shift ? shift.hour : ""}
+              </Hour>
+            );
+          })
+        }
+      </Column>
+    ))
+  )
+}

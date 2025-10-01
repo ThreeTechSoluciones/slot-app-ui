@@ -25,10 +25,10 @@ export const shiftRegistrationCalendarData = [
   },
   {
     day: "Jue",
-    shifts: [{id:"28", hour:"9:00",status: "Unavailable"}]
+    shifts: [{id:"56", hour:"9:00",status: "Unavailable"}]
   },
   {
     day: "Vie",
-    shifts: [{id:"29", hour:"9:00",status: "Unavailable"}]
+    shifts: [{id:"59", hour:"9:00",status: "Unavailable"}]
   },
 ];

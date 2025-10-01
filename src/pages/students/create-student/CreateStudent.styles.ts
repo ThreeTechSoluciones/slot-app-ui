@@ -9,7 +9,7 @@ export const Title=styled.h1`
     font-weight:bold;
 `
 export const TitleContainer=styled.div`
-    width: 100%;
+    width: calc(100% - 80px);
     margin-left:80px;
 `
 export const MainContainer=styled.div`
@@ -17,5 +17,5 @@ export const MainContainer=styled.div`
     flex-direction: column;
     width: 100%;
     min-height: 100vh;
-    align-items:left;
+    
 `

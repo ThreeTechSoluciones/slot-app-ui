@@ -8,43 +8,45 @@ import { MainContainer,
         SmallInput, 
         InputsContainer,
         Text} from "./PaymentData.styles";
-import { PaymentPlanName } from "../../../../app/types/models/PaymentPlanName";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { paymentDataScheme } from "./PaymentData.scheme";
 import { ErrorMessage} from "../../../../components/error_message/ErrorMessage"
-import type { PaymentDataProps } from "../../create-student/CreateStudent";
+import type { FormProp } from "../../create-student/FormProp.type";
+import { PaymentPlanName, PlanTypeNameArray} from "../../../../app/types/models/PaymentPlanName";
+import { useState } from "react";
+import { CurrencyInput } from "./CurrencyInput";
 
-interface FormProp {
-  createStudentCall: (data: PaymentDataProps) => void;
-  paymentData:PaymentDataProps | undefined;
-  stepBack:()=>void;
+export interface PaymentDataProps {
+    paymentPlanName:string;
+    extraClasses?: number|null|undefined;
+    classPrice?:number|null|undefined;
+    paymentDay?: number |undefined;
 }
 
 function PaymentData({
-  createStudentCall,
-  paymentData,
-  stepBack
-}: FormProp) {
-
+  onNext,
+  onBack,
+  data
+}: FormProp<PaymentDataProps>) {
 
   type FormData = yup.InferType<typeof paymentDataScheme>;
-    
-  const studentRegistrationForm = paymentData ||
-  {
-    paymentPlanName:"",
-    classPrice:null,
-    extraClasses:null,
-    paymentDay:undefined,
-  };
-  
-  const PlanTypeNameArray = Object.values(PaymentPlanName);
 
+  const DEFAULT_PAYMENT_DATA: PaymentDataProps = {
+    paymentPlanName: "",
+    extraClasses: null,
+    classPrice: undefined,
+    paymentDay: undefined
+  };
+    
+  const studentRegistrationForm = data || DEFAULT_PAYMENT_DATA;
+  
   const {
     register,
     handleSubmit,
     watch,
+    control,
     formState: { errors },
   } = useForm<FormData>({
     resolver: yupResolver(paymentDataScheme) as any,
@@ -54,14 +56,10 @@ function PaymentData({
   const PaymentPlanNameSelected = watch("paymentPlanName");
 
   const onSubmit = (paymentData: FormData) => {
-     createStudentCall({
-      paymentPlanName: paymentData.paymentPlanName,
-      paymentDay: paymentData.paymentDay,
-      classPrice:paymentData.classPrice,
-      extraClasses:paymentData.extraClasses
-    })
+     onNext({...paymentData})
   };
-
+  const [price, setPrice] = useState<number | undefined>(undefined);
+  
     return(
       <MainContainer>
         <FormContainer onSubmit={handleSubmit(onSubmit)}>
@@ -82,25 +80,35 @@ function PaymentData({
                   <Text>Este campo se habilitará una vez seleccione el plan de pago</Text>
                   <Input disabled={PaymentPlanNameSelected===""}></Input>
                 </div>)}
-              {PaymentPlanNameSelected === "Día específico" && (
+              {PaymentPlanNameSelected === PaymentPlanName.DIA_ESPECIFICO && (
                 <>
                   <Input placeholder="Día de pago"  {...register("paymentDay")}/>
                   <ErrorMessage error={errors.paymentDay} /></>
               )}
-              {PaymentPlanNameSelected=== "Principio de mes" && (
+              {PaymentPlanNameSelected=== PaymentPlanName.PRINCIPIO_MES && (
                 <InputsContainer>
                   <div>
                     <SmallInput placeholder="Clases extras" {...register("extraClasses")}></SmallInput>
                     <ErrorMessage error={errors.extraClasses} />
                   </div>
                   <div>
-                    <SmallInput placeholder="Precio clase individual" {...register("classPrice")}></SmallInput>
-                    <ErrorMessage error={errors.classPrice} />
+                    <Controller
+                      name="classPrice"
+                      control={control}
+                      render={({ field }) => (
+                        <CurrencyInput
+                        value={field.value ?? null}  
+                          onChange={(value) => field.onChange(value)} 
+                          placeholder="Precio clase individual"
+    />
+  )}
+/>
+<ErrorMessage error={errors.classPrice} />
                   </div>
                 </InputsContainer>)}
           </div>    
           <ButtonsContainer>
-            <Button type="button" onClick={stepBack}>Atrás</Button>
+            <Button type="button" onClick={onBack}>Atrás</Button>
             <Button type="submit">Siguiente</Button>
           </ButtonsContainer>
         </FormContainer> 

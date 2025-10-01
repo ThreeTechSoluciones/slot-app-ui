@@ -1,7 +1,7 @@
 import styled from "styled-components"
 import { ERROR_COLOR, FONT_FAMILY } from "../../utils/Stylesheet"
 
-export const ErrorMessageStyle=styled.p`
+export const ErrorText=styled.p`
     color:${ERROR_COLOR};
     font-family: ${FONT_FAMILY};
     font-size:12px;
