@@ -4,8 +4,7 @@ import { MainContainer,
         Input, 
         Button, 
         ButtonsContainer, 
-        Select, 
-        SmallInput, 
+        Select,  
         InputsContainer,
         Text} from "./PaymentData.styles";
 import { Controller, useForm } from "react-hook-form";
@@ -16,7 +15,7 @@ import { ErrorMessage} from "../../../../components/error_message/ErrorMessage"
 import type { FormProp } from "../../create-student/FormProp.type";
 import { PaymentPlanName, PlanTypeNameArray} from "../../../../app/types/models/PaymentPlanName";
 import { useState } from "react";
-import { CurrencyInput } from "./CurrencyInput";
+import CurrencyInput from "../../../../utils/InputPrice/CurrencyInput"
 
 export interface PaymentDataProps {
     paymentPlanName:string;
@@ -58,8 +57,6 @@ function PaymentData({
   const onSubmit = (paymentData: FormData) => {
      onNext({...paymentData})
   };
-  const [price, setPrice] = useState<number | undefined>(undefined);
-  
     return(
       <MainContainer>
         <FormContainer onSubmit={handleSubmit(onSubmit)}>
@@ -88,7 +85,7 @@ function PaymentData({
               {PaymentPlanNameSelected=== PaymentPlanName.PRINCIPIO_MES && (
                 <InputsContainer>
                   <div>
-                    <SmallInput placeholder="Clases extras" {...register("extraClasses")}></SmallInput>
+                    <Input $isSmallSize placeholder="Clases extras" {...register("extraClasses")}></Input>
                     <ErrorMessage error={errors.extraClasses} />
                   </div>
                   <div>
@@ -96,14 +93,15 @@ function PaymentData({
                       name="classPrice"
                       control={control}
                       render={({ field }) => (
-                        <CurrencyInput
-                        value={field.value ?? null}  
-                          onChange={(value) => field.onChange(value)} 
-                          placeholder="Precio clase individual"
-    />
-  )}
-/>
-<ErrorMessage error={errors.classPrice} />
+                      <CurrencyInput
+                        width="176"
+                        value={field.value ?? null}
+                        onChange={field.onChange}
+                        placeholder="Precio clase individual"
+                      />
+                    )}
+                  />
+                  <ErrorMessage error={errors.classPrice} />
                   </div>
                 </InputsContainer>)}
           </div>    

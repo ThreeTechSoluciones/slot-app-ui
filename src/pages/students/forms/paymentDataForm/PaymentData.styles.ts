@@ -61,16 +61,17 @@ export const Select = styled(BaseStyle).attrs({ as: "select" })`
     font-size:12px;
     padding-left:16px;   
 `
-
-export const Input = styled(BaseStyle)<{ disabled?: boolean }>`
+interface InputProps {
+    $isSmallSize?:boolean;
+    $disabled?:boolean;
+}
+export const Input = styled(BaseStyle)<InputProps>`
+    width:${(props) => (props.$isSmallSize ? "176px": "392px")};
     background:${(props) => (props.disabled ? SECONDARY_COLOR: "none")};
     border:${(props) => (props.disabled ? SECONDARY_COLOR: "1px solid black")};
     &::placeholder {
         color: ${(props) => (props.disabled ? SECONDARY_COLOR: TERTIARY_COLOR)};;
 `
-export const SmallInput=styled(Input)`
-    width:176px;
-`   
 export const InputsContainer=styled.div`
     display: flex;
     gap:16px; 
