@@ -14,7 +14,6 @@ import { paymentDataScheme } from "./PaymentData.scheme";
 import { ErrorMessage} from "../../../../components/error_message/ErrorMessage"
 import type { FormProp } from "../../create-student/FormProp.type";
 import { PaymentPlanName, PlanTypeNameArray} from "../../../../app/types/models/PaymentPlanName";
-import { useState } from "react";
 import CurrencyInput from "../../../../utils/InputPrice/CurrencyInput"
 
 export interface PaymentDataProps {
@@ -55,7 +54,7 @@ function PaymentData({
   const PaymentPlanNameSelected = watch("paymentPlanName");
 
   const onSubmit = (paymentData: FormData) => {
-     onNext({...paymentData})
+     onNext?.({...paymentData})
   };
     return(
       <MainContainer>

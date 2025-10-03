@@ -59,7 +59,7 @@ function StudentData({
   const navigate = useNavigate();
   
   const onSubmit = (studentData: FormData) => {
-    onNext({...studentData})
+    onNext?.({...studentData})
   };
   
   return (
