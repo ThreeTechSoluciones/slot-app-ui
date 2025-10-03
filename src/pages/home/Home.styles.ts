@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import type { PropsWithChildren } from "react";
 export const StudentsContainer = styled.div`
   width: 100%;
   padding-top: 20px;
@@ -7,8 +6,14 @@ export const StudentsContainer = styled.div`
 `;
 export const FiltersContainer = styled.div`
   display: flex;
+  gap: 26px;
 `;
-export const ButtonContainer = styled.div``;
+
+export const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 30.5%;
+`;
 
 const CommonStatusAndSituation = styled.p`
   color: white;

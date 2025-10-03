@@ -21,7 +21,9 @@ const Filter: React.FC<FilterProps> = ({ placeholder, options, onSelect }) => {
       <DropdownWrapper>
         <DropdownMenu
           label={placeholder}
-          icon={<img src={filterIcon} alt="Opciones" width={12} height={12} />}
+          icon={
+            <img src={filterIcon} alt="FilterIcon" width={12} height={12} />
+          }
           options={dropdownOptions}
         />
       </DropdownWrapper>

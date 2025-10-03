@@ -19,6 +19,7 @@ import { skipToken } from "@reduxjs/toolkit/query/react";
 import FilterSearch from "../../components/filter_search/FilterSearch";
 import Filter from "../../components/filter/Filter";
 import Button from "../../components/button/Button";
+import AddIcon from "../../assets/add-icon.svg";
 
 function Home() {
   const { userId } = useAuthentication();
@@ -132,6 +133,7 @@ function Home() {
         <Filter
           placeholder="Filtrar por situación"
           options={[
+            { label: "Todos", value: "todos" },
             { label: "Debe", value: "debe" },
             { label: "Al día", value: "aldia" },
           ]}
@@ -146,10 +148,15 @@ function Home() {
           onSelect={(value) => console.log("Filtro seleccionado:", value)}
         />
         <ButtonContainer>
-          <Button variant="primary" size="large">
+          <Button variant="primary" size="small">
             Limpiar filtros
           </Button>
-          <Button variant="primary" size="large">
+          <Button
+            variant="primary"
+            size="medium"
+            icon={<img src={AddIcon} alt="Add Icon" />}
+            onClick={() => navigate("/nuevo-alumno")}
+          >
             Nuevo alumno
           </Button>
         </ButtonContainer>

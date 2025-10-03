@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   ButtonOption,
   ButtonTrigger,
@@ -16,19 +16,33 @@ interface DropdownMenuProps {
   label?: string;
   icon?: React.ReactNode;
 }
-
 export function DropdownMenu({ options, label, icon }: DropdownMenuProps) {
   const [open, setOpen] = useState(false);
-
+  const menuContainerRef = useRef<HTMLDivElement>(null);
   const handleToggle = () => setOpen(!open);
 
   const handleOptionClick = (callback: () => void) => {
     callback();
     setOpen(false);
   };
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        menuContainerRef.current &&
+        !menuContainerRef.current.contains(event.target as Node)
+      ) {
+        setOpen(false);
+      }
+    };
 
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
   return (
-    <DropdownContainer>
+    <DropdownContainer ref={menuContainerRef}>
       <ButtonTrigger onClick={handleToggle}>
         {label && <span>{label}</span>}
         {icon}

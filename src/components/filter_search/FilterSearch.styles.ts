@@ -7,14 +7,13 @@ export const FilterDiv = styled.div`
 `;
 
 export const FilterInputStyled = styled.input`
-  width: 280px;
-  height: 24px;
-  padding: 0.5rem;
-  padding-right: 2rem;
+  width: 352px;
+  height: 48px;
   background-color: #f0f0f0;
   border-radius: 10px;
   color: black;
   border: #f0f0f0;
+  font-size: 12px;
   &:focus {
     outline: none;
     border: 1px solid white;

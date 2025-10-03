@@ -11,7 +11,9 @@ export const ButtonTrigger = styled.div<ButtonTriggerProps>`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0.5rem;
+  /* padding: 0.5rem; */
+  width: 184px;
+  height: 48px;
   border-radius: 10px;
   cursor: pointer;
   gap: 24px;
@@ -43,7 +45,7 @@ export const ButtonOption = styled.button`
   color: black;
   border: none;
   padding: 10px 9px;
-  font-size: 16px;
+  font-size: 12px;
   text-align: center;
   cursor: pointer;
 

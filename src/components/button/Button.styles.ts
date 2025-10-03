@@ -5,15 +5,17 @@ export const StyledButton = styled.button<{
   variant?: "primary" | "secondary";
 }>`
   border: none;
+  padding: 0;
+  align-items: center;
   border-radius: 10px;
   cursor: pointer;
   font-weight: 500;
-
-  padding: ${({ size }) =>
-    size === "small" ? "4px 8px" : size === "large" ? "12px 24px" : "8px 16px"};
-
+  width: ${({ size }) =>
+    size === "small" ? "104px" : size === "medium" ? "192px" : "412px"};
+  height: ${({ size }) =>
+    size === "small" ? "48px" : size === "medium" ? "48px" : "56px"};
   font-size: ${({ size }) =>
-    size === "small" ? "12px" : size === "large" ? "16px" : "14px"};
+    size === "small" ? "12px" : size === "medium" ? "12px" : "16px"};
 
   background-color: ${({ variant }) =>
     variant === "primary" ? "#F0E21E" : "#000000"};
@@ -28,10 +30,16 @@ export const ButtonContent = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+  height: 100%;
 `;
 
 export const ButtonIcon = styled.span`
-  margin-right: 8px;
+  position: absolute;
+  right: 18px;
 `;
 
-export const ButtonText = styled.span``;
+export const ButtonText = styled.span`
+  display: inline-block;
+  text-align: center;
+`;
