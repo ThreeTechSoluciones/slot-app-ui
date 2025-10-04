@@ -25,7 +25,6 @@ export interface PaymentDataProps {
 
 function PaymentData({
   onNext,
-  onBack,
   data
 }: FormProp<PaymentDataProps>) {
 
@@ -105,8 +104,8 @@ function PaymentData({
                 </InputsContainer>)}
           </div>    
           <ButtonsContainer>
-            <Button type="button" onClick={onBack}>Atrás</Button>
-            <Button type="submit">Siguiente</Button>
+           {/** <Button type="button" onClick={onBack}>Atrás</Button>*/} 
+           {/** <Button type="submit">Siguiente</Button> */} 
           </ButtonsContainer>
         </FormContainer> 
       </MainContainer>

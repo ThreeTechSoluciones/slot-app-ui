@@ -1,3 +1,4 @@
+import { forwardRef, useState} from 'react';
 import { yupResolver } from "@hookform/resolvers/yup";
 import { MainContainer, 
         FormContainer, 
@@ -25,12 +26,11 @@ export interface StudentDataProps  {
     pathologies?: string | null;
 }
 
-function StudentData({
-  onNext,
-  onBack,
-  data
-}: FormProp<StudentDataProps>) {
 
+const StudentData= forwardRef<FormProp<StudentDataProps>, FormProp<StudentDataProps>>((props,ref)=>{
+  
+  const {data, onNext}=props;
+  
   const DEFAULT_STUDENT_DATA = {
     name:"",
     lastName:"",
@@ -96,12 +96,12 @@ function StudentData({
           <ErrorMessage error={errors.pathologies} />
         </div>
         <ButtonsContainer>
-          <Button type="button" onClick={onBack}>Cancelar</Button>
-          <Button type="submit">Siguiente</Button>
+          {/*<Button type="button" onClick={onBack}>Cancelar</Button>*/}
+          {/*<Button type="submit">Siguiente</Button>*/}
         </ButtonsContainer>
       </FormContainer> 
     </MainContainer>
   )
-};
+});
 
 export default StudentData;

@@ -25,7 +25,6 @@ export interface PlanDataProps {
 
 function PlanData({
   onNext,
-  onBack,
   data
 }: FormProp<PlanDataProps>) {
 
@@ -70,8 +69,8 @@ function PlanData({
         <ShiftRegistrationCalendar  listShifts={shiftRegistrationCalendarData} selectedShifts={shifts}   onSelectShift ={newShift} onDeleteShift={removeShift}  />
         <ShiftDetail shifts ={shifts}/>
         <ButtonsContainer>
-          <Button type="button" onClick={onBack}>Atrás</Button>
-          <Button type="submit">Registrar</Button>
+          {/* <Button type="button" onClick={onBack}>Atrás</Button> */}
+          {/* <Button type="submit">Registrar</Button> */}
         </ButtonsContainer>
       </FormContainer>
     </MainContainer>        

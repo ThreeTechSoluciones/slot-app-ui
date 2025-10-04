@@ -11,6 +11,7 @@ import {TitleContainer,
         Title,
         MainContainer
 }from "./CreateStudent.styles";
+import Stepper from "../../../components/stepper/Stepper";
 
 
 function CreateStudent() {
@@ -18,7 +19,7 @@ function CreateStudent() {
   const [paymentData, setPaymentData] = useState<PaymentDataProps|undefined>(undefined);
   const [planData, setPlanData] = useState <PlanDataProps|undefined>(undefined)
 
-  const [count, setCount] = useState<number>(1)
+  
 
   const [createStudent]=useCreateStudentMutation();
 
@@ -28,12 +29,12 @@ function CreateStudent() {
 
     const handleStudentDataForm = (data: StudentDataProps) => {
         setStudentData(data);
-        setCount(2);
+       
     }
 
     const handlePaymentDataForm = (data:PaymentDataProps)=>{
         setPaymentData(data);
-        setCount(3)
+
     }
 
     const navigate = useNavigate();
@@ -62,22 +63,18 @@ function CreateStudent() {
             });
           };
 
-    const stepBack = ()=>{
-        setCount(count - 1)
-    }
-
-     const FormComponentMap : Map <number, JSX.Element> = new Map([
-      [1, <StudentData onNext={handleStudentDataForm} onBack ={()=>Navigate("/home")} data={studentData}/>],
-      [2, <PaymentData onNext={handlePaymentDataForm} onBack={stepBack} data={paymentData}/>],
-      [3, <PlanData onNext={handlePlanDataForm} onBack={stepBack} data={planData}/>]
-     ])
+      const steps = [
+        {title: "Datos personales", element: <StudentData onNext={handleStudentDataForm} data={studentData}/> },
+        // {title: "Datos del pago", element: <PaymentData onNext={handlePaymentDataForm} data={paymentData}/>},
+        // {title: "Datos del turno", element: <PlanData onNext={handlePlanDataForm}  data={planData}/> }
+      ];
 
     return (
         <MainContainer>
             <TitleContainer>
                     <Title>REGISTRAR NUEVO ALUMNO</Title>     
             </TitleContainer>
-             { FormComponentMap.get(count) }
+           <Stepper steps={steps}/>
           
         </MainContainer>
     )

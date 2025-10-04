@@ -15,10 +15,12 @@ export const Title=styled.h1`
 `
 export const StepperContainer = styled.div`
     display:flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content:center;
     align-items:center;
     margin-top:32px;
+    gap:120px;
+    margin-bottom:16px;
     
 `
 export const ButtonsContainer=styled.div`
@@ -39,4 +41,8 @@ export const Button=styled.button`
     &:hover{
         cursor:pointer;
         background: ${TERTIARY_COLOR};
+`
+
+export const FormContainer = styled.div`
+
 `
