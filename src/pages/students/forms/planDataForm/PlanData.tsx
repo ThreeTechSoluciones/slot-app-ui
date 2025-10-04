@@ -17,16 +17,16 @@ import { useShiftHandler } from "../../../../components/shiftRegistrationCalenda
 import useAuthentication from "../../../../hooks/useAuthentication";
 import { useGetUserPlansQuery } from "../../../../app/services/UserService";
 import type { FormProp } from "../../create-student/FormProp.type";
+import { forwardRef, useImperativeHandle } from "react";
 
 
 export interface PlanDataProps {
-    planId: string;
+  planId: string;
 }
 
-function PlanData({
-  onNext,
-  data
-}: FormProp<PlanDataProps>) {
+const PlanData = forwardRef<FormProp<PlanDataProps>, FormProp<PlanDataProps>>((props, ref) => {
+
+  const { data, onNext } = props;
 
   type FormData = yup.InferType<typeof planDataScheme>;
   
@@ -48,11 +48,15 @@ function PlanData({
     resolver: yupResolver(planDataScheme),
     defaultValues: studentRegistrationForm,
   });
+
+  useImperativeHandle(ref, () => ({
+    submit: handleSubmit((data) => {
+      onNext?.({ ...data });
+    })
+  }) as unknown as FormProp<PlanDataProps>);
   
   const onSubmit = async (planData: FormData) => {
-   
     onNext(planData)
-      
   }
     
   return(
@@ -68,13 +72,11 @@ function PlanData({
         <ErrorMessage error={errors.planId} />
         <ShiftRegistrationCalendar  listShifts={shiftRegistrationCalendarData} selectedShifts={shifts}   onSelectShift ={newShift} onDeleteShift={removeShift}  />
         <ShiftDetail shifts ={shifts}/>
-        <ButtonsContainer>
-          {/* <Button type="button" onClick={onBack}>Atrás</Button> */}
-          {/* <Button type="submit">Registrar</Button> */}
-        </ButtonsContainer>
       </FormContainer>
     </MainContainer>        
   )
-}
+})
+
+PlanData.displayName = 'PlanDataForm';
 export default PlanData;
 

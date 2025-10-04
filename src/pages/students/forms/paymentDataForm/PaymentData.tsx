@@ -1,32 +1,34 @@
-import { MainContainer, 
-        FormContainer, 
-        Label, 
-        Input, 
-        Button, 
-        ButtonsContainer, 
-        Select,  
-        InputsContainer,
-        Text} from "./PaymentData.styles";
+import {
+  MainContainer,
+  FormContainer,
+  Label,
+  Input,
+  Button,
+  ButtonsContainer,
+  Select,
+  InputsContainer,
+  Text
+} from "./PaymentData.styles";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { paymentDataScheme } from "./PaymentData.scheme";
-import { ErrorMessage} from "../../../../components/error_message/ErrorMessage"
+import { ErrorMessage } from "../../../../components/error_message/ErrorMessage"
 import type { FormProp } from "../../create-student/FormProp.type";
-import { PaymentPlanName, PlanTypeNameArray} from "../../../../app/types/models/PaymentPlanName";
+import { PaymentPlanName, PlanTypeNameArray } from "../../../../app/types/models/PaymentPlanName";
 import CurrencyInput from "../../../../utils/InputPrice/CurrencyInput"
+import { forwardRef, useImperativeHandle } from "react";
 
 export interface PaymentDataProps {
-    paymentPlanName:string;
-    extraClasses?: number|null|undefined;
-    classPrice?:number|null|undefined;
-    paymentDay?: number |undefined;
+  paymentPlanName: string;
+  extraClasses?: number | null | undefined;
+  classPrice?: number | null | undefined;
+  paymentDay?: number | undefined;
 }
 
-function PaymentData({
-  onNext,
-  data
-}: FormProp<PaymentDataProps>) {
+const PaymentData = forwardRef<FormProp<PaymentDataProps>, FormProp<PaymentDataProps>>((props, ref) => {
+
+  const { data, onNext } = props;
 
   type FormData = yup.InferType<typeof paymentDataScheme>;
 
@@ -36,9 +38,9 @@ function PaymentData({
     classPrice: undefined,
     paymentDay: undefined
   };
-    
+
   const studentRegistrationForm = data || DEFAULT_PAYMENT_DATA;
-  
+
   const {
     register,
     handleSubmit,
@@ -47,68 +49,76 @@ function PaymentData({
     formState: { errors },
   } = useForm<FormData>({
     resolver: yupResolver(paymentDataScheme) as any,
-    defaultValues:{...studentRegistrationForm},
+    defaultValues: { ...studentRegistrationForm },
   });
 
   const PaymentPlanNameSelected = watch("paymentPlanName");
 
+  useImperativeHandle(ref, () => ({
+    submit: handleSubmit((data) => {
+      onNext?.({ ...data });
+    })
+  }) as unknown as FormProp<PaymentDataProps>);
+
+
   const onSubmit = (paymentData: FormData) => {
-     onNext?.({...paymentData})
+    onNext?.({ ...paymentData })
   };
-    return(
-      <MainContainer>
-        <FormContainer onSubmit={handleSubmit(onSubmit)}>
-          <div>
-            <Label>Forma de pago</Label>
-            <Select {...register("paymentPlanName")}>Plan de pago*
-                <option value="" disabled selected>Seleccione una opción</option>
-                {PlanTypeNameArray.map((planType) => (
-                  <option key={planType} value={planType}>{planType}</option>
-                ))}
-            </Select>
-            <ErrorMessage error={errors.paymentPlanName} />
-          </div>
-          <div>
-            <Label>Datos del pago</Label>
-              {PaymentPlanNameSelected === "" && (
-                <div>
-                  <Text>Este campo se habilitará una vez seleccione el plan de pago</Text>
-                  <Input disabled={PaymentPlanNameSelected===""}></Input>
-                </div>)}
-              {PaymentPlanNameSelected === PaymentPlanName.DIA_ESPECIFICO && (
-                <>
-                  <Input placeholder="Día de pago"  {...register("paymentDay")}/>
-                  <ErrorMessage error={errors.paymentDay} /></>
-              )}
-              {PaymentPlanNameSelected=== PaymentPlanName.PRINCIPIO_MES && (
-                <InputsContainer>
-                  <div>
-                    <Input $isSmallSize placeholder="Clases extras" {...register("extraClasses")}></Input>
-                    <ErrorMessage error={errors.extraClasses} />
-                  </div>
-                  <div>
-                    <Controller
-                      name="classPrice"
-                      control={control}
-                      render={({ field }) => (
-                      <CurrencyInput
-                        width="176"
-                        value={field.value ?? null}
-                        onChange={field.onChange}
-                        placeholder="Precio clase individual"
-                      />
-                    )}
-                  />
-                  <ErrorMessage error={errors.classPrice} />
-                  </div>
-                </InputsContainer>)}
-          </div>    
-          <ButtonsContainer>
-           {/** <Button type="button" onClick={onBack}>Atrás</Button>*/} 
-           {/** <Button type="submit">Siguiente</Button> */} 
-          </ButtonsContainer>
-        </FormContainer> 
-      </MainContainer>
-    )
-  };
+
+
+  return (
+    <MainContainer>
+      <FormContainer onSubmit={handleSubmit(onSubmit)}>
+        <div>
+          <Label>Forma de pago</Label>
+          <Select {...register("paymentPlanName")}>Plan de pago*
+            <option value="" disabled selected>Seleccione una opción</option>
+            {PlanTypeNameArray.map((planType) => (
+              <option key={planType} value={planType}>{planType}</option>
+            ))}
+          </Select>
+          <ErrorMessage error={errors.paymentPlanName} />
+        </div>
+        <div>
+          <Label>Datos del pago</Label>
+          {PaymentPlanNameSelected === "" && (
+            <div>
+              <Text>Este campo se habilitará una vez seleccione el plan de pago</Text>
+              <Input disabled={PaymentPlanNameSelected === ""}></Input>
+            </div>)}
+          {PaymentPlanNameSelected === PaymentPlanName.DIA_ESPECIFICO && (
+            <>
+              <Input placeholder="Día de pago"  {...register("paymentDay")} />
+              <ErrorMessage error={errors.paymentDay} /></>
+          )}
+          {PaymentPlanNameSelected === PaymentPlanName.PRINCIPIO_MES && (
+            <InputsContainer>
+              <div>
+                <Input $isSmallSize placeholder="Clases extras" {...register("extraClasses")}></Input>
+                <ErrorMessage error={errors.extraClasses} />
+              </div>
+              <div>
+                <Controller
+                  name="classPrice"
+                  control={control}
+                  render={({ field }) => (
+                    <CurrencyInput
+                      width="176"
+                      value={field.value ?? null}
+                      onChange={field.onChange}
+                      placeholder="Precio clase individual"
+                    />
+                  )}
+                />
+                <ErrorMessage error={errors.classPrice} />
+              </div>
+            </InputsContainer>)}
+        </div>
+      </FormContainer>
+    </MainContainer>
+  )
+});
+
+
+PaymentData.displayName = 'PaymentDataForm';
 export default PaymentData;

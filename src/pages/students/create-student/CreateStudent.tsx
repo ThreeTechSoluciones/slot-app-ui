@@ -1,4 +1,4 @@
-import { useState, type JSX } from "react";
+import { useState } from "react";
 import StudentData, { type StudentDataProps } from "../forms/studentDataForm/StudentData";
 import PaymentData, { type PaymentDataProps } from "../forms/paymentDataForm/PaymentData";
 import PlanData, { type PlanDataProps } from "../forms/planDataForm/PlanData";
@@ -7,76 +7,81 @@ import useAuthentication from "../../../hooks/useAuthentication";
 import { useNavigate } from "react-router";
 import toast from "react-hot-toast";
 import type { CreateStudentRequest } from "../../../app/types/requests/CreateStudentRequest.type";
-import {TitleContainer,
-        Title,
-        MainContainer
-}from "./CreateStudent.styles";
+import {
+  TitleContainer,
+  Title,
+  MainContainer
+} from "./CreateStudent.styles";
 import Stepper from "../../../components/stepper/Stepper";
 
 
 function CreateStudent() {
   const [studentData, setStudentData] = useState<StudentDataProps | undefined>(undefined);
-  const [paymentData, setPaymentData] = useState<PaymentDataProps|undefined>(undefined);
-  const [planData, setPlanData] = useState <PlanDataProps|undefined>(undefined)
+  const [paymentData, setPaymentData] = useState<PaymentDataProps | undefined>(undefined);
+  const [planData, setPlanData] = useState<PlanDataProps | undefined>(undefined)
+  const [createStudent] = useCreateStudentMutation();
+  const { userId } = useAuthentication()
 
-  
+  const handleStudentDataForm = (data: StudentDataProps) => {
+    setStudentData(data);
+  }
 
-  const [createStudent]=useCreateStudentMutation();
+  const handlePaymentDataForm = (data: PaymentDataProps) => {
+    setPaymentData(data);
+  }
 
-  const Navigate= useNavigate();
+  const navigate = useNavigate();
 
-  const {userId}= useAuthentication()
+  const handlePlanDataForm = (data: PlanDataProps) => {
 
-    const handleStudentDataForm = (data: StudentDataProps) => {
-        setStudentData(data);
-       
+    setPlanData(data)
+
+    if (!userId || !studentData || !paymentData || !planData) return;
+
+    const createStudentRequest: CreateStudentRequest = {
+      ...studentData,
+      ...paymentData,
+      ...planData,
+      admissionDate: new Date(),
+      userId
     }
+    createStudent(createStudentRequest)
+      .unwrap()
+      .then(() => {
+        navigate("/home");
+        toast.success("El estudiante ha sido registrado");
+      })
+      .catch(() => {
+        toast.error("Ha ocurrido un error en la creación del estudiante");
+      });
+  };
 
-    const handlePaymentDataForm = (data:PaymentDataProps)=>{
-        setPaymentData(data);
-
+  const steps = [
+    {
+      title: "Datos personales",
+      component: StudentData,
+      props: { onNext: handleStudentDataForm, data: studentData }
+    },
+    {
+      title: "Datos del pago", 
+      component: PaymentData,
+      props: { onNext: handlePaymentDataForm, data: paymentData }
+    },
+    {
+      title: "Datos del turno", 
+      component: PlanData,
+      props: { onNext: handlePlanDataForm, data: planData } 
     }
+  ];
 
-    const navigate = useNavigate();
+  return (
+    <MainContainer>
+      <TitleContainer>
+        <Title>REGISTRAR NUEVO ALUMNO</Title>
+      </TitleContainer>
+      <Stepper steps={steps} />
 
-    const handlePlanDataForm = (data:PlanDataProps)=>{
-        
-        setPlanData(data)
-
-        if(!userId || !studentData || !paymentData || !planData) return;
-
-        const createStudentRequest: CreateStudentRequest = {
-            ...studentData,
-            ...paymentData,
-            ...planData,
-            admissionDate: new Date(),
-            userId
-        }
-        createStudent(createStudentRequest)
-            .unwrap()
-            .then(() => {
-              navigate("/home");
-              toast.success("El estudiante ha sido registrado");
-            })
-            .catch(() => {
-              toast.error("Ha ocurrido un error en la creación del estudiante");
-            });
-          };
-
-      const steps = [
-        {title: "Datos personales", element: <StudentData onNext={handleStudentDataForm} data={studentData}/> },
-        // {title: "Datos del pago", element: <PaymentData onNext={handlePaymentDataForm} data={paymentData}/>},
-        // {title: "Datos del turno", element: <PlanData onNext={handlePlanDataForm}  data={planData}/> }
-      ];
-
-    return (
-        <MainContainer>
-            <TitleContainer>
-                    <Title>REGISTRAR NUEVO ALUMNO</Title>     
-            </TitleContainer>
-           <Stepper steps={steps}/>
-          
-        </MainContainer>
-    )
+    </MainContainer>
+  )
 }
 export default CreateStudent

@@ -2,8 +2,8 @@ import styled from "styled-components";
 import { FONT_FAMILY, SUCCESS_COLOR } from "../../utils/Stylesheet";
 
 interface CircleProps {
-    isCurrentStep?:boolean;
-    isBackStep?:boolean;
+    $isCurrentStep?:boolean;
+    $isBackStep?:boolean;
     isLast?:boolean;
 }
 
@@ -15,20 +15,20 @@ export const MainContainer = styled.div`
 `
 export const Circle =styled.div<CircleProps>`
     background-color: ${(props) =>
-    props.isCurrentStep
+    props.$isCurrentStep
       ? "black"
-      : props.isBackStep
+      : props.$isBackStep
       ? SUCCESS_COLOR
       : "white"};
     border: ${(props) =>
-    props.isCurrentStep
+    props.$isCurrentStep
       ? "1px solid black"
-      : props.isBackStep
+      : props.$isBackStep
       ? `1px solid ${SUCCESS_COLOR}`
       : "2px solid black"};
     color: ${(props) =>
-        props.isCurrentStep? "white"
-      : props.isBackStep? "white"
+        props.$isCurrentStep? "white"
+      : props.$isBackStep? "white"
       : "black"};
     width:40px;
     height:40px;

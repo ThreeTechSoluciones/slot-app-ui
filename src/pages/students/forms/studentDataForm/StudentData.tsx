@@ -1,45 +1,47 @@
-import { forwardRef, useState} from 'react';
+import { forwardRef, useImperativeHandle, useState } from 'react';
 import { yupResolver } from "@hookform/resolvers/yup";
-import { MainContainer, 
-        FormContainer, 
-        Input, 
-        Description, 
-        InputDate, 
-        Button, 
-        ButtonsContainer, 
-        Label} 
-        from "./StudentData.styles";
+import {
+  MainContainer,
+  FormContainer,
+  Input,
+  Description,
+  InputDate,
+  Button,
+  ButtonsContainer,
+  Label
+}
+  from "./StudentData.styles";
 import { StudentDataScheme } from "./StudentData.scheme";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
-import { ErrorMessage} from "../../../../components/error_message/ErrorMessage";
+import { ErrorMessage } from "../../../../components/error_message/ErrorMessage";
 import { useNavigate } from "react-router";
 import type { FormProp } from "../../create-student/FormProp.type";
 
 
-export interface StudentDataProps  {
-    name:string;
-    lastName:string;
-    dni:string;
-    cellphoneNumber: string;
-    birthday: string;
-    pathologies?: string | null;
+export interface StudentDataProps {
+  name: string;
+  lastName: string;
+  dni: string;
+  cellphoneNumber: string;
+  birthday: string;
+  pathologies?: string | null;
 }
 
 
-const StudentData= forwardRef<FormProp<StudentDataProps>, FormProp<StudentDataProps>>((props,ref)=>{
-  
-  const {data, onNext}=props;
-  
+const StudentData = forwardRef<FormProp<StudentDataProps>, FormProp<StudentDataProps>>((props, ref) => {
+
+  const { data, onNext } = props;
+
   const DEFAULT_STUDENT_DATA = {
-    name:"",
-    lastName:"",
-    dni:"",
-    cellphoneNumber:"",
-    birthday:"",
-    pathologies:"",
-    paymentPlanName:"",
-    planId:"",
+    name: "",
+    lastName: "",
+    dni: "",
+    cellphoneNumber: "",
+    birthday: "",
+    pathologies: "",
+    paymentPlanName: "",
+    planId: "",
   };
   const studentRegistrationForm = data || DEFAULT_STUDENT_DATA
 
@@ -52,21 +54,28 @@ const StudentData= forwardRef<FormProp<StudentDataProps>, FormProp<StudentDataPr
   } = useForm<FormData>({
     resolver: yupResolver(StudentDataScheme),
     defaultValues: {
-    ...studentRegistrationForm, 
-  }
+      ...studentRegistrationForm,
+    }
   });
 
   const navigate = useNavigate();
-  
+
+  useImperativeHandle(ref, () => ({
+    submit: handleSubmit((data) => {
+      onNext?.({ ...data });
+    })
+  }) as unknown as FormProp<StudentDataProps>);
+
+
   const onSubmit = (studentData: FormData) => {
-    onNext?.({...studentData})
+    onNext?.({ ...studentData })
   };
-  
+
   return (
     <MainContainer>
       <FormContainer onSubmit={handleSubmit(onSubmit)}>
         <div>
-          <Label>Nombre*</Label> 
+          <Label>Nombre*</Label>
           <Input placeholder="Juan" {...register("name")}></Input>
           <ErrorMessage error={errors.name} />
         </div>
@@ -95,13 +104,10 @@ const StudentData= forwardRef<FormProp<StudentDataProps>, FormProp<StudentDataPr
           <Description placeholder="Hernia de disco" {...register("pathologies")}></Description>
           <ErrorMessage error={errors.pathologies} />
         </div>
-        <ButtonsContainer>
-          {/*<Button type="button" onClick={onBack}>Cancelar</Button>*/}
-          {/*<Button type="submit">Siguiente</Button>*/}
-        </ButtonsContainer>
-      </FormContainer> 
+      </FormContainer>
     </MainContainer>
   )
 });
 
+StudentData.displayName = 'StudentDataForm';
 export default StudentData;

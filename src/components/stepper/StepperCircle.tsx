@@ -18,7 +18,7 @@ function StepperCircle ({numberOfStep, title, currentStep}: StepperCircleProps){
         <MainContainer>
             {isCurrentStep? 
                 <Img src={Arrow}></Img>:""}
-                <Circle isBackStep={isBackStep} isCurrentStep={isCurrentStep}>
+                <Circle $isBackStep={isBackStep} $isCurrentStep={isCurrentStep}>
                     {isBackStep ? <img src={CheckIcon}></img> : numberOfStep}
                 </Circle>
                 <Title>{title}</Title>
