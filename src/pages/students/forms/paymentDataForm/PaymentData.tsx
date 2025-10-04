@@ -55,20 +55,23 @@ const PaymentData = forwardRef<FormProp<PaymentDataProps>, FormProp<PaymentDataP
   const PaymentPlanNameSelected = watch("paymentPlanName");
 
   useImperativeHandle(ref, () => ({
-    submit: handleSubmit((data) => {
-      onNext?.({ ...data });
-    })
+    submit: () =>
+      new Promise<boolean>((resolve) => {
+        handleSubmit(
+          (data) => {
+            onNext?.({ ...data });
+            resolve(true);
+          },
+          () => {
+            resolve(false);
+          }
+        )();
+      })
   }) as unknown as FormProp<PaymentDataProps>);
-
-
-  const onSubmit = (paymentData: FormData) => {
-    onNext?.({ ...paymentData })
-  };
-
 
   return (
     <MainContainer>
-      <FormContainer onSubmit={handleSubmit(onSubmit)}>
+      <FormContainer>
         <div>
           <Label>Forma de pago</Label>
           <Select {...register("paymentPlanName")}>Plan de pago*

@@ -17,24 +17,20 @@ interface StepperProps {
 
 function Stepper({ steps }: StepperProps) {
 
-    
-    
     const [currentStep, setCurrentStep] = useState<number>(0);
     const formRefs = useRef(steps.map(() => createRef<any>()));
-    console.log('steps en stepper', steps);
-    console.log('currentStep', currentStep);
 
-    const nextStep = () => {
+    const nextStep = async () => {
         const currentFormRef2 = formRefs.current[currentStep];
-        console.log('currentFormRef2', currentFormRef2.current)
-        currentFormRef2.current.submit().then(() => {
-            setCurrentStep((prev) => Math.min(prev + 1, steps.length - 1));
+        currentFormRef2.current.submit().then((res: any) => {
+            if (res) {
+                setCurrentStep((prev) => Math.min(prev + 1, steps.length - 1));
+            }
         });
-        // setCurrentStep((prev) => Math.min(prev + 1, 3));
     };
 
     const backStep = () => {
-        // setCurrentStep((prev) => Math.max(prev - 1, 1)); 
+        setCurrentStep((prev) => Math.max(prev - 1, 1)); 
     };
 
 

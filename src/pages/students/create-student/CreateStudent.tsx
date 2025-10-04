@@ -53,7 +53,7 @@ function CreateStudent() {
       })
       .catch(() => {
         toast.error("Ha ocurrido un error en la creación del estudiante");
-      });
+      })
   };
 
   const steps = [

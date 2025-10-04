@@ -50,18 +50,24 @@ const PlanData = forwardRef<FormProp<PlanDataProps>, FormProp<PlanDataProps>>((p
   });
 
   useImperativeHandle(ref, () => ({
-    submit: handleSubmit((data) => {
-      onNext?.({ ...data });
-    })
+    submit: () =>
+      new Promise<boolean>((resolve) => {
+        handleSubmit(
+          (data) => {
+            onNext?.({ ...data });
+            resolve(true);
+          },
+          () => {
+            resolve(false);
+          }
+        )();
+      })
   }) as unknown as FormProp<PlanDataProps>);
-  
-  const onSubmit = async (planData: FormData) => {
-    onNext(planData)
-  }
+
     
   return(
     <MainContainer>
-      <FormContainer onSubmit={handleSubmit(onSubmit)}>
+      <FormContainer >
         <Label>Plan</Label>
         <Select {...register("planId")}>
           <option value="" disabled selected>Seleccione una opción</option>

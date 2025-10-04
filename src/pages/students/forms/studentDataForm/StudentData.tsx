@@ -58,22 +58,24 @@ const StudentData = forwardRef<FormProp<StudentDataProps>, FormProp<StudentDataP
     }
   });
 
-  const navigate = useNavigate();
-
   useImperativeHandle(ref, () => ({
-    submit: handleSubmit((data) => {
-      onNext?.({ ...data });
-    })
+    submit: () =>
+      new Promise<boolean>((resolve) => {
+        handleSubmit(
+          (data) => {
+            onNext?.({ ...data });
+            resolve(true);
+          },
+          () => {
+            resolve(false);
+          }
+        )();
+      })
   }) as unknown as FormProp<StudentDataProps>);
-
-
-  const onSubmit = (studentData: FormData) => {
-    onNext?.({ ...studentData })
-  };
 
   return (
     <MainContainer>
-      <FormContainer onSubmit={handleSubmit(onSubmit)}>
+      <FormContainer>
         <div>
           <Label>Nombre*</Label>
           <Input placeholder="Juan" {...register("name")}></Input>
