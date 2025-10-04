@@ -24,6 +24,8 @@ import AddIcon from "../../assets/add-icon.svg";
 function Home() {
   const { userId } = useAuthentication();
   const navigate = useNavigate();
+  const [statusFilter, setStatusFilter] = useState<string>("");
+  const [situationFilter, setSituationFilter] = useState<string>("");
   const [studentList, setStudentList] = useState<StudentResponse[]>([]);
   const [filter, setFilter] = useState<string>("");
   const { data: students } = useGetUserStudentsQuery(
@@ -35,12 +37,25 @@ function Home() {
     }
   }, [students]);
   const sortedStudents = useMemo(() => {
-    return [...studentList].sort((a, b) => {
+    let list = [...studentList];
+    if (situationFilter) {
+      list = list.filter(
+        (s) => s.status.toLowerCase() === situationFilter.toLowerCase()
+      );
+    }
+    if (statusFilter) {
+      const isActive = statusFilter === "activo";
+      list = list.filter((s) => s.isActive === isActive);
+      console.log("isActive", isActive);
+    }
+
+    list.sort((a, b) => {
       if (a.isActive !== b.isActive) return a.isActive ? -1 : 1;
       return 0;
     });
-  }, [studentList]);
-  console.log("Student List:", studentList);
+    return list;
+  }, [studentList, statusFilter, situationFilter]);
+
   const sortByField = (field: keyof StudentResponse, asc: boolean) => {
     const sorted = [...studentList].sort((a, b) => {
       const valueA = a[field];
@@ -133,11 +148,10 @@ function Home() {
         <Filter
           placeholder="Filtrar por situación"
           options={[
-            { label: "Todos", value: "todos" },
             { label: "Debe", value: "debe" },
-            { label: "Al día", value: "aldia" },
+            { label: "En término", value: "entermino" },
           ]}
-          onSelect={(value) => console.log("Filtro seleccionado:", value)}
+          onSelect={(value) => setSituationFilter(value)}
         />
         <Filter
           placeholder="Filtrar por estado"
@@ -145,7 +159,7 @@ function Home() {
             { label: "Activo", value: "activo" },
             { label: "Inactivo", value: "inactivo" },
           ]}
-          onSelect={(value) => console.log("Filtro seleccionado:", value)}
+          onSelect={(value) => setStatusFilter(value)}
         />
         <ButtonContainer>
           <Button variant="primary" size="small">
