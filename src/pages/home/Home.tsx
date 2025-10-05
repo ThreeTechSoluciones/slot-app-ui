@@ -36,22 +36,30 @@ function Home() {
       setStudentList(students);
     }
   }, [students]);
+  const statusMap: Record<string, string> = {
+    condeuda: "Con deuda",
+    entermino: "En término",
+  };
+
   const sortedStudents = useMemo(() => {
     let list = [...studentList];
     if (situationFilter) {
       list = list.filter(
-        (s) => s.status.toLowerCase() === situationFilter.toLowerCase()
+        (student) =>
+          student.status.toLowerCase() ===
+          statusMap[situationFilter]?.toLowerCase()
       );
     }
     if (statusFilter) {
       const isActive = statusFilter === "activo";
-      list = list.filter((s) => s.isActive === isActive);
-      console.log("isActive", isActive);
+      list = list.filter((student) => student.isActive === isActive);
     }
 
     list.sort((a, b) => {
       if (a.isActive !== b.isActive) return a.isActive ? -1 : 1;
-      return 0;
+      //si a es true (activo) y b false (inactivo), a (activo) va primero (-1)
+      //si a es false (inactivo) y b true (activo), b (activo) va primero (1)
+      return 0; //si son iguales
     });
     return list;
   }, [studentList, statusFilter, situationFilter]);
@@ -148,7 +156,7 @@ function Home() {
         <Filter
           placeholder="Filtrar por situación"
           options={[
-            { label: "Debe", value: "debe" },
+            { label: "Con deuda", value: "condeuda" },
             { label: "En término", value: "entermino" },
           ]}
           onSelect={(value) => setSituationFilter(value)}
@@ -162,7 +170,14 @@ function Home() {
           onSelect={(value) => setStatusFilter(value)}
         />
         <ButtonContainer>
-          <Button variant="primary" size="small">
+          <Button
+            variant="primary"
+            size="small"
+            onClick={() => {
+              setSituationFilter("");
+              setStatusFilter("");
+            }}
+          >
             Limpiar filtros
           </Button>
           <Button

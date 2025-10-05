@@ -12,7 +12,7 @@ export const FiltersContainer = styled.div`
 export const ButtonContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  width: 30.5%;
+  width: 36%;
 `;
 
 const CommonStatusAndSituation = styled.p`
