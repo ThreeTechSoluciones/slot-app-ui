@@ -28,7 +28,7 @@ function Home() {
     error,
     isLoading,
   } = useGetUserStudentsQuery(userId ? { userId, filter } : skipToken);
-
+  console.log("Tabla alumnos", students);
   if (isLoading) return <p>Cargando...</p>;
   if (error) return <p>Error al cargar estudiantes</p>;
 
