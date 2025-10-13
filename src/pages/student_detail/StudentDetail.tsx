@@ -18,12 +18,12 @@ import {
 import { formatCurrency } from "../../utils/Formatter";
 import { useGetStudentByIdQuery } from "../../app/services/StudentService";
 import CheckIcon from "../../assets/check.webp";
-import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const StudentDetail = () => {
-  const { studentId } = useParams<{ studentId: string }>();
+  const location = useLocation();
+  const { studentId } = location.state || {};
   const { data: student, isError } = useGetStudentByIdQuery(studentId!);
-
   if (isError || !student)
     return (
       <div>
@@ -91,7 +91,7 @@ const StudentDetail = () => {
             </tr>
           </TableHeader>
           <TableBody>
-            {student.payments.map((payment) => (
+            {student?.payments?.map((payment) => (
               <Row key={payment.number}>
                 <PaymentInfo>{payment.number}</PaymentInfo>
                 <PaymentInfo>{payment.paymentDate}</PaymentInfo>

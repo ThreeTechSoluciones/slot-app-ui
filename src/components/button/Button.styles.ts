@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
 export const StyledButton = styled.button<{
-  size?: "small" | "medium" | "large";
-  variant?: "primary" | "secondary";
+  $size?: "small" | "medium" | "large";
+  $variant?: "primary" | "secondary";
 }>`
   border: none;
   padding: 0;
@@ -10,16 +10,16 @@ export const StyledButton = styled.button<{
   border-radius: 10px;
   cursor: pointer;
   font-weight: 500;
-  width: ${({ size }) =>
-    size === "small" ? "104px" : size === "medium" ? "192px" : "412px"};
-  height: ${({ size }) =>
-    size === "small" ? "48px" : size === "medium" ? "48px" : "56px"};
-  font-size: ${({ size }) =>
-    size === "small" ? "12px" : size === "medium" ? "12px" : "16px"};
+  width: ${({ $size }) =>
+    $size === "small" ? "104px" : $size === "medium" ? "192px" : "412px"};
+  height: ${({ $size }) =>
+    $size === "small" ? "48px" : $size === "medium" ? "48px" : "56px"};
+  font-size: ${({ $size }) =>
+    $size === "small" ? "12px" : $size === "medium" ? "12px" : "16px"};
 
-  background-color: ${({ variant }) =>
-    variant === "primary" ? "#F0E21E" : "#000000"};
-  color: ${({ variant }) => (variant === "primary" ? "#000000" : "#fff")};
+  background-color: ${({ $variant }) =>
+    $variant === "primary" ? "#F0E21E" : "#000000"};
+  color: ${({ $variant }) => ($variant === "primary" ? "#000000" : "#fff")};
 
   &:hover {
     opacity: 0.9;

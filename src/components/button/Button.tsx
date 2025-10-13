@@ -20,7 +20,7 @@ const Button: React.FC<ButtonProps> = ({
   icon,
 }) => {
   return (
-    <StyledButton onClick={onClick} size={size} variant={variant}>
+    <StyledButton onClick={onClick} $size={size} $variant={variant}>
       <ButtonContent>
         {children && (
           <ButtonText>

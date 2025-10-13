@@ -2,7 +2,6 @@ import styled from "styled-components";
 
 export const FilterDiv = styled.div`
   display: inline-block;
-  margin-left: 80px;
   position: relative;
 `;
 

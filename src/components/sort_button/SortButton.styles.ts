@@ -14,3 +14,5 @@ export const SortIcon = styled.img<{ $rotated: boolean }>`
   transition: transform 0.3s ease;
   transform: rotate(${(props) => (props.$rotated ? 180 : 0)}deg);
 `;
+
+export const Text = styled.p``;

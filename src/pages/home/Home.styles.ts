@@ -4,15 +4,21 @@ export const StudentsContainer = styled.div`
   padding-top: 20px;
   min-height: 100vh;
 `;
+
 export const FiltersContainer = styled.div`
+  display: flex;
+  margin: 0px 80px;
+`;
+
+export const LeftContainer = styled.div`
   display: flex;
   gap: 26px;
 `;
 
-export const ButtonContainer = styled.div`
+export const RightContainer = styled.div`
   display: flex;
-  justify-content: space-between;
-  width: 36%;
+  width: 100%;
+  flex-direction: row-reverse;
 `;
 
 const CommonStatusAndSituation = styled.p`
@@ -29,10 +35,10 @@ const CommonStatusAndSituation = styled.p`
 `;
 
 export const SituationText = styled(CommonStatusAndSituation)<{
-  status: string;
+  $status: string;
 }>`
-  background-color: ${({ status }) =>
-    status === "En término" ? "#20C92B" : "#E32626"};
+  background-color: ${({ $status }) =>
+    $status === "En término" ? "#20C92B" : "#E32626"};
 `;
 
 export const StatusText = styled(CommonStatusAndSituation)<{

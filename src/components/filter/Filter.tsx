@@ -1,6 +1,7 @@
 import { DropdownMenu } from "../dropdownMenu/DropdownMenu";
 import filterIcon from "../../assets/filter-icon.png";
 import { FilterContainer, DropdownWrapper } from "./Filter.styles";
+import { useState } from "react";
 interface FilterOption {
   label: string;
   value: string;
@@ -16,15 +17,23 @@ const Filter: React.FC<FilterProps> = ({ placeholder, options, onSelect }) => {
     label: opt.label,
     onClick: () => onSelect(opt.value),
   }));
+  const [selectedOption, setSelectedOption] = useState<string>("");
   return (
     <FilterContainer>
       <DropdownWrapper>
         <DropdownMenu
-          label={placeholder}
+          label={selectedOption || placeholder}
+          size="small"
           icon={
             <img src={filterIcon} alt="FilterIcon" width={12} height={12} />
           }
-          options={dropdownOptions}
+          options={dropdownOptions.map((opt) => ({
+            ...opt,
+            onClick: () => {
+              setSelectedOption(opt.label);
+              opt.onClick();
+            },
+          }))}
         />
       </DropdownWrapper>
     </FilterContainer>

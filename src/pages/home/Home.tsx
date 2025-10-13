@@ -2,10 +2,11 @@ import {
   SituationText,
   StatusText,
   StudentsContainer,
+  LeftContainer,
+  RightContainer,
   FiltersContainer,
-  ButtonContainer,
 } from "./Home.styles";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import useAuthentication from "../../hooks/useAuthentication";
 import { useEffect, useMemo, useState } from "react";
 import Table from "../../components/table/Table";
@@ -24,6 +25,8 @@ import AddIcon from "../../assets/add-icon.svg";
 function Home() {
   const { userId } = useAuthentication();
   const navigate = useNavigate();
+  const location = useLocation();
+  const { studentId } = location.state || {};
   const [statusFilter, setStatusFilter] = useState<string>("");
   const [situationFilter, setSituationFilter] = useState<string>("");
   const [studentList, setStudentList] = useState<StudentResponse[]>([]);
@@ -110,7 +113,7 @@ function Home() {
     {
       header: "Situación",
       render: (student: StudentResponse) => (
-        <SituationText status={student.status}>{student.status}</SituationText>
+        <SituationText $status={student.status}>{student.status}</SituationText>
       ),
     },
     {
@@ -126,18 +129,26 @@ function Home() {
       render: (student: StudentResponse) => (
         <DropdownMenu
           icon={<img src={dotsIcon} alt="Opciones" width={30} height={30} />}
+          size="small"
           options={[
             {
               label: "Ver cuotas",
-              onClick: () => navigate(`/cuotas`),
+              onClick: () =>
+                navigate(`/cuotas`, { state: { studentId: student.id } }),
             },
             {
               label: "Ver alumno",
-              onClick: () => navigate(`/detalle-alumno/${student.id}`),
+              onClick: () =>
+                navigate(`/detalle-alumno`, {
+                  state: { studentId: student.id },
+                }),
             },
             {
               label: "Modificar turnos",
-              onClick: () => navigate(`/editar-alumno/${student.id}`), // cambiar ruta cuando esté la pantalla de modifcar turnos
+              onClick: () =>
+                navigate(`/editar-alumno`, {
+                  state: { studentId: student.id },
+                }), // cambiar ruta cuando esté la pantalla de modifcar turnos
             },
           ]}
         />
@@ -148,28 +159,29 @@ function Home() {
   return (
     <StudentsContainer>
       <FiltersContainer>
-        <FilterSearch
-          value={filter}
-          onChange={setFilter}
-          placeholder="Buscar por DNI, nombre o apellido"
-        />
-        <Filter
-          placeholder="Filtrar por situación"
-          options={[
-            { label: "Con deuda", value: "condeuda" },
-            { label: "En término", value: "entermino" },
-          ]}
-          onSelect={(value) => setSituationFilter(value)}
-        />
-        <Filter
-          placeholder="Filtrar por estado"
-          options={[
-            { label: "Activo", value: "activo" },
-            { label: "Inactivo", value: "inactivo" },
-          ]}
-          onSelect={(value) => setStatusFilter(value)}
-        />
-        <ButtonContainer>
+        <LeftContainer>
+          <FilterSearch
+            value={filter}
+            onChange={setFilter}
+            placeholder="Buscar por DNI, nombre o apellido"
+          />
+          <Filter
+            placeholder="Filtrar por situación"
+            options={[
+              { label: "Con deuda", value: "condeuda" },
+              { label: "En término", value: "entermino" },
+            ]}
+            onSelect={(value) => setSituationFilter(value)}
+          />
+          <Filter
+            placeholder="Filtrar por estado"
+            options={[
+              { label: "Activo", value: "activo" },
+              { label: "Inactivo", value: "inactivo" },
+            ]}
+            onSelect={(value) => setStatusFilter(value)}
+          />
+
           <Button
             variant="primary"
             size="small"
@@ -180,6 +192,8 @@ function Home() {
           >
             Limpiar filtros
           </Button>
+        </LeftContainer>
+        <RightContainer>
           <Button
             variant="primary"
             size="medium"
@@ -188,7 +202,7 @@ function Home() {
           >
             Nuevo alumno
           </Button>
-        </ButtonContainer>
+        </RightContainer>
       </FiltersContainer>
       <Table columns={columns} data={sortedStudents} />;
     </StudentsContainer>

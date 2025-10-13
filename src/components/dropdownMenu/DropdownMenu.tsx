@@ -15,8 +15,16 @@ interface DropdownMenuProps {
   options: MenuOption[];
   label?: string;
   icon?: React.ReactNode;
+  width?: string;
+  size?: "small" | "medium";
 }
-export function DropdownMenu({ options, label, icon }: DropdownMenuProps) {
+export function DropdownMenu({
+  options,
+  label,
+  icon,
+  width,
+  size,
+}: DropdownMenuProps) {
   const [open, setOpen] = useState(false);
   const menuContainerRef = useRef<HTMLDivElement>(null);
   const handleToggle = () => setOpen(!open);
@@ -49,7 +57,7 @@ export function DropdownMenu({ options, label, icon }: DropdownMenuProps) {
       </ButtonTrigger>
 
       {open && (
-        <DropdownMenuStyle>
+        <DropdownMenuStyle width={width} size={size}>
           {options.map((opt, idx) => (
             <ButtonOption
               key={idx}

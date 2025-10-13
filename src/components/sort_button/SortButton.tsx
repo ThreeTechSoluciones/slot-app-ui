@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import ArrowIcon from "../../assets/arrow-icon.png";
-import { HeaderContainer, SortIcon } from "../sort_button/SortButton.styles";
+import {
+  HeaderContainer,
+  SortIcon,
+  Text,
+} from "../sort_button/SortButton.styles";
 
 interface SortableHeaderProps {
   text: string;
@@ -20,7 +24,7 @@ export const SortableButton: React.FC<SortableHeaderProps> = ({
 
   return (
     <HeaderContainer onClick={handleClick}>
-      {text}
+      <Text>{text}</Text>
       <SortIcon src={ArrowIcon} alt="sort" $rotated={!asc} />
     </HeaderContainer>
   );

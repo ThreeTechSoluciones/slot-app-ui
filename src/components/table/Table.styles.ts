@@ -10,7 +10,7 @@ export const TableStyle = styled.table`
 
 export const Thead = styled.thead`
   th {
-    font-size: clamp(0.5rem, 2vw, 1.5rem);
+    font-size: 16px;
     white-space: nowrap;
   }
 `;
