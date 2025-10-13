@@ -171,7 +171,8 @@ function Home() {
               { label: "Con deuda", value: "condeuda" },
               { label: "En término", value: "entermino" },
             ]}
-            onSelect={(value) => setSituationFilter(value)}
+            value={situationFilter}
+            onSelect={setSituationFilter}
           />
           <Filter
             placeholder="Filtrar por estado"
@@ -179,7 +180,8 @@ function Home() {
               { label: "Activo", value: "activo" },
               { label: "Inactivo", value: "inactivo" },
             ]}
-            onSelect={(value) => setStatusFilter(value)}
+            value={statusFilter}
+            onSelect={setStatusFilter}
           />
 
           <Button
