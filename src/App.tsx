@@ -8,8 +8,7 @@ import { PrivateRoute } from "./routes/PrivateRoutes";
 import StudentDetail from "./pages/student_detail/StudentDetail";
 //import EditStudent from "./pages/edit_student/EditStudent";
 import CreateStudent from "./pages/students/create-student/CreateStudent";
-import StepperCircle from "./components/stepper/StepperCircle";
-import StepperHandler from "./components/stepper/StepperHandler";
+
 
 
 
@@ -27,8 +26,6 @@ function App() {
             <Route path="/detalle-alumno" element={<StudentDetail />} />
           </Route>
           <Route path="/" element={<Navigate to="/login" />} />
-           <Route path="/stepperCircle" element={<StepperCircle numberOfStep={1} title={"hola"} currentStep={2}/>} />
-         <Route path="/stepper" element={<StepperHandler/>} />
         </Routes>
         
       </main>

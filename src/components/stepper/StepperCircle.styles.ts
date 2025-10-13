@@ -42,6 +42,31 @@ export const Circle =styled.div<CircleProps>`
     justify-content:center;
     position:relative;
     font-family: ${FONT_FAMILY};
+&::before {
+    content: "";
+    position: absolute;
+    height: 2px; 
+    width: 105px;
+    background-color: ${(props) =>
+      props.$isBackStep ? SUCCESS_COLOR : "black"};
+    left: -50%;
+    top: 50%;
+    transform: translateY(-50%);
+     z-index:-1;
+  }
+  &::after {
+    content: "";
+    position: absolute;
+    height: 2px;
+    width:105px;
+     background-color: ${(props) =>
+      props.$isBackStep ? SUCCESS_COLOR : "black"};
+    right: -50%; 
+    top: 50%;
+    transform: translateY(-50%);
+    z-index:-1;
+    
+  }
 `;
 
 export const Title = styled.p`
@@ -62,5 +87,5 @@ export const Step = styled.p`
 `
 export const Img = styled.img`
     position: absolute;
-    top:140px;
+    top:155px;
 `

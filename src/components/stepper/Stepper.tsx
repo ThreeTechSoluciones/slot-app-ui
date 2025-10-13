@@ -1,7 +1,8 @@
 import StepperCircle from "./StepperCircle"
-import { MainContainer } from "./Stepper.styles";
+import { MainContainer, Button, ButtonsContainer, StepperContainer, FormContainer } from "./Stepper.styles";
 import { createRef, useRef, useState } from "react";
-import { Button, ButtonsContainer, StepperContainer, FormContainer } from "./StepperHandler.styles";
+import { useNavigate } from "react-router";
+
 
 type Step = {
     title: string;
@@ -19,18 +20,23 @@ function Stepper({ steps }: StepperProps) {
 
     const [currentStep, setCurrentStep] = useState<number>(0);
     const formRefs = useRef(steps.map(() => createRef<any>()));
-
+    const Navigate=useNavigate();
     const nextStep = async () => {
         const currentFormRef2 = formRefs.current[currentStep];
         currentFormRef2.current.submit().then((res: any) => {
             if (res) {
-                setCurrentStep((prev) => Math.min(prev + 1, steps.length - 1));
+                setCurrentStep((prev) => Math.min(prev+1, steps.length - 1));
             }
         });
     };
 
     const backStep = () => {
-        setCurrentStep((prev) => Math.max(prev - 1, 1)); 
+        if(currentStep===0){
+            Navigate("/home")
+        }
+        else{
+             setCurrentStep((prev) => Math.max(prev - 1, 0)); 
+        }
     };
 
 
@@ -50,7 +56,7 @@ function Stepper({ steps }: StepperProps) {
                         key={index}
                         numberOfStep={index + 1}
                         title={step.title}
-                        currentStep={currentStep}
+                        currentStep={currentStep+1}
                     />
                 ))}
             </StepperContainer>
@@ -58,7 +64,7 @@ function Stepper({ steps }: StepperProps) {
                 <CurrentForm ref={currentFormRef} {...(steps[currentStep].props || {})} />
             </FormContainer>
             <ButtonsContainer>
-                <Button onClick={backStep}>{currentStep == 1 ? "Cancelar" : "Atrás"}</Button>
+                <Button onClick={backStep}>{currentStep == 0 ? "Cancelar" : "Atrás"}</Button>
                 <Button onClick={nextStep}>{maxSteps === currentStep ? "Registrar" : "Siguiente"}</Button>
             </ButtonsContainer>
         </MainContainer>

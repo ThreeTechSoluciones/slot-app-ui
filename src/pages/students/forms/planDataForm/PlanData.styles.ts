@@ -12,7 +12,6 @@ export const MainContainer=styled.div`
     flex-direction: column;
     align-items: center;
     width: 100%;
-    min-height: 100vh;
 `
 
 export const TitleContainer=styled.div`
@@ -76,27 +75,4 @@ export const InputsContainer=styled.div`
     display: flex;
     gap:16px; 
 `  
-export const ButtonsContainer=styled.div`
-    display: flex;  
-    gap: 24px;
-    margin-top:32px;
-    margin-bottom: 32px;
-    text-align:center;
-    align-items:center;
-    justify-content:center;
- `
-export const Button=styled.button`
-    width:192px;
-    height: 48px;
-    background:${PRIMARY_COLOR};
-    font-family: ${FONT_FAMILY};
-    border-radius:${BORDER_RADIUS};
-    border:none;
-    font-size:12px;
-    color:black;
-    &:hover{
-        cursor:pointer;
-        background: ${TERTIARY_COLOR};
-    }
-`
 

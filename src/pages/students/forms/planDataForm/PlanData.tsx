@@ -6,8 +6,7 @@ import { MainContainer,
         Label, 
         Select, 
         FormContainer, 
-        Button, 
-        ButtonsContainer} 
+      }
         from "./PlanData.styles";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";

@@ -11,7 +11,7 @@ export const MainContainer=styled.div`
     flex-direction: column;
     align-items: center;
     width: 100%;
-    min-height: 100vh;
+    
 `
 export const FormContainer=styled.form`
     display: flex;
