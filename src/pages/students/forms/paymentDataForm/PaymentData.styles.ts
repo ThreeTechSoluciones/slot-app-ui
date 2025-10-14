@@ -11,12 +11,11 @@ export const MainContainer=styled.div`
     flex-direction: column;
     align-items: center;
     width: 100%;
-   
-`
+`;
 export const TitleContainer=styled.div`
     width: 100%;
     margin-left:80px;
-`
+`;
 
 export const Title=styled.h1`
     font-size: 24px;
@@ -24,12 +23,12 @@ export const Title=styled.h1`
     margin-top: 32px;
     font-family: ${FONT_FAMILY};
     font-weight:bold;
-    `
+`;
 
 export const FormContainer=styled.form`
     display: flex;
     flex-direction: column;
-`
+`;
 export const Label=styled.p`
     font-size: 16px;
     font-weight: bold;
@@ -37,7 +36,7 @@ export const Label=styled.p`
     margin-bottom:8px;
     padding:0px;
     font-family: ${FONT_FAMILY};
-` 
+`;
 export const BaseStyle = styled.input`
     width:392px;
     height: 56px;
@@ -50,7 +49,8 @@ export const BaseStyle = styled.input`
     font-family: ${FONT_FAMILY};
     &::placeholder {
         color: ${ TERTIARY_COLOR};
-`
+    }
+`;
 export const Select = styled(BaseStyle).attrs({ as: "select" })`
     width:410px;
     height: 56px;
@@ -60,7 +60,7 @@ export const Select = styled(BaseStyle).attrs({ as: "select" })`
     color:black;
     font-size:12px;
     padding-left:16px;   
-`
+`;
 interface InputProps {
     $isSmallSize?:boolean;
     $disabled?:boolean;
@@ -70,7 +70,8 @@ export const Input = styled(BaseStyle)<InputProps>`
     background:${(props) => (props.disabled ? SECONDARY_COLOR: "none")};
     border:${(props) => (props.disabled ? SECONDARY_COLOR: "1px solid black")};
     &::placeholder {
-        color: ${(props) => (props.disabled ? SECONDARY_COLOR: TERTIARY_COLOR)};;
+        color: ${(props) => (props.disabled ? SECONDARY_COLOR: TERTIARY_COLOR)};
+    }
 `
 export const InputsContainer=styled.div`
     display: flex;
@@ -94,6 +95,7 @@ export const Button=styled.button`
     &:hover{
         cursor:pointer;
         background: ${TERTIARY_COLOR};
+    }
 `
 export const Text=styled.p`
     font-size: 12px;

@@ -1,8 +1,10 @@
 import styled from "styled-components";
-import { BORDER_RADIUS, 
-        FONT_FAMILY, 
-        SECONDARY_COLOR, 
-        TEXT_COLOR } 
+import {
+    BORDER_RADIUS,
+    FONT_FAMILY,
+    SECONDARY_COLOR,
+    TEXT_COLOR
+}
     from "../../utils/Stylesheet";
 
 
@@ -17,7 +19,7 @@ export const ShiftDetailContainer = styled.div`
     overflow-x: auto;
 `
 
-export const MainTitle = styled.h2 `
+export const MainTitle = styled.h2`
     font-family: ${FONT_FAMILY};
     font-size:16px;
     display:flex;
@@ -46,7 +48,7 @@ export const Shift = styled.div`
     
 `
 interface TextProps {
-    isADay?:boolean;
+    $isADay?: boolean;
 }
 
 export const Text = styled.p<TextProps>`
@@ -54,5 +56,5 @@ export const Text = styled.p<TextProps>`
     padding:0px;
     font-family: ${FONT_FAMILY};
     font-size:${(props) =>
-        (props.isADay? "16px":"12px")}
+        (props.$isADay ? "16px" : "12px")}
 `

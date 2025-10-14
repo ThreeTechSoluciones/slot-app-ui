@@ -1,4 +1,4 @@
-import StepperCircle from "./StepperCircle"
+import Step from "./Step"
 import { MainContainer, Button, ButtonsContainer, StepperContainer, FormContainer } from "./Stepper.styles";
 import { createRef, useRef, useState } from "react";
 import { useNavigate } from "react-router";
@@ -20,22 +20,22 @@ function Stepper({ steps }: StepperProps) {
 
     const [currentStep, setCurrentStep] = useState<number>(0);
     const formRefs = useRef(steps.map(() => createRef<any>()));
-    const Navigate=useNavigate();
+    const Navigate = useNavigate();
     const nextStep = async () => {
         const currentFormRef2 = formRefs.current[currentStep];
         currentFormRef2.current.submit().then((res: any) => {
             if (res) {
-                setCurrentStep((prev) => Math.min(prev+1, steps.length - 1));
+                setCurrentStep((prev) => Math.min(prev + 1, steps.length - 1));
             }
         });
     };
 
     const backStep = () => {
-        if(currentStep===0){
+        if (currentStep === 0) {
             Navigate("/home")
         }
-        else{
-             setCurrentStep((prev) => Math.max(prev - 1, 0)); 
+        else {
+            setCurrentStep((prev) => Math.max(prev - 1, 0));
         }
     };
 
@@ -52,11 +52,11 @@ function Stepper({ steps }: StepperProps) {
         <MainContainer>
             <StepperContainer>
                 {steps.map((step, index) => (
-                    <StepperCircle
+                    <Step
                         key={index}
                         numberOfStep={index + 1}
                         title={step.title}
-                        currentStep={currentStep+1}
+                        currentStep={currentStep + 1}
                     />
                 ))}
             </StepperContainer>

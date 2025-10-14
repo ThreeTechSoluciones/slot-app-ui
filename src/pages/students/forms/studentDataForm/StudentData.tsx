@@ -6,8 +6,6 @@ import {
   Input,
   Description,
   InputDate,
-  Button,
-  ButtonsContainer,
   Label
 }
   from "./StudentData.styles";
@@ -15,7 +13,6 @@ import { StudentDataScheme } from "./StudentData.scheme";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { ErrorMessage } from "../../../../components/error_message/ErrorMessage";
-import { useNavigate } from "react-router";
 import type { FormProp } from "../../create-student/FormProp.type";
 
 
@@ -40,8 +37,6 @@ const StudentData = forwardRef<FormProp<StudentDataProps>, FormProp<StudentDataP
     cellphoneNumber: "",
     birthday: "",
     pathologies: "",
-    paymentPlanName: "",
-    planId: "",
   };
   const studentRegistrationForm = data || DEFAULT_STUDENT_DATA
 

@@ -3,8 +3,6 @@ import {
   FormContainer,
   Label,
   Input,
-  Button,
-  ButtonsContainer,
   Select,
   InputsContainer,
   Text
@@ -73,9 +71,9 @@ const PaymentData = forwardRef<FormProp<PaymentDataProps>, FormProp<PaymentDataP
     <MainContainer>
       <FormContainer>
         <div>
-          <Label>Forma de pago</Label>
-          <Select {...register("paymentPlanName")}>Plan de pago*
-            <option value="" disabled selected>Seleccione una opción</option>
+          <Label>Plan de pago*</Label>
+          <Select {...register("paymentPlanName")} defaultValue="">
+            <option value="" disabled hidden>Seleccione una opción</option>
             {PlanTypeNameArray.map((planType) => (
               <option key={planType} value={planType}>{planType}</option>
             ))}
@@ -89,12 +87,12 @@ const PaymentData = forwardRef<FormProp<PaymentDataProps>, FormProp<PaymentDataP
               <Text>Este campo se habilitará una vez seleccione el plan de pago</Text>
               <Input disabled={PaymentPlanNameSelected === ""}></Input>
             </div>)}
-          {PaymentPlanNameSelected === PaymentPlanName.DIA_ESPECIFICO && (
+          {PaymentPlanNameSelected === PaymentPlanName.SPECIFIC_DAY && (
             <>
               <Input placeholder="Día de pago"  {...register("paymentDay")} />
               <ErrorMessage error={errors.paymentDay} /></>
           )}
-          {PaymentPlanNameSelected === PaymentPlanName.PRINCIPIO_MES && (
+          {PaymentPlanNameSelected === PaymentPlanName.BEGINNING_OF_MONTH && (
             <InputsContainer>
               <div>
                 <Input $isSmallSize placeholder="Clases extras" {...register("extraClasses")}></Input>
