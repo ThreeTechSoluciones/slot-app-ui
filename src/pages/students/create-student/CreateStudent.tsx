@@ -13,6 +13,7 @@ import {
   MainContainer
 } from "./CreateStudent.styles";
 import Stepper from "../../../components/stepper/Stepper";
+import { MisAlumnos } from "../../../routes/RoutesUtils";
 
 
 
@@ -22,8 +23,6 @@ function CreateStudent() {
   const [planData, setPlanData] = useState<PlanDataProps | undefined>(undefined)
   const [createStudent] = useCreateStudentMutation();
   const { userId } = useAuthentication()
-
-
 
   const handleStudentDataForm = (data: StudentDataProps) => {
     let formattedBirthday = data.birthday;
@@ -47,24 +46,24 @@ function CreateStudent() {
 
   const navigate = useNavigate();
 
-  const handlePlanDataForm = (data: PlanDataProps) => {
+  const handlePlanDataForm = async (data: PlanDataProps) => {
 
     setPlanData(data)
 
     if (!userId || !studentData || !paymentData || !data) return;
 
     const createStudentRequest: CreateStudentRequest = {
-
       ...studentData,
       ...paymentData,
       ...data,
       admissionDate: new Date(),
       userId
     }
-    createStudent(createStudentRequest)
+
+    await createStudent(createStudentRequest)
       .unwrap()
       .then(() => {
-        navigate("/home");
+        navigate(MisAlumnos);
         toast.success("El estudiante ha sido registrado");
       })
       .catch(() => {
@@ -95,9 +94,8 @@ function CreateStudent() {
       <TitleContainer>
         <Title>REGISTRAR NUEVO ALUMNO</Title>
       </TitleContainer>
-      <Stepper steps={steps} />
+      <Stepper steps={steps} onCancel={() => navigate(MisAlumnos)} />
     </MainContainer>
-
   )
 }
 export default CreateStudent

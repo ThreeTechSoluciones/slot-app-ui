@@ -72,9 +72,9 @@ function Login() {
             {...register("password")}>
           </Input>
           {showPassword ? (
-            <Img isInteractive onClick={changePasswordVisibility} src={OpenEyeIcon} width={"24"} height={"24"} />
+            <Img $isInteractive={true} onClick={changePasswordVisibility} src={OpenEyeIcon} width={"24"} height={"24"} />
           ) : (
-            <Img isInteractive onClick={changePasswordVisibility} src={ClosedEyeIcon} width={"24"} height={"24"} />
+            <Img $isInteractive={true} onClick={changePasswordVisibility} src={ClosedEyeIcon} width={"24"} height={"24"} />
           )}
         </InputContainer>
         <ErrorMessage error={errors.password} />
