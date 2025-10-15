@@ -1,26 +1,44 @@
-import { HeaderProperty, InformationContainer, Label, MainContainer, NotFoundStudentMessage, PaymentInfo, PaymentsContainer, PaymentsTable, Row, StudentInfo, StudentInfoContainer, SubTitle, TableBody, TableHeader, Title } from './StudentDetail.styles';
-import { formatCurrency } from '../../utils/Formatter';
-import { useLocation } from 'react-router';
-import { useGetStudentByIdQuery } from '../../app/services/StudentService';
-import CheckIcon from '../../assets/check.webp'
+import {
+  HeaderProperty,
+  InformationContainer,
+  Label,
+  MainContainer,
+  NotFoundStudentMessage,
+  PaymentInfo,
+  PaymentsContainer,
+  PaymentsTable,
+  Row,
+  StudentInfo,
+  StudentInfoContainer,
+  SubTitle,
+  TableBody,
+  TableHeader,
+  Title,
+} from "./StudentDetail.styles";
+import { formatCurrency } from "../../utils/Formatter";
+import { useGetStudentByIdQuery } from "../../app/services/StudentService";
+import CheckIcon from "../../assets/check.webp";
+import { useLocation } from "react-router-dom";
 
 const StudentDetail = () => {
-
-  const { studentId } = useLocation().state;
-  const { data: student, isError } = useGetStudentByIdQuery(studentId)
-
-  if (isError || !student) return (
-    <div>
-      <NotFoundStudentMessage>
-        Ocurrió un error al buscar la información del alumno. <br />
-        Intente nuevamente
-      </NotFoundStudentMessage>
-    </div>
-  )
+  const location = useLocation();
+  const { studentId } = location.state || {};
+  const { data: student, isError } = useGetStudentByIdQuery(studentId!);
+  if (isError || !student)
+    return (
+      <div>
+        <NotFoundStudentMessage>
+          Ocurrió un error al buscar la información del alumno. <br />
+          Intente nuevamente
+        </NotFoundStudentMessage>
+      </div>
+    );
 
   return (
     <MainContainer>
-      <Title>ALUMNO: {student.name} {student.lastName}</Title>
+      <Title>
+        ALUMNO: {student.name} {student.lastName}
+      </Title>
       <StudentInfoContainer>
         <div>
           <SubTitle>Información personal</SubTitle>
@@ -40,7 +58,6 @@ const StudentDetail = () => {
             <Label>Patologías:</Label>
             <StudentInfo>{student.pathologies}</StudentInfo>
           </InformationContainer>
-        
         </div>
         <div>
           <SubTitle>Información de su plan</SubTitle>
@@ -54,7 +71,10 @@ const StudentDetail = () => {
           </InformationContainer>
           <InformationContainer>
             <Label>Día de pago:</Label>
-            <StudentInfo>{student.paymentDay || (student.planType == "Principio de mes" && "Del 1 al 10")}</StudentInfo>
+            <StudentInfo>
+              {student.paymentDay ||
+                (student.planType == "Principio de mes" && "Del 1 al 10")}
+            </StudentInfo>
           </InformationContainer>
         </div>
       </StudentInfoContainer>
@@ -71,25 +91,26 @@ const StudentDetail = () => {
             </tr>
           </TableHeader>
           <TableBody>
-            {student.payments.map((payment) => (
+            {student?.payments?.map((payment) => (
               <Row key={payment.number}>
                 <PaymentInfo>{payment.number}</PaymentInfo>
                 <PaymentInfo>{payment.paymentDate}</PaymentInfo>
                 <PaymentInfo>{formatCurrency(payment.amount)}</PaymentInfo>
-                <PaymentInfo 
-                  color={payment.status === 'Vencido' ? 'red' : 'black'}
-                >{payment.status}</PaymentInfo>
-                <PaymentInfo>{payment.paymentDate && <img 
-                  src={CheckIcon}
-                  width={30}
-                />}</PaymentInfo>
+                <PaymentInfo
+                  color={payment.status === "Vencido" ? "red" : "black"}
+                >
+                  {payment.status}
+                </PaymentInfo>
+                <PaymentInfo>
+                  {payment.paymentDate && <img src={CheckIcon} width={30} />}
+                </PaymentInfo>
               </Row>
             ))}
           </TableBody>
         </PaymentsTable>
       </PaymentsContainer>
     </MainContainer>
-  )
-}
+  );
+};
 
 export default StudentDetail;

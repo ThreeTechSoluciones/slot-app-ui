@@ -13,7 +13,6 @@ function Plans() {
   const [selectedPriceId, setSelectedPriceId] = useState("");
   const [updatePrice, { isLoading: isUpdating }] = useUpdatePriceMutation();
   const selectedPrice = prices?.find((p) => p.id === selectedPriceId);
-
   const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const rawValue = e.target.value.replace(/[^\d]/g, "");
     setNewAmount(Number(rawValue) / 100);

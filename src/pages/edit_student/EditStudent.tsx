@@ -20,8 +20,8 @@ type FormData = yup.InferType<typeof personalDataScheme>;
 function EditStudent() {
   const navigate = useNavigate();
   const { userId } = useAuthentication();
-  const { studentId } = useLocation().state;
-  const { data: student } = useGetStudentByIdQuery(studentId);
+  const { studentId } = useParams<{ studentId: string }>();
+  const { data: student } = useGetStudentByIdQuery(studentId!);
   const [updateStudent] = useUpdateStudentMutation();
 
   const {
