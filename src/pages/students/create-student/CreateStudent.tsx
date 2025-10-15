@@ -13,14 +13,14 @@ import {
   MainContainer
 } from "./CreateStudent.styles";
 import Stepper from "../../../components/stepper/Stepper";
-import Spinner from "../../../assets/loading-icon.png";
+
 
 
 function CreateStudent() {
   const [studentData, setStudentData] = useState<StudentDataProps | undefined>(undefined);
   const [paymentData, setPaymentData] = useState<PaymentDataProps | undefined>(undefined);
   const [planData, setPlanData] = useState<PlanDataProps | undefined>(undefined)
-  const [createStudent, { isLoading: isUpdating }] = useCreateStudentMutation();
+  const [createStudent] = useCreateStudentMutation();
   const { userId } = useAuthentication()
 
 
@@ -51,13 +51,13 @@ function CreateStudent() {
 
     setPlanData(data)
 
-    if (!userId || !studentData || !paymentData || !planData) return;
+    if (!userId || !studentData || !paymentData || !data) return;
 
     const createStudentRequest: CreateStudentRequest = {
 
       ...studentData,
       ...paymentData,
-      ...planData,
+      ...data,
       admissionDate: new Date(),
       userId
     }

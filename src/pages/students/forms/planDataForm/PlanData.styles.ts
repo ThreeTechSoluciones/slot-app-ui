@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import Arrow from "../../../../assets/Arrow.png"
 import {
-    PRIMARY_COLOR,
     SECONDARY_COLOR,
     TERTIARY_COLOR,
     TEXT_COLOR,
