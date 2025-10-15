@@ -17,6 +17,8 @@ import { StudentService } from "../services/StudentService";
 import { PriceService } from "../services/PriceService";
 import { authSlice } from "../slices/AuthSlice";
 
+
+
 const reducers = combineReducers({
   [AuthService.reducerPath]: AuthService.reducer,
   [UserService.reducerPath]: UserService.reducer,
@@ -36,6 +38,7 @@ const persistedReducer = persistReducer(persistConfig, reducers);
 
 export const store = configureStore({
   reducer: persistedReducer,
+
 
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

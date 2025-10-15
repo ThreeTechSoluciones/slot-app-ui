@@ -1,4 +1,4 @@
-import { useNavigate, useLocation } from "react-router";
+/*import { useNavigate, useLocation } from "react-router";
 import { useGetStudentByIdQuery } from "../../app/services/StudentService";
 import { ErrorMessage } from "../../components/errors/ErrorMessage"
 import DatePicker from "react-datepicker";
@@ -9,13 +9,13 @@ import * as yup from "yup";
 import { useUpdateStudentMutation } from "../../app/services/StudentService";
 import useAuthentication from "../../hooks/useAuthentication";
 import toast from "react-hot-toast";
-import { PlanType } from "../../app/types/models/PlanType";
+import { PlanTypeName } from "../../app/types/models/PlanTypeName";
 import { parseDateFromString } from "../../utils/Formatter";
-import { commonStudentsScheme } from "../students/students.scheme";
+import {  personalDataScheme } from "../students/PersonalData.scheme";
 import "./EditStudent.css";
 import OnlyNumberInput from "../../components/number_input/OnlyNumberInput";
 
-type FormData = yup.InferType<typeof commonStudentsScheme>;
+type FormData = yup.InferType<typeof personalDataScheme>;
 
 function EditStudent() {
   const navigate = useNavigate();
@@ -190,3 +190,4 @@ function EditStudent() {
 }
 
 export default EditStudent;
+*/
