@@ -1,6 +1,6 @@
 /*import { useNavigate, useLocation } from "react-router";
 import { useGetStudentByIdQuery } from "../../app/services/StudentService";
-import { ErrorMessage } from "../../components/header/ErrorMessage";
+import { ErrorMessage } from "../../components/errors/ErrorMessage"
 import DatePicker from "react-datepicker";
 import { Controller, useForm } from "react-hook-form";
 import { useEffect } from "react";
