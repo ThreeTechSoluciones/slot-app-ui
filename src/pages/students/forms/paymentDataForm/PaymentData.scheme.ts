@@ -13,54 +13,54 @@ export const paymentDataScheme = yup.object().shape({
     .typeError("Solo se permiten números")
     .notRequired()
     .when("paymentPlanName", {
-      is: (val: string) => val === PaymentPlanName.PRINCIPIO_MES,
+      is: (val: string) => val === PaymentPlanName.BEGINNING_OF_MONTH,
       then: (schema) =>
         schema
-        .typeError("Solo se permiten números")
-        .max(7, "No puede superar 7 clases")
-        .min(0, "No puede ser negativo")
-        .test(
-          "validateDay",
-          "Debe ingresar las clases extras",
-          (value) => {
-            const today = new Date();
-            const dayOfMonth = today.getDate();
-            if (dayOfMonth > 10) {
-              return value !== undefined && value !== null;
+          .typeError("Solo se permiten números")
+          .max(7, "No puede superar 7 clases")
+          .min(0, "No puede ser negativo")
+          .test(
+            "validateDay",
+            "Debe ingresar las clases extras",
+            (value) => {
+              const today = new Date();
+              const dayOfMonth = today.getDate();
+              if (dayOfMonth > 10) {
+                return value !== undefined && value !== null;
+              }
+              return true;
             }
-            return true;
-          }
-        )
-        .notRequired(),
-    otherwise: (schema) => schema.notRequired(),
-  }),
+          )
+          .notRequired(),
+      otherwise: (schema) => schema.notRequired(),
+    }),
 
-  classPrice:yup
+  classPrice: yup
     .number()
     .transform((value, originalValue) => {
-    return originalValue === "" ? undefined : value;
+      return originalValue === "" ? undefined : value;
     })
     .typeError("Solo se permiten números")
     .notRequired()
     .when("paymentPlanName", {
-      is: (val: string) => val === PaymentPlanName.PRINCIPIO_MES,
+      is: (val: string) => val === PaymentPlanName.BEGINNING_OF_MONTH,
       then: (schema) =>
         schema
           .typeError("Solo se permiten números")
           .min(0, "No puede ser negativo")
           .test(
-          "validateDay",
-          "Debe ingresar el precio",
-          (value) => {
-            const today = new Date();
-            const dayOfMonth = today.getDate();
-            if (dayOfMonth > 10) {
-              return value !== undefined && value !== null;
+            "validateDay",
+            "Debe ingresar el precio",
+            (value) => {
+              const today = new Date();
+              const dayOfMonth = today.getDate();
+              if (dayOfMonth > 10) {
+                return value !== undefined && value !== null;
+              }
+              return true;
             }
-            return true;
-          }
-        )
-      .notRequired(),
+          )
+          .notRequired(),
       otherwise: (schema) => schema.notRequired(),
     }),
 
@@ -68,7 +68,7 @@ export const paymentDataScheme = yup.object().shape({
     .number()
     .typeError("Solo se permiten números")
     .when("paymentPlanName", {
-      is: (val: string) => val === PaymentPlanName.DIA_ESPECIFICO,
+      is: (val: string) => val === PaymentPlanName.SPECIFIC_DAY,
       then: (schema) =>
         schema
           .required("Debe ingresar el día de pago")
@@ -76,6 +76,6 @@ export const paymentDataScheme = yup.object().shape({
           .min(11, "Se permiten pagos a partir del día 11")
           .max(28, "Se permiten pagos hasta el día 28"),
       otherwise: (schema) => schema.notRequired(),
-    }),    
+    }),
 });
 

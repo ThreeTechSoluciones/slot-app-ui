@@ -1,6 +1,6 @@
 import { MainContainer, Circle, Title, Img } from "./Step.styles"
 import CheckIcon from "../../assets/check.png"
-import Arrow from "../../assets/arrow.png"
+import Arrow from "../../assets/arrow2.png"
 
 interface StepProps {
     numberOfStep: number;

@@ -1,39 +1,42 @@
 import styled from "styled-components";
-import { PRIMARY_COLOR, 
-        SECONDARY_COLOR, 
-        TERTIARY_COLOR,
-        TEXT_COLOR, 
-        FONT_FAMILY, 
-        BORDER_RADIUS} 
-    from "../../../../utils/Stylesheet"; 
+import Arrow from "../../../../assets/Arrow.png"
+import {
+    PRIMARY_COLOR,
+    SECONDARY_COLOR,
+    TERTIARY_COLOR,
+    TEXT_COLOR,
+    FONT_FAMILY,
+    BORDER_RADIUS
+}
+    from "../../../../utils/Stylesheet";
 
-export const MainContainer=styled.div`
+export const MainContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
 `
 
-export const TitleContainer=styled.div`
+export const TitleContainer = styled.div`
     width: 100%;
     margin-left:80px;
 `
 
-export const Title=styled.h1`
+export const Title = styled.h1`
     font-size: 24px;
     margin-right:80px;
     margin-top: 32px;
     font-family: ${FONT_FAMILY};
     font-weight:bold;
 `
-export const Label=styled.p`
+export const Label = styled.p`
     font-size: 16px;
     font-weight: bold;
     margin-top:8ipx;
     margin-bottom:8px;
     padding:0px;
     font-family: ${FONT_FAMILY};
-` 
+`
 export const BaseStyle = styled.input`
     width:392px;
     height: 56px;
@@ -45,7 +48,7 @@ export const BaseStyle = styled.input`
     color:${TEXT_COLOR};
     font-family: ${FONT_FAMILY};
     &::placeholder {
-        color: ${ TERTIARY_COLOR};
+        color: ${TERTIARY_COLOR};
     }
 `
 export const FormContainer = styled.form`
@@ -56,23 +59,27 @@ export const FormContainer = styled.form`
 export const Select = styled(BaseStyle).attrs({ as: "select" })`
     width:410px;
     height: 56px;
-    border-radius:${BORDER_RADIUS};
-    background:none;
+    border-radius:10px;
     border:1px solid black;
     color:black;
     font-size:12px;
     padding-left:16px;   
+    appearance: none;      
+    webkit-appearance: none;
+    moz-appearance: none;
+    background: url(${Arrow}) no-repeat right 12px center;
+    padding-right: 32px;    
 `
 
-export const Input = styled(BaseStyle)<{ disabled?: boolean }>`
-    background:${(props) => (props.disabled ? SECONDARY_COLOR: "none")};
-    border:${(props) => (props.disabled ? SECONDARY_COLOR: "1px solid black")};
+export const Input = styled(BaseStyle) <{ disabled?: boolean }>`
+    background:${(props) => (props.disabled ? SECONDARY_COLOR : "none")};
+    border:${(props) => (props.disabled ? SECONDARY_COLOR : "1px solid black")};
     &::placeholder {
-        color: ${(props) => (props.disabled ? SECONDARY_COLOR: TERTIARY_COLOR)};;
+        color: ${(props) => (props.disabled ? SECONDARY_COLOR : TERTIARY_COLOR)};;
     }
 `
-export const InputsContainer=styled.div`
+export const InputsContainer = styled.div`
     display: flex;
     gap:16px; 
-`  
+`
 

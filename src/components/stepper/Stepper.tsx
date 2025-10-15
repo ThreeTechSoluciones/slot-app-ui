@@ -18,6 +18,10 @@ interface StepperProps {
 
 function Stepper({ steps }: StepperProps) {
 
+    if (!steps || steps.length === 0) {
+        return <div>No steps provided</div>;
+    }
+
     const [currentStep, setCurrentStep] = useState<number>(0);
     const formRefs = useRef(steps.map(() => createRef<any>()));
     const Navigate = useNavigate();
@@ -43,10 +47,6 @@ function Stepper({ steps }: StepperProps) {
     const maxSteps = steps.length;
     const CurrentForm = steps[currentStep].component;
     const currentFormRef = formRefs.current[currentStep];
-
-    if (!steps) {
-        return null;
-    }
 
     return (
         <MainContainer>

@@ -13,18 +13,33 @@ import {
   MainContainer
 } from "./CreateStudent.styles";
 import Stepper from "../../../components/stepper/Stepper";
+import Spinner from "../../../assets/loading-icon.png";
 
 
 function CreateStudent() {
   const [studentData, setStudentData] = useState<StudentDataProps | undefined>(undefined);
   const [paymentData, setPaymentData] = useState<PaymentDataProps | undefined>(undefined);
   const [planData, setPlanData] = useState<PlanDataProps | undefined>(undefined)
-  const [createStudent] = useCreateStudentMutation();
+  const [createStudent, { isLoading: isUpdating }] = useCreateStudentMutation();
   const { userId } = useAuthentication()
 
+
+
   const handleStudentDataForm = (data: StudentDataProps) => {
-    setStudentData(data);
-  }
+    let formattedBirthday = data.birthday;
+
+    if (data.birthday) {
+      const date = new Date(data.birthday);
+      formattedBirthday = `${date.getFullYear()}-${(date.getMonth() + 1)
+        .toString()
+        .padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}`;
+    }
+
+    setStudentData({
+      ...data,
+      birthday: formattedBirthday,
+    });
+  };
 
   const handlePaymentDataForm = (data: PaymentDataProps) => {
     setPaymentData(data);
@@ -39,6 +54,7 @@ function CreateStudent() {
     if (!userId || !studentData || !paymentData || !planData) return;
 
     const createStudentRequest: CreateStudentRequest = {
+
       ...studentData,
       ...paymentData,
       ...planData,
@@ -63,14 +79,14 @@ function CreateStudent() {
       props: { onNext: handleStudentDataForm, data: studentData }
     },
     {
-      title: "Datos del pago", 
+      title: "Datos del pago",
       component: PaymentData,
       props: { onNext: handlePaymentDataForm, data: paymentData }
     },
     {
-      title: "Datos del turno", 
+      title: "Datos del turno",
       component: PlanData,
-      props: { onNext: handlePlanDataForm, data: planData } 
+      props: { onNext: handlePlanDataForm, data: planData }
     }
   ];
 
@@ -80,8 +96,8 @@ function CreateStudent() {
         <Title>REGISTRAR NUEVO ALUMNO</Title>
       </TitleContainer>
       <Stepper steps={steps} />
-
     </MainContainer>
+
   )
 }
 export default CreateStudent

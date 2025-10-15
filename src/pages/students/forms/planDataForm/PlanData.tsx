@@ -1,13 +1,14 @@
 import { useForm } from "react-hook-form";
-import { ErrorMessage} from "../../../../components/error_message/ErrorMessage";
+import { ErrorMessage } from "../../../../components/error_message/ErrorMessage";
 import { planDataScheme } from "./PlanData.scheme";
 import { shiftRegistrationCalendarData } from "../../../../components/shiftRegistrationCalendar/ShiftRegistrationCalendarData";
-import { MainContainer,
-        Label, 
-        Select, 
-        FormContainer, 
-      }
-        from "./PlanData.styles";
+import {
+  MainContainer,
+  Label,
+  Select,
+  FormContainer,
+}
+  from "./PlanData.styles";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import ShiftRegistrationCalendar from "../../../../components/shiftRegistrationCalendar/ShiftRegistrationCalendar";
@@ -28,17 +29,17 @@ const PlanData = forwardRef<FormProp<PlanDataProps>, FormProp<PlanDataProps>>((p
   const { data, onNext } = props;
 
   type FormData = yup.InferType<typeof planDataScheme>;
-  
+
   const { userId } = useAuthentication();
 
   const { data: planTypes } = useGetUserPlansQuery(userId!);
-    
-  const { shifts, removeShift, newShift} = useShiftHandler()
 
-  const DEFAULT_PLAN_DATA = { planId:""}
+  const { shifts, removeShift, newShift } = useShiftHandler()
+
+  const DEFAULT_PLAN_DATA = { planId: "" }
 
   const studentRegistrationForm = data || DEFAULT_PLAN_DATA;
-    
+
   const {
     register,
     handleSubmit,
@@ -63,22 +64,22 @@ const PlanData = forwardRef<FormProp<PlanDataProps>, FormProp<PlanDataProps>>((p
       })
   }) as unknown as FormProp<PlanDataProps>);
 
-    
-  return(
+
+  return (
     <MainContainer>
       <FormContainer >
-        <Label>Plan</Label>
+        <Label>Plan*</Label>
         <Select {...register("planId")}>
           <option value="" disabled hidden>Seleccione una opción</option>
-          {planTypes?.map((plan)=>(
+          {planTypes?.map((plan) => (
             <option key={plan.id} value={plan.id}>{plan.name}</option>
           ))}
         </Select>
         <ErrorMessage error={errors.planId} />
-        <ShiftRegistrationCalendar  listShifts={shiftRegistrationCalendarData} selectedShifts={shifts}   onSelectShift ={newShift} onDeleteShift={removeShift}  />
-        <ShiftDetail shifts ={shifts}/>
+        <ShiftRegistrationCalendar listShifts={shiftRegistrationCalendarData} selectedShifts={shifts} onSelectShift={newShift} onDeleteShift={removeShift} />
+        <ShiftDetail shifts={shifts} />
       </FormContainer>
-    </MainContainer>        
+    </MainContainer>
   )
 })
 

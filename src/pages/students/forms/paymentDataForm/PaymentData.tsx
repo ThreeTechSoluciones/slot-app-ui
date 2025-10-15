@@ -5,7 +5,8 @@ import {
   Input,
   Select,
   InputsContainer,
-  Text
+  Text,
+  SecondaryInputsContainer
 } from "./PaymentData.styles";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -81,7 +82,7 @@ const PaymentData = forwardRef<FormProp<PaymentDataProps>, FormProp<PaymentDataP
           <ErrorMessage error={errors.paymentPlanName} />
         </div>
         <div>
-          <Label>Datos del pago</Label>
+          <Label>Datos del plan de pago</Label>
           {PaymentPlanNameSelected === "" && (
             <div>
               <Text>Este campo se habilitará una vez seleccione el plan de pago</Text>
@@ -94,11 +95,11 @@ const PaymentData = forwardRef<FormProp<PaymentDataProps>, FormProp<PaymentDataP
           )}
           {PaymentPlanNameSelected === PaymentPlanName.BEGINNING_OF_MONTH && (
             <InputsContainer>
-              <div>
+              <Text>Si el alumno empezó luego del día 10, puede indicar
+                la cantidad de clases extras para realizar el primer pago</Text>
+              <SecondaryInputsContainer>
                 <Input $isSmallSize placeholder="Clases extras" {...register("extraClasses")}></Input>
                 <ErrorMessage error={errors.extraClasses} />
-              </div>
-              <div>
                 <Controller
                   name="classPrice"
                   control={control}
@@ -112,7 +113,7 @@ const PaymentData = forwardRef<FormProp<PaymentDataProps>, FormProp<PaymentDataP
                   )}
                 />
                 <ErrorMessage error={errors.classPrice} />
-              </div>
+              </SecondaryInputsContainer>
             </InputsContainer>)}
         </div>
       </FormContainer>

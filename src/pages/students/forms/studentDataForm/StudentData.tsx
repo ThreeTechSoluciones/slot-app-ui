@@ -1,11 +1,10 @@
-import { forwardRef, useImperativeHandle, useState } from 'react';
+import { forwardRef, useImperativeHandle } from 'react';
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
   MainContainer,
   FormContainer,
   Input,
   Description,
-  InputDate,
   Label
 }
   from "./StudentData.styles";
@@ -14,6 +13,11 @@ import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { ErrorMessage } from "../../../../components/error_message/ErrorMessage";
 import type { FormProp } from "../../create-student/FormProp.type";
+import { Controller } from "react-hook-form";
+import "react-date-picker/dist/DatePicker.css";
+import "react-calendar/dist/Calendar.css";
+import InputDate from '../../../../components/date/inputDate';
+import CalendarIcon from '../../../../assets/CalenderIcon.png';
 
 
 export interface StudentDataProps {
@@ -45,6 +49,7 @@ const StudentData = forwardRef<FormProp<StudentDataProps>, FormProp<StudentDataP
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm<FormData>({
     resolver: yupResolver(StudentDataScheme),
@@ -88,7 +93,22 @@ const StudentData = forwardRef<FormProp<StudentDataProps>, FormProp<StudentDataP
         </div>
         <div>
           <Label>Fecha de nacimiento*</Label>
-          <InputDate type="date" {...register("birthday")}></InputDate>
+          <Controller
+            name="birthday"
+            control={control}
+            render={({ field }) => (
+              <InputDate
+                {...field}
+                onChange={(date) => field.onChange(date)}
+                value={field.value || null}
+                format="dd/MM/yyyy"
+                locale="es-ES"
+                clearIcon={null}
+                calendarIcon={<img src={CalendarIcon} alt="Calendario" style={{ width: 20, height: 20 }} />}
+              />
+            )}
+          />
+
           <ErrorMessage error={errors.birthday} />
         </div>
         <div>
