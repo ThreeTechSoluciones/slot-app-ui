@@ -1,7 +1,7 @@
 import Step from "./Step"
 import { MainContainer, Button, ButtonsContainer, StepperContainer, FormContainer } from "./Stepper.styles";
 import { createRef, useRef, useState } from "react";
-import { useNavigate } from "react-router";
+
 
 
 type Step = {
@@ -13,21 +13,23 @@ type Step = {
 
 interface StepperProps {
     steps: Step[];
+    onCancel: () => void;
 }
 
 
-function Stepper({ steps }: StepperProps) {
+function Stepper({ steps, onCancel }: StepperProps) {
 
     if (!steps || steps.length === 0) {
         return <div>No steps provided</div>;
     }
 
     const [currentStep, setCurrentStep] = useState<number>(0);
+
     const formRefs = useRef(steps.map(() => createRef<any>()));
-    const Navigate = useNavigate();
-    const nextStep = async () => {
-        const currentFormRef2 = formRefs.current[currentStep];
-        currentFormRef2.current.submit().then((res: any) => {
+
+    const nextStep = () => {
+        const currentFormRef = formRefs.current[currentStep];
+        currentFormRef.current.submit().then((res: any) => {
             if (res) {
                 setCurrentStep((prev) => Math.min(prev + 1, steps.length - 1));
             }
@@ -35,17 +37,13 @@ function Stepper({ steps }: StepperProps) {
     };
 
     const backStep = () => {
-        if (currentStep === 0) {
-            Navigate("/home")
-        }
-        else {
-            setCurrentStep((prev) => Math.max(prev - 1, 0));
-        }
+        currentStep === 0 ? onCancel() : setCurrentStep(prev => prev - 1)
     };
 
-
     const maxSteps = steps.length;
+
     const CurrentForm = steps[currentStep].component;
+
     const currentFormRef = formRefs.current[currentStep];
 
     return (

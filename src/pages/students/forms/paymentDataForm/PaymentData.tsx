@@ -53,6 +53,52 @@ const PaymentData = forwardRef<FormProp<PaymentDataProps>, FormProp<PaymentDataP
 
   const PaymentPlanNameSelected = watch("paymentPlanName");
 
+  const NoPaymentSelectedSkeleton = () => {
+    return (
+      <div>
+        <Text>Este campo se habilitará una vez seleccione el plan de pago</Text>
+        <Input disabled={PaymentPlanNameSelected === ""}></Input>
+      </div>
+    )
+  }
+  const SpecificDaySkeleton = () => {
+    return (
+      <>
+        <Input placeholder="Día de pago"  {...register("paymentDay")} />
+        <ErrorMessage error={errors.paymentDay} />
+      </>
+    )
+  }
+  const BeginningOfMonthSkeleton = () => {
+    return (
+      <InputsContainer>
+        <Text>Si el alumno empezó luego del día 10, puede indicar
+          la cantidad de clases extras para realizar el primer pago</Text>
+        <SecondaryInputsContainer>
+          <div>
+            <Input $isSmallSize placeholder="Clases extras" {...register("extraClasses")}></Input>
+            <ErrorMessage error={errors.extraClasses} />
+          </div>
+          <div>
+            <Controller
+              name="classPrice"
+              control={control}
+              render={({ field }) => (
+                <CurrencyInput
+                  width="176"
+                  value={field.value ?? null}
+                  onChange={field.onChange}
+                  placeholder="Precio clase individual"
+                />
+              )}
+            />
+            <ErrorMessage error={errors.classPrice} />
+          </div>
+        </SecondaryInputsContainer>
+      </InputsContainer>
+    )
+  }
+
   useImperativeHandle(ref, () => ({
     submit: () =>
       new Promise<boolean>((resolve) => {
@@ -84,37 +130,13 @@ const PaymentData = forwardRef<FormProp<PaymentDataProps>, FormProp<PaymentDataP
         <div>
           <Label>Datos del plan de pago</Label>
           {PaymentPlanNameSelected === "" && (
-            <div>
-              <Text>Este campo se habilitará una vez seleccione el plan de pago</Text>
-              <Input disabled={PaymentPlanNameSelected === ""}></Input>
-            </div>)}
+            <NoPaymentSelectedSkeleton />
+          )}
           {PaymentPlanNameSelected === PaymentPlanName.SPECIFIC_DAY && (
-            <>
-              <Input placeholder="Día de pago"  {...register("paymentDay")} />
-              <ErrorMessage error={errors.paymentDay} /></>
+            <SpecificDaySkeleton />
           )}
           {PaymentPlanNameSelected === PaymentPlanName.BEGINNING_OF_MONTH && (
-            <InputsContainer>
-              <Text>Si el alumno empezó luego del día 10, puede indicar
-                la cantidad de clases extras para realizar el primer pago</Text>
-              <SecondaryInputsContainer>
-                <Input $isSmallSize placeholder="Clases extras" {...register("extraClasses")}></Input>
-                <ErrorMessage error={errors.extraClasses} />
-                <Controller
-                  name="classPrice"
-                  control={control}
-                  render={({ field }) => (
-                    <CurrencyInput
-                      width="176"
-                      value={field.value ?? null}
-                      onChange={field.onChange}
-                      placeholder="Precio clase individual"
-                    />
-                  )}
-                />
-                <ErrorMessage error={errors.classPrice} />
-              </SecondaryInputsContainer>
-            </InputsContainer>)}
+            <BeginningOfMonthSkeleton />)}
         </div>
       </FormContainer>
     </MainContainer>
