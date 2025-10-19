@@ -22,7 +22,7 @@ import InfoIcon from "../../assets/info-icon.svg";
 const StudentDetail = () => {
   const { studentId } = useLocation().state;
   const { data: student, isError } = useGetStudentByIdQuery(studentId);
-  console.log(student);
+
   if (isError || !student)
     return (
       <div>

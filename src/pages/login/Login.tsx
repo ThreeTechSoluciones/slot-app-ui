@@ -26,6 +26,8 @@ import { ErrorMessage } from "../../components/errors/ErrorMessage";
 function Login() {
   const [signin] = useSigninMutation({ fixedCacheKey: "shared-auth" });
 
+  const [signin] = useSigninMutation({ fixedCacheKey: "shared-auth" });
+
   const navigate = useNavigate();
 
   const {
@@ -81,7 +83,7 @@ function Login() {
           ></Input>
           {showPassword ? (
             <Img
-              isInteractive
+              $isInteractive={true}
               onClick={changePasswordVisibility}
               src={OpenEyeIcon}
               width={"24"}
@@ -89,7 +91,7 @@ function Login() {
             />
           ) : (
             <Img
-              isInteractive
+              $isInteractive={true}
               onClick={changePasswordVisibility}
               src={ClosedEyeIcon}
               width={"24"}

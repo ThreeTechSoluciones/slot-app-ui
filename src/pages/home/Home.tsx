@@ -1,168 +1,213 @@
-import "./Home.css";
-import infoIcon from "../../assets/info-icon.webp";
-import trashIcon from "../../assets/trash-icon.webp";
-import activateIcon from "../../assets/activate-icon.svg";
-import editIcon from "../../assets/edit-icon.png";
-import { useNavigate } from "react-router";
+import {
+  SituationText,
+  StatusText,
+  StudentsContainer,
+  LeftContainer,
+  RightContainer,
+  FiltersContainer,
+} from "./Home.styles";
+import { useLocation, useNavigate } from "react-router";
 import useAuthentication from "../../hooks/useAuthentication";
-import { useDeleteStudentMutation } from "../../app/services/StudentService";
-import { ConfirmDialog } from "../../components/confirm_dialog/ConfirmDialog";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import Table from "../../components/table/Table";
+import type { StudentResponse } from "../../app/types/responses/StudentResponse.type";
+import type { Column } from "../../app/types/table";
+import dotsIcon from "../../assets/dots-icon.png";
 import { useGetUserStudentsQuery } from "../../app/services/UserService";
-import Filter from "../../components/filter/FilterSearch";
-import { skipToken } from "@reduxjs/toolkit/query";
+import { DropdownMenu } from "../../components/dropdownMenu/DropdownMenu";
+import { SortableButton } from "../../components/sort_button/SortButton";
+import { skipToken } from "@reduxjs/toolkit/query/react";
+import FilterSearch from "../../components/filter_search/FilterSearch";
+import Filter from "../../components/filter/Filter";
+import Button from "../../components/button/Button";
+import AddIcon from "../../assets/add-icon.svg";
 
 function Home() {
   const { userId } = useAuthentication();
-  const [deleteStudent] = useDeleteStudentMutation();
   const navigate = useNavigate();
-  const [filter, setFilter] = useState("");
-  const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
-  const [studentToDelete, setStudentToDelete] = useState<{
-    id: string;
-    name: string;
-  } | null>(null);
+  const location = useLocation();
+  const { studentId } = location.state || {};
+  const [statusFilter, setStatusFilter] = useState<string>("");
+  const [situationFilter, setSituationFilter] = useState<string>("");
+  const [studentList, setStudentList] = useState<StudentResponse[]>([]);
+  const [filter, setFilter] = useState<string>("");
+  const { data: students } = useGetUserStudentsQuery(
+    userId ? { userId, filter } : skipToken
+  );
+  useEffect(() => {
+    if (students) {
+      setStudentList(students);
+    }
+  }, [students]);
+  const statusMap: Record<string, string> = {
+    condeuda: "Con deuda",
+    entermino: "En término",
+  };
 
-  const {
-    data: students,
-    error,
-    isLoading,
-  } = useGetUserStudentsQuery(userId ? { userId, filter } : skipToken);
-  console.log("Tabla alumnos", students);
-  if (isLoading) return <p>Cargando...</p>;
-  if (error) return <p>Error al cargar estudiantes</p>;
+  const sortedStudents = useMemo(() => {
+    let list = [...studentList];
+    if (situationFilter) {
+      list = list.filter(
+        (student) =>
+          student.status.toLowerCase() ===
+          statusMap[situationFilter]?.toLowerCase()
+      );
+    }
+    if (statusFilter) {
+      const isActive = statusFilter === "activo";
+      list = list.filter((student) => student.isActive === isActive);
+    }
 
-  const handleDelete = async (studentId: string, studentName: string) => {
-    setStudentToDelete({ id: studentId, name: studentName });
-    setConfirmDialogOpen(true);
+    list.sort((a, b) => {
+      if (a.isActive !== b.isActive) return a.isActive ? -1 : 1;
+      //si a es true (activo) y b false (inactivo), a (activo) va primero (-1)
+      //si a es false (inactivo) y b true (activo), b (activo) va primero (1)
+      return 0; //si son iguales
+    });
+    return list;
+  }, [studentList, statusFilter, situationFilter]);
+
+  const sortByField = (field: keyof StudentResponse, asc: boolean) => {
+    const sorted = [...studentList].sort((a, b) => {
+      const valueA = a[field];
+      const valueB = b[field];
+
+      if (field === "dni") {
+        return asc
+          ? Number(valueA) - Number(valueB)
+          : Number(valueB) - Number(valueA);
+      }
+      return asc
+        ? String(valueA).localeCompare(String(valueB))
+        : String(valueB).localeCompare(String(valueA));
+    });
+
+    setStudentList(sorted);
   };
-  const handleConfirmDeleteClick = () => {
-    if (!studentToDelete) return;
-    deleteStudent(studentToDelete.id)
-      .unwrap()
-      .then(() => {
-        setConfirmDialogOpen(false);
-        setStudentToDelete(null);
-      });
-  };
-  const handleCancelDeleteClick = () => {
-    setConfirmDialogOpen(false);
-    setStudentToDelete(null);
-  };
+  const columns: Column<StudentResponse>[] = [
+    {
+      header: (
+        <SortableButton text="DNI" onSort={(asc) => sortByField("dni", asc)} />
+      ),
+      accessor: "dni",
+    },
+
+    {
+      header: (
+        <SortableButton
+          text="Nombre"
+          onSort={(asc) => sortByField("name", asc)}
+        />
+      ),
+      accessor: "name",
+    },
+    {
+      header: (
+        <SortableButton
+          text="Apellido"
+          onSort={(asc) => sortByField("lastName", asc)}
+        />
+      ),
+      accessor: "lastName",
+    },
+    {
+      header: "Situación",
+      render: (student: StudentResponse) => (
+        <SituationText $status={student.status}>{student.status}</SituationText>
+      ),
+    },
+    {
+      header: "Estado",
+      render: (student: StudentResponse) => (
+        <StatusText $isActive={student.isActive}>
+          {student.isActive ? "Activo" : "Inactivo"}
+        </StatusText>
+      ),
+    },
+    {
+      header: "Acciones",
+      render: (student: StudentResponse) => (
+        <DropdownMenu
+          icon={<img src={dotsIcon} alt="Opciones" width={30} height={30} />}
+          size="small"
+          options={[
+            {
+              label: "Ver cuotas",
+              onClick: () =>
+                navigate(`/cuotas`, { state: { studentId: student.id } }),
+            },
+            {
+              label: "Ver alumno",
+              onClick: () =>
+                navigate(`/detalle-alumno`, {
+                  state: { studentId: student.id },
+                }),
+            },
+            {
+              label: "Modificar turnos",
+              onClick: () =>
+                navigate(`/editar-alumno`, {
+                  state: { studentId: student.id },
+                }), // cambiar ruta cuando esté la pantalla de modifcar turnos
+            },
+          ]}
+        />
+      ),
+    },
+  ];
 
   return (
-    <div className="students-container">
-      <Filter
-        value={filter}
-        onChange={setFilter}
-        placeholder="Buscar por DNI, nombre o apellido"
-      />
-      <table className="table">
-        <thead className="thead">
-          <tr>
-            <th>DNI</th>
-            <th>Nombre</th>
-            <th>Apellido</th>
-            <th>Estado</th>
-            <th>Habilitado</th>
-            <th>Pago</th>
-            <th>Info</th>
-            <th>Eliminar/Dar Alta</th>
-            <th>Editar</th>
-          </tr>
-        </thead>
-        <tbody className="tbody">
-          {students?.map((student) => (
-            <tr key={student.id}>
-              <td>{student.dni}</td>
-              <td>{student.name}</td>
-              <td>{student.lastname}</td>
-              <td
-                style={{
-                  color:
-                    student.status === "En término" ? "#00bf63" : "#ff3131",
-                }}
-              >
-                <strong>{student.status}</strong>
-              </td>
-              <td>
-                <strong
-                  style={{ color: student.isActive ? "#00bf63" : "#ff3131" }}
-                >
-                  {student.isActive ? "Activo" : "Inactivo"}
-                </strong>
-              </td>
-              <td>
-                <div className="actions-container">
-                  <button
-                    className="btn-payment"
-                    onClick={() => alert(`Registrar pago de ${student.name}`)}
-                  >
-                    Registrar
-                  </button>
-                </div>
-              </td>
-              <td>
-                <div className="actions-container">
-                  <img
-                    src={infoIcon}
-                    alt="Info"
-                    className="icon"
-                    onClick={() =>
-                      navigate("/detalle-alumno", {
-                        state: { studentId: student.id },
-                      })
-                    }
-                  />
-                </div>
-              </td>
-              <td>
-                <div className="actions-container">
-                  {!student.isActive ? (
-                    <img
-                      src={activateIcon}
-                      alt="Dar de alta"
-                      className="activate-icon"
-                      onClick={() =>
-                        alert(`¿Desea dar de alta a ${student.name}?`)
-                      }
-                    />
-                  ) : (
-                    <img
-                      src={trashIcon}
-                      alt="Eliminar"
-                      className="icon"
-                      onClick={() => handleDelete(student.id, student.name)}
-                    />
-                  )}
-                </div>
-              </td>
-              <td>
-                <div className="actions-container">
-                  <img
-                    src={editIcon}
-                    alt="Editar"
-                    className="edit-icon"
-                    onClick={() =>
-                      navigate("/editar-alumno", {
-                        state: { studentId: student.id },
-                      })
-                    }
-                  />
-                </div>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      {confirmDialogOpen && studentToDelete && (
-        <ConfirmDialog
-          message={`¿Desea eliminar a ${studentToDelete.name}?`}
-          onConfirm={handleConfirmDeleteClick}
-          onCancel={handleCancelDeleteClick}
-        />
-      )}
-    </div>
+    <StudentsContainer>
+      <FiltersContainer>
+        <LeftContainer>
+          <FilterSearch
+            value={filter}
+            onChange={setFilter}
+            placeholder="Buscar por DNI, nombre o apellido"
+          />
+          <Filter
+            placeholder="Filtrar por situación"
+            options={[
+              { label: "Con deuda", value: "condeuda" },
+              { label: "En término", value: "entermino" },
+            ]}
+            value={situationFilter}
+            onSelect={setSituationFilter}
+          />
+          <Filter
+            placeholder="Filtrar por estado"
+            options={[
+              { label: "Activo", value: "activo" },
+              { label: "Inactivo", value: "inactivo" },
+            ]}
+            value={statusFilter}
+            onSelect={setStatusFilter}
+          />
+
+          <Button
+            variant="primary"
+            size="small"
+            onClick={() => {
+              setSituationFilter("");
+              setStatusFilter("");
+            }}
+          >
+            Limpiar filtros
+          </Button>
+        </LeftContainer>
+        <RightContainer>
+          <Button
+            variant="primary"
+            size="medium"
+            icon={<img src={AddIcon} alt="Add Icon" />}
+            onClick={() => navigate("/nuevo-alumno")}
+          >
+            Nuevo alumno
+          </Button>
+        </RightContainer>
+      </FiltersContainer>
+      <Table columns={columns} data={sortedStudents} />;
+    </StudentsContainer>
   );
 }
 export default Home;

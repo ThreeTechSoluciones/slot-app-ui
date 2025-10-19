@@ -1,14 +1,15 @@
 export type CreateStudentRequest = {
-  dni: number;
   name: string;
   lastName: string;
+  dni: string;
   cellphoneNumber: string;
-  planType: string;
-  classesPerWeek: number;
-  extraClasses?: number;
-  paymentDay?: number | null;
-  birthday: Date;
+  birthday: string;
+  pathologies?: string | null;
+  paymentPlanName:string;
+  extraClasses?: number|null|undefined;
+  classPrice?:number|null|undefined;
+  paymentDay?: number |undefined;
+  planId: string;
   admissionDate: Date;
-  pathologies: string | null;
   userId: string;
 };
