@@ -43,7 +43,7 @@ function Home() {
     condeuda: "Con deuda",
     entermino: "En término",
   };
-
+  console.log("estudiante", students);
   const sortedStudents = useMemo(() => {
     let list = [...studentList];
     if (situationFilter) {
@@ -105,10 +105,10 @@ function Home() {
       header: (
         <SortableButton
           text="Apellido"
-          onSort={(asc) => sortByField("lastName", asc)}
+          onSort={(asc) => sortByField("lastname", asc)}
         />
       ),
-      accessor: "lastName",
+      accessor: "lastname",
     },
     {
       header: "Situación",

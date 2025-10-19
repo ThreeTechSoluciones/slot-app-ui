@@ -16,7 +16,10 @@ export const HeaderBoxes = styled.div`
   justify-content: left;
   padding: 1rem;
 `;
-
+export const EditIconStyles = styled.div`
+  margin-left: auto;
+  cursor: pointer;
+`;
 export const InfoBoxesContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -84,7 +87,12 @@ export const SubTitle = styled.h2`
   margin: 0px;
   margin-left: 2rem;
 `;
-
+export const ButtonContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  grid-column: span 2;
+`;
 export const NotFoundStudentMessage = styled.p`
   font-size: clamp(1rem, 2vw + 0.5rem, 3rem);
 `;

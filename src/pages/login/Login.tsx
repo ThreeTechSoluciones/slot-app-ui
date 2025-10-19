@@ -21,13 +21,10 @@ import {
 } from "./Login.styles";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { ErrorMessage } from "../../components/errors/ErrorMessage";
+import { ErrorMessage } from "../../components/error_message/ErrorMessage";
 
 function Login() {
   const [signin] = useSigninMutation({ fixedCacheKey: "shared-auth" });
-
-  const [signin] = useSigninMutation({ fixedCacheKey: "shared-auth" });
-
   const navigate = useNavigate();
 
   const {

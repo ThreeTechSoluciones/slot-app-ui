@@ -9,20 +9,26 @@ import {
   NotFoundStudentMessage,
   InfoBoxesContainer,
   StudentInfo,
+  EditIconStyles,
   StudentInfoContainer,
+  ButtonContainer,
   SubTitle,
   Title,
 } from "./StudentDetail.styles";
 import { useLocation } from "react-router";
+import { useNavigate } from "react-router";
 import { useGetStudentByIdQuery } from "../../app/services/StudentService";
 import StudentIcon from "../../assets/student-icon.svg";
 import BackIcon from "../../assets/back-icon.svg";
 import InfoIcon from "../../assets/info-icon.svg";
+import EditIcon from "../../assets/edit-icon.svg";
+import Button from "../../components/button/Button";
+import { MisPlanes } from "../../routes/RoutesUtils";
 
 const StudentDetail = () => {
   const { studentId } = useLocation().state;
   const { data: student, isError } = useGetStudentByIdQuery(studentId);
-
+  const navigate = useNavigate();
   if (isError || !student)
     return (
       <div>
@@ -58,6 +64,9 @@ const StudentDetail = () => {
               ></img>
               Datos del alumno
             </SubTitle>
+            <EditIconStyles>
+              <img src={EditIcon} alt="edit-icon"></img>
+            </EditIconStyles>
           </HeaderBoxes>
           <AllInformationContainer>
             <InformationContainer>
@@ -100,6 +109,9 @@ const StudentDetail = () => {
               <img src={InfoIcon} alt="info-icon"></img>
               Datos de pago y estados
             </SubTitle>
+            <EditIconStyles>
+              <img src={EditIcon} alt="edit-icon"></img>
+            </EditIconStyles>
           </HeaderBoxes>
           <AllInformationContainer>
             <InformationContainer>
@@ -124,6 +136,15 @@ const StudentDetail = () => {
               <Label>Situación del alumno</Label>
               <StudentInfo>{student.situation}</StudentInfo>
             </InformationContainer>
+            <ButtonContainer>
+              <Button
+                variant="primary"
+                size="large"
+                onClick={() => navigate(MisPlanes)}
+              >
+                Ver cuotas
+              </Button>
+            </ButtonContainer>
           </AllInformationContainer>
         </PaymentInfoContainer>
       </InfoBoxesContainer>
