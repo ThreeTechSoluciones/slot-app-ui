@@ -16,6 +16,7 @@ export const HeaderBoxes = styled.div`
   justify-content: left;
   padding: 1rem;
 `;
+
 export const EditIconStyles = styled.div`
   margin-left: auto;
   cursor: pointer;
@@ -72,20 +73,40 @@ export const StudentInfo = styled.p`
   font-size: 16px;
   margin: 0px;
 `;
+export const StudentStatusStyle = styled.p<{ status: boolean }>`
+  font-weight: bold;
+  margin: 0;
+  color: ${({ status }) => (status ? "#20C92B" : "#B92C2C")};
+`;
 
-export const Title = styled.h1`
+export const StudentSituationStyle = styled.p<{ situation: string }>`
+  font-weight: bold;
+  margin: 0;
+  color: ${({ situation }) =>
+    situation === "En término" ? "#20C92B" : "#B92C2C"};
+`;
+export const Title = styled.h1<{ center?: boolean }>`
+  display: flex;
+  align-items: center;
   font-size: 24px;
-  align-items: left;
-  justify-content: left;
+  justify-content: ${({ center }) => (center ? "center" : "flex-start")};
   width: 100%;
-  margin-left: 6rem;
+  margin-left: 5rem;
 `;
 
 export const SubTitle = styled.h2`
+  display: flex;
+  align-items: center;
   font-size: 1rem;
   width: fit-content;
   margin: 0px;
   margin-left: 2rem;
+`;
+
+export const IconStyles = styled.div`
+  margin-right: 0.5rem;
+  display: flex;
+  align-items: center;
 `;
 export const ButtonContainer = styled.div`
   display: flex;

@@ -4,12 +4,15 @@ import {
   MainContainer,
   StudentNameContainer,
   HeaderBoxes,
+  StudentStatusStyle,
+  IconStyles,
   AllInformationContainer,
   PaymentInfoContainer,
   NotFoundStudentMessage,
   InfoBoxesContainer,
   StudentInfo,
   EditIconStyles,
+  StudentSituationStyle,
   StudentInfoContainer,
   ButtonContainer,
   SubTitle,
@@ -23,7 +26,7 @@ import BackIcon from "../../assets/back-icon.svg";
 import InfoIcon from "../../assets/info-icon.svg";
 import EditIcon from "../../assets/edit-icon.svg";
 import Button from "../../components/button/Button";
-import { MisPlanes } from "../../routes/RoutesUtils";
+import { EditarAlumno, MisPlanes } from "../../routes/RoutesUtils";
 
 const StudentDetail = () => {
   const { studentId } = useLocation().state;
@@ -42,12 +45,19 @@ const StudentDetail = () => {
   return (
     <MainContainer>
       <Title>
-        <img src={BackIcon} alt="back-icon"></img>
+        <img
+          src={BackIcon}
+          alt="back-icon"
+          onClick={() => navigate(-1)}
+          style={{ cursor: "pointer" }}
+        ></img>
         DETALLE DEL ALUMNO
       </Title>
       <StudentNameContainer>
-        <Title>
-          <img src={StudentIcon} alt="student-icon"></img>
+        <Title center>
+          <IconStyles>
+            <img src={StudentIcon} alt="student-icon"></img>
+          </IconStyles>
           {student.name} {student.lastName}
         </Title>
       </StudentNameContainer>
@@ -56,16 +66,22 @@ const StudentDetail = () => {
         <StudentInfoContainer>
           <HeaderBoxes>
             <SubTitle>
-              <img
-                src={StudentIcon}
-                alt="student-icon"
-                width={24}
-                height={24}
-              ></img>
+              <IconStyles>
+                <img
+                  src={StudentIcon}
+                  alt="student-icon"
+                  width={24}
+                  height={24}
+                ></img>
+              </IconStyles>
               Datos del alumno
             </SubTitle>
             <EditIconStyles>
-              <img src={EditIcon} alt="edit-icon"></img>
+              <img
+                src={EditIcon}
+                alt="edit-icon"
+                onClick={() => navigate(EditarAlumno)}
+              ></img>
             </EditIconStyles>
           </HeaderBoxes>
           <AllInformationContainer>
@@ -106,7 +122,9 @@ const StudentDetail = () => {
         <PaymentInfoContainer>
           <HeaderBoxes>
             <SubTitle>
-              <img src={InfoIcon} alt="info-icon"></img>
+              <IconStyles>
+                <img src={InfoIcon} alt="info-icon"></img>
+              </IconStyles>
               Datos de pago y estados
             </SubTitle>
             <EditIconStyles>
@@ -120,9 +138,9 @@ const StudentDetail = () => {
             </InformationContainer>
             <InformationContainer>
               <Label>Estado del alumno</Label>
-              <StudentInfo>
+              <StudentStatusStyle status={student.status}>
                 {student.status ? "Activo" : "Inactivo"}
-              </StudentInfo>
+              </StudentStatusStyle>
             </InformationContainer>
             <InformationContainer>
               <Label>Día de pago</Label>
@@ -134,7 +152,9 @@ const StudentDetail = () => {
 
             <InformationContainer>
               <Label>Situación del alumno</Label>
-              <StudentInfo>{student.situation}</StudentInfo>
+              <StudentSituationStyle situation={student.situation}>
+                {student.situation}
+              </StudentSituationStyle>
             </InformationContainer>
             <ButtonContainer>
               <Button
@@ -148,38 +168,6 @@ const StudentDetail = () => {
           </AllInformationContainer>
         </PaymentInfoContainer>
       </InfoBoxesContainer>
-
-      {/* <PaymentsContainer>
-        <SubTitle>PAGOS</SubTitle>
-        <PaymentsTable>
-          <TableHeader>
-            <tr>
-              <HeaderProperty>Pago N°</HeaderProperty>
-              <HeaderProperty>Fecha</HeaderProperty>
-              <HeaderProperty>Monto</HeaderProperty>
-              <HeaderProperty>Estado</HeaderProperty>
-              <HeaderProperty>Pagado</HeaderProperty>
-            </tr>
-          </TableHeader>
-          <TableBody>
-            {(student.payments || []).map((payment) => (
-              <Row key={payment.number}>
-                <PaymentInfo>{payment.number}</PaymentInfo>
-                <PaymentInfo>{payment.paymentDate}</PaymentInfo>
-                <PaymentInfo>{formatCurrency(payment.amount)}</PaymentInfo>
-                <PaymentInfo
-                  color={payment.status === "Vencido" ? "red" : "black"}
-                >
-                  {payment.status}
-                </PaymentInfo>
-                <PaymentInfo>
-                  {payment.paymentDate && <img src={CheckIcon} width={30} />}
-                </PaymentInfo>
-              </Row>
-            ))} */}
-      {/* </TableBody> */}
-      {/* </PaymentsTable> */}
-      {/* </PaymentsContainer> */}
     </MainContainer>
   );
 };
