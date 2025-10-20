@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const StyledButton = styled.button<{
   $size?: "small" | "medium" | "large";
-  $variant?: "primary" | "warning";
+  $variant?: "primary" | "warning" | "success";
 }>`
   border: none;
   padding: 0;
@@ -22,12 +22,16 @@ export const StyledButton = styled.button<{
       ? "#F0E21E"
       : $variant === "warning"
       ? "#E32626"
+      : $variant === "success"
+      ? "#20C92B"
       : "#000000"};
 
   color: ${({ $variant }) =>
     $variant === "primary"
       ? "#000000"
       : $variant === "warning"
+      ? "#000000"
+      : $variant === "success"
       ? "#000000"
       : "#FFFFFF"};
 

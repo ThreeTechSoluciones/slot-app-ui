@@ -8,7 +8,7 @@ type ButtonProps = {
   children: React.ReactNode;
   onClick?: () => void;
   size?: "small" | "medium" | "large";
-  variant?: "primary" | "warning";
+  variant?: "primary" | "warning" | "success";
   icon?: React.ReactNode;
 };
 

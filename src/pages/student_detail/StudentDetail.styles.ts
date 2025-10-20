@@ -82,24 +82,24 @@ export const StudentInfo = styled.p`
   font-size: 16px;
   margin: 0px;
 `;
-export const StudentStatusStyle = styled.p<{ status: boolean }>`
+export const StudentStatusStyle = styled.p<{ $status: boolean }>`
   font-weight: bold;
   margin: 0;
-  color: ${({ status }) => (status ? "#20C92B" : "#B92C2C")};
+  color: ${({ $status }) => ($status ? "#20C92B" : "#7C7C7C")};
 `;
 
-export const StudentSituationStyle = styled.p<{ situation: string }>`
+export const StudentSituationStyle = styled.p<{ $situation: string }>`
   font-weight: bold;
   margin: 0;
-  color: ${({ situation }) =>
-    situation === "En término" ? "#20C92B" : "#B92C2C"};
+  color: ${({ $situation }) =>
+    $situation === "En término" ? "#20C92B" : "#B92C2C"};
 `;
 
-export const Title = styled.h1<{ center?: boolean }>`
+export const Title = styled.h1<{ $center?: boolean }>`
   display: flex;
   align-items: center;
   font-size: 24px;
-  justify-content: ${({ center }) => (center ? "center" : "flex-start")};
+  justify-content: ${({ $center }) => ($center ? "center" : "flex-start")};
   width: 100%;
   margin-left: 5rem;
 `;

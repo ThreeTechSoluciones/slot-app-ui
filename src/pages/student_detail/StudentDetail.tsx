@@ -36,27 +36,36 @@ import Button from "../../components/button/Button";
 import { ConfirmDialog } from "../../components/confirm_dialog/ConfirmDialog";
 import { EditarAlumno, MisPlanes } from "../../routes/RoutesUtils";
 import toast from "react-hot-toast";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const StudentDetail = () => {
   const { studentId } = useLocation().state;
   const { data: student, isError } = useGetStudentByIdQuery(studentId);
-  const [activateStudent] = useActivateStudentMutation(studentId);
-  const [desactivateStudent] = useDeleteStudentMutation(studentId);
+  const [activateStudent] = useActivateStudentMutation();
+  const [desactivateStudent] = useDeleteStudentMutation();
   const [showConfirm, setShowConfirm] = useState(false);
   const navigate = useNavigate();
-
+  const [isActive, setIsActive] = useState(student?.status ?? false);
+  useEffect(() => {
+    setIsActive(student?.status ?? false);
+  }, [student]);
   const handleOpenConfirm = () => {
     setShowConfirm(true);
   };
 
   const handleConfirm = async () => {
     try {
-      await desactivateStudent(studentId).unwrap();
-      toast.success("Alumno dado de baja con éxito");
+      if (isActive) {
+        await desactivateStudent(studentId).unwrap();
+        toast.success("El alumno ha sido dado de baja.");
+      } else {
+        await activateStudent(studentId).unwrap();
+        toast.success("El alumno ha sido dado de alta.");
+      }
+      setIsActive(!isActive);
       setShowConfirm(false);
     } catch (error) {
-      toast.error("Hubo un problema al dar de baja al alumno");
+      toast.error("Hubo un problema al actualizar el alumno");
     }
   };
 
@@ -88,15 +97,27 @@ const StudentDetail = () => {
         <ButtonWrapper>
           <Button
             size="medium"
-            variant="warning"
-            icon={<img src={DesactivateIcon} alt="desactivate-icon"></img>}
+            variant={isActive ? "warning" : "success"}
+            icon={
+              isActive ? (
+                <img src={DesactivateIcon} alt="desactivate-icon" />
+              ) : (
+                <img
+                  src={DesactivateIcon}
+                  alt="activate-icon"
+                  style={{ transform: "rotate(180deg)" }}
+                />
+              )
+            }
             onClick={handleOpenConfirm}
           >
-            Dar de baja
+            {isActive ? "Dar de baja" : "Dar de alta"}
           </Button>
           {showConfirm && (
             <ConfirmDialog
-              message={`¿Estás seguro de dar de baja a ${student.name} ${student.lastName}?`}
+              message={`¿Estás seguro de ${
+                isActive ? "dar de baja" : "dar de alta"
+              } a ${student.name} ${student.lastName}?`}
               onConfirm={handleConfirm}
               onCancel={handleCancel}
             />
@@ -105,7 +126,7 @@ const StudentDetail = () => {
       </HeaderContainer>
 
       <StudentNameContainer>
-        <Title center>
+        <Title $center>
           <IconStyles>
             <img src={StudentIcon} alt="student-icon"></img>
           </IconStyles>
@@ -189,8 +210,8 @@ const StudentDetail = () => {
             </InformationContainer>
             <InformationContainer>
               <Label>Estado del alumno</Label>
-              <StudentStatusStyle status={student.status}>
-                {student.status ? "Activo" : "Inactivo"}
+              <StudentStatusStyle $status={isActive}>
+                {isActive ? "Activo" : "Inactivo"}
               </StudentStatusStyle>
             </InformationContainer>
             <InformationContainer>
@@ -203,7 +224,7 @@ const StudentDetail = () => {
 
             <InformationContainer>
               <Label>Situación del alumno</Label>
-              <StudentSituationStyle situation={student.situation}>
+              <StudentSituationStyle $situation={student.situation}>
                 {student.situation}
               </StudentSituationStyle>
             </InformationContainer>
