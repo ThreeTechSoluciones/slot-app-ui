@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const StyledButton = styled.button<{
   $size?: "small" | "medium" | "large";
-  $variant?: "primary" | "secondary";
+  $variant?: "primary" | "warning";
 }>`
   border: none;
   padding: 0;
@@ -18,8 +18,18 @@ export const StyledButton = styled.button<{
     $size === "small" ? "12px" : $size === "medium" ? "12px" : "16px"};
 
   background-color: ${({ $variant }) =>
-    $variant === "primary" ? "#F0E21E" : "#000000"};
-  color: ${({ $variant }) => ($variant === "primary" ? "#000000" : "#fff")};
+    $variant === "primary"
+      ? "#F0E21E"
+      : $variant === "warning"
+      ? "#E32626"
+      : "#000000"};
+
+  color: ${({ $variant }) =>
+    $variant === "primary"
+      ? "#000000"
+      : $variant === "warning"
+      ? "#000000"
+      : "#FFFFFF"};
 
   &:hover {
     opacity: 0.9;

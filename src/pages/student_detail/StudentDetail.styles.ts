@@ -10,6 +10,15 @@ export const MainContainer = styled.div`
   height: 100%;
 `;
 
+export const HeaderContainer = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+`;
+export const ButtonWrapper = styled.div`
+  margin-right: 16rem;
+`;
 export const HeaderBoxes = styled.div`
   display: flex;
   flex-direction: row;
@@ -85,6 +94,7 @@ export const StudentSituationStyle = styled.p<{ situation: string }>`
   color: ${({ situation }) =>
     situation === "En término" ? "#20C92B" : "#B92C2C"};
 `;
+
 export const Title = styled.h1<{ center?: boolean }>`
   display: flex;
   align-items: center;
@@ -114,6 +124,7 @@ export const ButtonContainer = styled.div`
   justify-content: center;
   grid-column: span 2;
 `;
+
 export const NotFoundStudentMessage = styled.p`
   font-size: clamp(1rem, 2vw + 0.5rem, 3rem);
 `;

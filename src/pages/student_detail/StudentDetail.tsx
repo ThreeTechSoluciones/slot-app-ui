@@ -6,12 +6,14 @@ import {
   HeaderBoxes,
   StudentStatusStyle,
   IconStyles,
+  ButtonWrapper,
   AllInformationContainer,
   PaymentInfoContainer,
   NotFoundStudentMessage,
   InfoBoxesContainer,
   StudentInfo,
   EditIconStyles,
+  HeaderContainer,
   StudentSituationStyle,
   StudentInfoContainer,
   ButtonContainer,
@@ -20,18 +22,47 @@ import {
 } from "./StudentDetail.styles";
 import { useLocation } from "react-router";
 import { useNavigate } from "react-router";
-import { useGetStudentByIdQuery } from "../../app/services/StudentService";
+import {
+  useActivateStudentMutation,
+  useDeleteStudentMutation,
+  useGetStudentByIdQuery,
+} from "../../app/services/StudentService";
 import StudentIcon from "../../assets/student-icon.svg";
 import BackIcon from "../../assets/back-icon.svg";
 import InfoIcon from "../../assets/info-icon.svg";
 import EditIcon from "../../assets/edit-icon.svg";
+import DesactivateIcon from "../../assets/desactivate-icon.svg";
 import Button from "../../components/button/Button";
+import { ConfirmDialog } from "../../components/confirm_dialog/ConfirmDialog";
 import { EditarAlumno, MisPlanes } from "../../routes/RoutesUtils";
+import toast from "react-hot-toast";
+import { useState } from "react";
 
 const StudentDetail = () => {
   const { studentId } = useLocation().state;
   const { data: student, isError } = useGetStudentByIdQuery(studentId);
+  const [activateStudent] = useActivateStudentMutation(studentId);
+  const [desactivateStudent] = useDeleteStudentMutation(studentId);
+  const [showConfirm, setShowConfirm] = useState(false);
   const navigate = useNavigate();
+
+  const handleOpenConfirm = () => {
+    setShowConfirm(true);
+  };
+
+  const handleConfirm = async () => {
+    try {
+      await desactivateStudent(studentId).unwrap();
+      toast.success("Alumno dado de baja con éxito");
+      setShowConfirm(false);
+    } catch (error) {
+      toast.error("Hubo un problema al dar de baja al alumno");
+    }
+  };
+
+  const handleCancel = () => {
+    setShowConfirm(false);
+  };
   if (isError || !student)
     return (
       <div>
@@ -44,15 +75,35 @@ const StudentDetail = () => {
 
   return (
     <MainContainer>
-      <Title>
-        <img
-          src={BackIcon}
-          alt="back-icon"
-          onClick={() => navigate(-1)}
-          style={{ cursor: "pointer" }}
-        ></img>
-        DETALLE DEL ALUMNO
-      </Title>
+      <HeaderContainer>
+        <Title>
+          <img
+            src={BackIcon}
+            alt="back-icon"
+            onClick={() => navigate(-1)}
+            style={{ cursor: "pointer" }}
+          ></img>
+          DETALLE DEL ALUMNO
+        </Title>
+        <ButtonWrapper>
+          <Button
+            size="medium"
+            variant="warning"
+            icon={<img src={DesactivateIcon} alt="desactivate-icon"></img>}
+            onClick={handleOpenConfirm}
+          >
+            Dar de baja
+          </Button>
+          {showConfirm && (
+            <ConfirmDialog
+              message={`¿Estás seguro de dar de baja a ${student.name} ${student.lastName}?`}
+              onConfirm={handleConfirm}
+              onCancel={handleCancel}
+            />
+          )}
+        </ButtonWrapper>
+      </HeaderContainer>
+
       <StudentNameContainer>
         <Title center>
           <IconStyles>
