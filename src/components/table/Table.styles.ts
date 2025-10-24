@@ -11,7 +11,8 @@ export const TableStyle = styled.table`
 export const Thead = styled.thead`
   th {
     font-size: 16px;
-    white-space: nowrap;
+    height: 50px;
+    white-space: normal;
   }
 `;
 

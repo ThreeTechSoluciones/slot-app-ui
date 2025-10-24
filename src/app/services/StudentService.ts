@@ -4,10 +4,11 @@ import type { CreateStudentRequest } from "../types/requests/CreateStudentReques
 import type { StudentResponse } from "../types/responses/StudentResponse.type";
 import type { StudentDetailResponse } from "../types/responses/StudentDetailResponse.type";
 import type { UpdateStudentRequest } from "../types/requests/UpdateStudentRequest.type";
+import type { StudentMonthlyFeeResponse } from "../types/responses/StudentMonthlyFee.type";
 
 export const StudentService = createApi({
   reducerPath: "students",
-  tagTypes: ["Student"],
+  tagTypes: ["Student", "MonthlyFees"],
   baseQuery: fetchBaseQuery({
     baseUrl: `${import.meta.env.VITE_BACKEND_URL}/students`,
   }),
@@ -22,6 +23,7 @@ export const StudentService = createApi({
         dispatch(UserService.util.invalidateTags(["userStudents"]));
       },
     }),
+
     createStudent: builder.mutation<StudentResponse, CreateStudentRequest>({
       query: (request: CreateStudentRequest) => ({
         url: "",
@@ -32,6 +34,12 @@ export const StudentService = createApi({
         await queryFulfilled;
         dispatch(UserService.util.invalidateTags(["userStudents"]));
       },
+    }),
+    getStudentMonthlyFees: builder.query<StudentMonthlyFeeResponse[], string>({
+      query: (studentId) => `/${studentId}/monthly-fees`,
+      providesTags: (_result, _error, studentId) => [
+        { type: "MonthlyFees", id: studentId },
+      ],
     }),
     getStudentById: builder.query<StudentDetailResponse, string>({
       query: (id) => `/${id}`,
@@ -71,4 +79,5 @@ export const {
   useGetStudentByIdQuery,
   useUpdateStudentMutation,
   useActivateStudentMutation,
+  useGetStudentMonthlyFeesQuery,
 } = StudentService;
