@@ -74,8 +74,8 @@ export const Label = styled.p`
 
 export const StudentNameContainer = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: center;
+  /* align-items: flex-start;
+  justify-content: flex-start; */
 `;
 
 export const StudentInfo = styled.p`
@@ -95,11 +95,11 @@ export const StudentSituationStyle = styled.p<{ $situation: string }>`
     $situation === "En término" ? "#20C92B" : "#B92C2C"};
 `;
 
-export const Title = styled.h1<{ $center?: boolean }>`
+export const Title = styled.h1`
   display: flex;
   align-items: center;
   font-size: 24px;
-  justify-content: ${({ $center }) => ($center ? "center" : "flex-start")};
+  justify-content: flex-start;
   width: 100%;
   margin-left: 5rem;
 `;
