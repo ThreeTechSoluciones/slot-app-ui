@@ -1,9 +1,9 @@
 import StudentData, { type StudentDataProps } from "../forms/studentDataForm/StudentData"
-import PaymentData from "../forms/paymentDataForm/PaymentData"
+import PaymentData, { type PaymentDataProps } from "../forms/paymentDataForm/PaymentData"
 import { useGetStudentByIdQuery, useUpdateStudentMutation } from "../../../app/services/StudentService"
 import useAuthentication from "../../../hooks/useAuthentication";
 import { useState } from "react";
-import PlanData from "../forms/planDataForm/PlanData";
+import PlanData, { type PlanDataProps } from "../forms/planDataForm/PlanData";
 import { useLocation } from "react-router";
 import type { UpdateStudentRequest } from "../../../app/types/requests/UpdateStudentRequest.type";
 
@@ -16,6 +16,10 @@ function EditStudent({ numberOfStep }: EditStudentProps) {
     const { userId } = useAuthentication();
 
     const [studentData, setStudentData] = useState<StudentDataProps | undefined>(undefined);
+
+    const [paymentData, setPaymentData] = useState<PaymentDataProps | undefined>(undefined);
+
+    const [planData, setPlanData] = useState<PlanDataProps | undefined>(undefined);
 
 
     const location = useLocation();
@@ -41,11 +45,32 @@ function EditStudent({ numberOfStep }: EditStudentProps) {
         updateStudent(updateData);
     }
 
+    const handlePaymentData = (data: PaymentDataProps) => {
+        setPaymentData(data);
+        const updateData = {
+            studentId: studentId!,
+            userId: userId!,
+            ...studentSaveData,
+            ...paymentData,
+        }
+        updateStudent(updateData);
+    }
+
+    const handlePlanData = (data: PlanDataProps) => {
+        setPlanData(data);
+        const updateData: UpdateStudentRequest = {
+            studentId: studentId!,
+            userId: userId!,
+            ...studentSaveData,
+            ...planData,
+        }
+        updateStudent(updateData);
+    }
 
     const forms = {
-        form1: <StudentData onSubmit={handleStudentData} />,
-        form2: <PaymentData />,
-        form3: <PlanData />,
+        form1: <StudentData onSubmit={handleStudentData} data={studentData} />,
+        form2: <PaymentData onSubmit={handlePaymentData} data={paymentData} />,
+        form3: <PlanData onSubmit={handlePlanData} data={planData} />,
     };
 };
 export default EditStudent;

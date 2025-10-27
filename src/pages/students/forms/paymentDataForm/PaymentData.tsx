@@ -27,7 +27,7 @@ export interface PaymentDataProps {
 
 const PaymentData = forwardRef<FormProp<PaymentDataProps>, FormProp<PaymentDataProps>>((props, ref) => {
 
-  const { data, onSubmit: onNext } = props;
+  const { data, onSubmit: onSubmit } = props;
 
   type FormData = yup.InferType<typeof paymentDataScheme>;
 
@@ -58,7 +58,7 @@ const PaymentData = forwardRef<FormProp<PaymentDataProps>, FormProp<PaymentDataP
       new Promise<boolean>((resolve) => {
         handleSubmit(
           (data) => {
-            onNext?.({ ...data });
+            onSubmit?.({ ...data });
             resolve(true);
           },
           () => {
