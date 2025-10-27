@@ -2,7 +2,7 @@ export interface StudentMonthlyFeeResponse {
   id: string;
   number: number;
   month: string;
-  expirationDate: Date;
+  expirationDate: number[];
   amount: number;
   status: string;
 }
