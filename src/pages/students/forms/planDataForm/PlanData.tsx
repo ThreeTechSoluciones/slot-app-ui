@@ -26,7 +26,7 @@ export interface PlanDataProps {
 
 const PlanData = forwardRef<FormProp<PlanDataProps>, FormProp<PlanDataProps>>((props, ref) => {
 
-  const { data, onNext } = props;
+  const { data, onSubmit: onSubmit } = props;
 
   type FormData = yup.InferType<typeof planDataScheme>;
 
@@ -54,7 +54,7 @@ const PlanData = forwardRef<FormProp<PlanDataProps>, FormProp<PlanDataProps>>((p
       new Promise<boolean>((resolve) => {
         handleSubmit(
           (data) => {
-            onNext?.({ ...data });
+            onSubmit?.({ ...data });
             resolve(true);
           },
           () => {

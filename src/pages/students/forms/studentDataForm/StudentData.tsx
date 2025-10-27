@@ -32,7 +32,7 @@ export interface StudentDataProps {
 
 const StudentData = forwardRef<FormProp<StudentDataProps>, FormProp<StudentDataProps>>((props, ref) => {
 
-  const { data, onNext } = props;
+  const { data, onSubmit } = props;
 
   const DEFAULT_STUDENT_DATA = {
     name: "",
@@ -63,7 +63,7 @@ const StudentData = forwardRef<FormProp<StudentDataProps>, FormProp<StudentDataP
       new Promise<boolean>((resolve) => {
         handleSubmit(
           (data) => {
-            onNext?.({ ...data });
+            onSubmit?.({ ...data });
             resolve(true);
           },
           () => {

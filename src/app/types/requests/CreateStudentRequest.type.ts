@@ -5,11 +5,11 @@ export type CreateStudentRequest = {
   cellphoneNumber: string;
   birthday: string;
   pathologies?: string | null;
-  paymentPlanName:string;
-  extraClasses?: number|null|undefined;
-  classPrice?:number|null|undefined;
-  paymentDay?: number |undefined;
+  paymentPlanName: string;
+  extraClasses?: number | null | undefined;
+  classPrice?: number | null | undefined;
+  paymentDay?: number | undefined;
   planId: string;
-  admissionDate: Date;
+  admissionDate: string;
   userId: string;
 };
