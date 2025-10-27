@@ -1,8 +1,10 @@
 import styled from "styled-components";
-import { BORDER_RADIUS,
-        FONT_FAMILY, 
-        TERTIARY_COLOR, 
-        TEXT_COLOR } 
+import {
+    BORDER_RADIUS,
+    FONT_FAMILY,
+    TERTIARY_COLOR,
+    TEXT_COLOR
+}
     from "../../utils/Stylesheet";
 
 export const MainContainer = styled.div`
@@ -37,13 +39,13 @@ export const Logo = styled.div`
         transform: scale(1.05);
     }
 `
-export const Form=styled.form`
+export const Form = styled.form`
     display:flex;
     flex-direction:column;
     gap:8px;
     font-family:${FONT_FAMILY};
 `
-export const Label= styled.label`
+export const Label = styled.label`
     font-size: 16px;
     font-weight: bold;
     margin-top:8px;
@@ -78,15 +80,15 @@ export const Input = styled.input`
     }
 `
 interface ImgProps {
-    isInteractive?:boolean
+    $isInteractive?: boolean
 }
 
-export const Img=styled.img<ImgProps>`
+export const Img = styled.img<ImgProps>`
         position:absolute;
         right:24px;  
-    ${({ isInteractive }) =>
-      isInteractive &&
-      `
+    ${({ $isInteractive }) =>
+        $isInteractive &&
+        `
         &:hover {
           cursor: pointer;
         }

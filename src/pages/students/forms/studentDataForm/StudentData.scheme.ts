@@ -21,10 +21,18 @@ export const StudentDataScheme = yup.object().shape({
   birthday: yup
     .string()
     .required("Debe ingresar una fecha de nacimiento")
-    //esto se aplica para evitar que el campo quede vacío y de error de formato
+    .test('fecha-valida', 'La fecha no puede ser mayor a la actual', (value) => {
+      if (!value) return false;
+      const fechaIngresada = new Date(value);
+      const hoy = new Date();
+      hoy.setHours(0, 0, 0, 0);
+      return fechaIngresada <= hoy;
+    })
+    // Esto evita error si el campo está vacío
     .transform((value, originalValue) => {
       return originalValue === "" ? null : value;
-    })
+    }),
+
 });
-   
+
 
