@@ -76,14 +76,17 @@ const PaymentData = forwardRef<FormProp<PaymentDataProps>, FormProp<PaymentDataP
           la cantidad de clases extras para realizar el primer pago</Text>
         <SecondaryInputsContainer>
           <div>
+            <Label>Clases extras</Label>
             <Input $isSmallSize placeholder="Clases extras" {...register("extraClasses")}></Input>
             <ErrorMessage error={errors.extraClasses} />
           </div>
           <div>
+            <Label>Precio clase individual</Label>
             <Controller
               name="classPrice"
               control={control}
               render={({ field }) => (
+
                 <CurrencyInput
                   width="176"
                   value={field.value ?? null}
@@ -118,7 +121,7 @@ const PaymentData = forwardRef<FormProp<PaymentDataProps>, FormProp<PaymentDataP
     <MainContainer>
       <FormContainer>
         <div>
-          <Label>Plan de pago*</Label>
+          <Label>Plan de pago</Label>
           <Select {...register("paymentPlanName")} defaultValue="">
             <option value="" disabled hidden>Seleccione una opción</option>
             {PlanTypeNameArray.map((planType) => (

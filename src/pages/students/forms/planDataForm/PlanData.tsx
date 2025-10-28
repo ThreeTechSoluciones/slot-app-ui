@@ -68,7 +68,7 @@ const PlanData = forwardRef<FormProp<PlanDataProps>, FormProp<PlanDataProps>>((p
   return (
     <MainContainer>
       <FormContainer >
-        <Label>Plan*</Label>
+        <Label>Plan</Label>
         <Select {...register("planId")}>
           <option value="" disabled hidden>Seleccione una opción</option>
           {planTypes?.map((plan) => (

@@ -77,22 +77,22 @@ const StudentData = forwardRef<FormProp<StudentDataProps>, FormProp<StudentDataP
     <MainContainer>
       <FormContainer>
         <div>
-          <Label>Nombre*</Label>
+          <Label>Nombre</Label>
           <Input placeholder="Juan" {...register("name")}></Input>
           <ErrorMessage error={errors.name} />
         </div>
         <div>
-          <Label>Apellido*</Label>
+          <Label>Apellido</Label>
           <Input placeholder="Gomez" {...register("lastName")}></Input>
           <ErrorMessage error={errors.lastName} />
         </div>
         <div>
-          <Label>DNI*</Label>
+          <Label>DNI</Label>
           <Input placeholder="56987256 (ingresar solo números, sin puntos ni espacios)" {...register("dni")} ></Input>
           <ErrorMessage error={errors.dni} />
         </div>
         <div>
-          <Label>Fecha de nacimiento*</Label>
+          <Label>Fecha de nacimiento</Label>
           <Controller
             name="birthday"
             control={control}
@@ -112,12 +112,12 @@ const StudentData = forwardRef<FormProp<StudentDataProps>, FormProp<StudentDataP
           <ErrorMessage error={errors.birthday} />
         </div>
         <div>
-          <Label>Número de teléfono*</Label>
+          <Label>Número de teléfono</Label>
           <Input placeholder="3534698523" {...register("cellphoneNumber")}></Input>
           <ErrorMessage error={errors.cellphoneNumber} />
         </div>
         <div>
-          <Label>Patologías o enfermedades</Label>
+          <Label>Patologías o enfermedades (opcional)</Label>
           <Description placeholder="Hernia de disco" {...register("pathologies")}></Description>
           <ErrorMessage error={errors.pathologies} />
         </div>

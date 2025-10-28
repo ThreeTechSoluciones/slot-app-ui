@@ -3,6 +3,7 @@ import "./App.css";
 import Login from "./pages/login/Login";
 import Home from "./pages/home/Home";
 import Plans from "./pages/plans/Plans";
+import EditStudent from "./pages/students/edit-student/EditStudent";
 import { PrivateRoute } from "./routes/PrivateRoutes";
 import StudentDetail from "./pages/student_detail/StudentDetail";
 import { MisAlumnos, NuevoAlumno, IniciarSesion, MisPlanes, DetalleAlumno, EditarAlumno } from "./routes/RoutesUtils";
@@ -18,7 +19,7 @@ function App() {
           <Route path={MisPlanes} element={<Plans />} />
           <Route path={NuevoAlumno} element={<CreateStudent />} />
           <Route path={DetalleAlumno} element={<StudentDetail />} />
-          {/* <Route path={EditarAlumno} element={<EditStudent />} /> */}
+          <Route path="/editar-estudiante/:studentId/:numberOfStep" element={<EditStudent />} />
         </Route>
         <Route path="/" element={<Navigate to={IniciarSesion} />} />
       </Routes>

@@ -2,16 +2,23 @@ import StudentData, { type StudentDataProps } from "../forms/studentDataForm/Stu
 import PaymentData, { type PaymentDataProps } from "../forms/paymentDataForm/PaymentData"
 import { useGetStudentByIdQuery, useUpdateStudentMutation } from "../../../app/services/StudentService"
 import useAuthentication from "../../../hooks/useAuthentication";
-import { useState } from "react";
+import { useState, type JSX } from "react";
 import PlanData, { type PlanDataProps } from "../forms/planDataForm/PlanData";
 import { useLocation } from "react-router";
 import type { UpdateStudentRequest } from "../../../app/types/requests/UpdateStudentRequest.type";
-
-interface EditStudentProps {
-    numberOfStep: number;
+import { useParams } from "react-router-dom";
+interface StudentSaveData {
+    name: string;
+    lastName: string;
+    dni: string;
+    cellphoneNumber: string;
+    birthday: string;
+    pathologies?: string | null;
 }
 
-function EditStudent({ numberOfStep }: EditStudentProps) {
+
+
+function EditStudent() {
 
     const { userId } = useAuthentication();
 
@@ -19,14 +26,39 @@ function EditStudent({ numberOfStep }: EditStudentProps) {
 
     const [paymentData, setPaymentData] = useState<PaymentDataProps | undefined>(undefined);
 
-    const [planData, setPlanData] = useState<PlanDataProps | undefined>(undefined);
+    /* const [planData, setPlanData] = useState<PlanDataProps | undefined>(undefined); */
+
+    const { studentId, numberOfStep } = useParams();
+
+    const numberOfStepNum = numberOfStep ? parseInt(numberOfStep) : null;
+
+    const { data: studentSaveData } = useGetStudentByIdQuery(studentId!);
 
 
-    const location = useLocation();
+    const showData = (studentSaveData: StudentDataProps) => {
+        let formattedBirthday = studentSaveData.birthday;
 
-    const { studentId } = location.state || {};
+        if (studentSaveData.birthday) {
+            const [day, month, year] = studentSaveData.birthday.split("/").map(Number);
+            const date = new Date(year, month - 1, day + 1);
+            formattedBirthday = `${date.getFullYear()}-${(date.getMonth() + 1)
+                .toString()
+                .padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}`;
+            console.log(formattedBirthday);
+        }
 
-    const { data: studentSaveData } = useGetStudentByIdQuery(studentId);
+        return {
+            name: studentSaveData.name,
+            lastName: studentSaveData.lastName,
+            dni: studentSaveData.dni,
+            cellphoneNumber: studentSaveData.cellphoneNumber,
+            birthday: formattedBirthday,
+            pathologies: studentSaveData.pathologies ?? undefined,
+        };
+    }
+
+
+
 
     const [updateStudent] = useUpdateStudentMutation();
 
@@ -56,21 +88,26 @@ function EditStudent({ numberOfStep }: EditStudentProps) {
         updateStudent(updateData);
     }
 
-    const handlePlanData = (data: PlanDataProps) => {
-        setPlanData(data);
-        const updateData: UpdateStudentRequest = {
-            studentId: studentId!,
-            userId: userId!,
-            ...studentSaveData,
-            ...planData,
-        }
-        updateStudent(updateData);
+    /*  const handlePlanData = (data: PlanDataProps) => {
+         setPlanData(data);
+         const updateData: UpdateStudentRequest = {
+             studentId: studentId!,
+             userId: userId!,
+             ...studentSaveData,
+             ...planData,
+         }
+         updateStudent(updateData);
+     } */
+
+    const forms: Record<number, JSX.Element> = {
+        1: <StudentData onSubmit={handleStudentData} data={showData(studentSaveData)} />,
+        2: <PaymentData onSubmit={handlePaymentData} data={studentSaveData} />,
+        /*  3: <PlanData onSubmit={handlePlanData} data={planData} />, */
+    };
+    if (!numberOfStepNum) {
+        return <p>Paso no válido</p>;
     }
 
-    const forms = {
-        form1: <StudentData onSubmit={handleStudentData} data={studentData} />,
-        form2: <PaymentData onSubmit={handlePaymentData} data={paymentData} />,
-        form3: <PlanData onSubmit={handlePlanData} data={planData} />,
-    };
+    return forms[numberOfStepNum] ?? <p>Paso no válido</p>;
 };
 export default EditStudent;

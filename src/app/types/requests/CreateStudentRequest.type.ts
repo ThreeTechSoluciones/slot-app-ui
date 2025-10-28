@@ -10,6 +10,6 @@ export type CreateStudentRequest = {
   classPrice?: number | null | undefined;
   paymentDay?: number | undefined;
   planId: string;
-  admissionDate: string;
+  admissionDate: Date;
   userId: string;
 };

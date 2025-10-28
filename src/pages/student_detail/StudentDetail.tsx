@@ -116,9 +116,8 @@ const StudentDetail = () => {
           </Button>
           {showConfirm && (
             <ConfirmDialog
-              message={`¿Estás seguro de ${
-                isActive ? "dar de baja" : "dar de alta"
-              } a ${student.name} ${student.lastName}?`}
+              message={`¿Estás seguro de ${isActive ? "dar de baja" : "dar de alta"
+                } a ${student.name} ${student.lastName}?`}
               onConfirm={handleConfirm}
               onCancel={handleCancel}
             />
@@ -154,6 +153,7 @@ const StudentData = ({
   student: StudentDetailResponse;
   navigate: (path: string) => void;
 }) => {
+  const { studentId } = useLocation().state;
   return (
     <StudentInfoContainer>
       <HeaderBoxes>
@@ -172,7 +172,7 @@ const StudentData = ({
           <img
             src={EditIcon}
             alt="edit-icon"
-            onClick={() => navigate(EditarAlumno)}
+            onClick={() => navigate(`/editar-estudiante/${studentId}/1`)}
           ></img>
         </EditIconStyles>
       </HeaderBoxes>
@@ -222,6 +222,7 @@ const PaymentData = ({
   navigate: (path: string) => void;
   isActive: boolean;
 }) => {
+  const { studentId } = useLocation().state;
   return (
     <PaymentInfoContainer>
       <HeaderBoxes>
@@ -231,14 +232,14 @@ const PaymentData = ({
           </IconStyles>
           Datos de pago y estados
         </SubTitle>
-        <EditIconStyles>
+        <EditIconStyles onClick={() => navigate(`/editar-estudiante/${studentId}/2`)}>
           <img src={EditIcon} alt="edit-icon"></img>
         </EditIconStyles>
       </HeaderBoxes>
       <AllInformationContainer>
         <InformationContainer>
           <Label>Forma de pago</Label>
-          <StudentInfo>{student.paymentPlan}</StudentInfo>
+          <StudentInfo>{student.paymentPlanName}</StudentInfo>
         </InformationContainer>
         <InformationContainer>
           <Label>Estado del alumno</Label>
@@ -249,7 +250,7 @@ const PaymentData = ({
         <InformationContainer>
           <Label>Día de pago</Label>
           <StudentInfo>
-            {student.paymentDay || student.paymentPlan == "Principio de mes"}
+            {student.paymentDay || student.paymentPlanName == "Principio de mes"}
           </StudentInfo>
         </InformationContainer>
         <InformationContainer>
