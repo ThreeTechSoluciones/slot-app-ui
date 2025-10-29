@@ -43,7 +43,6 @@ function Home() {
     condeuda: "Con deuda",
     entermino: "En término",
   };
-  console.log("estudiante", students);
   const sortedStudents = useMemo(() => {
     let list = [...studentList];
     if (situationFilter) {

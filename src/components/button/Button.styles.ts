@@ -9,7 +9,7 @@ export const StyledButton = styled.button<{
   align-items: center;
   border-radius: 10px;
   cursor: pointer;
-  font-weight: 500;
+  /* font-weight: bold; */
   width: ${({ $size }) =>
     $size === "small" ? "104px" : $size === "medium" ? "192px" : "412px"};
   height: ${({ $size }) =>
@@ -56,4 +56,5 @@ export const ButtonIcon = styled.span`
 export const ButtonText = styled.span`
   display: inline-block;
   text-align: center;
+  font-size: 16px;
 `;
