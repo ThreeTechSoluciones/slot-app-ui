@@ -147,11 +147,7 @@ const StudentDetail = () => {
       </StudentNameContainer>
       <InfoBoxesContainer>
         <StudentData student={student} navigate={navigate} />
-        <PaymentData
-          student={student}
-          navigate={navigate}
-          status={student.status}
-        />
+        <PaymentData student={student} navigate={navigate} />
       </InfoBoxesContainer>
     </MainContainer>
   );
@@ -230,11 +226,9 @@ const StudentData = ({
 const PaymentData = ({
   student,
   navigate,
-  status: boolean,
 }: {
   student: StudentDetailResponse;
   navigate: (path: string) => void;
-  status: boolean;
 }) => {
   const info = [
     {
