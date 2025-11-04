@@ -184,8 +184,9 @@ function Home() {
           />
 
           <Button
-            variant="primary"
             size="small"
+            variant="primary"
+            fontsize="small"
             onClick={() => {
               setSituationFilter("");
               setStatusFilter("");

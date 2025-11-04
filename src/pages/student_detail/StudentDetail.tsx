@@ -118,6 +118,7 @@ const StudentDetail = () => {
         <ButtonWrapper>
           <Button
             size="medium"
+            fontsize="large"
             variant={student.status ? "warning" : "success"}
             icon={
               student.status ? (

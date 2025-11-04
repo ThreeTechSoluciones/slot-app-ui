@@ -8,6 +8,7 @@ type ButtonProps = {
   children: React.ReactNode;
   onClick?: () => void;
   size?: "small" | "medium" | "large";
+  fontsize?: "small" | "medium" | "large";
   variant?: "primary" | "warning" | "success";
   icon?: React.ReactNode;
 };
@@ -16,13 +17,14 @@ const Button: React.FC<ButtonProps> = ({
   children,
   onClick,
   size = "medium",
+  fontsize = "small",
   variant = "primary",
   icon,
 }) => {
   return (
-    <StyledButton onClick={onClick} $size={size} $variant={variant}>
+    <StyledButton onClick={onClick} $size={size} $variant={variant} > 
       <ButtonContent>
-        {children && <ButtonText>{children}</ButtonText>}
+        {children && <ButtonText $fontsize={fontsize}>{children}</ButtonText>}
         {icon && <ButtonIcon>{icon}</ButtonIcon>}
       </ButtonContent>
     </StyledButton>
