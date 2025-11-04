@@ -116,8 +116,10 @@ function StudentFeesList() {
           <Filter
             placeholder="Filtrar por estado"
             options={[
-              { label: "Activo", value: "activo" },
-              { label: "Inactivo", value: "inactivo" },
+              { label: "Pendiente", value: "pending" },
+              { label: "Pagada", value: "payed" },
+              { label: "Pago con atraso", value: "payed-ot-of-time" },
+              { label: "Vencida", value: "out-of-time" },
             ]}
             value={statusFilter}
             onSelect={setStatusFilter}
@@ -138,7 +140,7 @@ function StudentFeesList() {
             variant="primary"
             size="medium"
             icon={<img src={AddIcon} alt="Add Icon" />}
-            onClick={() => navigate("/nuevo-alumno")}
+            // onClick={() => navigate("/nuevo-alumno")}
           >
             Nueva cuota
           </Button>
