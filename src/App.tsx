@@ -19,7 +19,7 @@ function App() {
           <Route path={MisPlanes} element={<Plans />} />
           <Route path={NuevoAlumno} element={<CreateStudent />} />
           <Route path={DetalleAlumno} element={<StudentDetail />} />
-          <Route path="/editar-estudiante/:studentId/:numberOfStep" element={<EditStudent />} />
+          <Route path="/editar-estudiante/:numberOfStep" element={<EditStudent />} />
         </Route>
         <Route path="/" element={<Navigate to={IniciarSesion} />} />
       </Routes>

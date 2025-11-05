@@ -2,50 +2,39 @@ import StudentData, { type StudentDataProps } from "../forms/studentDataForm/Stu
 import PaymentData, { type PaymentDataProps } from "../forms/paymentDataForm/PaymentData"
 import { useGetStudentByIdQuery, useUpdateStudentMutation } from "../../../app/services/StudentService"
 import useAuthentication from "../../../hooks/useAuthentication";
-import { useState, type JSX } from "react";
-import PlanData, { type PlanDataProps } from "../forms/planDataForm/PlanData";
-import { useLocation } from "react-router";
-import type { UpdateStudentRequest } from "../../../app/types/requests/UpdateStudentRequest.type";
+import { useRef, type JSX } from "react";
+//import PlanData, { type PlanDataProps } from "../forms/planDataForm/PlanData";
+import { useLocation, useNavigate } from "react-router";
 import { useParams } from "react-router-dom";
-interface StudentSaveData {
-    name: string;
-    lastName: string;
-    dni: string;
-    cellphoneNumber: string;
-    birthday: string;
-    pathologies?: string | null;
-}
-
-
+import { MainContainer, TitleContainer, Title, ButtonsContainer, Button } from "./EditStudent.styles";
+import { formatDateToDash, formatDateToISO } from "../../../utils/DateFormatter";
+import toast from "react-hot-toast";
+import type { UpdateStudentRequest } from "../../../app/types/requests/UpdateStudentRequest.type";
+import BackIcon from "../../../assets/back-icon.svg";
 
 function EditStudent() {
 
     const { userId } = useAuthentication();
 
-    const [studentData, setStudentData] = useState<StudentDataProps | undefined>(undefined);
+    const formStudentDataRef = useRef<any>(undefined);
 
-    const [paymentData, setPaymentData] = useState<PaymentDataProps | undefined>(undefined);
+    const formPaymentDataRef = useRef<any>(undefined);
 
-    /* const [planData, setPlanData] = useState<PlanDataProps | undefined>(undefined); */
+    const { numberOfStep } = useParams();
 
-    const { studentId, numberOfStep } = useParams();
+    const { studentId } = useLocation().state;
 
     const numberOfStepNum = numberOfStep ? parseInt(numberOfStep) : null;
 
     const { data: studentSaveData } = useGetStudentByIdQuery(studentId!);
 
+    const [updateStudent] = useUpdateStudentMutation();
 
-    const showData = (studentSaveData: StudentDataProps) => {
-        let formattedBirthday = studentSaveData.birthday;
+    const navigate = useNavigate();
 
-        if (studentSaveData.birthday) {
-            const [day, month, year] = studentSaveData.birthday.split("/").map(Number);
-            const date = new Date(year, month - 1, day + 1);
-            formattedBirthday = `${date.getFullYear()}-${(date.getMonth() + 1)
-                .toString()
-                .padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}`;
-            console.log(formattedBirthday);
-        }
+    const showStudentData = (studentSaveData: StudentDataProps) => {
+
+        const formattedBirthday = formatDateToISO(studentSaveData.birthday);
 
         return {
             name: studentSaveData.name,
@@ -57,35 +46,32 @@ function EditStudent() {
         };
     }
 
-
-
-
-    const [updateStudent] = useUpdateStudentMutation();
-
     if (!studentSaveData) {
         return <p>Cargando datos del estudiante...</p>;
     }
 
     const handleStudentData = (data: StudentDataProps) => {
-        setStudentData(data);
         const updateData = {
             studentId: studentId!,
             userId: userId!,
             ...studentSaveData,
-            ...studentData,
+            ...data,
+            birthday: formatDateToDash(data.birthday),
+
         }
-        updateStudent(updateData);
+        updateStudentData(updateData);
+        console.log("data del estudiante guardado", updateData)
+        console.log("nuevo cumple", formatDateToDash(data.birthday));
     }
 
     const handlePaymentData = (data: PaymentDataProps) => {
-        setPaymentData(data);
         const updateData = {
             studentId: studentId!,
             userId: userId!,
             ...studentSaveData,
-            ...paymentData,
+            ...data,
         }
-        updateStudent(updateData);
+        updateStudentData(updateData);
     }
 
     /*  const handlePlanData = (data: PlanDataProps) => {
@@ -96,18 +82,57 @@ function EditStudent() {
              ...studentSaveData,
              ...planData,
          }
-         updateStudent(updateData);
+         updateStudentData(updateData);
      } */
 
+    const handleClick = async () => {
+        if (numberOfStepNum === 1) {
+            formStudentDataRef.current.submit();
+        }
+        if (numberOfStepNum === 2) {
+            formPaymentDataRef.current.submit();
+        }
+
+    }
+
     const forms: Record<number, JSX.Element> = {
-        1: <StudentData onSubmit={handleStudentData} data={showData(studentSaveData)} />,
-        2: <PaymentData onSubmit={handlePaymentData} data={studentSaveData} />,
+        1: <StudentData ref={formStudentDataRef} onSubmit={handleStudentData} data={showStudentData(studentSaveData)} />,
+        2: <PaymentData ref={formPaymentDataRef} onSubmit={handlePaymentData} data={studentSaveData} />,
         /*  3: <PlanData onSubmit={handlePlanData} data={planData} />, */
     };
     if (!numberOfStepNum) {
         return <p>Paso no válido</p>;
     }
 
-    return forms[numberOfStepNum] ?? <p>Paso no válido</p>;
+    const updateStudentData = async (data: UpdateStudentRequest) => {
+        try {
+            const result = await updateStudent(data).unwrap();
+            toast.success("Los datos del estudiante han sido actualizados");
+        }
+        catch (error) {
+            console.log('error', error)
+        }
+
+
+    }
+
+    return (
+        <MainContainer>
+            <TitleContainer>
+                <Title>
+                    <img
+                        src={BackIcon}
+                        alt="back-icon"
+                        onClick={() => navigate(-1)}
+                        style={{ cursor: "pointer" }}
+                    ></img>EDITAR DATOS DEL ALUMNO</Title>
+            </TitleContainer>
+            {forms[numberOfStepNum] ?? <p>Paso no válido</p>}
+            <ButtonsContainer>
+                <Button>Cancelar</Button>
+                <Button onClick={handleClick}>Guardar cambios</Button>
+            </ButtonsContainer>
+        </MainContainer>
+    );
 };
 export default EditStudent;

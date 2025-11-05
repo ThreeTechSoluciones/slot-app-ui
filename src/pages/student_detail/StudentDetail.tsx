@@ -21,7 +21,7 @@ import {
   Title,
 } from "./StudentDetail.styles";
 import { useLocation } from "react-router";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import {
   useActivateStudentMutation,
   useDeleteStudentMutation,
@@ -34,7 +34,7 @@ import EditIcon from "../../assets/edit-icon.svg";
 import DesactivateIcon from "../../assets/desactivate-icon.svg";
 import Button from "../../components/button/Button";
 import { ConfirmDialog } from "../../components/confirm_dialog/ConfirmDialog";
-import { EditarAlumno, MisPlanes } from "../../routes/RoutesUtils";
+import { MisPlanes } from "../../routes/RoutesUtils";
 import toast from "react-hot-toast";
 import { useEffect, useState } from "react";
 import type { StudentDetailResponse } from "../../app/types/responses/StudentDetailResponse.type";
@@ -151,7 +151,8 @@ const StudentData = ({
   navigate,
 }: {
   student: StudentDetailResponse;
-  navigate: (path: string) => void;
+  navigate: (path: string, options?: { state?: any }) => void;
+
 }) => {
   const { studentId } = useLocation().state;
   return (
@@ -172,7 +173,7 @@ const StudentData = ({
           <img
             src={EditIcon}
             alt="edit-icon"
-            onClick={() => navigate(`/editar-estudiante/${studentId}/1`)}
+            onClick={() => navigate(`/editar-estudiante/1`, { state: { studentId: student.id }, })}
           ></img>
         </EditIconStyles>
       </HeaderBoxes>
@@ -219,10 +220,11 @@ const PaymentData = ({
   isActive,
 }: {
   student: StudentDetailResponse;
-  navigate: (path: string) => void;
+  navigate: (path: string, options?: { state?: any }) => void;
   isActive: boolean;
 }) => {
   const { studentId } = useLocation().state;
+
   return (
     <PaymentInfoContainer>
       <HeaderBoxes>
@@ -232,7 +234,7 @@ const PaymentData = ({
           </IconStyles>
           Datos de pago y estados
         </SubTitle>
-        <EditIconStyles onClick={() => navigate(`/editar-estudiante/${studentId}/2`)}>
+        <EditIconStyles onClick={() => navigate(`/editar-estudiante/2`, { state: { studentId: student.id }, })}>
           <img src={EditIcon} alt="edit-icon"></img>
         </EditIconStyles>
       </HeaderBoxes>
