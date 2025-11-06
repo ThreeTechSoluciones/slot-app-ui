@@ -6,11 +6,12 @@ import { useRef, type JSX } from "react";
 //import PlanData, { type PlanDataProps } from "../forms/planDataForm/PlanData";
 import { useLocation, useNavigate } from "react-router";
 import { useParams } from "react-router-dom";
-import { MainContainer, TitleContainer, Title, ButtonsContainer, Button } from "./EditStudent.styles";
+import { MainContainer, TitleContainer, Title, ButtonsContainer, Button, FormContainer } from "./EditStudent.styles";
 import { formatDateToDash, formatDateToISO } from "../../../utils/DateFormatter";
 import toast from "react-hot-toast";
 import type { UpdateStudentRequest } from "../../../app/types/requests/UpdateStudentRequest.type";
 import BackIcon from "../../../assets/back-icon.svg";
+
 
 function EditStudent() {
 
@@ -60,7 +61,6 @@ function EditStudent() {
 
         }
         updateStudentData(updateData);
-
     }
 
     const handlePaymentData = (data: PaymentDataProps) => {
@@ -75,12 +75,12 @@ function EditStudent() {
     }
 
     /*  const handlePlanData = (data: PlanDataProps) => {
-         setPlanData(data);
          const updateData: UpdateStudentRequest = {
              studentId: studentId!,
              userId: userId!,
              ...studentSaveData,
-             ...planData,
+             ...data,
+            birthday: formatDateToISO(studentSaveData.birthday),
          }
          updateStudentData(updateData);
      } */
@@ -92,9 +92,9 @@ function EditStudent() {
     }
 
 
-    const forms: Record<number, JSX.Element> = {
-        1: <StudentData ref={formStudentDataRef} onSubmit={handleStudentData} data={showStudentData(studentSaveData)} />,
-        2: <PaymentData ref={formPaymentDataRef} onSubmit={handlePaymentData} data={studentSaveData} actionType="edit" />,
+    const forms: Record<number, { title: string, component: JSX.Element }> = {
+        1: { title: "EDITAR DATOS DEL ALUMNO", component: (<StudentData ref={formStudentDataRef} onSubmit={handleStudentData} data={showStudentData(studentSaveData)} />) },
+        2: { title: "EDITAR DATOS DEL PAGO", component: (<PaymentData ref={formPaymentDataRef} onSubmit={handlePaymentData} data={studentSaveData} actionType="edit" />) },
         /*  3: <PlanData onSubmit={handlePlanData} data={planData} />, */
     };
     if (!numberOfStepNum) {
@@ -104,11 +104,11 @@ function EditStudent() {
     const updateStudentData = async (data: UpdateStudentRequest) => {
         console.log('updateStudentData', data);
         try {
-            const result = await updateStudent(data).unwrap();
+            await updateStudent(data).unwrap();
+            navigate(-1);
             toast.success("Los datos del estudiante han sido actualizados");
         }
         catch (error) {
-            console.log('error', error)
         }
     }
 
@@ -121,13 +121,15 @@ function EditStudent() {
                         alt="back-icon"
                         onClick={() => navigate(-1)}
                         style={{ cursor: "pointer" }}
-                    ></img>EDITAR DATOS DEL ALUMNO</Title>
+                    ></img>{forms[numberOfStepNum]?.title}</Title>
             </TitleContainer>
-            {forms[numberOfStepNum] ?? <p>Paso no válido</p>}
-            <ButtonsContainer>
-                <Button onClick={() => navigate(-1)} >Cancelar</Button>
-                <Button onClick={handleClick}>Guardar cambios</Button>
-            </ButtonsContainer>
+            <FormContainer>
+                {forms[numberOfStepNum]?.component ?? <p>Paso no válido</p>}
+                <ButtonsContainer>
+                    <Button onClick={() => navigate(-1)}>Cancelar</Button>
+                    <Button onClick={handleClick}>Guardar cambios</Button>
+                </ButtonsContainer>
+            </FormContainer>
         </MainContainer>
     );
 };

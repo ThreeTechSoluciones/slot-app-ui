@@ -15,18 +15,7 @@ export const MainContainer = styled.div`
     align-items: center;
     width: 100%;
 `;
-export const TitleContainer = styled.div`
-    width: 100%;
-    margin-left:80px;
-`;
 
-export const Title = styled.h1`
-    font-size: 24px;
-    margin-right:80px;
-    margin-top: 32px;
-    font-family: ${FONT_FAMILY};
-    font-weight:bold;
-`;
 
 export const FormContainer = styled.form`
     display: flex;

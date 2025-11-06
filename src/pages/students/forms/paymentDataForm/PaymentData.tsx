@@ -65,7 +65,7 @@ const PaymentData = forwardRef<FormProp<PaymentDataProps>, FormProp<PaymentDataP
     return (
       <>
         <Label>Día de pago</Label>
-        <Input placeholder="Día de pago"  {...register("paymentDay")} />
+        <Input placeholder="15"  {...register("paymentDay")} />
         <ErrorMessage error={errors.paymentDay} />
       </>
     )
