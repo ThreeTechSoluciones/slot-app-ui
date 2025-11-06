@@ -60,8 +60,7 @@ function EditStudent() {
 
         }
         updateStudentData(updateData);
-        console.log("data del estudiante guardado", updateData)
-        console.log("nuevo cumple", formatDateToDash(data.birthday));
+
     }
 
     const handlePaymentData = (data: PaymentDataProps) => {
@@ -70,6 +69,7 @@ function EditStudent() {
             userId: userId!,
             ...studentSaveData,
             ...data,
+            birthday: formatDateToISO(studentSaveData.birthday),
         }
         updateStudentData(updateData);
     }
@@ -86,18 +86,15 @@ function EditStudent() {
      } */
 
     const handleClick = async () => {
-        if (numberOfStepNum === 1) {
-            formStudentDataRef.current.submit();
-        }
-        if (numberOfStepNum === 2) {
-            formPaymentDataRef.current.submit();
-        }
-
+        if (numberOfStepNum === null) return;
+        const refs = [formStudentDataRef, formPaymentDataRef];
+        refs[numberOfStepNum - 1].current.submit();
     }
+
 
     const forms: Record<number, JSX.Element> = {
         1: <StudentData ref={formStudentDataRef} onSubmit={handleStudentData} data={showStudentData(studentSaveData)} />,
-        2: <PaymentData ref={formPaymentDataRef} onSubmit={handlePaymentData} data={studentSaveData} />,
+        2: <PaymentData ref={formPaymentDataRef} onSubmit={handlePaymentData} data={studentSaveData} actionType="edit" />,
         /*  3: <PlanData onSubmit={handlePlanData} data={planData} />, */
     };
     if (!numberOfStepNum) {
@@ -105,6 +102,7 @@ function EditStudent() {
     }
 
     const updateStudentData = async (data: UpdateStudentRequest) => {
+        console.log('updateStudentData', data);
         try {
             const result = await updateStudent(data).unwrap();
             toast.success("Los datos del estudiante han sido actualizados");
@@ -112,8 +110,6 @@ function EditStudent() {
         catch (error) {
             console.log('error', error)
         }
-
-
     }
 
     return (
@@ -129,7 +125,7 @@ function EditStudent() {
             </TitleContainer>
             {forms[numberOfStepNum] ?? <p>Paso no válido</p>}
             <ButtonsContainer>
-                <Button>Cancelar</Button>
+                <Button onClick={() => navigate(-1)} >Cancelar</Button>
                 <Button onClick={handleClick}>Guardar cambios</Button>
             </ButtonsContainer>
         </MainContainer>

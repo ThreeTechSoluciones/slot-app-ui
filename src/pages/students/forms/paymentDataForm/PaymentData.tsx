@@ -27,7 +27,7 @@ export interface PaymentDataProps {
 
 const PaymentData = forwardRef<FormProp<PaymentDataProps>, FormProp<PaymentDataProps>>((props, ref) => {
 
-  const { data, onSubmit: onSubmit } = props;
+  const { data, onSubmit: onSubmit, actionType } = props;
 
   type FormData = yup.InferType<typeof paymentDataScheme>;
 
@@ -64,49 +64,56 @@ const PaymentData = forwardRef<FormProp<PaymentDataProps>, FormProp<PaymentDataP
   const SpecificDaySkeleton = () => {
     return (
       <>
+        <Label>Día de pago</Label>
         <Input placeholder="Día de pago"  {...register("paymentDay")} />
         <ErrorMessage error={errors.paymentDay} />
       </>
     )
   }
   const BeginningOfMonthSkeleton = () => {
-    return (
-      <InputsContainer>
-        <Text>Si el alumno empezó luego del día 10, puede indicar
-          la cantidad de clases extras para realizar el primer pago</Text>
-        <SecondaryInputsContainer>
-          <div>
-            <Label>Clases extras</Label>
-            <Input $isSmallSize placeholder="Clases extras" {...register("extraClasses")}></Input>
-            <ErrorMessage error={errors.extraClasses} />
-          </div>
-          <div>
-            <Label>Precio clase individual</Label>
-            <Controller
-              name="classPrice"
-              control={control}
-              render={({ field }) => (
+    {
+      if (actionType !== 'edit') {
+        return (
+          <InputsContainer>
+            <Text>Si el alumno empezó luego del día 10, puede indicar
+              la cantidad de clases extras para realizar el primer pago</Text>
+            <SecondaryInputsContainer>
+              <div>
+                <Label>Clases extras</Label>
+                <Input $isSmallSize placeholder="Clases extras" {...register("extraClasses")}></Input>
+                <ErrorMessage error={errors.extraClasses} />
+              </div>
+              <div>
+                <Label>Precio clase individual</Label>
+                <Controller
+                  name="classPrice"
+                  control={control}
+                  render={({ field }) => (
 
-                <CurrencyInput
-                  width="176"
-                  value={field.value ?? null}
-                  onChange={field.onChange}
-                  placeholder="Precio clase individual"
+                    <CurrencyInput
+                      width="176"
+                      value={field.value ?? null}
+                      onChange={field.onChange}
+                      placeholder="Precio clase individual"
+                    />
+                  )}
                 />
-              )}
-            />
-            <ErrorMessage error={errors.classPrice} />
-          </div>
-        </SecondaryInputsContainer>
-      </InputsContainer>
-    )
+                <ErrorMessage error={errors.classPrice} />
+              </div>
+            </SecondaryInputsContainer>
+          </InputsContainer>
+        )
+      }
+    }
   }
+
 
   useImperativeHandle(ref, () => ({
     submit: () =>
       new Promise<boolean>((resolve) => {
         handleSubmit(
           (data) => {
+            console.log(data);
             onSubmit?.({ ...data });
             resolve(true);
           },
@@ -131,7 +138,7 @@ const PaymentData = forwardRef<FormProp<PaymentDataProps>, FormProp<PaymentDataP
           <ErrorMessage error={errors.paymentPlanName} />
         </div>
         <div>
-          <Label>Datos del plan de pago</Label>
+          <Label></Label>
           {PaymentPlanNameSelected === "" && (
             <NoPaymentSelectedSkeleton />
           )}
