@@ -27,12 +27,26 @@ export const ConfirmBox = styled.div`
   height: 164px;
 `;
 
+export const InfoBox = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+`;
+export const QuestionStyle = styled.div`
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+`;
+
 export const ConfirmActions = styled.div`
   display: flex;
   justify-content: center;
   gap: 1vw;
+  flex: 1;
 `;
 export const MessageStyle = styled.p`
   font-size: 20px;
   font-weight: medium;
+  initial-letter: 0.15px;
 `;

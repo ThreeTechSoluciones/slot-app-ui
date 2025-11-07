@@ -4,7 +4,10 @@ import {
   ConfirmBox,
   ConfirmActions,
   MessageStyle,
+  QuestionStyle,
+  InfoBox,
 } from "./ConfirmDialog.styles";
+import QuestionMarkIcon from "../../assets/question-mark-icon.svg";
 
 type ConfirmDialogProps = {
   message: string;
@@ -20,7 +23,13 @@ export function ConfirmDialog({
   return (
     <ConfirmOverlay>
       <ConfirmBox>
-        <MessageStyle>{message}</MessageStyle>
+        <InfoBox>
+          <QuestionStyle>
+            <img src={QuestionMarkIcon} alt="question-mark-icon" />
+          </QuestionStyle>
+          <MessageStyle>{message}</MessageStyle>
+        </InfoBox>
+
         <ConfirmActions>
           <Button onClick={onCancel}>Cancelar</Button>
           <Button onClick={onConfirm}>Aceptar</Button>

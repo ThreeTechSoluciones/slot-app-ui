@@ -19,6 +19,7 @@ import {
   ButtonContainer,
   SubTitle,
   Title,
+  TitleContainer,
 } from "./StudentDetail.styles";
 import { useLocation } from "react-router";
 import { useNavigate } from "react-router-dom";
@@ -36,43 +37,51 @@ import Button from "../../components/button/Button";
 import { ConfirmDialog } from "../../components/confirm_dialog/ConfirmDialog";
 import { MisPlanes } from "../../routes/RoutesUtils";
 import toast from "react-hot-toast";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import type { StudentDetailResponse } from "../../app/types/responses/StudentDetailResponse.type";
 
 const StudentDetail = () => {
   const { studentId } = useLocation().state;
-  const { data: student, isError } = useGetStudentByIdQuery(studentId);
+  const {
+    data: student,
+    isError,
+    isLoading,
+  } = useGetStudentByIdQuery(studentId);
   const [activateStudent] = useActivateStudentMutation();
   const [desactivateStudent] = useDeleteStudentMutation();
   const [showConfirm, setShowConfirm] = useState(false);
   const navigate = useNavigate();
-  const [isActive, setIsActive] = useState(student?.status ?? false);
-  useEffect(() => {
-    setIsActive(student?.status ?? false);
-  }, [student]);
+
   const handleOpenConfirm = () => {
     setShowConfirm(true);
   };
-
-  const handleConfirm = async () => {
-    try {
-      if (isActive) {
-        await desactivateStudent(studentId).unwrap();
+  const deactivateStudentAndShowMessage = (studentId: string) => {
+    desactivateStudent(studentId)
+      .unwrap()
+      .then(() => {
         toast.success("El alumno ha sido dado de baja.");
-      } else {
-        await activateStudent(studentId).unwrap();
+      })
+      .finally(() => {
+        setShowConfirm(false);
+      });
+  };
+  const activateStudentAndShowMessage = (studentId: string) => {
+    activateStudent(studentId)
+      .unwrap()
+      .then(() => {
         toast.success("El alumno ha sido dado de alta.");
-      }
-      setIsActive(!isActive);
-      setShowConfirm(false);
-    } catch (error) {
-      toast.error("Hubo un problema al actualizar el alumno");
-    }
+      })
+      .finally(() => {
+        setShowConfirm(false);
+      });
+  };
+  const handleConfirm = () => {
+    student?.status
+      ? deactivateStudentAndShowMessage(studentId)
+      : activateStudentAndShowMessage(studentId);
   };
 
-  const handleCancel = () => {
-    setShowConfirm(false);
-  };
+  if (isLoading) return <div>Cargando...</div>;
   if (isError || !student)
     return (
       <div>
@@ -85,22 +94,33 @@ const StudentDetail = () => {
 
   return (
     <MainContainer>
+      {showConfirm && (
+        <ConfirmDialog
+          message={`¿Estás seguro de ${student.status ? "dar de baja" : "dar de alta"
+            } a ${student.name} ${student.lastName}?`}
+          onConfirm={handleConfirm}
+          onCancel={() => setShowConfirm(false)}
+        />
+      )}
       <HeaderContainer>
-        <Title>
+        <TitleContainer>
           <img
             src={BackIcon}
             alt="back-icon"
             onClick={() => navigate(-1)}
             style={{ cursor: "pointer" }}
-          ></img>
-          DETALLE DEL ALUMNO
-        </Title>
+          />
+
+          <Title>DETALLE DEL ALUMNO</Title>
+        </TitleContainer>
+
         <ButtonWrapper>
           <Button
             size="medium"
-            variant={isActive ? "warning" : "success"}
+            fontsize="large"
+            variant={student.status ? "warning" : "success"}
             icon={
-              isActive ? (
+              student.status ? (
                 <img src={DesactivateIcon} alt="desactivate-icon" />
               ) : (
                 <img
@@ -112,34 +132,22 @@ const StudentDetail = () => {
             }
             onClick={handleOpenConfirm}
           >
-            {isActive ? "Dar de baja" : "Dar de alta"}
+            {student.status ? "Dar de baja" : "Dar de alta"}
           </Button>
-          {showConfirm && (
-            <ConfirmDialog
-              message={`¿Estás seguro de ${isActive ? "dar de baja" : "dar de alta"
-                } a ${student.name} ${student.lastName}?`}
-              onConfirm={handleConfirm}
-              onCancel={handleCancel}
-            />
-          )}
         </ButtonWrapper>
       </HeaderContainer>
 
       <StudentNameContainer>
         <Title>
           <IconStyles>
-            <img src={StudentIcon} alt="student-icon"></img>
+            <img src={StudentIcon} alt="student-icon" />
           </IconStyles>
           {student.name} {student.lastName}
         </Title>
       </StudentNameContainer>
       <InfoBoxesContainer>
         <StudentData student={student} navigate={navigate} />
-        <PaymentData
-          student={student}
-          navigate={navigate}
-          isActive={isActive}
-        />
+        <PaymentData student={student} navigate={navigate} />
       </InfoBoxesContainer>
     </MainContainer>
   );
@@ -154,18 +162,46 @@ const StudentData = ({
   navigate: (path: string, options?: { state?: any }) => void;
 
 }) => {
-  const { studentId } = useLocation().state;
+  const info = [
+    {
+      title: "Nombre",
+      data: student.name,
+    },
+    {
+      title: "Apellido",
+      data: student.lastName,
+    },
+    {
+      title: "DNI",
+      data: student.dni,
+    },
+    {
+      title: "Fecha de ingreso",
+      data: student.admissionDate,
+    },
+    {
+      title: "Fecha de nacimiento",
+      data: student.birthday,
+    },
+    {
+      title: "Edad",
+      data: student.age,
+    },
+    {
+      title: "Número de teléfono",
+      data: student.cellphoneNumber,
+    },
+    {
+      title: "Patologías",
+      data: student.pathologies,
+    },
+  ];
   return (
     <StudentInfoContainer>
       <HeaderBoxes>
         <SubTitle>
           <IconStyles>
-            <img
-              src={StudentIcon}
-              alt="student-icon"
-              width={24}
-              height={24}
-            ></img>
+            <img src={StudentIcon} alt="student-icon" width={24} height={24} />
           </IconStyles>
           Datos del alumno
         </SubTitle>
@@ -178,38 +214,12 @@ const StudentData = ({
         </EditIconStyles>
       </HeaderBoxes>
       <AllInformationContainer>
-        <InformationContainer>
-          <Label>Nombre</Label>
-          <StudentInfo>{student.name}</StudentInfo>
-        </InformationContainer>
-        <InformationContainer>
-          <Label>Apellido</Label>
-          <StudentInfo>{student.lastName}</StudentInfo>
-        </InformationContainer>
-        <InformationContainer>
-          <Label>DNI</Label>
-          <StudentInfo>{student.dni}</StudentInfo>
-        </InformationContainer>
-        <InformationContainer>
-          <Label>Fecha de ingreso</Label>
-          <StudentInfo>{student.admissionDate}</StudentInfo>
-        </InformationContainer>
-        <InformationContainer>
-          <Label>Fecha de nacimiento</Label>
-          <StudentInfo>{student.birthday}</StudentInfo>
-        </InformationContainer>
-        <InformationContainer>
-          <Label>Edad</Label>
-          <StudentInfo>{student.age}</StudentInfo>
-        </InformationContainer>
-        <InformationContainer>
-          <Label>Numero de teléfono</Label>
-          <StudentInfo>{student.cellphoneNumber}</StudentInfo>
-        </InformationContainer>
-        <InformationContainer>
-          <Label>Patologías</Label>
-          <StudentInfo>{student.pathologies}</StudentInfo>
-        </InformationContainer>
+        {info.map((item, index) => (
+          <InformationContainer key={index}>
+            <Label>{item.title}</Label>
+            <StudentInfo>{item.data}</StudentInfo>
+          </InformationContainer>
+        ))}
       </AllInformationContainer>
     </StudentInfoContainer>
   );
@@ -217,20 +227,48 @@ const StudentData = ({
 const PaymentData = ({
   student,
   navigate,
-  isActive,
 }: {
   student: StudentDetailResponse;
   navigate: (path: string, options?: { state?: any }) => void;
-  isActive: boolean;
-}) => {
-  const { studentId } = useLocation().state;
 
+}) => {
+  const info = [
+    {
+      title: "Forma de pago",
+      data: student.paymentPlanName,
+    },
+    {
+      title: "Estado del alumno",
+      data: student.status ? "Activo" : "Inactivo",
+      component: (
+        <StudentStatusStyle $status={student.status}>
+          {student.status ? "Activo" : "Inactivo"}
+        </StudentStatusStyle>
+      ),
+    },
+    {
+      title: "Día de pago",
+      data:
+        student.paymentPlanName === "Principio de mes"
+          ? "1-10"
+          : student.paymentDay,
+    },
+    {
+      title: "Situación del alumno",
+      data: student.situation,
+      component: (
+        <StudentSituationStyle $situation={student.situation}>
+          {student.situation}
+        </StudentSituationStyle>
+      ),
+    },
+  ];
   return (
     <PaymentInfoContainer>
       <HeaderBoxes>
         <SubTitle>
           <IconStyles>
-            <img src={InfoIcon} alt="info-icon"></img>
+            <img src={InfoIcon} alt="info-icon" />
           </IconStyles>
           Datos de pago y estados
         </SubTitle>
@@ -239,28 +277,16 @@ const PaymentData = ({
         </EditIconStyles>
       </HeaderBoxes>
       <AllInformationContainer>
-        <InformationContainer>
-          <Label>Forma de pago</Label>
-          <StudentInfo>{student.paymentPlanName}</StudentInfo>
-        </InformationContainer>
-        <InformationContainer>
-          <Label>Estado del alumno</Label>
-          <StudentStatusStyle $status={isActive}>
-            {isActive ? "Activo" : "Inactivo"}
-          </StudentStatusStyle>
-        </InformationContainer>
-        <InformationContainer>
-          <Label>Día de pago</Label>
-          <StudentInfo>
-            {student.paymentDay || student.paymentPlanName == "Principio de mes"}
-          </StudentInfo>
-        </InformationContainer>
-        <InformationContainer>
-          <Label>Situación del alumno</Label>
-          <StudentSituationStyle $situation={student.situation}>
-            {student.situation}
-          </StudentSituationStyle>
-        </InformationContainer>
+        {info.map((item, index) => (
+          <InformationContainer key={index}>
+            <Label>{item.title}</Label>
+            {item.component ? (
+              item.component
+            ) : (
+              <StudentInfo>{item.data}</StudentInfo>
+            )}
+          </InformationContainer>
+        ))}
         <ButtonContainer>
           <Button
             variant="primary"

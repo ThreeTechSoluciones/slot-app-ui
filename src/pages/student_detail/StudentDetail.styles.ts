@@ -36,6 +36,7 @@ export const InfoBoxesContainer = styled.div`
   justify-content: center;
   gap: 84px;
   flex-wrap: wrap;
+  max-width: 1000px;
 `;
 export const StudentInfoContainer = styled.div`
   display: flex;
@@ -74,8 +75,8 @@ export const Label = styled.p`
 
 export const StudentNameContainer = styled.div`
   display: flex;
-  /* align-items: flex-start;
-  justify-content: flex-start; */
+  width: 100%;
+  max-width: 988px;
 `;
 
 export const StudentInfo = styled.p`
@@ -94,6 +95,11 @@ export const StudentSituationStyle = styled.p<{ $situation: string }>`
   color: ${({ $situation }) =>
     $situation === "En término" ? "#20C92B" : "#B92C2C"};
 `;
+export const TitleContainer = styled.div`
+  display: flex;
+  margin-left: 76px;
+  gap: 24px;
+`;
 
 export const Title = styled.h1`
   display: flex;
@@ -101,7 +107,6 @@ export const Title = styled.h1`
   font-size: 24px;
   justify-content: flex-start;
   width: 100%;
-  margin-left: 5rem;
 `;
 
 export const SubTitle = styled.h2`
