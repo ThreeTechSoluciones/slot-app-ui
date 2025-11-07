@@ -113,7 +113,6 @@ const PaymentData = forwardRef<FormProp<PaymentDataProps>, FormProp<PaymentDataP
       new Promise<boolean>((resolve) => {
         handleSubmit(
           (data) => {
-            console.log(data);
             onSubmit?.({ ...data });
             resolve(true);
           },

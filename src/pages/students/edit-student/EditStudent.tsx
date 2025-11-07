@@ -102,7 +102,6 @@ function EditStudent() {
     }
 
     const updateStudentData = async (data: UpdateStudentRequest) => {
-        console.log('updateStudentData', data);
         try {
             await updateStudent(data).unwrap();
             navigate(-1);
