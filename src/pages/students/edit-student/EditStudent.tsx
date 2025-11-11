@@ -3,7 +3,6 @@ import PaymentData, { type PaymentDataProps } from "../forms/paymentDataForm/Pay
 import { useGetStudentByIdQuery, useUpdateStudentMutation } from "../../../app/services/StudentService"
 import useAuthentication from "../../../hooks/useAuthentication";
 import { useRef, type JSX } from "react";
-//import PlanData, { type PlanDataProps } from "../forms/planDataForm/PlanData";
 import { useLocation, useNavigate } from "react-router";
 import { useParams } from "react-router-dom";
 import { MainContainer, TitleContainer, Title, ButtonsContainer, Button, FormContainer } from "./EditStudent.styles";
@@ -23,11 +22,16 @@ function EditStudent() {
 
     const { numberOfStep } = useParams();
 
-    const { studentId } = useLocation().state;
-
     const numberOfStepNum = numberOfStep ? parseInt(numberOfStep) : null;
 
-    const { data: studentSaveData } = useGetStudentByIdQuery(studentId!);
+    const state = useLocation().state;
+
+    if (!state || !userId || !numberOfStepNum) {
+        return <p>Hubo un error al cargar la página. Intente nuevamente</p>;
+    }
+    const { studentId } = state as { studentId: string };
+
+    const { data: studentSaveData, isLoading, isError } = useGetStudentByIdQuery(studentId!);
 
     const [updateStudent] = useUpdateStudentMutation();
 
@@ -47,68 +51,53 @@ function EditStudent() {
         };
     }
 
-    if (!studentSaveData) {
+    if (isLoading) {
         return <p>Cargando datos del estudiante...</p>;
     }
 
-    const handleStudentData = (data: StudentDataProps) => {
-        const updateData = {
-            studentId: studentId!,
-            userId: userId!,
+    if (isError || !studentSaveData) {
+        return <p>Hubo un error al obtener la informacion del estudiante. Intente nuevamente</p>;
+    }
+
+    const handleUpdateStudentData = (data: StudentDataProps) => {
+        updateStudentData({
+            studentId: studentId,
+            userId: userId,
             ...studentSaveData,
             ...data,
             birthday: formatDateToDash(data.birthday),
-
-        }
-        updateStudentData(updateData);
+        });
     }
 
-    const handlePaymentData = (data: PaymentDataProps) => {
-        const updateData = {
-            studentId: studentId!,
-            userId: userId!,
+    const handleUpdatePaymentData = (data: PaymentDataProps) => {
+
+        updateStudentData({
+            studentId: studentId,
+            userId: userId,
             ...studentSaveData,
             ...data,
-            birthday: formatDateToISO(studentSaveData.birthday),
+            birthday: formatDateToISO(studentSaveData.birthday)
         }
-        updateStudentData(updateData);
+        );
     }
 
-    /*  const handlePlanData = (data: PlanDataProps) => {
-         const updateData: UpdateStudentRequest = {
-             studentId: studentId!,
-             userId: userId!,
-             ...studentSaveData,
-             ...data,
-            birthday: formatDateToISO(studentSaveData.birthday),
-         }
-         updateStudentData(updateData);
-     } */
-
     const handleClick = async () => {
-        if (numberOfStepNum === null) return;
         const refs = [formStudentDataRef, formPaymentDataRef];
         refs[numberOfStepNum - 1].current.submit();
     }
 
-
     const forms: Record<number, { title: string, component: JSX.Element }> = {
-        1: { title: "EDITAR DATOS DEL ALUMNO", component: (<StudentData ref={formStudentDataRef} onSubmit={handleStudentData} data={showStudentData(studentSaveData)} />) },
-        2: { title: "EDITAR DATOS DEL PAGO", component: (<PaymentData ref={formPaymentDataRef} onSubmit={handlePaymentData} data={studentSaveData} actionType="edit" />) },
-        /*  3: <PlanData onSubmit={handlePlanData} data={planData} />, */
+        1: { title: "EDITAR DATOS DEL ALUMNO", component: (<StudentData ref={formStudentDataRef} onSubmit={handleUpdateStudentData} data={showStudentData(studentSaveData)} />) },
+        2: { title: "EDITAR DATOS DEL PAGO", component: (<PaymentData ref={formPaymentDataRef} onSubmit={handleUpdatePaymentData} data={studentSaveData} actionType="edit" />) },
     };
-    if (!numberOfStepNum) {
-        return <p>Paso no válido</p>;
-    }
 
-    const updateStudentData = async (data: UpdateStudentRequest) => {
-        try {
-            await updateStudent(data).unwrap();
-            navigate(-1);
-            toast.success("Los datos del estudiante han sido actualizados");
-        }
-        catch (error) {
-        }
+    const updateStudentData = (data: UpdateStudentRequest) => {
+        updateStudent(data)
+            .unwrap()
+            .then(() => {
+                navigate(-1);
+                toast.success("Los datos del estudiante han sido actualizados");
+            });
     }
 
     return (
