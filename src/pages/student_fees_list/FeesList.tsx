@@ -5,6 +5,9 @@ import {
   FiltersContainer,
   LeftContainer,
   RightContainer,
+  ActionButton,
+  ViewIconStyle,
+  FeeStatus,
 } from "./FeesList.styles";
 import Filter from "../../components/filter/Filter";
 import Button from "../../components/button/Button";
@@ -20,6 +23,7 @@ import { translateMonth } from "../../utils/TranslateMonths";
 import { formatCurrency } from "../../utils/Formatter";
 import { formatDate } from "../../utils/DateFormatter";
 import { translateStatus } from "../../utils/TranslateStatusFee";
+import ViewIcon from "../../assets/view-icon.svg";
 function StudentFeesList() {
   const location = useLocation();
   const { studentId } = location.state || {};
@@ -39,7 +43,6 @@ function StudentFeesList() {
   };
   console.log("cuotas:", fees);
   const handleConfirmPay = () => {
-    // console.log("Realizando pago de cuota:", selectedFeeId);
     setModalType(null);
   };
 
@@ -76,15 +79,24 @@ function StudentFeesList() {
     {
       header: "Estado",
       accessor: "status",
-      Cell: ({ original }) => <span>{translateStatus(original.status)}</span>,
+      Cell: ({ original }) => (
+        <FeeStatus $status={original.status}>
+          {translateStatus(original.status)}
+        </FeeStatus>
+      ),
     },
     {
       header: "Pago",
       Cell: ({ original }) =>
         original.status === "Pendiente" ? (
-          <button onClick={() => handleOpenPayModal(original.id)}>Pagar</button>
+          <ActionButton onClick={() => handleOpenPayModal(original.id)}>
+            Pagar
+          </ActionButton>
         ) : (
-          <button>Ver pago</button>
+          <ActionButton>
+            Ver pago
+            <ViewIconStyle src={ViewIcon} alt="view-icon"></ViewIconStyle>
+          </ActionButton>
         ),
     },
   ];
@@ -117,9 +129,9 @@ function StudentFeesList() {
             placeholder="Filtrar por estado"
             options={[
               { label: "Pendiente", value: "pending" },
-              { label: "Pagada", value: "payed" },
-              { label: "Pago con atraso", value: "payed-ot-of-time" },
               { label: "Vencida", value: "out-of-time" },
+              { label: "Pagada", value: "payed" },
+              { label: "Pagado vencido", value: "payed-out-of-time" },
             ]}
             value={statusFilter}
             onSelect={setStatusFilter}
