@@ -11,6 +11,7 @@ function Table<T extends { id: string | number }>({
   columns,
   data,
 }: TableProps<T>) {
+  console.log("data:", data);
   return (
     <TableStyle>
       <Thead>

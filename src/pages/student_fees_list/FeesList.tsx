@@ -8,12 +8,21 @@ import {
   ActionButton,
   ViewIconStyle,
   FeeStatus,
+  FeeStatusContainer,
+  InformationStudent,
+  Title,
+  TitleContainer,
+  IconStyles,
+  SubTitle,
 } from "./FeesList.styles";
 import Filter from "../../components/filter/Filter";
 import Button from "../../components/button/Button";
 import Table from "../../components/table/Table";
 import type { Column } from "../../app/types/table";
 import AddIcon from "../../assets/add-icon.svg";
+import BackIcon from "../../assets/back-icon.svg";
+import StudentIcon from "../../assets/student-icon.svg";
+import ViewIcon from "../../assets/view-icon.svg";
 import type { StudentMonthlyFeeResponse } from "../../app/types/responses/StudentMonthlyFee.type";
 import { useState } from "react";
 import { ConfirmDialog } from "../../components/confirm_dialog/ConfirmDialog";
@@ -23,16 +32,15 @@ import { translateMonth } from "../../utils/TranslateMonths";
 import { formatCurrency } from "../../utils/Formatter";
 import { formatDate } from "../../utils/DateFormatter";
 import { translateStatus } from "../../utils/TranslateStatusFee";
-import ViewIcon from "../../assets/view-icon.svg";
+
 function StudentFeesList() {
   const location = useLocation();
-  const { studentId } = location.state || {};
-  console.log("studentId recibido:", studentId);
+  const { student } = location.state || {};
   const {
     data: fees,
     isLoading,
     isError,
-  } = useGetStudentMonthlyFeesQuery(studentId ?? skipToken);
+  } = useGetStudentMonthlyFeesQuery(student?.id ?? skipToken);
   const navigate = useNavigate();
   const [statusFilter, setStatusFilter] = useState<string>("");
   const [modalType, setModalType] = useState<"pay" | null>(null);
@@ -51,7 +59,9 @@ function StudentFeesList() {
   };
   if (isLoading) return <p>Cargando cuotas...</p>;
   if (isError) return <p>Error al cargar cuotas.</p>;
-
+  {
+    console.log("student:", student);
+  }
   const columns: Column<StudentMonthlyFeeResponse>[] = [
     {
       header: <SortableButton text="N° de cuota" />,
@@ -80,9 +90,11 @@ function StudentFeesList() {
       header: "Estado",
       accessor: "status",
       Cell: ({ original }) => (
-        <FeeStatus $status={original.status}>
-          {translateStatus(original.status)}
-        </FeeStatus>
+        <FeeStatusContainer>
+          <FeeStatus $status={original.status}>
+            {translateStatus(original.status)}
+          </FeeStatus>
+        </FeeStatusContainer>
       ),
     },
     {
@@ -103,6 +115,21 @@ function StudentFeesList() {
 
   return (
     <StudentsContainer>
+      <InformationStudent>
+        <TitleContainer>
+          <img
+            src={BackIcon}
+            alt="back-icon"
+            onClick={() => navigate(-1)}
+            style={{ cursor: "pointer" }}
+          />
+          <Title>LISTADO DE CUOTAS</Title>
+        </TitleContainer>
+        <SubTitle>
+          <img src={StudentIcon} alt="student-icon" width={20} height={20} />
+          {student?.name} {student?.lastname}
+        </SubTitle>
+      </InformationStudent>
       <FiltersContainer>
         <LeftContainer>
           <Filter
@@ -111,6 +138,15 @@ function StudentFeesList() {
               { label: "Enero", value: "ene" },
               { label: "Febrero", value: "feb" },
               { label: "Marzo", value: "mar" },
+              { label: "Abril", value: "abr" },
+              { label: "Mayo", value: "may" },
+              { label: "Junio", value: "jun" },
+              { label: "Julio", value: "jul" },
+              { label: "Agosto", value: "ago" },
+              { label: "Septiembre", value: "sep" },
+              { label: "Octubre", value: "oct" },
+              { label: "Noviembre", value: "nov" },
+              { label: "Diciembre", value: "dic" },
             ]}
             value={statusFilter}
             onSelect={setStatusFilter}

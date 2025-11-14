@@ -136,7 +136,7 @@ function Home() {
               label: "Ver cuotas",
               onClick: () =>
                 navigate(`/listado-cuotas`, {
-                  state: { studentId: original.id },
+                  state: { student: original },
                 }),
             },
             {
