@@ -8,7 +8,7 @@ export interface StudentDetailResponse {
   age: number;
   pathologies: string;
   admissionDate: string;
-  paymentPlan: string;
+  paymentPlanName: string;
   classesPerWeek: number;
   paymentDay: number;
   situation: string;

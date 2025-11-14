@@ -181,19 +181,11 @@ const StudentData = ({
     },
     {
       title: "Fecha de nacimiento",
-      data: student.birthday,
-    },
-    {
-      title: "Edad",
-      data: student.age,
+      data: `${student.birthday} (${student.age} años)`,
     },
     {
       title: "Número de teléfono",
       data: student.cellphoneNumber,
-    },
-    {
-      title: "Patologías",
-      data: student.pathologies,
     },
   ];
   return (
@@ -201,7 +193,7 @@ const StudentData = ({
       <HeaderBoxes>
         <SubTitle>
           <IconStyles>
-            <img src={StudentIcon} alt="student-icon" width={24} height={24} />
+            <img src={StudentIcon} alt="student-icon" width={20} height={20} />
           </IconStyles>
           Datos del alumno
         </SubTitle>
@@ -221,6 +213,10 @@ const StudentData = ({
           </InformationContainer>
         ))}
       </AllInformationContainer>
+      <InformationContainer key={"Patologías"}>
+        <Label>Patologías</Label>
+        <StudentInfo>{student.pathologies}</StudentInfo>
+      </InformationContainer>
     </StudentInfoContainer>
   );
 };
@@ -234,7 +230,7 @@ const PaymentData = ({
   const info = [
     {
       title: "Forma de pago",
-      data: student.paymentPlan,
+      data: student.paymentPlanName,
     },
     {
       title: "Estado del alumno",
@@ -248,7 +244,7 @@ const PaymentData = ({
     {
       title: "Día de pago",
       data:
-        student.paymentPlan === "Principio de mes"
+        student.paymentPlanName === "Principio de mes"
           ? "1-10"
           : student.paymentDay,
     },
@@ -267,7 +263,7 @@ const PaymentData = ({
       <HeaderBoxes>
         <SubTitle>
           <IconStyles>
-            <img src={InfoIcon} alt="info-icon" />
+            <img src={InfoIcon} alt="info-icon" width={20} height={20} />
           </IconStyles>
           Datos de pago y estados
         </SubTitle>
