@@ -32,7 +32,6 @@ interface DropdownContainerProps {
 }
 export const DropdownMenuStyle = styled.div<DropdownContainerProps>`
   position: absolute;
-  background-color: red !important;
   display: flex;
   flex-direction: column;
   top: 100%;
