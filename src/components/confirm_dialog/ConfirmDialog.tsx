@@ -1,4 +1,13 @@
-import "./ConfirmDialog.css";
+import Button from "../button/Button";
+import {
+  ConfirmOverlay,
+  ConfirmBox,
+  ConfirmActions,
+  MessageStyle,
+  QuestionStyle,
+  InfoBox,
+} from "./ConfirmDialog.styles";
+import QuestionMarkIcon from "../../assets/question-mark-icon.svg";
 
 type ConfirmDialogProps = {
   message: string;
@@ -6,16 +15,26 @@ type ConfirmDialogProps = {
   onCancel: () => void;
 };
 
-export function ConfirmDialog({ message, onConfirm, onCancel }: ConfirmDialogProps) {
+export function ConfirmDialog({
+  message,
+  onConfirm,
+  onCancel,
+}: ConfirmDialogProps) {
   return (
-    <div className="confirm-overlay">
-      <div className="confirm-box">
-        <p>{message}</p>
-        <div className="confirm-actions">
-          <button className="btn-confirm" onClick={onConfirm}>Aceptar</button>
-          <button className="btn-cancel" onClick={onCancel}>Cancelar</button>
-        </div>
-      </div>
-    </div>
+    <ConfirmOverlay>
+      <ConfirmBox>
+        <InfoBox>
+          <QuestionStyle>
+            <img src={QuestionMarkIcon} alt="question-mark-icon" />
+          </QuestionStyle>
+          <MessageStyle>{message}</MessageStyle>
+        </InfoBox>
+
+        <ConfirmActions>
+          <Button onClick={onCancel}>Cancelar</Button>
+          <Button onClick={onConfirm}>Aceptar</Button>
+        </ConfirmActions>
+      </ConfirmBox>
+    </ConfirmOverlay>
   );
 }
