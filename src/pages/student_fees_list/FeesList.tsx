@@ -12,7 +12,7 @@ import {
   InformationStudent,
   Title,
   TitleContainer,
-  IconStyles,
+  CoinIconStyles,
   SubTitle,
 } from "./FeesList.styles";
 import Filter from "../../components/filter/Filter";
@@ -22,7 +22,8 @@ import type { Column } from "../../app/types/table";
 import AddIcon from "../../assets/add-icon.svg";
 import BackIcon from "../../assets/back-icon.svg";
 import StudentIcon from "../../assets/student-icon.svg";
-import ViewIcon from "../../assets/view-icon.svg";
+import ViewIcon from "../../assets/openEye-icon.png";
+import CoinIcon from "../../assets/coin-icon.svg";
 import type { StudentMonthlyFeeResponse } from "../../app/types/responses/StudentMonthlyFee.type";
 import { useState } from "react";
 import { ConfirmDialog } from "../../components/confirm_dialog/ConfirmDialog";
@@ -35,6 +36,7 @@ import { translateMonth } from "../../utils/TranslateMonths";
 import { formatCurrency } from "../../utils/Formatter";
 import { formatDate } from "../../utils/DateFormatter";
 import { translateStatus } from "../../utils/TranslateStatusFee";
+import PaymentDetailsModal from "../../components/payment_detail/paymentDetail";
 
 function StudentFeesList() {
   const location = useLocation();
@@ -47,14 +49,18 @@ function StudentFeesList() {
   const { data: studentDetails } = useGetStudentByIdQuery(student.id);
   const navigate = useNavigate();
   const [statusFilter, setStatusFilter] = useState<string>("");
-  const [modalType, setModalType] = useState<"pay" | null>(null);
+  const [modalType, setModalType] = useState<"pay" | "details" | null>(null);
   const [selectedFeeId, setSelectedFeeId] = useState<string | null>(null);
+  const [selectedPayment, setSelectedPayment] = useState<any>(null);
 
   const handleOpenPayModal = (feeId: string) => {
     setSelectedFeeId(feeId);
     setModalType("pay");
   };
-
+  const handleOpenPaymentDetailsModal = (paymentRow: any) => {
+    setSelectedPayment(paymentRow);
+    setModalType("details");
+  };
   const handleConfirmPay = () => {
     setModalType(null);
   };
@@ -103,12 +109,13 @@ function StudentFeesList() {
     {
       header: "Pago",
       Cell: ({ original }) =>
-        original.status === "Pendiente" ? (
+        original.status === "Creada" ? (
           <ActionButton onClick={() => handleOpenPayModal(original.id)}>
             Pagar
+            <CoinIconStyles src={CoinIcon} alt="coin-icon"></CoinIconStyles>
           </ActionButton>
         ) : (
-          <ActionButton>
+          <ActionButton onClick={() => handleOpenPaymentDetailsModal(original)}>
             Ver pago
             <ViewIconStyle src={ViewIcon} alt="view-icon"></ViewIconStyle>
           </ActionButton>
@@ -204,6 +211,13 @@ function StudentFeesList() {
           message="¿Estás seguro de realizar este pago?"
           onConfirm={handleConfirmPay}
           onCancel={handleCancelPay}
+        />
+      )}
+      {modalType === "details" && selectedPayment && (
+        <PaymentDetailsModal
+          isOpen={modalType === "details"}
+          onClose={() => setModalType(null)}
+          payment={selectedPayment}
         />
       )}
       <Table columns={columns} data={fees || []} />;

@@ -28,11 +28,7 @@ export const Title = styled.h1`
   justify-content: flex-start;
   width: 100%;
 `;
-export const IconStyles = styled.div`
-  margin-right: 0.5rem;
-  display: flex;
-  align-items: center;
-`;
+
 export const SubTitle = styled.h2`
   display: flex;
   align-items: center;
@@ -62,11 +58,16 @@ export const ActionButton = styled.button`
   font-weight: bold;
   text-decoration: underline;
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
 `;
-export const ViewIconStyle = styled.img`
-  margin-left: 4px;
+const BaseIcon = styled.img`
+  width: 20px;
+  height: 20px;
 `;
-
+export const ViewIconStyle = styled(BaseIcon)``;
+export const CoinIconStyles = styled(BaseIcon)``;
 export const FeeStatusContainer = styled.div`
   display: flex;
   justify-content: center;
