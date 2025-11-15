@@ -12,8 +12,9 @@ export const paymentDataScheme = yup.object().shape({
     .transform((value, originalValue) => (originalValue === "" ? undefined : value))
     .typeError("Solo se permiten números")
     .notRequired()
-    .when("paymentPlanName", {
-      is: (val: string) => val === PaymentPlanName.BEGINNING_OF_MONTH,
+    .when(["paymentPlanName", "$actionType"], {
+      is: (plan: string, actionType: string) =>
+        plan === PaymentPlanName.BEGINNING_OF_MONTH && actionType !== "edit",
       then: (schema) =>
         schema
           .typeError("Solo se permiten números")
@@ -42,8 +43,9 @@ export const paymentDataScheme = yup.object().shape({
     })
     .typeError("Solo se permiten números")
     .notRequired()
-    .when("paymentPlanName", {
-      is: (val: string) => val === PaymentPlanName.BEGINNING_OF_MONTH,
+    .when(["paymentPlanName", "$actionType"], {
+      is: (plan: string, actionType: string) =>
+        plan === PaymentPlanName.BEGINNING_OF_MONTH && actionType !== "edit",
       then: (schema) =>
         schema
           .typeError("Solo se permiten números")

@@ -70,7 +70,6 @@ function EditStudent() {
     }
 
     const handleUpdatePaymentData = (data: PaymentDataProps) => {
-
         updateStudentData({
             studentId: studentId,
             userId: userId,
@@ -78,7 +77,9 @@ function EditStudent() {
             ...data,
             birthday: formatDateToISO(studentSaveData.birthday)
         }
+
         );
+
     }
 
     const handleClick = async () => {

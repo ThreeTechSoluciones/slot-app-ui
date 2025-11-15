@@ -49,6 +49,9 @@ const PaymentData = forwardRef<FormProp<PaymentDataProps>, FormProp<PaymentDataP
   } = useForm<FormData>({
     resolver: yupResolver(paymentDataScheme) as any,
     defaultValues: { ...studentRegistrationForm },
+    context: {
+      actionType: actionType,
+    }
   });
 
   const PaymentPlanNameSelected = watch("paymentPlanName");
@@ -114,6 +117,7 @@ const PaymentData = forwardRef<FormProp<PaymentDataProps>, FormProp<PaymentDataP
         handleSubmit(
           (data) => {
             onSubmit?.({ ...data });
+            console.log()
             resolve(true);
           },
           () => {
