@@ -26,7 +26,10 @@ import ViewIcon from "../../assets/view-icon.svg";
 import type { StudentMonthlyFeeResponse } from "../../app/types/responses/StudentMonthlyFee.type";
 import { useState } from "react";
 import { ConfirmDialog } from "../../components/confirm_dialog/ConfirmDialog";
-import { useGetStudentMonthlyFeesQuery } from "../../app/services/StudentService";
+import {
+  useGetStudentByIdQuery,
+  useGetStudentMonthlyFeesQuery,
+} from "../../app/services/StudentService";
 import { skipToken } from "@reduxjs/toolkit/query/react";
 import { translateMonth } from "../../utils/TranslateMonths";
 import { formatCurrency } from "../../utils/Formatter";
@@ -41,15 +44,17 @@ function StudentFeesList() {
     isLoading,
     isError,
   } = useGetStudentMonthlyFeesQuery(student?.id ?? skipToken);
+  const { data: studentDetails } = useGetStudentByIdQuery(student.id);
   const navigate = useNavigate();
   const [statusFilter, setStatusFilter] = useState<string>("");
   const [modalType, setModalType] = useState<"pay" | null>(null);
   const [selectedFeeId, setSelectedFeeId] = useState<string | null>(null);
+
   const handleOpenPayModal = (feeId: string) => {
     setSelectedFeeId(feeId);
     setModalType("pay");
   };
-  console.log("cuotas:", fees);
+
   const handleConfirmPay = () => {
     setModalType(null);
   };
@@ -59,9 +64,7 @@ function StudentFeesList() {
   };
   if (isLoading) return <p>Cargando cuotas...</p>;
   if (isError) return <p>Error al cargar cuotas.</p>;
-  {
-    console.log("student:", student);
-  }
+
   const columns: Column<StudentMonthlyFeeResponse>[] = [
     {
       header: <SortableButton text="N° de cuota" />,
@@ -129,6 +132,8 @@ function StudentFeesList() {
           <img src={StudentIcon} alt="student-icon" width={20} height={20} />
           {student?.name} {student?.lastname}
         </SubTitle>
+        <SubTitle>Cantidad de días: {studentDetails?.numberOfDays}</SubTitle>
+        <SubTitle>Día de pago: {studentDetails?.paymentDay}</SubTitle>
       </InformationStudent>
       <FiltersContainer>
         <LeftContainer>

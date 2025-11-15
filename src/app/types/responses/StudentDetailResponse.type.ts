@@ -10,6 +10,7 @@ export interface StudentDetailResponse {
   admissionDate: string;
   paymentPlanName: string;
   classesPerWeek: number;
+  numberOfDays: number;
   paymentDay: number;
   situation: string;
   status: boolean;
