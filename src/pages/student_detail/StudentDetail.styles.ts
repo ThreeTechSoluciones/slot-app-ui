@@ -50,7 +50,7 @@ export const StudentInfoContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 630px;
-  height: 312px;
+  text-align: justify;
   border: 2px solid black;
   border-radius: 1rem;
   @media (max-width: 768px) {
@@ -73,13 +73,15 @@ export const InformationContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin-left: 2.5rem;
+  margin-right: 2.5rem;
+  text-align: left;
   margin-bottom: 1rem;
 `;
 
 export const Label = styled.p`
   font-size: 12px;
-  font-weight: 700;
   margin: 0px;
+  font-weight: bold !important;
   width: fit-content;
 `;
 
@@ -94,13 +96,11 @@ export const StudentInfo = styled.p`
   margin: 0px;
 `;
 export const StudentStatusStyle = styled.p<{ $status: boolean }>`
-  font-weight: bold;
   margin: 0;
   color: ${({ $status }) => ($status ? SUCCESS_COLOR : TERTIARY_COLOR)};
 `;
 
 export const StudentSituationStyle = styled.p<{ $situation: string }>`
-  font-weight: bold;
   margin: 0;
   color: ${({ $situation }) =>
     $situation === "En término" ? SUCCESS_COLOR : ERROR_COLOR};
