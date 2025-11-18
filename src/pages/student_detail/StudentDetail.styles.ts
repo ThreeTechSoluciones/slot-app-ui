@@ -79,9 +79,9 @@ export const InformationContainer = styled.div`
 `;
 
 export const Label = styled.p`
+  font-family: ${FONT_FAMILY};
   font-size: 12px;
   margin: 0px;
-  font-weight: bold !important;
   width: fit-content;
 `;
 
