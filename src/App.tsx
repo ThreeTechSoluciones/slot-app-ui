@@ -5,9 +5,9 @@ import Home from "./pages/home/Home";
 import Plans from "./pages/plans/Plans";
 import { PrivateRoute } from "./routes/PrivateRoutes";
 import StudentDetail from "./pages/student_detail/StudentDetail";
-import { MisAlumnos, NuevoAlumno, IniciarSesion, MisPlanes, DetalleAlumno, EditarAlumno } from "./routes/RoutesUtils";
+import { MisAlumnos, NuevoAlumno, IniciarSesion, MisPlanes, DetalleAlumno, MisTurnos } from "./routes/RoutesUtils";
 import CreateStudent from "./pages/students/create-student/CreateStudent";
-import CreateSlot from "./pages/slots/createSlot";
+import CreateSlot from "./pages/slots/CreateSlot";
 
 
 function App() {
@@ -20,7 +20,7 @@ function App() {
           <Route path={MisPlanes} element={<Plans />} />
           <Route path={NuevoAlumno} element={<CreateStudent />} />
           <Route path={DetalleAlumno} element={<StudentDetail />} />
-          <Route path="/slots" element={<CreateSlot />} />
+          <Route path={MisTurnos} element={<CreateSlot />} />
         </Route>
         <Route path="/" element={<Navigate to={IniciarSesion} />} />
       </Routes>

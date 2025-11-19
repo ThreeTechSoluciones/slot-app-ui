@@ -1,4 +1,4 @@
-import { FormContainer, Input, Label, InputContainer } from "./EditSlotForm.styles";
+import { FormContainer, Input, Label, InputContainer } from "./EditCapacityForm.styles";
 
 
 function CreateSlotForm() {

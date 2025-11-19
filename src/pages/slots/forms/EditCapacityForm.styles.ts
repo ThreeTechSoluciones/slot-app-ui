@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { FONT_FAMILY } from "../../../utils/Stylesheet";
+import { FONT_FAMILY, TERTIARY_COLOR } from "../../../utils/Stylesheet";
 import { TEXT_COLOR, BORDER_RADIUS, BACKGROUND_COLOR } from "../../../utils/Stylesheet";
 
 export const FormContainer = styled.form`
@@ -19,7 +19,7 @@ export const Input = styled.input`
     background-color: ${BACKGROUND_COLOR};
     font-family: ${FONT_FAMILY};
     &::placeholder {
-        color: ${TEXT_COLOR};
+        color: ${TERTIARY_COLOR};
     }
 `;
 
@@ -34,4 +34,15 @@ export const InputContainer = styled.div`
     gap:8px;
 `;
 
+export const Button = styled.button`
+    width: 100px;
+    height: 40px;
+    margin-top: 16px;
+    border-radius: ${BORDER_RADIUS};
+    background-color: ${TEXT_COLOR};
+    color: white;
+    font-family: ${FONT_FAMILY};
+    border: none;
+    cursor: pointer;
+`;
 

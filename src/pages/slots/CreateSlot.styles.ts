@@ -3,7 +3,7 @@ import { BORDER_RADIUS, FONT_FAMILY, TERTIARY_COLOR, PRIMARY_COLOR, TEXT_COLOR, 
 import Arrow from "../../assets/Arrow.png";
 
 
-export const MainContainer = styled.div`
+export const ScreenContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -14,6 +14,15 @@ export const MainContainer = styled.div`
     border: 2px solid ${TERTIARY_COLOR};
     border-radius: ${BORDER_RADIUS};
 `;
+
+export const MainContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    min-height: 100vh;
+    
+`
 
 export const InputContainer = styled.div`
     display: flex;  
@@ -106,5 +115,22 @@ export const EditCapacity = styled.button`
         margin-left: 8px;
         margin-top: 4px;
     }
+`
+export const Title = styled.h1`
+    font-size: 24px;
+    margin-right:80px;
+    margin-top:32px;
+    font-family: ${FONT_FAMILY};
+    font-weight:bold;
+    display:flex;
+    align-items:center;
+    img {
+        padding-right:24px;
+  }
+`
+export const TitleContainer = styled.div`
+    width: calc(100% - 80px);
+    margin-left:80px;
+    
 `
     ;
