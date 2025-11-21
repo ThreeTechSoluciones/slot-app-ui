@@ -1,13 +1,12 @@
 import styled from "styled-components";
-import { FONT_FAMILY, PRIMARY_COLOR, TERTIARY_COLOR } from "../../../utils/Stylesheet";
+import { BORDER_RADIUS, FONT_FAMILY, PRIMARY_COLOR, TERTIARY_COLOR } from "../../../utils/Stylesheet";
 
 export const MainContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%; 
-    height: 100%;
-    
+    height: 100%; 
 `;
 
 export const Title = styled.h1`
@@ -20,12 +19,11 @@ export const Title = styled.h1`
     align-items:center;
     img {
         padding-right:24px;
-  }
+    }
 `
 export const TitleContainer = styled.div`
     width: calc(100% - 80px);
-    margin-left:80px;
-    
+    margin-left:80px;   
 `
 export const FormContainer = styled.div`
     display: flex;
@@ -46,11 +44,12 @@ export const Button = styled.button`
     height: 48px;
     background:${PRIMARY_COLOR};
     font-family: ${FONT_FAMILY};
-    border-radius:10px;
+    border-radius:${BORDER_RADIUS};
     border:none;
     font-size:12px;
     color:black;
     &:hover{
         cursor:pointer;
         background: ${TERTIARY_COLOR};
+    }
 `
