@@ -94,13 +94,19 @@ export const Button = styled.button`
         background: ${TERTIARY_COLOR};
     }
 `
-export const Text = styled.p`
+
+interface TextProps {
+    $isEdit: boolean;
+}
+
+export const Text = styled.p<TextProps>`
     font-size: 12px;
     color: ${TEXT_COLOR};
     font-family: ${FONT_FAMILY};
+    margin-top:${(props) => (props.$isEdit ? "8px" : "0px")};
+    margin-bottom:${(props) => (props.$isEdit ? "8px" : "0px")};
     width:408px;
-    margin-top:0px;
-    
+   
 `
 export const SecondaryInputsContainer = styled.div`
     display:flex;
