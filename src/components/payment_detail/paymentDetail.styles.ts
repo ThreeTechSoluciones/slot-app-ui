@@ -3,6 +3,7 @@ import {
   BORDER_RADIUS,
   BACKGROUND_COLOR,
   FONT_FAMILY,
+  SECONDARY_COLOR,
 } from "../../utils/Stylesheet";
 export const ModalOverlay = styled.div`
   position: fixed;
@@ -14,13 +15,16 @@ export const ModalOverlay = styled.div`
   z-index: 1000;
 `;
 export const ModalContainer = styled.div`
-  width: 380px;
+  width: 416px;
+  height: 360px;
+  max-height: 90vh;
   background: ${BACKGROUND_COLOR};
   padding: 24px;
   border-radius: ${BORDER_RADIUS};
   position: relative;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 `;
 export const ModalHeader = styled.div`
   display: flex;
@@ -29,18 +33,67 @@ export const ModalHeader = styled.div`
 `;
 export const ModalTitle = styled.h2`
   font-size: 24px;
-  margin-bottom: 16px;
+  margin: 0;
+  text-align: center;
+  font-weight: 800;
   font-family: ${FONT_FAMILY};
+`;
+export const CloseButton = styled.button`
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  padding: 0;
+`;
+export const TextColumn = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  justify-content: center;
+`;
+
+export const FeeTitle = styled.h3`
+  font-family: ${FONT_FAMILY};
+  font-size: 16px;
+  font-weight: 800;
+  margin: 0 0 56px 0;
+  text-align: center;
+`;
+
+export const FieldLabel = styled.span`
+  font-family: ${FONT_FAMILY};
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.2;
+  margin: 0;
+`;
+
+export const Value = styled.p`
+  font-family: ${FONT_FAMILY};
+  font-size: 16px;
+  line-height: 1.2;
+  margin: 0;
 `;
 export const ModalContent = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  font-size: 16px;
-  font-family: ${FONT_FAMILY};
+  gap: 32px;
 `;
-export const CloseButton = styled.button`
-  border: none;
-  background-color: transparent;
-  cursor: pointer;
+export const ModalRow = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-left: 32px;
+`;
+
+export const IconCircle = styled.div`
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: ${SECONDARY_COLOR};
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;

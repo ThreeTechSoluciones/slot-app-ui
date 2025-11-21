@@ -4,10 +4,19 @@ import {
   ModalContainer,
   ModalHeader,
   ModalTitle,
+  FeeTitle,
+  TextColumn,
+  FieldLabel,
+  Value,
   ModalContent,
+  ModalRow,
   CloseButton,
+  IconCircle,
 } from "./paymentDetail.styles";
 import CancelIcon from "../../assets/cancel-icon.svg";
+import HashtagIcon from "../../assets/hashtag-icon.svg";
+import PesoIcon from "../../assets/peso-icon.svg";
+import CalendarIcon from "../../assets/calendar-icon.svg";
 
 interface PaymentDetailsModalProps {
   isOpen: boolean;
@@ -29,19 +38,45 @@ const PaymentDetailsModal: React.FC<PaymentDetailsModalProps> = ({
   return (
     <ModalOverlay>
       <ModalContainer>
+        <CloseButton onClick={onClose}>
+          <img src={CancelIcon} alt="Close" />
+        </CloseButton>
         <ModalHeader>
           <ModalTitle>DETALLE DEL PAGO</ModalTitle>
-          <CloseButton onClick={onClose}>
-            <img src={CancelIcon} alt="Close" />
-          </CloseButton>
-          <strong>#Cuota N°{payment.number}</strong>
         </ModalHeader>
 
+        <FeeTitle>#Cuota N°{payment.number}</FeeTitle>
+
         <ModalContent>
-          <strong>N° de pago:</strong>
-          {payment.number}
-          <strong>Monto:</strong> ${payment.amount}
-          <strong>Fecha de pago:</strong> {payment.date}
+          <ModalRow>
+            <IconCircle>
+              <img src={HashtagIcon} alt="Hashtag" width={16} height={16} />
+            </IconCircle>
+            <TextColumn>
+              <FieldLabel>N° de pago </FieldLabel>
+              <Value>{payment.number}</Value>
+            </TextColumn>
+          </ModalRow>
+          <ModalRow>
+            <IconCircle>
+              <img src={PesoIcon} alt="SignoPesos" width={11} height={19} />
+            </IconCircle>
+
+            <TextColumn>
+              <FieldLabel>Monto </FieldLabel>
+              <Value>${payment.amount}</Value>
+            </TextColumn>
+          </ModalRow>
+          <ModalRow>
+            <IconCircle>
+              <img src={CalendarIcon} alt="Calendar" width={16} height={16} />
+            </IconCircle>
+
+            <TextColumn>
+              <FieldLabel>Fecha de pago</FieldLabel>
+              <Value> {payment.date}</Value>
+            </TextColumn>
+          </ModalRow>
         </ModalContent>
       </ModalContainer>
     </ModalOverlay>
