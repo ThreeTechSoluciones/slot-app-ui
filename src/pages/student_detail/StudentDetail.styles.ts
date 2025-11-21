@@ -50,7 +50,6 @@ export const StudentInfoContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 630px;
-  text-align: justify;
   border: 2px solid black;
   border-radius: 1rem;
   @media (max-width: 768px) {
@@ -94,6 +93,8 @@ export const StudentNameContainer = styled.div`
 export const StudentInfo = styled.p`
   font-size: 16px;
   margin: 0px;
+  text-align: justify;
+  overflow-wrap: break-word;
 `;
 export const StudentStatusStyle = styled.p<{ $status: boolean }>`
   margin: 0;
