@@ -5,11 +5,14 @@ export interface StudentDetailResponse {
   lastName: string;
   cellphoneNumber: string;
   birthday: string;
+  age: number;
   pathologies: string;
   admissionDate: string;
-  planType: string;
+  paymentPlanName: string;
   classesPerWeek: number;
   paymentDay: number;
+  situation: string;
+  status: boolean;
   payments: PaymentDetailResponse[];
 }
 
