@@ -7,7 +7,7 @@ import { PrivateRoute } from "./routes/PrivateRoutes";
 import StudentDetail from "./pages/student_detail/StudentDetail";
 import { MisAlumnos, NuevoAlumno, IniciarSesion, MisPlanes, DetalleAlumno, MisTurnos } from "./routes/RoutesUtils";
 import CreateStudent from "./pages/students/create-student/CreateStudent";
-import CreateSlot from "./pages/slots/CreateSlot";
+import CreateSlot from "./pages/slots/SlotConfiguration";
 
 
 function App() {

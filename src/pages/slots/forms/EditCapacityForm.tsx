@@ -1,4 +1,4 @@
-import { FormContainer, Input, Label, InputContainer, Button } from "./EditCapacityForm.styles";
+import { FormContainer, Input, Label, InputContainer } from "./EditCapacityForm.styles";
 import * as yup from "yup";
 import { EditCapacityScheme } from "./EditCapacity.scheme";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -13,8 +13,6 @@ export interface EditSlotFormHandle {
 
 const EditSlotForm = forwardRef<EditSlotFormHandle>((props, ref) => {
 
-
-
     type FormData = yup.InferType<typeof EditCapacityScheme>;
 
     const {
@@ -25,14 +23,27 @@ const EditSlotForm = forwardRef<EditSlotFormHandle>((props, ref) => {
         resolver: yupResolver(EditCapacityScheme),
     });
 
-    const onSubmit = (data: FormData) => {
-        console.log(data);
+    const onSubmit = async (data: FormData) => {
+        return data;
     };
 
     useImperativeHandle(ref, () => ({
-        submitForm: () => {
-            handleSubmit(onSubmit)();
-        }
+        submitForm: () =>
+            new Promise<FormData | undefined>((resolve) => {
+                handleSubmit(
+                    async (data) => {
+                        try {
+                            const response = await onSubmit(data);
+                            resolve(response);
+                        } catch (e) {
+                            resolve(undefined);
+                        }
+                    },
+                    () => {
+                        resolve(undefined);
+                    }
+                )();
+            }),
     }));
 
     return (

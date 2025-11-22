@@ -15,6 +15,7 @@ export const Input = styled.input`
     border-radius:${BORDER_RADIUS};
     font-size:12px;
     padding-left:16px;
+    margin-bottom:4px;
     color:${TEXT_COLOR};
     background-color: ${BACKGROUND_COLOR};
     font-family: ${FONT_FAMILY};
@@ -31,18 +32,6 @@ export const Label = styled.label`
 export const InputContainer = styled.div`
     display: flex;  
     flex-direction: column;
-    gap:8px;
-`;
-
-export const Button = styled.button`
-    width: 100px;
-    height: 40px;
-    margin-top: 16px;
-    border-radius: ${BORDER_RADIUS};
-    background-color: ${TEXT_COLOR};
-    color: white;
-    font-family: ${FONT_FAMILY};
-    border: none;
-    cursor: pointer;
+    gap:4px;
 `;
 

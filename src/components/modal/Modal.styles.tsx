@@ -30,7 +30,7 @@ export const ModalActions = styled.div`
 export const ButtonsContainer = styled.div`
     display: flex;  
     gap: 24px;
-    margin-top:32px;  
+    margin-top:20px;  
  `
 export const Button = styled.button`
     width:192px;

@@ -4,18 +4,13 @@ import { ModalActions, ModalContent, ModalSlotContainer, Button, ButtonsContaine
 interface ModalSlotProps {
     onClose?: () => void;
     onConfirm?: () => void;
-    content: JSX.Element;
+    children: JSX.Element;
     showButtons?: boolean;
     contentRef?: React.RefObject<any>;
 }
 
-function Modal({ onClose, content, showButtons, onConfirm, contentRef }: ModalSlotProps) {
+function Modal({ onClose, children, showButtons = true, onConfirm }: ModalSlotProps) {
     const handleConfirm = () => {
-        // Si hay una ref, intentar llamar al submitForm
-        if (contentRef?.current?.submitForm) {
-            contentRef.current.submitForm();
-        }
-        // También llamar al onConfirm si existe
         if (onConfirm) {
             onConfirm();
         }
@@ -24,7 +19,7 @@ function Modal({ onClose, content, showButtons, onConfirm, contentRef }: ModalSl
     return (
         <ModalSlotContainer>
             <ModalContent>
-                {content}
+                {children}
                 {showButtons && (
                     <ModalActions>
                         <ButtonsContainer>

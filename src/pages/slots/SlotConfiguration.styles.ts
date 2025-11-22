@@ -55,10 +55,6 @@ export const BaseStyle = styled.input`
 export const Input = styled(BaseStyle)`
     background-color:${SECONDARY_COLOR}; 
     border:none;    
-    caret-color: transparent;
-    &:focus {
-        outline: none;
-    }
     &::placeholder {
         color: ${TEXT_COLOR};
     }
