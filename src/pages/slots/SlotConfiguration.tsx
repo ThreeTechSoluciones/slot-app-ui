@@ -1,10 +1,12 @@
-import { MainContainer, Label, Input, Button, Select, InputContainer, EditContainer, EditCapacity, TitleContainer, Title, ScreenContainer } from "./SlotConfiguration.styles";
+import { MainContainer, Label, Input, Button, Select, InputContainer, EditContainer, EditCapacity, SlotsContainer, Title, Subtitle, SpecificSlotContainer, SlotInfoContainer, SlotInfo, SlotInfo1, TitlesContainer, ActionsContainer, ScreenContainer, MainTitle, TitleContainer, SkeletonsContainer } from "./SlotConfiguration.styles";
 import EditIcon from "../../assets/edit-icon.png";
 import EditSlotForm from "./forms/EditCapacityForm";
 import { useRef, useState } from "react";
 import AddIcon from "../../assets/add-icon.svg";
 import Modal from "../../components/modal/Modal";
 import { DaysOfWeek } from "../../utils/DaysOfWeek";
+import ClockIcon from "../../assets/clock-icon.png";
+import TrashIcon from "../../assets/trash-icon.webp";
 
 function CreateSlot() {
 
@@ -21,21 +23,8 @@ function CreateSlot() {
         }
     }
 
-    return (
-        <MainContainer>
-            {showModal && (
-                <Modal
-                    onClose={() => setShowModal(false)}
-                    showButtons={true}
-                    contentRef={editCapacityRef}
-                    onConfirm={handleConfirmModal}
-                >
-                    <EditSlotForm ref={editCapacityRef} />
-                </Modal>
-            )}
-            <TitleContainer>
-                <Title> MIS TURNOS</Title>
-            </TitleContainer>
+    const SlotConfigurationSkeleton = () => {
+        return (
             <ScreenContainer>
                 <InputContainer>
                     <EditContainer>
@@ -66,6 +55,156 @@ function CreateSlot() {
                         height={24} />
                 </Button>
             </ScreenContainer>
+        )
+
+    };
+
+    const VisualizeSlotsSkeleton = () => {
+        return (
+            <SlotsContainer>
+                <TitlesContainer>
+                    <MainTitle>TURNOS DEL LUNES</MainTitle>
+                    <Subtitle>1 turno registrado</Subtitle>
+                </TitlesContainer>
+                <SpecificSlotContainer>
+                    <img src={ClockIcon} width={"24px"} height={"24px"}></img>
+                    <SlotInfoContainer>
+                        <SlotInfo1>8:00-9:00</SlotInfo1>
+                        <SlotInfo>9/10 cupos ocupados</SlotInfo>
+                    </SlotInfoContainer>
+                    <ActionsContainer>
+                        <img src={EditIcon} width={"24px"} height={"24px"}></img>
+                        <img src={TrashIcon} width={"22px"} height={"22px"}></img>
+                    </ActionsContainer>
+                </SpecificSlotContainer>
+                <SpecificSlotContainer>
+                    <img src={ClockIcon} width={"24px"} height={"24px"}></img>
+                    <SlotInfoContainer>
+                        <SlotInfo1>8:00-9:00</SlotInfo1>
+                        <SlotInfo>9/10 cupos ocupados</SlotInfo>
+                    </SlotInfoContainer>
+                    <ActionsContainer>
+                        <img src={EditIcon} width={"24px"} height={"24px"}></img>
+                        <img src={TrashIcon} width={"22px"} height={"22px"}></img>
+                    </ActionsContainer>
+                </SpecificSlotContainer>
+                <SpecificSlotContainer>
+                    <img src={ClockIcon} width={"24px"} height={"24px"}></img>
+                    <SlotInfoContainer>
+                        <SlotInfo1>8:00-9:00</SlotInfo1>
+                        <SlotInfo>9/10 cupos ocupados</SlotInfo>
+                    </SlotInfoContainer>
+                    <ActionsContainer>
+                        <img src={EditIcon} width={"24px"} height={"24px"}></img>
+                        <img src={TrashIcon} width={"22px"} height={"22px"}></img>
+                    </ActionsContainer>
+                </SpecificSlotContainer>
+                <SpecificSlotContainer>
+                    <img src={ClockIcon} width={"24px"} height={"24px"}></img>
+                    <SlotInfoContainer>
+                        <SlotInfo1>8:00-9:00</SlotInfo1>
+                        <SlotInfo>9/10 cupos ocupados</SlotInfo>
+                    </SlotInfoContainer>
+                    <ActionsContainer>
+                        <img src={EditIcon} width={"24px"} height={"24px"}></img>
+                        <img src={TrashIcon} width={"22px"} height={"22px"}></img>
+                    </ActionsContainer>
+                </SpecificSlotContainer>
+                <SpecificSlotContainer>
+                    <img src={ClockIcon} width={"24px"} height={"24px"}></img>
+                    <SlotInfoContainer>
+                        <SlotInfo1>8:00-9:00</SlotInfo1>
+                        <SlotInfo>9/10 cupos ocupados</SlotInfo>
+                    </SlotInfoContainer>
+                    <ActionsContainer>
+                        <img src={EditIcon} width={"24px"} height={"24px"}></img>
+                        <img src={TrashIcon} width={"22px"} height={"22px"}></img>
+                    </ActionsContainer>
+                </SpecificSlotContainer>
+                <SpecificSlotContainer>
+                    <img src={ClockIcon} width={"24px"} height={"24px"}></img>
+                    <SlotInfoContainer>
+                        <SlotInfo1>8:00-9:00</SlotInfo1>
+                        <SlotInfo>9/10 cupos ocupados</SlotInfo>
+                    </SlotInfoContainer>
+                    <ActionsContainer>
+                        <img src={EditIcon} width={"24px"} height={"24px"}></img>
+                        <img src={TrashIcon} width={"22px"} height={"22px"}></img>
+                    </ActionsContainer>
+                </SpecificSlotContainer>
+                <SpecificSlotContainer>
+                    <img src={ClockIcon} width={"24px"} height={"24px"}></img>
+                    <SlotInfoContainer>
+                        <SlotInfo1>8:00-9:00</SlotInfo1>
+                        <SlotInfo>9/10 cupos ocupados</SlotInfo>
+                    </SlotInfoContainer>
+                    <ActionsContainer>
+                        <img src={EditIcon} width={"24px"} height={"24px"}></img>
+                        <img src={TrashIcon} width={"22px"} height={"22px"}></img>
+                    </ActionsContainer>
+                </SpecificSlotContainer>
+                <SpecificSlotContainer>
+                    <img src={ClockIcon} width={"24px"} height={"24px"}></img>
+                    <SlotInfoContainer>
+                        <SlotInfo1>8:00-9:00</SlotInfo1>
+                        <SlotInfo>9/10 cupos ocupados</SlotInfo>
+                    </SlotInfoContainer>
+                    <ActionsContainer>
+                        <img src={EditIcon} width={"24px"} height={"24px"}></img>
+                        <img src={TrashIcon} width={"22px"} height={"22px"}></img>
+                    </ActionsContainer>
+                </SpecificSlotContainer>
+                <SpecificSlotContainer>
+                    <img src={ClockIcon} width={"24px"} height={"24px"}></img>
+                    <SlotInfoContainer>
+                        <SlotInfo1>8:00-9:00</SlotInfo1>
+                        <SlotInfo>9/10 cupos ocupados</SlotInfo>
+                    </SlotInfoContainer>
+                    <ActionsContainer>
+                        <img src={EditIcon} width={"24px"} height={"24px"}></img>
+                        <img src={TrashIcon} width={"22px"} height={"22px"}></img>
+                    </ActionsContainer>
+                </SpecificSlotContainer>
+                <SpecificSlotContainer>
+                    <img src={ClockIcon} width={"24px"} height={"24px"}></img>
+                    <SlotInfoContainer>
+                        <SlotInfo1>8:00-9:00</SlotInfo1>
+                        <SlotInfo>9/10 cupos ocupados</SlotInfo>
+                    </SlotInfoContainer>
+                    <ActionsContainer>
+                        <img src={EditIcon} width={"24px"} height={"24px"}></img>
+                        <img src={TrashIcon} width={"22px"} height={"22px"}></img>
+                    </ActionsContainer>
+                </SpecificSlotContainer>
+
+            </SlotsContainer >
+        )
+    };
+
+    return (
+
+        <MainContainer>
+            <TitleContainer>
+                <Title>MIS TURNOS</Title>
+            </TitleContainer>
+            {showModal && (
+                <Modal
+                    onClose={() => setShowModal(false)}
+                    showButtons={true}
+                    contentRef={editCapacityRef}
+                    onConfirm={handleConfirmModal}
+                >
+                    <EditSlotForm ref={editCapacityRef} />
+                </Modal>
+            )}
+            <SkeletonsContainer>
+                <SlotConfigurationSkeleton />
+                <VisualizeSlotsSkeleton />
+
+            </SkeletonsContainer>
+
+
+
         </MainContainer>
     );
 }

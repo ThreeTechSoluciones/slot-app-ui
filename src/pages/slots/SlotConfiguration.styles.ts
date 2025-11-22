@@ -13,16 +13,30 @@ export const ScreenContainer = styled.div`
     gap:24px;
     border: 2px solid ${TERTIARY_COLOR};
     border-radius: ${BORDER_RADIUS};
+    
 `;
 
 export const MainContainer = styled.div`
     display: flex;
     flex-direction: column;
-    align-items: center;
     width: 100%;
     min-height: 100vh;
+    margin: 0px;
+`;
+
+export const SkeletonsContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start; /* Cambia a flex-start para mejor alineación */
+    flex: 1; /* Ocupa el espacio restante */
+    gap: 32px;
+    padding: 40px 20px; /* Añade padding */
     
-`
+    > * {
+        flex-shrink: 0; /* Evita que se compriman */
+    }
+`;
 
 export const InputContainer = styled.div`
     display: flex;  
@@ -114,19 +128,103 @@ export const EditCapacity = styled.button`
 `
 export const Title = styled.h1`
     font-size: 24px;
-    margin-right:80px;
-    margin-top:32px;
+   
     font-family: ${FONT_FAMILY};
     font-weight:bold;
     display:flex;
     align-items:center;
-    img {
-        padding-right:24px;
-  }
+      margin-left:0px;
+    margin-top:32px;
+   
 `
 export const TitleContainer = styled.div`
-    width: calc(100% - 80px);
+   
     margin-left:80px;
     
 `
     ;
+
+export const SlotsContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 520px;
+    min-height: 336px;
+    border: 2px solid ${TERTIARY_COLOR};
+    border-radius: ${BORDER_RADIUS};
+    gap:4px;
+     max-height: 572px; /* Define una altura máxima */
+    overflow-y: auto; /* Activa el scroll vertical */
+    
+
+
+
+`;
+export const TitlesContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    margin-right:300px;
+    gap:2px;
+    font-family: ${FONT_FAMILY};
+  
+`;
+export const MainTitle = styled.h1`
+    font-size: 16px;
+    font-weight: bold;
+    margin:0px;
+    margin-top:32px;
+   
+`;
+export const Subtitle = styled.h2`
+    font-size: 12px;
+    
+     margin:0px;
+`;
+
+export const SpecificSlotContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    width: 456px;
+    height: 56px;
+    gap:2px;
+    border-bottom: 1px solid ${TEXT_COLOR};
+    img{
+        margin-top:16px;
+        margin-right:16px;
+    }
+  
+`;
+
+export const SlotInfoContainer = styled.div`
+display: flex;
+flex-direction: column;
+  
+`;
+
+export const SlotInfo1 = styled.p`
+    font-size: 16px;
+    color: #333;
+    margin:0px;
+    padding:0px;
+    font-family: ${FONT_FAMILY};
+      margin-top:8px;
+   
+`;
+
+export const SlotInfo = styled.p`
+    font-size: 12px;
+    color: #333;
+    margin:0px;
+    padding:0px;
+    font-family: ${FONT_FAMILY};
+  
+  
+`;
+
+export const ActionsContainer = styled.div`
+    display: flex; 
+    flex-direction: row;
+    margin-left: auto;
+    gap:24px;
+`;
+
