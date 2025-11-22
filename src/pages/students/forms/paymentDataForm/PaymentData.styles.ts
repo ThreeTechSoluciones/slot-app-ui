@@ -96,15 +96,15 @@ export const Button = styled.button`
 `
 
 interface TextProps {
-    $isEdit: boolean;
+    $isRegister: boolean;
 }
 
 export const Text = styled.p<TextProps>`
     font-size: 12px;
     color: ${TEXT_COLOR};
     font-family: ${FONT_FAMILY};
-    margin-top:${(props) => (props.$isEdit ? "8px" : "0px")};
-    margin-bottom:${(props) => (props.$isEdit ? "8px" : "0px")};
+    margin-top:${(props) => (props.$isRegister ? "8px" : "0px")};
+    margin-bottom:${(props) => (props.$isRegister ? "8px" : "0px")};
     width:408px;
    
 `

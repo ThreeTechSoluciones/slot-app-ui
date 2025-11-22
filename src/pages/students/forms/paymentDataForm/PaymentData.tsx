@@ -59,7 +59,7 @@ const PaymentData = forwardRef<FormProp<PaymentDataProps>, FormProp<PaymentDataP
   const NoPaymentSelectedSkeleton = () => {
     return (
       <div>
-        <Text $isEdit={true}>Este campo se habilitará una vez seleccione el plan de pago.</Text>
+        <Text $isRegister={actionType !== 'edit'}>Este campo se habilitará una vez seleccione el plan de pago.</Text>
         <Input disabled={PaymentPlanNameSelected === ""}></Input>
       </div>
     )
@@ -77,7 +77,7 @@ const PaymentData = forwardRef<FormProp<PaymentDataProps>, FormProp<PaymentDataP
     {
       return (
         <InputsContainer>
-          <Text $isEdit={true}>Si el alumno empezó luego del día 10, puede indicar
+          <Text $isRegister={actionType !== 'edit'}> Si el alumno empezó luego del día 10, puede indicar
             la cantidad de clases extras para realizar el primer pago.</Text>
           <SecondaryInputsContainer>
             <div>
@@ -91,7 +91,6 @@ const PaymentData = forwardRef<FormProp<PaymentDataProps>, FormProp<PaymentDataP
                 name="classPrice"
                 control={control}
                 render={({ field }) => (
-
                   <CurrencyInput
                     width="176"
                     value={field.value ?? null}
