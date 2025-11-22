@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { BORDER_RADIUS, SECONDARY_COLOR } from "../../utils/Stylesheet";
 
 export const FilterContainer = styled.div`
   display: flex;
@@ -12,7 +13,7 @@ export const DropdownWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 10px;
+  border-radius: ${BORDER_RADIUS};
   font-size: 12px;
-  background-color: #f0f0f0;
+  background-color: ${SECONDARY_COLOR};
 `;

@@ -7,6 +7,7 @@ import {
   BORDER_RADIUS,
   FONT_FAMILY,
   TEXT_COLOR,
+  BACKGROUND_COLOR,
 } from "../../utils/Stylesheet";
 
 export const InformationStudent = styled.div``;
@@ -99,3 +100,4 @@ export const FeeStatus = styled.div<{
   justify-content: center;
   align-items: center;
 `;
+export const DatePickerWrapper = styled.div``;

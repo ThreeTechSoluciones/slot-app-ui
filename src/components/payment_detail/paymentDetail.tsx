@@ -50,7 +50,12 @@ const PaymentDetailsModal: React.FC<PaymentDetailsModalProps> = ({
         <ModalContent>
           <ModalRow>
             <IconCircle>
-              <img src={HashtagIcon} alt="Hashtag" width={16} height={16} />
+              <img
+                src={HashtagIcon}
+                alt="Número de pago"
+                width={16}
+                height={16}
+              />
             </IconCircle>
             <TextColumn>
               <FieldLabel>N° de pago </FieldLabel>
@@ -59,7 +64,7 @@ const PaymentDetailsModal: React.FC<PaymentDetailsModalProps> = ({
           </ModalRow>
           <ModalRow>
             <IconCircle>
-              <img src={PesoIcon} alt="SignoPesos" width={11} height={19} />
+              <img src={PesoIcon} alt="Signo Pesos" width={11} height={19} />
             </IconCircle>
 
             <TextColumn>
@@ -69,7 +74,7 @@ const PaymentDetailsModal: React.FC<PaymentDetailsModalProps> = ({
           </ModalRow>
           <ModalRow>
             <IconCircle>
-              <img src={CalendarIcon} alt="Calendar" width={16} height={16} />
+              <img src={CalendarIcon} alt="Calendario" width={16} height={16} />
             </IconCircle>
 
             <TextColumn>
