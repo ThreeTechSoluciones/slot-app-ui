@@ -19,10 +19,10 @@ export const StudentService = createApi({
         method: "DELETE",
       }),
       invalidatesTags: (_result, _error, id) => [{ type: "Student", id }],
-       onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
-      await queryFulfilled;
-      dispatch(UserService.util.invalidateTags(["userStudents"]));
-       },
+      onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
+        await queryFulfilled;
+        dispatch(UserService.util.invalidateTags(["userStudents"]));
+      },
     }),
 
     createStudent: builder.mutation<StudentResponse, CreateStudentRequest>({
@@ -36,9 +36,23 @@ export const StudentService = createApi({
         dispatch(UserService.util.invalidateTags(["userStudents"]));
       },
     }),
-    getStudentMonthlyFees: builder.query<StudentMonthlyFeeResponse[], string>({
-      query: (studentId) => `/${studentId}/monthly-fees`,
-      providesTags: (_result, _error, studentId) => [
+    getStudentMonthlyFees: builder.query<
+      StudentMonthlyFeeResponse[],
+      {
+        studentId: string;
+        month?: string;
+        dueDate?: string;
+        status?: string;
+      }
+    >({
+      query: ({ studentId, month, dueDate, status }) => {
+        const params = new URLSearchParams();
+        if (month) params.append("month", month);
+        if (dueDate) params.append("dueDate", dueDate);
+        if (status) params.append("status", status);
+        return `/${studentId}/monthly-fees?${params.toString()}`;
+      },
+      providesTags: (_result, _error, { studentId }) => [
         { type: "MonthlyFees", id: studentId },
       ],
     }),
@@ -68,9 +82,9 @@ export const StudentService = createApi({
       }),
       invalidatesTags: (_result, _error, id) => [{ type: "Student", id }],
       onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
-      await queryFulfilled;
-      dispatch(UserService.util.invalidateTags(["userStudents"]));
-       },
+        await queryFulfilled;
+        dispatch(UserService.util.invalidateTags(["userStudents"]));
+      },
     }),
   }),
 });

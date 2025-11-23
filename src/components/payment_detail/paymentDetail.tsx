@@ -22,9 +22,10 @@ interface PaymentDetailsModalProps {
   isOpen: boolean;
   onClose: () => void;
   payment: {
-    number: string;
+    MonthlyFeeNumber: string;
+    paymentNumber: string;
     amount: number;
-    date: string;
+    paymentDate: string;
   } | null;
 }
 
@@ -45,7 +46,7 @@ const PaymentDetailsModal: React.FC<PaymentDetailsModalProps> = ({
           <ModalTitle>DETALLE DEL PAGO</ModalTitle>
         </ModalHeader>
 
-        <FeeTitle>#Cuota N°{payment.number}</FeeTitle>
+        <FeeTitle>#Cuota N°{payment.MonthlyFeeNumber}</FeeTitle>
 
         <ModalContent>
           <ModalRow>
@@ -59,7 +60,7 @@ const PaymentDetailsModal: React.FC<PaymentDetailsModalProps> = ({
             </IconCircle>
             <TextColumn>
               <FieldLabel>N° de pago </FieldLabel>
-              <Value>{payment.number}</Value>
+              <Value>{payment.paymentNumber}</Value>
             </TextColumn>
           </ModalRow>
           <ModalRow>
@@ -79,7 +80,7 @@ const PaymentDetailsModal: React.FC<PaymentDetailsModalProps> = ({
 
             <TextColumn>
               <FieldLabel>Fecha de pago</FieldLabel>
-              <Value> {payment.date}</Value>
+              <Value> {payment.paymentDate}</Value>
             </TextColumn>
           </ModalRow>
         </ModalContent>

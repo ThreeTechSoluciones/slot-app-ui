@@ -10,7 +10,7 @@ interface DateFilterProps {
 const DateFilter: React.FC<DateFilterProps> = ({ value, onChange }) => {
   return (
     <DateFilterContainer>
-      <DatePickerWrapper hasValue={!!value}>
+      <DatePickerWrapper $hasValue={!!value}>
         <InputDate
           onChange={(date) => {
             onChange(date instanceof Date ? date : null);
@@ -19,6 +19,7 @@ const DateFilter: React.FC<DateFilterProps> = ({ value, onChange }) => {
           format="dd/MM/yyyy"
           locale="es-ES"
           clearIcon={null}
+          calendarPosition="filter"
           calendarIcon={
             <img
               src={CalendarIcon}

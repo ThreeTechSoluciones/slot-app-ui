@@ -7,7 +7,6 @@ import {
   BORDER_RADIUS,
   FONT_FAMILY,
   TEXT_COLOR,
-  BACKGROUND_COLOR,
 } from "../../utils/Stylesheet";
 
 export const InformationStudent = styled.div``;

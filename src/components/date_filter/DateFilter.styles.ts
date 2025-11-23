@@ -12,9 +12,11 @@ export const DateFilterContainer = styled.div`
   align-items: center;
   position: relative;
   z-index: 1;
+  width: 184px;
+  min-width: 184px;
 `;
 interface DatePickerWrapperProps {
-  hasValue: boolean;
+  $hasValue: boolean;
 }
 
 export const DatePickerWrapper = styled.div<DatePickerWrapperProps>`
@@ -22,7 +24,6 @@ export const DatePickerWrapper = styled.div<DatePickerWrapperProps>`
   z-index: 1;
   &::before {
     content: "Filtrar por fecha de vencimiento";
-
     position: absolute;
     left: 16px;
     top: 50%;
@@ -32,16 +33,19 @@ export const DatePickerWrapper = styled.div<DatePickerWrapperProps>`
     font-family: ${FONT_FAMILY};
     pointer-events: none;
     z-index: 1;
-    display: ${(props) => (props.hasValue ? "none" : "block")};
+    display: ${(props) => (props.$hasValue ? "none" : "block")};
     max-width: calc(100% - 50px);
   }
-  .react-date-picker {
+  //CONTENEDOR DEL FILTRO
+  && .react-date-picker {
     width: 184px !important;
     height: 48px;
     position: relative;
+    min-width: 184px !important;
   }
 
-  .react-date-picker__wrapper {
+  //FILTRO
+  && .react-date-picker__wrapper {
     border: none;
     border-radius: ${BORDER_RADIUS};
     padding: 0 16px;
@@ -52,23 +56,25 @@ export const DatePickerWrapper = styled.div<DatePickerWrapperProps>`
     align-items: center;
     justify-content: space-between;
     gap: 8px;
+    min-width: 184px;
   }
 
-  .react-date-picker__wrapper:hover {
+  && .react-date-picker__wrapper:hover {
     background: #e6e6e6;
     cursor: pointer;
   }
 
+  //DIV DE FECHA
   .react-date-picker__inputGroup {
     min-width: unset;
     max-width: 100px;
     font-family: ${FONT_FAMILY};
     font-size: 12px;
     flex: 1;
-    display: ${(props) => (props.hasValue ? "flex" : "none")};
+    display: ${(props) => (props.$hasValue ? "flex" : "none")};
   }
 
-  //PLACEHOLDER
+  //FORMATO DE FECHA DD/MM/YYYY
   .react-date-picker__inputGroup__input {
     color: ${TEXT_COLOR};
   }
@@ -88,9 +94,7 @@ export const DatePickerWrapper = styled.div<DatePickerWrapperProps>`
   //CALENDARIO
   .react-date-picker__calendar {
     z-index: 1001;
-    position: absolute !important;
-    top: 100% !important;
-    margin-top: 4px !important;
+    position: absolute;
   }
 
   //BOTON DE LIMPIAR

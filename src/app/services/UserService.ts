@@ -45,9 +45,13 @@ export const UserService = createApi({
           : [{ type: "userPrices", id: "LIST" }],
     }),
     getUserPlans: builder.query<PlanResponse[], string>({
-    query: (userId) => `${userId}/plans`
-   }),
+      query: (userId) => `${userId}/plans`,
+    }),
   }),
 });
 
-export const { useGetUserStudentsQuery, useGetUserPricesQuery, useGetUserPlansQuery } = UserService;
+export const {
+  useGetUserStudentsQuery,
+  useGetUserPricesQuery,
+  useGetUserPlansQuery,
+} = UserService;

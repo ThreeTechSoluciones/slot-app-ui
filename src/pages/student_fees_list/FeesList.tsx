@@ -14,7 +14,6 @@ import {
   TitleContainer,
   CoinIconStyles,
   SubTitle,
-  DatePickerWrapper,
 } from "./FeesList.styles";
 import Filter from "../../components/filter/Filter";
 import Button from "../../components/button/Button";
@@ -25,7 +24,6 @@ import BackIcon from "../../assets/back-icon.svg";
 import StudentIcon from "../../assets/student-icon.svg";
 import ViewIcon from "../../assets/openEye-icon.png";
 import CoinIcon from "../../assets/coin-icon.svg";
-import CalendarIcon from "../../assets/calendar-icon.svg";
 import type { StudentMonthlyFeeResponse } from "../../app/types/responses/StudentMonthlyFee.type";
 import { useState } from "react";
 import { ConfirmDialog } from "../../components/confirm_dialog/ConfirmDialog";
@@ -39,17 +37,11 @@ import { formatCurrency } from "../../utils/Formatter";
 import { formatDate } from "../../utils/DateFormatter";
 import { translateStatus } from "../../utils/TranslateStatusFee";
 import PaymentDetailsModal from "../../components/payment_detail/paymentDetail";
-import InputDate from "../../components/date/inputDate";
 import DateFilter from "../../components/date_filter/DateFilter";
 
 function StudentFeesList() {
   const location = useLocation();
   const { student } = location.state || {};
-  const {
-    data: fees,
-    isLoading,
-    isError,
-  } = useGetStudentMonthlyFeesQuery(student?.id ?? skipToken);
   const { data: studentDetails } = useGetStudentByIdQuery(student.id);
   const navigate = useNavigate();
   const [monthFilter, setMonthFilter] = useState("");
@@ -59,6 +51,24 @@ function StudentFeesList() {
   const [selectedFeeId, setSelectedFeeId] = useState<string | null>(null);
   const [selectedPayment, setSelectedPayment] = useState<any>(null);
 
+  // formato: YYYY-MM-DD
+  const formattedDueDate = dueDateFilter
+    ? dueDateFilter.toISOString().split("T")[0]
+    : undefined;
+  const {
+    data: fees,
+    isLoading,
+    isError,
+  } = useGetStudentMonthlyFeesQuery(
+    student?.id
+      ? {
+          studentId: student.id,
+          month: monthFilter || undefined,
+          dueDate: formattedDueDate,
+          status: statusFilter || undefined,
+        }
+      : skipToken
+  );
   const handleOpenPayModal = (feeId: string) => {
     setSelectedFeeId(feeId);
     setModalType("pay");
@@ -128,7 +138,6 @@ function StudentFeesList() {
         ),
     },
   ];
-
   return (
     <StudentsContainer>
       <InformationStudent>
@@ -153,18 +162,18 @@ function StudentFeesList() {
           <Filter
             placeholder="Filtrar por mes"
             options={[
-              { label: "Enero", value: "ene" },
-              { label: "Febrero", value: "feb" },
-              { label: "Marzo", value: "mar" },
-              { label: "Abril", value: "abr" },
-              { label: "Mayo", value: "may" },
-              { label: "Junio", value: "jun" },
-              { label: "Julio", value: "jul" },
-              { label: "Agosto", value: "ago" },
-              { label: "Septiembre", value: "sep" },
-              { label: "Octubre", value: "oct" },
-              { label: "Noviembre", value: "nov" },
-              { label: "Diciembre", value: "dic" },
+              { label: "Enero", value: "enero" },
+              { label: "Febrero", value: "febrero" },
+              { label: "Marzo", value: "marzo" },
+              { label: "Abril", value: "abril" },
+              { label: "Mayo", value: "mayo" },
+              { label: "Junio", value: "junio" },
+              { label: "Julio", value: "julio" },
+              { label: "Agosto", value: "agosto" },
+              { label: "Septiembre", value: "septiembre" },
+              { label: "Octubre", value: "octubre" },
+              { label: "Noviembre", value: "noviembre" },
+              { label: "Diciembre", value: "diciembre" },
             ]}
             value={monthFilter}
             onSelect={setMonthFilter}

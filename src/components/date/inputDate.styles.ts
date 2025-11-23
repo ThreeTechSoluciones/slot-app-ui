@@ -1,21 +1,25 @@
 import styled from "styled-components";
-import DatePicker from "react-date-picker";
 import {
   FONT_FAMILY,
   PRIMARY_COLOR,
   SECONDARY_COLOR,
   TERTIARY_COLOR,
   TEXT_COLOR,
+  BORDER_RADIUS,
 } from "../../utils/Stylesheet";
 
-export const StyledWrapper = styled.div`
+interface StyledWrapperProps {
+  $calendarPosition?: "birthday" | "filter";
+}
+export const StyledWrapper = styled.div<StyledWrapperProps>`
+  position: relative;
   .react-date-picker__wrapper {
     width: 408px;
     color: ${TERTIARY_COLOR};
     height: 56px;
     padding-right: 16px;
     border: 1px solid black;
-    border-radius: 10px;
+    border-radius: ${BORDER_RADIUS};
     font-size: 12px;
     padding-left: 16px;
     background: none;
@@ -25,15 +29,26 @@ export const StyledWrapper = styled.div`
 
   //CALENDARIO
   .react-calendar {
+    position: absolute;
     background-color: white;
     border: 2px solid ${SECONDARY_COLOR};
     border-radius: 10px;
+    top: 100%;
     font-family: ${FONT_FAMILY};
     font-size: 12px;
-    margin-top: 330px;
-    margin-left: 30px;
     padding: 20px;
+    z-index: 9999;
     color: ${TEXT_COLOR};
+    ${(props) =>
+      props.$calendarPosition === "birthday"
+        ? `
+      top: 100%;
+      margin-top: 55px;
+    `
+        : `
+      top: 100%;
+    `}
+    left: 0;
   }
 
   //ENCABEZADO
