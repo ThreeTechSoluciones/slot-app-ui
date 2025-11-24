@@ -1,7 +1,28 @@
-import styled from "styled-components";
-import { BORDER_RADIUS, FONT_FAMILY, TERTIARY_COLOR, PRIMARY_COLOR, TEXT_COLOR, SECONDARY_COLOR } from "../../utils/Stylesheet";
+import styled, { keyframes } from "styled-components";
+import { BORDER_RADIUS, FONT_FAMILY, TERTIARY_COLOR, PRIMARY_COLOR, TEXT_COLOR, SECONDARY_COLOR, FONT_WEIGHT_BOLD, FONT_WEIGHT_NORMAL } from "../../utils/Stylesheet";
 import Arrow from "../../assets/Arrow.png";
 
+export const MainContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: 100vh;
+    margin: 0px;
+`;
+export const Title = styled.h1`
+    font-size: 24px;
+    font-family: ${FONT_FAMILY};
+    display:flex;
+    margin-top:32px;
+    margin-left:80px;  
+`
+export const SkeletonsContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start; 
+    gap: 32px;
+`;
 
 export const ScreenContainer = styled.div`
     display: flex;
@@ -12,30 +33,7 @@ export const ScreenContainer = styled.div`
     padding-bottom: 32px;
     gap:24px;
     border: 2px solid ${TERTIARY_COLOR};
-    border-radius: ${BORDER_RADIUS};
-    
-`;
-
-export const MainContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    min-height: 100vh;
-    margin: 0px;
-`;
-
-export const SkeletonsContainer = styled.div`
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: flex-start; /* Cambia a flex-start para mejor alineación */
-    flex: 1; /* Ocupa el espacio restante */
-    gap: 32px;
-    padding: 40px 20px; /* Añade padding */
-    
-    > * {
-        flex-shrink: 0; /* Evita que se compriman */
-    }
+    border-radius: ${BORDER_RADIUS}; 
 `;
 
 export const InputContainer = styled.div`
@@ -52,8 +50,7 @@ export const EditContainer = styled.div`
 `;
 export const Label = styled.label`
     font-size: 16px;
-    font-family: ${FONT_FAMILY};
-   
+    font-family: ${FONT_FAMILY};  
 `;
 
 export const BaseStyle = styled.input`
@@ -86,6 +83,7 @@ export const Select = styled(BaseStyle).attrs({ as: "select" })`
 
 interface ButtonProps {
     $isDisabled?: boolean;
+
 }
 
 export const Button = styled.button<ButtonProps>`
@@ -126,24 +124,6 @@ export const EditCapacity = styled.button`
         margin-top: 4px;
     }
 `
-export const Title = styled.h1`
-    font-size: 24px;
-   
-    font-family: ${FONT_FAMILY};
-    font-weight:bold;
-    display:flex;
-    align-items:center;
-      margin-left:0px;
-    margin-top:32px;
-   
-`
-export const TitleContainer = styled.div`
-   
-    margin-left:80px;
-    
-`
-    ;
-
 export const SlotsContainer = styled.div`
     display: flex;
     flex-direction: column;
@@ -152,13 +132,9 @@ export const SlotsContainer = styled.div`
     min-height: 336px;
     border: 2px solid ${TERTIARY_COLOR};
     border-radius: ${BORDER_RADIUS};
-    gap:4px;
-     max-height: 572px; /* Define una altura máxima */
-    overflow-y: auto; /* Activa el scroll vertical */
-    
-
-
-
+    gap:8px;
+    max-height: 512px; 
+    overflow-y: auto; 
 `;
 export const TitlesContainer = styled.div`
     display: flex;
@@ -173,58 +149,93 @@ export const MainTitle = styled.h1`
     font-weight: bold;
     margin:0px;
     margin-top:32px;
+    font-weight: 700;
    
 `;
 export const Subtitle = styled.h2`
     font-size: 12px;
-    
-     margin:0px;
+    margin:0px;
+    font-weight: 500;
 `;
-
-export const SpecificSlotContainer = styled.div`
+interface SpecificSlotContainerProps {
+    $isLast?: boolean;
+}
+export const SpecificSlotContainer = styled.div<SpecificSlotContainerProps>`
     display: flex;
     flex-direction: row;
     width: 456px;
     height: 56px;
     gap:2px;
-    border-bottom: 1px solid ${TEXT_COLOR};
+    border-bottom: ${(props) => (props.$isLast ? "none" : `1px solid ${TEXT_COLOR}`)};
+    margin-bottom: ${(props) => (props.$isLast ? "8px" : "none")};
     img{
         margin-top:16px;
         margin-right:16px;
+    } 
+       &:hover{
+        cursor: pointer;
+        transform: scale(1.02);
+        transition: all 0.2s ease;
     }
-  
 `;
 
 export const SlotInfoContainer = styled.div`
-display: flex;
-flex-direction: column;
-  
+    display: flex;
+    flex-direction: column;
+
 `;
 
-export const SlotInfo1 = styled.p`
-    font-size: 16px;
-    color: #333;
-    margin:0px;
-    padding:0px;
+interface SlotInfoProps {
+    $isDown?: boolean;
+    $isBold?: boolean;
+}
+
+export const SlotInfo = styled.p<SlotInfoProps>`
+    color: ${TEXT_COLOR};
     font-family: ${FONT_FAMILY};
-      margin-top:8px;
-   
+    margin-top:${(props) => (props.$isDown ? "0px" : "8px")};
+    margin-bottom:${(props) => (props.$isDown ? "4px" : "0px")};
+    font-weight: ${(props) => (props.$isBold ? FONT_WEIGHT_BOLD : FONT_WEIGHT_NORMAL)};
+    font-size:${(props) => (props.$isDown ? "12px" : "16px")};  
 `;
 
-export const SlotInfo = styled.p`
-    font-size: 12px;
-    color: #333;
-    margin:0px;
-    padding:0px;
-    font-family: ${FONT_FAMILY};
-  
-  
-`;
 
 export const ActionsContainer = styled.div`
     display: flex; 
     flex-direction: row;
     margin-left: auto;
     gap:24px;
+     &:hover{
+        cursor:pointer;
+    }
 `;
+
+export const InfoContainer = styled.div`
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    margin-top:8px;
+    margin-bottom:32px;
+    img{
+    background-color: ${SECONDARY_COLOR};
+    border-radius:50%;
+    padding:4px;
+    }
+`
+export const fadeInSlide = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(-80px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
+export const AnimatedContainer = styled.div`
+  animation: ${fadeInSlide} 1.2s ease-out;
+`;
+
 
