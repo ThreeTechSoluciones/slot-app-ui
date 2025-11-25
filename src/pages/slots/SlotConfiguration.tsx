@@ -30,10 +30,20 @@ import { DaysOfWeek } from "../../utils/DaysOfWeek";
 import ClockIcon from "../../assets/clock-icon.png";
 import TrashIcon from "../../assets/trash-icon.webp";
 import CalendarIcon from "../../assets/calendar-icon.png";
+import CreateSlotForm from "./forms/CreateSlotForm";
+import { SlotService, useCreateSlotMutation } from "../../app/services/SlotService";
+import useAuthentication from "../../hooks/useAuthentication";
+import toast from "react-hot-toast";
 
 function CreateSlot() {
 
     const [showModal, setShowModal] = useState<boolean>(false);
+
+    const [showCreateSlotModal, setShowCreateSlotModal] = useState<boolean>(false);
+
+    const [createSlot, loading] = useCreateSlotMutation();
+
+    const { userId } = useAuthentication()
 
     const [selectValue, setSelectValue] = useState<string>("");
 
@@ -44,6 +54,8 @@ function CreateSlot() {
 
     const editCapacityRef = useRef<any>(null);
 
+    const createSlotRef = useRef<any>(null);
+
     const handleConfirmModal = async () => {
         const response = await editCapacityRef.current.submitForm();
         if (response) {
@@ -52,6 +64,20 @@ function CreateSlot() {
             //muestro una notificación de éxito
         }
     }
+
+
+    const handleCreateSlotModal = async () => {
+        try {
+            const response = await createSlotRef.current.submitForm();
+            if (response) {
+                await createSlot({ dayOfWeek: selectValue, startTime: response.startTime, userId }).unwrap();
+                setShowCreateSlotModal(false);
+                toast.success("El turno ha sido registrado")
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    };
 
     const SlotConfigurationSkeleton = () => {
         return (
@@ -78,7 +104,7 @@ function CreateSlot() {
                         ))}
                     </Select>
                 </InputContainer>
-                <Button $isDisabled={selectValue === ""}>Nuevo turno
+                <Button $isDisabled={selectValue === ""} onClick={() => setShowCreateSlotModal(true)}>Nuevo turno
                     <img
                         src={AddIcon}
                         width={24}
@@ -130,9 +156,6 @@ function CreateSlot() {
                         height={24} />
                 </Button>
             </SlotsContainer>
-
-
-
         )
     }
 
@@ -147,6 +170,16 @@ function CreateSlot() {
                     onConfirm={handleConfirmModal}
                 >
                     <EditSlotForm ref={editCapacityRef} />
+                </Modal>
+            )}
+            {showCreateSlotModal && (
+                <Modal
+                    onClose={() => setShowCreateSlotModal(false)}
+                    showButtons={true}
+                    contentRef={createSlotRef}
+                    onConfirm={handleCreateSlotModal}
+                >
+                    <CreateSlotForm ref={createSlotRef} />
                 </Modal>
             )}
             <SkeletonsContainer>
