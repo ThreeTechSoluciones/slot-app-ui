@@ -17,13 +17,14 @@ import CancelIcon from "../../assets/cancel-icon.svg";
 import HashtagIcon from "../../assets/hashtag-icon.svg";
 import PesoIcon from "../../assets/peso-icon.svg";
 import CalendarIcon from "../../assets/calendar-icon.svg";
+import { formatCurrency } from "../../utils/Formatter";
 
 interface PaymentDetailsModalProps {
   isOpen: boolean;
   onClose: () => void;
   payment: {
-    MonthlyFeeNumber: string;
-    paymentNumber: string;
+    monthlyFeeNumber: number;
+    paymentNumber: number;
     amount: number;
     paymentDate: string;
   } | null;
@@ -46,7 +47,7 @@ const PaymentDetailsModal: React.FC<PaymentDetailsModalProps> = ({
           <ModalTitle>DETALLE DEL PAGO</ModalTitle>
         </ModalHeader>
 
-        <FeeTitle>#Cuota N°{payment.MonthlyFeeNumber}</FeeTitle>
+        <FeeTitle>#Cuota N°{payment.monthlyFeeNumber}</FeeTitle>
 
         <ModalContent>
           <ModalRow>
@@ -70,7 +71,7 @@ const PaymentDetailsModal: React.FC<PaymentDetailsModalProps> = ({
 
             <TextColumn>
               <FieldLabel>Monto </FieldLabel>
-              <Value>${payment.amount}</Value>
+              <Value>{formatCurrency(payment.amount)}</Value>
             </TextColumn>
           </ModalRow>
           <ModalRow>

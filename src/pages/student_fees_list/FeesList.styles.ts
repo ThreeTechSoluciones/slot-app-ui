@@ -54,7 +54,7 @@ export const ActionButton = styled.button`
   color: black;
   border: none;
   background: none;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: bold;
   text-decoration: underline;
   cursor: pointer;
@@ -82,7 +82,7 @@ export const FeeStatus = styled.div<{
         return PRIMARY_COLOR;
       case "Vencida":
         return ERROR_COLOR;
-      case "Pagada":
+      case "Pagado":
         return SUCCESS_COLOR;
       case "Pagado vencido":
         return TERTIARY_COLOR;
@@ -98,5 +98,6 @@ export const FeeStatus = styled.div<{
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: 16px;
 `;
 export const DatePickerWrapper = styled.div``;

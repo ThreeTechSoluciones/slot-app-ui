@@ -41,14 +41,14 @@ export const StudentService = createApi({
       {
         studentId: string;
         month?: string;
-        dueDate?: string;
+        expirationDate?: string;
         status?: string;
       }
     >({
-      query: ({ studentId, month, dueDate, status }) => {
+      query: ({ studentId, month, expirationDate, status }) => {
         const params = new URLSearchParams();
         if (month) params.append("month", month);
-        if (dueDate) params.append("dueDate", dueDate);
+        if (expirationDate) params.append("expirationDate", expirationDate);
         if (status) params.append("status", status);
         return `/${studentId}/monthly-fees?${params.toString()}`;
       },
@@ -56,6 +56,7 @@ export const StudentService = createApi({
         { type: "MonthlyFees", id: studentId },
       ],
     }),
+
     getStudentById: builder.query<StudentDetailResponse, string>({
       query: (id) => `/${id}`,
       providesTags: (_result, _error, id) => [{ type: "Student", id }],

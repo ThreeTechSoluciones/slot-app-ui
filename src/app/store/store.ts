@@ -15,6 +15,7 @@ import { errorHandler } from "../errorHandler/errorHandler";
 import { UserService } from "../services/UserService";
 import { StudentService } from "../services/StudentService";
 import { PriceService } from "../services/PriceService";
+import { MonthlyFeeService } from "../services/MonthlyFeeService";
 import { authSlice } from "../slices/AuthSlice";
 
 const reducers = combineReducers({
@@ -22,6 +23,7 @@ const reducers = combineReducers({
   [UserService.reducerPath]: UserService.reducer,
   [StudentService.reducerPath]: StudentService.reducer,
   [PriceService.reducerPath]: PriceService.reducer,
+  [MonthlyFeeService.reducerPath]: MonthlyFeeService.reducer,
   [authSlice.reducerPath]: authSlice.reducer,
 });
 
@@ -47,7 +49,8 @@ export const store = configureStore({
       .concat(AuthService.middleware)
       .concat(UserService.middleware)
       .concat(StudentService.middleware)
-      .concat(PriceService.middleware),
+      .concat(PriceService.middleware)
+      .concat(MonthlyFeeService.middleware),
 });
 
 export const persistor = persistStore(store);

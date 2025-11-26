@@ -34,10 +34,10 @@ import {
 import { skipToken } from "@reduxjs/toolkit/query/react";
 import { translateMonth } from "../../utils/TranslateMonths";
 import { formatCurrency } from "../../utils/Formatter";
-import { formatDate } from "../../utils/DateFormatter";
-import { translateStatus } from "../../utils/TranslateStatusFee";
 import PaymentDetailsModal from "../../components/payment_detail/paymentDetail";
 import DateFilter from "../../components/date_filter/DateFilter";
+import { toast } from "react-hot-toast";
+import { useUpdateMonthlyFeeMutation } from "../../app/services/MonthlyFeeService";
 
 function StudentFeesList() {
   const location = useLocation();
@@ -45,16 +45,24 @@ function StudentFeesList() {
   const { data: studentDetails } = useGetStudentByIdQuery(student.id);
   const navigate = useNavigate();
   const [monthFilter, setMonthFilter] = useState("");
-  const [dueDateFilter, setDueDateFilter] = useState<Date | null>(null);
+  const [expirationDateFilter, setExpirationDateFilter] = useState<Date | null>(
+    null
+  );
   const [statusFilter, setStatusFilter] = useState("");
   const [modalType, setModalType] = useState<"pay" | "details" | null>(null);
   const [selectedFeeId, setSelectedFeeId] = useState<string | null>(null);
   const [selectedPayment, setSelectedPayment] = useState<any>(null);
+  const [payMonthlyFee] = useUpdateMonthlyFeeMutation();
 
-  // formato: YYYY-MM-DD
-  const formattedDueDate = dueDateFilter
-    ? dueDateFilter.toISOString().split("T")[0]
-    : undefined;
+  const normalizeDate = (date: Date | string | null) => {
+    if (!date) return undefined;
+
+    const d = new Date(date);
+
+    if (isNaN(d.getTime())) return undefined;
+    return d.toISOString().split("T")[0]; // "YYYY-MM-DD"
+  };
+  const formattedExpirationDate = normalizeDate(expirationDateFilter);
   const {
     data: fees,
     isLoading,
@@ -64,21 +72,37 @@ function StudentFeesList() {
       ? {
           studentId: student.id,
           month: monthFilter || undefined,
-          dueDate: formattedDueDate,
+          expirationDate: formattedExpirationDate,
           status: statusFilter || undefined,
         }
       : skipToken
   );
+
   const handleOpenPayModal = (feeId: string) => {
     setSelectedFeeId(feeId);
     setModalType("pay");
   };
-  const handleOpenPaymentDetailsModal = (paymentRow: any) => {
-    setSelectedPayment(paymentRow);
+  const handleOpenPaymentDetailsModal = (seePayment: any) => {
+    setSelectedPayment(seePayment);
     setModalType("details");
   };
-  const handleConfirmPay = () => {
-    setModalType(null);
+  const handleConfirmPay = async () => {
+    if (!selectedFeeId) return;
+    payMonthlyFee({
+      feeId: selectedFeeId,
+      studentId: student.id,
+    })
+      .unwrap()
+      .then(() => {
+        toast.success("Pago realizado correctamente");
+      })
+      .catch(() => {
+        toast.error("Hubo un error al procesar el pago");
+      })
+      .finally(() => {
+        setModalType(null);
+        setSelectedFeeId(null);
+      });
   };
 
   const handleCancelPay = () => {
@@ -102,9 +126,7 @@ function StudentFeesList() {
     {
       header: <SortableButton text={"Fecha de\nvencimiento"} allowWrap />,
       accessor: "expirationDate",
-      Cell: ({ original }) => (
-        <span>{formatDate(original.expirationDate)}</span>
-      ),
+      Cell: ({ original }) => <span>{original.expirationDate}</span>,
     },
     {
       header: <SortableButton text="Monto" />,
@@ -116,26 +138,38 @@ function StudentFeesList() {
       accessor: "status",
       Cell: ({ original }) => (
         <FeeStatusContainer>
-          <FeeStatus $status={original.status}>
-            {translateStatus(original.status)}
-          </FeeStatus>
+          <FeeStatus $status={original.status}>{original.status}</FeeStatus>
         </FeeStatusContainer>
       ),
     },
     {
       header: "Pago",
-      Cell: ({ original }) =>
-        original.status === "Creada" ? (
-          <ActionButton onClick={() => handleOpenPayModal(original.id)}>
-            Pagar
-            <CoinIconStyles src={CoinIcon} alt="coin-icon"></CoinIconStyles>
-          </ActionButton>
-        ) : (
-          <ActionButton onClick={() => handleOpenPaymentDetailsModal(original)}>
-            Ver pago
-            <ViewIconStyle src={ViewIcon} alt="view-icon"></ViewIconStyle>
-          </ActionButton>
-        ),
+      Cell: ({ original }) => {
+        const canPay = ["Pendiente", "Vencida"].includes(original.status);
+        const canViewPayment = ["Pagado", "Pagado vencido"].includes(
+          original.status
+        );
+        if (canPay) {
+          return (
+            <ActionButton onClick={() => handleOpenPayModal(original.id)}>
+              Pagar
+              <CoinIconStyles src={CoinIcon} alt="coin-icon" />
+            </ActionButton>
+          );
+        }
+
+        if (canViewPayment) {
+          return (
+            <ActionButton
+              onClick={() => handleOpenPaymentDetailsModal(original)}
+            >
+              Ver pago
+              <ViewIconStyle src={ViewIcon} alt="view-icon" />
+            </ActionButton>
+          );
+        }
+        return <></>;
+      },
     },
   ];
   return (
@@ -162,31 +196,34 @@ function StudentFeesList() {
           <Filter
             placeholder="Filtrar por mes"
             options={[
-              { label: "Enero", value: "enero" },
-              { label: "Febrero", value: "febrero" },
-              { label: "Marzo", value: "marzo" },
-              { label: "Abril", value: "abril" },
-              { label: "Mayo", value: "mayo" },
-              { label: "Junio", value: "junio" },
-              { label: "Julio", value: "julio" },
-              { label: "Agosto", value: "agosto" },
-              { label: "Septiembre", value: "septiembre" },
-              { label: "Octubre", value: "octubre" },
-              { label: "Noviembre", value: "noviembre" },
-              { label: "Diciembre", value: "diciembre" },
+              { label: "Enero", value: "JANUARY" },
+              { label: "Febrero", value: "FEBRUARY" },
+              { label: "Marzo", value: "MARCH" },
+              { label: "Abril", value: "APRIL" },
+              { label: "Mayo", value: "MAY" },
+              { label: "Junio", value: "JUNE" },
+              { label: "Julio", value: "JULY" },
+              { label: "Agosto", value: "AUGUST" },
+              { label: "Septiembre", value: "SEPTEMBER" },
+              { label: "Octubre", value: "OCTOBER" },
+              { label: "Noviembre", value: "NOVEMBER" },
+              { label: "Diciembre", value: "DECEMBER" },
             ]}
             value={monthFilter}
             onSelect={setMonthFilter}
           />
-          <DateFilter value={dueDateFilter} onChange={setDueDateFilter} />
+          <DateFilter
+            value={expirationDateFilter}
+            onChange={setExpirationDateFilter}
+          />
 
           <Filter
             placeholder="Filtrar por estado"
             options={[
-              { label: "Pendiente", value: "pending" },
-              { label: "Vencida", value: "out-of-time" },
-              { label: "Pagada", value: "payed" },
-              { label: "Pagado vencido", value: "payed-out-of-time" },
+              { label: "Pendiente", value: "PENDING" },
+              { label: "Vencida", value: "OUT_OF_TIME" },
+              { label: "Pagado", value: "PAYED" },
+              { label: "Pagado vencido", value: "PAYED_OUT_OF_TIME" },
             ]}
             value={statusFilter}
             onSelect={setStatusFilter}
@@ -197,7 +234,7 @@ function StudentFeesList() {
             size="small"
             onClick={() => {
               setStatusFilter("");
-              setDueDateFilter(null);
+              setExpirationDateFilter(null);
               setMonthFilter("");
             }}
           >
@@ -209,7 +246,7 @@ function StudentFeesList() {
             variant="primary"
             size="medium"
             icon={<img src={AddIcon} alt="Add Icon" />}
-            // onClick={() => navigate("/")}
+            //onClick={() => navigate("/")} "para cuando este la ruta a la nueva cuota.""
           >
             Nueva cuota
           </Button>
