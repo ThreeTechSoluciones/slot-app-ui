@@ -2,6 +2,7 @@ import {
   SituationText,
   StatusText,
   StudentsContainer,
+  Title,
   LeftContainer,
   RightContainer,
   FiltersContainer,
@@ -157,6 +158,7 @@ function Home() {
 
   return (
     <StudentsContainer>
+      <Title>LISTADO DE ALUMNOS</Title>
       <FiltersContainer>
         <LeftContainer>
           <FilterSearch
