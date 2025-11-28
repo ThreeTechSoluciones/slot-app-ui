@@ -1,10 +1,16 @@
 import styled from "styled-components";
+import {
+  BACKGROUND_COLOR,
+  BORDER_RADIUS,
+  PRIMARY_COLOR,
+  SECONDARY_COLOR,
+} from "../../utils/Stylesheet";
 export const TableStyle = styled.table`
   width: calc(100% - 160px);
   border-collapse: collapse;
   margin: 20px auto 0 auto;
-  background-color: #f0e21e;
-  border-radius: 10px;
+  background-color: ${PRIMARY_COLOR};
+  border-radius: ${BORDER_RADIUS};
   table-layout: fixed;
 `;
 
@@ -18,12 +24,12 @@ export const Thead = styled.thead`
 export const Tbody = styled.tbody`
   tr:nth-child(odd) {
     //filas impares
-    background-color: white;
+    background-color: ${BACKGROUND_COLOR};
   }
 
   tr:nth-child(even) {
     //filas pares
-    background-color: #f0f0f0;
+    background-color: ${SECONDARY_COLOR};
   }
 `;
 export const Td = styled.td`
