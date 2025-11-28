@@ -12,7 +12,10 @@ export const Thead = styled.thead`
   th {
     font-size: 16px;
     height: 50px;
+    max-height: 50px;
+    overflow: hidden;
     white-space: normal;
+    word-wrap: break-word;
   }
 `;
 

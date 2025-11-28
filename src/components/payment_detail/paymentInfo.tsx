@@ -12,31 +12,53 @@ import {
   ModalRow,
   CloseButton,
   IconCircle,
-} from "./paymentDetail.styles";
+} from "./paymentInfo.styles";
 import CancelIcon from "../../assets/cancel-icon.svg";
 import HashtagIcon from "../../assets/hashtag-icon.svg";
 import PesoIcon from "../../assets/peso-icon.svg";
 import CalendarIcon from "../../assets/calendar-icon.svg";
 import { formatCurrency } from "../../utils/Formatter";
+import { useGetPaymentInfoQuery } from "../../app/services/PaymentService";
+import { skipToken } from "@reduxjs/toolkit/query";
 
-interface PaymentDetailsModalProps {
+interface PaymentInfoModalProps {
   isOpen: boolean;
   onClose: () => void;
-  payment: {
-    monthlyFeeNumber: number;
-    paymentNumber: number;
-    amount: number;
-    paymentDate: string;
-  } | null;
+  paymentId: string | null;
 }
 
-const PaymentDetailsModal: React.FC<PaymentDetailsModalProps> = ({
+const PaymentInfoModal: React.FC<PaymentInfoModalProps> = ({
   isOpen,
   onClose,
-  payment,
+  paymentId,
 }) => {
-  if (!isOpen || !payment) return null;
-
+  const {
+    data: payment,
+    isLoading,
+    isError,
+  } = useGetPaymentInfoQuery(paymentId ?? skipToken);
+  if (!isOpen || !paymentId) return null;
+  if (isLoading) {
+    return (
+      <ModalOverlay>
+        <ModalContainer>
+          <div>Cargando información del pago...</div>
+        </ModalContainer>
+      </ModalOverlay>
+    );
+  }
+  if (isError || !payment) {
+    return (
+      <ModalOverlay>
+        <ModalContainer>
+          <CloseButton onClick={onClose}>
+            <img src={CancelIcon} alt="Close" />
+          </CloseButton>
+          <div>Error al cargar la información del pago</div>
+        </ModalContainer>
+      </ModalOverlay>
+    );
+  }
   return (
     <ModalOverlay>
       <ModalContainer>
@@ -90,4 +112,4 @@ const PaymentDetailsModal: React.FC<PaymentDetailsModalProps> = ({
   );
 };
 
-export default PaymentDetailsModal;
+export default PaymentInfoModal;

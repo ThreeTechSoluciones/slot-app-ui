@@ -1,4 +1,4 @@
-export interface PaymentDetailResponse {
+export interface PaymentInfoResponse {
   monthlyFeeNumber: number;
   paymentNumber: number;
   amount: number;

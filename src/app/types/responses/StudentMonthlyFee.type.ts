@@ -5,4 +5,5 @@ export interface StudentMonthlyFeeResponse {
   expirationDate: number[];
   amount: number;
   status: string;
+  paymentId?: string;
 }

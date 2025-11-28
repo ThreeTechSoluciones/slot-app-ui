@@ -34,10 +34,10 @@ import {
 import { skipToken } from "@reduxjs/toolkit/query/react";
 import { translateMonth } from "../../utils/TranslateMonths";
 import { formatCurrency } from "../../utils/Formatter";
-import PaymentDetailsModal from "../../components/payment_detail/paymentDetail";
 import DateFilter from "../../components/date_filter/DateFilter";
 import { toast } from "react-hot-toast";
 import { useUpdateMonthlyFeeMutation } from "../../app/services/MonthlyFeeService";
+import PaymentInfoModal from "../../components/payment_detail/paymentInfo";
 
 function StudentFeesList() {
   const location = useLocation();
@@ -51,7 +51,9 @@ function StudentFeesList() {
   const [statusFilter, setStatusFilter] = useState("");
   const [modalType, setModalType] = useState<"pay" | "details" | null>(null);
   const [selectedFeeId, setSelectedFeeId] = useState<string | null>(null);
-  const [selectedPayment, setSelectedPayment] = useState<any>(null);
+  const [selectedPaymentId, setSelectedPaymentId] = useState<string | null>(
+    null
+  );
   const [payMonthlyFee] = useUpdateMonthlyFeeMutation();
 
   const normalizeDate = (date: Date | string | null) => {
@@ -82,8 +84,8 @@ function StudentFeesList() {
     setSelectedFeeId(feeId);
     setModalType("pay");
   };
-  const handleOpenPaymentDetailsModal = (seePayment: any) => {
-    setSelectedPayment(seePayment);
+  const handleOpenPaymentInfoModal = (paymentId?: string) => {
+    setSelectedPaymentId(paymentId!);
     setModalType("details");
   };
   const handleConfirmPay = async () => {
@@ -97,7 +99,7 @@ function StudentFeesList() {
         toast.success("Pago realizado correctamente");
       })
       .catch(() => {
-        toast.error("Hubo un error al procesar el pago");
+        toast.error("Ocurrió un error al procesar el pago");
       })
       .finally(() => {
         setModalType(null);
@@ -161,7 +163,9 @@ function StudentFeesList() {
         if (canViewPayment) {
           return (
             <ActionButton
-              onClick={() => handleOpenPaymentDetailsModal(original)}
+              onClick={() => {
+                handleOpenPaymentInfoModal(original.paymentId);
+              }}
             >
               Ver pago
               <ViewIconStyle src={ViewIcon} alt="view-icon" />
@@ -246,7 +250,7 @@ function StudentFeesList() {
             variant="primary"
             size="medium"
             icon={<img src={AddIcon} alt="Add Icon" />}
-            //onClick={() => navigate("/")} "para cuando este la ruta a la nueva cuota.""
+            //onClick={() => navigate("/")} Para cuando este la ruta a la nueva cuota.
           >
             Nueva cuota
           </Button>
@@ -259,11 +263,11 @@ function StudentFeesList() {
           onCancel={handleCancelPay}
         />
       )}
-      {modalType === "details" && selectedPayment && (
-        <PaymentDetailsModal
+      {modalType === "details" && (
+        <PaymentInfoModal
           isOpen={modalType === "details"}
           onClose={() => setModalType(null)}
-          payment={selectedPayment}
+          paymentId={selectedPaymentId}
         />
       )}
       <Table columns={columns} data={fees || []} />;

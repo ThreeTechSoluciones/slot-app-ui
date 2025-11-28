@@ -43,6 +43,7 @@ export const StudentService = createApi({
         month?: string;
         expirationDate?: string;
         status?: string;
+        paymentId?: string;
       }
     >({
       query: ({ studentId, month, expirationDate, status }) => {
