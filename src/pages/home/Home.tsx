@@ -100,6 +100,7 @@ function Home() {
         />
       ),
       accessor: "name",
+      Cell: ({ original }) => <span>{original.name}</span>,
     },
     {
       header: (
@@ -109,24 +110,27 @@ function Home() {
         />
       ),
       accessor: "lastname",
+      Cell: ({ original }) => <span>{original.lastname}</span>,
     },
     {
       header: "Situación",
-      render: (student: StudentResponse) => (
-        <SituationText $status={student.status}>{student.status}</SituationText>
+      Cell: ({ original }) => (
+        <SituationText $status={original.status}>
+          {original.status}
+        </SituationText>
       ),
     },
     {
       header: "Estado",
-      render: (student: StudentResponse) => (
-        <StatusText $isActive={student.isActive}>
-          {student.isActive ? "Activo" : "Inactivo"}
+      Cell: ({ original }) => (
+        <StatusText $isActive={original.isActive}>
+          {original.isActive ? "Activo" : "Inactivo"}
         </StatusText>
       ),
     },
     {
       header: "Acciones",
-      render: (student: StudentResponse) => (
+      Cell: ({ original }) => (
         <DropdownMenu
           icon={<img src={dotsIcon} alt="Opciones" width={30} height={30} />}
           size="small"
@@ -134,20 +138,20 @@ function Home() {
             {
               label: "Ver cuotas",
               onClick: () =>
-                navigate(`/cuotas`, { state: { studentId: student.id } }),
+                navigate(`/cuotas`, { state: { studentId: original.id } }),
             },
             {
               label: "Ver alumno",
               onClick: () =>
                 navigate(`/detalle-alumno`, {
-                  state: { studentId: student.id },
+                  state: { studentId: original.id },
                 }),
             },
             {
               label: "Modificar turnos",
               onClick: () =>
                 navigate(`/editar-alumno`, {
-                  state: { studentId: student.id },
+                  state: { studentId: original.id },
                 }), // cambiar ruta cuando esté la pantalla de modifcar turnos
             },
           ]}
