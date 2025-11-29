@@ -1,96 +1,130 @@
-import "./Plans.css";
-import { useState } from "react";
-import { useGetUserPricesQuery } from "../../app/services/UserService";
-import { useUpdatePriceMutation } from "../../app/services/PriceService";
-import toast from "react-hot-toast";
+import { useState, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
+import { skipToken } from "@reduxjs/toolkit/query";
 import useAuthentication from "../../hooks/useAuthentication";
+import { useGetAllPlansQuery } from "../../app/services/PlanService";
 import { formatCurrency } from "../../utils/Formatter";
+import type { Column } from "../../app/types/table";
+import type { PlanResponse } from "../../app/types/responses/PlanResponse.type";
+import Table from "../../components/table/Table";
+import { SortableButton } from "../../components/sort_button/SortButton";
+import { DropdownMenu } from "../../components/dropdownMenu/DropdownMenu";
+import FilterSearch from "../../components/filter_search/FilterSearch";
+import Button from "../../components/button/Button";
+import DotsIcon from "../../assets/dots-icon.png";
+import AddIcon from "../../assets/add-icon.svg";
+import {
+  PlansContainer,
+  FiltersContainer,
+  LeftContainer,
+  RightContainer,
+  Title,
+} from "./Plans.styles";
 
 function Plans() {
-  const { userId } = useAuthentication();
-  const { data: prices } = useGetUserPricesQuery(userId!);
-  const [newAmount, setNewAmount] = useState<number>(0);
-  const [selectedPriceId, setSelectedPriceId] = useState("");
-  const [updatePrice, { isLoading: isUpdating }] = useUpdatePriceMutation();
-  const selectedPrice = prices?.find((p) => p.id === selectedPriceId);
-  const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const rawValue = e.target.value.replace(/[^\d]/g, "");
-    setNewAmount(Number(rawValue) / 100);
+  // const { userId } = useAuthentication();
+  const navigate = useNavigate();
+
+  const [filter, setFilter] = useState<string>("");
+  const [planList, setPlanList] = useState<PlanResponse[]>([]);
+
+  const { data: plans, isLoading, isError } = useGetAllPlansQuery();
+
+  // Actualiza la lista cuando lleguen los datos
+  useMemo(() => {
+    if (plans) {
+      setPlanList(plans);
+    }
+  }, [plans]);
+
+  // Filtra los planes según el buscador
+  const filteredPlans = useMemo(() => {
+    if (!filter) return planList;
+
+    return planList.filter((plan) =>
+      plan.name.toLowerCase().includes(filter.toLowerCase())
+    );
+  }, [planList, filter]);
+
+  // Limpiar filtros
+  const handleClearFilters = () => {
+    setFilter("");
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!selectedPriceId) {
-      toast.error("Por favor, selecciona un plan.");
-      return;
-    }
-
-    if (!newAmount || isNaN(Number(newAmount))) {
-      toast.error("Ingresa un monto válido.");
-      return;
-    }
-
-    updatePrice({
-      priceId: selectedPriceId,
-      amount: Number(newAmount),
-    })
-      .unwrap()
-      .then(() => {
-        toast.success("Precio actualizado con éxito");
-        setNewAmount(0);
-      });
-  };
+  // Columnas de la tabla
+  const columns: Column<PlanResponse>[] = [
+    {
+      header: <SortableButton text="Nombre del plan" />,
+      accessor: "name",
+    },
+    {
+      header: <SortableButton text="Cantidad de días asignados" />,
+      accessor: "numberOfDays",
+      Cell: ({ original }) => <span>{original.numberOfDays}</span>,
+    },
+    {
+      header: <SortableButton text="Precio actual" />,
+      accessor: "price",
+      Cell: ({ original }) => <span>{formatCurrency(original.price)}</span>,
+    },
+    {
+      header: "Acciones",
+      Cell: ({ original }) => (
+        <DropdownMenu
+          icon={<img src={DotsIcon} alt="Opciones" width={30} height={30} />}
+          size="small"
+          options={[
+            {
+              label: "Editar plan",
+              onClick: () =>
+                navigate(`/editar-plan`, { state: { planId: original.id } }),
+            },
+            {
+              label: "Editar precio",
+              onClick: () =>
+                navigate(`/editar-precio`, { state: { planId: original.id } }),
+            },
+            // {
+            //   label: "Eliminar",
+            //   onClick: () => handleDeletePlan(original.id),
+            // },
+          ]}
+        />
+      ),
+    },
+  ];
 
   return (
-    <div className="plansContainer">
-      <div className="selectContainer">
-        <label className="label" htmlFor="planSelect">
-          Seleccionar un plan o frecuencia
-        </label>
-        <select
-          id="planSelect"
-          className="select"
-          value={selectedPriceId}
-          onChange={(e) => setSelectedPriceId(e.target.value)}
-        >
-          <option value="">- Selecciona una opción -</option>
-          {prices &&
-            prices.map((price) => (
-              <option key={price.id} value={price.id}>
-                {price.name}
-              </option>
-            ))}
-        </select>
-      </div>
+    <PlansContainer>
+      <Title>GESTIÓN DE PLANES</Title>
 
-      <form className="amountsContainer" onSubmit={handleSubmit}>
-        <div className="actualAmount">
-          <label className="label">Monto Actual</label>
-          <input
-            className="input"
-            type="text"
-            readOnly
-            value={formatCurrency(selectedPrice?.amount ?? 0)}
+      <FiltersContainer>
+        <LeftContainer>
+          <FilterSearch
+            value={filter}
+            onChange={setFilter}
+            placeholder="Buscar por nombre"
           />
-        </div>
-        <div className="newAmount">
-          <label className="label">Monto Nuevo</label>
-          <input
-            className="input"
-            type="text"
-            value={formatCurrency(newAmount)}
-            onChange={handleAmountChange}
-            disabled={isUpdating}
-            placeholder="0,00"
-          />
-        </div>
-        <div className="submitContainer">
-          <button type="submit" className="submitButton" disabled={isUpdating}>
-            {isUpdating ? "Actualizando..." : "Registrar"}
-          </button>
-        </div>
-      </form>
-    </div>
+
+          <Button size="small" variant="primary" onClick={handleClearFilters}>
+            Limpiar filtros
+          </Button>
+        </LeftContainer>
+
+        <RightContainer>
+          <Button
+            variant="primary"
+            size="medium"
+            icon={<img src={AddIcon} alt="Agregar" />}
+            onClick={() => navigate("/nuevo-plan")}
+          >
+            Nuevo plan
+          </Button>
+        </RightContainer>
+      </FiltersContainer>
+
+      <Table columns={columns} data={filteredPlans} />
+    </PlansContainer>
   );
 }
 

@@ -15,15 +15,15 @@ import { errorHandler } from "../errorHandler/errorHandler";
 import { UserService } from "../services/UserService";
 import { StudentService } from "../services/StudentService";
 import { PriceService } from "../services/PriceService";
+import { PlanService } from "../services/PlanService";
 import { authSlice } from "../slices/AuthSlice";
-
-
 
 const reducers = combineReducers({
   [AuthService.reducerPath]: AuthService.reducer,
   [UserService.reducerPath]: UserService.reducer,
   [StudentService.reducerPath]: StudentService.reducer,
   [PriceService.reducerPath]: PriceService.reducer,
+  [PlanService.reducerPath]: PlanService.reducer,
   [authSlice.reducerPath]: authSlice.reducer,
 });
 
@@ -39,7 +39,6 @@ const persistedReducer = persistReducer(persistConfig, reducers);
 export const store = configureStore({
   reducer: persistedReducer,
 
-
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
@@ -50,7 +49,8 @@ export const store = configureStore({
       .concat(AuthService.middleware)
       .concat(UserService.middleware)
       .concat(StudentService.middleware)
-      .concat(PriceService.middleware),
+      .concat(PriceService.middleware)
+      .concat(PlanService.middleware),
 });
 
 export const persistor = persistStore(store);
