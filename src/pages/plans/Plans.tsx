@@ -79,11 +79,6 @@ function Plans() {
               onClick: () =>
                 navigate(`/editar-plan`, { state: { planId: original.id } }),
             },
-            {
-              label: "Editar precio",
-              onClick: () =>
-                navigate(`/editar-precio`, { state: { planId: original.id } }),
-            },
             // {
             //   label: "Eliminar",
             //   onClick: () => handleDeletePlan(original.id),
