@@ -35,7 +35,7 @@ import EditIcon from "../../assets/edit-icon.svg";
 import DesactivateIcon from "../../assets/desactivate-icon.svg";
 import Button from "../../components/button/Button";
 import { ConfirmDialog } from "../../components/confirm_dialog/ConfirmDialog";
-import { MisPlanes } from "../../routes/RoutesUtils";
+import { EditarAlumno, MisPlanes } from "../../routes/RoutesUtils";
 import toast from "react-hot-toast";
 import { useState } from "react";
 import type { StudentDetailResponse } from "../../app/types/responses/StudentDetailResponse.type";
@@ -181,19 +181,11 @@ const StudentData = ({
     },
     {
       title: "Fecha de nacimiento",
-      data: student.birthday,
-    },
-    {
-      title: "Edad",
-      data: student.age,
+      data: `${student.birthday} (${student.age} años)`,
     },
     {
       title: "Número de teléfono",
       data: student.cellphoneNumber,
-    },
-    {
-      title: "Patologías",
-      data: student.pathologies,
     },
   ];
   return (
@@ -201,7 +193,7 @@ const StudentData = ({
       <HeaderBoxes>
         <SubTitle>
           <IconStyles>
-            <img src={StudentIcon} alt="student-icon" width={24} height={24} />
+            <img src={StudentIcon} alt="student-icon" width={20} height={20} />
           </IconStyles>
           Datos del alumno
         </SubTitle>
@@ -221,6 +213,10 @@ const StudentData = ({
           </InformationContainer>
         ))}
       </AllInformationContainer>
+      <InformationContainer key={"Patologías"}>
+        <Label>Patologías</Label>
+        <StudentInfo>{student.pathologies}</StudentInfo>
+      </InformationContainer>
     </StudentInfoContainer>
   );
 };

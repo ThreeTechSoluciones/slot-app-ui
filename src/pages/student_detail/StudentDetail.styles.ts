@@ -1,4 +1,10 @@
 import styled from "styled-components";
+import {
+  FONT_FAMILY,
+  SUCCESS_COLOR,
+  TERTIARY_COLOR,
+  ERROR_COLOR,
+} from "../../utils/Stylesheet";
 
 export const MainContainer = styled.div`
   display: flex;
@@ -15,6 +21,7 @@ export const HeaderContainer = styled.div`
   width: 100%;
   justify-content: space-between;
   align-items: center;
+  margin-top: 3rem;
 `;
 export const ButtonWrapper = styled.div`
   margin-right: 16rem;
@@ -35,14 +42,14 @@ export const InfoBoxesContainer = styled.div`
   flex-direction: row;
   justify-content: center;
   gap: 84px;
+  font-family: ${FONT_FAMILY};
   flex-wrap: wrap;
-  max-width: 1000px;
+  max-width: 1200px;
 `;
 export const StudentInfoContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 448px;
-  height: 312px;
+  width: 630px;
   border: 2px solid black;
   border-radius: 1rem;
   @media (max-width: 768px) {
@@ -51,24 +58,28 @@ export const StudentInfoContainer = styled.div`
   }
 `;
 
-export const PaymentInfoContainer = styled(StudentInfoContainer)``;
+export const PaymentInfoContainer = styled(StudentInfoContainer)`
+  width: 448px;
+`;
 
 export const AllInformationContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   flex: 1;
-  padding: 1rem;
 `;
 
 export const InformationContainer = styled.div`
   display: flex;
   flex-direction: column;
-  margin-left: 2rem;
+  margin-left: 2.5rem;
+  margin-right: 2.5rem;
+  text-align: left;
+  margin-bottom: 1rem;
 `;
 
 export const Label = styled.p`
+  font-family: ${FONT_FAMILY};
   font-size: 12px;
-  font-weight: 700;
   margin: 0px;
   width: fit-content;
 `;
@@ -76,24 +87,24 @@ export const Label = styled.p`
 export const StudentNameContainer = styled.div`
   display: flex;
   width: 100%;
-  max-width: 988px;
+  max-width: 71rem;
 `;
 
 export const StudentInfo = styled.p`
   font-size: 16px;
   margin: 0px;
+  text-align: justify;
+  overflow-wrap: break-word;
 `;
 export const StudentStatusStyle = styled.p<{ $status: boolean }>`
-  font-weight: bold;
   margin: 0;
-  color: ${({ $status }) => ($status ? "#20C92B" : "#7C7C7C")};
+  color: ${({ $status }) => ($status ? SUCCESS_COLOR : TERTIARY_COLOR)};
 `;
 
 export const StudentSituationStyle = styled.p<{ $situation: string }>`
-  font-weight: bold;
   margin: 0;
   color: ${({ $situation }) =>
-    $situation === "En término" ? "#20C92B" : "#B92C2C"};
+    $situation === "En término" ? SUCCESS_COLOR : ERROR_COLOR};
 `;
 export const TitleContainer = styled.div`
   display: flex;
