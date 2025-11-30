@@ -31,37 +31,40 @@ import ClockIcon from "../../assets/clock-icon.png";
 import TrashIcon from "../../assets/trash-icon.webp";
 import CalendarIcon from "../../assets/calendar-icon.png";
 import CreateSlotForm from "./forms/CreateSlotForm";
-import { SlotService, useCreateSlotMutation } from "../../app/services/SlotService";
+import { useCreateSlotMutation } from "../../app/services/SlotService";
 import useAuthentication from "../../hooks/useAuthentication";
 import toast from "react-hot-toast";
+import { ModalType, type ModalConfig } from "../../utils/SlotsModalsUtils";
 
 function CreateSlot() {
 
     const [showModal, setShowModal] = useState<boolean>(false);
 
-    const [showCreateSlotModal, setShowCreateSlotModal] = useState<boolean>(false);
+    const [modalType, setModalType] = useState<ModalType>();
 
-    const [createSlot, loading] = useCreateSlotMutation();
+    const [createSlot] = useCreateSlotMutation();
 
     const { userId } = useAuthentication()
 
-    const [selectValue, setSelectValue] = useState<string>("");
+    const [selectEnglishValue, setSelectEnglishValue] = useState<string>("");
+
+    const [selectSpanishValue, setSelectSpanishValue] = useState<string>("");
 
     const handleSelectValue = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        const newValue = event.target.value;
-        setSelectValue(newValue);
+        const newEnglishValue = event.target.value;
+        const newSpanishValue = event.target.selectedOptions[0].text;
+        setSelectEnglishValue(newEnglishValue);
+        setSelectSpanishValue(newSpanishValue);
     }
 
     const editCapacityRef = useRef<any>(null);
 
     const createSlotRef = useRef<any>(null);
 
-    const handleConfirmModal = async () => {
+    const handleEditCapacityModal = async () => {
         const response = await editCapacityRef.current.submitForm();
         if (response) {
-            //llamo al backend para guardar los cambios
             setShowModal(false);
-            //muestro una notificación de éxito
         }
     }
 
@@ -70,8 +73,8 @@ function CreateSlot() {
         try {
             const response = await createSlotRef.current.submitForm();
             if (response) {
-                await createSlot({ dayOfWeek: selectValue, startTime: response.startTime, userId }).unwrap();
-                setShowCreateSlotModal(false);
+                await createSlot({ dayOfWeek: selectEnglishValue, startTime: response.startTime, userId }).unwrap();
+                setShowModal(false);
                 toast.success("El turno ha sido registrado")
             }
         } catch (error) {
@@ -85,7 +88,7 @@ function CreateSlot() {
                 <InputContainer>
                     <EditContainer>
                         <Label>Cupos disponibles</Label>
-                        <EditCapacity onClick={() => setShowModal(true)}>Editar
+                        <EditCapacity onClick={() => { setShowModal(true); setModalType(ModalType.EDIT); }}>Editar
                             <img
                                 src={EditIcon}
                                 width={16}
@@ -93,18 +96,18 @@ function CreateSlot() {
                             />
                         </EditCapacity>
                     </EditContainer>
-                    <Input disabled placeholder="15 cupos por turno" />
+                    <Input disabled placeholder="25 cupos por turno" />
                 </InputContainer>
                 <InputContainer>
                     <Label> Día del turno</Label>
-                    <Select onChange={handleSelectValue} value={selectValue} defaultValue="">
+                    <Select onChange={handleSelectValue} value={selectEnglishValue} defaultValue="">
                         <option value="" disabled hidden>Seleccione un día</option>
                         {Object.entries(DaysOfWeek).map(([key, value]) => (
                             <option key={key} value={value}>{key}</option>
                         ))}
                     </Select>
                 </InputContainer>
-                <Button $isDisabled={selectValue === ""} onClick={() => setShowCreateSlotModal(true)}>Nuevo turno
+                <Button $isDisabled={selectEnglishValue === ""} onClick={() => { setShowModal(true); setModalType(ModalType.CREATE); }}>Nuevo turno
                     <img
                         src={AddIcon}
                         width={24}
@@ -119,9 +122,11 @@ function CreateSlot() {
         return (
             <SlotsContainer>
                 <TitlesContainer>
-                    <MainTitle>Turnos del Lunes</MainTitle>
+                    <MainTitle>Turnos del {selectSpanishValue}</MainTitle>
                     <Subtitle>1 turno registrado</Subtitle>
                 </TitlesContainer>
+                {/* Esto está hardcodeado porque falta el backend, se deberia recorrer
+                 la lista de turnos y renderizar cada uno de los turnos existentes */}
                 <SpecificSlotContainer>
                     <img src={ClockIcon} width={"24px"} height={"24px"}></img>
                     <SlotInfoContainer>
@@ -137,11 +142,12 @@ function CreateSlot() {
         )
     };
 
+    {/* Acá cuando no existan turnos, se renderiza el mensaje. Falta el backend tambien */ }
     const NonExistingSlotsSkeleton = () => {
         return (
             <SlotsContainer>
                 <TitlesContainer>
-                    <MainTitle>Turnos del Martes</MainTitle>
+                    <MainTitle>Turnos del  {selectSpanishValue}</MainTitle>
                     <Subtitle>No hay turnos registrados</Subtitle>
                 </TitlesContainer>
                 <InfoContainer>
@@ -149,7 +155,7 @@ function CreateSlot() {
                     <SlotInfo $isBold={true}>No hay turnos registrados</SlotInfo>
                     <SlotInfo $isDown={true}>Podés registrar tu primer turno</SlotInfo>
                 </InfoContainer>
-                <Button>Crear primer turno
+                <Button onClick={() => { setShowModal(true); setModalType(ModalType.CREATE); }}>Crear primer turno
                     <img
                         src={AddIcon}
                         width={24}
@@ -159,32 +165,35 @@ function CreateSlot() {
         )
     }
 
+    const modalConfig: Record<ModalType, ModalConfig> = {
+        [ModalType.CREATE]: {
+            contentRef: createSlotRef,
+            content: <CreateSlotForm ref={createSlotRef} />,
+            onConfirm: handleCreateSlotModal
+        },
+        [ModalType.EDIT]: {
+            contentRef: editCapacityRef,
+            content: <EditSlotForm ref={editCapacityRef} />,
+            onConfirm: handleEditCapacityModal
+        }
+    }
+
     return (
         <MainContainer>
             <Title>MIS TURNOS</Title>
-            {showModal && (
+            {showModal && modalType && (
                 <Modal
                     onClose={() => setShowModal(false)}
                     showButtons={true}
-                    contentRef={editCapacityRef}
-                    onConfirm={handleConfirmModal}
+                    contentRef={modalConfig[modalType].contentRef}
+                    onConfirm={modalConfig[modalType].onConfirm}
                 >
-                    <EditSlotForm ref={editCapacityRef} />
-                </Modal>
-            )}
-            {showCreateSlotModal && (
-                <Modal
-                    onClose={() => setShowCreateSlotModal(false)}
-                    showButtons={true}
-                    contentRef={createSlotRef}
-                    onConfirm={handleCreateSlotModal}
-                >
-                    <CreateSlotForm ref={createSlotRef} />
+                    {modalConfig[modalType].content}
                 </Modal>
             )}
             <SkeletonsContainer>
                 <SlotConfigurationSkeleton />
-                {selectValue !== "" && (
+                {selectEnglishValue !== "" && (
                     <AnimatedContainer>
                         <VisualizeSlotsSkeleton />
                     </AnimatedContainer>
