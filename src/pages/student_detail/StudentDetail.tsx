@@ -22,7 +22,7 @@ import {
   TitleContainer,
 } from "./StudentDetail.styles";
 import { useLocation } from "react-router";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import {
   useActivateStudentMutation,
   useDeleteStudentMutation,
@@ -96,9 +96,8 @@ const StudentDetail = () => {
     <MainContainer>
       {showConfirm && (
         <ConfirmDialog
-          message={`¿Estás seguro de ${
-            student.status ? "dar de baja" : "dar de alta"
-          } a ${student.name} ${student.lastName}?`}
+          message={`¿Estás seguro de ${student.status ? "dar de baja" : "dar de alta"
+            } a ${student.name} ${student.lastName}?`}
           onConfirm={handleConfirm}
           onCancel={() => setShowConfirm(false)}
         />
@@ -160,7 +159,8 @@ const StudentData = ({
   navigate,
 }: {
   student: StudentDetailResponse;
-  navigate: (path: string) => void;
+  navigate: (path: string, options?: { state?: any }) => void;
+
 }) => {
   const info = [
     {
@@ -201,8 +201,8 @@ const StudentData = ({
           <img
             src={EditIcon}
             alt="edit-icon"
-            onClick={() => navigate(EditarAlumno)}
-          />
+            onClick={() => navigate(`/editar-estudiante/1`, { state: { studentId: student.id }, })}
+          ></img>
         </EditIconStyles>
       </HeaderBoxes>
       <AllInformationContainer>
@@ -225,7 +225,8 @@ const PaymentData = ({
   navigate,
 }: {
   student: StudentDetailResponse;
-  navigate: (path: string) => void;
+  navigate: (path: string, options?: { state?: any }) => void;
+
 }) => {
   const info = [
     {
@@ -263,12 +264,12 @@ const PaymentData = ({
       <HeaderBoxes>
         <SubTitle>
           <IconStyles>
-            <img src={InfoIcon} alt="info-icon" width={20} height={20} />
+            <img src={InfoIcon} alt="info-icon" />
           </IconStyles>
           Datos de pago y estados
         </SubTitle>
-        <EditIconStyles>
-          <img src={EditIcon} alt="edit-icon" />
+        <EditIconStyles onClick={() => navigate(`/editar-estudiante/2`, { state: { studentId: student.id }, })}>
+          <img src={EditIcon} alt="edit-icon"></img>
         </EditIconStyles>
       </HeaderBoxes>
       <AllInformationContainer>
