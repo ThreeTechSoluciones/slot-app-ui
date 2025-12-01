@@ -28,7 +28,7 @@ import AddIcon from "../../assets/add-icon.svg";
 import Modal from "../../components/modal/Modal";
 import { DaysOfWeek } from "../../utils/DaysOfWeek";
 import ClockIcon from "../../assets/clock-icon.png";
-import TrashIcon from "../../assets/trash-icon.webp";
+import DeleteIcon from "../../assets/delete-icon.png";
 import CalendarIcon from "../../assets/calendar-icon.png";
 import CreateSlotForm from "./forms/CreateSlotForm";
 import { useCreateSlotMutation } from "../../app/services/SlotService";
@@ -135,7 +135,7 @@ function CreateSlot() {
                     </SlotInfoContainer>
                     <ActionsContainer>
                         <img src={EditIcon} width={"24px"} height={"24px"}></img>
-                        <img src={TrashIcon} width={"22px"} height={"22px"}></img>
+                        <img src={DeleteIcon} width={"24px"} height={"24px"}></img>
                     </ActionsContainer>
                 </SpecificSlotContainer>
             </SlotsContainer >

@@ -8,7 +8,6 @@ import StudentDetail from "./pages/student_detail/StudentDetail";
 import { MisAlumnos, NuevoAlumno, IniciarSesion, MisPlanes, DetalleAlumno, MisTurnos } from "./routes/RoutesUtils";
 import CreateStudent from "./pages/students/create-student/CreateStudent";
 import CreateSlot from "./pages/slots/SlotConfiguration";
-import Prueba from "./pages/slots/prueba";
 
 
 function App() {
@@ -22,7 +21,6 @@ function App() {
           <Route path={NuevoAlumno} element={<CreateStudent />} />
           <Route path={DetalleAlumno} element={<StudentDetail />} />
           <Route path={MisTurnos} element={<CreateSlot />} />
-          <Route path="/visualizar-turnos" element={<Prueba />} />
         </Route>
         <Route path="/" element={<Navigate to={IniciarSesion} />} />
       </Routes>

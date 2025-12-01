@@ -1,5 +1,5 @@
 import styled, { keyframes } from "styled-components";
-import { BORDER_RADIUS, FONT_FAMILY, TERTIARY_COLOR, PRIMARY_COLOR, TEXT_COLOR, SECONDARY_COLOR, FONT_WEIGHT_BOLD, FONT_WEIGHT_NORMAL } from "../../utils/Stylesheet";
+import { BORDER_RADIUS, FONT_FAMILY, TERTIARY_COLOR, PRIMARY_COLOR, TEXT_COLOR, SECONDARY_COLOR, FONT_WEIGHT_BOLD, FONT_WEIGHT_NORMAL, BACKGROUND_COLOR } from "../../utils/Stylesheet";
 import Arrow from "../../assets/Arrow.png";
 
 export const MainContainer = styled.div`
@@ -142,24 +142,26 @@ export const TitlesContainer = styled.div`
     margin-right:300px;
     gap:2px;
     font-family: ${FONT_FAMILY};
-  
 `;
+
 export const MainTitle = styled.h1`
     font-size: 16px;
     font-weight: bold;
     margin:0px;
     margin-top:32px;
-    font-weight: 700;
-   
+    font-weight: 700; 
 `;
+
 export const Subtitle = styled.h2`
     font-size: 12px;
     margin:0px;
     font-weight: 500;
 `;
+
 interface SpecificSlotContainerProps {
     $isLast?: boolean;
 }
+
 export const SpecificSlotContainer = styled.div<SpecificSlotContainerProps>`
     display: flex;
     flex-direction: row;
@@ -173,7 +175,6 @@ export const SpecificSlotContainer = styled.div<SpecificSlotContainerProps>`
         margin-right:16px;
     } 
        &:hover{
-        cursor: pointer;
         transform: scale(1.02);
         transition: all 0.2s ease;
     }
@@ -207,6 +208,14 @@ export const ActionsContainer = styled.div`
     gap:24px;
      &:hover{
         cursor:pointer;
+    }
+    img{
+      background-color: ${BACKGROUND_COLOR};
+        border-radius:50%;
+        padding:5px;
+    &:hover{
+    background-color: ${PRIMARY_COLOR}; 
+        }
     }
 `;
 
