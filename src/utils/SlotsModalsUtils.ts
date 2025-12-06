@@ -9,5 +9,4 @@ export type ModalConfig = {
     contentRef: React.RefObject<any>,
     content: JSX.Element,
     onConfirm: () => void
-
 }

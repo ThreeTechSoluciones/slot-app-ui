@@ -75,8 +75,8 @@ export const Select = styled(BaseStyle).attrs({ as: "select" })`
     width:316px;
     border:1px solid black;
     appearance: none;      
-    webkit-appearance: none;
-    moz-appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
     background: url(${Arrow}) no-repeat right 12px center;
     padding-right: 32px; 
 `;

@@ -36,7 +36,7 @@ import useAuthentication from "../../hooks/useAuthentication";
 import toast from "react-hot-toast";
 import { ModalType, type ModalConfig } from "../../utils/SlotsModalsUtils";
 
-function CreateSlot() {
+function SlotConfiguration() {
 
     const [showModal, setShowModal] = useState<boolean>(false);
 
@@ -107,7 +107,7 @@ function CreateSlot() {
                         ))}
                     </Select>
                 </InputContainer>
-                <Button $isDisabled={selectEnglishValue === ""} onClick={() => { setShowModal(true); setModalType(ModalType.CREATE); }}>Nuevo turno
+                <Button $isDisabled={selectEnglishValue === ""} disabled={selectEnglishValue === ""} onClick={() => { setShowModal(true); setModalType(ModalType.CREATE); }}>Nuevo turno
                     <img
                         src={AddIcon}
                         width={24}
@@ -203,4 +203,4 @@ function CreateSlot() {
         </MainContainer>
     );
 }
-export default CreateSlot;
+export default SlotConfiguration;
