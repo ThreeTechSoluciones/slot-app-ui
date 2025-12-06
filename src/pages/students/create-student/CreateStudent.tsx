@@ -75,17 +75,17 @@ function CreateStudent() {
     {
       title: "Datos personales",
       component: StudentData,
-      props: { onNext: handleStudentDataForm, data: studentData }
+      props: { onSubmit: handleStudentDataForm, data: studentData }
     },
     {
       title: "Datos del pago",
       component: PaymentData,
-      props: { onNext: handlePaymentDataForm, data: paymentData }
+      props: { onSubmit: handlePaymentDataForm, data: paymentData }
     },
     {
       title: "Datos del turno",
       component: PlanData,
-      props: { onNext: handlePlanDataForm, data: planData }
+      props: { onSubmit: handlePlanDataForm, data: planData }
     }
   ];
 

@@ -1,95 +1,146 @@
-import styled from 'styled-components'
+import styled from "styled-components";
+import {
+  FONT_FAMILY,
+  SUCCESS_COLOR,
+  TERTIARY_COLOR,
+  ERROR_COLOR,
+} from "../../utils/Stylesheet";
 
 export const MainContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   margin: 0px 20px;
+  overflow: hidden;
   width: 100%;
   height: 100%;
-`
+`;
 
-export const StudentInfoContainer = styled.div`
+export const HeaderContainer = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 3rem;
+`;
+export const ButtonWrapper = styled.div`
+  margin-right: 16rem;
+`;
+export const HeaderBoxes = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
-  width: 100%;
-  background-color:rgba(125, 125, 125, 0.1);
-  padding: 10px 0px;
-  border-radius: 3rem;
+  justify-content: left;
+  padding: 1rem;
+`;
+
+export const EditIconStyles = styled.div`
+  margin-left: auto;
+  cursor: pointer;
+`;
+export const InfoBoxesContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 84px;
+  font-family: ${FONT_FAMILY};
+  flex-wrap: wrap;
+  max-width: 1200px;
+`;
+export const StudentInfoContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 630px;
+  border: 2px solid black;
+  border-radius: 1rem;
   @media (max-width: 768px) {
     background-color: white;
     flex-direction: column;
   }
-`
+`;
+
+export const PaymentInfoContainer = styled(StudentInfoContainer)`
+  width: 448px;
+`;
+
+export const AllInformationContainer = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  flex: 1;
+`;
 
 export const InformationContainer = styled.div`
   display: flex;
-  margin: 0px;
-`
+  flex-direction: column;
+  margin-left: 2.5rem;
+  margin-right: 2.5rem;
+  text-align: left;
+  margin-bottom: 1rem;
+`;
 
 export const Label = styled.p`
-  font-size: clamp(1rem, 2vw + 0.5rem, 2rem);
-  border-bottom: 0.5px solid black;
-  margin: 5px;
-  margin-right: 8px;
+  font-family: ${FONT_FAMILY};
+  font-size: 12px;
+  margin: 0px;
   width: fit-content;
-`
+`;
+
+export const StudentNameContainer = styled.div`
+  display: flex;
+  width: 100%;
+  max-width: 71rem;
+`;
 
 export const StudentInfo = styled.p`
-  font-size: clamp(1rem, 2vw + 0.5rem, 2rem);
-  margin: 5px;
-`
+  font-size: 16px;
+  margin: 0px;
+  text-align: justify;
+  overflow-wrap: break-word;
+`;
+export const StudentStatusStyle = styled.p<{ $status: boolean }>`
+  margin: 0;
+  color: ${({ $status }) => ($status ? SUCCESS_COLOR : TERTIARY_COLOR)};
+`;
 
-export const PaymentsContainer = styled.div`
+export const StudentSituationStyle = styled.p<{ $situation: string }>`
+  margin: 0;
+  color: ${({ $situation }) =>
+    $situation === "En término" ? SUCCESS_COLOR : ERROR_COLOR};
+`;
+export const TitleContainer = styled.div`
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-`
+  margin-left: 76px;
+  gap: 24px;
+`;
 
-export const PaymentsTable = styled.table`
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
-  border-radius: 10px;
-  overflow: hidden;
-`
-
-export const TableHeader = styled.thead`
-  background-color: #7d7d7d;
-`
-
-export const HeaderProperty = styled.th`
-  font-size: clamp(1rem, 2vw + 0.5rem, 2rem);
-  color: white;
-`
-
-export const TableBody = styled.tbody`
-`
-
-export const PaymentInfo = styled.th<{ color?: string; }>`
-  border-bottom: 1px solid rgb(171, 160, 160);
-  font-size: clamp(0.5rem, 1vw + 0.5rem, 2rem);
-  color: ${ props => props.color || 'black' };
-  font-weight: 500;
-`
-
-export const Row = styled.tr`
-`
 export const Title = styled.h1`
-  font-size: clamp(1rem, 2vw + 0.5rem, 2rem);
-  width: fit-content;
-`
+  display: flex;
+  align-items: center;
+  font-size: 24px;
+  justify-content: flex-start;
+  width: 100%;
+`;
 
 export const SubTitle = styled.h2`
-  font-size: clamp(1rem, 2vw + 0.5rem, 2rem);
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
   width: fit-content;
   margin: 0px;
-  margin-bottom: 10px;
-`
+  margin-left: 2rem;
+`;
+
+export const IconStyles = styled.div`
+  margin-right: 0.5rem;
+  display: flex;
+  align-items: center;
+`;
+export const ButtonContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  grid-column: span 2;
+`;
 
 export const NotFoundStudentMessage = styled.p`
   font-size: clamp(1rem, 2vw + 0.5rem, 3rem);
-`
+`;
