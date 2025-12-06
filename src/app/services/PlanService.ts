@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import type { PlanResponse } from "../types/responses/PlanResponse.type";
+import type { CreatePlanRequest } from "../types/requests/PlansRequest/CreatePlansRequest.type";
 
 export const PlanService = createApi({
   reducerPath: "plans",
@@ -8,15 +9,7 @@ export const PlanService = createApi({
     baseUrl: `${import.meta.env.VITE_BACKEND_URL}/plans`,
   }),
   endpoints: (builder) => ({
-    getAllPlans: builder.query<PlanResponse[], void>({
-      query: () => "",
-      providesTags: [{ type: "Plan", id: "LIST" }],
-    }),
-
-    createPlan: builder.mutation<
-      PlanResponse,
-      { name: string; numberOfDays: number; price: number }
-    >({
+    createPlan: builder.mutation<PlanResponse, CreatePlanRequest>({
       query: (body) => ({
         url: "",
         method: "POST",
@@ -39,8 +32,5 @@ export const PlanService = createApi({
   }),
 });
 
-export const {
-  useGetAllPlansQuery,
-  useCreatePlanMutation,
-  useUpdatePlanPriceMutation,
-} = PlanService;
+export const { useCreatePlanMutation, useUpdatePlanPriceMutation } =
+  PlanService;
