@@ -6,7 +6,7 @@ import AddIcon from "../../assets/add-icon.svg";
 import Modal from "../../components/modal/Modal";
 import { DaysOfWeek } from "../../utils/DaysOfWeek";
 
-function CreateSlot() {
+function SlotConfiguration() {
 
     const [showModal, setShowModal] = useState<boolean>(false);
 
@@ -15,9 +15,7 @@ function CreateSlot() {
     const handleConfirmModal = async () => {
         const response = await editCapacityRef.current.submitForm();
         if (response) {
-            //llamo al backend para guardar los cambios
             setShowModal(false);
-            //muestro una notificación de éxito
         }
     }
 
@@ -69,4 +67,4 @@ function CreateSlot() {
         </MainContainer>
     );
 }
-export default CreateSlot;
+export default SlotConfiguration;
