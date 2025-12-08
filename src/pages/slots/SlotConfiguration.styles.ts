@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import styled, { keyframes } from "styled-components";
 import { BORDER_RADIUS, FONT_FAMILY, TERTIARY_COLOR, PRIMARY_COLOR, TEXT_COLOR, SECONDARY_COLOR, FONT_WEIGHT_BOLD, FONT_WEIGHT_NORMAL, BACKGROUND_COLOR } from "../../utils/Stylesheet";
 import Arrow from "../../assets/Arrow.png";
@@ -23,6 +24,12 @@ export const SkeletonsContainer = styled.div`
     align-items: flex-start; 
     gap: 32px;
 `;
+=======
+import styled from "styled-components";
+import { BORDER_RADIUS, FONT_FAMILY, TERTIARY_COLOR, PRIMARY_COLOR, TEXT_COLOR, SECONDARY_COLOR } from "../../utils/Stylesheet";
+import Arrow from "../../assets/Arrow.png";
+
+>>>>>>> dev
 
 export const ScreenContainer = styled.div`
     display: flex;
@@ -33,9 +40,24 @@ export const ScreenContainer = styled.div`
     padding-bottom: 32px;
     gap:24px;
     border: 2px solid ${TERTIARY_COLOR};
+<<<<<<< HEAD
     border-radius: ${BORDER_RADIUS}; 
 `;
 
+=======
+    border-radius: ${BORDER_RADIUS};
+`;
+
+export const MainContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    min-height: 100vh;
+
+`
+
+>>>>>>> dev
 export const InputContainer = styled.div`
     display: flex;  
     flex-direction: column;
@@ -50,7 +72,12 @@ export const EditContainer = styled.div`
 `;
 export const Label = styled.label`
     font-size: 16px;
+<<<<<<< HEAD
     font-family: ${FONT_FAMILY};  
+=======
+    font-family: ${FONT_FAMILY};
+   
+>>>>>>> dev
 `;
 
 export const BaseStyle = styled.input`
@@ -83,7 +110,10 @@ export const Select = styled(BaseStyle).attrs({ as: "select" })`
 
 interface ButtonProps {
     $isDisabled?: boolean;
+<<<<<<< HEAD
 
+=======
+>>>>>>> dev
 }
 
 export const Button = styled.button<ButtonProps>`

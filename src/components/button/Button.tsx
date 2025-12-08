@@ -8,7 +8,8 @@ type ButtonProps = {
   children: React.ReactNode;
   onClick?: () => void;
   size?: "small" | "medium" | "large";
-  variant?: "primary" | "secondary";
+  fontsize?: "small" | "medium" | "large";
+  variant?: "primary" | "warning" | "success";
   icon?: React.ReactNode;
 };
 
@@ -16,23 +17,14 @@ const Button: React.FC<ButtonProps> = ({
   children,
   onClick,
   size = "medium",
+  fontsize = "small",
   variant = "primary",
   icon,
 }) => {
   return (
-    <StyledButton onClick={onClick} $size={size} $variant={variant}>
+    <StyledButton onClick={onClick} $size={size} $variant={variant} > 
       <ButtonContent>
-        {children && (
-          <ButtonText>
-            {typeof children === "string"
-              ? children.split(" ").map((word, index) => (
-                  <span key={index} style={{ display: "block" }}>
-                    {word}
-                  </span>
-                ))
-              : children}
-          </ButtonText>
-        )}
+        {children && <ButtonText $fontsize={fontsize}>{children}</ButtonText>}
         {icon && <ButtonIcon>{icon}</ButtonIcon>}
       </ButtonContent>
     </StyledButton>

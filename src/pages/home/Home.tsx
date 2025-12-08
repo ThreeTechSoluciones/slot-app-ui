@@ -31,19 +31,21 @@ function Home() {
   const [situationFilter, setSituationFilter] = useState<string>("");
   const [studentList, setStudentList] = useState<StudentResponse[]>([]);
   const [filter, setFilter] = useState<string>("");
-  const { data: students } = useGetUserStudentsQuery(
+  const { data: studentsPage } = useGetUserStudentsQuery(
     userId ? { userId, filter } : skipToken
   );
+
   useEffect(() => {
-    if (students) {
-      setStudentList(students);
+    if (studentsPage) {
+      setStudentList(studentsPage.content);
     }
-  }, [students]);
+  }, [studentsPage]);
+  
   const statusMap: Record<string, string> = {
     condeuda: "Con deuda",
     entermino: "En término",
   };
-
+  
   const sortedStudents = useMemo(() => {
     let list = [...studentList];
     if (situationFilter) {
@@ -185,8 +187,9 @@ function Home() {
           />
 
           <Button
-            variant="primary"
             size="small"
+            variant="primary"
+            fontsize="small"
             onClick={() => {
               setSituationFilter("");
               setStatusFilter("");

@@ -1,15 +1,19 @@
 export interface StudentDetailResponse {
   id: string;
-  dni: number;
   name: string;
   lastName: string;
+  dni: string;
   cellphoneNumber: string;
   birthday: string;
+  age: number;
   pathologies: string;
   admissionDate: string;
-  planType: string;
-  classesPerWeek: number;
+  paymentPlanName: string;
+  plan: string;
   paymentDay: number;
+  status: boolean;
+  situation: string;
+  planId: string;
   payments: PaymentDetailResponse[];
 }
 

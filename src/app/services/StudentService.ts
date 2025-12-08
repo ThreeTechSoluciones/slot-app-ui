@@ -17,10 +17,11 @@ export const StudentService = createApi({
         url: `/${studentId}`,
         method: "DELETE",
       }),
-      onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
-        await queryFulfilled;
-        dispatch(UserService.util.invalidateTags(["userStudents"]));
-      },
+      invalidatesTags: (_result, _error, id) => [{ type: "Student", id }],
+       onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
+      await queryFulfilled;
+      dispatch(UserService.util.invalidateTags(["userStudents"]));
+       },
     }),
     createStudent: builder.mutation<StudentResponse, CreateStudentRequest>({
       query: (request: CreateStudentRequest) => ({
@@ -57,10 +58,11 @@ export const StudentService = createApi({
         url: `/${studentId}/activate`,
         method: "POST",
       }),
+      invalidatesTags: (_result, _error, id) => [{ type: "Student", id }],
       onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
-        await queryFulfilled;
-        dispatch(UserService.util.invalidateTags(["userStudents"]));
-      },
+      await queryFulfilled;
+      dispatch(UserService.util.invalidateTags(["userStudents"]));
+       },
     }),
   }),
 });
