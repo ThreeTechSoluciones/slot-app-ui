@@ -2,6 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import type { StudentResponse } from "../types/responses/StudentResponse.type";
 import type { PriceResponse } from "../types/responses/PriceResponse.type";
 import type { PlanResponse } from "../types/responses/PlanResponse.type";
+import type { Page } from "../types/responses/common/Page";
 
 export const UserService = createApi({
   reducerPath: "users",
@@ -11,7 +12,7 @@ export const UserService = createApi({
   }),
   endpoints: (builder) => ({
     getUserStudents: builder.query<
-      StudentResponse[],
+      Page<StudentResponse>,
       {
         userId: string;
         filter?: string;
@@ -26,7 +27,7 @@ export const UserService = createApi({
         result
           ? [
               { type: "userStudents", id: "LIST" },
-              ...result.map(({ id }) => ({
+              ...result.content.map(({ id }) => ({
                 type: "userStudents" as const,
                 id,
               })),

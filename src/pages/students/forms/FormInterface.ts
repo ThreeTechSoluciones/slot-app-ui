@@ -1,5 +1,4 @@
 export interface FormProp<T> {
-  onNext: (data: T) => void;
-  onBack:() => void;
+  onSubmit: (data: T) => void;
   data: T | undefined;
 }

@@ -1,8 +1,8 @@
 export interface StudentDetailResponse {
   id: string;
-  dni: number;
   name: string;
   lastName: string;
+  dni: string;
   cellphoneNumber: string;
   birthday: string;
   age: number;
@@ -12,8 +12,9 @@ export interface StudentDetailResponse {
   classesPerWeek: number;
   numberOfDays: number;
   paymentDay: number;
-  situation: string;
   status: boolean;
+  situation: string;
+  planId: string;
   payments: PaymentDetailResponse[];
 }
 
