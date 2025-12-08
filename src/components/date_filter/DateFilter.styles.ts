@@ -73,15 +73,6 @@ export const DatePickerWrapper = styled.div<DatePickerWrapperProps>`
     flex: 1;
     display: ${(props) => (props.$hasValue ? "flex" : "none")};
   }
-
-  //FORMATO DE FECHA DD/MM/YYYY
-  .react-date-picker__inputGroup__input {
-    color: ${TEXT_COLOR};
-  }
-  .react-date-picker__inputGroup__input:invalid {
-    background: transparent;
-  }
-
   //ICONO CALENDARIO
   .react-date-picker__button {
     padding: 0;

@@ -1,5 +1,10 @@
 import styled from "styled-components";
-import { BORDER_RADIUS, SECONDARY_COLOR } from "../../utils/Stylesheet";
+import {
+  BORDER_RADIUS,
+  SECONDARY_COLOR,
+  FONT_FAMILY,
+  TERTIARY_COLOR,
+} from "../../utils/Stylesheet";
 
 export const FilterContainer = styled.div`
   display: flex;
@@ -15,5 +20,7 @@ export const DropdownWrapper = styled.div`
   justify-content: center;
   border-radius: ${BORDER_RADIUS};
   font-size: 12px;
+  font-family: ${FONT_FAMILY};
+  color: ${TERTIARY_COLOR};
   background-color: ${SECONDARY_COLOR};
 `;

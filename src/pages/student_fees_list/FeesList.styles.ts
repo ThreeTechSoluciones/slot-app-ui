@@ -7,6 +7,8 @@ import {
   BORDER_RADIUS,
   FONT_FAMILY,
   TEXT_COLOR,
+  FONT_WEIGHT_BOLD,
+  FONT_WEIGHT_NORMAL,
 } from "../../utils/Stylesheet";
 
 export const InformationStudent = styled.div``;
@@ -28,12 +30,20 @@ export const Title = styled.h1`
   justify-content: flex-start;
   width: 100%;
 `;
-
-export const SubTitle = styled.h2`
+interface SubtitleProps {
+  $isBold?: boolean;
+}
+export const SubTitle = styled.h2<SubtitleProps>`
   display: flex;
   align-items: center;
   font-size: 1rem;
   margin-left: 5rem;
+  font-family: ${FONT_FAMILY};
+  font-weight: ${(props) =>
+    props.$isBold ? FONT_WEIGHT_BOLD : FONT_WEIGHT_NORMAL};
+  img {
+    padding-right: 6px;
+  }
 `;
 export const FiltersContainer = styled.div`
   display: flex;
@@ -55,7 +65,8 @@ export const ActionButton = styled.button`
   border: none;
   background: none;
   font-size: 16px;
-  font-weight: bold;
+  font-family: ${FONT_FAMILY};
+  font-weight: ${FONT_WEIGHT_BOLD};
   text-decoration: underline;
   cursor: pointer;
   display: inline-flex;
@@ -80,7 +91,7 @@ export const FeeStatus = styled.div<{
     switch ($status) {
       case "Pendiente":
         return PRIMARY_COLOR;
-      case "Vencida":
+      case "Vencido":
         return ERROR_COLOR;
       case "Pagado":
         return SUCCESS_COLOR;

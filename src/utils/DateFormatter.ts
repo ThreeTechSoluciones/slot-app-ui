@@ -15,7 +15,9 @@ export const formatDateToISO = (dateStr: string): string => {
 
   return formatted;
 };
-
+export const formatDateToIsoString = (date: Date) => {
+  return date.toISOString().split("T")[0];
+};
 export const formatDateToDash = (dateInput: Date | string): string => {
   const date = new Date(dateInput);
   const year = date.getFullYear();

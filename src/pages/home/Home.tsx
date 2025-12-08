@@ -40,12 +40,12 @@ function Home() {
       setStudentList(studentsPage.content);
     }
   }, [studentsPage]);
-  
+
   const statusMap: Record<string, string> = {
     condeuda: "Con deuda",
     entermino: "En término",
   };
-  
+
   const sortedStudents = useMemo(() => {
     let list = [...studentList];
     if (situationFilter) {
@@ -114,23 +114,21 @@ function Home() {
     },
     {
       header: "Situación",
-      Cell: ({ original }) => (
-        <SituationText $status={original.status}>
-          {original.status}
-        </SituationText>
+      Cell: ({ student }) => (
+        <SituationText $status={student.status}>{student.status}</SituationText>
       ),
     },
     {
       header: "Estado",
-      Cell: ({ original }) => (
-        <StatusText $isActive={original.isActive}>
-          {original.isActive ? "Activo" : "Inactivo"}
+      Cell: ({ student }) => (
+        <StatusText $isActive={student.isActive}>
+          {student.isActive ? "Activo" : "Inactivo"}
         </StatusText>
       ),
     },
     {
       header: "Acciones",
-      Cell: ({ original }) => (
+      Cell: ({ student }) => (
         <DropdownMenu
           icon={<img src={dotsIcon} alt="Opciones" width={30} height={30} />}
           size="small"
@@ -139,21 +137,21 @@ function Home() {
               label: "Ver cuotas",
               onClick: () =>
                 navigate(`/listado-cuotas`, {
-                  state: { student: original },
+                  state: { studentId: student.id },
                 }),
             },
             {
               label: "Ver alumno",
               onClick: () =>
                 navigate(`/detalle-alumno`, {
-                  state: { studentId: original.id },
+                  state: { studentId: student.id },
                 }),
             },
             {
               label: "Modificar turnos",
               onClick: () =>
                 navigate(`/editar-alumno`, {
-                  state: { studentId: original.id },
+                  state: { studentId: student.id },
                 }), // cambiar ruta cuando esté la pantalla de modifcar turnos
             },
           ]}

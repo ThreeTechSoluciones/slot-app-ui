@@ -5,7 +5,6 @@ import { useUpdatePriceMutation } from "../../app/services/PriceService";
 import toast from "react-hot-toast";
 import useAuthentication from "../../hooks/useAuthentication";
 import { formatCurrency } from "../../utils/Formatter";
-//acá va la gestion de planes
 function Plans() {
   const { userId } = useAuthentication();
   const { data: prices } = useGetUserPricesQuery(userId!);

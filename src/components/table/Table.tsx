@@ -26,7 +26,7 @@ function Table<T extends { id: string | number }>({
             {columns.map((col, index) => (
               <Td key={index}>
                 {col.Cell
-                  ? col.Cell({ original: row })
+                  ? col.Cell({ student: row })
                   : col.accessor
                   ? String(row[col.accessor])
                   : null}
