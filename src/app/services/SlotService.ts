@@ -1,6 +1,7 @@
 
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import type { CreateSlotRequest } from "../types/requests/CreateSlotRequest.type";
+import { UserService } from "./UserService";
 
 
 export const SlotService = createApi({
@@ -18,7 +19,7 @@ export const SlotService = createApi({
             }),
             onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
                 await queryFulfilled;
-                dispatch(SlotService.util.invalidateTags(["Slots"]));
+                dispatch(UserService.util.invalidateTags([{ type: "userSlots", id: "LIST" }]));
             },
         }),
     })

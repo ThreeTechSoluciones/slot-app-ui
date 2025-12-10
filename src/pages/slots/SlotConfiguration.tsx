@@ -35,6 +35,7 @@ import { useCreateSlotMutation } from "../../app/services/SlotService";
 import useAuthentication from "../../hooks/useAuthentication";
 import toast from "react-hot-toast";
 import { ModalType, type ModalConfig } from "../../utils/SlotsModalsUtils";
+import { useGetSlotsQuery } from "../../app/services/UserService";
 
 function SlotConfiguration() {
 
@@ -42,13 +43,17 @@ function SlotConfiguration() {
 
     const [modalType, setModalType] = useState<ModalType>();
 
-    const [createSlot] = useCreateSlotMutation();
-
     const { userId } = useAuthentication()
+
+    const [createSlot] = useCreateSlotMutation();
 
     const [selectEnglishValue, setSelectEnglishValue] = useState<string>("");
 
     const [selectSpanishValue, setSelectSpanishValue] = useState<string>("");
+
+    const { data: registeredSlots } = useGetSlotsQuery({ userId: userId!, dayOfWeek: selectEnglishValue });
+
+    const totalSlots = registeredSlots?.slots.length || 0;
 
     const handleSelectValue = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const newEnglishValue = event.target.value;
@@ -70,15 +75,14 @@ function SlotConfiguration() {
 
 
     const handleCreateSlotModal = async () => {
-        try {
-            const response = await createSlotRef.current.submitForm();
-            if (response) {
-                await createSlot({ dayOfWeek: selectEnglishValue, startTime: response.startTime, userId }).unwrap();
-                setShowModal(false);
-                toast.success("El turno ha sido registrado")
-            }
-        } catch (error) {
-            console.log(error)
+        const response = await createSlotRef.current.submitForm();
+        if (response) {
+            createSlot({ dayOfWeek: selectEnglishValue, startTime: response.startTime, userId: userId! })
+                .unwrap()
+                .then(() => {
+                    setShowModal(false);
+                    toast.success("El turno ha sido registrado")
+                });
         }
     };
 
@@ -125,24 +129,28 @@ function SlotConfiguration() {
                     <MainTitle>Turnos del {selectSpanishValue}</MainTitle>
                     <Subtitle>1 turno registrado</Subtitle>
                 </TitlesContainer>
-                {/* Esto está hardcodeado porque falta el backend, se deberia recorrer
-                 la lista de turnos y renderizar cada uno de los turnos existentes */}
-                <SpecificSlotContainer>
-                    <img src={ClockIcon} width={"24px"} height={"24px"}></img>
-                    <SlotInfoContainer>
-                        <SlotInfo>8:00-9:00</SlotInfo>
-                        <SlotInfo $isDown={true}>9/10 cupos ocupados</SlotInfo>
-                    </SlotInfoContainer>
-                    <ActionsContainer>
-                        <img src={EditIcon} width={"24px"} height={"24px"}></img>
-                        <img src={DeleteIcon} width={"24px"} height={"24px"}></img>
-                    </ActionsContainer>
-                </SpecificSlotContainer>
+                {registeredSlots?.slots.map((slot, index) => (
+                    <SpecificSlotContainer key={slot.startTime} $isLast={index === totalSlots - 1}>
+                        <img src={ClockIcon} width={"24px"} height={"24px"}></img>
+                        <SlotInfoContainer >
+                            <SlotInfo>
+                                {slot.startTime} - {slot.endTime}
+                            </SlotInfo>
+                            <SlotInfo $isDown={true}>{slot.usedCapacity}/{slot.maxCapacity} cupos ocupados</SlotInfo>
+                        </SlotInfoContainer>
+                        <ActionsContainer>
+                            <img src={EditIcon} width={"24px"} height={"24px"}></img>
+                            <img src={DeleteIcon} width={"24px"} height={"24px"}></img>
+                        </ActionsContainer>
+                    </SpecificSlotContainer>
+                ))}
+
+
+
             </SlotsContainer >
         )
     };
 
-    {/* Acá cuando no existan turnos, se renderiza el mensaje. Falta el backend tambien */ }
     const NonExistingSlotsSkeleton = () => {
         return (
             <SlotsContainer>
@@ -193,12 +201,16 @@ function SlotConfiguration() {
             )}
             <SkeletonsContainer>
                 <SlotConfigurationSkeleton />
-                {selectEnglishValue !== "" && (
+                {registeredSlots?.slots.length != 0 && selectEnglishValue !== "" && (
                     <AnimatedContainer>
                         <VisualizeSlotsSkeleton />
                     </AnimatedContainer>
                 )}
-                {/* <NonExistingSlotsSkeleton /> */}
+                {registeredSlots?.slots.length === 0 && selectEnglishValue !== "" && (
+                    <AnimatedContainer>
+                        <NonExistingSlotsSkeleton />
+                    </AnimatedContainer>
+                )}
             </SkeletonsContainer>
         </MainContainer>
     );
