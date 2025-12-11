@@ -55,16 +55,19 @@ export const UserService = createApi({
         url: `${userId}/slots`,
         params: { dayOfWeek },
       }),
-      providesTags: (result) =>
-        result?.slots && Array.isArray(result.slots)
-          ? [
-            { type: "userSlots", id: "LIST" },
-            ...result.slots.map((slot) => ({
-              type: "userSlots" as const,
-              id: slot.startTime
-            })),
-          ]
-          : [{ type: "userSlots", id: "LIST" }],
+      providesTags: (result) => {
+        if (!result || !result.slots || !Array.isArray(result.slots)) {
+          return [{ type: "userSlots", id: "LIST" }];
+        }
+
+        return [
+          { type: "userSlots", id: "LIST" },
+          ...result.slots.map((slot) => ({
+            type: "userSlots" as const,
+            id: slot.startTime
+          })),
+        ];
+      }
     }),
   }),
 });

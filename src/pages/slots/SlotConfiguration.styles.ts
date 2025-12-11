@@ -1,6 +1,7 @@
 import styled, { keyframes } from "styled-components";
-import { BORDER_RADIUS, FONT_FAMILY, TERTIARY_COLOR, PRIMARY_COLOR, TEXT_COLOR, SECONDARY_COLOR, FONT_WEIGHT_BOLD, FONT_WEIGHT_NORMAL, BACKGROUND_COLOR } from "../../utils/Stylesheet";
+import { BORDER_RADIUS, FONT_FAMILY, TERTIARY_COLOR, PRIMARY_COLOR, TEXT_COLOR, SECONDARY_COLOR, FONT_WEIGHT_BOLD, FONT_WEIGHT_NORMAL, BACKGROUND_COLOR, SUCCESS_COLOR } from "../../utils/Stylesheet";
 import Arrow from "../../assets/Arrow.png";
+
 
 export const MainContainer = styled.div`
     display: flex;
@@ -34,6 +35,7 @@ export const ScreenContainer = styled.div`
     gap:24px;
     border: 2px solid ${TERTIARY_COLOR};
     border-radius: ${BORDER_RADIUS}; 
+    height: 272px; 
 `;
 
 export const InputContainer = styled.div`
@@ -133,6 +135,7 @@ export const SlotsContainer = styled.div`
     border-radius: ${BORDER_RADIUS};
     gap:8px;
     max-height: 512px; 
+    padding-bottom:4px;
     overflow-y: auto; 
 `;
 export const TitlesContainer = styled.div`
@@ -165,17 +168,61 @@ export const SpecificSlotContainer = styled.div<SpecificSlotContainerProps>`
     display: flex;
     flex-direction: row;
     width: 456px;
-    height: 56px;
-    gap:2px;
     border-bottom: ${(props) => (props.$isLast ? "none" : `1px solid ${TEXT_COLOR}`)};
-    margin-bottom: ${(props) => (props.$isLast ? "8px" : "none")};
+    margin-bottom: ${(props) => (props.$isLast ? "px" : "none")};
+    padding:2px;
     img{
-        margin-top:16px;
+        margin-top:10px;
         margin-right:16px;
     } 
        &:hover{
         transform: scale(1.02);
         transition: all 0.2s ease;
+    }
+         &.highlight {
+        border: solid 2px ${SUCCESS_COLOR};
+        background-color: ${SUCCESS_COLOR};
+        animation: highlightEffect 2s ease-in-out;
+    }
+    
+    @keyframes highlightEffect {
+        0% { 
+            background-color: transparent;
+            border-radius: ${BORDER_RADIUS};
+             border: solid 2px ${SUCCESS_COLOR};
+        }
+        10% { 
+            background-color: ${SUCCESS_COLOR}25;
+            border-radius: ${BORDER_RADIUS};
+             border: solid 2px ${SUCCESS_COLOR}80;
+           
+        }
+        20% { 
+            background-color: ${SUCCESS_COLOR}20;
+            border-radius: ${BORDER_RADIUS};
+                border: solid 2px ${SUCCESS_COLOR}75;
+        }
+        30% { 
+            background-color: ${SUCCESS_COLOR}25;
+            border-radius: ${BORDER_RADIUS};
+            border: solid 2px ${SUCCESS_COLOR}80;
+            
+        }
+        40% { 
+            background-color: ${SUCCESS_COLOR}20;
+            border-radius: ${BORDER_RADIUS};
+                border: solid 2px ${SUCCESS_COLOR}75;
+        }
+        50% { 
+            background-color: ${SUCCESS_COLOR}15;
+            border-radius: ${BORDER_RADIUS};
+                border: solid 2px ${SUCCESS_COLOR}40;
+        }
+        100% { 
+               background-color: transparent;
+        border: solid 2px transparent;
+                
+        }
     }
 `;
 
@@ -204,7 +251,6 @@ export const ActionsContainer = styled.div`
     display: flex; 
     flex-direction: row;
     margin-left: auto;
-    gap:24px;
      &:hover{
         cursor:pointer;
     }

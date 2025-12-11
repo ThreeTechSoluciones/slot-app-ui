@@ -16,9 +16,16 @@ function Modal({ onClose, children, showButtons = true, onConfirm }: ModalSlotPr
         }
     };
 
+    const handleKeyDown = (e: React.KeyboardEvent) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            handleConfirm();
+        }
+    };
+
     return (
         <ModalSlotContainer>
-            <ModalContent>
+            <ModalContent onKeyDown={handleKeyDown}>
                 {children}
                 {showButtons && (
                     <ModalActions>

@@ -27,7 +27,6 @@ import { useRef, useState } from "react";
 import AddIcon from "../../assets/add-icon.svg";
 import Modal from "../../components/modal/Modal";
 import { DaysOfWeek } from "../../utils/DaysOfWeek";
-import ClockIcon from "../../assets/clock-icon.png";
 import DeleteIcon from "../../assets/delete-icon.png";
 import CalendarIcon from "../../assets/calendar-icon.png";
 import CreateSlotForm from "./forms/CreateSlotForm";
@@ -51,7 +50,10 @@ function SlotConfiguration() {
 
     const [selectSpanishValue, setSelectSpanishValue] = useState<string>("");
 
-    const { data: registeredSlots } = useGetSlotsQuery({ userId: userId!, dayOfWeek: selectEnglishValue });
+    const { data: registeredSlots, refetch } = useGetSlotsQuery(
+        { userId: userId!, dayOfWeek: selectEnglishValue },
+        { skip: selectEnglishValue === "" }
+    );
 
     const totalSlots = registeredSlots?.slots.length || 0;
 
@@ -73,15 +75,30 @@ function SlotConfiguration() {
         }
     }
 
-
     const handleCreateSlotModal = async () => {
         const response = await createSlotRef.current.submitForm();
         if (response) {
+            console.log(response);
             createSlot({ dayOfWeek: selectEnglishValue, startTime: response.startTime, userId: userId! })
                 .unwrap()
                 .then(() => {
                     setShowModal(false);
                     toast.success("El turno ha sido registrado")
+                    refetch();
+                    setTimeout(() => {
+                        const elementId = `slot-${response.startTime.replace(':', '-')}`;
+                        const element = document.getElementById(elementId);
+                        if (element) {
+                            element.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'center'
+                            });
+                            element.classList.add('highlight');
+                            setTimeout(() => {
+                                element.classList.remove('highlight');
+                            }, 1500);
+                        }
+                    }, 100);
                 });
         }
     };
@@ -127,13 +144,17 @@ function SlotConfiguration() {
             <SlotsContainer>
                 <TitlesContainer>
                     <MainTitle>Turnos del {selectSpanishValue}</MainTitle>
-                    <Subtitle>1 turno registrado</Subtitle>
+                    <Subtitle>{registeredSlots?.numberOfSlots} turnos registrados</Subtitle>
                 </TitlesContainer>
                 {registeredSlots?.slots.map((slot, index) => (
-                    <SpecificSlotContainer key={slot.startTime} $isLast={index === totalSlots - 1}>
-                        <img src={ClockIcon} width={"24px"} height={"24px"}></img>
+                    <SpecificSlotContainer
+                        key={slot.startTime}
+                        id={`slot-${slot.startTime.replace(':', '-')}`}
+                        $isLast={index === totalSlots - 1 && totalSlots > 3}
+                    >
+                        <img src={CalendarIcon} width={35} height={35}></img>
                         <SlotInfoContainer >
-                            <SlotInfo>
+                            <SlotInfo $isBold={true}>
                                 {slot.startTime} - {slot.endTime}
                             </SlotInfo>
                             <SlotInfo $isDown={true}>{slot.usedCapacity}/{slot.maxCapacity} cupos ocupados</SlotInfo>
@@ -144,9 +165,6 @@ function SlotConfiguration() {
                         </ActionsContainer>
                     </SpecificSlotContainer>
                 ))}
-
-
-
             </SlotsContainer >
         )
     };
@@ -155,12 +173,12 @@ function SlotConfiguration() {
         return (
             <SlotsContainer>
                 <TitlesContainer>
-                    <MainTitle>Turnos del  {selectSpanishValue}</MainTitle>
+                    <MainTitle>Turnos del {selectSpanishValue}</MainTitle>
                     <Subtitle>No hay turnos registrados</Subtitle>
                 </TitlesContainer>
                 <InfoContainer>
                     <img src={CalendarIcon} width={32} height={32}></img>
-                    <SlotInfo $isBold={true}>No hay turnos registrados</SlotInfo>
+                    <SlotInfo $isBold={true}>Aún no existen turnos para este día</SlotInfo>
                     <SlotInfo $isDown={true}>Podés registrar tu primer turno</SlotInfo>
                 </InfoContainer>
                 <Button onClick={() => { setShowModal(true); setModalType(ModalType.CREATE); }}>Crear primer turno
@@ -201,15 +219,16 @@ function SlotConfiguration() {
             )}
             <SkeletonsContainer>
                 <SlotConfigurationSkeleton />
-                {registeredSlots?.slots.length != 0 && selectEnglishValue !== "" && (
-                    <AnimatedContainer>
-                        <VisualizeSlotsSkeleton />
-                    </AnimatedContainer>
-                )}
-                {registeredSlots?.slots.length === 0 && selectEnglishValue !== "" && (
-                    <AnimatedContainer>
-                        <NonExistingSlotsSkeleton />
-                    </AnimatedContainer>
+                {selectEnglishValue === "" ? null : (
+                    (totalSlots === 0) ? (
+                        <AnimatedContainer>
+                            <NonExistingSlotsSkeleton />
+                        </AnimatedContainer>
+                    ) : (
+                        <AnimatedContainer>
+                            <VisualizeSlotsSkeleton />
+                        </AnimatedContainer>
+                    )
                 )}
             </SkeletonsContainer>
         </MainContainer>
