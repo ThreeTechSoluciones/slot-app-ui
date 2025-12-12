@@ -37,6 +37,7 @@ export const UserService = createApi({
           : [{ type: "userStudents", id: "LIST" }],
     }),
 
+
     getUserPrices: builder.query<PriceResponse[], string>({
       query: (userId) => `${userId}/prices`,
       providesTags: (result) =>

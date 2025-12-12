@@ -78,13 +78,12 @@ function SlotConfiguration() {
     const handleCreateSlotModal = async () => {
         const response = await createSlotRef.current.submitForm();
         if (response) {
-            console.log(response);
             createSlot({ dayOfWeek: selectEnglishValue, startTime: response.startTime, userId: userId! })
                 .unwrap()
                 .then(() => {
                     setShowModal(false);
                     toast.success("El turno ha sido registrado")
-                    refetch();
+
                     setTimeout(() => {
                         const elementId = `slot-${response.startTime.replace(':', '-')}`;
                         const element = document.getElementById(elementId);
@@ -144,7 +143,10 @@ function SlotConfiguration() {
             <SlotsContainer>
                 <TitlesContainer>
                     <MainTitle>Turnos del {selectSpanishValue}</MainTitle>
-                    <Subtitle>{registeredSlots?.numberOfSlots} turnos registrados</Subtitle>
+                    <Subtitle>
+                        {registeredSlots?.numberOfSlots}
+                        {totalSlots > 1 ? " turnos registrados" : " turno registrado"}
+                    </Subtitle>
                 </TitlesContainer>
                 {registeredSlots?.slots.map((slot, index) => (
                     <SpecificSlotContainer

@@ -5,6 +5,7 @@ import type { StudentResponse } from "../types/responses/StudentResponse.type";
 import type { StudentDetailResponse } from "../types/responses/StudentDetailResponse.type";
 import type { UpdateStudentRequest } from "../types/requests/UpdateStudentRequest.type";
 
+
 export const StudentService = createApi({
   reducerPath: "students",
   tagTypes: ["Student"],
