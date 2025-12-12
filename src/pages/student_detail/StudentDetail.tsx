@@ -39,7 +39,10 @@ import { EditarAlumno, MisPlanes } from "../../routes/RoutesUtils";
 import toast from "react-hot-toast";
 import { useState } from "react";
 import type { StudentDetailResponse } from "../../app/types/responses/StudentDetailResponse.type";
-
+import {
+  studentPaymentInfo,
+  studentPersonalInfo,
+} from "../../utils/StudentDetailInfo";
 const StudentDetail = () => {
   const { studentId } = useLocation().state;
   const {
@@ -96,8 +99,9 @@ const StudentDetail = () => {
     <MainContainer>
       {showConfirm && (
         <ConfirmDialog
-          message={`¿Estás seguro de ${student.status ? "dar de baja" : "dar de alta"
-            } a ${student.name} ${student.lastName}?`}
+          message={`¿Estás seguro de ${
+            student.status ? "dar de baja" : "dar de alta"
+          } a ${student.name} ${student.lastName}?`}
           onConfirm={handleConfirm}
           onCancel={() => setShowConfirm(false)}
         />
@@ -160,34 +164,8 @@ const StudentData = ({
 }: {
   student: StudentDetailResponse;
   navigate: (path: string, options?: { state?: any }) => void;
-
 }) => {
-  const info = [
-    {
-      title: "Nombre",
-      data: student.name,
-    },
-    {
-      title: "Apellido",
-      data: student.lastName,
-    },
-    {
-      title: "DNI",
-      data: student.dni,
-    },
-    {
-      title: "Fecha de ingreso",
-      data: student.admissionDate,
-    },
-    {
-      title: "Fecha de nacimiento",
-      data: `${student.birthday} (${student.age} años)`,
-    },
-    {
-      title: "Número de teléfono",
-      data: student.cellphoneNumber,
-    },
-  ];
+  const info = studentPersonalInfo(student);
   return (
     <StudentInfoContainer>
       <HeaderBoxes>
@@ -201,7 +179,11 @@ const StudentData = ({
           <img
             src={EditIcon}
             alt="edit-icon"
-            onClick={() => navigate(`/editar-estudiante/1`, { state: { studentId: student.id }, })}
+            onClick={() =>
+              navigate(`/editar-estudiante/1`, {
+                state: { studentId: student.id },
+              })
+            }
           ></img>
         </EditIconStyles>
       </HeaderBoxes>
@@ -226,39 +208,9 @@ const PaymentData = ({
 }: {
   student: StudentDetailResponse;
   navigate: (path: string, options?: { state?: any }) => void;
-
 }) => {
-  const info = [
-    {
-      title: "Forma de pago",
-      data: student.paymentPlanName,
-    },
-    {
-      title: "Estado del alumno",
-      data: student.status ? "Activo" : "Inactivo",
-      component: (
-        <StudentStatusStyle $status={student.status}>
-          {student.status ? "Activo" : "Inactivo"}
-        </StudentStatusStyle>
-      ),
-    },
-    {
-      title: "Día de pago",
-      data:
-        student.paymentPlanName === "Principio de mes"
-          ? "1-10"
-          : student.paymentDay,
-    },
-    {
-      title: "Situación del alumno",
-      data: student.situation,
-      component: (
-        <StudentSituationStyle $situation={student.situation}>
-          {student.situation}
-        </StudentSituationStyle>
-      ),
-    },
-  ];
+  const info = studentPaymentInfo(student);
+
   return (
     <PaymentInfoContainer>
       <HeaderBoxes>
@@ -268,7 +220,13 @@ const PaymentData = ({
           </IconStyles>
           Datos de pago y estados
         </SubTitle>
-        <EditIconStyles onClick={() => navigate(`/editar-estudiante/2`, { state: { studentId: student.id }, })}>
+        <EditIconStyles
+          onClick={() =>
+            navigate(`/editar-estudiante/2`, {
+              state: { studentId: student.id },
+            })
+          }
+        >
           <img src={EditIcon} alt="edit-icon"></img>
         </EditIconStyles>
       </HeaderBoxes>
