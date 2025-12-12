@@ -50,7 +50,7 @@ function SlotConfiguration() {
 
     const [selectSpanishValue, setSelectSpanishValue] = useState<string>("");
 
-    const { data: registeredSlots, refetch } = useGetSlotsQuery(
+    const { data: registeredSlots } = useGetSlotsQuery(
         { userId: userId!, dayOfWeek: selectEnglishValue },
         { skip: selectEnglishValue === "" }
     );
@@ -83,7 +83,6 @@ function SlotConfiguration() {
                 .then(() => {
                     setShowModal(false);
                     toast.success("El turno ha sido registrado")
-
                     setTimeout(() => {
                         const elementId = `slot-${response.startTime.replace(':', '-')}`;
                         const element = document.getElementById(elementId);
