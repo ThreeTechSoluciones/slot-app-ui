@@ -1,5 +1,9 @@
 import styled from "styled-components";
-import { BORDER_RADIUS, BACKGROUND_COLOR } from "../../utils/Stylesheet";
+import {
+  BORDER_RADIUS,
+  BACKGROUND_COLOR,
+  FONT_FAMILY,
+} from "../../utils/Stylesheet";
 export const ModalOverlay = styled.div`
   position: fixed;
   top: 0;
@@ -31,6 +35,8 @@ export const ModalTitle = styled.h2`
 `;
 export const ModalBody = styled.div`
   margin-bottom: 20px;
+  font-size: 16px;
+  font-family: ${FONT_FAMILY};
 `;
 export const ModalFooter = styled.div`
   display: flex;

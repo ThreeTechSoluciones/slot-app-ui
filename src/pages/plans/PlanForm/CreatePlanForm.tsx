@@ -1,8 +1,19 @@
 import { forwardRef, useImperativeHandle, useState } from "react";
-import { InputContainer } from "./CreatePlanForm.styles";
+import {
+  FormStyle,
+  InputContainer,
+  LabelStyle,
+  InputWrapper,
+  InputStyle,
+  NumberInputContainer,
+  SpinButton,
+} from "./CreatePlanForm.styles";
 import type { CreatePlanRequest } from "../../../app/types/requests/PlansRequest/CreatePlansRequest.type";
 import useAuthentication from "../../../hooks/useAuthentication";
 import { toast } from "react-hot-toast";
+import AddIcon from "../../../assets/add-icon.svg";
+import LessIcon from "../../../assets/less-icon.svg";
+import { createPlanSchema } from "./CreatePlanForm.scheme";
 
 export interface CreatePlanFormProps {
   onSubmit?: (data: CreatePlanRequest) => void;
@@ -18,58 +29,83 @@ const CreatePlanForm = forwardRef((props: CreatePlanFormProps, ref) => {
 
   useImperativeHandle(ref, () => ({
     submit: () =>
-      new Promise<boolean>((resolve) => {
-        // simple validation
-        if (!name || !numberOfDays || !price) {
-          toast.error("Complete todos los campos");
+      new Promise<boolean>(async (resolve) => {
+        try {
+          const data: CreatePlanRequest = {
+            name,
+            numberOfDays: Number(numberOfDays),
+            amount: Number(price),
+            startDate: new Date().toISOString().split("T")[0],
+            userId: userId ?? "",
+          };
+          await createPlanSchema.validate(data);
+          onSubmit?.(data);
+          resolve(true);
+        } catch (err: any) {
+          toast.error(err.message);
           resolve(false);
-          return;
         }
-
-        const data: CreatePlanRequest = {
-          name,
-          numberOfDays: Number(numberOfDays),
-          amount: Number(price),
-          startDate: new Date().toISOString().split("T")[0],
-          userId: userId ?? "",
-        };
-
-        onSubmit?.(data);
-        resolve(true);
       }),
   }));
 
   return (
-    <form>
+    <FormStyle>
       <InputContainer>
-        <label>Nombre del plan*</label>
-        <input
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
+        <LabelStyle>Nombre del plan*</LabelStyle>
+        <InputWrapper>
+          <InputStyle
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Ej: Pase Libre"
+          />
+        </InputWrapper>
       </InputContainer>
 
       <InputContainer>
-        <label>Cantidad de días por semana*</label>
-        <input
-          type="number"
-          min={1}
-          value={numberOfDays}
-          onChange={(e) => setNumberOfDays(e.target.value)}
-        />
+        <LabelStyle>Cantidad de días por semana*</LabelStyle>
+        <NumberInputContainer>
+          <InputWrapper>
+            <InputStyle
+              type="number"
+              value={numberOfDays}
+              onChange={(e) => setNumberOfDays(e.target.value)}
+            />
+          </InputWrapper>
+
+          <SpinButton
+            type="button"
+            style={{ right: "72px" }}
+            onClick={() =>
+              setNumberOfDays(Math.max(1, Number(numberOfDays) - 1).toString())
+            }
+          >
+            <img src={LessIcon} />
+          </SpinButton>
+          <SpinButton
+            type="button"
+            style={{ right: "24px" }}
+            onClick={() =>
+              setNumberOfDays(Math.min(7, Number(numberOfDays) + 1).toString())
+            }
+          >
+            <img src={AddIcon} />
+          </SpinButton>
+        </NumberInputContainer>
       </InputContainer>
 
       <InputContainer>
-        <label>Precio*</label>
-        <input
-          type="number"
-          min={0}
-          value={price}
-          onChange={(e) => setPrice(e.target.value)}
-        />
+        <LabelStyle>Precio*</LabelStyle>
+        <InputWrapper>
+          <InputStyle
+            type="number"
+            min={0}
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+          />
+        </InputWrapper>
       </InputContainer>
-    </form>
+    </FormStyle>
   );
 });
 

@@ -45,9 +45,20 @@ export const UserService = createApi({
           : [{ type: "userPrices", id: "LIST" }],
     }),
     getUserPlans: builder.query<PlanResponse[], string>({
-    query: (userId) => `${userId}/plans`
-   }),
+      query: (userId) => `${userId}/plans`,
+      providesTags: (result) =>
+        result
+          ? [
+              { type: "userPlans", id: "LIST" },
+              ...result.map(({ id }) => ({ type: "userPlans" as const, id })),
+            ]
+          : [{ type: "userPlans", id: "LIST" }],
+    }),
   }),
 });
 
-export const { useGetUserStudentsQuery, useGetUserPricesQuery, useGetUserPlansQuery } = UserService;
+export const {
+  useGetUserStudentsQuery,
+  useGetUserPricesQuery,
+  useGetUserPlansQuery,
+} = UserService;
