@@ -27,7 +27,7 @@ export interface PaymentDataProps {
 
 const PaymentData = forwardRef<FormProp<PaymentDataProps>, FormProp<PaymentDataProps>>((props, ref) => {
 
-  const { data, onNext } = props;
+  const { data, onSubmit: onSubmit, actionType } = props;
 
   type FormData = yup.InferType<typeof paymentDataScheme>;
 
@@ -49,6 +49,9 @@ const PaymentData = forwardRef<FormProp<PaymentDataProps>, FormProp<PaymentDataP
   } = useForm<FormData>({
     resolver: yupResolver(paymentDataScheme) as any,
     defaultValues: { ...studentRegistrationForm },
+    context: {
+      actionType: actionType,
+    }
   });
 
   const PaymentPlanNameSelected = watch("paymentPlanName");
@@ -56,7 +59,7 @@ const PaymentData = forwardRef<FormProp<PaymentDataProps>, FormProp<PaymentDataP
   const NoPaymentSelectedSkeleton = () => {
     return (
       <div>
-        <Text>Este campo se habilitará una vez seleccione el plan de pago</Text>
+        <Text $isRegister={actionType !== 'edit'}>Este campo se habilitará una vez seleccione el plan de pago.</Text>
         <Input disabled={PaymentPlanNameSelected === ""}></Input>
       </div>
     )
@@ -64,47 +67,53 @@ const PaymentData = forwardRef<FormProp<PaymentDataProps>, FormProp<PaymentDataP
   const SpecificDaySkeleton = () => {
     return (
       <>
-        <Input placeholder="Día de pago"  {...register("paymentDay")} />
+        <Label>Día de pago</Label>
+        <Input placeholder="15"  {...register("paymentDay")} />
         <ErrorMessage error={errors.paymentDay} />
       </>
     )
   }
   const BeginningOfMonthSkeleton = () => {
-    return (
-      <InputsContainer>
-        <Text>Si el alumno empezó luego del día 10, puede indicar
-          la cantidad de clases extras para realizar el primer pago</Text>
-        <SecondaryInputsContainer>
-          <div>
-            <Input $isSmallSize placeholder="Clases extras" {...register("extraClasses")}></Input>
-            <ErrorMessage error={errors.extraClasses} />
-          </div>
-          <div>
-            <Controller
-              name="classPrice"
-              control={control}
-              render={({ field }) => (
-                <CurrencyInput
-                  width="176"
-                  value={field.value ?? null}
-                  onChange={field.onChange}
-                  placeholder="Precio clase individual"
-                />
-              )}
-            />
-            <ErrorMessage error={errors.classPrice} />
-          </div>
-        </SecondaryInputsContainer>
-      </InputsContainer>
-    )
+    {
+      return (
+        <InputsContainer>
+          <Text $isRegister={actionType !== 'edit'}> Si el alumno empezó luego del día 10, puede indicar
+            la cantidad de clases extras para realizar el primer pago.</Text>
+          <SecondaryInputsContainer>
+            <div>
+              <Label>Clases extras</Label>
+              <Input $isSmallSize placeholder="Clases extras" {...register("extraClasses")}></Input>
+              <ErrorMessage error={errors.extraClasses} />
+            </div>
+            <div>
+              <Label>Precio clase individual</Label>
+              <Controller
+                name="classPrice"
+                control={control}
+                render={({ field }) => (
+                  <CurrencyInput
+                    width="176"
+                    value={field.value ?? null}
+                    onChange={field.onChange}
+                    placeholder="Precio clase individual"
+                  />
+                )}
+              />
+              <ErrorMessage error={errors.classPrice} />
+            </div>
+          </SecondaryInputsContainer>
+        </InputsContainer>
+      )
+    }
   }
+
 
   useImperativeHandle(ref, () => ({
     submit: () =>
       new Promise<boolean>((resolve) => {
         handleSubmit(
           (data) => {
-            onNext?.({ ...data });
+            onSubmit?.({ ...data });
             resolve(true);
           },
           () => {
@@ -118,7 +127,7 @@ const PaymentData = forwardRef<FormProp<PaymentDataProps>, FormProp<PaymentDataP
     <MainContainer>
       <FormContainer>
         <div>
-          <Label>Plan de pago*</Label>
+          <Label>Plan de pago</Label>
           <Select {...register("paymentPlanName")} defaultValue="">
             <option value="" disabled hidden>Seleccione una opción</option>
             {PlanTypeNameArray.map((planType) => (
@@ -128,14 +137,13 @@ const PaymentData = forwardRef<FormProp<PaymentDataProps>, FormProp<PaymentDataP
           <ErrorMessage error={errors.paymentPlanName} />
         </div>
         <div>
-          <Label>Datos del plan de pago</Label>
           {PaymentPlanNameSelected === "" && (
             <NoPaymentSelectedSkeleton />
           )}
           {PaymentPlanNameSelected === PaymentPlanName.SPECIFIC_DAY && (
             <SpecificDaySkeleton />
           )}
-          {PaymentPlanNameSelected === PaymentPlanName.BEGINNING_OF_MONTH && (
+          {PaymentPlanNameSelected === PaymentPlanName.BEGINNING_OF_MONTH && actionType !== 'edit' && (
             <BeginningOfMonthSkeleton />)}
         </div>
       </FormContainer>

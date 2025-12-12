@@ -1,15 +1,16 @@
 export type UpdateStudentRequest = {
   studentId: string;
-  dni: number;
   name: string;
   lastName: string;
+  dni: string;
   cellphoneNumber: string;
-  planType: string;
-  classesPerWeek: number;
-  extraClasses?: number;
-  paymentDay?: number | null;
-  birthday: Date;
-  admissionDate: Date;
-  pathologies: string | null;
+  birthday: string;
+  pathologies?: string | null;
+  paymentPlanName: string;
+  extraClasses?: number | null | undefined;
+  classPrice?: number | null | undefined;
+  paymentDay?: number | undefined;
+  planId: string;
+  admissionDate: string;
   userId: string;
 };

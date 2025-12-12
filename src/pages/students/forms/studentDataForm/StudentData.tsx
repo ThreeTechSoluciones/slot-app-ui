@@ -32,7 +32,7 @@ const StudentData = forwardRef<
   FormProp<StudentDataProps>,
   FormProp<StudentDataProps>
 >((props, ref) => {
-  const { data, onNext } = props;
+  const { data, onSubmit } = props;
 
   const DEFAULT_STUDENT_DATA = {
     name: "",
@@ -71,8 +71,7 @@ const StudentData = forwardRef<
                   name: capitalize(data.name),
                   lastName: capitalize(data.lastName),
                 };
-
-                onNext?.(formattedData);
+                onSubmit?.(formattedData);
                 resolve(true);
               },
               () => {
@@ -82,21 +81,22 @@ const StudentData = forwardRef<
           }),
       } as unknown as FormProp<StudentDataProps>)
   );
+
   return (
     <MainContainer>
       <FormContainer>
         <div>
-          <Label>Nombre*</Label>
+          <Label>Nombre</Label>
           <Input placeholder="Juan" {...register("name")}></Input>
           <ErrorMessage error={errors.name} />
         </div>
         <div>
-          <Label>Apellido*</Label>
+          <Label>Apellido</Label>
           <Input placeholder="Gomez" {...register("lastName")}></Input>
           <ErrorMessage error={errors.lastName} />
         </div>
         <div>
-          <Label>DNI*</Label>
+          <Label>DNI</Label>
           <Input
             placeholder="56987256 (ingresar solo números, sin puntos ni espacios)"
             {...register("dni")}
@@ -104,7 +104,7 @@ const StudentData = forwardRef<
           <ErrorMessage error={errors.dni} />
         </div>
         <div>
-          <Label>Fecha de nacimiento*</Label>
+          <Label>Fecha de nacimiento</Label>
           <Controller
             name="birthday"
             control={control}
@@ -130,7 +130,7 @@ const StudentData = forwardRef<
           <ErrorMessage error={errors.birthday} />
         </div>
         <div>
-          <Label>Número de teléfono*</Label>
+          <Label>Número de teléfono</Label>
           <Input
             placeholder="3534698523"
             {...register("cellphoneNumber")}
@@ -138,7 +138,7 @@ const StudentData = forwardRef<
           <ErrorMessage error={errors.cellphoneNumber} />
         </div>
         <div>
-          <Label>Patologías o enfermedades</Label>
+          <Label>Patologías o enfermedades (opcional)</Label>
           <Description
             placeholder="Hernia de disco"
             {...register("pathologies")}

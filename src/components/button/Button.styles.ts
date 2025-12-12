@@ -29,19 +29,19 @@ export const StyledButton = styled.button<{
     $variant === "primary"
       ? PRIMARY_COLOR
       : $variant === "warning"
-      ? ERROR_COLOR
-      : $variant === "success"
-      ? SUCCESS_COLOR
-      : TEXT_COLOR};
+        ? ERROR_COLOR
+        : $variant === "success"
+          ? SUCCESS_COLOR
+          : TEXT_COLOR};
 
   color: ${({ $variant }) =>
     $variant === "primary"
       ? TEXT_COLOR
       : $variant === "warning"
-      ? TEXT_COLOR
-      : $variant === "success"
-      ? TEXT_COLOR
-      : BACKGROUND_COLOR};
+        ? TEXT_COLOR
+        : $variant === "success"
+          ? TEXT_COLOR
+          : BACKGROUND_COLOR};
 
   &:hover {
     opacity: 0.9;
