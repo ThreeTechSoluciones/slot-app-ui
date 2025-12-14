@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import type { PlanResponse } from "../types/responses/PlanResponse.type";
 import type { CreatePlanRequest } from "../types/requests/PlansRequest/CreatePlansRequest.type";
+import type { UpdatePlanPriceRequest } from "../types/requests/PlansRequest/UpdatePlanPriceRequest.type";
 import { UserService } from "./UserService";
 
 export const PlanService = createApi({
@@ -22,10 +23,7 @@ export const PlanService = createApi({
       },
     }),
 
-    updatePlanPrice: builder.mutation<
-      PlanResponse,
-      { planId: string; amount: number; startDate: string }
-    >({
+    updatePlanPrice: builder.mutation<PlanResponse, UpdatePlanPriceRequest>({
       query: ({ planId, amount, startDate }) => ({
         url: `/${planId}/prices`,
         method: "PATCH",

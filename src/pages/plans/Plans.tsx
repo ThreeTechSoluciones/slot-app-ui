@@ -1,5 +1,4 @@
 import { useState, useMemo, useRef } from "react";
-import { useNavigate } from "react-router-dom";
 import { formatCurrency } from "../../utils/Formatter";
 import type { Column } from "../../app/types/table";
 import type { PlanResponse } from "../../app/types/responses/PlanResponse.type";
@@ -20,21 +19,28 @@ import {
 import { ConfirmDialog } from "../../components/confirm_dialog/ConfirmDialog";
 import { toast } from "react-hot-toast";
 import { GenericModal } from "../../components/generic_modal/GenericModal";
-import CreatePlanForm from "./PlanForm/CreatePlanForm";
-import { useCreatePlanMutation } from "../../app/services/PlanService";
+import CreatePlanForm from "./CreatePlanForm/CreatePlanForm";
+import {
+  useCreatePlanMutation,
+  useUpdatePlanPriceMutation,
+} from "../../app/services/PlanService";
 import { useGetUserPlansQuery } from "../../app/services/UserService";
 import { skipToken } from "@reduxjs/toolkit/query/react";
 import useAuthentication from "../../hooks/useAuthentication";
 import type { CreatePlanRequest } from "../../app/types/requests/PlansRequest/CreatePlansRequest.type";
+import type { UpdatePlanPriceRequest } from "../../app/types/requests/PlansRequest/UpdatePlanPriceRequest.type";
+import EditPlan from "./EditPlan/EditPlan";
 
 function Plans() {
-  const navigate = useNavigate();
   const formRef = useRef<any>(null);
   const [filter, setFilter] = useState<string>("");
   const [planList, setPlanList] = useState<PlanResponse[]>([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showCreateModal, setShowCreateModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
   const [selectedPlanId, setSelectedPlanId] = useState<string | null>(null);
+  const [selectedPlan, setSelectedPlan] = useState<PlanResponse | null>(null);
+  const [editPlan] = useUpdatePlanPriceMutation();
   // const [deletePlan, { isLoading: isDeleting }] = useDeletePlanMutation();
   const [createPlan] = useCreatePlanMutation();
   const { userId } = useAuthentication();
@@ -74,13 +80,30 @@ function Plans() {
     }
   };
 
-  const handleCreateFromModal = async () => {
+  const handleCreateModal = async () => {
     if (!formRef.current) return;
     const data = await formRef.current.submit();
     if (!data) return;
   };
 
-  //simulacion para eliminar el plan, cuando el endpoint esté listo saco esto y uso el hook de RTK Query
+  //EDITAR PLAN
+  const handleEdit = async (data: UpdatePlanPriceRequest) => {
+    try {
+      await editPlan(data).unwrap();
+      toast.success("Plan editado correctamente");
+      setShowEditModal(false);
+    } catch (error) {
+      toast.error("Error al editar el plan");
+    }
+  };
+  const handleEditModal = async () => {
+    if (!formRef.current) return;
+
+    const ok = await formRef.current.submit();
+    if (!ok) return;
+  };
+  //Simulacion para eliminar el plan, cuando el endpoint
+  //esté listo saco esto y uso el hook de RTK Query
   const deletePlan = async (id: string) => {
     return new Promise((resolve) => {
       setTimeout(() => resolve(true), 500);
@@ -135,8 +158,10 @@ function Plans() {
           options={[
             {
               label: "Editar plan",
-              onClick: () =>
-                navigate(`/editar-plan`, { state: { planId: original.id } }),
+              onClick: () => {
+                setShowEditModal(true);
+                setSelectedPlan(original);
+              },
             },
             {
               label: "Eliminar",
@@ -192,10 +217,31 @@ function Plans() {
           isOpen={showCreateModal}
           title="REGISTRAR NUEVO PLAN"
           confirmText="Registrar"
-          onConfirm={handleCreateFromModal}
+          onConfirm={handleCreateModal}
           onCancel={() => setShowCreateModal(false)}
         >
           <CreatePlanForm ref={formRef} onSubmit={handleCreate} />
+        </GenericModal>
+      )}
+      {showEditModal && selectedPlan && (
+        <GenericModal
+          isOpen={showEditModal}
+          title="EDITAR PLAN"
+          confirmText="Editar"
+          onConfirm={handleEditModal}
+          onCancel={() => {
+            setShowEditModal(false);
+            setSelectedPlan(null);
+          }}
+        >
+          <EditPlan
+            ref={formRef}
+            planId={selectedPlan.id}
+            planName={selectedPlan.name}
+            numberOfDays={selectedPlan.numberOfDays}
+            currentPrice={selectedPlan.price}
+            onSubmit={handleEdit}
+          />
         </GenericModal>
       )}
     </PlansContainer>
