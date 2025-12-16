@@ -26,26 +26,29 @@ const CreatePlanForm = forwardRef((props: CreatePlanFormProps, ref) => {
   const [numberOfDays, setNumberOfDays] = useState("");
   const [price, setPrice] = useState("");
   const { userId } = useAuthentication();
-
   useImperativeHandle(ref, () => ({
-    submit: () =>
-      new Promise<boolean>(async (resolve) => {
-        try {
-          const data: CreatePlanRequest = {
-            name,
-            numberOfDays: Number(numberOfDays),
-            amount: Number(price),
-            startDate: new Date().toISOString().split("T")[0],
-            userId: userId ?? "",
-          };
-          await createPlanSchema.validate(data);
-          onSubmit?.(data);
-          resolve(true);
-        } catch (err: any) {
-          toast.error(err.message);
-          resolve(false);
+    submit: async (): Promise<CreatePlanRequest | null> => {
+      try {
+        if (!name || !numberOfDays || !price) {
+          toast.error("Complete todos los campos");
+          return null;
         }
-      }),
+
+        const data: CreatePlanRequest = {
+          name,
+          numberOfDays: Number(numberOfDays),
+          amount: Number(price),
+          startDate: new Date().toISOString().split("T")[0],
+          userId: userId ?? "",
+        };
+
+        await createPlanSchema.validate(data);
+        return data;
+      } catch (err: any) {
+        toast.error(err.message);
+        return null;
+      }
+    },
   }));
 
   return (

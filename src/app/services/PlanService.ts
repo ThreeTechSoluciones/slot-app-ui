@@ -17,6 +17,7 @@ export const PlanService = createApi({
         method: "POST",
         body,
       }),
+      invalidatesTags: (_result, _error, id) => [{ type: "Plan", id: "LIST" }],
       onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
         await queryFulfilled;
         dispatch(UserService.util.invalidateTags(["userPlans"]));
@@ -29,10 +30,32 @@ export const PlanService = createApi({
         method: "PATCH",
         body: { amount, startDate },
       }),
-      invalidatesTags: [{ type: "Plan", id: "LIST" }],
+      invalidatesTags: (_result, _error, id) => [
+        { type: "Plan", id: id.planId },
+      ],
+      onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
+        try {
+          await queryFulfilled;
+          dispatch(UserService.util.invalidateTags(["userPlans"]));
+        } catch {}
+      },
+    }),
+    deletePlan: builder.mutation<void, string>({
+      query: (planId) => ({
+        url: `/${planId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: (_result, _error, id) => [{ type: "Plan", id: "LIST" }],
+      onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
+        await queryFulfilled;
+        dispatch(UserService.util.invalidateTags(["userPlans"]));
+      },
     }),
   }),
 });
 
-export const { useCreatePlanMutation, useUpdatePlanPriceMutation } =
-  PlanService;
+export const {
+  useCreatePlanMutation,
+  useUpdatePlanPriceMutation,
+  useDeletePlanMutation,
+} = PlanService;

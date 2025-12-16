@@ -23,6 +23,7 @@ import CreatePlanForm from "./CreatePlanForm/CreatePlanForm";
 import {
   useCreatePlanMutation,
   useUpdatePlanPriceMutation,
+  useDeletePlanMutation,
 } from "../../app/services/PlanService";
 import { useGetUserPlansQuery } from "../../app/services/UserService";
 import { skipToken } from "@reduxjs/toolkit/query/react";
@@ -41,7 +42,7 @@ function Plans() {
   const [selectedPlanId, setSelectedPlanId] = useState<string | null>(null);
   const [selectedPlan, setSelectedPlan] = useState<PlanResponse | null>(null);
   const [editPlan] = useUpdatePlanPriceMutation();
-  // const [deletePlan, { isLoading: isDeleting }] = useDeletePlanMutation();
+  const [deletePlan] = useDeletePlanMutation();
   const [createPlan] = useCreatePlanMutation();
   const { userId } = useAuthentication();
   const {
@@ -68,70 +69,61 @@ function Plans() {
   const handleClearFilters = () => {
     setFilter("");
   };
-
-  //CREAR PLAN
-  const handleCreate = async (data: CreatePlanRequest) => {
+  const handleMutation = async (
+    action: () => Promise<any>,
+    onSuccess: () => void,
+    successMessage: string,
+    errorMessage: string
+  ) => {
     try {
-      await createPlan(data).unwrap();
-      toast.success("Plan creado correctamente");
-      setShowCreateModal(false);
+      await action();
+      toast.success(successMessage);
+      onSuccess();
     } catch (error: any) {
-      toast.error("Error al crear el plan");
+      toast.error(errorMessage);
     }
   };
-
+  //CREAR PLAN
   const handleCreateModal = async () => {
     if (!formRef.current) return;
+
     const data = await formRef.current.submit();
     if (!data) return;
-  };
 
-  //EDITAR PLAN
-  const handleEdit = async (data: UpdatePlanPriceRequest) => {
-    try {
-      await editPlan(data).unwrap();
-      toast.success("Plan editado correctamente");
-      setShowEditModal(false);
-    } catch (error) {
-      toast.error("Error al editar el plan");
-    }
+    await handleMutation(
+      () => createPlan(data).unwrap(),
+      () => setShowCreateModal(false),
+      "Plan creado correctamente",
+      "Error al crear el plan"
+    );
   };
+  //EDITAR PLAN
   const handleEditModal = async () => {
     if (!formRef.current) return;
 
-    const ok = await formRef.current.submit();
-    if (!ok) return;
-  };
-  //Simulacion para eliminar el plan, cuando el endpoint
-  //esté listo saco esto y uso el hook de RTK Query
-  const deletePlan = async (id: string) => {
-    return new Promise((resolve) => {
-      setTimeout(() => resolve(true), 500);
-    });
-  };
+    const data = await formRef.current.submit();
+    if (!data) return;
 
-  const handleOpenDeleteModal = (planId: string) => {
-    setSelectedPlanId(planId);
-    setShowDeleteModal(true);
+    await handleMutation(
+      () => editPlan(data).unwrap(),
+      () => setShowEditModal(false),
+      "Plan editado correctamente",
+      "Error al editar el plan"
+    );
   };
-
-  const handleConfirmDelete = async () => {
+  //ELIMINAR PLAN
+  const handleDeleteModal = async () => {
     if (!selectedPlanId) return;
 
-    try {
-      await deletePlan(selectedPlanId);
-
-      setShowDeleteModal(false);
-      setSelectedPlanId(null);
-
-      toast.success("Plan eliminado correctamente");
-    } catch (error) {
-      toast.error("Error al eliminar el plan");
-    }
-  };
-  const handleCancelDelete = () => {
-    setShowDeleteModal(false);
-    setSelectedPlanId(null);
+    await handleMutation(
+      () => deletePlan(selectedPlanId).unwrap(),
+      () => {
+        setShowDeleteModal(false);
+        setSelectedPlanId(null);
+      },
+      "Plan eliminado correctamente",
+      "Error al eliminar el plan"
+    );
   };
 
   const columns: Column<PlanResponse>[] = [
@@ -165,7 +157,10 @@ function Plans() {
             },
             {
               label: "Eliminar",
-              onClick: () => handleOpenDeleteModal(original.id),
+              onClick: () => {
+                setShowDeleteModal(true);
+                setSelectedPlanId(original.id);
+              },
             },
           ]}
         />
@@ -207,9 +202,8 @@ function Plans() {
       {showDeleteModal && (
         <ConfirmDialog
           message="¿Estás seguro de que deseas eliminar este plan?"
-          onConfirm={handleConfirmDelete}
-          onCancel={handleCancelDelete}
-          // isLoading={isDeleting}
+          onConfirm={handleDeleteModal}
+          onCancel={() => setShowDeleteModal(false)}
         />
       )}
       {showCreateModal && (
@@ -220,7 +214,7 @@ function Plans() {
           onConfirm={handleCreateModal}
           onCancel={() => setShowCreateModal(false)}
         >
-          <CreatePlanForm ref={formRef} onSubmit={handleCreate} />
+          <CreatePlanForm ref={formRef} />
         </GenericModal>
       )}
       {showEditModal && selectedPlan && (
@@ -240,7 +234,6 @@ function Plans() {
             planName={selectedPlan.name}
             numberOfDays={selectedPlan.numberOfDays}
             currentPrice={selectedPlan.price}
-            onSubmit={handleEdit}
           />
         </GenericModal>
       )}

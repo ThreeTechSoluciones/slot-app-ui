@@ -12,46 +12,44 @@ import {
   LabelStyle,
   RowContainer,
 } from "./EditPlan.styles";
-import type { UpdatePlanPriceRequest } from "../../../app/types/requests/PlansRequest/UpdatePlanPriceRequest.type";
 import { formatCurrency } from "../../../utils/Formatter";
 export interface EditPlanFormProps {
   planId: string;
   planName: string;
   numberOfDays: number;
   currentPrice: number;
-  onSubmit?: (data: UpdatePlanPriceRequest) => void;
 }
 const EditPlanForm = forwardRef<any, EditPlanFormProps>(
-  ({ planId, planName, numberOfDays, currentPrice, onSubmit }, ref) => {
-    const [price, setPrice] = useState(currentPrice.toString());
+  ({ planId, planName, numberOfDays, currentPrice }, ref) => {
+    const [price, setPrice] = useState("");
     const [startDate, setStartDate] = useState(
       new Date().toISOString().split("T")[0]
     );
 
     useImperativeHandle(ref, () => ({
-      submit: () =>
-        new Promise<boolean>((resolve) => {
-          const amount = Number(price);
+      submit: () => {
+        if (!price) {
+          toast.error("Debe ingresar un nuevo precio");
+          return null;
+        }
 
-          if (isNaN(amount) || amount < 0) {
-            toast.error("El precio debe ser un número válido");
-            resolve(false);
-            return;
-          }
-          if (!startDate) {
-            toast.error("Debe seleccionar una fecha de vigencia");
-            resolve(false);
-            return;
-          }
+        const amount = Number(price);
+        if (isNaN(amount) || amount <= 0) {
+          toast.error("El precio debe ser un número válido");
+          return null;
+        }
 
-          onSubmit?.({
-            planId,
-            amount,
-            startDate: new Date().toISOString().split("T")[0],
-          });
+        if (!startDate) {
+          toast.error("Debe seleccionar una fecha de vigencia");
+          return null;
+        }
 
-          resolve(true);
-        }),
+        return {
+          planId,
+          amount,
+          startDate,
+        };
+      },
     }));
 
     return (
@@ -59,17 +57,17 @@ const EditPlanForm = forwardRef<any, EditPlanFormProps>(
         <InfoContainer>
           <InfoStyle>
             <LabelStyle>Nombre del plan*</LabelStyle>
-            <InfoValue value={planName} />
+            <InfoValue value={planName} readOnly />
           </InfoStyle>
 
           <InfoStyle>
             <LabelStyle>Cantidad de días por semana*</LabelStyle>
-            <InfoValue value={numberOfDays} />
+            <InfoValue value={numberOfDays} readOnly />
           </InfoStyle>
 
           <InfoStyle>
             <LabelStyle>Precio vigente</LabelStyle>
-            <InfoValue value={formatCurrency(currentPrice)} />
+            <InfoValue value={formatCurrency(currentPrice)} readOnly />
           </InfoStyle>
         </InfoContainer>
         <InputGroup>
@@ -85,6 +83,7 @@ const EditPlanForm = forwardRef<any, EditPlanFormProps>(
                 type="number"
                 min={0}
                 placeholder="Nuevo precio"
+                value={price}
                 onChange={(e) => setPrice(e.target.value)}
               />
             </InputWrapper>
