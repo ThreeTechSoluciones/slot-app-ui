@@ -15,18 +15,7 @@ export const MainContainer = styled.div`
     align-items: center;
     width: 100%;
 `;
-export const TitleContainer = styled.div`
-    width: 100%;
-    margin-left:80px;
-`;
 
-export const Title = styled.h1`
-    font-size: 24px;
-    margin-right:80px;
-    margin-top: 32px;
-    font-family: ${FONT_FAMILY};
-    font-weight:bold;
-`;
 
 export const FormContainer = styled.form`
     display: flex;
@@ -105,13 +94,19 @@ export const Button = styled.button`
         background: ${TERTIARY_COLOR};
     }
 `
-export const Text = styled.p`
+
+interface TextProps {
+    $isRegister: boolean;
+}
+
+export const Text = styled.p<TextProps>`
     font-size: 12px;
     color: ${TEXT_COLOR};
     font-family: ${FONT_FAMILY};
+    margin-top:${(props) => (props.$isRegister ? "8px" : "0px")};
+    margin-bottom:${(props) => (props.$isRegister ? "8px" : "0px")};
     width:408px;
-    margin-top:0px;
-    
+   
 `
 export const SecondaryInputsContainer = styled.div`
     display:flex;
