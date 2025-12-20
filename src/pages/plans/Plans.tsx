@@ -28,8 +28,6 @@ import {
 import { useGetUserPlansQuery } from "../../app/services/UserService";
 import { skipToken } from "@reduxjs/toolkit/query/react";
 import useAuthentication from "../../hooks/useAuthentication";
-import type { CreatePlanRequest } from "../../app/types/requests/PlansRequest/CreatePlansRequest.type";
-import type { UpdatePlanPriceRequest } from "../../app/types/requests/PlansRequest/UpdatePlanPriceRequest.type";
 import EditPlan from "./EditPlan/EditPlan";
 
 function Plans() {

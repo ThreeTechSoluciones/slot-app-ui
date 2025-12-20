@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   ModalOverlay,
   ModalContainer,
@@ -34,8 +34,18 @@ export const GenericModal: React.FC<GenericModalProps> = ({
   width = "480px",
   height = "586px",
 }) => {
-  if (!isOpen) return null;
+  useEffect(() => {
+    if (!isOpen || !onConfirm) return;
 
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        onConfirm?.();
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [isOpen, onConfirm]);
   return (
     <ModalOverlay>
       <ModalContainer $width={width} $height={height}>

@@ -16,41 +16,40 @@ import LessIcon from "../../../assets/less-icon.svg";
 import { createPlanSchema } from "./CreatePlanForm.scheme";
 
 export interface CreatePlanFormProps {
-  onSubmit?: (data: CreatePlanRequest) => void;
+  submit: () => Promise<CreatePlanRequest | null>;
 }
 
-const CreatePlanForm = forwardRef((props: CreatePlanFormProps, ref) => {
-  const { onSubmit } = props;
-
+const CreatePlanForm = forwardRef<CreatePlanFormProps>((_, ref) => {
   const [name, setName] = useState("");
   const [numberOfDays, setNumberOfDays] = useState("");
   const [price, setPrice] = useState("");
   const { userId } = useAuthentication();
-  useImperativeHandle(ref, () => ({
-    submit: async (): Promise<CreatePlanRequest | null> => {
-      try {
-        if (!name || !numberOfDays || !price) {
-          toast.error("Complete todos los campos");
-          return null;
-        }
-
-        const data: CreatePlanRequest = {
-          name,
-          numberOfDays: Number(numberOfDays),
-          amount: Number(price),
-          startDate: new Date().toISOString().split("T")[0],
-          userId: userId ?? "",
-        };
-
-        await createPlanSchema.validate(data);
-        return data;
-      } catch (err: any) {
-        toast.error(err.message);
+  const submitInternal = async (): Promise<CreatePlanRequest | null> => {
+    try {
+      if (!name || !numberOfDays || !price) {
+        toast.error("Complete todos los campos");
         return null;
       }
-    },
-  }));
 
+      const data: CreatePlanRequest = {
+        name,
+        numberOfDays: Number(numberOfDays),
+        amount: Number(price),
+        startDate: new Date().toISOString().split("T")[0],
+        userId: userId ?? "",
+      };
+
+      await createPlanSchema.validate(data);
+      return data;
+    } catch (err: any) {
+      toast.error(err.message);
+      return null;
+    }
+  };
+
+  useImperativeHandle(ref, () => ({
+    submit: submitInternal,
+  }));
   return (
     <FormStyle>
       <InputContainer>
