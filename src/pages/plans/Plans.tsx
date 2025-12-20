@@ -132,16 +132,16 @@ function Plans() {
     {
       header: <SortableButton text="Cantidad de días asignados" />,
       accessor: "numberOfDays",
-      Cell: ({ original }) => <span>{original.numberOfDays}</span>,
+      render: (plan) => <span>{plan.numberOfDays}</span>,
     },
     {
       header: <SortableButton text="Precio actual" />,
       accessor: "price",
-      Cell: ({ original }) => <span>{formatCurrency(original.price)}</span>,
+      render: (plan) => <span>{formatCurrency(plan.price)}</span>,
     },
     {
       header: "Acciones",
-      Cell: ({ original }) => (
+      render: (plan) => (
         <DropdownMenu
           icon={<img src={DotsIcon} alt="Opciones" width={30} height={30} />}
           size="small"
@@ -150,14 +150,14 @@ function Plans() {
               label: "Editar plan",
               onClick: () => {
                 setShowEditModal(true);
-                setSelectedPlan(original);
+                setSelectedPlan(plan);
               },
             },
             {
               label: "Eliminar",
               onClick: () => {
                 setShowDeleteModal(true);
-                setSelectedPlanId(original.id);
+                setSelectedPlanId(plan.id);
               },
             },
           ]}
