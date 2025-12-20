@@ -130,23 +130,23 @@ function StudentFeesList() {
     {
       header: <SortableButton text="Mes" />,
       accessor: "month",
-      Cell: ({ student }) => <span>{translateMonth(student.month)} </span>,
+      render: (student) => <span>{translateMonth(student.month)} </span>,
     },
 
     {
       header: <SortableButton text={"Fecha de\nvencimiento"} allowWrap />,
       accessor: "expirationDate",
-      Cell: ({ student }) => <span>{student.expirationDate}</span>,
+      render: (student) => <span>{student.expirationDate}</span>,
     },
     {
       header: <SortableButton text="Monto" />,
       accessor: "amount",
-      Cell: ({ student }) => <span>{formatCurrency(student.amount)}</span>,
+      render: (student) => <span>{formatCurrency(student.amount)}</span>,
     },
     {
       header: "Estado",
       accessor: "status",
-      Cell: ({ student }) => (
+      render: (student) => (
         <FeeStatusContainer>
           <FeeStatus $status={student.status}>{student.status}</FeeStatus>
         </FeeStatusContainer>
@@ -154,7 +154,7 @@ function StudentFeesList() {
     },
     {
       header: "Pago",
-      Cell: ({ student }) => {
+      render: (student) => {
         const canPay = MONTHLY_FEE_STATUS_CAN_BE_PAID.includes(student.status);
         const canViewPayment = MONTHLY_FEE_STATUS_CAN_VIEW_PAYMENT.includes(
           student.status

@@ -114,13 +114,13 @@ function Home() {
     },
     {
       header: "Situación",
-      Cell: ({ student }) => (
+      render: (student) => (
         <SituationText $status={student.status}>{student.status}</SituationText>
       ),
     },
     {
       header: "Estado",
-      Cell: ({ student }) => (
+      render: (student) => (
         <StatusText $isActive={student.isActive}>
           {student.isActive ? "Activo" : "Inactivo"}
         </StatusText>
@@ -128,7 +128,7 @@ function Home() {
     },
     {
       header: "Acciones",
-      Cell: ({ student }) => (
+      render: (student) => (
         <DropdownMenu
           icon={<img src={dotsIcon} alt="Opciones" width={30} height={30} />}
           size="small"
