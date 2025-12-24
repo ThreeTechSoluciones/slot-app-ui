@@ -185,45 +185,23 @@ export const SpecificSlotContainer = styled.div<SpecificSlotContainerProps>`
         animation: highlightEffect 2s ease-in-out;
     }
     
-    @keyframes highlightEffect {
-        0% { 
-            background-color: transparent;
-            border-radius: ${BORDER_RADIUS};
-             border: solid 2px ${SUCCESS_COLOR};
-        }
-        10% { 
-            background-color: ${SUCCESS_COLOR}25;
-            border-radius: ${BORDER_RADIUS};
-             border: solid 2px ${SUCCESS_COLOR}80;
-           
-        }
-        20% { 
-            background-color: ${SUCCESS_COLOR}20;
-            border-radius: ${BORDER_RADIUS};
-                border: solid 2px ${SUCCESS_COLOR}75;
-        }
-        30% { 
-            background-color: ${SUCCESS_COLOR}25;
-            border-radius: ${BORDER_RADIUS};
-            border: solid 2px ${SUCCESS_COLOR}80;
-            
-        }
-        40% { 
-            background-color: ${SUCCESS_COLOR}20;
-            border-radius: ${BORDER_RADIUS};
-                border: solid 2px ${SUCCESS_COLOR}75;
-        }
-        50% { 
-            background-color: ${SUCCESS_COLOR}15;
-            border-radius: ${BORDER_RADIUS};
-                border: solid 2px ${SUCCESS_COLOR}40;
-        }
-        100% { 
-               background-color: transparent;
-        border: solid 2px transparent;
-                
-        }
+   
+@keyframes highlightEffect {
+    0% {
+      background-color: transparent;
+      border-radius: ${BORDER_RADIUS};
+      border: solid 2px ${SUCCESS_COLOR};
     }
+    50% {
+      background-color: ${SUCCESS_COLOR}30;
+      border-radius: ${BORDER_RADIUS};
+      border: solid 2px ${SUCCESS_COLOR}40;
+    }
+    100% {
+      background-color: transparent;
+      border: solid 2px transparent;
+    }
+  }
 `;
 
 export const SlotInfoContainer = styled.div`
@@ -232,20 +210,23 @@ export const SlotInfoContainer = styled.div`
 
 `;
 
-interface SlotInfoProps {
-    $isDown?: boolean;
-    $isBold?: boolean;
-}
-
-export const SlotInfo = styled.p<SlotInfoProps>`
+export const PrimaryText = styled.p`
     color: ${TEXT_COLOR};
     font-family: ${FONT_FAMILY};
-    margin-top:${(props) => (props.$isDown ? "0px" : "8px")};
-    margin-bottom:${(props) => (props.$isDown ? "4px" : "0px")};
-    font-weight: ${(props) => (props.$isBold ? FONT_WEIGHT_BOLD : FONT_WEIGHT_NORMAL)};
-    font-size:${(props) => (props.$isDown ? "12px" : "16px")};  
+    margin-top:8px;
+    margin-bottom:0px;
+    font-weight: ${FONT_WEIGHT_BOLD};
+    font-size:16px;  
 `;
 
+export const SecondaryText = styled.p`
+    color: ${TEXT_COLOR};
+    font-family: ${FONT_FAMILY};
+    margin-top: 0px;
+    margin-bottom:4px;
+    font-size:12px;  
+    
+`;
 
 export const ActionsContainer = styled.div`
     display: flex; 

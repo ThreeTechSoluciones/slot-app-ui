@@ -12,7 +12,8 @@ import {
     Subtitle,
     SpecificSlotContainer,
     SlotInfoContainer,
-    SlotInfo,
+    PrimaryText,
+    SecondaryText,
     TitlesContainer,
     ActionsContainer,
     ScreenContainer,
@@ -50,6 +51,11 @@ function SlotConfiguration() {
 
     const [selectSpanishValue, setSelectSpanishValue] = useState<string>("");
 
+    const editCapacityRef = useRef<any>(null);
+
+    const createSlotRef = useRef<any>(null);
+
+
     const { data: registeredSlots } = useGetSlotsQuery(
         { userId: userId!, dayOfWeek: selectEnglishValue },
         { skip: selectEnglishValue === "" }
@@ -64,9 +70,6 @@ function SlotConfiguration() {
         setSelectSpanishValue(newSpanishValue);
     }
 
-    const editCapacityRef = useRef<any>(null);
-
-    const createSlotRef = useRef<any>(null);
 
     const handleEditCapacityModal = async () => {
         const response = await editCapacityRef.current.submitForm();
@@ -74,6 +77,10 @@ function SlotConfiguration() {
             setShowModal(false);
         }
     }
+    const openModal = (type: ModalType) => {
+        setModalType(type);
+        setShowModal(true);
+    };
 
     const handleCreateSlotModal = async () => {
         const response = await createSlotRef.current.submitForm();
@@ -107,7 +114,7 @@ function SlotConfiguration() {
                 <InputContainer>
                     <EditContainer>
                         <Label>Cupos disponibles</Label>
-                        <EditCapacity onClick={() => { setShowModal(true); setModalType(ModalType.EDIT); }}>Editar
+                        <EditCapacity onClick={() => { openModal(ModalType.EDIT); }} >Editar
                             <img
                                 src={EditIcon}
                                 width={16}
@@ -126,7 +133,7 @@ function SlotConfiguration() {
                         ))}
                     </Select>
                 </InputContainer>
-                <Button $isDisabled={selectEnglishValue === ""} disabled={selectEnglishValue === ""} onClick={() => { setShowModal(true); setModalType(ModalType.CREATE); }}>Nuevo turno
+                <Button $isDisabled={selectEnglishValue === ""} disabled={selectEnglishValue === ""} onClick={() => { openModal(ModalType.CREATE); }}>Nuevo turno
                     <img
                         src={AddIcon}
                         width={24}
@@ -143,7 +150,7 @@ function SlotConfiguration() {
                 <TitlesContainer>
                     <MainTitle>Turnos del {selectSpanishValue}</MainTitle>
                     <Subtitle>
-                        {registeredSlots?.numberOfSlots}
+                        {totalSlots}
                         {totalSlots > 1 ? " turnos registrados" : " turno registrado"}
                     </Subtitle>
                 </TitlesContainer>
@@ -155,10 +162,10 @@ function SlotConfiguration() {
                     >
                         <img src={CalendarIcon} width={35} height={35}></img>
                         <SlotInfoContainer >
-                            <SlotInfo $isBold={true}>
+                            <PrimaryText>
                                 {slot.startTime} - {slot.endTime}
-                            </SlotInfo>
-                            <SlotInfo $isDown={true}>{slot.usedCapacity}/{slot.maxCapacity} cupos ocupados</SlotInfo>
+                            </PrimaryText>
+                            <SecondaryText>{slot.usedCapacity}/{slot.maxCapacity} cupos ocupados</SecondaryText>
                         </SlotInfoContainer>
                         <ActionsContainer>
                             <img src={EditIcon} width={"24px"} height={"24px"}></img>
@@ -179,10 +186,10 @@ function SlotConfiguration() {
                 </TitlesContainer>
                 <InfoContainer>
                     <img src={CalendarIcon} width={32} height={32}></img>
-                    <SlotInfo $isBold={true}>Aún no existen turnos para este día</SlotInfo>
-                    <SlotInfo $isDown={true}>Podés registrar tu primer turno</SlotInfo>
+                    <PrimaryText>Aún no existen turnos para este día</PrimaryText>
+                    <SecondaryText>Podés registrar tu primer turno</SecondaryText>
                 </InfoContainer>
-                <Button onClick={() => { setShowModal(true); setModalType(ModalType.CREATE); }}>Crear primer turno
+                <Button onClick={() => { openModal(ModalType.CREATE); }}>Crear primer turno
                     <img
                         src={AddIcon}
                         width={24}
@@ -220,16 +227,10 @@ function SlotConfiguration() {
             )}
             <SkeletonsContainer>
                 <SlotConfigurationSkeleton />
-                {selectEnglishValue === "" ? null : (
-                    (totalSlots === 0) ? (
-                        <AnimatedContainer>
-                            <NonExistingSlotsSkeleton />
-                        </AnimatedContainer>
-                    ) : (
-                        <AnimatedContainer>
-                            <VisualizeSlotsSkeleton />
-                        </AnimatedContainer>
-                    )
+                {selectEnglishValue !== "" && (
+                    <AnimatedContainer>
+                        {totalSlots === 0 ? <NonExistingSlotsSkeleton /> : <VisualizeSlotsSkeleton />}
+                    </AnimatedContainer>
                 )}
             </SkeletonsContainer>
         </MainContainer>
