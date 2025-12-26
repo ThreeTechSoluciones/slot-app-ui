@@ -25,7 +25,7 @@ const Filter: React.FC<FilterProps> = ({
   const selectedLabel = options.find((o) => o.value === value)?.label || "";
   return (
     <FilterContainer>
-      <DropdownWrapper>
+      <DropdownWrapper $hasValue={!!value}>
         <DropdownMenu
           label={selectedLabel || placeholder}
           size="small"

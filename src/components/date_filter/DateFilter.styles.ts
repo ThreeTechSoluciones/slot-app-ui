@@ -4,7 +4,6 @@ import {
   FONT_FAMILY,
   SECONDARY_COLOR,
   TERTIARY_COLOR,
-  TEXT_COLOR,
 } from "../../utils/Stylesheet";
 
 export const DateFilterContainer = styled.div`
@@ -40,7 +39,7 @@ export const DatePickerWrapper = styled.div<DatePickerWrapperProps>`
   && .react-date-picker {
     width: 184px !important;
     height: 48px;
-    position: relative;
+    position: static !important;
     min-width: 184px !important;
   }
 
@@ -80,8 +79,21 @@ export const DatePickerWrapper = styled.div<DatePickerWrapperProps>`
     background: transparent;
     flex-shrink: 0;
     margin-left: auto;
+    position: static;
+    display: flex;
   }
-
+  .react-date-picker__calendar-button {
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 10;
+      cursor: pointer;
+    }
+  }
   //CALENDARIO
   .react-date-picker__calendar {
     z-index: 1001;

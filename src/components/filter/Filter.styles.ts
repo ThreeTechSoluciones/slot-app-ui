@@ -4,15 +4,18 @@ import {
   SECONDARY_COLOR,
   FONT_FAMILY,
   TERTIARY_COLOR,
+  TEXT_COLOR,
 } from "../../utils/Stylesheet";
-
+interface DropdownWrapperProps {
+  $hasValue: boolean;
+}
 export const FilterContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
 `;
 
-export const DropdownWrapper = styled.div`
+export const DropdownWrapper = styled.div<DropdownWrapperProps>`
   width: 184px;
   height: 48px;
   display: flex;
@@ -23,4 +26,5 @@ export const DropdownWrapper = styled.div`
   font-family: ${FONT_FAMILY};
   color: ${TERTIARY_COLOR};
   background-color: ${SECONDARY_COLOR};
+  color: ${(props) => (props.$hasValue ? TEXT_COLOR : TERTIARY_COLOR)};
 `;

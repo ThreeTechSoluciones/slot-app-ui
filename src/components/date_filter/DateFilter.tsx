@@ -24,7 +24,7 @@ const DateFilter: React.FC<DateFilterProps> = ({ value, onChange }) => {
             <img
               src={CalendarIcon}
               alt="Calendario"
-              style={{ width: 20, height: 20 }}
+              style={{ width: 24, height: 24 }}
             />
           }
         />
