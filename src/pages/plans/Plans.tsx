@@ -34,10 +34,9 @@ function Plans() {
   const formRef = useRef<any>(null);
   const [filter, setFilter] = useState<string>("");
   const [planList, setPlanList] = useState<PlanResponse[]>([]);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [showCreateModal, setShowCreateModal] = useState(false);
-  const [showEditModal, setShowEditModal] = useState(false);
-  const [selectedPlanId, setSelectedPlanId] = useState<string | null>(null);
+  const [showModal, setShowModal] = useState<
+    "CREATE" | "EDIT" | "DELETE" | null
+  >(null);
   const [selectedPlan, setSelectedPlan] = useState<PlanResponse | null>(null);
   const [editPlan] = useUpdatePlanPriceMutation();
   const [deletePlan] = useDeletePlanMutation();
@@ -70,33 +69,33 @@ function Plans() {
   const handleMutation = async (
     action: () => Promise<any>,
     onSuccess: () => void,
-    successMessage: string,
-    errorMessage: string
+    successMessage: string
   ) => {
     try {
       await action();
       toast.success(successMessage);
       onSuccess();
-    } catch (error: any) {
-      toast.error(errorMessage);
+    } finally {
     }
   };
   //CREAR PLAN
-  const handleCreateModal = async () => {
+  const handleCreatePlan = async () => {
     if (!formRef.current) return;
 
     const data = await formRef.current.submit();
-    if (!data) return;
-
+    if (!data || !userId) return;
+    const finalRequest = {
+      ...data,
+      userId,
+    };
     await handleMutation(
-      () => createPlan(data).unwrap(),
-      () => setShowCreateModal(false),
-      "Plan creado correctamente",
-      "Error al crear el plan"
+      () => createPlan(finalRequest).unwrap(),
+      () => setShowModal(null),
+      "Plan creado correctamente"
     );
   };
   //EDITAR PLAN
-  const handleEditModal = async () => {
+  const handleEditPlan = async () => {
     if (!formRef.current) return;
 
     const data = await formRef.current.submit();
@@ -104,26 +103,61 @@ function Plans() {
 
     await handleMutation(
       () => editPlan(data).unwrap(),
-      () => setShowEditModal(false),
-      "Plan editado correctamente",
-      "Error al editar el plan"
+      () => setShowModal(null),
+      "Plan editado correctamente"
     );
   };
   //ELIMINAR PLAN
-  const handleDeleteModal = async () => {
-    if (!selectedPlanId) return;
+  const handleDeletePlan = async () => {
+    if (!selectedPlan || !selectedPlan.id) return;
 
     await handleMutation(
-      () => deletePlan(selectedPlanId).unwrap(),
+      () => deletePlan(selectedPlan.id).unwrap(),
       () => {
-        setShowDeleteModal(false);
-        setSelectedPlanId(null);
+        setShowModal(null);
+        setSelectedPlan(null);
       },
-      "Plan eliminado correctamente",
-      "Error al eliminar el plan"
+      "Plan eliminado correctamente"
     );
   };
-
+  const MODALS = {
+    DELETE: (
+      <ConfirmDialog
+        message="¿Estás seguro de que deseas eliminar este plan?"
+        onConfirm={handleDeletePlan}
+        onCancel={() => setShowModal(null)}
+      />
+    ),
+    CREATE: (
+      <GenericModal
+        title="REGISTRAR NUEVO PLAN"
+        confirmText="Registrar"
+        onConfirm={handleCreatePlan}
+        onCancel={() => setShowModal(null)}
+      >
+        <CreatePlanForm ref={formRef} />
+      </GenericModal>
+    ),
+    EDIT: selectedPlan && (
+      <GenericModal
+        title="EDITAR PLAN"
+        confirmText="Editar"
+        onConfirm={handleEditPlan}
+        onCancel={() => {
+          setShowModal(null);
+          setSelectedPlan(null);
+        }}
+      >
+        <EditPlan
+          ref={formRef}
+          planId={selectedPlan.id}
+          planName={selectedPlan.name}
+          numberOfDays={selectedPlan.numberOfDays}
+          currentAmount={selectedPlan.price}
+        />
+      </GenericModal>
+    ),
+  };
   const columns: Column<PlanResponse>[] = [
     {
       header: <SortableButton text="Nombre del plan" />,
@@ -149,15 +183,15 @@ function Plans() {
             {
               label: "Editar plan",
               onClick: () => {
-                setShowEditModal(true);
+                setShowModal("EDIT");
                 setSelectedPlan(plan);
               },
             },
             {
               label: "Eliminar",
               onClick: () => {
-                setShowDeleteModal(true);
-                setSelectedPlanId(plan.id);
+                setShowModal("DELETE");
+                setSelectedPlan(plan);
               },
             },
           ]}
@@ -189,7 +223,7 @@ function Plans() {
             variant="primary"
             size="medium"
             icon={<img src={AddIcon} alt="Agregar" />}
-            onClick={() => setShowCreateModal(true)}
+            onClick={() => setShowModal("CREATE")}
           >
             Nuevo plan
           </Button>
@@ -197,44 +231,7 @@ function Plans() {
       </FiltersContainer>
 
       <Table columns={columns} data={filteredPlans} />
-      {showDeleteModal && (
-        <ConfirmDialog
-          message="¿Estás seguro de que deseas eliminar este plan?"
-          onConfirm={handleDeleteModal}
-          onCancel={() => setShowDeleteModal(false)}
-        />
-      )}
-      {showCreateModal && (
-        <GenericModal
-          isOpen={showCreateModal}
-          title="REGISTRAR NUEVO PLAN"
-          confirmText="Registrar"
-          onConfirm={handleCreateModal}
-          onCancel={() => setShowCreateModal(false)}
-        >
-          <CreatePlanForm ref={formRef} />
-        </GenericModal>
-      )}
-      {showEditModal && selectedPlan && (
-        <GenericModal
-          isOpen={showEditModal}
-          title="EDITAR PLAN"
-          confirmText="Editar"
-          onConfirm={handleEditModal}
-          onCancel={() => {
-            setShowEditModal(false);
-            setSelectedPlan(null);
-          }}
-        >
-          <EditPlan
-            ref={formRef}
-            planId={selectedPlan.id}
-            planName={selectedPlan.name}
-            numberOfDays={selectedPlan.numberOfDays}
-            currentPrice={selectedPlan.price}
-          />
-        </GenericModal>
-      )}
+      {showModal && MODALS[showModal]}
     </PlansContainer>
   );
 }

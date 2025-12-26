@@ -10,7 +10,7 @@ import {
 import Button from "../button/Button";
 
 type GenericModalProps = {
-  isOpen: boolean;
+  isOpen?: boolean;
   title: string;
   children?: React.ReactNode;
   onConfirm?: () => void;

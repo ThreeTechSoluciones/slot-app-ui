@@ -1,4 +1,7 @@
-import { forwardRef, useImperativeHandle, useState } from "react";
+import { forwardRef, useImperativeHandle } from "react";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+
 import {
   FormStyle,
   InputContainer,
@@ -8,59 +11,68 @@ import {
   NumberInputContainer,
   SpinButton,
 } from "./CreatePlanForm.styles";
-import type { CreatePlanRequest } from "../../../app/types/requests/PlansRequest/CreatePlansRequest.type";
-import useAuthentication from "../../../hooks/useAuthentication";
-import { toast } from "react-hot-toast";
+
 import AddIcon from "../../../assets/add-icon.svg";
 import LessIcon from "../../../assets/less-icon.svg";
 import { createPlanSchema } from "./CreatePlanForm.scheme";
+import type { FormProp } from "../../../app/types/FormProp";
+import { ErrorMessage } from "../../../components/error_message/ErrorMessage";
 
-export interface CreatePlanFormProps {
-  submit: () => Promise<CreatePlanRequest | null>;
+export interface CreatePlanProp {
+  name: string;
+  numberOfDays: number;
+  amount: number;
 }
 
-const CreatePlanForm = forwardRef<CreatePlanFormProps>((_, ref) => {
-  const [name, setName] = useState("");
-  const [numberOfDays, setNumberOfDays] = useState("");
-  const [price, setPrice] = useState("");
-  const { userId } = useAuthentication();
-  const submitInternal = async (): Promise<CreatePlanRequest | null> => {
-    try {
-      if (!name || !numberOfDays || !price) {
-        toast.error("Complete todos los campos");
-        return null;
-      }
+const CreatePlanForm = forwardRef<
+  FormProp<CreatePlanProp>,
+  FormProp<CreatePlanProp>
+>((props, ref) => {
+  const { data, onSubmit } = props;
+  const planForm = data;
 
-      const data: CreatePlanRequest = {
-        name,
-        numberOfDays: Number(numberOfDays),
-        amount: Number(price),
-        startDate: new Date().toISOString().split("T")[0],
-        userId: userId ?? "",
-      };
+  type FormData = CreatePlanProp;
 
-      await createPlanSchema.validate(data);
-      return data;
-    } catch (err: any) {
-      toast.error(err.message);
-      return null;
-    }
-  };
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    formState: { errors },
+  } = useForm<FormData>({
+    resolver: yupResolver(createPlanSchema),
+    defaultValues: {
+      ...planForm,
+    },
+  });
 
-  useImperativeHandle(ref, () => ({
-    submit: submitInternal,
-  }));
+  const numberOfDays = watch("numberOfDays");
+
+  useImperativeHandle(
+    ref,
+    () =>
+      ({
+        submit: () =>
+          new Promise<CreatePlanProp | null>((resolve) => {
+            handleSubmit(
+              (data) => {
+                resolve(data);
+              },
+              () => {
+                resolve(null);
+              }
+            )();
+          }),
+      } as unknown as FormProp<CreatePlanProp>)
+  );
+
   return (
     <FormStyle>
       <InputContainer>
         <LabelStyle>Nombre del plan*</LabelStyle>
         <InputWrapper>
-          <InputStyle
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Ej: Pase Libre"
-          />
+          <InputStyle placeholder="Ej: Pase Libre" {...register("name")} />
+          <ErrorMessage error={errors.name} />
         </InputWrapper>
       </InputContainer>
 
@@ -70,25 +82,27 @@ const CreatePlanForm = forwardRef<CreatePlanFormProps>((_, ref) => {
           <InputWrapper>
             <InputStyle
               type="number"
-              value={numberOfDays}
-              onChange={(e) => setNumberOfDays(e.target.value)}
+              placeholder="Ej: 5"
+              {...register("numberOfDays")}
             />
+            <ErrorMessage error={errors.numberOfDays} />
           </InputWrapper>
 
           <SpinButton
             type="button"
             style={{ right: "72px" }}
             onClick={() =>
-              setNumberOfDays(Math.max(1, Number(numberOfDays) - 1).toString())
+              setValue("numberOfDays", Math.max(1, numberOfDays - 1))
             }
           >
             <img src={LessIcon} />
           </SpinButton>
+
           <SpinButton
             type="button"
             style={{ right: "24px" }}
             onClick={() =>
-              setNumberOfDays(Math.min(7, Number(numberOfDays) + 1).toString())
+              setValue("numberOfDays", Math.min(7, numberOfDays + 1))
             }
           >
             <img src={AddIcon} />
@@ -101,10 +115,10 @@ const CreatePlanForm = forwardRef<CreatePlanFormProps>((_, ref) => {
         <InputWrapper>
           <InputStyle
             type="number"
-            min={0}
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
+            placeholder="Ej: 35000"
+            {...register("amount")}
           />
+          <ErrorMessage error={errors.amount} />
         </InputWrapper>
       </InputContainer>
     </FormStyle>
@@ -112,5 +126,4 @@ const CreatePlanForm = forwardRef<CreatePlanFormProps>((_, ref) => {
 });
 
 CreatePlanForm.displayName = "CreatePlanForm";
-
 export default CreatePlanForm;

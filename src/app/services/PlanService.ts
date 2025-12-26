@@ -34,10 +34,8 @@ export const PlanService = createApi({
         { type: "Plan", id: id.planId },
       ],
       onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
-        try {
-          await queryFulfilled;
-          dispatch(UserService.util.invalidateTags(["userPlans"]));
-        } catch {}
+        await queryFulfilled;
+        dispatch(UserService.util.invalidateTags(["userPlans"]));
       },
     }),
     deletePlan: builder.mutation<void, string>({

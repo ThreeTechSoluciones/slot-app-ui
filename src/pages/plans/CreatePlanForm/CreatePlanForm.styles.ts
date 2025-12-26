@@ -1,5 +1,9 @@
 import styled from "styled-components";
-import { BORDER_RADIUS, TEXT_COLOR } from "../../../utils/Stylesheet";
+import {
+  BORDER_RADIUS,
+  TEXT_COLOR,
+  FONT_WEIGHT_BOLD,
+} from "../../../utils/Stylesheet";
 export const FormStyle = styled.form`
   display: flex;
   flex-direction: column;
@@ -12,9 +16,11 @@ export const InputContainer = styled.div`
   margin-left: 36px;
   margin-right: 36px;
   padding: 8px;
+  gap: 4px;
 `;
 export const LabelStyle = styled.label`
   text-align: left;
+  font-weight: ${FONT_WEIGHT_BOLD};
 `;
 export const InputWrapper = styled.div`
   display: flex;

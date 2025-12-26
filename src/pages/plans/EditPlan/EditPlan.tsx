@@ -1,5 +1,4 @@
-import { forwardRef, useImperativeHandle, useState } from "react";
-import { toast } from "react-hot-toast";
+import { forwardRef, useImperativeHandle } from "react";
 import {
   FormStyle,
   InfoContainer,
@@ -13,44 +12,54 @@ import {
   RowContainer,
 } from "./EditPlan.styles";
 import { formatCurrency } from "../../../utils/Formatter";
+import type { FormProp } from "../../../app/types/FormProp";
+import { editPlanSchema } from "./EditPlan.scheme";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm } from "react-hook-form";
+import { ErrorMessage } from "../../../components/error_message/ErrorMessage";
+export interface EditPlanFormData {
+  amount: number;
+  startDate: string;
+}
 export interface EditPlanFormProps {
   planId: string;
   planName: string;
   numberOfDays: number;
-  currentPrice: number;
+  currentAmount: number;
 }
-const EditPlanForm = forwardRef<any, EditPlanFormProps>(
-  ({ planId, planName, numberOfDays, currentPrice }, ref) => {
-    const [price, setPrice] = useState("");
-    const [startDate, setStartDate] = useState(
-      new Date().toISOString().split("T")[0]
-    );
+const EditPlanForm = forwardRef<FormProp<any>, EditPlanFormProps>(
+  (props, ref) => {
+    const { planId, planName, numberOfDays, currentAmount } = props;
 
-    useImperativeHandle(ref, () => ({
-      submit: () => {
-        if (!price) {
-          toast.error("Debe ingresar un nuevo precio");
-          return null;
-        }
-
-        const amount = Number(price);
-        if (isNaN(amount) || amount <= 0) {
-          toast.error("El precio debe ser un número válido");
-          return null;
-        }
-
-        if (!startDate) {
-          toast.error("Debe seleccionar una fecha de vigencia");
-          return null;
-        }
-
-        return {
-          planId,
-          amount,
-          startDate,
-        };
+    const {
+      register,
+      handleSubmit,
+      formState: { errors },
+    } = useForm<EditPlanFormData>({
+      resolver: yupResolver(editPlanSchema),
+      defaultValues: {
+        amount: undefined,
+        startDate: new Date().toISOString().split("T")[0],
       },
-    }));
+    });
+
+    useImperativeHandle(
+      ref,
+      () =>
+        ({
+          submit: () =>
+            new Promise((resolve) => {
+              handleSubmit(
+                (data) => {
+                  resolve({ planId, ...data });
+                },
+                () => {
+                  resolve(null);
+                }
+              )();
+            }),
+        } as unknown as FormProp<EditPlanFormProps>)
+    );
 
     return (
       <FormStyle>
@@ -67,7 +76,7 @@ const EditPlanForm = forwardRef<any, EditPlanFormProps>(
 
           <InfoStyle>
             <LabelStyle>Precio vigente</LabelStyle>
-            <InfoValue value={formatCurrency(currentPrice)} readOnly />
+            <InfoValue value={formatCurrency(currentAmount)} readOnly />
           </InfoStyle>
         </InfoContainer>
         <InputGroup>
@@ -80,21 +89,19 @@ const EditPlanForm = forwardRef<any, EditPlanFormProps>(
           <RowContainer>
             <InputWrapper>
               <InputStyle
-                type="number"
                 min={0}
                 placeholder="Nuevo precio"
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
+                {...register("amount")}
               />
+              <ErrorMessage error={errors.amount} />
             </InputWrapper>
 
             <InputWrapper>
               <InputStyle
-                type="date"
                 placeholder="Fecha de inicio"
-                value={startDate}
-                onChange={(e) => setStartDate(e.target.value)}
+                {...register("startDate")}
               />
+              <ErrorMessage error={errors.startDate} />
             </InputWrapper>
           </RowContainer>
         </InputGroup>

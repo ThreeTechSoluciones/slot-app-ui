@@ -1,6 +1,6 @@
 import * as yup from "yup";
 
-export const createPlanSchema = yup.object({
+export const createPlanSchema = yup.object().shape({
   name: yup.string().required("El nombre del plan es obligatorio"),
 
   numberOfDays: yup
