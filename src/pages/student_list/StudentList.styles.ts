@@ -5,6 +5,8 @@ import {
   ERROR_COLOR,
   SUCCESS_COLOR,
   TERTIARY_COLOR,
+  FONT_FAMILY,
+  FONT_WEIGHT_BOLD,
 } from "../../utils/Stylesheet";
 export const StudentsContainer = styled.div`
   width: 100%;
@@ -14,6 +16,8 @@ export const StudentsContainer = styled.div`
 export const Title = styled.h1`
   font-size: 24px;
   margin-left: 80px;
+  font-family: ${FONT_FAMILY};
+  font-weight: ${FONT_WEIGHT_BOLD};
 `;
 export const FiltersContainer = styled.div`
   display: flex;

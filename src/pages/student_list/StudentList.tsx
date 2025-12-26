@@ -6,7 +6,7 @@ import {
   LeftContainer,
   RightContainer,
   FiltersContainer,
-} from "./Home.styles";
+} from "./StudentList.styles";
 import { useLocation, useNavigate } from "react-router";
 import useAuthentication from "../../hooks/useAuthentication";
 import { useEffect, useMemo, useState } from "react";
@@ -23,7 +23,7 @@ import Filter from "../../components/filter/Filter";
 import Button from "../../components/button/Button";
 import AddIcon from "../../assets/add-icon.svg";
 
-function Home() {
+function StudentList() {
   const { userId } = useAuthentication();
   const navigate = useNavigate();
   const location = useLocation();
@@ -41,12 +41,12 @@ function Home() {
       setStudentList(studentsPage.content);
     }
   }, [studentsPage]);
-  
+
   const statusMap: Record<string, string> = {
     condeuda: "Con deuda",
     entermino: "En término",
   };
-  
+
   const sortedStudents = useMemo(() => {
     let list = [...studentList];
     if (situationFilter) {
@@ -219,4 +219,4 @@ function Home() {
     </StudentsContainer>
   );
 }
-export default Home;
+export default StudentList;
