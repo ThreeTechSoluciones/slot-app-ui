@@ -114,6 +114,7 @@ const StudentData = forwardRef<
                 onChange={(date) => field.onChange(date)}
                 value={field.value || null}
                 format="dd/MM/yyyy"
+                calendarPosition="birthday"
                 locale="es-ES"
                 clearIcon={null}
                 calendarIcon={

@@ -1,12 +1,16 @@
 import DatePicker from "react-date-picker";
-import { StyledWrapper } from "./inputDate.styles"
+import { StyledWrapper } from "./inputDate.styles";
 
-
-
-export default function InputDate(props: React.ComponentProps<typeof DatePicker>) {
-    return (
-        <StyledWrapper>
-            <DatePicker {...props} />
-        </StyledWrapper>
-    );
+interface InputDateProps extends React.ComponentProps<typeof DatePicker> {
+  calendarPosition?: "birthday" | "filter";
+}
+export default function InputDate({
+  calendarPosition = "birthday",
+  ...props
+}: InputDateProps) {
+  return (
+    <StyledWrapper $calendarPosition={calendarPosition}>
+      <DatePicker {...props} />
+    </StyledWrapper>
+  );
 }

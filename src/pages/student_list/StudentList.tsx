@@ -117,23 +117,21 @@ function StudentList() {
     },
     {
       header: "Situación",
-      Cell: ({ original }) => (
-        <SituationText $status={original.status}>
-          {original.status}
-        </SituationText>
+      render: (student) => (
+        <SituationText $status={student.status}>{student.status}</SituationText>
       ),
     },
     {
       header: "Estado",
-      Cell: ({ original }) => (
-        <StatusText $isActive={original.isActive}>
-          {original.isActive ? "Activo" : "Inactivo"}
+      render: (student) => (
+        <StatusText $isActive={student.isActive}>
+          {student.isActive ? "Activo" : "Inactivo"}
         </StatusText>
       ),
     },
     {
       header: "Acciones",
-      Cell: ({ original }) => (
+      render: (student) => (
         <DropdownMenu
           icon={<img src={dotsIcon} alt="Opciones" width={30} height={30} />}
           size="small"
@@ -141,20 +139,22 @@ function StudentList() {
             {
               label: "Ver cuotas",
               onClick: () =>
-                navigate(`/cuotas`, { state: { studentId: original.id } }),
+                navigate(`/listado-cuotas`, {
+                  state: { studentId: student.id },
+                }),
             },
             {
               label: "Ver alumno",
               onClick: () =>
                 navigate(`/detalle-alumno`, {
-                  state: { studentId: original.id },
+                  state: { studentId: student.id },
                 }),
             },
             {
               label: "Modificar turnos",
               onClick: () =>
                 navigate(`/editar-alumno`, {
-                  state: { studentId: original.id },
+                  state: { studentId: student.id },
                 }), // cambiar ruta cuando esté la pantalla de modifcar turnos
             },
           ]}

@@ -4,6 +4,7 @@ import {
   BORDER_RADIUS,
   PRIMARY_COLOR,
   SECONDARY_COLOR,
+  FONT_FAMILY,
 } from "../../utils/Stylesheet";
 export const TableStyle = styled.table`
   width: calc(100% - 160px);
@@ -17,7 +18,12 @@ export const TableStyle = styled.table`
 export const Thead = styled.thead`
   th {
     font-size: 16px;
-    white-space: nowrap;
+    font-family: ${FONT_FAMILY};
+    height: 50px;
+    max-height: 50px;
+    overflow: hidden;
+    white-space: normal;
+    word-wrap: break-word;
   }
 `;
 
@@ -34,6 +40,7 @@ export const Tbody = styled.tbody`
 `;
 export const Td = styled.td`
   font-size: 16px;
+  font-family: ${FONT_FAMILY};
   text-align: center;
   vertical-align: middle;
 `;
