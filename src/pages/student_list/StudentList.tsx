@@ -2,10 +2,11 @@ import {
   SituationText,
   StatusText,
   StudentsContainer,
+  Title,
   LeftContainer,
   RightContainer,
   FiltersContainer,
-} from "./Home.styles";
+} from "./StudentList.styles";
 import { useLocation, useNavigate } from "react-router";
 import useAuthentication from "../../hooks/useAuthentication";
 import { useEffect, useMemo, useState } from "react";
@@ -22,7 +23,7 @@ import Filter from "../../components/filter/Filter";
 import Button from "../../components/button/Button";
 import AddIcon from "../../assets/add-icon.svg";
 
-function Home() {
+function StudentList() {
   const { userId } = useAuthentication();
   const navigate = useNavigate();
   const location = useLocation();
@@ -102,6 +103,7 @@ function Home() {
         />
       ),
       accessor: "name",
+      Cell: ({ original }) => <span>{original.name}</span>,
     },
     {
       header: (
@@ -111,6 +113,7 @@ function Home() {
         />
       ),
       accessor: "lastname",
+      Cell: ({ original }) => <span>{original.lastname}</span>,
     },
     {
       header: "Situación",
@@ -162,6 +165,7 @@ function Home() {
 
   return (
     <StudentsContainer>
+      <Title>LISTADO DE ALUMNOS</Title>
       <FiltersContainer>
         <LeftContainer>
           <FilterSearch
@@ -215,4 +219,4 @@ function Home() {
     </StudentsContainer>
   );
 }
-export default Home;
+export default StudentList;

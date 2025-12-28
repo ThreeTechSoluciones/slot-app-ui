@@ -1,15 +1,16 @@
 import styled from "styled-components";
 import {
-  FONT_FAMILY,
-  BORDER_RADIUS,
-  SECONDARY_COLOR,
   BACKGROUND_COLOR,
+  BORDER_RADIUS,
+  PRIMARY_COLOR,
+  SECONDARY_COLOR,
+  FONT_FAMILY,
 } from "../../utils/Stylesheet";
 export const TableStyle = styled.table`
   width: calc(100% - 160px);
   border-collapse: collapse;
   margin: 20px auto 0 auto;
-  background-color: #f0e21e;
+  background-color: ${PRIMARY_COLOR};
   border-radius: ${BORDER_RADIUS};
   table-layout: fixed;
 `;

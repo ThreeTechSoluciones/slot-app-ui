@@ -17,6 +17,7 @@ import "react-date-picker/dist/DatePicker.css";
 import "react-calendar/dist/Calendar.css";
 import InputDate from "../../../../components/date/inputDate";
 import CalendarIcon from "../../../../assets/CalenderIcon.png";
+import { capitalize } from "../../../../utils/CapitalizeWords";
 
 export interface StudentDataProps {
   name: string;
@@ -65,7 +66,12 @@ const StudentData = forwardRef<
           new Promise<boolean>((resolve) => {
             handleSubmit(
               (data) => {
-                onSubmit?.({ ...data });
+                const formattedData = {
+                  ...data,
+                  name: capitalize(data.name),
+                  lastName: capitalize(data.lastName),
+                };
+                onSubmit?.(formattedData);
                 resolve(true);
               },
               () => {

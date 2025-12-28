@@ -1,10 +1,24 @@
 import styled from "styled-components";
+import {
+  BACKGROUND_COLOR,
+  BORDER_RADIUS,
+  ERROR_COLOR,
+  SUCCESS_COLOR,
+  TERTIARY_COLOR,
+  FONT_FAMILY,
+  FONT_WEIGHT_BOLD,
+} from "../../utils/Stylesheet";
 export const StudentsContainer = styled.div`
   width: 100%;
   padding-top: 20px;
   min-height: 100vh;
 `;
-
+export const Title = styled.h1`
+  font-size: 24px;
+  margin-left: 80px;
+  font-family: ${FONT_FAMILY};
+  font-weight: ${FONT_WEIGHT_BOLD};
+`;
 export const FiltersContainer = styled.div`
   display: flex;
   margin: 0px 80px;
@@ -23,7 +37,7 @@ export const RightContainer = styled.div`
 `;
 
 const CommonStatusAndSituation = styled.p`
-  color: white;
+  color: ${BACKGROUND_COLOR};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -31,7 +45,7 @@ const CommonStatusAndSituation = styled.p`
   height: 32px;
   margin: 0 auto;
   font-size: 16px;
-  border-radius: 10px;
+  border-radius: ${BORDER_RADIUS};
   font-weight: 700;
 `;
 
@@ -39,11 +53,12 @@ export const SituationText = styled(CommonStatusAndSituation)<{
   $status: string;
 }>`
   background-color: ${({ $status }) =>
-    $status === "En término" ? "#20C92B" : "#E32626"};
+    $status === "En término" ? `${SUCCESS_COLOR}` : `${ERROR_COLOR}`};
 `;
 
 export const StatusText = styled(CommonStatusAndSituation)<{
   $isActive: boolean;
 }>`
-  background-color: ${({ $isActive }) => ($isActive ? "#20C92B" : "#7C7C7C")};
+  background-color: ${({ $isActive }) =>
+    $isActive ? `${SUCCESS_COLOR}` : `${TERTIARY_COLOR}`};
 `;
