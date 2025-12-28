@@ -1,13 +1,12 @@
-import { forwardRef, useImperativeHandle } from 'react';
+import { forwardRef, useImperativeHandle } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
   MainContainer,
   FormContainer,
   Input,
   Description,
-  Label
-}
-  from "./StudentData.styles";
+  Label,
+} from "./StudentData.styles";
 import { StudentDataScheme } from "./StudentData.scheme";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
@@ -16,9 +15,8 @@ import type { FormProp } from "../../create-student/FormProp.type";
 import { Controller } from "react-hook-form";
 import "react-date-picker/dist/DatePicker.css";
 import "react-calendar/dist/Calendar.css";
-import InputDate from '../../../../components/date/inputDate';
-import CalendarIcon from '../../../../assets/CalenderIcon.png';
-
+import InputDate from "../../../../components/date/inputDate";
+import CalendarIcon from "../../../../assets/CalenderIcon.png";
 
 export interface StudentDataProps {
   name: string;
@@ -29,9 +27,10 @@ export interface StudentDataProps {
   pathologies?: string | null;
 }
 
-
-const StudentData = forwardRef<FormProp<StudentDataProps>, FormProp<StudentDataProps>>((props, ref) => {
-
+const StudentData = forwardRef<
+  FormProp<StudentDataProps>,
+  FormProp<StudentDataProps>
+>((props, ref) => {
   const { data, onSubmit } = props;
 
   const DEFAULT_STUDENT_DATA = {
@@ -42,7 +41,7 @@ const StudentData = forwardRef<FormProp<StudentDataProps>, FormProp<StudentDataP
     birthday: "",
     pathologies: "",
   };
-  const studentRegistrationForm = data || DEFAULT_STUDENT_DATA
+  const studentRegistrationForm = data || DEFAULT_STUDENT_DATA;
 
   type FormData = yup.InferType<typeof StudentDataScheme>;
 
@@ -55,23 +54,27 @@ const StudentData = forwardRef<FormProp<StudentDataProps>, FormProp<StudentDataP
     resolver: yupResolver(StudentDataScheme),
     defaultValues: {
       ...studentRegistrationForm,
-    }
+    },
   });
 
-  useImperativeHandle(ref, () => ({
-    submit: () =>
-      new Promise<boolean>((resolve) => {
-        handleSubmit(
-          (data) => {
-            onSubmit?.({ ...data });
-            resolve(true);
-          },
-          () => {
-            resolve(false);
-          }
-        )();
-      })
-  }) as unknown as FormProp<StudentDataProps>);
+  useImperativeHandle(
+    ref,
+    () =>
+      ({
+        submit: () =>
+          new Promise<boolean>((resolve) => {
+            handleSubmit(
+              (data) => {
+                onSubmit?.({ ...data });
+                resolve(true);
+              },
+              () => {
+                resolve(false);
+              }
+            )();
+          }),
+      } as unknown as FormProp<StudentDataProps>)
+  );
 
   return (
     <MainContainer>
@@ -88,7 +91,10 @@ const StudentData = forwardRef<FormProp<StudentDataProps>, FormProp<StudentDataP
         </div>
         <div>
           <Label>DNI</Label>
-          <Input placeholder="56987256 (ingresar solo números, sin puntos ni espacios)" {...register("dni")} ></Input>
+          <Input
+            placeholder="56987256 (ingresar solo números, sin puntos ni espacios)"
+            {...register("dni")}
+          ></Input>
           <ErrorMessage error={errors.dni} />
         </div>
         <div>
@@ -102,9 +108,16 @@ const StudentData = forwardRef<FormProp<StudentDataProps>, FormProp<StudentDataP
                 onChange={(date) => field.onChange(date)}
                 value={field.value || null}
                 format="dd/MM/yyyy"
+                calendarPosition="birthday"
                 locale="es-ES"
                 clearIcon={null}
-                calendarIcon={<img src={CalendarIcon} alt="Calendario" style={{ width: 20, height: 20 }} />}
+                calendarIcon={
+                  <img
+                    src={CalendarIcon}
+                    alt="Calendario"
+                    style={{ width: 20, height: 20 }}
+                  />
+                }
               />
             )}
           />
@@ -113,18 +126,24 @@ const StudentData = forwardRef<FormProp<StudentDataProps>, FormProp<StudentDataP
         </div>
         <div>
           <Label>Número de teléfono</Label>
-          <Input placeholder="3534698523" {...register("cellphoneNumber")}></Input>
+          <Input
+            placeholder="3534698523"
+            {...register("cellphoneNumber")}
+          ></Input>
           <ErrorMessage error={errors.cellphoneNumber} />
         </div>
         <div>
           <Label>Patologías o enfermedades (opcional)</Label>
-          <Description placeholder="Hernia de disco" {...register("pathologies")}></Description>
+          <Description
+            placeholder="Hernia de disco"
+            {...register("pathologies")}
+          ></Description>
           <ErrorMessage error={errors.pathologies} />
         </div>
       </FormContainer>
     </MainContainer>
-  )
+  );
 });
 
-StudentData.displayName = 'StudentDataForm';
+StudentData.displayName = "StudentDataForm";
 export default StudentData;

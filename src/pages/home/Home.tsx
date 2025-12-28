@@ -40,12 +40,12 @@ function Home() {
       setStudentList(studentsPage.content);
     }
   }, [studentsPage]);
-  
+
   const statusMap: Record<string, string> = {
     condeuda: "Con deuda",
     entermino: "En término",
   };
-  
+
   const sortedStudents = useMemo(() => {
     let list = [...studentList];
     if (situationFilter) {
@@ -114,13 +114,13 @@ function Home() {
     },
     {
       header: "Situación",
-      render: (student: StudentResponse) => (
+      render: (student) => (
         <SituationText $status={student.status}>{student.status}</SituationText>
       ),
     },
     {
       header: "Estado",
-      render: (student: StudentResponse) => (
+      render: (student) => (
         <StatusText $isActive={student.isActive}>
           {student.isActive ? "Activo" : "Inactivo"}
         </StatusText>
@@ -128,7 +128,7 @@ function Home() {
     },
     {
       header: "Acciones",
-      render: (student: StudentResponse) => (
+      render: (student) => (
         <DropdownMenu
           icon={<img src={dotsIcon} alt="Opciones" width={30} height={30} />}
           size="small"
@@ -136,7 +136,9 @@ function Home() {
             {
               label: "Ver cuotas",
               onClick: () =>
-                navigate(`/cuotas`, { state: { studentId: student.id } }),
+                navigate(`/listado-cuotas`, {
+                  state: { studentId: student.id },
+                }),
             },
             {
               label: "Ver alumno",

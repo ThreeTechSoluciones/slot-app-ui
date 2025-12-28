@@ -2,10 +2,11 @@ import styled from "styled-components";
 export const HeaderContainer = styled.div`
   position: relative;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 4px;
   cursor: pointer;
+  height: 100%;
 `;
 
 export const SortIcon = styled.img<{ $rotated: boolean }>`
@@ -15,4 +16,6 @@ export const SortIcon = styled.img<{ $rotated: boolean }>`
   transform: rotate(${(props) => (props.$rotated ? 180 : 0)}deg);
 `;
 
-export const Text = styled.p``;
+export const Text = styled.p`
+  margin: 0;
+`;

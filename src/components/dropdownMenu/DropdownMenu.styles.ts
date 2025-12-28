@@ -41,6 +41,8 @@ export const DropdownMenuStyle = styled.div<DropdownContainerProps>`
   border: 1px solid #ccc;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   z-index: 10;
+  max-height: 135px;
+  overflow-y: auto;
   width: ${(props) => (props.size === "small" ? "184px" : "408px")};
 `;
 
