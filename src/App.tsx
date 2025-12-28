@@ -3,12 +3,12 @@ import "./App.css";
 import Login from "./pages/login/Login";
 import Home from "./pages/home/Home";
 import Plans from "./pages/plans/Plans";
-import EditStudent from "./pages/students/edit-student/EditStudent";
 import { PrivateRoute } from "./routes/PrivateRoutes";
 import StudentDetail from "./pages/student_detail/StudentDetail";
 import { MisAlumnos, NuevoAlumno, IniciarSesion, MisPlanes, DetalleAlumno, MisTurnos, EditarAlumno } from "./routes/RoutesUtils";
 import CreateStudent from "./pages/students/create-student/CreateStudent";
 import SlotConfiguration from "./pages/slots/SlotConfiguration";
+import EditStudent from "./pages/students/edit-student/EditStudent";
 
 
 function App() {

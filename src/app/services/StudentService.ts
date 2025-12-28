@@ -5,6 +5,7 @@ import type { StudentResponse } from "../types/responses/StudentResponse.type";
 import type { StudentDetailResponse } from "../types/responses/StudentDetailResponse.type";
 import type { UpdateStudentRequest } from "../types/requests/UpdateStudentRequest.type";
 
+
 export const StudentService = createApi({
   reducerPath: "students",
   tagTypes: ["Student"],
@@ -18,10 +19,10 @@ export const StudentService = createApi({
         method: "DELETE",
       }),
       invalidatesTags: (_result, _error, id) => [{ type: "Student", id }],
-       onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
-      await queryFulfilled;
-      dispatch(UserService.util.invalidateTags(["userStudents"]));
-       },
+      onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
+        await queryFulfilled;
+        dispatch(UserService.util.invalidateTags(["userStudents"]));
+      },
     }),
     createStudent: builder.mutation<StudentResponse, CreateStudentRequest>({
       query: (request: CreateStudentRequest) => ({
@@ -60,9 +61,9 @@ export const StudentService = createApi({
       }),
       invalidatesTags: (_result, _error, id) => [{ type: "Student", id }],
       onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
-      await queryFulfilled;
-      dispatch(UserService.util.invalidateTags(["userStudents"]));
-       },
+        await queryFulfilled;
+        dispatch(UserService.util.invalidateTags(["userStudents"]));
+      },
     }),
   }),
 });
