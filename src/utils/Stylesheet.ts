@@ -5,13 +5,8 @@ export const SECONDARY_COLOR = "#F0F0F0";
 export const TERTIARY_COLOR = "#7C7C7C";
 export const TEXT_COLOR = "#000000";
 export const BACKGROUND_COLOR = "#FFFFFF";
-<<<<<<< HEAD
 export const ERROR_COLOR = "#E32626";
 export const SUCCESS_COLOR = "#20C92B";
-=======
-export const ERROR_COLOR = "#E32626"
-export const SUCCESS_COLOR = "#20C92B"
->>>>>>> dev
 export const FONT_FAMILY = "'Inter', sans-serif";
 export const BORDER_RADIUS = "10px";
 export const FONT_WEIGHT_NORMAL = "500";
