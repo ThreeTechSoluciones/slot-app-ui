@@ -1,6 +1,4 @@
 import * as yup from "yup";
-
-
 export const CreateSlotScheme = yup.object().shape({
     startTime: yup
         .string()

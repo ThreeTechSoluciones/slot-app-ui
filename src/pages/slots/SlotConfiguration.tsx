@@ -35,7 +35,7 @@ import { useCreateSlotMutation } from "../../app/services/SlotService";
 import useAuthentication from "../../hooks/useAuthentication";
 import toast from "react-hot-toast";
 import { ModalType, type ModalConfig } from "../../utils/SlotsModalsUtils";
-import { useGetSlotsQuery } from "../../app/services/UserService";
+import { useGetSlotsQuery, useGetUserPreferencesQuery, useUpdateSlotsCapacityMutation } from "../../app/services/UserService";
 
 function SlotConfiguration() {
 
@@ -46,6 +46,10 @@ function SlotConfiguration() {
     const { userId } = useAuthentication()
 
     const [createSlot] = useCreateSlotMutation();
+
+    const [updateSlotCapacity] = useUpdateSlotsCapacityMutation();
+
+    const { data: userPreferences } = useGetUserPreferencesQuery(userId!);
 
     const [selectEnglishValue, setSelectEnglishValue] = useState<string>("");
 
@@ -74,7 +78,12 @@ function SlotConfiguration() {
     const handleEditCapacityModal = async () => {
         const response = await editCapacityRef.current.submitForm();
         if (response) {
-            setShowModal(false);
+            updateSlotCapacity({ userId: userId!, capacity: response.capacity })
+                .unwrap()
+                .then(() => {
+                    setShowModal(false);
+                    toast.success("La capacidad de los turnos ha sido actualizada");
+                });
         }
     }
     const openModal = (type: ModalType) => {
@@ -122,7 +131,7 @@ function SlotConfiguration() {
                             />
                         </EditCapacity>
                     </EditContainer>
-                    <Input disabled placeholder="25 cupos por turno" />
+                    <Input disabled placeholder={userPreferences?.capacity ? `${userPreferences.capacity} cupos por turno` : "Cargando..."} />
                 </InputContainer>
                 <InputContainer>
                     <Label> Día del turno</Label>

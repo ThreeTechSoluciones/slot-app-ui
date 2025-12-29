@@ -5,6 +5,8 @@ import type { PlanResponse } from "../types/responses/PlanResponse.type";
 import type { Page } from "../types/responses/common/Page";
 import type { SlotListResponse } from "../types/responses/SlotResponse.type";
 import type { GetSlotsByDayParams } from "../types/requests/GetUserSlotsRequest.type";
+import type { UserPreferencesResponse } from "../types/responses/UserPreferencesResponse.type";
+
 
 export const UserService = createApi({
   reducerPath: "users",
@@ -51,6 +53,22 @@ export const UserService = createApi({
     getUserPlans: builder.query<PlanResponse[], string>({
       query: (userId) => `${userId}/plans`
     }),
+    getUserPreferences: builder.query<UserPreferencesResponse, string>({
+      query: (userId) => `${userId}/userPreferences`,
+      providesTags: (_result, _error, userId) => [
+        { type: "userSlots", id: userId },
+      ],
+    }),
+    updateSlotsCapacity: builder.mutation<void, { userId: string; capacity: number }>({
+      query: ({ userId, capacity }) => ({
+        url: `/${userId}/capacity`,
+        method: "PATCH",
+        body: { capacity },
+      }),
+      invalidatesTags: (_result, _error, { userId }) => [
+        { type: "userSlots", id: userId },
+      ],
+    }),
     getSlots: builder.query<SlotListResponse, GetSlotsByDayParams>({
       query: ({ userId, dayOfWeek }) => ({
         url: `${userId}/slots`,
@@ -77,5 +95,7 @@ export const {
   useGetUserStudentsQuery,
   useGetUserPricesQuery,
   useGetUserPlansQuery,
-  useGetSlotsQuery
+  useGetSlotsQuery,
+  useUpdateSlotsCapacityMutation,
+  useGetUserPreferencesQuery
 } = UserService;

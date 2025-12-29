@@ -55,7 +55,7 @@ export const store = configureStore({
       .concat(StudentService.middleware)
       .concat(PriceService.middleware)
       .concat(MonthlyFeeService.middleware)
-      .concat(PaymentService.middleware),
+      .concat(PaymentService.middleware)
       .concat(SlotService.middleware),
 });
 
