@@ -10,7 +10,7 @@ import type { UserPreferencesResponse } from "../types/responses/UserPreferences
 
 export const UserService = createApi({
   reducerPath: "users",
-  tagTypes: ["userStudents", "userPrices", "userPlans", "userSlots"],
+  tagTypes: ["userStudents", "userPrices", "userPlans", "userSlots", "userPreferences"],
   baseQuery: fetchBaseQuery({
     baseUrl: `${import.meta.env.VITE_BACKEND_URL}/users`,
   }),
@@ -56,7 +56,7 @@ export const UserService = createApi({
     getUserPreferences: builder.query<UserPreferencesResponse, string>({
       query: (userId) => `${userId}/userPreferences`,
       providesTags: (_result, _error, userId) => [
-        { type: "userSlots", id: userId },
+        { type: "userPreferences", id: userId },
       ],
     }),
     updateSlotsCapacity: builder.mutation<void, { userId: string; capacity: number }>({
@@ -67,6 +67,7 @@ export const UserService = createApi({
       }),
       invalidatesTags: (_result, _error, { userId }) => [
         { type: "userSlots", id: userId },
+        { type: "userPreferences", id: userId },
       ],
     }),
     getSlots: builder.query<SlotListResponse, GetSlotsByDayParams>({

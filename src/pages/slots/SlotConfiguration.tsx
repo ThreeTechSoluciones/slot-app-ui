@@ -49,7 +49,7 @@ function SlotConfiguration() {
 
     const [updateSlotCapacity] = useUpdateSlotsCapacityMutation();
 
-    const { data: userPreferences } = useGetUserPreferencesQuery(userId!);
+    const { data: userPreferences, isLoading, isError } = useGetUserPreferencesQuery(userId!);
 
     const [selectEnglishValue, setSelectEnglishValue] = useState<string>("");
 
@@ -118,6 +118,12 @@ function SlotConfiguration() {
     };
 
     const SlotConfigurationSkeleton = () => {
+        const getPlaceholder = () => {
+            if (isLoading) return "Cargando...";
+            if (isError) return "Error al cargar capacidad";
+            if (userPreferences?.capacity) return `${userPreferences.capacity} cupos por turno`;
+            return "Sin capacidad definida";
+        };
         return (
             <ScreenContainer>
                 <InputContainer>
@@ -131,7 +137,7 @@ function SlotConfiguration() {
                             />
                         </EditCapacity>
                     </EditContainer>
-                    <Input disabled placeholder={userPreferences?.capacity ? `${userPreferences.capacity} cupos por turno` : "Cargando..."} />
+                    <Input disabled placeholder={getPlaceholder()} />
                 </InputContainer>
                 <InputContainer>
                     <Label> Día del turno</Label>
