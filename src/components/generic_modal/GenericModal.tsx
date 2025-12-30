@@ -32,7 +32,7 @@ export const GenericModal: React.FC<GenericModalProps> = ({
   cancelText = "Cancelar",
   confirmVariant = "primary",
   width = "480px",
-  height = "586px",
+  height = "550px",
 }) => {
   useEffect(() => {
     if (!isOpen || !onConfirm) return;

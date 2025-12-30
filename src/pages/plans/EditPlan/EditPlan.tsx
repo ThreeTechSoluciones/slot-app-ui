@@ -6,17 +6,21 @@ import {
   InfoValue,
   InputGroup,
   Description,
-  InputStyle,
+  DatePickerCustomWrapper,
   InputWrapper,
   LabelStyle,
+  ErrorWrapper,
   RowContainer,
 } from "./EditPlan.styles";
 import { formatCurrency } from "../../../utils/Formatter";
 import type { FormProp } from "../../../app/types/FormProp";
 import { editPlanSchema } from "./EditPlan.scheme";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { ErrorMessage } from "../../../components/error_message/ErrorMessage";
+import CurrencyInput from "../../../utils/InputPrice/CurrencyInput";
+import InputDate from "../../../components/date/inputDate";
+import CalendarIcon from "../../../assets/calendar-icon.svg";
 export interface EditPlanFormData {
   amount: number;
   startDate: string;
@@ -34,6 +38,7 @@ const EditPlanForm = forwardRef<FormProp<any>, EditPlanFormProps>(
     const {
       register,
       handleSubmit,
+      control,
       formState: { errors },
     } = useForm<EditPlanFormData>({
       resolver: yupResolver(editPlanSchema),
@@ -81,27 +86,56 @@ const EditPlanForm = forwardRef<FormProp<any>, EditPlanFormProps>(
         </InfoContainer>
         <InputGroup>
           <LabelStyle>Actualizar precio (opcional)</LabelStyle>
-
           <Description>
-            Ingresá el nuevo monto y la fecha a partir de la cual será válido
+            Ingresá el nuevo monto y la fecha a partir de la cual será válido.
           </Description>
 
           <RowContainer>
             <InputWrapper>
-              <InputStyle
-                min={0}
-                placeholder="Nuevo precio"
-                {...register("amount")}
+              <Controller
+                name="amount"
+                control={control}
+                defaultValue={undefined}
+                render={({ field }) => (
+                  <CurrencyInput
+                    value={field.value ?? null}
+                    onChange={field.onChange}
+                    width="100%"
+                    placeholder="Nuevo precio"
+                  />
+                )}
               />
-              <ErrorMessage error={errors.amount} />
+              <ErrorWrapper>
+                <ErrorMessage error={errors.amount} />
+              </ErrorWrapper>
             </InputWrapper>
 
             <InputWrapper>
-              <InputStyle
-                placeholder="Fecha de inicio"
-                {...register("startDate")}
-              />
-              <ErrorMessage error={errors.startDate} />
+              <DatePickerCustomWrapper>
+                <Controller
+                  name="startDate"
+                  control={control}
+                  render={({ field }) => (
+                    <InputDate
+                      {...field}
+                      value={field.value}
+                      onChange={(date) => field.onChange(date)}
+                      clearIcon={null}
+                      format="dd/MM/yyyy"
+                      calendarIcon={
+                        <img
+                          src={CalendarIcon}
+                          alt="Calendario"
+                          style={{ width: 20, height: 20 }}
+                        />
+                      }
+                    />
+                  )}
+                />
+              </DatePickerCustomWrapper>
+              <ErrorWrapper>
+                <ErrorMessage error={errors.startDate} />
+              </ErrorWrapper>
             </InputWrapper>
           </RowContainer>
         </InputGroup>

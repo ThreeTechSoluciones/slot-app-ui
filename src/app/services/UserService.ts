@@ -45,8 +45,15 @@ export const UserService = createApi({
             ]
           : [{ type: "userPrices", id: "LIST" }],
     }),
-    getUserPlans: builder.query<PlanResponse[], string>({
-      query: (userId) => `${userId}/plans`,
+    getUserPlans: builder.query<
+      PlanResponse[],
+      { userId: string; filter?: string }
+    >({
+      query: ({ userId, filter }) => {
+        const params = new URLSearchParams();
+        if (filter) params.append("planName", filter);
+        return `${userId}/plans?${params}`;
+      },
       providesTags: (result) =>
         result
           ? [

@@ -1,4 +1,4 @@
-import { useState, useMemo, useRef } from "react";
+import { useState, useRef } from "react";
 import { formatCurrency } from "../../utils/Formatter";
 import type { Column } from "../../app/types/table";
 import type { PlanResponse } from "../../app/types/responses/PlanResponse.type";
@@ -33,7 +33,6 @@ import EditPlan from "./EditPlan/EditPlan";
 function Plans() {
   const formRef = useRef<any>(null);
   const [filter, setFilter] = useState<string>("");
-  const [planList, setPlanList] = useState<PlanResponse[]>([]);
   const [showModal, setShowModal] = useState<
     "CREATE" | "EDIT" | "DELETE" | null
   >(null);
@@ -42,26 +41,10 @@ function Plans() {
   const [deletePlan] = useDeletePlanMutation();
   const [createPlan] = useCreatePlanMutation();
   const { userId } = useAuthentication();
-  const {
-    data: plans,
-    isLoading,
-    isError,
-  } = useGetUserPlansQuery(userId ? userId : skipToken);
-  useMemo(() => {
-    if (plans) {
-      setPlanList(plans);
-    }
-  }, [plans]);
-
-  //Filtro de busqueda por nombre desde el frontend, cuando
-  //este el backend se tiene que modificar:
-  const filteredPlans = useMemo(() => {
-    if (!filter) return planList;
-
-    return planList.filter((plan) =>
-      plan.name.toLowerCase().includes(filter.toLowerCase())
-    );
-  }, [planList, filter]);
+  const { data: plansData } = useGetUserPlansQuery(
+    userId ? { userId, filter } : skipToken
+  );
+  const plansToDisplay = plansData || [];
 
   const handleClearFilters = () => {
     setFilter("");
@@ -147,6 +130,7 @@ function Plans() {
           setShowModal(null);
           setSelectedPlan(null);
         }}
+        height="585px"
       >
         <EditPlan
           ref={formRef}
@@ -199,8 +183,7 @@ function Plans() {
       ),
     },
   ];
-  if (isLoading) return <div>Cargando planes...</div>;
-  if (isError) return <div>Error al cargar planes</div>;
+
   return (
     <PlansContainer>
       <Title>GESTIÓN DE PLANES</Title>
@@ -230,7 +213,8 @@ function Plans() {
         </RightContainer>
       </FiltersContainer>
 
-      <Table columns={columns} data={filteredPlans} />
+      <Table columns={columns} data={plansToDisplay} />
+
       {showModal && MODALS[showModal]}
     </PlansContainer>
   );

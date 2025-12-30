@@ -1,5 +1,5 @@
 import { forwardRef, useImperativeHandle } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import {
@@ -9,7 +9,9 @@ import {
   InputWrapper,
   InputStyle,
   NumberInputContainer,
+  InputFieldWrapper,
   SpinButton,
+  ErrorWrapper,
 } from "./CreatePlanForm.styles";
 
 import AddIcon from "../../../assets/add-icon.svg";
@@ -17,6 +19,7 @@ import LessIcon from "../../../assets/less-icon.svg";
 import { createPlanSchema } from "./CreatePlanForm.scheme";
 import type { FormProp } from "../../../app/types/FormProp";
 import { ErrorMessage } from "../../../components/error_message/ErrorMessage";
+import CurrencyInput from "../../../utils/InputPrice/CurrencyInput";
 
 export interface CreatePlanProp {
   name: string;
@@ -38,6 +41,7 @@ const CreatePlanForm = forwardRef<
     handleSubmit,
     setValue,
     watch,
+    control,
     formState: { errors },
   } = useForm<FormData>({
     resolver: yupResolver(createPlanSchema),
@@ -72,53 +76,65 @@ const CreatePlanForm = forwardRef<
         <LabelStyle>Nombre del plan*</LabelStyle>
         <InputWrapper>
           <InputStyle placeholder="Ej: Pase Libre" {...register("name")} />
-          <ErrorMessage error={errors.name} />
+          <ErrorWrapper>
+            <ErrorMessage error={errors.name} />
+          </ErrorWrapper>
         </InputWrapper>
       </InputContainer>
 
       <InputContainer>
         <LabelStyle>Cantidad de días por semana*</LabelStyle>
         <NumberInputContainer>
-          <InputWrapper>
-            <InputStyle
-              type="number"
-              placeholder="Ej: 5"
-              {...register("numberOfDays")}
-            />
-            <ErrorMessage error={errors.numberOfDays} />
-          </InputWrapper>
+          <InputFieldWrapper>
+            <InputWrapper>
+              <InputStyle placeholder="Ej: 5" {...register("numberOfDays")} />
+              <ErrorWrapper>
+                <ErrorMessage error={errors.numberOfDays} />
+              </ErrorWrapper>
+            </InputWrapper>
 
-          <SpinButton
-            type="button"
-            style={{ right: "72px" }}
-            onClick={() =>
-              setValue("numberOfDays", Math.max(1, numberOfDays - 1))
-            }
-          >
-            <img src={LessIcon} />
-          </SpinButton>
+            <SpinButton
+              type="button"
+              style={{ right: "72px" }}
+              onClick={() =>
+                setValue("numberOfDays", Math.max(1, numberOfDays - 1))
+              }
+            >
+              <img src={LessIcon} />
+            </SpinButton>
 
-          <SpinButton
-            type="button"
-            style={{ right: "24px" }}
-            onClick={() =>
-              setValue("numberOfDays", Math.min(7, numberOfDays + 1))
-            }
-          >
-            <img src={AddIcon} />
-          </SpinButton>
+            <SpinButton
+              type="button"
+              style={{ right: "24px" }}
+              onClick={() =>
+                setValue("numberOfDays", Math.min(7, numberOfDays + 1))
+              }
+            >
+              <img src={AddIcon} />
+            </SpinButton>
+          </InputFieldWrapper>
         </NumberInputContainer>
       </InputContainer>
 
       <InputContainer>
         <LabelStyle>Precio*</LabelStyle>
         <InputWrapper>
-          <InputStyle
-            type="number"
-            placeholder="Ej: 35000"
-            {...register("amount")}
+          <Controller
+            name="amount"
+            control={control}
+            defaultValue={undefined}
+            render={({ field }) => (
+              <CurrencyInput
+                value={field.value ?? null}
+                onChange={field.onChange}
+                width="400"
+                placeholder="Ej: $ 35.000,00"
+              />
+            )}
           />
-          <ErrorMessage error={errors.amount} />
+          <ErrorWrapper>
+            <ErrorMessage error={errors.amount} />
+          </ErrorWrapper>
         </InputWrapper>
       </InputContainer>
     </FormStyle>
