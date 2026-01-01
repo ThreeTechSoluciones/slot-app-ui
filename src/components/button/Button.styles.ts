@@ -7,6 +7,7 @@ import {
   BACKGROUND_COLOR,
   TERTIARY_COLOR,
   BORDER_RADIUS,
+  FONT_FAMILY,
 } from "../../utils/Stylesheet";
 export const StyledButton = styled.button<{
   $size?: "small" | "medium" | "large";
@@ -65,6 +66,7 @@ export const ButtonText = styled.span<{
 }>`
   display: inline-block;
   text-align: center;
+  font-family: ${FONT_FAMILY};
   font-size: ${({ $fontsize }) =>
     $fontsize === "small" ? "12px" : $fontsize === "medium" ? "14px" : "16px"};
 `;

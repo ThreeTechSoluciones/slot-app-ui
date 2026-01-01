@@ -1,7 +1,29 @@
-import styled from "styled-components";
-import { BORDER_RADIUS, FONT_FAMILY, TERTIARY_COLOR, PRIMARY_COLOR, TEXT_COLOR, SECONDARY_COLOR } from "../../utils/Stylesheet";
+import styled, { keyframes } from "styled-components";
+import { BORDER_RADIUS, FONT_FAMILY, TERTIARY_COLOR, PRIMARY_COLOR, TEXT_COLOR, SECONDARY_COLOR, FONT_WEIGHT_BOLD, FONT_WEIGHT_NORMAL, BACKGROUND_COLOR, SUCCESS_COLOR } from "../../utils/Stylesheet";
 import Arrow from "../../assets/Arrow.png";
 
+
+export const MainContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: 100vh;
+    margin: 0px;
+`;
+export const Title = styled.h1`
+    font-size: 24px;
+    font-family: ${FONT_FAMILY};
+    display:flex;
+    margin-top:32px;
+    margin-left:80px;  
+`
+export const SkeletonsContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start; 
+    gap: 32px;
+`;
 
 export const ScreenContainer = styled.div`
     display: flex;
@@ -12,17 +34,9 @@ export const ScreenContainer = styled.div`
     padding-bottom: 32px;
     gap:24px;
     border: 2px solid ${TERTIARY_COLOR};
-    border-radius: ${BORDER_RADIUS};
+    border-radius: ${BORDER_RADIUS}; 
+    height: 272px; 
 `;
-
-export const MainContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    min-height: 100vh;
-    
-`
 
 export const InputContainer = styled.div`
     display: flex;  
@@ -38,8 +52,7 @@ export const EditContainer = styled.div`
 `;
 export const Label = styled.label`
     font-size: 16px;
-    font-family: ${FONT_FAMILY};
-   
+    font-family: ${FONT_FAMILY};  
 `;
 
 export const BaseStyle = styled.input`
@@ -112,21 +125,152 @@ export const EditCapacity = styled.button`
         margin-top: 4px;
     }
 `
-export const Title = styled.h1`
-    font-size: 24px;
-    margin-right:80px;
-    margin-top:32px;
+export const SlotsContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 520px;
+    min-height: 336px;
+    border: 2px solid ${TERTIARY_COLOR};
+    border-radius: ${BORDER_RADIUS};
+    gap:8px;
+    max-height: 512px; 
+    padding-bottom:4px;
+    overflow-y: auto; 
+`;
+export const TitlesContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    margin-right:300px;
+    gap:2px;
     font-family: ${FONT_FAMILY};
-    font-weight:bold;
-    display:flex;
-    align-items:center;
-    img {
-        padding-right:24px;
-  }
-`
-export const TitleContainer = styled.div`
-    width: calc(100% - 80px);
-    margin-left:80px;
+`;
+
+export const MainTitle = styled.h1`
+    font-size: 16px;
+    font-weight: bold;
+    margin:0px;
+    margin-top:32px;
+    font-weight: 700; 
+`;
+
+export const Subtitle = styled.h2`
+    font-size: 12px;
+    margin:0px;
+    font-weight: 500;
+`;
+
+interface SpecificSlotContainerProps {
+    $isLast?: boolean;
+}
+
+export const SpecificSlotContainer = styled.div<SpecificSlotContainerProps>`
+    display: flex;
+    flex-direction: row;
+    width: 456px;
+    border-bottom: ${(props) => (props.$isLast ? "none" : `1px solid ${TEXT_COLOR}`)};
+    margin-bottom: ${(props) => (props.$isLast ? "px" : "none")};
+    padding:2px;
+    img{
+        margin-top:10px;
+        margin-right:16px;
+    } 
+       &:hover{
+        transform: scale(1.02);
+        transition: all 0.2s ease;
+    }
+         &.highlight {
+        border: solid 2px ${SUCCESS_COLOR};
+        background-color: ${SUCCESS_COLOR};
+        animation: highlightEffect 2s ease-in-out;
+    }
     
+   
+@keyframes highlightEffect {
+    0% {
+      background-color: transparent;
+      border-radius: ${BORDER_RADIUS};
+      border: solid 2px ${SUCCESS_COLOR};
+    }
+    50% {
+      background-color: ${SUCCESS_COLOR}30;
+      border-radius: ${BORDER_RADIUS};
+      border: solid 2px ${SUCCESS_COLOR}40;
+    }
+    100% {
+      background-color: transparent;
+      border: solid 2px transparent;
+    }
+  }
+`;
+
+export const SlotInfoContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+
+`;
+
+export const PrimaryText = styled.p`
+    color: ${TEXT_COLOR};
+    font-family: ${FONT_FAMILY};
+    margin-top:8px;
+    margin-bottom:0px;
+    font-weight: ${FONT_WEIGHT_BOLD};
+    font-size:16px;  
+`;
+
+export const SecondaryText = styled.p`
+    color: ${TEXT_COLOR};
+    font-family: ${FONT_FAMILY};
+    margin-top: 0px;
+    margin-bottom:4px;
+    font-size:12px;  
+    
+`;
+
+export const ActionsContainer = styled.div`
+    display: flex; 
+    flex-direction: row;
+    margin-left: auto;
+     &:hover{
+        cursor:pointer;
+    }
+    img{
+      background-color: ${BACKGROUND_COLOR};
+        border-radius:50%;
+        padding:5px;
+    &:hover{
+    background-color: ${PRIMARY_COLOR}; 
+        }
+    }
+`;
+
+export const InfoContainer = styled.div`
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    margin-top:8px;
+    margin-bottom:32px;
+    img{
+    background-color: ${SECONDARY_COLOR};
+    border-radius:50%;
+    padding:4px;
+    }
 `
-    ;
+export const fadeInSlide = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(-80px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
+export const AnimatedContainer = styled.div`
+  animation: ${fadeInSlide} 1.2s ease-out;
+`;
+
+

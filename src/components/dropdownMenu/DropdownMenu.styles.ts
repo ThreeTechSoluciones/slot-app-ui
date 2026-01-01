@@ -1,4 +1,9 @@
 import styled from "styled-components";
+import {
+  BORDER_RADIUS,
+  PRIMARY_COLOR,
+  SECONDARY_COLOR,
+} from "../../utils/Stylesheet";
 
 export const DropdownContainer = styled.div`
   position: relative;
@@ -12,11 +17,10 @@ export const ButtonTrigger = styled.div<ButtonTriggerProps>`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 184px;
-  height: 48px;
-  border-radius: 10px;
+  border-radius: ${BORDER_RADIUS};
   cursor: pointer;
-  gap: 24px;
+  gap: 10px;
+  padding: 12px;
   &:hover {
     background: #e6e6e6;
   }
@@ -37,10 +41,12 @@ export const DropdownMenuStyle = styled.div<DropdownContainerProps>`
   top: 100%;
   left: 50%;
   transform: translateX(-50%);
-  background: #f0f0f0;
+  background: ${SECONDARY_COLOR};
   border: 1px solid #ccc;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   z-index: 10;
+  max-height: 135px;
+  overflow-y: auto;
   width: ${(props) => (props.size === "small" ? "184px" : "408px")};
 `;
 
@@ -53,6 +59,6 @@ export const ButtonOption = styled.button`
   text-align: center;
   cursor: pointer;
   &:hover {
-    background: #f0e21e;
+    background: ${PRIMARY_COLOR};
   }
 `;
