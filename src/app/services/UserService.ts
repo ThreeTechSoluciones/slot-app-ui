@@ -47,13 +47,12 @@ export const UserService = createApi({
     }),
     getUserPlans: builder.query<
       PlanResponse[],
-      { userId: string; filter?: string }
+      { userId: string; planName?: string }
     >({
-      query: ({ userId, filter }) => {
-        const params = new URLSearchParams();
-        if (filter) params.append("planName", filter);
-        return `${userId}/plans?${params}`;
-      },
+      query: ({ userId, planName }) => ({
+        url: `/${userId}/plans`,
+        params: { planName },
+      }),
       providesTags: (result) =>
         result
           ? [

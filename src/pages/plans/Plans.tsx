@@ -42,7 +42,7 @@ function Plans() {
   const [createPlan] = useCreatePlanMutation();
   const { userId } = useAuthentication();
   const { data: plansData } = useGetUserPlansQuery(
-    userId ? { userId, filter } : skipToken
+    userId ? { userId, planName: filter } : skipToken
   );
   const plansToDisplay = plansData || [];
 
