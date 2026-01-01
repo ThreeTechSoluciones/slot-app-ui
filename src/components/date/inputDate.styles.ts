@@ -5,6 +5,7 @@ import {
   SECONDARY_COLOR,
   TERTIARY_COLOR,
   TEXT_COLOR,
+  BORDER_RADIUS,
 } from "../../utils/Stylesheet";
 
 interface StyledWrapperProps {

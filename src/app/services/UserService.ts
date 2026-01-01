@@ -28,24 +28,23 @@ export const UserService = createApi({
       providesTags: (result) =>
         result
           ? [
-            { type: "userStudents", id: "LIST" },
-            ...result.content.map(({ id }) => ({
-              type: "userStudents" as const,
-              id,
-            })),
-          ]
+              { type: "userStudents", id: "LIST" },
+              ...result.content.map(({ id }) => ({
+                type: "userStudents" as const,
+                id,
+              })),
+            ]
           : [{ type: "userStudents", id: "LIST" }],
     }),
-
 
     getUserPrices: builder.query<PriceResponse[], string>({
       query: (userId) => `${userId}/prices`,
       providesTags: (result) =>
         result
           ? [
-            { type: "userPrices", id: "LIST" },
-            ...result.map(({ id }) => ({ type: "userPrices" as const, id })),
-          ]
+              { type: "userPrices", id: "LIST" },
+              ...result.map(({ id }) => ({ type: "userPrices" as const, id })),
+            ]
           : [{ type: "userPrices", id: "LIST" }],
     }),
     getUserPlans: builder.query<
@@ -63,6 +62,7 @@ export const UserService = createApi({
               ...result.map(({ id }) => ({ type: "userPlans" as const, id })),
             ]
           : [{ type: "userPlans", id: "LIST" }],
+    }),
     getSlots: builder.query<SlotListResponse, GetSlotsByDayParams>({
       query: ({ userId, dayOfWeek }) => ({
         url: `${userId}/slots`,
@@ -77,10 +77,10 @@ export const UserService = createApi({
           { type: "userSlots", id: "LIST" },
           ...result.slots.map((slot) => ({
             type: "userSlots" as const,
-            id: slot.startTime
+            id: slot.startTime,
           })),
         ];
-      }
+      },
     }),
   }),
 });
@@ -89,5 +89,5 @@ export const {
   useGetUserStudentsQuery,
   useGetUserPricesQuery,
   useGetUserPlansQuery,
-  useGetSlotsQuery
+  useGetSlotsQuery,
 } = UserService;
