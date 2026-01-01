@@ -6,12 +6,12 @@ import { useForm } from "react-hook-form";
 import { ErrorMessage } from "../../../components/error_message/ErrorMessage";
 import { forwardRef, useImperativeHandle } from 'react';
 
-export interface EditSlotFormHandle {
+export interface EditSlotCapacityFormHandle {
     submitForm: () => void;
 }
 
 
-const EditSlotForm = forwardRef<EditSlotFormHandle>((props, ref) => {
+const EditCapacityForm = forwardRef<EditSlotCapacityFormHandle>((props, ref) => {
 
     type FormData = yup.InferType<typeof EditCapacityScheme>;
 
@@ -57,5 +57,5 @@ const EditSlotForm = forwardRef<EditSlotFormHandle>((props, ref) => {
     )
 });
 
-EditSlotForm.displayName = 'EditSlotForm';
-export default EditSlotForm;
+EditCapacityForm.displayName = 'EditCapacityForm';
+export default EditCapacityForm;

@@ -3,6 +3,7 @@ import type { JSX } from "react"
 export enum ModalType {
     CREATE = "Create",
     EDIT = "Edit",
+    EDIT_CAPACITY = "EditCapacity"
 }
 
 export type ModalConfig = {
