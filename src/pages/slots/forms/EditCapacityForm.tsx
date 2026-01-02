@@ -5,13 +5,10 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "../../../components/error_message/ErrorMessage";
 import { forwardRef, useImperativeHandle } from 'react';
-
-export interface EditSlotCapacityFormHandle {
-    submitForm: () => void;
-}
+import type { FormSubmitHandle } from "./FormSubmitHandle.type";
 
 
-const EditCapacityForm = forwardRef<EditSlotCapacityFormHandle>((props, ref) => {
+const EditCapacityForm = forwardRef<FormSubmitHandle>((props, ref) => {
 
     type FormData = yup.InferType<typeof EditCapacityScheme>;
 

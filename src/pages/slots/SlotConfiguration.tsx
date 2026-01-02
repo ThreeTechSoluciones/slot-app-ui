@@ -191,7 +191,7 @@ function SlotConfiguration() {
                         <ActionsContainer>
                             <img src={EditIcon} width={"24px"} height={"24px"} onClick={() => {
                                 setSlotToEdit(slot);
-                                openModal(ModalType.EDIT);
+                                openModal(ModalType.EDIT_START_TIME);
                             }}></img>
                             <img src={DeleteIcon} width={"24px"} height={"24px"}></img>
                         </ActionsContainer>
@@ -235,7 +235,7 @@ function SlotConfiguration() {
             content: <EditCapacityForm ref={editCapacityRef} />,
             onConfirm: handleEditCapacityModal
         },
-        [ModalType.EDIT]: {
+        [ModalType.EDIT_START_TIME]: {
             contentRef: editSlotRef,
             content: <EditSlotForm ref={editSlotRef} initialStartTime={slotToEdit?.startTime} />,
             onConfirm: handleEditSlotModal

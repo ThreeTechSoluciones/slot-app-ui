@@ -5,19 +5,15 @@ import { forwardRef, useImperativeHandle } from 'react';
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ErrorMessage } from "../../../components/error_message/ErrorMessage";
+import type { FormSubmitHandle } from "./FormSubmitHandle.type";
 
 
-
-
-export interface EditSlotFormHandle {
-    submitForm: () => void;
-}
 
 interface EditSlotFormProps {
     initialStartTime?: string;
 }
 
-const EditSlotForm = forwardRef<EditSlotFormHandle, EditSlotFormProps>(
+const EditSlotForm = forwardRef<FormSubmitHandle, EditSlotFormProps>(
     ({ initialStartTime }, ref) => {
         type FormData = yup.InferType<typeof SlotScheme>;
         const {

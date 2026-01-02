@@ -5,13 +5,12 @@ import { forwardRef, useImperativeHandle } from 'react';
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ErrorMessage } from "../../../components/error_message/ErrorMessage";
+import type { FormSubmitHandle } from "./FormSubmitHandle.type";
 
 
-export interface CreateSlotFormHandle {
-    submitForm: () => void;
-}
 
-const CreateSlotForm = forwardRef<CreateSlotFormHandle>((props, ref) => {
+
+const CreateSlotForm = forwardRef<FormSubmitHandle>((props, ref) => {
     type FormData = yup.InferType<typeof SlotScheme>;
     const {
         register,
