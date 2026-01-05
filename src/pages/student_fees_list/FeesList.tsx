@@ -260,9 +260,9 @@ function StudentFeesList() {
           >
             Nueva cuota
           </Button>
-          {showConfirmDialog && (
+          {showConfirmDialog && student && (
             <ConfirmDialog
-              message="¿Estás seguro de que deseas generar una cuota para este estudiante?"
+              message={`¿Estás seguro de que deseas generar una cuota para ${student.name} ${student.lastName}?`}
               onConfirm={handleConfirmCreateFee}
               onCancel={() => setShowConfirmDialog(false)}
             />
