@@ -4,7 +4,6 @@ import {
   MainContainer,
   StudentNameContainer,
   HeaderBoxes,
-  StudentStatusStyle,
   IconStyles,
   ButtonWrapper,
   AllInformationContainer,
@@ -14,7 +13,6 @@ import {
   StudentInfo,
   EditIconStyles,
   HeaderContainer,
-  StudentSituationStyle,
   StudentInfoContainer,
   ButtonContainer,
   SubTitle,
@@ -35,7 +33,7 @@ import EditIcon from "../../assets/edit-icon.svg";
 import DesactivateIcon from "../../assets/desactivate-icon.svg";
 import Button from "../../components/button/Button";
 import { ConfirmDialog } from "../../components/confirm_dialog/ConfirmDialog";
-import { EditarAlumno, MisPlanes } from "../../routes/RoutesUtils";
+import { ListadoCuotas } from "../../routes/RoutesUtils";
 import toast from "react-hot-toast";
 import { useState } from "react";
 import type { StudentDetailResponse } from "../../app/types/responses/StudentDetailResponse.type";
@@ -245,7 +243,9 @@ const PaymentData = ({
           <Button
             variant="primary"
             size="large"
-            onClick={() => navigate(MisPlanes)}
+            onClick={() =>
+              navigate(ListadoCuotas, { state: { studentId: student.id } })
+            }
           >
             Ver cuotas
           </Button>
