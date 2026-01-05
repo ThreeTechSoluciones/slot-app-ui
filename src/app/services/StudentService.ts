@@ -6,7 +6,6 @@ import type { StudentDetailResponse } from "../types/responses/StudentDetailResp
 import type { UpdateStudentRequest } from "../types/requests/UpdateStudentRequest.type";
 import type { StudentMonthlyFeeResponse } from "../types/responses/StudentMonthlyFee.type";
 
-
 export const StudentService = createApi({
   reducerPath: "students",
   tagTypes: ["Student", "MonthlyFees"],
@@ -36,6 +35,15 @@ export const StudentService = createApi({
         await queryFulfilled;
         dispatch(UserService.util.invalidateTags(["userStudents"]));
       },
+    }),
+    createStudentMonthlyFee: builder.mutation<void, { studentId: string }>({
+      query: ({ studentId }) => ({
+        url: `/${studentId}/monthly-fees`,
+        method: "POST",
+      }),
+      invalidatesTags: (_result, _error, { studentId }) => [
+        { type: "MonthlyFees", id: studentId },
+      ],
     }),
     getStudentMonthlyFees: builder.query<
       StudentMonthlyFeeResponse[],
@@ -99,4 +107,5 @@ export const {
   useUpdateStudentMutation,
   useActivateStudentMutation,
   useGetStudentMonthlyFeesQuery,
+  useCreateStudentMonthlyFeeMutation,
 } = StudentService;

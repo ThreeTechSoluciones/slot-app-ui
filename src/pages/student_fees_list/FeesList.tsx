@@ -32,6 +32,7 @@ import { ConfirmDialog } from "../../components/confirm_dialog/ConfirmDialog";
 import {
   useGetStudentByIdQuery,
   useGetStudentMonthlyFeesQuery,
+  useCreateStudentMonthlyFeeMutation,
 } from "../../app/services/StudentService";
 import { skipToken } from "@reduxjs/toolkit/query/react";
 import { translateMonth } from "../../utils/TranslateMonths";
@@ -56,6 +57,7 @@ function StudentFeesList() {
   const location = useLocation();
   const { studentId } = location.state || {};
   const { data: student } = useGetStudentByIdQuery(studentId);
+
   const navigate = useNavigate();
   const [monthFilter, setMonthFilter] = useState("");
   const [expirationDateFilter, setExpirationDateFilter] = useState<
@@ -88,6 +90,17 @@ function StudentFeesList() {
         }
       : skipToken
   );
+
+  const [createMonthlyFee] = useCreateStudentMonthlyFeeMutation();
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+  const handleConfirmCreateFee = async () => {
+    const finalStudentId = student?.id ?? studentId;
+    if (!finalStudentId) return;
+
+    await createMonthlyFee({ studentId: finalStudentId }).unwrap();
+    setShowConfirmDialog(false);
+  };
+
   const handleOpenPayModal = (feeId: string) => {
     setSelectedFeeId(feeId);
     setModalType("pay");
@@ -243,9 +256,17 @@ function StudentFeesList() {
             variant="primary"
             size="medium"
             icon={<img src={AddIcon} alt="Add Icon" />}
+            onClick={() => setShowConfirmDialog(true)}
           >
             Nueva cuota
           </Button>
+          {showConfirmDialog && (
+            <ConfirmDialog
+              message="¿Estás seguro de que deseas generar una cuota para este estudiante?"
+              onConfirm={handleConfirmCreateFee}
+              onCancel={() => setShowConfirmDialog(false)}
+            />
+          )}
         </RightContainer>
       </FiltersContainer>
       {modalType === "pay" && (
