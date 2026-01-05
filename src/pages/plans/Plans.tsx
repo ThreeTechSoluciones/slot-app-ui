@@ -155,7 +155,7 @@ function Plans() {
     {
       header: <SortableButton text="Precio actual" />,
       accessor: "price",
-      render: (plan) => <span>{formatCurrency(plan.price)}</span>,
+      render: (plan) => <span>{formatCurrency(plan?.price ?? 0)}</span>,
     },
     {
       header: "Acciones",

@@ -23,7 +23,6 @@ type GenericModalProps = {
 };
 
 export const GenericModal: React.FC<GenericModalProps> = ({
-  isOpen,
   title,
   children,
   onConfirm,
@@ -35,17 +34,18 @@ export const GenericModal: React.FC<GenericModalProps> = ({
   height = "550px",
 }) => {
   useEffect(() => {
-    if (!isOpen || !onConfirm) return;
-
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Enter") {
+        if ((e.target as HTMLElement).tagName === "BUTTON") return;
         e.preventDefault();
         onConfirm?.();
       }
     };
+
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [isOpen, onConfirm]);
+  }, [onConfirm, cancelText]);
+
   return (
     <ModalOverlay>
       <ModalContainer $width={width} $height={height}>

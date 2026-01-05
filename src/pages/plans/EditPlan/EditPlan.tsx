@@ -36,7 +36,6 @@ const EditPlanForm = forwardRef<FormProp<any>, EditPlanFormProps>(
     const { planId, planName, numberOfDays, currentAmount } = props;
 
     const {
-      register,
       handleSubmit,
       control,
       formState: { errors },
