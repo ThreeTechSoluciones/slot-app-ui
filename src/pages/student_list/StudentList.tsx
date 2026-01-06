@@ -22,6 +22,7 @@ import FilterSearch from "../../components/filter_search/FilterSearch";
 import Filter from "../../components/filter/Filter";
 import Button from "../../components/button/Button";
 import AddIcon from "../../assets/add-icon.svg";
+import type { SortConfig } from "../../app/types/sortConfig";
 
 function StudentList() {
   const { userId } = useAuthentication();
@@ -32,8 +33,11 @@ function StudentList() {
   const [situationFilter, setSituationFilter] = useState<string>("");
   const [studentList, setStudentList] = useState<StudentResponse[]>([]);
   const [filter, setFilter] = useState<string>("");
+  const [sort, setSort] = useState<SortConfig | SortConfig[] | undefined>(
+    undefined
+  );
   const { data: studentsPage } = useGetUserStudentsQuery(
-    userId ? { userId, filter } : skipToken
+    userId ? { userId, filter, sort } : skipToken
   );
 
   useEffect(() => {
@@ -70,27 +74,15 @@ function StudentList() {
     return list;
   }, [studentList, statusFilter, situationFilter]);
 
-  const sortByField = (field: keyof StudentResponse, asc: boolean) => {
-    const sorted = [...studentList].sort((a, b) => {
-      const valueA = a[field];
-      const valueB = b[field];
-
-      if (field === "dni") {
-        return asc
-          ? Number(valueA) - Number(valueB)
-          : Number(valueB) - Number(valueA);
-      }
-      return asc
-        ? String(valueA).localeCompare(String(valueB))
-        : String(valueB).localeCompare(String(valueA));
-    });
-
-    setStudentList(sorted);
-  };
   const columns: Column<StudentResponse>[] = [
     {
       header: (
-        <SortableButton text="DNI" onSort={(asc) => sortByField("dni", asc)} />
+        <SortableButton
+          text="DNI"
+          onSort={(isAsc) =>
+            setSort({ property: "dni", direction: isAsc ? "ASC" : "DESC" })
+          }
+        />
       ),
       accessor: "dni",
     },
@@ -99,7 +91,9 @@ function StudentList() {
       header: (
         <SortableButton
           text="Nombre"
-          onSort={(asc) => sortByField("name", asc)}
+          onSort={(isAsc) =>
+            setSort({ property: "name", direction: isAsc ? "ASC" : "DESC" })
+          }
         />
       ),
       accessor: "name",
@@ -109,7 +103,9 @@ function StudentList() {
       header: (
         <SortableButton
           text="Apellido"
-          onSort={(asc) => sortByField("lastname", asc)}
+          onSort={(isAsc) =>
+            setSort({ property: "lastname", direction: isAsc ? "ASC" : "DESC" })
+          }
         />
       ),
       accessor: "lastname",
