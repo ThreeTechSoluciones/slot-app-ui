@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import {
   ERROR_COLOR,
-  PRIMARY_COLOR,
   SUCCESS_COLOR,
   TERTIARY_COLOR,
   BORDER_RADIUS,
@@ -90,13 +89,13 @@ export const FeeStatus = styled.div<{
   background-color: ${({ $status }) => {
     switch ($status) {
       case "Pendiente":
-        return PRIMARY_COLOR;
+        return TERTIARY_COLOR;
       case "Vencido":
         return ERROR_COLOR;
       case "Pagado":
         return SUCCESS_COLOR;
-      case "Pagado vencido":
-        return TERTIARY_COLOR;
+      case "Pago con atraso":
+        return TEXT_COLOR;
       default:
         return TERTIARY_COLOR;
     }

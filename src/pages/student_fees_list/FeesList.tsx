@@ -81,11 +81,11 @@ function StudentFeesList() {
   } = useGetStudentMonthlyFeesQuery(
     student?.id
       ? {
-          studentId: student.id,
-          month: monthFilter || undefined,
-          expirationDate: formattedExpirationDate,
-          status: statusFilter || undefined,
-        }
+        studentId: student.id,
+        month: monthFilter || undefined,
+        expirationDate: formattedExpirationDate,
+        status: statusFilter || undefined,
+      }
       : skipToken
   );
   const handleOpenPayModal = (feeId: string) => {
