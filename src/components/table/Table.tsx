@@ -5,11 +5,13 @@ interface TableProps<T> {
   columns: Column<T>[];
   data: T[];
   className?: string;
+  emptyState?: React.ReactNode;
 }
 
 function Table<T extends { id: string | number }>({
   columns,
   data,
+  emptyState,
 }: TableProps<T>) {
   return (
     <TableStyle>
@@ -21,19 +23,29 @@ function Table<T extends { id: string | number }>({
         </Tr>
       </Thead>
       <Tbody>
-        {data.map((row) => (
-          <Tr key={row.id}>
-            {columns.map((col, index) => (
-              <Td key={index}>
-                {col.render
-                  ? col.render(row)
-                  : col.accessor
-                  ? String(row[col.accessor])
-                  : null}
+        {data.length === 0 ? (
+          emptyState ? (
+            <Tr>
+              <Td colSpan={columns.length}>
+                {emptyState}
               </Td>
-            ))}
-          </Tr>
-        ))}
+            </Tr>
+          ) : null
+        ) : (
+          data.map((row) => (
+            <Tr key={row.id}>
+              {columns.map((col, index) => (
+                <Td key={index}>
+                  {col.render
+                    ? col.render(row)
+                    : col.accessor
+                    ? String(row[col.accessor])
+                    : null}
+                </Td>
+              ))}
+            </Tr>
+          ))
+        )}
       </Tbody>
     </TableStyle>
   );

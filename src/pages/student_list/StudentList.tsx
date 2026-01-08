@@ -22,6 +22,8 @@ import FilterSearch from "../../components/filter_search/FilterSearch";
 import Filter from "../../components/filter/Filter";
 import Button from "../../components/button/Button";
 import AddIcon from "../../assets/add-icon.svg";
+import { SearchNotFound } from "../../components/search_not_found/SearchNotFound";
+
 
 function StudentList() {
   const { userId } = useAuthentication();
@@ -69,6 +71,12 @@ function StudentList() {
     });
     return list;
   }, [studentList, statusFilter, situationFilter]);
+
+  const hasActiveFilters =
+    filter !== "" || statusFilter !== "" || situationFilter !== "";
+
+  const showEmptyState =
+    sortedStudents.length === 0 && hasActiveFilters;
 
   const sortByField = (field: keyof StudentResponse, asc: boolean) => {
     const sorted = [...studentList].sort((a, b) => {
@@ -215,7 +223,11 @@ function StudentList() {
           </Button>
         </RightContainer>
       </FiltersContainer>
-      <Table columns={columns} data={sortedStudents} />;
+      <Table
+        columns={columns}
+        data={sortedStudents}
+        emptyState={showEmptyState ? <SearchNotFound /> : undefined}
+      />
     </StudentsContainer>
   );
 }
