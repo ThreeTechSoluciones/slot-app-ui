@@ -29,6 +29,7 @@ import { useGetUserPlansQuery } from "../../app/services/UserService";
 import { skipToken } from "@reduxjs/toolkit/query/react";
 import useAuthentication from "../../hooks/useAuthentication";
 import EditPlan from "./EditPlan/EditPlan";
+import { capitalize } from "../../utils/CapitalizeWords";
 
 function Plans() {
   const formRef = useRef<any>(null);
@@ -69,6 +70,7 @@ function Plans() {
     if (!data || !userId) return;
     const finalRequest = {
       ...data,
+      name: capitalize(data.name),
       userId,
     };
     await handleMutation(
@@ -155,7 +157,7 @@ function Plans() {
     {
       header: <SortableButton text="Precio actual" />,
       accessor: "price",
-      render: (plan) => <span>{formatCurrency(plan?.price ?? 0)}</span>,
+      render: (plan) => <span>{formatCurrency(plan.price)}</span>,
     },
     {
       header: "Acciones",
