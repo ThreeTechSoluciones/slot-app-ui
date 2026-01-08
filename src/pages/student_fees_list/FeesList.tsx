@@ -56,7 +56,15 @@ import type {
 function StudentFeesList() {
   const location = useLocation();
   const { studentId } = location.state || {};
-  const { data: student } = useGetStudentByIdQuery(studentId);
+  const {
+    data: student,
+    isLoading: fetchingStudent,
+    isError: errorFetchingStudent,
+  } = useGetStudentByIdQuery(studentId);
+  if (fetchingStudent) return <p>Cargando información del alumno...</p>;
+  if (errorFetchingStudent)
+    return <p>Error al cargar la información del alumno.</p>;
+  if (!student) return <p>Alumno no encontrado.</p>;
 
   const navigate = useNavigate();
   const [monthFilter, setMonthFilter] = useState("");
@@ -93,11 +101,9 @@ function StudentFeesList() {
 
   const [createMonthlyFee] = useCreateStudentMonthlyFeeMutation();
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
-  const handleConfirmCreateFee = async () => {
-    const finalStudentId = student?.id ?? studentId;
-    if (!finalStudentId) return;
 
-    await createMonthlyFee({ studentId: finalStudentId }).unwrap();
+  const handleConfirmCreateFee = async () => {
+    await createMonthlyFee({ studentId: student.id });
     setShowConfirmDialog(false);
   };
 
@@ -260,7 +266,7 @@ function StudentFeesList() {
           >
             Nueva cuota
           </Button>
-          {showConfirmDialog && student && (
+          {showConfirmDialog && (
             <ConfirmDialog
               message={`¿Estás seguro de que deseas generar una cuota para ${student.name} ${student.lastName}?`}
               onConfirm={handleConfirmCreateFee}
