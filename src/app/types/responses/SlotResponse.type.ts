@@ -1,4 +1,5 @@
 export type SlotResponse = {
+    slotId: string;
     startTime: string;
     endTime: string;
     maxCapacity: number;

@@ -103,7 +103,7 @@ function StudentList() {
         />
       ),
       accessor: "name",
-      Cell: ({ original }) => <span>{original.name}</span>,
+      render: (student) => <span>{student.name}</span>,
     },
     {
       header: (
@@ -113,7 +113,7 @@ function StudentList() {
         />
       ),
       accessor: "lastname",
-      Cell: ({ original }) => <span>{original.lastname}</span>,
+      render: (student) => <span>{student.lastname}</span>,
     },
     {
       header: "Situación",

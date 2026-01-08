@@ -22,6 +22,7 @@ import {
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { ErrorMessage } from "../../components/error_message/ErrorMessage";
+import { MisAlumnos } from "../../routes/RoutesUtils";
 
 function Login() {
   const [signin] = useSigninMutation({ fixedCacheKey: "shared-auth" });
@@ -45,7 +46,7 @@ function Login() {
     signin(encryptToBase64(`${username}:${password}`))
       .unwrap()
       .then(() => {
-        navigate("/home");
+        navigate(MisAlumnos);
         toast.success(
           `¡Bienvenido/a ${username}, has iniciado sesión con éxito!`
         );
