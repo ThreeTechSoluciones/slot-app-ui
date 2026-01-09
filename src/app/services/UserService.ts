@@ -5,7 +5,7 @@ import type { PlanResponse } from "../types/responses/PlanResponse.type";
 import type { Page } from "../types/responses/common/Page";
 import type { SlotListResponse } from "../types/responses/SlotResponse.type";
 import type { GetSlotsByDayParams } from "../types/requests/GetUserSlotsRequest.type";
-import type { SortConfig } from "../types/sortConfig";
+import type { SortConfig } from "../types/sort";
 export const UserService = createApi({
   reducerPath: "users",
   tagTypes: ["userStudents", "userPrices", "userPlans", "userSlots"],
@@ -18,10 +18,12 @@ export const UserService = createApi({
       {
         userId: string;
         filter?: string;
+        status?: string;
+        isActive?: boolean;
         sort?: SortConfig | SortConfig[];
       }
     >({
-      query: ({ userId, filter, sort }) => {
+      query: ({ userId, filter, status, isActive, sort }) => {
         let sortParams: string | string[] | undefined;
         if (sort) {
           sortParams = Array.isArray(sort)
@@ -32,6 +34,8 @@ export const UserService = createApi({
           url: `/${userId}/students`,
           params: {
             filter,
+            status,
+            isActive,
             sort: sortParams,
           },
         };

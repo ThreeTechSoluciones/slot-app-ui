@@ -22,65 +22,43 @@ import FilterSearch from "../../components/filter_search/FilterSearch";
 import Filter from "../../components/filter/Filter";
 import Button from "../../components/button/Button";
 import AddIcon from "../../assets/add-icon.svg";
-import type { SortConfig } from "../../app/types/sortConfig";
+import type { SortConfig } from "../../app/types/sort";
 
 function StudentList() {
   const { userId } = useAuthentication();
   const navigate = useNavigate();
-  const location = useLocation();
-  const { studentId } = location.state || {};
   const [statusFilter, setStatusFilter] = useState<string>("");
   const [situationFilter, setSituationFilter] = useState<string>("");
-  const [studentList, setStudentList] = useState<StudentResponse[]>([]);
   const [filter, setFilter] = useState<string>("");
-  const [sort, setSort] = useState<SortConfig | SortConfig[] | undefined>(
-    undefined
+  const [sort, setSort] = useState<SortConfig[]>([]);
+
+  const {
+    data: studentsPage,
+    isLoading,
+    isError,
+  } = useGetUserStudentsQuery(
+    userId
+      ? {
+          userId,
+          filter,
+          status: situationFilter || undefined,
+          isActive: statusFilter === "" ? undefined : statusFilter === "activo",
+          sort: sort.length > 0 ? sort : undefined,
+        }
+      : skipToken
   );
-  const { data: studentsPage } = useGetUserStudentsQuery(
-    userId ? { userId, filter, sort } : skipToken
-  );
 
-  useEffect(() => {
-    if (studentsPage) {
-      setStudentList(studentsPage.content);
-    }
-  }, [studentsPage]);
-
-  const statusMap: Record<string, string> = {
-    condeuda: "Con deuda",
-    entermino: "En término",
-  };
-
-  const sortedStudents = useMemo(() => {
-    let list = [...studentList];
-    if (situationFilter) {
-      list = list.filter(
-        (student) =>
-          student.status.toLowerCase() ===
-          statusMap[situationFilter]?.toLowerCase()
-      );
-    }
-    if (statusFilter) {
-      const isActive = statusFilter === "activo";
-      list = list.filter((student) => student.isActive === isActive);
-    }
-
-    list.sort((a, b) => {
-      if (a.isActive !== b.isActive) return a.isActive ? -1 : 1;
-      //si a es true (activo) y b false (inactivo), a (activo) va primero (-1)
-      //si a es false (inactivo) y b true (activo), b (activo) va primero (1)
-      return 0; //si son iguales
-    });
-    return list;
-  }, [studentList, statusFilter, situationFilter]);
-
+  if (isLoading) return <div>Cargando...</div>;
+  if (isError)
+    return <div>Ocurrió un error a la hora de cargar a los estudiantes.</div>;
+  if (!studentsPage) return <div>No hay información disponible.</div>;
   const columns: Column<StudentResponse>[] = [
     {
       header: (
         <SortableButton
           text="DNI"
           onSort={(isAsc) =>
-            setSort({ property: "dni", direction: isAsc ? "ASC" : "DESC" })
+            setSort([{ property: "dni", direction: isAsc ? "ASC" : "DESC" }])
           }
         />
       ),
@@ -92,7 +70,7 @@ function StudentList() {
         <SortableButton
           text="Nombre"
           onSort={(isAsc) =>
-            setSort({ property: "name", direction: isAsc ? "ASC" : "DESC" })
+            setSort([{ property: "name", direction: isAsc ? "ASC" : "DESC" }])
           }
         />
       ),
@@ -104,7 +82,9 @@ function StudentList() {
         <SortableButton
           text="Apellido"
           onSort={(isAsc) =>
-            setSort({ property: "lastname", direction: isAsc ? "ASC" : "DESC" })
+            setSort([
+              { property: "lastname", direction: isAsc ? "ASC" : "DESC" },
+            ])
           }
         />
       ),
@@ -193,6 +173,7 @@ function StudentList() {
             variant="primary"
             fontsize="small"
             onClick={() => {
+              setFilter("");
               setSituationFilter("");
               setStatusFilter("");
             }}
@@ -211,7 +192,7 @@ function StudentList() {
           </Button>
         </RightContainer>
       </FiltersContainer>
-      <Table columns={columns} data={sortedStudents} />;
+      <Table columns={columns} data={studentsPage.content} />
     </StudentsContainer>
   );
 }
