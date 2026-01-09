@@ -31,13 +31,14 @@ import { DaysOfWeek } from "../../utils/DaysOfWeek";
 import DeleteIcon from "../../assets/delete-icon.png";
 import CalendarIcon from "../../assets/calendar-icon.png";
 import CreateSlotForm from "./forms/CreateSlotForm";
-import { useCreateSlotMutation, useUpdateSlotMutation } from "../../app/services/SlotService";
+import { useCreateSlotMutation, useDeleteSlotMutation, useUpdateSlotMutation } from "../../app/services/SlotService";
 import useAuthentication from "../../hooks/useAuthentication";
 import toast from "react-hot-toast";
 import { ModalType, type ModalConfig } from "../../utils/SlotsModalsUtils";
 import { useGetSlotsQuery } from "../../app/services/UserService";
 import type { SlotResponse } from "../../app/types/responses/SlotResponse.type";
 import EditCapacityForm from "./forms/EditCapacityForm";
+import { ConfirmDialog } from "../../components/confirm_dialog/ConfirmDialog";
 
 
 function SlotConfiguration() {
@@ -46,13 +47,17 @@ function SlotConfiguration() {
 
     const [modalType, setModalType] = useState<ModalType>();
 
-    const [slotToEdit, setSlotToEdit] = useState<SlotResponse | null>(null);
+    const [currentSlot, setCurrentSlot] = useState<SlotResponse | null>(null);
+
+    const [showConfirm, setShowConfirm] = useState(false);
 
     const { userId } = useAuthentication()
 
     const [createSlot] = useCreateSlotMutation();
 
     const [updateSlot] = useUpdateSlotMutation();
+
+    const [deleteSlot] = useDeleteSlotMutation();
 
     const [selectEnglishValue, setSelectEnglishValue] = useState<string>("");
 
@@ -94,7 +99,7 @@ function SlotConfiguration() {
     const handleEditSlotModal = async () => {
         const response = await editSlotRef.current.submitForm();
         if (response) {
-            updateSlot({ slotId: slotToEdit?.slotId!, startTime: response.startTime })
+            updateSlot({ slotId: currentSlot?.slotId!, startTime: response.startTime })
                 .unwrap()
                 .then(() => {
                     toast.success("El turno ha sido actualizado")
@@ -102,6 +107,15 @@ function SlotConfiguration() {
                 });
         }
     }
+
+    const handleDeleteSlot = () => {
+        setShowConfirm(false);
+        deleteSlot({ slotId: currentSlot?.slotId! })
+            .unwrap()
+            .then(() => {
+                toast.success("El turno ha sido eliminado")
+            });
+    };
 
     const handleCreateSlotModal = async () => {
         const response = await createSlotRef.current.submitForm();
@@ -190,10 +204,15 @@ function SlotConfiguration() {
                         </SlotInfoContainer>
                         <ActionsContainer>
                             <img src={EditIcon} width={"24px"} height={"24px"} onClick={() => {
-                                setSlotToEdit(slot);
+                                setCurrentSlot(slot);
                                 openModal(ModalType.EDIT_START_TIME);
-                            }}></img>
-                            <img src={DeleteIcon} width={"24px"} height={"24px"}></img>
+                            }}>
+                            </img>
+                            <img src={DeleteIcon} width={"24px"} height={"24px"} onClick={() => {
+                                setCurrentSlot(slot);
+                                setShowConfirm(true);
+                            }}>
+                            </img>
                         </ActionsContainer>
                     </SpecificSlotContainer>
                 ))
@@ -237,7 +256,7 @@ function SlotConfiguration() {
         },
         [ModalType.EDIT_START_TIME]: {
             contentRef: editSlotRef,
-            content: <EditSlotForm ref={editSlotRef} initialStartTime={slotToEdit?.startTime} />,
+            content: <EditSlotForm ref={editSlotRef} initialStartTime={currentSlot?.startTime} />,
             onConfirm: handleEditSlotModal
         }
     }
@@ -255,6 +274,13 @@ function SlotConfiguration() {
                     {modalConfig[modalType].content}
                 </Modal>
             )}
+            {showConfirm && (
+                <ConfirmDialog
+                    message="¿Estás seguro de que quieres eliminar el turno?"
+                    onConfirm={() => handleDeleteSlot()}
+                    onCancel={() => setShowConfirm(false)}
+                />
+            )}
             <SkeletonsContainer>
                 <SlotConfigurationSkeleton />
                 {selectEnglishValue !== "" && (
@@ -264,6 +290,7 @@ function SlotConfiguration() {
                 )}
             </SkeletonsContainer>
         </MainContainer>
-    );
-}
+    )
+};
+
 export default SlotConfiguration;
