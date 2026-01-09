@@ -49,8 +49,6 @@ function SlotConfiguration() {
 
     const [slotToEdit, setSlotToEdit] = useState<SlotResponse | null>(null);
 
-    const [slotToDelete, setSlotToDelete] = useState<string | null>(null);
-
     const [showConfirm, setShowConfirm] = useState(false);
 
     const { userId } = useAuthentication()
@@ -110,9 +108,9 @@ function SlotConfiguration() {
         }
     }
 
-    const handleDeleteSlot = (slotId: string) => {
+    const handleDeleteSlot = () => {
         setShowConfirm(false);
-        deleteSlot({ slotId })
+        deleteSlot({ slotId: slotToEdit?.slotId! })
             .unwrap()
             .then(() => {
                 toast.success("El turno ha sido eliminado")
@@ -211,7 +209,7 @@ function SlotConfiguration() {
                             }}>
                             </img>
                             <img src={DeleteIcon} width={"24px"} height={"24px"} onClick={() => {
-                                setSlotToDelete(slot.slotId);
+                                setSlotToEdit(slot);
                                 setShowConfirm(true);
                             }}>
                             </img>
@@ -279,7 +277,7 @@ function SlotConfiguration() {
             {showConfirm && (
                 <ConfirmDialog
                     message="¿Estás seguro de que quieres eliminar el turno?"
-                    onConfirm={() => handleDeleteSlot(slotToDelete!)}
+                    onConfirm={() => handleDeleteSlot()}
                     onCancel={() => setShowConfirm(false)}
                 />
             )}
