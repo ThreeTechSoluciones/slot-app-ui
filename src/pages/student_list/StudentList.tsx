@@ -26,6 +26,7 @@ import {
   DetalleAlumno,
   ListadoCuotas,
   NuevoAlumno,
+  ModificarTurnos,
 } from "../../routes/RoutesUtils";
 
 function StudentList() {
@@ -158,9 +159,9 @@ function StudentList() {
             {
               label: "Modificar turnos",
               onClick: () =>
-                navigate(`/editar-alumno`, {
+                navigate(ModificarTurnos, {
                   state: { studentId: student.id },
-                }), // cambiar ruta cuando esté la pantalla de modifcar turnos
+                }),
             },
           ]}
         />
