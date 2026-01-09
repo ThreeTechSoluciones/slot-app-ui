@@ -47,7 +47,7 @@ function SlotConfiguration() {
 
     const [modalType, setModalType] = useState<ModalType>();
 
-    const [slotToEdit, setSlotToEdit] = useState<SlotResponse | null>(null);
+    const [currentSlot, setCurrentSlot] = useState<SlotResponse | null>(null);
 
     const [showConfirm, setShowConfirm] = useState(false);
 
@@ -99,7 +99,7 @@ function SlotConfiguration() {
     const handleEditSlotModal = async () => {
         const response = await editSlotRef.current.submitForm();
         if (response) {
-            updateSlot({ slotId: slotToEdit?.slotId!, startTime: response.startTime })
+            updateSlot({ slotId: currentSlot?.slotId!, startTime: response.startTime })
                 .unwrap()
                 .then(() => {
                     toast.success("El turno ha sido actualizado")
@@ -110,7 +110,7 @@ function SlotConfiguration() {
 
     const handleDeleteSlot = () => {
         setShowConfirm(false);
-        deleteSlot({ slotId: slotToEdit?.slotId! })
+        deleteSlot({ slotId: currentSlot?.slotId! })
             .unwrap()
             .then(() => {
                 toast.success("El turno ha sido eliminado")
@@ -204,12 +204,12 @@ function SlotConfiguration() {
                         </SlotInfoContainer>
                         <ActionsContainer>
                             <img src={EditIcon} width={"24px"} height={"24px"} onClick={() => {
-                                setSlotToEdit(slot);
+                                setCurrentSlot(slot);
                                 openModal(ModalType.EDIT_START_TIME);
                             }}>
                             </img>
                             <img src={DeleteIcon} width={"24px"} height={"24px"} onClick={() => {
-                                setSlotToEdit(slot);
+                                setCurrentSlot(slot);
                                 setShowConfirm(true);
                             }}>
                             </img>
@@ -256,7 +256,7 @@ function SlotConfiguration() {
         },
         [ModalType.EDIT_START_TIME]: {
             contentRef: editSlotRef,
-            content: <EditSlotForm ref={editSlotRef} initialStartTime={slotToEdit?.startTime} />,
+            content: <EditSlotForm ref={editSlotRef} initialStartTime={currentSlot?.startTime} />,
             onConfirm: handleEditSlotModal
         }
     }
