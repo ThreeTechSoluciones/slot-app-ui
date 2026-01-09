@@ -61,10 +61,6 @@ function StudentFeesList() {
     isLoading: fetchingStudent,
     isError: errorFetchingStudent,
   } = useGetStudentByIdQuery(studentId);
-  if (fetchingStudent) return <p>Cargando información del alumno...</p>;
-  if (errorFetchingStudent)
-    return <p>Error al cargar la información del alumno.</p>;
-  if (!student) return <p>Alumno no encontrado.</p>;
 
   const navigate = useNavigate();
   const [monthFilter, setMonthFilter] = useState("");
@@ -101,7 +97,10 @@ function StudentFeesList() {
 
   const [createMonthlyFee] = useCreateStudentMonthlyFeeMutation();
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
-
+  if (fetchingStudent) return <p>Cargando información del alumno...</p>;
+  if (errorFetchingStudent)
+    return <p>Error al cargar la información del alumno.</p>;
+  if (!student) return <p>Alumno no encontrado.</p>;
   const handleConfirmCreateFee = async () => {
     await createMonthlyFee({ studentId: student.id });
     setShowConfirmDialog(false);
