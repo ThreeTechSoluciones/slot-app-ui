@@ -1,17 +1,16 @@
 import type { Column } from "../../app/types/table";
 import { TableStyle, Thead, Tbody, Td, Tr } from "./Table.styles";
+import { SearchNotFound } from "../search_not_found/SearchNotFound";
 
 interface TableProps<T> {
   columns: Column<T>[];
   data: T[];
   className?: string;
-  emptyState?: React.ReactNode;
 }
 
 function Table<T extends { id: string | number }>({
   columns,
   data,
-  emptyState,
 }: TableProps<T>) {
   return (
     <TableStyle>
@@ -24,13 +23,11 @@ function Table<T extends { id: string | number }>({
       </Thead>
       <Tbody>
         {data.length === 0 ? (
-          emptyState ? (
-            <Tr>
-              <Td colSpan={columns.length}>
-                {emptyState}
-              </Td>
-            </Tr>
-          ) : null
+          <Tr>
+            <Td colSpan={columns.length}>
+              <SearchNotFound />
+            </Td>
+          </Tr>
         ) : (
           data.map((row) => (
             <Tr key={row.id}>

@@ -72,12 +72,6 @@ function StudentList() {
     return list;
   }, [studentList, statusFilter, situationFilter]);
 
-  const hasActiveFilters =
-    filter !== "" || statusFilter !== "" || situationFilter !== "";
-
-  const showEmptyState =
-    sortedStudents.length === 0 && hasActiveFilters;
-
   const sortByField = (field: keyof StudentResponse, asc: boolean) => {
     const sorted = [...studentList].sort((a, b) => {
       const valueA = a[field];
@@ -223,11 +217,7 @@ function StudentList() {
           </Button>
         </RightContainer>
       </FiltersContainer>
-      <Table
-        columns={columns}
-        data={sortedStudents}
-        emptyState={showEmptyState ? <SearchNotFound /> : undefined}
-      />
+      <Table columns={columns} data={sortedStudents}/>
     </StudentsContainer>
   );
 }

@@ -1,5 +1,5 @@
 import { Container, Message, Icon } from "./SearchNotFound.styles";
-import SearchIcon from "../../assets/magnifyingGlass-icon.svg";
+import SearchIcon from "../../assets/search-icon.svg";
 
 export function SearchNotFound() {
   return (
