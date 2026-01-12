@@ -6,7 +6,7 @@ export function SearchNotFound() {
     <Container>
       <Icon src={SearchIcon} alt="No results" />
       <Message>
-        No encontramos coincidencias para tu búsqueda.
+        No hay resultados para mostrar.
       </Message>
     </Container>
   );
