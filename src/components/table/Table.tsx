@@ -25,8 +25,8 @@ function Table<T extends { id: string | number }>({
           <Tr key={row.id}>
             {columns.map((col, index) => (
               <Td key={index}>
-                {col.Cell
-                  ? col.Cell({ original: row })
+                {col.render
+                  ? col.render(row)
                   : col.accessor
                   ? String(row[col.accessor])
                   : null}

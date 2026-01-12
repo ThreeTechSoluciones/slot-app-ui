@@ -1,24 +1,23 @@
 import { useForm } from "react-hook-form";
-import { CreateSlotScheme } from "./CreateSlotForm.scheme";
+import { SlotScheme } from "./Slot.scheme";
 import { FormContainer, Input, Label, InputContainer } from "./Forms.styles";
 import { forwardRef, useImperativeHandle } from 'react';
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ErrorMessage } from "../../../components/error_message/ErrorMessage";
+import type { FormSubmitHandle } from "./FormSubmitHandle.type";
 
 
-export interface CreateSlotFormHandle {
-    submitForm: () => void;
-}
 
-const CreateSlotForm = forwardRef<CreateSlotFormHandle>((props, ref) => {
-    type FormData = yup.InferType<typeof CreateSlotScheme>;
+
+const CreateSlotForm = forwardRef<FormSubmitHandle>((props, ref) => {
+    type FormData = yup.InferType<typeof SlotScheme>;
     const {
         register,
         handleSubmit,
         formState: { errors },
     } = useForm<FormData>({
-        resolver: yupResolver(CreateSlotScheme),
+        resolver: yupResolver(SlotScheme),
     });
 
     const onSubmit = async (data: FormData) => {
