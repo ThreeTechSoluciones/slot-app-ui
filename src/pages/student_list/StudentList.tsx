@@ -152,8 +152,8 @@ function StudentList() {
           <Filter
             placeholder="Filtrar por situación"
             options={[
-              { label: "Con deuda", value: "condeuda" },
-              { label: "En término", value: "entermino" },
+              { label: "Con deuda", value: "CON_DEUDA" },
+              { label: "En término", value: "EN_TERMINO" },
             ]}
             value={situationFilter}
             onSelect={setSituationFilter}
