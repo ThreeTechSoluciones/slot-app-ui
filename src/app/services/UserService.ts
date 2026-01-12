@@ -5,10 +5,12 @@ import type { PlanResponse } from "../types/responses/PlanResponse.type";
 import type { Page } from "../types/responses/common/Page";
 import type { SlotListResponse } from "../types/responses/SlotResponse.type";
 import type { GetSlotsByDayParams } from "../types/requests/GetUserSlotsRequest.type";
+import type { UserPreferencesResponse } from "../types/responses/UserPreferencesResponse.type";
+
 
 export const UserService = createApi({
   reducerPath: "users",
-  tagTypes: ["userStudents", "userPrices", "userPlans", "userSlots"],
+  tagTypes: ["userStudents", "userPrices", "userPlans", "userSlots", "userPreferences"],
   baseQuery: fetchBaseQuery({
     baseUrl: `${import.meta.env.VITE_BACKEND_URL}/users`,
   }),
@@ -28,12 +30,12 @@ export const UserService = createApi({
       providesTags: (result) =>
         result
           ? [
-              { type: "userStudents", id: "LIST" },
-              ...result.content.map(({ id }) => ({
-                type: "userStudents" as const,
-                id,
-              })),
-            ]
+            { type: "userStudents", id: "LIST" },
+            ...result.content.map(({ id }) => ({
+              type: "userStudents" as const,
+              id,
+            })),
+          ]
           : [{ type: "userStudents", id: "LIST" }],
     }),
 
@@ -42,9 +44,9 @@ export const UserService = createApi({
       providesTags: (result) =>
         result
           ? [
-              { type: "userPrices", id: "LIST" },
-              ...result.map(({ id }) => ({ type: "userPrices" as const, id })),
-            ]
+            { type: "userPrices", id: "LIST" },
+            ...result.map(({ id }) => ({ type: "userPrices" as const, id })),
+          ]
           : [{ type: "userPrices", id: "LIST" }],
     }),
     getUserPlans: builder.query<
@@ -58,10 +60,27 @@ export const UserService = createApi({
       providesTags: (result) =>
         result
           ? [
-              { type: "userPlans", id: "LIST" },
-              ...result.map(({ id }) => ({ type: "userPlans" as const, id })),
-            ]
+            { type: "userPlans", id: "LIST" },
+            ...result.map(({ id }) => ({ type: "userPlans" as const, id })),
+          ]
           : [{ type: "userPlans", id: "LIST" }],
+    }),
+    getUserPreferences: builder.query<UserPreferencesResponse, string>({
+      query: (userId) => `${userId}/userPreferences`,
+      providesTags: (_result, _error, userId) => [
+        { type: "userPreferences", id: userId },
+      ],
+    }),
+    updateSlotsCapacity: builder.mutation<void, { userId: string; capacity: number }>({
+      query: ({ userId, capacity }) => ({
+        url: `/${userId}/capacity`,
+        method: "PATCH",
+        body: { capacity },
+      }),
+      invalidatesTags: (_result, _error, { userId }) => [
+        { type: "userSlots", id: userId },
+        { type: "userPreferences", id: userId },
+      ],
     }),
     getSlots: builder.query<SlotListResponse, GetSlotsByDayParams>({
       query: ({ userId, dayOfWeek }) => ({
@@ -90,4 +109,6 @@ export const {
   useGetUserPricesQuery,
   useGetUserPlansQuery,
   useGetSlotsQuery,
+  useUpdateSlotsCapacityMutation,
+  useGetUserPreferencesQuery
 } = UserService;

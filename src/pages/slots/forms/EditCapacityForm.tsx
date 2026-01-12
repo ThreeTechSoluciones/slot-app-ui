@@ -1,4 +1,4 @@
-import { FormContainer, Input, Label, InputContainer } from "./EditCapacityForm.styles";
+import { FormContainer, Input, Label, InputContainer } from "./Forms.styles";
 import * as yup from "yup";
 import { EditCapacityScheme } from "./EditCapacity.scheme";
 import { yupResolver } from "@hookform/resolvers/yup";

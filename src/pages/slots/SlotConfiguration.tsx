@@ -35,11 +35,10 @@ import { useCreateSlotMutation, useDeleteSlotMutation, useUpdateSlotMutation } f
 import useAuthentication from "../../hooks/useAuthentication";
 import toast from "react-hot-toast";
 import { ModalType, type ModalConfig } from "../../utils/SlotsModalsUtils";
-import { useGetSlotsQuery } from "../../app/services/UserService";
-import type { SlotResponse } from "../../app/types/responses/SlotResponse.type";
-import EditCapacityForm from "./forms/EditCapacityForm";
+import { useGetSlotsQuery, useGetUserPreferencesQuery, useUpdateSlotsCapacityMutation } from "../../app/services/UserService";
 import { ConfirmDialog } from "../../components/confirm_dialog/ConfirmDialog";
-
+import EditCapacityForm from "./forms/EditCapacityForm";
+import type { SlotResponse } from "../../app/types/responses/SlotResponse.type";
 
 function SlotConfiguration() {
 
@@ -54,6 +53,10 @@ function SlotConfiguration() {
     const { userId } = useAuthentication()
 
     const [createSlot] = useCreateSlotMutation();
+
+    const [updateSlotCapacity] = useUpdateSlotsCapacityMutation();
+
+    const { data: userPreferences, isLoading, isError } = useGetUserPreferencesQuery(userId!);
 
     const [updateSlot] = useUpdateSlotMutation();
 
@@ -92,7 +95,12 @@ function SlotConfiguration() {
     const handleEditCapacityModal = async () => {
         const response = await editCapacityRef.current.submitForm();
         if (response) {
-            setShowModal(false);
+            updateSlotCapacity({ userId: userId!, capacity: response.capacity })
+                .unwrap()
+                .then(() => {
+                    setShowModal(false);
+                    toast.success("La capacidad de los turnos ha sido actualizada");
+                });
         }
     }
 
@@ -144,6 +152,12 @@ function SlotConfiguration() {
     };
 
     const SlotConfigurationSkeleton = () => {
+        const getPlaceholder = () => {
+            if (isLoading) return "Cargando...";
+            if (isError) return "Error al cargar capacidad";
+            if (userPreferences?.capacity) return `${userPreferences.capacity} cupos por turno`;
+            return "Sin capacidad definida";
+        };
         return (
             <ScreenContainer>
                 <InputContainer>
@@ -157,7 +171,7 @@ function SlotConfiguration() {
                             />
                         </EditCapacity>
                     </EditContainer>
-                    <Input disabled placeholder="25 cupos por turno" />
+                    <Input disabled placeholder={getPlaceholder()} />
                 </InputContainer>
                 <InputContainer>
                     <Label> Día del turno</Label>

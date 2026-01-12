@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { SlotScheme } from "./Slot.scheme";
-import { FormContainer, Input, Label, InputContainer } from "./EditCapacityForm.styles";
+import { FormContainer, Input, Label, InputContainer } from "./Forms.styles";
 import { forwardRef, useImperativeHandle } from 'react';
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
