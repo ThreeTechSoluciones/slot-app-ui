@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {} from "../../utils/Stylesheet";
+import { FONT_WEIGHT_BOLD, FONT_FAMILY } from "../../utils/Stylesheet";
 
 export const PlansContainer = styled.div`
   width: 100%;
@@ -10,10 +10,10 @@ export const PlansContainer = styled.div`
 
 export const Title = styled.h1`
   font-size: 24px;
-  font-weight: 700;
+  font-family: ${FONT_FAMILY};
+  font-weight: ${FONT_WEIGHT_BOLD};
   text-align: left;
   margin-left: 80px;
-  margin-bottom: 56px;
   margin-top: 56px;
 `;
 
