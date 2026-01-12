@@ -104,6 +104,7 @@ export const FeeStatus = styled.div<{
   border-radius: ${BORDER_RADIUS};
   font-family: ${FONT_FAMILY};
   color: ${BACKGROUND_COLOR};
+  font-weight: ${FONT_WEIGHT_BOLD};
   width: 136px;
   height: 32px;
   display: flex;
