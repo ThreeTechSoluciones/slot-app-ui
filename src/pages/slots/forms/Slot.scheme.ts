@@ -1,7 +1,7 @@
 import * as yup from "yup";
 
 
-export const CreateSlotScheme = yup.object().shape({
+export const SlotScheme = yup.object().shape({
     startTime: yup
         .string()
         .required('Se debe ingresar una hora')

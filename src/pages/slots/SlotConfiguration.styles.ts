@@ -135,7 +135,6 @@ export const SlotsContainer = styled.div`
     border-radius: ${BORDER_RADIUS};
     gap:8px;
     max-height: 512px; 
-    padding-bottom:4px;
     overflow-y: auto; 
 `;
 export const TitlesContainer = styled.div`
@@ -169,7 +168,7 @@ export const SpecificSlotContainer = styled.div<SpecificSlotContainerProps>`
     flex-direction: row;
     width: 456px;
     border-bottom: ${(props) => (props.$isLast ? "none" : `1px solid ${TEXT_COLOR}`)};
-    margin-bottom: ${(props) => (props.$isLast ? "px" : "none")};
+    margin-bottom: ${(props) => (props.$isLast ? "4px" : "none")};
     padding:2px;
     img{
         margin-top:10px;
@@ -207,7 +206,6 @@ export const SpecificSlotContainer = styled.div<SpecificSlotContainerProps>`
 export const SlotInfoContainer = styled.div`
     display: flex;
     flex-direction: column;
-
 `;
 
 export const PrimaryText = styled.p`
@@ -225,7 +223,6 @@ export const SecondaryText = styled.p`
     margin-top: 0px;
     margin-bottom:4px;
     font-size:12px;  
-    
 `;
 
 export const ActionsContainer = styled.div`

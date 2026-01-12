@@ -22,9 +22,36 @@ export const SlotService = createApi({
                 dispatch(UserService.util.invalidateTags([{ type: "userSlots", id: "LIST" }]));
             },
         }),
+        updateSlot: builder.mutation<void, { slotId: string; startTime: string }>({
+            query: ({ slotId, startTime }) => ({
+                url: `${slotId}`,
+                method: "PATCH",
+                body: { startTime },
+            }),
+            async onQueryStarted({ slotId }, { dispatch, queryFulfilled }) {
+                await queryFulfilled;
+                dispatch(
+                    UserService.util.invalidateTags([{ type: "userSlots", id: slotId }])
+                );
+            },
+        }),
+        deleteSlot: builder.mutation<void, { slotId: string }>({
+            query: ({ slotId }) => ({
+                url: `/${slotId}`,
+                method: "DELETE",
+            }),
+            async onQueryStarted({ slotId }, { dispatch, queryFulfilled }) {
+                await queryFulfilled;
+                dispatch(
+                    UserService.util.invalidateTags([{ type: "userSlots", id: slotId }])
+                );
+            },
+        }),
     })
 });
 
 export const {
     useCreateSlotMutation,
+    useUpdateSlotMutation,
+    useDeleteSlotMutation,
 } = SlotService;
