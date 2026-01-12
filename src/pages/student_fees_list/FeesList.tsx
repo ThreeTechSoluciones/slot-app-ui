@@ -32,6 +32,7 @@ import { ConfirmDialog } from "../../components/confirm_dialog/ConfirmDialog";
 import {
   useGetStudentByIdQuery,
   useGetStudentMonthlyFeesQuery,
+  useCreateStudentMonthlyFeeMutation,
 } from "../../app/services/StudentService";
 import { skipToken } from "@reduxjs/toolkit/query/react";
 import { translateMonth } from "../../utils/TranslateMonths";
@@ -55,7 +56,12 @@ import type {
 function StudentFeesList() {
   const location = useLocation();
   const { studentId } = location.state || {};
-  const { data: student } = useGetStudentByIdQuery(studentId);
+  const {
+    data: student,
+    isLoading: fetchingStudent,
+    isError: errorFetchingStudent,
+  } = useGetStudentByIdQuery(studentId);
+
   const navigate = useNavigate();
   const [monthFilter, setMonthFilter] = useState("");
   const [expirationDateFilter, setExpirationDateFilter] = useState<
@@ -88,6 +94,18 @@ function StudentFeesList() {
         }
       : skipToken
   );
+
+  const [createMonthlyFee] = useCreateStudentMonthlyFeeMutation();
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+  if (fetchingStudent) return <p>Cargando información del alumno...</p>;
+  if (errorFetchingStudent)
+    return <p>Error al cargar la información del alumno.</p>;
+  if (!student) return <p>Alumno no encontrado.</p>;
+  const handleConfirmCreateFee = async () => {
+    await createMonthlyFee({ studentId: student.id });
+    setShowConfirmDialog(false);
+  };
+
   const handleOpenPayModal = (feeId: string) => {
     setSelectedFeeId(feeId);
     setModalType("pay");
@@ -243,9 +261,17 @@ function StudentFeesList() {
             variant="primary"
             size="medium"
             icon={<img src={AddIcon} alt="Add Icon" />}
+            onClick={() => setShowConfirmDialog(true)}
           >
             Nueva cuota
           </Button>
+          {showConfirmDialog && (
+            <ConfirmDialog
+              message={`¿Estás seguro de que deseas generar una cuota para ${student.name} ${student.lastName}?`}
+              onConfirm={handleConfirmCreateFee}
+              onCancel={() => setShowConfirmDialog(false)}
+            />
+          )}
         </RightContainer>
       </FiltersContainer>
       {modalType === "pay" && (

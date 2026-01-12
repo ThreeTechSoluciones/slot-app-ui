@@ -22,6 +22,7 @@ import FilterSearch from "../../components/filter_search/FilterSearch";
 import Filter from "../../components/filter/Filter";
 import Button from "../../components/button/Button";
 import AddIcon from "../../assets/add-icon.svg";
+import type { SortConfig } from "../../app/types/sort";
 import {
   DetalleAlumno,
   ListadoCuotas,
@@ -32,71 +33,40 @@ import {
 function StudentList() {
   const { userId } = useAuthentication();
   const navigate = useNavigate();
-  const location = useLocation();
-  const { studentId } = location.state || {};
   const [statusFilter, setStatusFilter] = useState<string>("");
   const [situationFilter, setSituationFilter] = useState<string>("");
-  const [studentList, setStudentList] = useState<StudentResponse[]>([]);
   const [filter, setFilter] = useState<string>("");
-  const { data: studentsPage } = useGetUserStudentsQuery(
-    userId ? { userId, filter } : skipToken
+  const [sort, setSort] = useState<SortConfig[]>([]);
+
+  const {
+    data: studentsPage,
+    isLoading,
+    isError,
+  } = useGetUserStudentsQuery(
+    userId
+      ? {
+          userId,
+          filter,
+          status: situationFilter || undefined,
+          isActive: statusFilter === "" ? undefined : statusFilter === "activo",
+          sort: sort.length > 0 ? sort : undefined,
+        }
+      : skipToken
   );
 
-  useEffect(() => {
-    if (studentsPage) {
-      setStudentList(studentsPage.content);
-    }
-  }, [studentsPage]);
-
-  const statusMap: Record<string, string> = {
-    condeuda: "Con deuda",
-    entermino: "En término",
-  };
-
-  const sortedStudents = useMemo(() => {
-    let list = [...studentList];
-    if (situationFilter) {
-      list = list.filter(
-        (student) =>
-          student.status.toLowerCase() ===
-          statusMap[situationFilter]?.toLowerCase()
-      );
-    }
-    if (statusFilter) {
-      const isActive = statusFilter === "activo";
-      list = list.filter((student) => student.isActive === isActive);
-    }
-
-    list.sort((a, b) => {
-      if (a.isActive !== b.isActive) return a.isActive ? -1 : 1;
-      //si a es true (activo) y b false (inactivo), a (activo) va primero (-1)
-      //si a es false (inactivo) y b true (activo), b (activo) va primero (1)
-      return 0; //si son iguales
-    });
-    return list;
-  }, [studentList, statusFilter, situationFilter]);
-
-  const sortByField = (field: keyof StudentResponse, asc: boolean) => {
-    const sorted = [...studentList].sort((a, b) => {
-      const valueA = a[field];
-      const valueB = b[field];
-
-      if (field === "dni") {
-        return asc
-          ? Number(valueA) - Number(valueB)
-          : Number(valueB) - Number(valueA);
-      }
-      return asc
-        ? String(valueA).localeCompare(String(valueB))
-        : String(valueB).localeCompare(String(valueA));
-    });
-
-    setStudentList(sorted);
-  };
+  if (isLoading) return <div>Cargando...</div>;
+  if (isError)
+    return <div>Ocurrió un error a la hora de cargar a los estudiantes.</div>;
+  if (!studentsPage) return <div>No hay información disponible.</div>;
   const columns: Column<StudentResponse>[] = [
     {
       header: (
-        <SortableButton text="DNI" onSort={(asc) => sortByField("dni", asc)} />
+        <SortableButton
+          text="DNI"
+          onSort={(isAsc) =>
+            setSort([{ property: "dni", direction: isAsc ? "ASC" : "DESC" }])
+          }
+        />
       ),
       accessor: "dni",
     },
@@ -105,7 +75,9 @@ function StudentList() {
       header: (
         <SortableButton
           text="Nombre"
-          onSort={(asc) => sortByField("name", asc)}
+          onSort={(isAsc) =>
+            setSort([{ property: "name", direction: isAsc ? "ASC" : "DESC" }])
+          }
         />
       ),
       accessor: "name",
@@ -115,7 +87,11 @@ function StudentList() {
       header: (
         <SortableButton
           text="Apellido"
-          onSort={(asc) => sortByField("lastname", asc)}
+          onSort={(isAsc) =>
+            setSort([
+              { property: "lastname", direction: isAsc ? "ASC" : "DESC" },
+            ])
+          }
         />
       ),
       accessor: "lastname",
@@ -182,8 +158,8 @@ function StudentList() {
           <Filter
             placeholder="Filtrar por situación"
             options={[
-              { label: "Con deuda", value: "condeuda" },
-              { label: "En término", value: "entermino" },
+              { label: "Con deuda", value: "CON_DEUDA" },
+              { label: "En término", value: "EN_TERMINO" },
             ]}
             value={situationFilter}
             onSelect={setSituationFilter}
@@ -203,6 +179,7 @@ function StudentList() {
             variant="primary"
             fontsize="small"
             onClick={() => {
+              setFilter("");
               setSituationFilter("");
               setStatusFilter("");
             }}
@@ -221,7 +198,7 @@ function StudentList() {
           </Button>
         </RightContainer>
       </FiltersContainer>
-      <Table columns={columns} data={sortedStudents}/>
+      <Table columns={columns} data={studentsPage.content} />
     </StudentsContainer>
   );
 }
