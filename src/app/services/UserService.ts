@@ -5,6 +5,7 @@ import type { PlanResponse } from "../types/responses/PlanResponse.type";
 import type { Page } from "../types/responses/common/Page";
 import type { SlotListResponse } from "../types/responses/SlotResponse.type";
 import type { GetSlotsByDayParams } from "../types/requests/GetUserSlotsRequest.type";
+import type { SortConfig } from "../types/sort";
 import type { UserPreferencesResponse } from "../types/responses/UserPreferencesResponse.type";
 
 
@@ -20,22 +21,37 @@ export const UserService = createApi({
       {
         userId: string;
         filter?: string;
+        status?: string;
+        isActive?: boolean;
+        sort?: SortConfig | SortConfig[];
       }
     >({
-      query: ({ userId, filter }) => {
-        const params = new URLSearchParams();
-        if (filter) params.append("filter", filter);
-        return `/${userId}/students?${params}`;
+      query: ({ userId, filter, status, isActive, sort }) => {
+        let sortParams: string | string[] | undefined;
+        if (sort) {
+          sortParams = Array.isArray(sort)
+            ? sort.map((s) => `${s.property},${s.direction}`)
+            : `${sort.property},${sort.direction}`;
+        }
+        return {
+          url: `/${userId}/students`,
+          params: {
+            filter,
+            status,
+            isActive,
+            sort: sortParams,
+          },
+        };
       },
       providesTags: (result) =>
         result
           ? [
-            { type: "userStudents", id: "LIST" },
-            ...result.content.map(({ id }) => ({
-              type: "userStudents" as const,
-              id,
-            })),
-          ]
+              { type: "userStudents", id: "LIST" },
+              ...result.content.map(({ id }) => ({
+                type: "userStudents" as const,
+                id,
+              })),
+            ]
           : [{ type: "userStudents", id: "LIST" }],
     }),
 
@@ -44,9 +60,9 @@ export const UserService = createApi({
       providesTags: (result) =>
         result
           ? [
-            { type: "userPrices", id: "LIST" },
-            ...result.map(({ id }) => ({ type: "userPrices" as const, id })),
-          ]
+              { type: "userPrices", id: "LIST" },
+              ...result.map(({ id }) => ({ type: "userPrices" as const, id })),
+            ]
           : [{ type: "userPrices", id: "LIST" }],
     }),
     getUserPlans: builder.query<
