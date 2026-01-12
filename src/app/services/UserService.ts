@@ -28,28 +28,40 @@ export const UserService = createApi({
       providesTags: (result) =>
         result
           ? [
-            { type: "userStudents", id: "LIST" },
-            ...result.content.map(({ id }) => ({
-              type: "userStudents" as const,
-              id,
-            })),
-          ]
+              { type: "userStudents", id: "LIST" },
+              ...result.content.map(({ id }) => ({
+                type: "userStudents" as const,
+                id,
+              })),
+            ]
           : [{ type: "userStudents", id: "LIST" }],
     }),
-
 
     getUserPrices: builder.query<PriceResponse[], string>({
       query: (userId) => `${userId}/prices`,
       providesTags: (result) =>
         result
           ? [
-            { type: "userPrices", id: "LIST" },
-            ...result.map(({ id }) => ({ type: "userPrices" as const, id })),
-          ]
+              { type: "userPrices", id: "LIST" },
+              ...result.map(({ id }) => ({ type: "userPrices" as const, id })),
+            ]
           : [{ type: "userPrices", id: "LIST" }],
     }),
-    getUserPlans: builder.query<PlanResponse[], string>({
-      query: (userId) => `${userId}/plans`
+    getUserPlans: builder.query<
+      PlanResponse[],
+      { userId: string; planName?: string }
+    >({
+      query: ({ userId, planName }) => ({
+        url: `/${userId}/plans`,
+        params: { planName },
+      }),
+      providesTags: (result) =>
+        result
+          ? [
+              { type: "userPlans", id: "LIST" },
+              ...result.map(({ id }) => ({ type: "userPlans" as const, id })),
+            ]
+          : [{ type: "userPlans", id: "LIST" }],
     }),
     getSlots: builder.query<SlotListResponse, GetSlotsByDayParams>({
       query: ({ userId, dayOfWeek }) => ({
@@ -68,7 +80,7 @@ export const UserService = createApi({
             id: slot.slotId,
           })),
         ];
-      }
+      },
     }),
   }),
 });
@@ -77,5 +89,5 @@ export const {
   useGetUserStudentsQuery,
   useGetUserPricesQuery,
   useGetUserPlansQuery,
-  useGetSlotsQuery
+  useGetSlotsQuery,
 } = UserService;

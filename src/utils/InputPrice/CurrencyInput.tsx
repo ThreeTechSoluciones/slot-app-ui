@@ -12,23 +12,25 @@ function formatArgentinePeso(value: number) {
 type CurrencyInputProps = {
   value: number | null;
   onChange: (value: number | null) => void;
-  width:string;
-  placeholder?:string;
+  width: string;
+  placeholder?: string;
+  style?: React.CSSProperties;
 };
 
 export default function CurrencyInput({
   value,
   onChange,
   width,
-  placeholder
+  placeholder,
+  style,
 }: CurrencyInputProps) {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const raw = e.target.value.replace(/[^\d]/g, ""); 
+    const raw = e.target.value.replace(/[^\d]/g, "");
     if (!raw) {
       onChange(null);
       return;
     }
-    const numberValue = parseFloat(raw) / 100; 
+    const numberValue = parseFloat(raw) / 100;
     onChange(numberValue);
   };
 
@@ -39,6 +41,7 @@ export default function CurrencyInput({
       onChange={handleChange}
       width={width}
       placeholder={placeholder}
+      style={style}
     />
   );
 }
