@@ -22,8 +22,12 @@ import FilterSearch from "../../components/filter_search/FilterSearch";
 import Filter from "../../components/filter/Filter";
 import Button from "../../components/button/Button";
 import AddIcon from "../../assets/add-icon.svg";
-import { SearchNotFound } from "../../components/search_not_found/SearchNotFound";
-
+import {
+  DetalleAlumno,
+  ListadoCuotas,
+  NuevoAlumno,
+  ModificarTurnos,
+} from "../../routes/RoutesUtils";
 
 function StudentList() {
   const { userId } = useAuthentication();
@@ -141,23 +145,23 @@ function StudentList() {
             {
               label: "Ver cuotas",
               onClick: () =>
-                navigate(`/listado-cuotas`, {
+                navigate(ListadoCuotas, {
                   state: { studentId: student.id },
                 }),
             },
             {
               label: "Ver alumno",
               onClick: () =>
-                navigate(`/detalle-alumno`, {
+                navigate(DetalleAlumno, {
                   state: { studentId: student.id },
                 }),
             },
             {
               label: "Modificar turnos",
               onClick: () =>
-                navigate(`/editar-alumno`, {
+                navigate(ModificarTurnos, {
                   state: { studentId: student.id },
-                }), // cambiar ruta cuando esté la pantalla de modifcar turnos
+                }),
             },
           ]}
         />
@@ -211,7 +215,7 @@ function StudentList() {
             variant="primary"
             size="medium"
             icon={<img src={AddIcon} alt="Add Icon" />}
-            onClick={() => navigate("/nuevo-alumno")}
+            onClick={() => navigate(NuevoAlumno)}
           >
             Nuevo alumno
           </Button>

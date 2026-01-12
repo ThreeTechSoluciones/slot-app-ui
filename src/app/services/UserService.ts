@@ -65,7 +65,7 @@ export const UserService = createApi({
           { type: "userSlots", id: "LIST" },
           ...result.slots.map((slot) => ({
             type: "userSlots" as const,
-            id: slot.startTime
+            id: slot.slotId,
           })),
         ];
       }
