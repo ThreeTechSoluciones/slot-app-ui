@@ -33,7 +33,10 @@ import EditIcon from "../../assets/edit-icon.svg";
 import DesactivateIcon from "../../assets/desactivate-icon.svg";
 import Button from "../../components/button/Button";
 import { ConfirmDialog } from "../../components/confirm_dialog/ConfirmDialog";
-import { ListadoCuotas } from "../../routes/RoutesUtils";
+import {
+  getEditarEstudianteStep,
+  ListadoCuotas,
+} from "../../routes/RoutesUtils";
 import toast from "react-hot-toast";
 import { useState } from "react";
 import type { StudentDetailResponse } from "../../app/types/responses/StudentDetailResponse.type";
@@ -178,7 +181,7 @@ const StudentData = ({
             src={EditIcon}
             alt="edit-icon"
             onClick={() =>
-              navigate(`/editar-estudiante/1`, {
+              navigate(getEditarEstudianteStep(1), {
                 state: { studentId: student.id },
               })
             }
@@ -220,7 +223,7 @@ const PaymentData = ({
         </SubTitle>
         <EditIconStyles
           onClick={() =>
-            navigate(`/editar-estudiante/2`, {
+            navigate(getEditarEstudianteStep(2), {
               state: { studentId: student.id },
             })
           }

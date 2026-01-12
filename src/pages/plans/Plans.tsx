@@ -1,95 +1,224 @@
-import "./Plans.css";
-import { useState } from "react";
-import { useGetUserPricesQuery } from "../../app/services/UserService";
-import { useUpdatePriceMutation } from "../../app/services/PriceService";
-import toast from "react-hot-toast";
-import useAuthentication from "../../hooks/useAuthentication";
+import { useState, useRef } from "react";
 import { formatCurrency } from "../../utils/Formatter";
+import type { Column } from "../../app/types/table";
+import type { PlanResponse } from "../../app/types/responses/PlanResponse.type";
+import Table from "../../components/table/Table";
+import { SortableButton } from "../../components/sort_button/SortButton";
+import { DropdownMenu } from "../../components/dropdownMenu/DropdownMenu";
+import FilterSearch from "../../components/filter_search/FilterSearch";
+import Button from "../../components/button/Button";
+import DotsIcon from "../../assets/dots-icon.png";
+import AddIcon from "../../assets/add-icon.svg";
+import {
+  PlansContainer,
+  FiltersContainer,
+  LeftContainer,
+  RightContainer,
+  Title,
+} from "./Plans.styles";
+import { ConfirmDialog } from "../../components/confirm_dialog/ConfirmDialog";
+import { toast } from "react-hot-toast";
+import { GenericModal } from "../../components/generic_modal/GenericModal";
+import CreatePlanForm from "./CreatePlanForm/CreatePlanForm";
+import {
+  useCreatePlanMutation,
+  useUpdatePlanPriceMutation,
+  useDeletePlanMutation,
+} from "../../app/services/PlanService";
+import { useGetUserPlansQuery } from "../../app/services/UserService";
+import { skipToken } from "@reduxjs/toolkit/query/react";
+import useAuthentication from "../../hooks/useAuthentication";
+import EditPlan from "./EditPlan/EditPlan";
+import { capitalize } from "../../utils/CapitalizeWords";
+
 function Plans() {
+  const formRef = useRef<any>(null);
+  const [filter, setFilter] = useState<string>("");
+  const [showModal, setShowModal] = useState<
+    "CREATE" | "EDIT" | "DELETE" | null
+  >(null);
+  const [selectedPlan, setSelectedPlan] = useState<PlanResponse | null>(null);
+  const [editPlan] = useUpdatePlanPriceMutation();
+  const [deletePlan] = useDeletePlanMutation();
+  const [createPlan] = useCreatePlanMutation();
   const { userId } = useAuthentication();
-  const { data: prices } = useGetUserPricesQuery(userId!);
-  const [newAmount, setNewAmount] = useState<number>(0);
-  const [selectedPriceId, setSelectedPriceId] = useState("");
-  const [updatePrice, { isLoading: isUpdating }] = useUpdatePriceMutation();
-  const selectedPrice = prices?.find((p) => p.id === selectedPriceId);
-  const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const rawValue = e.target.value.replace(/[^\d]/g, "");
-    setNewAmount(Number(rawValue) / 100);
+  const { data: plansData } = useGetUserPlansQuery(
+    userId ? { userId, planName: filter } : skipToken
+  );
+  const plansToDisplay = plansData || [];
+
+  const handleClearFilters = () => {
+    setFilter("");
   };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!selectedPriceId) {
-      toast.error("Por favor, selecciona un plan.");
-      return;
+  const handleMutation = async (
+    action: () => Promise<any>,
+    onSuccess: () => void,
+    successMessage: string
+  ) => {
+    try {
+      await action();
+      toast.success(successMessage);
+      onSuccess();
+    } finally {
     }
-
-    if (!newAmount || isNaN(Number(newAmount))) {
-      toast.error("Ingresa un monto válido.");
-      return;
-    }
-
-    updatePrice({
-      priceId: selectedPriceId,
-      amount: Number(newAmount),
-    })
-      .unwrap()
-      .then(() => {
-        toast.success("Precio actualizado con éxito");
-        setNewAmount(0);
-      });
   };
+  //CREAR PLAN
+  const handleCreatePlan = async () => {
+    if (!formRef.current) return;
+
+    const data = await formRef.current.submit();
+    if (!data || !userId) return;
+    const finalRequest = {
+      ...data,
+      name: capitalize(data.name),
+      userId,
+    };
+    await handleMutation(
+      () => createPlan(finalRequest).unwrap(),
+      () => setShowModal(null),
+      "Plan creado correctamente"
+    );
+  };
+  //EDITAR PLAN
+  const handleEditPlan = async () => {
+    if (!formRef.current) return;
+
+    const data = await formRef.current.submit();
+    if (!data) return;
+
+    await handleMutation(
+      () => editPlan(data).unwrap(),
+      () => setShowModal(null),
+      "Plan editado correctamente"
+    );
+  };
+  //ELIMINAR PLAN
+  const handleDeletePlan = async () => {
+    if (!selectedPlan || !selectedPlan.id) return;
+
+    await handleMutation(
+      () => deletePlan(selectedPlan.id).unwrap(),
+      () => {
+        setShowModal(null);
+        setSelectedPlan(null);
+      },
+      "Plan eliminado correctamente"
+    );
+  };
+  const MODALS = {
+    DELETE: (
+      <ConfirmDialog
+        message="¿Estás seguro de que deseas eliminar este plan?"
+        onConfirm={handleDeletePlan}
+        onCancel={() => setShowModal(null)}
+      />
+    ),
+    CREATE: (
+      <GenericModal
+        title="REGISTRAR NUEVO PLAN"
+        confirmText="Registrar"
+        onConfirm={handleCreatePlan}
+        onCancel={() => setShowModal(null)}
+      >
+        <CreatePlanForm ref={formRef} />
+      </GenericModal>
+    ),
+    EDIT: selectedPlan && (
+      <GenericModal
+        title="EDITAR PLAN"
+        confirmText="Editar"
+        onConfirm={handleEditPlan}
+        onCancel={() => {
+          setShowModal(null);
+          setSelectedPlan(null);
+        }}
+        height="585px"
+      >
+        <EditPlan
+          ref={formRef}
+          planId={selectedPlan.id}
+          planName={selectedPlan.name}
+          numberOfDays={selectedPlan.numberOfDays}
+          currentAmount={selectedPlan.price}
+        />
+      </GenericModal>
+    ),
+  };
+  const columns: Column<PlanResponse>[] = [
+    {
+      header: <SortableButton text="Nombre del plan" />,
+      accessor: "name",
+    },
+    {
+      header: <SortableButton text="Cantidad de días asignados" />,
+      accessor: "numberOfDays",
+      render: (plan) => <span>{plan.numberOfDays}</span>,
+    },
+    {
+      header: <SortableButton text="Precio actual" />,
+      accessor: "price",
+      render: (plan) => <span>{formatCurrency(plan.price)}</span>,
+    },
+    {
+      header: "Acciones",
+      render: (plan) => (
+        <DropdownMenu
+          icon={<img src={DotsIcon} alt="Opciones" width={30} height={30} />}
+          size="small"
+          options={[
+            {
+              label: "Editar plan",
+              onClick: () => {
+                setShowModal("EDIT");
+                setSelectedPlan(plan);
+              },
+            },
+            {
+              label: "Eliminar",
+              onClick: () => {
+                setShowModal("DELETE");
+                setSelectedPlan(plan);
+              },
+            },
+          ]}
+        />
+      ),
+    },
+  ];
 
   return (
-    <div className="plansContainer">
-      <div className="selectContainer">
-        <label className="label" htmlFor="planSelect">
-          Seleccionar un plan o frecuencia
-        </label>
-        <select
-          id="planSelect"
-          className="select"
-          value={selectedPriceId}
-          onChange={(e) => setSelectedPriceId(e.target.value)}
-        >
-          <option value="">- Selecciona una opción -</option>
-          {prices &&
-            prices.map((price) => (
-              <option key={price.id} value={price.id}>
-                {price.name}
-              </option>
-            ))}
-        </select>
-      </div>
+    <PlansContainer>
+      <Title>GESTIÓN DE PLANES</Title>
 
-      <form className="amountsContainer" onSubmit={handleSubmit}>
-        <div className="actualAmount">
-          <label className="label">Monto Actual</label>
-          <input
-            className="input"
-            type="text"
-            readOnly
-            value={formatCurrency(selectedPrice?.amount ?? 0)}
+      <FiltersContainer>
+        <LeftContainer>
+          <FilterSearch
+            value={filter}
+            onChange={setFilter}
+            placeholder="Buscar por nombre"
           />
-        </div>
-        <div className="newAmount">
-          <label className="label">Monto Nuevo</label>
-          <input
-            className="input"
-            type="text"
-            value={formatCurrency(newAmount)}
-            onChange={handleAmountChange}
-            disabled={isUpdating}
-            placeholder="0,00"
-          />
-        </div>
-        <div className="submitContainer">
-          <button type="submit" className="submitButton" disabled={isUpdating}>
-            {isUpdating ? "Actualizando..." : "Registrar"}
-          </button>
-        </div>
-      </form>
-    </div>
+
+          <Button size="small" variant="primary" onClick={handleClearFilters}>
+            Limpiar filtros
+          </Button>
+        </LeftContainer>
+
+        <RightContainer>
+          <Button
+            variant="primary"
+            size="medium"
+            icon={<img src={AddIcon} alt="Agregar" />}
+            onClick={() => setShowModal("CREATE")}
+          >
+            Nuevo plan
+          </Button>
+        </RightContainer>
+      </FiltersContainer>
+
+      <Table columns={columns} data={plansToDisplay} />
+
+      {showModal && MODALS[showModal]}
+    </PlansContainer>
   );
 }
 

@@ -39,7 +39,6 @@ export const UserService = createApi({
           : [{ type: "userStudents", id: "LIST" }],
     }),
 
-
     getUserPrices: builder.query<PriceResponse[], string>({
       query: (userId) => `${userId}/prices`,
       providesTags: (result) =>
@@ -50,8 +49,21 @@ export const UserService = createApi({
           ]
           : [{ type: "userPrices", id: "LIST" }],
     }),
-    getUserPlans: builder.query<PlanResponse[], string>({
-      query: (userId) => `${userId}/plans`
+    getUserPlans: builder.query<
+      PlanResponse[],
+      { userId: string; planName?: string }
+    >({
+      query: ({ userId, planName }) => ({
+        url: `/${userId}/plans`,
+        params: { planName },
+      }),
+      providesTags: (result) =>
+        result
+          ? [
+            { type: "userPlans", id: "LIST" },
+            ...result.map(({ id }) => ({ type: "userPlans" as const, id })),
+          ]
+          : [{ type: "userPlans", id: "LIST" }],
     }),
     getUserPreferences: builder.query<UserPreferencesResponse, string>({
       query: (userId) => `${userId}/userPreferences`,
@@ -87,7 +99,7 @@ export const UserService = createApi({
             id: slot.slotId,
           })),
         ];
-      }
+      },
     }),
   }),
 });

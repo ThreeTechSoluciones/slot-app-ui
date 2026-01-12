@@ -10,7 +10,6 @@ import {
 } from "../../utils/Stylesheet";
 export const StudentsContainer = styled.div`
   width: 100%;
-  padding-top: 20px;
   min-height: 100vh;
 `;
 export const Title = styled.h1`
@@ -18,6 +17,7 @@ export const Title = styled.h1`
   margin-left: 80px;
   font-family: ${FONT_FAMILY};
   font-weight: ${FONT_WEIGHT_BOLD};
+  margin-top: 56px;
 `;
 export const FiltersContainer = styled.div`
   display: flex;

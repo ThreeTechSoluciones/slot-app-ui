@@ -15,9 +15,10 @@ import { errorHandler } from "../errorHandler/errorHandler";
 import { UserService } from "../services/UserService";
 import { StudentService } from "../services/StudentService";
 import { PriceService } from "../services/PriceService";
+import { PlanService } from "../services/PlanService";
+import { authSlice } from "../slices/AuthSlice";
 import { MonthlyFeeService } from "../services/MonthlyFeeService";
 import { PaymentService } from "../services/PaymentService";
-import { authSlice } from "../slices/AuthSlice";
 import { SlotService } from "../services/SlotService";
 
 const reducers = combineReducers({
@@ -25,6 +26,7 @@ const reducers = combineReducers({
   [UserService.reducerPath]: UserService.reducer,
   [StudentService.reducerPath]: StudentService.reducer,
   [PriceService.reducerPath]: PriceService.reducer,
+  [PlanService.reducerPath]: PlanService.reducer,
   [MonthlyFeeService.reducerPath]: MonthlyFeeService.reducer,
   [PaymentService.reducerPath]: PaymentService.reducer,
   [SlotService.reducerPath]: SlotService.reducer,
@@ -54,6 +56,7 @@ export const store = configureStore({
       .concat(UserService.middleware)
       .concat(StudentService.middleware)
       .concat(PriceService.middleware)
+      .concat(PlanService.middleware)
       .concat(MonthlyFeeService.middleware)
       .concat(PaymentService.middleware)
       .concat(SlotService.middleware),
