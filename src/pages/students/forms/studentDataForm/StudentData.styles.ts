@@ -1,9 +1,9 @@
 import styled from "styled-components";
 import {
-    PRIMARY_COLOR,
-    SECONDARY_COLOR,
-    TERTIARY_COLOR,
-    TEXT_COLOR,
+    BRAND_COLOR,
+    LIGHT_NEUTRAL_COLOR,
+    NEUTRAL_COLOR,
+    DEFAULT_TEXT_COLOR,
     FONT_FAMILY
 }
     from "../../../../utils/Stylesheet";
@@ -27,16 +27,16 @@ export const BaseStyle = styled.input`
     font-size:12px;
     padding-left:16px;
     background:none;
-    color:${TEXT_COLOR};
+    color:${DEFAULT_TEXT_COLOR};
     font-family: ${FONT_FAMILY};
     &::placeholder {
-        color: ${TERTIARY_COLOR};
+        color: ${NEUTRAL_COLOR};
 `
 export const Input = styled(BaseStyle) <{ disabled?: boolean }>`
-    background:${(props) => (props.disabled ? SECONDARY_COLOR : "none")};
-    border:${(props) => (props.disabled ? SECONDARY_COLOR : "1px solid black")};
+    background:${(props) => (props.disabled ? LIGHT_NEUTRAL_COLOR : "none")};
+    border:${(props) => (props.disabled ? LIGHT_NEUTRAL_COLOR : "1px solid black")};
     &::placeholder {
-        color: ${(props) => (props.disabled ? SECONDARY_COLOR : TERTIARY_COLOR)};;
+        color: ${(props) => (props.disabled ? LIGHT_NEUTRAL_COLOR : NEUTRAL_COLOR)};;
 `
 export const Description = styled(BaseStyle).attrs({ as: "textarea" })`
     width:392px;
@@ -60,7 +60,7 @@ export const Label = styled.p`
 export const Button = styled.button`
     width:192px;
     height: 48px;
-    background:${PRIMARY_COLOR};
+    background:${BRAND_COLOR};
     font-family: ${FONT_FAMILY};
     border-radius:10px;
     border:none;
@@ -68,7 +68,7 @@ export const Button = styled.button`
     color:black;
     &:hover{
         cursor:pointer;
-        background: ${TERTIARY_COLOR};
+        background: ${NEUTRAL_COLOR};
     }
 `
 

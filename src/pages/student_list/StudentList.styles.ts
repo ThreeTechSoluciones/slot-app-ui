@@ -2,9 +2,9 @@ import styled from "styled-components";
 import {
   BACKGROUND_COLOR,
   BORDER_RADIUS,
-  ERROR_COLOR,
+  DANGER_COLOR,
   SUCCESS_COLOR,
-  TERTIARY_COLOR,
+  NEUTRAL_COLOR,
   FONT_FAMILY,
   FONT_WEIGHT_BOLD,
 } from "../../utils/Stylesheet";
@@ -49,16 +49,16 @@ const CommonStatusAndSituation = styled.p`
   font-weight: 700;
 `;
 
-export const SituationText = styled(CommonStatusAndSituation)<{
+export const SituationText = styled(CommonStatusAndSituation) <{
   $status: string;
 }>`
   background-color: ${({ $status }) =>
-    $status === "En término" ? `${SUCCESS_COLOR}` : `${ERROR_COLOR}`};
+    $status === "En término" ? `${SUCCESS_COLOR}` : `${DANGER_COLOR}`};
 `;
 
-export const StatusText = styled(CommonStatusAndSituation)<{
+export const StatusText = styled(CommonStatusAndSituation) <{
   $isActive: boolean;
 }>`
   background-color: ${({ $isActive }) =>
-    $isActive ? `${SUCCESS_COLOR}` : `${TERTIARY_COLOR}`};
+    $isActive ? `${SUCCESS_COLOR}` : `${NEUTRAL_COLOR}`};
 `;

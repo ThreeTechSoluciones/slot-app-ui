@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { BORDER_RADIUS, FONT_FAMILY, PRIMARY_COLOR, TERTIARY_COLOR } from "../../../utils/Stylesheet";
+import { BORDER_RADIUS, FONT_FAMILY, BRAND_COLOR, NEUTRAL_COLOR } from "../../../utils/Stylesheet";
 
 export const MainContainer = styled.div`
     display: flex;
@@ -42,7 +42,7 @@ export const ButtonsContainer = styled.div`
 export const Button = styled.button`
     width:192px;
     height: 48px;
-    background:${PRIMARY_COLOR};
+    background:${BRAND_COLOR};
     font-family: ${FONT_FAMILY};
     border-radius:${BORDER_RADIUS};
     border:none;
@@ -50,6 +50,6 @@ export const Button = styled.button`
     color:black;
     &:hover{
         cursor:pointer;
-        background: ${TERTIARY_COLOR};
+        background: ${NEUTRAL_COLOR};
     }
 `

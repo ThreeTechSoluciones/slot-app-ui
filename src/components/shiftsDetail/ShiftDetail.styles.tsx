@@ -2,8 +2,8 @@ import styled from "styled-components";
 import {
     BORDER_RADIUS,
     FONT_FAMILY,
-    SECONDARY_COLOR,
-    TEXT_COLOR
+    LIGHT_NEUTRAL_COLOR,
+    DEFAULT_TEXT_COLOR
 }
     from "../../utils/Stylesheet";
 
@@ -38,12 +38,12 @@ export const ShiftContainer = styled.div`
 export const Shift = styled.div`
     display:flex;
     flex-direction:column;
-    background-color: ${SECONDARY_COLOR};
-    color: ${TEXT_COLOR};
+    background-color: ${LIGHT_NEUTRAL_COLOR};
+    color: ${DEFAULT_TEXT_COLOR};
     width:120px;
     height:56px;
     border-radius:${BORDER_RADIUS};
-    border: 1px solid ${SECONDARY_COLOR};
+    border: 1px solid ${LIGHT_NEUTRAL_COLOR};
     padding-top:16px;
     
 `

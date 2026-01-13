@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { FONT_FAMILY, TERTIARY_COLOR } from "../../../utils/Stylesheet";
-import { TEXT_COLOR, BORDER_RADIUS, BACKGROUND_COLOR } from "../../../utils/Stylesheet";
+import { FONT_FAMILY, NEUTRAL_COLOR } from "../../../utils/Stylesheet";
+import { DEFAULT_TEXT_COLOR, BORDER_RADIUS, BACKGROUND_COLOR } from "../../../utils/Stylesheet";
 
 export const FormContainer = styled.form`
     display: flex;
@@ -16,11 +16,11 @@ export const Input = styled.input`
     font-size:12px;
     padding-left:16px;
     margin-bottom:4px;
-    color:${TEXT_COLOR};
+    color:${DEFAULT_TEXT_COLOR};
     background-color: ${BACKGROUND_COLOR};
     font-family: ${FONT_FAMILY};
     &::placeholder {
-        color: ${TERTIARY_COLOR};
+        color: ${NEUTRAL_COLOR};
     }
 `;
 
