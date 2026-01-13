@@ -11,8 +11,8 @@ import {
   MisPlanes,
   DetalleAlumno,
   MisTurnos,
-  EditarAlumno,
   ListadoCuotas,
+  getEditarEstudianteStep,
 } from "./routes/RoutesUtils";
 import CreateStudent from "./pages/students/create-student/CreateStudent";
 import StudentFeesList from "./pages/student_fees_list/FeesList";
@@ -32,7 +32,10 @@ function App() {
           <Route path={DetalleAlumno} element={<StudentDetail />} />
           <Route path={ListadoCuotas} element={<StudentFeesList />} />
           <Route path={MisTurnos} element={<SlotConfiguration />} />
-          <Route path={EditarAlumno} element={<EditStudent />} />
+          <Route
+            path={getEditarEstudianteStep(":numberOfStep")}
+            element={<EditStudent />}
+          />
         </Route>
         <Route path="/" element={<Navigate to={IniciarSesion} />} />
       </Routes>

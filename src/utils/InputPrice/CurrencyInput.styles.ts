@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { FONT_FAMILY, LIGHT_NEUTRAL_COLOR, NEUTRAL_COLOR, DEFAULT_TEXT_COLOR } from "../Stylesheet";
 
 type PriceInputProps = {
-    width: string;
+  width: string;
 };
 
 export const PriceInput = styled.input <PriceInputProps>`

@@ -75,7 +75,7 @@ export const StyledWrapper = styled.div<StyledWrapperProps>`
   //DIAS
   .react-calendar__tile {
     color: black;
-    border-radius: 10px;
+    border-radius: ${BORDER_RADIUS};
     font-family: ${FONT_FAMILY};
     width: 40px;
     height: 40px;

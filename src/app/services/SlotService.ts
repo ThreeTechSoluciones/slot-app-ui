@@ -35,10 +35,23 @@ export const SlotService = createApi({
                 );
             },
         }),
+        deleteSlot: builder.mutation<void, { slotId: string }>({
+            query: ({ slotId }) => ({
+                url: `/${slotId}`,
+                method: "DELETE",
+            }),
+            async onQueryStarted({ slotId }, { dispatch, queryFulfilled }) {
+                await queryFulfilled;
+                dispatch(
+                    UserService.util.invalidateTags([{ type: "userSlots", id: slotId }])
+                );
+            },
+        }),
     })
 });
 
 export const {
     useCreateSlotMutation,
-    useUpdateSlotMutation
+    useUpdateSlotMutation,
+    useDeleteSlotMutation,
 } = SlotService;
