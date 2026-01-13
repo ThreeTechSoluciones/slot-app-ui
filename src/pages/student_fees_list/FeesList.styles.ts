@@ -1,13 +1,14 @@
 import styled from "styled-components";
 import {
-  ERROR_COLOR,
+  DANGER_COLOR,
   SUCCESS_COLOR,
-  TERTIARY_COLOR,
+  NEUTRAL_COLOR,
   BORDER_RADIUS,
   FONT_FAMILY,
-  TEXT_COLOR,
+  DEFAULT_TEXT_COLOR,
   FONT_WEIGHT_BOLD,
   FONT_WEIGHT_NORMAL,
+  WARNING_COLOR,
 } from "../../utils/Stylesheet";
 
 export const InformationStudent = styled.div``;
@@ -83,26 +84,20 @@ export const FeeStatusContainer = styled.div`
   justify-content: center;
 `;
 
+const STATUS_COLORS: { [key: string]: string } = {
+  Pendiente: WARNING_COLOR,
+  Vencido: DANGER_COLOR,
+  Pagado: SUCCESS_COLOR,
+  "Pago con atraso": NEUTRAL_COLOR
+};
+
 export const FeeStatus = styled.div<{
   $status: string;
 }>`
-  background-color: ${({ $status }) => {
-    switch ($status) {
-      case "Pendiente":
-        return TERTIARY_COLOR;
-      case "Vencido":
-        return ERROR_COLOR;
-      case "Pagado":
-        return SUCCESS_COLOR;
-      case "Pago con atraso":
-        return TEXT_COLOR;
-      default:
-        return TERTIARY_COLOR;
-    }
-  }};
+  background-color: ${({ $status }) => { return STATUS_COLORS[$status] || NEUTRAL_COLOR }};
   border-radius: ${BORDER_RADIUS};
   font-family: ${FONT_FAMILY};
-  color: ${TEXT_COLOR};
+  color: ${DEFAULT_TEXT_COLOR};
   width: 136px;
   height: 32px;
   display: flex;
