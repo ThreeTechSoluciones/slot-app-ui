@@ -1,9 +1,9 @@
 import styled from "styled-components";
 import Arrow from "../../../../assets/Arrow.png"
 import {
-    SECONDARY_COLOR,
-    TERTIARY_COLOR,
-    TEXT_COLOR,
+    LIGHT_NEUTRAL_COLOR,
+    NEUTRAL_COLOR,
+    DEFAULT_TEXT_COLOR,
     FONT_FAMILY,
     BORDER_RADIUS
 }
@@ -44,10 +44,10 @@ export const BaseStyle = styled.input`
     font-size:12px;
     padding-left:16px;
     background:none;
-    color:${TEXT_COLOR};
+    color:${DEFAULT_TEXT_COLOR};
     font-family: ${FONT_FAMILY};
     &::placeholder {
-        color: ${TERTIARY_COLOR};
+        color: ${NEUTRAL_COLOR};
     }
 `
 export const FormContainer = styled.form`
@@ -71,10 +71,10 @@ export const Select = styled(BaseStyle).attrs({ as: "select" })`
 `
 
 export const Input = styled(BaseStyle) <{ disabled?: boolean }>`
-    background:${(props) => (props.disabled ? SECONDARY_COLOR : "none")};
-    border:${(props) => (props.disabled ? SECONDARY_COLOR : "1px solid black")};
+    background:${(props) => (props.disabled ? LIGHT_NEUTRAL_COLOR : "none")};
+    border:${(props) => (props.disabled ? LIGHT_NEUTRAL_COLOR : "1px solid black")};
     &::placeholder {
-        color: ${(props) => (props.disabled ? SECONDARY_COLOR : TERTIARY_COLOR)};;
+        color: ${(props) => (props.disabled ? LIGHT_NEUTRAL_COLOR : NEUTRAL_COLOR)};;
     }
 `
 export const InputsContainer = styled.div`

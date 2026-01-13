@@ -3,7 +3,7 @@ import {
   BORDER_RADIUS,
   BACKGROUND_COLOR,
   FONT_FAMILY,
-  SECONDARY_COLOR,
+  LIGHT_NEUTRAL_COLOR,
 } from "../../utils/Stylesheet";
 export const ModalOverlay = styled.div`
   position: fixed;
@@ -92,7 +92,7 @@ export const IconCircle = styled.div`
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background-color: ${SECONDARY_COLOR};
+  background-color: ${LIGHT_NEUTRAL_COLOR};
   display: flex;
   align-items: center;
   justify-content: center;

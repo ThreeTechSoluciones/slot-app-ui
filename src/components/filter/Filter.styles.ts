@@ -1,10 +1,10 @@
 import styled from "styled-components";
 import {
   BORDER_RADIUS,
-  SECONDARY_COLOR,
+  LIGHT_NEUTRAL_COLOR,
   FONT_FAMILY,
-  TERTIARY_COLOR,
-  TEXT_COLOR,
+  NEUTRAL_COLOR,
+  DEFAULT_TEXT_COLOR,
 } from "../../utils/Stylesheet";
 interface DropdownWrapperProps {
   $hasValue: boolean;
@@ -24,7 +24,7 @@ export const DropdownWrapper = styled.div<DropdownWrapperProps>`
   border-radius: ${BORDER_RADIUS};
   font-size: 12px;
   font-family: ${FONT_FAMILY};
-  color: ${TERTIARY_COLOR};
-  background-color: ${SECONDARY_COLOR};
-  color: ${(props) => (props.$hasValue ? TEXT_COLOR : TERTIARY_COLOR)};
+  color: ${NEUTRAL_COLOR};
+  background-color: ${LIGHT_NEUTRAL_COLOR};
+  color: ${(props) => (props.$hasValue ? DEFAULT_TEXT_COLOR : NEUTRAL_COLOR)};
 `;

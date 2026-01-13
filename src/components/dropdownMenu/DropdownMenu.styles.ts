@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import {
   BORDER_RADIUS,
-  PRIMARY_COLOR,
-  SECONDARY_COLOR,
+  BRAND_COLOR,
+  LIGHT_NEUTRAL_COLOR,
 } from "../../utils/Stylesheet";
 
 export const DropdownContainer = styled.div`
@@ -41,7 +41,7 @@ export const DropdownMenuStyle = styled.div<DropdownContainerProps>`
   top: 100%;
   left: 50%;
   transform: translateX(-50%);
-  background: ${SECONDARY_COLOR};
+  background: ${LIGHT_NEUTRAL_COLOR};
   border: 1px solid #ccc;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   z-index: 10;
@@ -59,6 +59,6 @@ export const ButtonOption = styled.button`
   text-align: center;
   cursor: pointer;
   &:hover {
-    background: ${PRIMARY_COLOR};
+    background: ${BRAND_COLOR};
   }
 `;

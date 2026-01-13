@@ -2,8 +2,8 @@ import styled from "styled-components";
 import {
   FONT_FAMILY,
   SUCCESS_COLOR,
-  TERTIARY_COLOR,
-  ERROR_COLOR,
+  NEUTRAL_COLOR,
+  DANGER_COLOR,
 } from "../../utils/Stylesheet";
 
 export const MainContainer = styled.div`
@@ -98,13 +98,13 @@ export const StudentInfo = styled.p`
 `;
 export const StudentStatusStyle = styled.p<{ $status: boolean }>`
   margin: 0;
-  color: ${({ $status }) => ($status ? SUCCESS_COLOR : TERTIARY_COLOR)};
+  color: ${({ $status }) => ($status ? SUCCESS_COLOR : NEUTRAL_COLOR)};
 `;
 
 export const StudentSituationStyle = styled.p<{ $situation: string }>`
   margin: 0;
   color: ${({ $situation }) =>
-    $situation === "En término" ? SUCCESS_COLOR : ERROR_COLOR};
+    $situation === "En término" ? SUCCESS_COLOR : DANGER_COLOR};
 `;
 export const TitleContainer = styled.div`
   display: flex;

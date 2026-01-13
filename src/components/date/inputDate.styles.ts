@@ -1,10 +1,10 @@
 import styled from "styled-components";
 import {
   FONT_FAMILY,
-  PRIMARY_COLOR,
-  SECONDARY_COLOR,
-  TERTIARY_COLOR,
-  TEXT_COLOR,
+  BRAND_COLOR,
+  LIGHT_NEUTRAL_COLOR,
+  NEUTRAL_COLOR,
+  DEFAULT_TEXT_COLOR,
   BORDER_RADIUS,
 } from "../../utils/Stylesheet";
 
@@ -15,7 +15,7 @@ export const StyledWrapper = styled.div<StyledWrapperProps>`
   position: relative;
   .react-date-picker__wrapper {
     width: 408px;
-    color: ${TERTIARY_COLOR};
+    color: ${NEUTRAL_COLOR};
     height: 56px;
     padding-right: 16px;
     border: 1px solid black;
@@ -23,7 +23,7 @@ export const StyledWrapper = styled.div<StyledWrapperProps>`
     font-size: 12px;
     padding-left: 16px;
     background: none;
-    color: ${TEXT_COLOR};
+    color: ${DEFAULT_TEXT_COLOR};
     font-family: ${FONT_FAMILY};
   }
 
@@ -31,21 +31,21 @@ export const StyledWrapper = styled.div<StyledWrapperProps>`
   .react-calendar {
     position: absolute;
     background-color: white;
-    border: 2px solid ${SECONDARY_COLOR};
-    border-radius: ${BORDER_RADIUS};
+    border: 2px solid ${LIGHT_NEUTRAL_COLOR};
+    border-radius: 10px;
     top: 100%;
     font-family: ${FONT_FAMILY};
     font-size: 12px;
     padding: 20px;
     z-index: 9999;
-    color: ${TEXT_COLOR};
+    color: ${DEFAULT_TEXT_COLOR};
     ${(props) =>
-      props.$calendarPosition === "birthday"
-        ? `
+    props.$calendarPosition === "birthday"
+      ? `
       top: 100%;
       margin-top: 55px;
     `
-        : `
+      : `
       top: 100%;
     `}
     left: 0;
@@ -61,7 +61,7 @@ export const StyledWrapper = styled.div<StyledWrapperProps>`
     font-family: ${FONT_FAMILY};
     font-weight: bold;
     font-size: 16px;
-    color: ${TEXT_COLOR};
+    color: ${DEFAULT_TEXT_COLOR};
   }
 
   //DIAS DE LA SEMANA
@@ -84,7 +84,7 @@ export const StyledWrapper = styled.div<StyledWrapperProps>`
 
   //DIA ACTUAL
   .react-calendar__tile--now {
-    background-color: ${SECONDARY_COLOR};
+    background-color: ${LIGHT_NEUTRAL_COLOR};
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -92,13 +92,13 @@ export const StyledWrapper = styled.div<StyledWrapperProps>`
 
   //HOVER SOBRE DIAS
   .react-calendar__tile:hover {
-    background-color: ${SECONDARY_COLOR};
+    background-color: ${LIGHT_NEUTRAL_COLOR};
     border-radius: 50%;
   }
 
   //
   .react-calendar__navigation button {
-    color: ${TERTIARY_COLOR};
+    color: ${NEUTRAL_COLOR};
     width: 15px;
     background: none;
     border: none;
@@ -108,11 +108,11 @@ export const StyledWrapper = styled.div<StyledWrapperProps>`
   //ICONO DE CALENDARIO
   .react-date-picker__button {
     svg {
-      stroke: ${TERTIARY_COLOR};
+      stroke: ${NEUTRAL_COLOR};
     }
   }
 
   .react-calendar__tile--active {
-    background-color: ${PRIMARY_COLOR};
+    background-color: ${BRAND_COLOR};
   }
 `;
