@@ -9,7 +9,7 @@ export const PriceInput = styled(InputStyle)<PriceInputProps>`
   width: ${(props) => props.width}px;
   max-width: 100%;
   box-sizing: border-box;
-  font-size: 12px;
+  font-size: 16px;
   &::placeholder {
     color: ${TERTIARY_COLOR};
   }

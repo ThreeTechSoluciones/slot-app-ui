@@ -23,7 +23,7 @@ import InputDate from "../../../components/date/inputDate";
 import CalendarIcon from "../../../assets/calendar-icon.svg";
 export interface EditPlanFormData {
   amount: number;
-  startDate: string;
+  startDate: Date;
 }
 export interface EditPlanFormProps {
   planId: string;
@@ -34,7 +34,6 @@ export interface EditPlanFormProps {
 const EditPlanForm = forwardRef<FormProp<any>, EditPlanFormProps>(
   (props, ref) => {
     const { planId, planName, numberOfDays, currentAmount } = props;
-
     const {
       handleSubmit,
       control,
@@ -43,7 +42,7 @@ const EditPlanForm = forwardRef<FormProp<any>, EditPlanFormProps>(
       resolver: yupResolver(editPlanSchema),
       defaultValues: {
         amount: undefined,
-        startDate: new Date().toISOString().split("T")[0],
+        startDate: new Date(),
       },
     });
 
@@ -121,6 +120,7 @@ const EditPlanForm = forwardRef<FormProp<any>, EditPlanFormProps>(
                       onChange={(date) => field.onChange(date)}
                       clearIcon={null}
                       format="dd/MM/yyyy"
+                      calendarPosition="top"
                       calendarIcon={
                         <img
                           src={CalendarIcon}

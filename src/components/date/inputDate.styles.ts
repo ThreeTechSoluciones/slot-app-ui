@@ -9,46 +9,45 @@ import {
 } from "../../utils/Stylesheet";
 
 interface StyledWrapperProps {
-  $calendarPosition?: "birthday" | "filter";
+  $calendarPosition?: "bottom" | "top";
 }
 export const StyledWrapper = styled.div<StyledWrapperProps>`
   position: relative;
   .react-date-picker__wrapper {
     width: 408px;
-    color: ${TERTIARY_COLOR};
     height: 56px;
-    padding-right: 16px;
     border: 1px solid black;
     border-radius: ${BORDER_RADIUS};
-    font-size: 12px;
-    padding-left: 16px;
-    background: none;
-    color: ${TEXT_COLOR};
+    padding: 0 16px;
     font-family: ${FONT_FAMILY};
   }
+  //CONTENEDOR REAL DEL CALENDARIO
+  .react-date-picker__calendar {
+    position: absolute !important;
+    z-index: 9999;
 
-  //CALENDARIO
+    ${(props) =>
+      props.$calendarPosition === "top"
+        ? `
+          bottom: 100%;
+          left: 0;
+          margin-bottom: 4px;
+
+        `
+        : `
+          top: 100%;
+          left: 0;
+          margin-top: 4px;
+        `}
+  }
+  //ESTILOS DEL CALENDARIO
   .react-calendar {
-    position: absolute;
     background-color: white;
     border: 2px solid ${SECONDARY_COLOR};
     border-radius: ${BORDER_RADIUS};
-    top: 100%;
+    padding: 20px;
     font-family: ${FONT_FAMILY};
     font-size: 12px;
-    padding: 20px;
-    z-index: 9999;
-    color: ${TEXT_COLOR};
-    ${(props) =>
-      props.$calendarPosition === "birthday"
-        ? `
-      top: 100%;
-      margin-top: 55px;
-    `
-        : `
-      top: 100%;
-    `}
-    left: 0;
   }
 
   //ENCABEZADO

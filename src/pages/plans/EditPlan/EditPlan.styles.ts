@@ -34,6 +34,8 @@ export const InputStyle = styled.input`
   border: 1.5px solid ${TEXT_COLOR};
   padding: 0 12px;
   font-family: ${FONT_FAMILY};
+  font-size: 16px;
+  color: ${TEXT_COLOR};
   &[type="number"] {
     -moz-appearance: textfield;
     appearance: none;
@@ -82,8 +84,7 @@ export const DatePickerCustomWrapper = styled.div`
   }
 
   .react-calendar {
-    margin-top: 10px !important;
-    margin-left: 0 !important;
+    max-width: 90vw !important;
   }
 `;
 export const ErrorWrapper = styled.div`

@@ -19,7 +19,7 @@ const DateFilter: React.FC<DateFilterProps> = ({ value, onChange }) => {
           format="dd/MM/yyyy"
           locale="es-ES"
           clearIcon={null}
-          calendarPosition="filter"
+          calendarPosition="bottom"
           calendarIcon={
             <img
               src={CalendarIcon}
