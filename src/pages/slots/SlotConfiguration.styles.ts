@@ -1,5 +1,5 @@
 import styled, { keyframes } from "styled-components";
-import { BORDER_RADIUS, FONT_FAMILY, NEUTRAL_COLOR, BRAND_COLOR, DEFAULT_TEXT_COLOR, LIGHT_NEUTRAL_COLOR, FONT_WEIGHT_BOLD, FONT_WEIGHT_NORMAL, BACKGROUND_COLOR, SUCCESS_COLOR } from "../../utils/Stylesheet";
+import { BORDER_RADIUS, FONT_FAMILY, NEUTRAL_COLOR, BRAND_COLOR, DEFAULT_TEXT_COLOR, LIGHT_NEUTRAL_COLOR, FONT_WEIGHT_BOLD, BACKGROUND_COLOR, SUCCESS_COLOR } from "../../utils/Stylesheet";
 import Arrow from "../../assets/Arrow.png";
 
 
