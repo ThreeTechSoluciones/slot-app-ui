@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import {
   BORDER_RADIUS,
-  TEXT_COLOR,
+  DEFAULT_TEXT_COLOR,
   FONT_WEIGHT_BOLD,
   FONT_FAMILY,
   BACKGROUND_COLOR,
@@ -39,7 +39,7 @@ export const InputStyle = styled.input`
   height: 50px;
   align-items: center;
   font-family: ${FONT_FAMILY};
-  border: 1.5px solid ${TEXT_COLOR};
+  border: 1.5px solid ${DEFAULT_TEXT_COLOR};
   padding: 0 12px;
   box-sizing: border-box;
   &[type="number"] {
@@ -51,7 +51,7 @@ export const InputStyle = styled.input`
     -webkit-appearance: none;
   }
   background-color: ${BACKGROUND_COLOR};
-  color: ${TEXT_COLOR};
+  color: ${DEFAULT_TEXT_COLOR};
 `;
 export const NumberInputContainer = styled.div`
   position: relative;
