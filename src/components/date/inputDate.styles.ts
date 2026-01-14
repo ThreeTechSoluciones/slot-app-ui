@@ -14,12 +14,13 @@ interface StyledWrapperProps {
 export const StyledWrapper = styled.div<StyledWrapperProps>`
   position: relative;
   .react-date-picker__wrapper {
-    width: 408px;
+    width: 100%;
     height: 56px;
+    box-sizing: border-box;
     border: 1px solid black;
     border-radius: ${BORDER_RADIUS};
-    font-size: 12px;
-    padding-left: 16px;
+    font-size: 16px;
+    padding: 0 16px;
     background: none;
     color: ${DEFAULT_TEXT_COLOR};
     font-family: ${FONT_FAMILY};
@@ -49,7 +50,7 @@ export const StyledWrapper = styled.div<StyledWrapperProps>`
     border: 2px solid ${LIGHT_NEUTRAL_COLOR};
     border-radius: 10px;
     font-family: ${FONT_FAMILY};
-    font-size: 12px;
+    font-size: 16px;
     padding: 20px;
     z-index: 9999;
     color: ${DEFAULT_TEXT_COLOR};
@@ -64,7 +65,7 @@ export const StyledWrapper = styled.div<StyledWrapperProps>`
     justify-content: space-between;
     font-family: ${FONT_FAMILY};
     font-weight: bold;
-    font-size: 16px;
+    font-size: 12px;
     color: ${DEFAULT_TEXT_COLOR};
   }
 

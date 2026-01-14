@@ -35,7 +35,7 @@ export const InputStyle = styled.input`
   padding: 0 12px;
   font-family: ${FONT_FAMILY};
   font-size: 16px;
-  color: ${TEXT_COLOR};
+  color: ${DEFAULT_TEXT_COLOR};
   &[type="number"] {
     -moz-appearance: textfield;
     appearance: none;
@@ -77,7 +77,7 @@ export const DatePickerCustomWrapper = styled.div`
   width: 100%;
   .react-date-picker__wrapper {
     width: 200px !important;
-    height: 50px !important;
+    height: 56px !important;
     border: 1.5px solid ${DEFAULT_TEXT_COLOR} !important;
     border-radius: ${BORDER_RADIUS} !important;
     box-sizing: border-box !important;
