@@ -1,5 +1,5 @@
 import styled, { keyframes } from "styled-components";
-import { BORDER_RADIUS, FONT_FAMILY, TERTIARY_COLOR, PRIMARY_COLOR, TEXT_COLOR, SECONDARY_COLOR, FONT_WEIGHT_BOLD, FONT_WEIGHT_NORMAL, BACKGROUND_COLOR, SUCCESS_COLOR } from "../../utils/Stylesheet";
+import { BORDER_RADIUS, FONT_FAMILY, NEUTRAL_COLOR, BRAND_COLOR, DEFAULT_TEXT_COLOR, LIGHT_NEUTRAL_COLOR, FONT_WEIGHT_BOLD, BACKGROUND_COLOR, SUCCESS_COLOR } from "../../utils/Stylesheet";
 import Arrow from "../../assets/Arrow.png";
 
 
@@ -33,7 +33,7 @@ export const ScreenContainer = styled.div`
     padding-top: 32px;
     padding-bottom: 32px;
     gap:24px;
-    border: 2px solid ${TERTIARY_COLOR};
+    border: 2px solid ${NEUTRAL_COLOR};
     border-radius: ${BORDER_RADIUS}; 
     height: 272px; 
 `;
@@ -61,15 +61,15 @@ export const BaseStyle = styled.input`
     border-radius:${BORDER_RADIUS};
     font-size:12px;
     padding-left:16px;
-    color:${TEXT_COLOR};
+    color:${DEFAULT_TEXT_COLOR};
     font-family: ${FONT_FAMILY};
 `;
 
 export const Input = styled(BaseStyle)`
-    background-color:${SECONDARY_COLOR}; 
+    background-color:${LIGHT_NEUTRAL_COLOR}; 
     border:none;    
     &::placeholder {
-        color: ${TEXT_COLOR};
+        color: ${DEFAULT_TEXT_COLOR};
     }
 `;
 
@@ -94,16 +94,16 @@ export const Button = styled.button<ButtonProps>`
     gap: 8px;
     width:316px;
     height: 48px;
-    background:${(props) => (props.$isDisabled ? SECONDARY_COLOR : PRIMARY_COLOR)};
+    background:${(props) => (props.$isDisabled ? LIGHT_NEUTRAL_COLOR : BRAND_COLOR)};
     font-family: ${FONT_FAMILY};
     border-radius:${BORDER_RADIUS};
     border:none;
     font-size:12px;
-    color:${TEXT_COLOR};
+    color:${DEFAULT_TEXT_COLOR};
     &:hover {
         ${props => !props.$isDisabled && `
             cursor: pointer;
-            background: ${TERTIARY_COLOR};
+            background: ${NEUTRAL_COLOR};
         `}
     }
 `;
@@ -112,7 +112,7 @@ export const EditCapacity = styled.button`
     display: flex;
     align-items: center;
     font-size: 16px;
-    color: ${TEXT_COLOR};
+    color: ${DEFAULT_TEXT_COLOR};
     font-family: ${FONT_FAMILY};
     background: none;
     border: none;
@@ -131,7 +131,7 @@ export const SlotsContainer = styled.div`
     align-items: center;
     width: 520px;
     min-height: 336px;
-    border: 2px solid ${TERTIARY_COLOR};
+    border: 2px solid ${NEUTRAL_COLOR};
     border-radius: ${BORDER_RADIUS};
     gap:8px;
     max-height: 512px; 
@@ -167,8 +167,8 @@ export const SpecificSlotContainer = styled.div<SpecificSlotContainerProps>`
     display: flex;
     flex-direction: row;
     width: 456px;
-    border-bottom: ${(props) => (props.$isLast ? "none" : `1px solid ${TEXT_COLOR}`)};
-    margin-bottom: ${(props) => (props.$isLast ? "4px" : "none")};
+    border-bottom: ${(props) => (props.$isLast ? "none" : `1px solid ${DEFAULT_TEXT_COLOR}`)};
+    margin-bottom: ${(props) => (props.$isLast ? "px" : "none")};
     padding:2px;
     img{
         margin-top:10px;
@@ -209,7 +209,7 @@ export const SlotInfoContainer = styled.div`
 `;
 
 export const PrimaryText = styled.p`
-    color: ${TEXT_COLOR};
+    color: ${DEFAULT_TEXT_COLOR};
     font-family: ${FONT_FAMILY};
     margin-top:8px;
     margin-bottom:0px;
@@ -218,7 +218,7 @@ export const PrimaryText = styled.p`
 `;
 
 export const SecondaryText = styled.p`
-    color: ${TEXT_COLOR};
+    color: ${DEFAULT_TEXT_COLOR};
     font-family: ${FONT_FAMILY};
     margin-top: 0px;
     margin-bottom:4px;
@@ -237,7 +237,7 @@ export const ActionsContainer = styled.div`
         border-radius:50%;
         padding:5px;
     &:hover{
-    background-color: ${PRIMARY_COLOR}; 
+    background-color: ${BRAND_COLOR}; 
         }
     }
 `;
@@ -250,7 +250,7 @@ export const InfoContainer = styled.div`
     margin-top:8px;
     margin-bottom:32px;
     img{
-    background-color: ${SECONDARY_COLOR};
+    background-color: ${LIGHT_NEUTRAL_COLOR};
     border-radius:50%;
     padding:4px;
     }

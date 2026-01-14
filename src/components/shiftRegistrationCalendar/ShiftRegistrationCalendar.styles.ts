@@ -1,13 +1,14 @@
 import styled from "styled-components";
-import { BORDER_RADIUS, 
-        FONT_FAMILY, 
-        SECONDARY_COLOR, 
-        SUCCESS_COLOR,
-        TERTIARY_COLOR,
-        TEXT_COLOR, 
-       } from "../../utils/Stylesheet";
+import {
+    BORDER_RADIUS,
+    FONT_FAMILY,
+    LIGHT_NEUTRAL_COLOR,
+    SUCCESS_COLOR,
+    NEUTRAL_COLOR,
+    DEFAULT_TEXT_COLOR,
+} from "../../utils/Stylesheet";
 
-interface HourProps  {
+interface HourProps {
     $isAvailable?: boolean;
 }
 
@@ -16,14 +17,14 @@ export const MainContainer = styled.div`
     flex-direction: row;
     justify-content: center;
     align-items: flex-start;
-    border-left:5px solid ${SECONDARY_COLOR};
-    border-bottom:5px solid ${SECONDARY_COLOR};
+    border-left:5px solid ${LIGHT_NEUTRAL_COLOR};
+    border-bottom:5px solid ${LIGHT_NEUTRAL_COLOR};
     margin-top:32px;
     margin-bottom:32px;
     max-height: 20vw;     
     overflow-x: auto; 
     border-radius: ${BORDER_RADIUS}; 
-`  
+`
 
 export const Column = styled.div`
     display: flex;
@@ -32,9 +33,9 @@ export const Column = styled.div`
     justify-content: center;
     gap:16px;
     align-items:center;
-    border-right:5px solid ${SECONDARY_COLOR};
+    border-right:5px solid ${LIGHT_NEUTRAL_COLOR};
     padding-bottom:20px; 
-`   
+`
 
 export const Day = styled.p`
     display: flex;
@@ -47,7 +48,7 @@ export const Day = styled.p`
     font-size: 16px;
     font-weight: bold;
     color: black;
-    background-color:${SECONDARY_COLOR};
+    background-color:${LIGHT_NEUTRAL_COLOR};
     font-family: ${FONT_FAMILY};
 `
 export const Hour = styled.button<HourProps>`
@@ -62,11 +63,11 @@ export const Hour = styled.button<HourProps>`
     justify-content:center;
     items-align:center;
     color:black;
-    background-color:${(props)=>
-        props.$isAvailable? `white` : SECONDARY_COLOR};
-    color:${(props)=> props.$isAvailable?`${TEXT_COLOR}`:`${TERTIARY_COLOR}`};
-    border:${(props)=>
-         props.$isAvailable ? `2px solid ${SUCCESS_COLOR}` : `2px solid ${SECONDARY_COLOR}`};
+    background-color:${(props) =>
+        props.$isAvailable ? `white` : LIGHT_NEUTRAL_COLOR};
+    color:${(props) => props.$isAvailable ? `${DEFAULT_TEXT_COLOR}` : `${NEUTRAL_COLOR}`};
+    border:${(props) =>
+        props.$isAvailable ? `2px solid ${SUCCESS_COLOR}` : `2px solid ${LIGHT_NEUTRAL_COLOR}`};
     &:hover {
         cursor: ${(props) => (props.$isAvailable ? "pointer" : "default")};
     }
@@ -76,7 +77,7 @@ export const WarningContainer = styled.div`
     width:100%;
     display:flex;
     justify-content:center;
-    border-right:5px solid ${SECONDARY_COLOR};
-    border-top:5px solid ${SECONDARY_COLOR};
+    border-right:5px solid ${LIGHT_NEUTRAL_COLOR};
+    border-top:5px solid ${LIGHT_NEUTRAL_COLOR};
     font-family: ${FONT_FAMILY};
 `

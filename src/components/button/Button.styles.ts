@@ -1,11 +1,11 @@
 import styled from "styled-components";
 import {
   SUCCESS_COLOR,
-  PRIMARY_COLOR,
-  TEXT_COLOR,
-  ERROR_COLOR,
+  BRAND_COLOR,
+  DEFAULT_TEXT_COLOR,
+  DANGER_COLOR,
   BACKGROUND_COLOR,
-  TERTIARY_COLOR,
+  NEUTRAL_COLOR,
   BORDER_RADIUS,
   FONT_FAMILY,
 } from "../../utils/Stylesheet";
@@ -27,25 +27,25 @@ export const StyledButton = styled.button<{
 
   background-color: ${({ $variant }) =>
     $variant === "primary"
-      ? PRIMARY_COLOR
+      ? BRAND_COLOR
       : $variant === "warning"
-        ? ERROR_COLOR
+        ? DANGER_COLOR
         : $variant === "success"
           ? SUCCESS_COLOR
-          : TEXT_COLOR};
+          : DEFAULT_TEXT_COLOR};
 
   color: ${({ $variant }) =>
     $variant === "primary"
-      ? TEXT_COLOR
+      ? DEFAULT_TEXT_COLOR
       : $variant === "warning"
-        ? TEXT_COLOR
+        ? DEFAULT_TEXT_COLOR
         : $variant === "success"
-          ? TEXT_COLOR
+          ? DEFAULT_TEXT_COLOR
           : BACKGROUND_COLOR};
 
   &:hover {
     opacity: 0.9;
-    background-color: ${TERTIARY_COLOR};
+    background-color: ${NEUTRAL_COLOR};
   }
 `;
 export const ButtonContent = styled.div`

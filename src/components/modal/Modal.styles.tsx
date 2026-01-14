@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { BACKGROUND_COLOR, BORDER_RADIUS, FONT_FAMILY, PRIMARY_COLOR, TERTIARY_COLOR, TEXT_COLOR } from "../../utils/Stylesheet";
+import { BACKGROUND_COLOR, BORDER_RADIUS, FONT_FAMILY, BRAND_COLOR, NEUTRAL_COLOR, DEFAULT_TEXT_COLOR } from "../../utils/Stylesheet";
 
 export const ModalSlotContainer = styled.div`
     position: fixed;
@@ -35,15 +35,15 @@ export const ButtonsContainer = styled.div`
 export const Button = styled.button`
     width:192px;
     height: 48px;
-    background:${PRIMARY_COLOR};
+    background:${BRAND_COLOR};
     font-family: ${FONT_FAMILY};
     border-radius:${BORDER_RADIUS};
     border:none;
     font-size:12px;
-    color:${TEXT_COLOR};
+    color:${DEFAULT_TEXT_COLOR};
     &:hover {
         cursor: pointer;
-        background: ${TERTIARY_COLOR};
+        background: ${NEUTRAL_COLOR};
     }
 `;
 

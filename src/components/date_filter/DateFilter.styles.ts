@@ -2,8 +2,8 @@ import styled from "styled-components";
 import {
   BORDER_RADIUS,
   FONT_FAMILY,
-  SECONDARY_COLOR,
-  TERTIARY_COLOR,
+  LIGHT_NEUTRAL_COLOR,
+  NEUTRAL_COLOR,
 } from "../../utils/Stylesheet";
 
 export const DateFilterContainer = styled.div`
@@ -27,7 +27,7 @@ export const DatePickerWrapper = styled.div<DatePickerWrapperProps>`
     left: 16px;
     top: 50%;
     transform: translateY(-50%);
-    color: ${TERTIARY_COLOR};
+    color: ${NEUTRAL_COLOR};
     font-size: 12px;
     font-family: ${FONT_FAMILY};
     pointer-events: none;
@@ -48,7 +48,7 @@ export const DatePickerWrapper = styled.div<DatePickerWrapperProps>`
     border: none;
     border-radius: ${BORDER_RADIUS};
     padding: 0 16px;
-    background: ${SECONDARY_COLOR};
+    background: ${LIGHT_NEUTRAL_COLOR};
     height: 48px;
     width: 184px;
     display: flex;

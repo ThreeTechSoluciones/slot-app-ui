@@ -1,10 +1,10 @@
 import styled from "styled-components";
 import Arrow from "../../../../assets/arrow.png"
 import {
-    PRIMARY_COLOR,
-    SECONDARY_COLOR,
-    TERTIARY_COLOR,
-    TEXT_COLOR,
+    BRAND_COLOR,
+    LIGHT_NEUTRAL_COLOR,
+    NEUTRAL_COLOR,
+    DEFAULT_TEXT_COLOR,
     FONT_FAMILY
 }
     from "../../../../utils/Stylesheet";
@@ -37,10 +37,10 @@ export const BaseStyle = styled.input`
     font-size:12px;
     padding-left:16px;
     background:none;
-    color:${TEXT_COLOR};
+    color:${DEFAULT_TEXT_COLOR};
     font-family: ${FONT_FAMILY};
     &::placeholder {
-        color: ${TERTIARY_COLOR};
+        color: ${NEUTRAL_COLOR};
     }
 `;
 export const Select = styled(BaseStyle).attrs({ as: "select" })`
@@ -63,10 +63,10 @@ interface InputProps {
 }
 export const Input = styled(BaseStyle) <InputProps>`
     width:${(props) => (props.$isSmallSize ? "176px" : "392px")};
-    background:${(props) => (props.disabled ? SECONDARY_COLOR : "none")};
-    border:${(props) => (props.disabled ? SECONDARY_COLOR : "1px solid black")};
+    background:${(props) => (props.disabled ? LIGHT_NEUTRAL_COLOR : "none")};
+    border:${(props) => (props.disabled ? LIGHT_NEUTRAL_COLOR : "1px solid black")};
     &::placeholder {
-        color: ${(props) => (props.disabled ? SECONDARY_COLOR : TERTIARY_COLOR)};
+        color: ${(props) => (props.disabled ? LIGHT_NEUTRAL_COLOR : NEUTRAL_COLOR)};
     }
 `
 export const InputsContainer = styled.div`
@@ -83,7 +83,7 @@ export const ButtonsContainer = styled.div`
 export const Button = styled.button`
     width:192px;
     height: 48px;
-    background:${PRIMARY_COLOR};
+    background:${BRAND_COLOR};
     font-family: ${FONT_FAMILY};
     border-radius:10px;
     border:none;
@@ -91,7 +91,7 @@ export const Button = styled.button`
     color:black;
     &:hover{
         cursor:pointer;
-        background: ${TERTIARY_COLOR};
+        background: ${NEUTRAL_COLOR};
     }
 `
 
@@ -101,7 +101,7 @@ interface TextProps {
 
 export const Text = styled.p<TextProps>`
     font-size: 12px;
-    color: ${TEXT_COLOR};
+    color: ${DEFAULT_TEXT_COLOR};
     font-family: ${FONT_FAMILY};
     margin-top:${(props) => (props.$isRegister ? "8px" : "0px")};
     margin-bottom:${(props) => (props.$isRegister ? "8px" : "0px")};

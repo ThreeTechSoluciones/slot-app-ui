@@ -2,15 +2,15 @@ import styled from "styled-components";
 import {
   BACKGROUND_COLOR,
   BORDER_RADIUS,
-  PRIMARY_COLOR,
-  SECONDARY_COLOR,
+  BRAND_COLOR,
+  LIGHT_NEUTRAL_COLOR,
   FONT_FAMILY,
 } from "../../utils/Stylesheet";
 export const TableStyle = styled.table`
   width: calc(100% - 160px);
   border-collapse: collapse;
   margin: 20px auto 0 auto;
-  background-color: ${PRIMARY_COLOR};
+  background-color: ${BRAND_COLOR};
   border-radius: ${BORDER_RADIUS};
   table-layout: fixed;
 `;
@@ -35,7 +35,7 @@ export const Tbody = styled.tbody`
 
   tr:nth-child(even) {
     //filas pares
-    background-color: ${SECONDARY_COLOR};
+    background-color: ${LIGHT_NEUTRAL_COLOR};
   }
 `;
 export const Td = styled.td`
