@@ -2,8 +2,8 @@ import styled from "styled-components";
 import {
   BORDER_RADIUS,
   FONT_FAMILY,
-  SECONDARY_COLOR,
-  TEXT_COLOR,
+  LIGHT_NEUTRAL_COLOR,
+  DEFAULT_TEXT_COLOR,
   FONT_WEIGHT_BOLD,
 } from "../../../utils/Stylesheet";
 export const FormStyle = styled.form`
@@ -31,7 +31,7 @@ export const InputStyle = styled.input`
   height: 50px;
   width: 100%;
   box-sizing: border-box;
-  border: 1.5px solid ${TEXT_COLOR};
+  border: 1.5px solid ${DEFAULT_TEXT_COLOR};
   padding: 0 12px;
   font-family: ${FONT_FAMILY};
   &[type="number"] {
@@ -45,7 +45,7 @@ export const InputStyle = styled.input`
 `;
 export const InfoValue = styled(InputStyle)`
   cursor: not-allowed;
-  background-color: ${SECONDARY_COLOR};
+  background-color: ${LIGHT_NEUTRAL_COLOR};
   pointer-events: none;
 `;
 export const InputWrapper = styled.div`
@@ -69,14 +69,14 @@ export const InputGroup = styled.div`
 `;
 export const Description = styled.span`
   font-size: 12px;
-  color: ${TEXT_COLOR};
+  color: ${DEFAULT_TEXT_COLOR};
 `;
 export const DatePickerCustomWrapper = styled.div`
   width: 100%;
   .react-date-picker__wrapper {
     width: 200px !important;
     height: 50px !important;
-    border: 1.5px solid ${TEXT_COLOR} !important;
+    border: 1.5px solid ${DEFAULT_TEXT_COLOR} !important;
     border-radius: ${BORDER_RADIUS} !important;
     box-sizing: border-box !important;
   }
