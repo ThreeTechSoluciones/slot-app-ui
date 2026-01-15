@@ -34,12 +34,12 @@ export const ModalTitle = styled.h2`
   font-size: 24px;
 `;
 export const ModalBody = styled.div`
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   font-size: 16px;
   font-family: ${FONT_FAMILY};
 `;
 export const ModalFooter = styled.div`
   display: flex;
   justify-content: center;
-  gap: 12px;
+  gap: 24px;
 `;

@@ -12,7 +12,7 @@ export const editPlanSchema = yup.object({
   startDate: yup
     .date()
     .required("Debe seleccionar una fecha de vigencia")
-    .test("not-in-past", "La fecha no puede ser anterior a hoy", (value) => {
+    .test("not-in-past", "Fecha inválida", (value) => {
       if (!value) return false;
 
       const selectedDate = new Date(value);

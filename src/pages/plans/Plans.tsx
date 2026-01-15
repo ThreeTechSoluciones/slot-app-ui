@@ -135,7 +135,7 @@ function Plans() {
           setShowModal(null);
           setSelectedPlan(null);
         }}
-        height="585px"
+        height="610px"
       >
         <EditPlan
           ref={formRef}

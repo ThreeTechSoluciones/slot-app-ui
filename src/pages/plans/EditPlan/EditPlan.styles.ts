@@ -28,7 +28,7 @@ export const InfoStyle = styled.div`
 
 export const InputStyle = styled.input`
   border-radius: ${BORDER_RADIUS};
-  height: 50px;
+  height: 56px;
   width: 100%;
   box-sizing: border-box;
   border: 1.5px solid ${DEFAULT_TEXT_COLOR};
