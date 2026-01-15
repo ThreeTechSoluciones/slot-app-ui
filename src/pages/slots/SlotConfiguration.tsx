@@ -38,7 +38,7 @@ import { ModalType, type ModalConfig } from "../../utils/SlotsModalsUtils";
 import { useGetSlotsQuery, useGetUserPreferencesQuery, useUpdateSlotsCapacityMutation } from "../../app/services/UserService";
 import { ConfirmDialog } from "../../components/confirm_dialog/ConfirmDialog";
 import EditCapacityForm from "./forms/EditCapacityForm";
-import type { SlotResponse } from "../../app/types/responses/SlotResponse.type";
+import type { Slot } from "../../app/types/responses/SlotResponse.type";
 
 function SlotConfiguration() {
 
@@ -46,7 +46,7 @@ function SlotConfiguration() {
 
     const [modalType, setModalType] = useState<ModalType>();
 
-    const [currentSlot, setCurrentSlot] = useState<SlotResponse | null>(null);
+    const [currentSlot, setCurrentSlot] = useState<Slot | null>(null);
 
     const [showConfirm, setShowConfirm] = useState(false);
 
@@ -78,8 +78,10 @@ function SlotConfiguration() {
         { skip: selectEnglishValue === "" }
     );
 
-    const totalSlots = registeredSlots?.slots.length || 0;
 
+    const totalSlots = registeredSlots?.[0]?.numberOfSlots ?? 0;
+
+    console.log(totalSlots);
     const handleSelectValue = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const newEnglishValue = event.target.value;
         const newSpanishValue = event.target.selectedOptions[0].text;
@@ -107,7 +109,7 @@ function SlotConfiguration() {
     const handleEditSlotModal = async () => {
         const response = await editSlotRef.current.submitForm();
         if (response) {
-            updateSlot({ slotId: currentSlot?.slotId!, startTime: response.startTime })
+            updateSlot({ slotId: currentSlot?.id!, startTime: response.startTime })
                 .unwrap()
                 .then(() => {
                     toast.success("El turno ha sido actualizado")
@@ -118,7 +120,7 @@ function SlotConfiguration() {
 
     const handleDeleteSlot = () => {
         setShowConfirm(false);
-        deleteSlot({ slotId: currentSlot?.slotId! })
+        deleteSlot({ slotId: currentSlot?.id! })
             .unwrap()
             .then(() => {
                 toast.success("El turno ha sido eliminado")
@@ -203,11 +205,11 @@ function SlotConfiguration() {
                         {totalSlots > 1 ? " turnos registrados" : " turno registrado"}
                     </Subtitle>
                 </TitlesContainer>
-                {registeredSlots?.slots.map((slot, index) => (
+                {registeredSlots?.[0]?.slots?.map((slot, index) => (
                     <SpecificSlotContainer
-                        key={slot.slotId}
+                        key={slot.id}
                         id={`slot-${slot.startTime.replace(':', '-')}`}
-                        $isLast={index === totalSlots - 1 && totalSlots > 3}
+                        $isLast={index === registeredSlots[0].numberOfSlots - 1 && registeredSlots[0].numberOfSlots > 3}
                     >
                         <img src={CalendarIcon} width={35} height={35}></img>
                         <SlotInfoContainer >

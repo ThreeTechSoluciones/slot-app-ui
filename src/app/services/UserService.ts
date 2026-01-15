@@ -46,12 +46,12 @@ export const UserService = createApi({
       providesTags: (result) =>
         result
           ? [
-              { type: "userStudents", id: "LIST" },
-              ...result.content.map(({ id }) => ({
-                type: "userStudents" as const,
-                id,
-              })),
-            ]
+            { type: "userStudents", id: "LIST" },
+            ...result.content.map(({ id }) => ({
+              type: "userStudents" as const,
+              id,
+            })),
+          ]
           : [{ type: "userStudents", id: "LIST" }],
     }),
 
@@ -60,9 +60,9 @@ export const UserService = createApi({
       providesTags: (result) =>
         result
           ? [
-              { type: "userPrices", id: "LIST" },
-              ...result.map(({ id }) => ({ type: "userPrices" as const, id })),
-            ]
+            { type: "userPrices", id: "LIST" },
+            ...result.map(({ id }) => ({ type: "userPrices" as const, id })),
+          ]
           : [{ type: "userPrices", id: "LIST" }],
     }),
     getUserPlans: builder.query<
@@ -98,28 +98,31 @@ export const UserService = createApi({
         { type: "userPreferences", id: userId },
       ],
     }),
-    getSlots: builder.query<SlotListResponse, GetSlotsByDayParams>({
+    getSlots: builder.query<SlotListResponse[], GetSlotsByDayParams>({
       query: ({ userId, dayOfWeek }) => ({
         url: `${userId}/slots`,
         params: { dayOfWeek },
       }),
       providesTags: (result) => {
-        if (!result || !result.slots || !Array.isArray(result.slots)) {
+        // result ahora es un array: [{ dayOfWeek, numberOfSlots, slots }]
+        if (!result || !Array.isArray(result) || result.length === 0) {
           return [{ type: "userSlots", id: "LIST" }];
         }
 
+        // Agarrar todos los slots de todos los días (aunque sea uno solo)
+        const allSlots = result.flatMap(day => day.slots || []);
+
         return [
           { type: "userSlots", id: "LIST" },
-          ...result.slots.map((slot) => ({
+          ...allSlots.map((slot) => ({
             type: "userSlots" as const,
-            id: slot.slotId,
+            id: slot.id,  // ← Cambió de slotId a id
           })),
         ];
       },
     }),
   }),
 });
-
 export const {
   useGetUserStudentsQuery,
   useGetUserPricesQuery,
