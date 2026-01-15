@@ -104,19 +104,15 @@ export const UserService = createApi({
         params: { dayOfWeek },
       }),
       providesTags: (result) => {
-        // result ahora es un array: [{ dayOfWeek, numberOfSlots, slots }]
         if (!result || !Array.isArray(result) || result.length === 0) {
           return [{ type: "userSlots", id: "LIST" }];
         }
-
-        // Agarrar todos los slots de todos los días (aunque sea uno solo)
         const allSlots = result.flatMap(day => day.slots || []);
-
         return [
           { type: "userSlots", id: "LIST" },
           ...allSlots.map((slot) => ({
             type: "userSlots" as const,
-            id: slot.id,  // ← Cambió de slotId a id
+            id: slot.id,
           })),
         ];
       },
