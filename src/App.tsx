@@ -1,5 +1,4 @@
 import { Navigate, Route, Routes } from "react-router";
-import "./App.css";
 import Login from "./pages/login/Login";
 import Plans from "./pages/plans/Plans";
 import { PrivateRoute } from "./routes/PrivateRoutes";
@@ -19,10 +18,11 @@ import StudentFeesList from "./pages/student_fees_list/FeesList";
 import SlotConfiguration from "./pages/slots/SlotConfiguration";
 import StudentList from "./pages/student_list/StudentList";
 import EditStudent from "./pages/students/edit-student/EditStudent";
+import { MainContent } from "./App.styles";
 
 function App() {
   return (
-    <>
+    <MainContent>
       <Routes>
         <Route path={IniciarSesion} element={<Login />} />
         <Route element={<PrivateRoute />}>
@@ -39,7 +39,7 @@ function App() {
         </Route>
         <Route path="/" element={<Navigate to={IniciarSesion} />} />
       </Routes>
-    </>
+    </MainContent>
   );
 }
 
