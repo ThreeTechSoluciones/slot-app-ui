@@ -1,0 +1,90 @@
+import styled from "styled-components";
+import {
+  BORDER_RADIUS,
+  FONT_FAMILY,
+  LIGHT_NEUTRAL_COLOR,
+  SUCCESS_COLOR,
+  NEUTRAL_COLOR,
+  DEFAULT_TEXT_COLOR,
+  FONT_WEIGHT_BOLD,
+  BACKGROUND_COLOR,
+} from "../../utils/Stylesheet";
+
+interface HourProps {
+  $isAvailable?: boolean;
+}
+
+export const MainContainer = styled.div`
+  display: flex;
+  width: auto;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  margin-top: 32px;
+  margin-bottom: 32px;
+  max-height: 20vw;
+  overflow-x: auto;
+  border-radius: ${BORDER_RADIUS};
+`;
+
+export const Column = styled.div`
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: center;
+  gap: 16px;
+  padding-bottom: 20px;
+  align-items: center;
+  border-right: 5px solid ${LIGHT_NEUTRAL_COLOR};
+  border-bottom: 5px solid ${LIGHT_NEUTRAL_COLOR};
+  &:first-child {
+    border-left: 5px solid ${LIGHT_NEUTRAL_COLOR};
+  }
+`;
+
+export const Day = styled.p`
+  display: flex;
+  height: 32px;
+  width: 180px;
+  justify-content: center;
+  align-items: center;
+  margin: 0px;
+  padding: 0px;
+  font-size: 16px;
+  font-weight: ${FONT_WEIGHT_BOLD};
+  color: ${DEFAULT_TEXT_COLOR};
+  background-color: ${LIGHT_NEUTRAL_COLOR};
+  font-family: ${FONT_FAMILY};
+`;
+export const Hour = styled.button<HourProps>`
+  display: flex;
+  width: 120px;
+  height: 32px;
+  border-radius: ${BORDER_RADIUS};
+  font-family: ${FONT_FAMILY};
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  color: ${DEFAULT_TEXT_COLOR};
+  background-color: ${(props) =>
+    props.$isAvailable ? BACKGROUND_COLOR : LIGHT_NEUTRAL_COLOR};
+  color: ${(props) =>
+    props.$isAvailable ? `${DEFAULT_TEXT_COLOR}` : `${NEUTRAL_COLOR}`};
+  border: ${(props) =>
+    props.$isAvailable
+      ? `2px solid ${SUCCESS_COLOR}`
+      : `2px solid ${LIGHT_NEUTRAL_COLOR}`};
+  &:hover {
+    cursor: ${(props) => (props.$isAvailable ? "pointer" : "default")};
+  }
+`;
+
+export const WarningContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  border-right: 5px solid ${LIGHT_NEUTRAL_COLOR};
+  border-top: 5px solid ${LIGHT_NEUTRAL_COLOR};
+  font-family: ${FONT_FAMILY};
+`;
