@@ -1,30 +1,15 @@
-// calendar.types.ts
-export type DayOfWeek =
-    | "MONDAY"
-    | "TUESDAY"
-    | "WEDNESDAY"
-    | "THURSDAY"
-    | "FRIDAY"
-    | "SATURDAY"
-    | "SUNDAY";
 
-export type CalendarDay = {
-    dayOfWeek: DayOfWeek;
+export type Day = {
+    dayOfWeek: string;
     numberOfDay: number;
 };
 
-export type TimeSlot = {
+export type SlotTime = {
     startTime: string;
     endTime: string;
 };
 
-export type Student = {
-    id: string;
-    fullName: string;
-    status: string;
-};
-
-export type Slot = {
+export type SpecificSlotResponse = {
     id: string;
     startTime: string;
     endTime: string;
@@ -34,8 +19,14 @@ export type Slot = {
     students: Student[];
 };
 
+export type Student = {
+    id: string;
+    fullName: string;
+    status: string;
+};
+
 export type CalendarResponse = {
-    days: CalendarDay[];
-    times: TimeSlot[];
-    slots: (Slot | null)[][];
+    days: Day[];
+    times: SlotTime[];
+    slots: (SpecificSlotResponse | null)[][];
 };

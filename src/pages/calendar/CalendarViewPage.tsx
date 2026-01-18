@@ -17,25 +17,36 @@ import {
   SlotCapacity
 }
   from './CalendarViewPage.styles';
-import { calendarMock } from './CalendarMock';
-import CheckIcon from "../../assets/check.svg";
-
 import { useGetCalendarViewQuery } from '../../app/services/UserService';
+import CheckIcon from "../../assets/check.svg";
 import useAuthentication from '../../hooks/useAuthentication';
 import UserIcon from "../../assets/white-user-icon.svg"
 import ProgressIcon from "../../assets/progress-icon.svg"
-import { TranslatorDaysOfWeek } from '../../utils/DaysOfWeek';
+import { DaysOfWeekTranslation } from '../../utils/DaysOfWeek';
 import { StatesTranslation } from './StatesTranslation';
+import { CalendarViewName } from '../../app/types/models/CalendarViewName';
+import type { SpecificSlotResponse } from '../../app/types/responses/CalendarResponse.type';
+import { getLayoutConfig } from './CalendarResponsiveConfig';
+import { SearchNotFound } from '../../components/search_not_found/SearchNotFound';
 
 function CalendarView() {
 
-
   const { userId } = useAuthentication();
+
   const { data: calendarData } = useGetCalendarViewQuery({
     userId: userId!,
     date: '2026-01-20',
-    typeOfView: 'WEEKLY'
+    typeOfView: CalendarViewName.WEEKLY
   });
+
+
+  const columnsCount = calendarData?.days.length || 0;
+
+  if (columnsCount === 0) {
+    return <SearchNotFound />;
+  }
+
+  const layout = getLayoutConfig(columnsCount);
 
   const getStatusIcon = (status: string) => {
     switch (status) {
@@ -44,64 +55,80 @@ function CalendarView() {
       case "IN_PROGRESS":
         return ProgressIcon;
       default:
-        return "";
+        return undefined;
     }
   };
 
+  const ActionsSkeleton = () => {
+    return (
+      <ActionsContainer>
+        <Action>Buscar</Action>
+        <Action>Cancelar</Action>
+        <Action>Agregar</Action>
+      </ActionsContainer>
+    );
+  }
 
+  const SlotInfoSkeleton = ({ slot }: { slot: SpecificSlotResponse }) => {
+    return (
+      <SlotInfoContainer>
+        <SlotCapacity $isFull={slot.capacity === slot.maxCapacity}>
+          <img
+            src={UserIcon}
+            alt="Capacity"
+            style={{ width: 16, height: 16, marginRight: 2 }}
+          />
+          {slot.capacity} / {slot.maxCapacity}
+        </SlotCapacity>
+        <SlotStatus $isFinalized={slot.status === "FINALIZED"} $isInProgress={slot.status === "IN_PROGRESS"}>
+          <img
+            src={getStatusIcon(slot.status)}
+            alt="Status"
+            style={{ width: 12, height: 12, marginRight: 3 }}
+          />
+          {StatesTranslation[slot.status]}
+        </SlotStatus>
+      </SlotInfoContainer>
+    )
+  };
 
   return (
-    <MainContainer>
+    <MainContainer style={{
+      '--slot-width': layout.slotWidth,
+      '--padding-left': layout.paddingLeft,
+      '--margin-info-left': layout.marginInfoLeft,
+      '--margin-student-left': layout.marginStudentLeft,
+      '--student-width': layout.studentWidth,
+      '--overflowX': layout.overflowX,
+      '--padding': layout.padding
+    } as React.CSSProperties}>
       <SecondaryContainer>
         <ScheduledTime>
-          {calendarMock.times.map((timeSlot) => (
+          {calendarData?.times.map((timeSlot) => (
             <TimeSlot key={timeSlot.startTime}>{timeSlot.startTime} <br /> - <br />{timeSlot.endTime}</TimeSlot>
           ))}
         </ScheduledTime>
-        {calendarMock.days.map((day, colIndex) => (
+        {calendarData?.days.map((day, colIndex) => (
           <DayColumn key={day.dayOfWeek}>
             <TitleContainer>
-              <Title>{TranslatorDaysOfWeek[day.dayOfWeek]}</Title>
+              <Title>{DaysOfWeekTranslation[day.dayOfWeek]}</Title>
               <Number>{day.numberOfDay}</Number>
             </TitleContainer>
-            {calendarMock.times.map((_, rowIndex) => {
-
-              const slot = calendarMock.slots[rowIndex][colIndex];
-
+            {calendarData?.times.map((_, rowIndex) => {
+              const slot = calendarData.slots[rowIndex][colIndex];
               return (
-                <SpecificSlot $isNull={!slot} key={rowIndex}>
+                <SpecificSlot $isNull={!slot} key={rowIndex} $columnsCount={columnsCount}>
                   {slot && (
                     <>
-                      <ActionsContainer>
-                        <Action>Buscar</Action>
-                        <Action>Cancelar</Action>
-                        <Action>Agregar</Action>
-                      </ActionsContainer>
-
-                      <SlotInfoContainer>
-                        <SlotCapacity $isFull={slot.capacity === slot.maxCapacity}>
-                          <img
-                            src={UserIcon}
-                            alt="Finalizado"
-                            style={{ width: 16, height: 16, marginRight: 2 }}
-                          />
-                          {slot.capacity} / {slot.maxCapacity}
-                        </SlotCapacity>
-                        <SlotStatus $isFinalized={slot.status === "FINALIZED"} $isInProgress={slot.status === "IN_PROGRESS"}>
-                          <img
-                            src={getStatusIcon(slot.status)}
-                            alt="Status"
-                            style={{ width: 14, height: 14, marginRight: 6 }}
-                          />
-                          {StatesTranslation[slot.status]}
-                        </SlotStatus>
-                      </SlotInfoContainer>
+                      <ActionsSkeleton />
+                      <SlotInfoSkeleton slot={slot} />
                     </>
+
                   )
                   }
                   <SlotStudentsContainer>
                     {slot?.students?.map((student) => (
-                      <Student key={student.id}>{student.fullName}</Student>))}
+                      <Student key={student.id} title={student.fullName}>{student.fullName}</Student>))}
                   </SlotStudentsContainer>
                 </SpecificSlot>
               );

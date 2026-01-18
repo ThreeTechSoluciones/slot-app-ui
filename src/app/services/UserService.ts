@@ -7,7 +7,7 @@ import type { SlotListResponse } from "../types/responses/SlotResponse.type";
 import type { GetSlotsByDayParams } from "../types/requests/GetUserSlotsRequest.type";
 import type { SortConfig } from "../types/sort";
 import type { UserPreferencesResponse } from "../types/responses/UserPreferencesResponse.type";
-import type { CalendarResponse } from "../types/responses/CalendarResponse.type";
+import type { CalendarResponse, SpecificSlotResponse } from "../types/responses/CalendarResponse.type";
 import type { CalendarParams } from "../types/requests/GetCalendarViewRequest.type";
 
 
@@ -125,10 +125,13 @@ export const UserService = createApi({
         params: { date, typeOfView },
       }),
       providesTags: (result) => {
-        if (!result || !Array.isArray(result) || result.length === 0) {
+        if (!result || !result.slots || result.slots.length === 0) {
           return [{ type: "userSlots", id: "LIST" }];
         }
-        const allSlots = result.flatMap(day => day.slots || []);
+        const allSlots = result.slots
+          .flat()
+          .filter((slot): slot is SpecificSlotResponse => slot !== null);
+
         return [
           { type: "userSlots", id: "LIST" },
           ...allSlots.map((slot) => ({

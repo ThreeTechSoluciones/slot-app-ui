@@ -1,6 +1,6 @@
 export const StatesTranslation: Record<string, string> = {
     "FINALIZED": "Finalizado",
-    "IN_PROGRESS": "Turno en curso",
+    "IN_PROGRESS": "En curso",
     "CANCELLED": "Cancelado",
     "": ""
 };

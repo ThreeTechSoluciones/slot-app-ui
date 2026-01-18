@@ -9,7 +9,7 @@ export const DaysOfWeek: Record<string, string> = {
     "Domingo": "SUNDAY"
 };
 
-export const TranslatorDaysOfWeek: Record<string, string> = {
+export const DaysOfWeekTranslation: Record<string, string> = {
     "MONDAY": "LUNES",
     "TUESDAY": "MARTES",
     "WEDNESDAY": "MIÉRCOLES",
