@@ -1,7 +1,6 @@
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "../../../../components/error_message/ErrorMessage";
 import { planDataScheme } from "./PlanData.scheme";
-import { shiftRegistrationCalendarData } from "../../../../components/shiftRegistrationCalendar/ShiftRegistrationCalendarData";
 import { MainContainer, Label, Select, FormContainer } from "./PlanData.styles";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -9,42 +8,105 @@ import ShiftRegistrationCalendar from "../../../../components/shiftRegistrationC
 import ShiftDetail from "../../../../components/shiftsDetail/ShiftDetail";
 import { useShiftHandler } from "../../../../components/shiftRegistrationCalendar/UseShiftHandler";
 import useAuthentication from "../../../../hooks/useAuthentication";
-import { useGetUserPlansQuery } from "../../../../app/services/UserService";
+import {
+  useGetSlotsQuery,
+  useGetUserPlansQuery,
+} from "../../../../app/services/UserService";
 import type { FormProp } from "../../create-student/FormProp.type";
-import { forwardRef, useImperativeHandle } from "react";
+import { forwardRef, useImperativeHandle, useMemo, useCallback } from "react";
 import { skipToken } from "@reduxjs/toolkit/query";
+import { DaysOfWeekReverse } from "../../../../utils/DaysOfWeek";
 
 export interface PlanDataProps {
   planId: string;
+  slotIds: string[];
 }
 
 const PlanData = forwardRef<FormProp<PlanDataProps>, FormProp<PlanDataProps>>(
   (props, ref) => {
-    const { data, onSubmit: onSubmit } = props;
+    const { data, onSubmit } = props;
+    const { userId } = useAuthentication();
 
     type FormData = yup.InferType<typeof planDataScheme>;
 
-    const { userId } = useAuthentication();
-
+    const { data: slotsData, isLoading: isLoadingCalendar } = useGetSlotsQuery(
+      userId ? { userId } : skipToken,
+    );
     const { data: planTypes } = useGetUserPlansQuery(
-      userId ? { userId } : skipToken
+      userId ? { userId } : skipToken,
     );
 
     const { shifts, removeShift, newShift } = useShiftHandler();
 
-    const DEFAULT_PLAN_DATA = { planId: "" };
-
-    const studentRegistrationForm = data || DEFAULT_PLAN_DATA;
-
     const {
       register,
       handleSubmit,
+      watch,
+      setValue,
       formState: { errors },
     } = useForm<FormData>({
+      defaultValues: {
+        planId: "",
+        slotIds: [],
+      },
       resolver: yupResolver(planDataScheme),
-      defaultValues: studentRegistrationForm,
     });
 
+    const planId = watch("planId");
+
+    const selectedPlan = useMemo(() => {
+      return planTypes?.find((p) => p.id === planId) ?? null;
+    }, [planTypes, planId]);
+
+    const userSlots = useMemo(() => {
+      if (!slotsData?.length) return [];
+
+      return slotsData.map((dayData) => ({
+        day:
+          DaysOfWeekReverse[dayData.dayOfWeek]?.substring(0, 3) ??
+          dayData.dayOfWeek,
+        shifts: dayData.slots.map((slot) => ({
+          id: slot.id,
+          day: dayData.dayOfWeek,
+          hour: slot.startTime.substring(0, 5),
+          status: slot.maxCapacity > 0 ? "Available" : "Unavailable",
+        })),
+      }));
+    }, [slotsData]);
+
+    const isValidShiftCount = useCallback(() => {
+      if (!selectedPlan?.numberOfDays) return true;
+      return shifts.length === selectedPlan.numberOfDays;
+    }, [selectedPlan?.numberOfDays, shifts.length]);
+
+    const onFormSubmit = useCallback(
+      (data: FormData) => {
+        if (!isValidShiftCount()) {
+          return false;
+        }
+
+        onSubmit?.({
+          planId: data.planId,
+          slotIds: shifts.map((s) => s.id),
+        });
+        return true;
+      },
+      [isValidShiftCount, onSubmit, shifts],
+    );
+    const handleSelectShift = (id: string, day: string, hour: string) => {
+      newShift(id, day, hour);
+
+      const updated = [...shifts, { id, day, hour }].map((s) => s.id);
+      setValue("slotIds", updated, { shouldValidate: true });
+    };
+
+    const handleDeleteShift = (shiftId: string) => {
+      removeShift(shiftId);
+
+      const updated = shifts.filter((s) => s.id !== shiftId).map((s) => s.id);
+
+      setValue("slotIds", updated, { shouldValidate: true });
+    };
     useImperativeHandle(
       ref,
       () =>
@@ -52,16 +114,17 @@ const PlanData = forwardRef<FormProp<PlanDataProps>, FormProp<PlanDataProps>>(
           submit: () =>
             new Promise<boolean>((resolve) => {
               handleSubmit(
-                (data) => {
-                  onSubmit?.({ ...data });
-                  resolve(true);
+                async (data: FormData) => {
+                  const success = onFormSubmit(data);
+                  resolve(success);
                 },
                 () => {
                   resolve(false);
-                }
+                },
               )();
             }),
-        } as unknown as FormProp<PlanDataProps>)
+        }) as unknown as FormProp<PlanDataProps>,
+      [handleSubmit, onFormSubmit],
     );
 
     return (
@@ -79,17 +142,22 @@ const PlanData = forwardRef<FormProp<PlanDataProps>, FormProp<PlanDataProps>>(
             ))}
           </Select>
           <ErrorMessage error={errors.planId} />
-          <ShiftRegistrationCalendar
-            listShifts={shiftRegistrationCalendarData}
-            selectedShifts={shifts}
-            onSelectShift={newShift}
-            onDeleteShift={removeShift}
-          />
+          {isLoadingCalendar ? (
+            <p>Cargando turnos...</p>
+          ) : (
+            <ShiftRegistrationCalendar
+              listShifts={userSlots}
+              selectedShifts={shifts}
+              onSelectShift={handleSelectShift}
+              onDeleteShift={handleDeleteShift}
+            />
+          )}
+          <ErrorMessage error={errors.slotIds as any} />
           <ShiftDetail shifts={shifts} />
         </FormContainer>
       </MainContainer>
     );
-  }
+  },
 );
 
 PlanData.displayName = "PlanDataForm";
