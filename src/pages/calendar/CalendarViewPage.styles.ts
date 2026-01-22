@@ -1,26 +1,49 @@
 import styled from "styled-components";
-import { DANGER_COLOR, DEFAULT_TEXT_COLOR, FONT_FAMILY, FONT_WEIGHT_BOLD, LIGHT_NEUTRAL_COLOR, SUCCESS_COLOR, WARNING_COLOR } from "../../utils/Stylesheet";
-
+import {
+    DANGER_COLOR,
+    DEFAULT_TEXT_COLOR,
+    FONT_FAMILY,
+    FONT_WEIGHT_BOLD,
+    LIGHT_NEUTRAL_COLOR,
+    SUCCESS_COLOR,
+    WARNING_COLOR
+}
+    from "../../utils/Stylesheet";
 
 export const MainContainer = styled.div`
     display: flex;
     width: 100%;
     height: 100%;
-    margin:10px 5px 10px 10px;
+    margin-bottom:15px;
+    justify-content: center; 
 `;
 
-export const SecondaryContainer = styled.div`
-  display:flex;
-  flex-direction: row;
-  gap: 24px;
+interface SecondaryContainerProps {
+    $columnsCount: number;
+};
+
+export const SecondaryContainer = styled.div<SecondaryContainerProps>`
+    width:100%;
+    gap: 0px;
+    display:grid;
+    grid-template-columns: 85px repeat(${(props) => props.$columnsCount || 3}, minmax(200px, 300px));
+    overflow: hidden;
+    padding: 0 24px; 
+    box-sizing: border-box;
+    justify-content: center;
 `;
+
 export const DayColumn = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 32px;
-  height: auto;
-  overflow: visible;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+    height: auto;
+    overflow: hidden; 
+    padding: 0 8px;
+    min-width: 0;
+    box-sizing: border-box;
+    max-width:272px;
 `;
 
 export const TitleContainer = styled.div`
@@ -30,6 +53,7 @@ export const TitleContainer = styled.div`
     justify-content: center;
     margin-top: 24px;
 `;
+
 export const Title = styled.h1`
     font-family: ${FONT_FAMILY};
     color: ${DEFAULT_TEXT_COLOR};
@@ -77,15 +101,17 @@ interface SpecificSlotProps {
     $isNull: boolean;
     $columnsCount: number;
 }
+
 export const SpecificSlot = styled.div<SpecificSlotProps>`
-    width: var(--slot-width);
     height: 260px;
     border: ${(props) => props.$isNull ? "none" : "4px solid " + LIGHT_NEUTRAL_COLOR};
     border-radius: 8px;
-    max-height:  260px;   
-    overflow-y :auto; 
-    overflow-x: var(--overflowX);
-    padding: 0px;
+    max-height: 260px;
+    width: 100%;
+    max-width: 100%; 
+    overflow-y: auto;
+    overflow-x: hidden; 
+    padding: 8px;
     margin: 0px;
     box-sizing: border-box;
 `;
@@ -115,7 +141,6 @@ export const SlotInfoContainer = styled.div`
     display: flex;
     flex-direction: row;
     gap: 8px;
-    margin-left: var(--margin-info-left);
     margin-top: 16px;
     
 `;
@@ -135,7 +160,8 @@ export const SlotInfo = styled.span<SlotInfoProps>`
     font-family: ${FONT_FAMILY};
     font-weight: ${FONT_WEIGHT_BOLD};
     border-radius: 5px;
-    padding: var(--padding); 
+    padding: 2px 6px 2px 4px;
+    margin-left:2px;
 `;
 
 export const SlotCapacity = styled(SlotInfo) <SlotInfoProps>`
@@ -155,30 +181,28 @@ export const SlotStudentsContainer = styled.div`
     flex-direction: column;
     margin-top: 16px;
     gap: 4px;
-    margin-left: var(--margin-student-left);
     margin-bottom: 8px;
 `;
 
 export const Student = styled.span` 
     display: block;
     line-height: 36px;
-    white-space: nowrap;           
-    overflow: hidden;              
-    text-overflow: ellipsis;      
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%; 
     max-width: 100%;
-    align-items: center;
-    padding-left: var(--padding-left);
     font-size: 16px;
     font-family: ${FONT_FAMILY};
     height: 36px;
-    width: var(--student-width);
     color: ${DEFAULT_TEXT_COLOR};
     border-radius: 5px;
+    padding: 0 8px; 
+    box-sizing: border-box;
     &:hover {
         cursor: pointer;
         background-color: ${LIGHT_NEUTRAL_COLOR};
     }
 `;
-
 
 

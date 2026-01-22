@@ -9,12 +9,7 @@ export const DaysOfWeek: Record<string, string> = {
     "Domingo": "SUNDAY"
 };
 
-export const DaysOfWeekTranslation: Record<string, string> = {
-    "MONDAY": "LUNES",
-    "TUESDAY": "MARTES",
-    "WEDNESDAY": "MIÉRCOLES",
-    "THURSDAY": "JUEVES",
-    "FRIDAY": "VIERNES",
-    "SATURDAY": "SÁBADO",
-    "SUNDAY": "DOMINGO"
-};
+export const DaysOfWeekReverse: Record<string, string> =
+    Object.fromEntries(
+        Object.entries(DaysOfWeek).map(([label, value]) => [value, label])
+    );

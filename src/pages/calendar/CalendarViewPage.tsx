@@ -22,11 +22,10 @@ import CheckIcon from "../../assets/check.svg";
 import useAuthentication from '../../hooks/useAuthentication';
 import UserIcon from "../../assets/white-user-icon.svg"
 import ProgressIcon from "../../assets/progress-icon.svg"
-import { DaysOfWeekTranslation } from '../../utils/DaysOfWeek';
+import { DaysOfWeekReverse } from '../../utils/DaysOfWeek';
 import { StatesTranslation } from './StatesTranslation';
 import { CalendarViewName } from '../../app/types/models/CalendarViewName';
 import type { SpecificSlotResponse } from '../../app/types/responses/CalendarResponse.type';
-import { getLayoutConfig } from './CalendarResponsiveConfig';
 import { SearchNotFound } from '../../components/search_not_found/SearchNotFound';
 
 function CalendarView() {
@@ -35,18 +34,15 @@ function CalendarView() {
 
   const { data: calendarData } = useGetCalendarViewQuery({
     userId: userId!,
-    date: '2026-01-20',
+    date: '2026-01-26',
     typeOfView: CalendarViewName.WEEKLY
   });
-
 
   const columnsCount = calendarData?.days.length || 0;
 
   if (columnsCount === 0) {
     return <SearchNotFound />;
   }
-
-  const layout = getLayoutConfig(columnsCount);
 
   const getStatusIcon = (status: string) => {
     switch (status) {
@@ -93,16 +89,8 @@ function CalendarView() {
   };
 
   return (
-    <MainContainer style={{
-      '--slot-width': layout.slotWidth,
-      '--padding-left': layout.paddingLeft,
-      '--margin-info-left': layout.marginInfoLeft,
-      '--margin-student-left': layout.marginStudentLeft,
-      '--student-width': layout.studentWidth,
-      '--overflowX': layout.overflowX,
-      '--padding': layout.padding
-    } as React.CSSProperties}>
-      <SecondaryContainer>
+    <MainContainer>
+      <SecondaryContainer $columnsCount={columnsCount}>
         <ScheduledTime>
           {calendarData?.times.map((timeSlot) => (
             <TimeSlot key={timeSlot.startTime}>{timeSlot.startTime} <br /> - <br />{timeSlot.endTime}</TimeSlot>
@@ -111,7 +99,7 @@ function CalendarView() {
         {calendarData?.days.map((day, colIndex) => (
           <DayColumn key={day.dayOfWeek}>
             <TitleContainer>
-              <Title>{DaysOfWeekTranslation[day.dayOfWeek]}</Title>
+              <Title>{DaysOfWeekReverse[day.dayOfWeek].toUpperCase()}</Title>
               <Number>{day.numberOfDay}</Number>
             </TitleContainer>
             {calendarData?.times.map((_, rowIndex) => {
@@ -123,7 +111,6 @@ function CalendarView() {
                       <ActionsSkeleton />
                       <SlotInfoSkeleton slot={slot} />
                     </>
-
                   )
                   }
                   <SlotStudentsContainer>
@@ -140,6 +127,4 @@ function CalendarView() {
     </MainContainer >
   );
 }
-
-
 export default CalendarView;
