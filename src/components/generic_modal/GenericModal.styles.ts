@@ -34,7 +34,7 @@ export const ModalTitle = styled.h2`
   font-size: 24px;
 `;
 export const ModalBody = styled.div`
-  margin-bottom: 10px;
+  margin-bottom: 25px;
   font-size: 16px;
   font-family: ${FONT_FAMILY};
 `;

@@ -4,7 +4,7 @@ export const editPlanSchema = yup.object({
   amount: yup
     .number()
     .transform((value, originalValue) =>
-      originalValue === "" ? undefined : value
+      originalValue === "" ? undefined : value,
     )
     .typeError("El precio debe ser un número válido")
     .required("El precio es obligatorio")
@@ -12,17 +12,18 @@ export const editPlanSchema = yup.object({
   startDate: yup
     .date()
     .required("Debe seleccionar una fecha de vigencia")
-    .test("not-in-past", "Fecha inválida", (value) => {
-      if (!value) return false;
+    .test(
+      "not-in-past",
+      "La fecha no puede ser anterior a la actual",
+      (value) => {
+        const selectedDate = new Date(value);
+        const today = new Date();
 
-      const selectedDate = new Date(value);
-      const today = new Date();
+        today.setHours(0, 0, 0, 0);
 
-      today.setHours(0, 0, 0, 0);
-      selectedDate.setHours(0, 0, 0, 0);
-
-      return selectedDate >= today;
-    }),
+        return selectedDate >= today;
+      },
+    ),
 });
 
 export type EditPlanFormData = yup.InferType<typeof editPlanSchema>;
