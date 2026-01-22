@@ -15,7 +15,7 @@ type GenericModalProps = {
   isOpen?: boolean;
   icon?: string;
   iconSize?: string;
-  isSmallModal?: boolean;
+  isConfirmModal?: boolean;
   title: string;
   children?: React.ReactNode;
   onConfirm?: () => void;
@@ -30,7 +30,7 @@ type GenericModalProps = {
 export const GenericModal: React.FC<GenericModalProps> = ({
   icon,
   iconSize,
-  isSmallModal,
+  isConfirmModal,
   title,
   children,
   onConfirm,
@@ -63,7 +63,7 @@ export const GenericModal: React.FC<GenericModalProps> = ({
               <StyledIcon src={icon} alt="modal-icon" $size={iconSize} />
             </IconWrapper>
           )}
-          <ModalTitle $isSmallModal={isSmallModal}>{title}</ModalTitle>
+          <ModalTitle $isConfirmModal={isConfirmModal}>{title}</ModalTitle>
         </ModalHeader>
 
         <ModalBody>{children}</ModalBody>

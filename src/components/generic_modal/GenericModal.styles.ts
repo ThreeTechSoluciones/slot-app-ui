@@ -50,11 +50,11 @@ export const StyledIcon = styled.img<{ $size?: string }>`
 `;
 
 interface TitleProps {
-  $isSmallModal?: boolean;
+  $isConfirmModal?: boolean;
 }
 
 export const ModalTitle = styled.h2<TitleProps>`
-  margin: ${(props) => (props.$isSmallModal ? "0" : "10px 0 20px 0")};
+  margin: ${(props) => (props.$isConfirmModal ? "0" : "10px 0 20px 0")};
   align-items: center;
   display: flex;
   justify-content: center;
@@ -63,7 +63,7 @@ export const ModalTitle = styled.h2<TitleProps>`
   font-weight: ${FONT_WEIGHT_BOLD};
 `;
 export const ModalBody = styled.div`
-  margin-bottom: 14px;
+  margin-bottom: 25px;
   font-size: 16px;
   font-family: ${FONT_FAMILY};
 `;

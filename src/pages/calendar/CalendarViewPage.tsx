@@ -32,12 +32,16 @@ import { SearchNotFound } from "../../components/search_not_found/SearchNotFound
 import { useState } from "react";
 import { GenericModal } from "../../components/generic_modal/GenericModal";
 import { toast } from "react-hot-toast";
-import { mockDataCalendar } from "../../mocks/studentAbsence";
+
 interface AbsenceData {
   studentId: string;
   studentName: string;
   specificSlotId: string;
 }
+type Student = {
+  id: string;
+  fullName: string;
+};
 function CalendarView() {
   const { userId } = useAuthentication();
 
@@ -51,7 +55,7 @@ function CalendarView() {
 
   const [absenceData, setAbsenceData] = useState<AbsenceData | null>(null);
 
-  const handleStudentClick = (student: any, specificSlotId: string) => {
+  const handleStudentClick = (student: Student, specificSlotId: string) => {
     setAbsenceData({
       studentId: student.id,
       studentName: student.fullName,
@@ -59,18 +63,18 @@ function CalendarView() {
     });
   };
 
-  const handleConfirmAbsence = async () => {
-    if (absenceData) {
-      try {
-        await markAbsence({
-          studentId: absenceData.studentId,
-          specificSlotId: absenceData.specificSlotId,
-        }).unwrap();
+  const handleConfirmAbsence = async (absenceData: AbsenceData) => {
+    markAbsence({
+      studentId: absenceData.studentId,
+      specificSlotId: absenceData.specificSlotId,
+    })
+      .unwrap()
+      .then(() => {
         toast.success("Se ha registrado la inasistencia");
-      } finally {
+      })
+      .finally(() => {
         setAbsenceData(null);
-      }
-    }
+      });
   };
 
   const columnsCount = calendarData?.days?.length || 0;
@@ -191,9 +195,9 @@ function CalendarView() {
         <GenericModal
           icon={StudentIcon}
           title={absenceData.studentName}
-          isSmallModal={true}
+          isConfirmModal={true}
           onCancel={() => setAbsenceData(null)}
-          onConfirm={handleConfirmAbsence}
+          onConfirm={() => handleConfirmAbsence(absenceData)}
           confirmText="Registrar Inasistencia"
           cancelText="Cancelar"
           width="480px"

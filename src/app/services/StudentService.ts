@@ -108,6 +108,10 @@ export const StudentService = createApi({
       invalidatesTags: (_result, _error, { studentId }) => [
         { type: "Student", id: studentId },
       ],
+      onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
+        await queryFulfilled;
+        dispatch(UserService.util.invalidateTags(["userSlots"]));
+      },
     }),
   }),
 });
