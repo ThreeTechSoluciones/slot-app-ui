@@ -1,3 +1,4 @@
+import type { StudentSlotResponse } from "./SlotResponse.type";
 export interface StudentDetailResponse {
   id: string;
   name: string;
@@ -16,6 +17,7 @@ export interface StudentDetailResponse {
   situation: string;
   planId: string;
   payments: PaymentDetailResponse[];
+  slots: StudentSlotResponse[];
 }
 
 interface PaymentDetailResponse {

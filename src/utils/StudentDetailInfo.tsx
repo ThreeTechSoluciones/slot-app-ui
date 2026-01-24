@@ -10,7 +10,7 @@ interface InfoItem {
 }
 
 export const studentPersonalInfo = (
-  student: StudentDetailResponse
+  student: StudentDetailResponse,
 ): InfoItem[] => [
   { title: "Nombre", data: student.name },
   { title: "Apellido", data: student.lastName },
@@ -24,7 +24,7 @@ export const studentPersonalInfo = (
 ];
 
 export const studentPaymentInfo = (
-  student: StudentDetailResponse
+  student: StudentDetailResponse,
 ): InfoItem[] => [
   {
     title: "Forma de pago",
@@ -56,3 +56,20 @@ export const studentPaymentInfo = (
     ),
   },
 ];
+type ShiftDetailItem = {
+  id: string;
+  day: string;
+  hour: string;
+};
+
+export const studentShiftInfo = (
+  student: StudentDetailResponse,
+): ShiftDetailItem[] => {
+  if (!student.slots?.length) return [];
+
+  return student.slots.map((slot) => ({
+    id: slot.slotId,
+    day: slot.dayOfWeek,
+    hour: slot.startTime,
+  }));
+};

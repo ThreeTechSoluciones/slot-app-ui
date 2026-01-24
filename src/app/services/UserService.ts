@@ -8,10 +8,15 @@ import type { GetSlotsByDayParams } from "../types/requests/GetUserSlotsRequest.
 import type { SortConfig } from "../types/sort";
 import type { UserPreferencesResponse } from "../types/responses/UserPreferencesResponse.type";
 
-
 export const UserService = createApi({
   reducerPath: "users",
-  tagTypes: ["userStudents", "userPrices", "userPlans", "userSlots", "userPreferences"],
+  tagTypes: [
+    "userStudents",
+    "userPrices",
+    "userPlans",
+    "userSlots",
+    "userPreferences",
+  ],
   baseQuery: fetchBaseQuery({
     baseUrl: `${import.meta.env.VITE_BACKEND_URL}/users`,
   }),
@@ -76,9 +81,9 @@ export const UserService = createApi({
       providesTags: (result) =>
         result
           ? [
-            { type: "userPlans", id: "LIST" },
-            ...result.map(({ id }) => ({ type: "userPlans" as const, id })),
-          ]
+              { type: "userPlans", id: "LIST" },
+              ...result.map(({ id }) => ({ type: "userPlans" as const, id })),
+            ]
           : [{ type: "userPlans", id: "LIST" }],
     }),
     getUserPreferences: builder.query<UserPreferencesResponse, string>({
@@ -87,7 +92,10 @@ export const UserService = createApi({
         { type: "userPreferences", id: userId },
       ],
     }),
-    updateSlotsCapacity: builder.mutation<void, { userId: string; capacity: number }>({
+    updateSlotsCapacity: builder.mutation<
+      void,
+      { userId: string; capacity: number }
+    >({
       query: ({ userId, capacity }) => ({
         url: `/${userId}/capacity`,
         method: "PATCH",
@@ -112,7 +120,7 @@ export const UserService = createApi({
           { type: "userSlots", id: "LIST" },
           ...result.slots.map((slot) => ({
             type: "userSlots" as const,
-            id: slot.slotId,
+            id: slot.id,
           })),
         ];
       },
@@ -126,5 +134,5 @@ export const {
   useGetUserPlansQuery,
   useGetSlotsQuery,
   useUpdateSlotsCapacityMutation,
-  useGetUserPreferencesQuery
+  useGetUserPreferencesQuery,
 } = UserService;

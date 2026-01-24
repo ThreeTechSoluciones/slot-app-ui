@@ -26,7 +26,7 @@ function ShiftDetail({ shifts }: ShiftDetailProps) {
         asignados
       </MainTitle>
       <ShiftContainer>
-        {shifts.map((shift, id) => (
+        {shifts.map((shift) => (
           <Shift key={shift.id}>
             <Text $isADay={true}>{shift.day}</Text>
             <Text>{shift.hour} hs</Text>

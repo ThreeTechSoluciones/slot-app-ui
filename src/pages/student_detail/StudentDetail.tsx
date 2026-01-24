@@ -8,6 +8,7 @@ import {
   ButtonWrapper,
   AllInformationContainer,
   PaymentInfoContainer,
+  ShiftInfoContainer,
   NotFoundStudentMessage,
   InfoBoxesContainer,
   StudentInfo,
@@ -36,14 +37,18 @@ import { ConfirmDialog } from "../../components/confirm_dialog/ConfirmDialog";
 import {
   getEditarEstudianteStep,
   ListadoCuotas,
+  ModificarTurnos,
 } from "../../routes/RoutesUtils";
 import toast from "react-hot-toast";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import type { StudentDetailResponse } from "../../app/types/responses/StudentDetailResponse.type";
 import {
   studentPaymentInfo,
   studentPersonalInfo,
+  studentShiftInfo,
 } from "../../utils/StudentDetailInfo";
+import ShiftDetail from "../../components/shiftsDetail/ShiftDetail";
+
 const StudentDetail = () => {
   const { studentId } = useLocation().state;
   const {
@@ -153,6 +158,7 @@ const StudentDetail = () => {
       <InfoBoxesContainer>
         <StudentData student={student} navigate={navigate} />
         <PaymentData student={student} navigate={navigate} />
+        <ShiftData student={student} navigate={navigate} />
       </InfoBoxesContainer>
     </MainContainer>
   );
@@ -255,5 +261,31 @@ const PaymentData = ({
         </ButtonContainer>
       </AllInformationContainer>
     </PaymentInfoContainer>
+  );
+};
+const ShiftData = ({
+  student,
+  navigate,
+}: {
+  student: StudentDetailResponse;
+  navigate: (path: string, options?: { state?: any }) => void;
+}) => {
+  console.log("Student completo:", student);
+  console.log("Slots del student:", student?.slots);
+  const shifts = useMemo(() => studentShiftInfo(student), [student]);
+  return (
+    <ShiftInfoContainer>
+      <HeaderBoxes>
+        <EditIconStyles onClick={() => navigate(ModificarTurnos)}>
+          <img src={EditIcon} alt="edit-icon" />
+        </EditIconStyles>
+      </HeaderBoxes>
+
+      {shifts.length > 0 ? (
+        <ShiftDetail shifts={shifts} />
+      ) : (
+        <StudentInfo>No hay turnos asignados</StudentInfo>
+      )}
+    </ShiftInfoContainer>
   );
 };
