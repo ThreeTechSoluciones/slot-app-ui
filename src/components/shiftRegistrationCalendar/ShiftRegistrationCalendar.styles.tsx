@@ -22,7 +22,7 @@ export const MainContainer = styled.div`
   justify-content: center;
   align-items: flex-start;
   margin-top: 32px;
-  margin-bottom: 32px;
+  margin-bottom: 16px;
 `;
 
 export const Column = styled.div`

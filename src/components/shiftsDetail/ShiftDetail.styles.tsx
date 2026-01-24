@@ -19,6 +19,7 @@ export const ShiftDetailContainer = styled.div`
   border-left: 5px solid ${LIGHT_NEUTRAL_COLOR};
   border-top: 5px solid ${LIGHT_NEUTRAL_COLOR};
   border-bottom: 5px solid ${LIGHT_NEUTRAL_COLOR};
+  margin-top: 16px;
 `;
 
 export const MainTitle = styled.h2`
