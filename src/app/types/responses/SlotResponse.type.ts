@@ -11,5 +11,3 @@ export type SlotListResponse = {
   numberOfSlots: number;
   slots: Slot[];
 };
-
-export type CalendarResponse = SlotListResponse[];

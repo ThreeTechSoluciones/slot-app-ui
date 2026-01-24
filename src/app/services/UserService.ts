@@ -113,7 +113,7 @@ export const UserService = createApi({
     >({
       query: ({ userId, dayOfWeek }) => ({
         url: `${userId}/slots`,
-        params: dayOfWeek ? { dayOfWeek } : undefined,
+        params: { dayOfWeek },
       }),
       providesTags: (result) => {
         if (!result || !Array.isArray(result) || result.length === 0) {

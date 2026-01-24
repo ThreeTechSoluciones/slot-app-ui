@@ -8,8 +8,8 @@ import {
 } from "../../utils/Stylesheet";
 
 export const ShiftDetailContainer = styled.div`
-  width: 100%;
-  max-width: 900px;
+  width: 810px;
+  box-sizing: border-box;
   height: 191px;
   display: flex;
   flex-direction: column;
@@ -25,7 +25,6 @@ export const MainTitle = styled.h2`
   font-family: ${FONT_FAMILY};
   font-size: 16px;
   display: flex;
-  flex-direction: row;
   align-items: center;
   gap: 10px;
   margin-left: 32px;
@@ -33,7 +32,6 @@ export const MainTitle = styled.h2`
 export const ShiftContainer = styled.div`
   display: flex;
   gap: 24px;
-  max-width: 900px;
   overflow-x: auto;
   box-sizing: border-box;
   padding: 0 60px;

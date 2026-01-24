@@ -16,15 +16,13 @@ interface HourProps {
 
 export const MainContainer = styled.div`
   display: flex;
-  width: auto;
+  box-sizing: border-box;
+  width: 810px;
   flex-direction: row;
   justify-content: center;
   align-items: flex-start;
   margin-top: 32px;
   margin-bottom: 32px;
-  max-height: 20vw;
-  overflow-x: auto;
-  border-radius: ${BORDER_RADIUS};
 `;
 
 export const Column = styled.div`
@@ -33,6 +31,7 @@ export const Column = styled.div`
   text-align: center;
   justify-content: center;
   gap: 16px;
+  flex: 1;
   padding-bottom: 20px;
   align-items: center;
   border-right: 5px solid ${LIGHT_NEUTRAL_COLOR};
@@ -45,12 +44,12 @@ export const Column = styled.div`
 export const Day = styled.p`
   display: flex;
   height: 32px;
-  width: 180px;
+  width: 100%;
   justify-content: center;
   align-items: center;
   margin: 0px;
   padding: 0px;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: ${FONT_WEIGHT_BOLD};
   color: ${DEFAULT_TEXT_COLOR};
   background-color: ${LIGHT_NEUTRAL_COLOR};
@@ -58,8 +57,9 @@ export const Day = styled.p`
 `;
 export const Hour = styled.button<HourProps>`
   display: flex;
-  width: 120px;
+  width: 80px;
   height: 32px;
+  font-size: 12px;
   border-radius: ${BORDER_RADIUS};
   font-family: ${FONT_FAMILY};
   justify-content: center;

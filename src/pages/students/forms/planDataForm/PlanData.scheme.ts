@@ -21,7 +21,6 @@ export const planDataScheme = (plans: PlanResponse[] | undefined) => {
           return value?.length === selectedPlan.numberOfDays;
         },
       )
-
       .required("Debes seleccionar al menos un turno"),
   });
 };

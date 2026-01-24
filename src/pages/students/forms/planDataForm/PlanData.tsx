@@ -6,7 +6,7 @@ import {
   Label,
   Select,
   FormContainer,
-  ContentContainer,
+  PlanContainer,
 } from "./PlanData.styles";
 import { yupResolver } from "@hookform/resolvers/yup";
 import ShiftRegistrationCalendar from "../../../../components/shiftRegistrationCalendar/ShiftRegistrationCalendar";
@@ -43,6 +43,7 @@ const PlanData = forwardRef<FormProp<PlanDataProps>, FormProp<PlanDataProps>>(
       register,
       handleSubmit,
       setValue,
+      getValues,
       formState: { errors },
     } = useForm<PlanDataProps>({
       resolver: yupResolver(schema),
@@ -64,8 +65,9 @@ const PlanData = forwardRef<FormProp<PlanDataProps>, FormProp<PlanDataProps>>(
         shifts: dayData.slots.map((slot) => ({
           id: slot.id,
           day: dayData.dayOfWeek,
-          hour: slot.startTime.substring(0, 5),
-          status: slot.maxCapacity > 0 ? "Available" : "Unavailable",
+          hour: slot.startTime,
+          status:
+            slot.usedCapacity < slot.maxCapacity ? "Available" : "Unavailable",
         })),
       }));
     }, [slotsData]);
@@ -80,20 +82,23 @@ const PlanData = forwardRef<FormProp<PlanDataProps>, FormProp<PlanDataProps>>(
       },
       [onSubmit, shifts],
     );
+
     const handleSelectShift = (id: string, day: string, hour: string) => {
       newShift(id, day, hour);
-
-      const updated = [...shifts, { id, day, hour }].map((s) => s.id);
-      setValue("slotIds", updated, { shouldValidate: true });
+      setValue("slotIds", getValues().slotIds.concat(id), {
+        shouldValidate: true,
+      });
     };
 
     const handleDeleteShift = (shiftId: string) => {
       removeShift(shiftId);
-
-      const updated = shifts.filter((s) => s.id !== shiftId).map((s) => s.id);
-
-      setValue("slotIds", updated, { shouldValidate: true });
+      setValue(
+        "slotIds",
+        getValues().slotIds.filter((s) => s !== shiftId),
+        { shouldValidate: true },
+      );
     };
+
     useImperativeHandle(
       ref,
       () =>
@@ -115,8 +120,8 @@ const PlanData = forwardRef<FormProp<PlanDataProps>, FormProp<PlanDataProps>>(
     );
     return (
       <MainContainer>
-        <ContentContainer>
-          <FormContainer>
+        <FormContainer>
+          <PlanContainer>
             <Label>Plan</Label>
             <Select {...register("planId")}>
               <option value="" disabled hidden>
@@ -128,21 +133,22 @@ const PlanData = forwardRef<FormProp<PlanDataProps>, FormProp<PlanDataProps>>(
                 </option>
               ))}
             </Select>
+
             <ErrorMessage error={errors.planId} />
-            {isLoadingCalendar ? (
-              <p>Cargando turnos...</p>
-            ) : (
-              <ShiftRegistrationCalendar
-                listShifts={userSlots}
-                selectedShifts={shifts}
-                onSelectShift={handleSelectShift}
-                onDeleteShift={handleDeleteShift}
-              />
-            )}
-          </FormContainer>
-          <ErrorMessage error={errors.slotIds as any} />
-          <ShiftDetail shifts={shifts} />
-        </ContentContainer>
+          </PlanContainer>
+          {isLoadingCalendar ? (
+            <p>Cargando turnos...</p>
+          ) : (
+            <ShiftRegistrationCalendar
+              listShifts={userSlots}
+              selectedShifts={shifts}
+              onSelectShift={handleSelectShift}
+              onDeleteShift={handleDeleteShift}
+            />
+          )}
+        </FormContainer>
+        <ErrorMessage error={errors.slotIds} />
+        <ShiftDetail shifts={shifts} />
       </MainContainer>
     );
   },
