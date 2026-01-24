@@ -1,6 +1,7 @@
 import {
   ShiftDetailContainer,
   MainTitle,
+  SubTitle,
   ShiftContainer,
   Shift,
   Text,
@@ -16,15 +17,19 @@ type Shift = {
 interface ShiftDetailProps {
   shifts: Shift[];
   width?: string;
+  subtitle?: string;
 }
 
-function ShiftDetail({ shifts }: ShiftDetailProps) {
+function ShiftDetail({ shifts, subtitle }: ShiftDetailProps) {
   return (
     <ShiftDetailContainer>
       <MainTitle>
         <img src={CalenderIcon} width={"24px"} height={"24px"}></img>Turnos
         asignados
       </MainTitle>
+      <SubTitle>
+        <strong>Plan asignado</strong> <br /> {subtitle}
+      </SubTitle>
       <ShiftContainer>
         {shifts.map((shift) => (
           <Shift key={shift.id}>

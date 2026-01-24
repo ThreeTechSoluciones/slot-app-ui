@@ -16,6 +16,7 @@ export interface StudentDetailResponse {
   status: boolean;
   situation: string;
   planId: string;
+  plan: string;
   payments: PaymentDetailResponse[];
   slots: StudentSlotResponse[];
 }

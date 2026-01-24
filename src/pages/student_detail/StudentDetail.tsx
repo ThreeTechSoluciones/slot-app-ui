@@ -276,16 +276,16 @@ const ShiftData = ({
   return (
     <ShiftInfoContainer>
       <HeaderBoxes>
+        {shifts.length > 0 ? (
+          <ShiftDetail shifts={shifts} subtitle={student.plan} />
+        ) : (
+          <StudentInfo>No hay turnos asignados</StudentInfo>
+        )}
+
         <EditIconStyles onClick={() => navigate(ModificarTurnos)}>
           <img src={EditIcon} alt="edit-icon" />
         </EditIconStyles>
       </HeaderBoxes>
-
-      {shifts.length > 0 ? (
-        <ShiftDetail shifts={shifts} />
-      ) : (
-        <StudentInfo>No hay turnos asignados</StudentInfo>
-      )}
     </ShiftInfoContainer>
   );
 };

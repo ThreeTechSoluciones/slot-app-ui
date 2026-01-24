@@ -1,4 +1,5 @@
 import type { StudentDetailResponse } from "../app/types/responses/StudentDetailResponse.type";
+import { DaysOfWeekReverse } from "../utils/DaysOfWeek";
 import {
   StudentStatusStyle,
   StudentSituationStyle,
@@ -69,7 +70,7 @@ export const studentShiftInfo = (
 
   return student.slots.map((slot) => ({
     id: slot.slotId,
-    day: slot.dayOfWeek,
+    day: DaysOfWeekReverse[slot.dayOfWeek],
     hour: slot.startTime,
   }));
 };
