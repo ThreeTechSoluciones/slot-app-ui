@@ -72,16 +72,13 @@ function SlotConfiguration() {
 
     const editSlotRef = useRef<any>(null);
 
-
     const { data: registeredSlots } = useGetSlotsQuery(
         { userId: userId!, dayOfWeek: selectEnglishValue },
         { skip: selectEnglishValue === "" }
     );
 
+    const totalSlots = registeredSlots?.day?.numberOfSlots ?? 0;
 
-    const totalSlots = registeredSlots?.[0]?.numberOfSlots ?? 0;
-
-    console.log(totalSlots);
     const handleSelectValue = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const newEnglishValue = event.target.value;
         const newSpanishValue = event.target.selectedOptions[0].text;
@@ -205,11 +202,11 @@ function SlotConfiguration() {
                         {totalSlots > 1 ? " turnos registrados" : " turno registrado"}
                     </Subtitle>
                 </TitlesContainer>
-                {registeredSlots?.[0]?.slots?.map((slot, index) => (
+                {registeredSlots?.day?.slots?.map((slot, index) => (
                     <SpecificSlotContainer
                         key={slot.id}
                         id={`slot-${slot.startTime.replace(':', '-')}`}
-                        $isLast={index === registeredSlots[0].numberOfSlots - 1 && registeredSlots[0].numberOfSlots > 3}
+                        $isLast={index === (registeredSlots?.day?.numberOfSlots ?? 0) - 1 && (registeredSlots?.day?.numberOfSlots ?? 0) > 3}
                     >
                         <img src={CalendarIcon} width={35} height={35}></img>
                         <SlotInfoContainer >
