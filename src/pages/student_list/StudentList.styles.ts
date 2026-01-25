@@ -10,7 +10,6 @@ import {
 } from "../../utils/Stylesheet";
 export const StudentsContainer = styled.div`
   width: 100%;
-  min-height: 100vh;
 `;
 export const Title = styled.h1`
   font-size: 24px;
