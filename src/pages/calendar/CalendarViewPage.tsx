@@ -7,7 +7,7 @@ import {
   SlotInfoContainer,
   SlotStatus,
   SlotStudentsContainer,
-  Student,
+  StudentName,
   ScheduledTime,
   Title,
   TitleContainer,
@@ -28,7 +28,7 @@ import { StatesTranslation } from "./StatesTranslation";
 import { CalendarViewName } from "../../app/types/models/CalendarViewName";
 import type {
   SpecificSlotResponse,
-  StudentInfo,
+  Student,
 } from "../../app/types/responses/CalendarResponse.type";
 import { getLayoutConfig } from "./CalendarResponsiveConfig";
 import { SearchNotFound } from "../../components/search_not_found/SearchNotFound";
@@ -55,7 +55,7 @@ function CalendarView() {
 
   const [absenceData, setAbsenceData] = useState<AbsenceData | null>(null);
 
-  const handleStudentClick = (student: StudentInfo, specificSlotId: string) => {
+  const handleStudentClick = (student: Student, specificSlotId: string) => {
     setAbsenceData({
       studentId: student.id,
       studentName: student.fullName,
@@ -176,13 +176,13 @@ function CalendarView() {
                   )}
                   <SlotStudentsContainer>
                     {slot?.students?.map((student) => (
-                      <Student
+                      <StudentName
                         key={student.id}
                         title={student.fullName}
                         onClick={() => handleStudentClick(student, slot.id)}
                       >
                         {student.fullName}
-                      </Student>
+                      </StudentName>
                     ))}
                   </SlotStudentsContainer>
                 </SpecificSlot>

@@ -15,10 +15,10 @@ export type SpecificSlotResponse = {
   maxCapacity: number;
   capacity: number;
   status: string;
-  students: StudentInfo[];
+  students: Student[];
 };
 
-export type StudentInfo = {
+export type Student = {
   id: string;
   fullName: string;
   status: string;

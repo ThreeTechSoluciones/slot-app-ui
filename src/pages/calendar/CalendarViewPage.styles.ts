@@ -168,7 +168,7 @@ export const SlotStudentsContainer = styled.div`
   margin-bottom: 8px;
 `;
 
-export const Student = styled.span`
+export const StudentName = styled.span`
   display: block;
   line-height: 36px;
   white-space: nowrap;
