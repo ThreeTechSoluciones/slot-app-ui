@@ -4,6 +4,7 @@ import {
   StudentStatusStyle,
   StudentSituationStyle,
 } from "../pages/student_detail/StudentDetail.styles";
+import type { Shift } from "../components/shiftsDetail/ShiftDetail";
 interface InfoItem {
   title: string;
   data?: string | number | null;
@@ -57,15 +58,8 @@ export const studentPaymentInfo = (
     ),
   },
 ];
-type ShiftDetailItem = {
-  id: string;
-  day: string;
-  hour: string;
-};
 
-export const studentShiftInfo = (
-  student: StudentDetailResponse,
-): ShiftDetailItem[] => {
+export const studentShiftInfo = (student: StudentDetailResponse): Shift[] => {
   if (!student.slots?.length) return [];
 
   return student.slots.map((slot) => ({

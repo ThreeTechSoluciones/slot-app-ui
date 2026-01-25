@@ -41,7 +41,7 @@ export const InfoBoxesContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  gap: 80px;
+  gap: 40px 80px;
   font-family: ${FONT_FAMILY};
   flex-wrap: wrap;
   max-width: 1200px;
@@ -78,7 +78,16 @@ export const InformationContainer = styled.div`
 `;
 export const ShiftInfoContainer = styled(StudentInfoContainer)`
   width: 1158px;
-  height: 252px;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+`;
+export const SearchNotFoundStyles = styled.div`
+  display: grid;
+  place-content: center;
+  width: 100%;
+  height: 100%;
 `;
 export const Label = styled.p`
   font-family: ${FONT_FAMILY};

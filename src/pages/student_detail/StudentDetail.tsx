@@ -9,6 +9,7 @@ import {
   AllInformationContainer,
   PaymentInfoContainer,
   ShiftInfoContainer,
+  SearchNotFoundStyles,
   NotFoundStudentMessage,
   InfoBoxesContainer,
   StudentInfo,
@@ -48,6 +49,7 @@ import {
   studentShiftInfo,
 } from "../../utils/StudentDetailInfo";
 import ShiftDetail from "../../components/shiftsDetail/ShiftDetail";
+import { SearchNotFound } from "../../components/search_not_found/SearchNotFound";
 
 const StudentDetail = () => {
   const { studentId } = useLocation().state;
@@ -270,18 +272,18 @@ const ShiftData = ({
   student: StudentDetailResponse;
   navigate: (path: string, options?: { state?: any }) => void;
 }) => {
-  console.log("Student completo:", student);
-  console.log("Slots del student:", student?.slots);
-  const shifts = useMemo(() => studentShiftInfo(student), [student]);
+  const shifts = studentShiftInfo(student);
+
   return (
     <ShiftInfoContainer>
       <HeaderBoxes>
         {shifts.length > 0 ? (
           <ShiftDetail shifts={shifts} subtitle={student.plan} />
         ) : (
-          <StudentInfo>No hay turnos asignados</StudentInfo>
+          <SearchNotFoundStyles>
+            <SearchNotFound />
+          </SearchNotFoundStyles>
         )}
-
         <EditIconStyles onClick={() => navigate(ModificarTurnos)}>
           <img src={EditIcon} alt="edit-icon" />
         </EditIconStyles>

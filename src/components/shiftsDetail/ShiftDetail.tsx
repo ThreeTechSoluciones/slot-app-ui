@@ -8,7 +8,7 @@ import {
 } from "./ShiftDetail.styles";
 import CalenderIcon from "../../assets/CalenderIcon.png";
 
-type Shift = {
+export type Shift = {
   id: string;
   day: string;
   hour: string;
@@ -27,9 +27,11 @@ function ShiftDetail({ shifts, subtitle }: ShiftDetailProps) {
         <img src={CalenderIcon} width={"24px"} height={"24px"}></img>Turnos
         asignados
       </MainTitle>
+
       <SubTitle>
         <strong>Plan asignado</strong> <br /> {subtitle}
       </SubTitle>
+
       <ShiftContainer>
         {shifts.map((shift) => (
           <Shift key={shift.id}>
