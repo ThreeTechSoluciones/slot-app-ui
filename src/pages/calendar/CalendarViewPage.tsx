@@ -9,9 +9,9 @@ import {
   SlotStudentsContainer,
   Student,
   ScheduledTime,
-  Title,
-  TitleContainer,
-  SecondaryContainer,
+  DayOfWeek,
+  DayContainer,
+  CalendarContainer,
   Number,
   TimeSlot,
   SlotCapacity
@@ -34,7 +34,7 @@ function CalendarView() {
 
   const { data: calendarData } = useGetCalendarViewQuery({
     userId: userId!,
-    date: '2026-01-26',
+    date: new Date().toISOString().split('T')[0], //2026-01-26 format
     typeOfView: CalendarViewName.WEEKLY
   });
 
@@ -44,16 +44,10 @@ function CalendarView() {
     return <SearchNotFound />;
   }
 
-  const getStatusIcon = (status: string) => {
-    switch (status) {
-      case "FINALIZED":
-        return CheckIcon;
-      case "IN_PROGRESS":
-        return ProgressIcon;
-      default:
-        return undefined;
-    }
-  };
+  const STATUS_ICONS: { [key: string]: string } = {
+    'FINALIZED': CheckIcon,
+    'IN_PROGRESS': ProgressIcon,
+  }
 
   const ActionsSkeleton = () => {
     return (
@@ -65,7 +59,7 @@ function CalendarView() {
     );
   }
 
-  const SlotInfoSkeleton = ({ slot }: { slot: SpecificSlotResponse }) => {
+  const SlotInfoSkeleton = (slot: SpecificSlotResponse) => {
     return (
       <SlotInfoContainer>
         <SlotCapacity $isFull={slot.capacity === slot.maxCapacity}>
@@ -76,12 +70,14 @@ function CalendarView() {
           />
           {slot.capacity} / {slot.maxCapacity}
         </SlotCapacity>
-        <SlotStatus $isFinalized={slot.status === "FINALIZED"} $isInProgress={slot.status === "IN_PROGRESS"}>
-          <img
-            src={getStatusIcon(slot.status)}
-            alt="Status"
-            style={{ width: 12, height: 12, marginRight: 3 }}
-          />
+        <SlotStatus $status={slot.status}>
+          {STATUS_ICONS[slot.status] && (
+            <img
+              src={STATUS_ICONS[slot.status]}
+              alt="Status"
+              style={{ width: 12, height: 12, marginRight: 3 }}
+            />
+          )}
           {StatesTranslation[slot.status]}
         </SlotStatus>
       </SlotInfoContainer>
@@ -90,7 +86,7 @@ function CalendarView() {
 
   return (
     <MainContainer>
-      <SecondaryContainer $columnsCount={columnsCount}>
+      <CalendarContainer $columnsCount={columnsCount}>
         <ScheduledTime>
           {calendarData?.times.map((timeSlot) => (
             <TimeSlot key={timeSlot.startTime}>{timeSlot.startTime} <br /> - <br />{timeSlot.endTime}</TimeSlot>
@@ -98,10 +94,10 @@ function CalendarView() {
         </ScheduledTime>
         {calendarData?.days.map((day, colIndex) => (
           <DayColumn key={day.dayOfWeek}>
-            <TitleContainer>
-              <Title>{DaysOfWeekReverse[day.dayOfWeek].toUpperCase()}</Title>
+            <DayContainer>
+              <DayOfWeek>{DaysOfWeekReverse[day.dayOfWeek].toUpperCase()}</DayOfWeek>
               <Number>{day.numberOfDay}</Number>
-            </TitleContainer>
+            </DayContainer>
             {calendarData?.times.map((_, rowIndex) => {
               const slot = calendarData.slots[rowIndex][colIndex];
               return (
@@ -109,21 +105,23 @@ function CalendarView() {
                   {slot && (
                     <>
                       <ActionsSkeleton />
-                      <SlotInfoSkeleton slot={slot} />
+                      <SlotInfoSkeleton {...slot} />
+                      <SlotStudentsContainer>
+                        {slot?.students?.map((student) => (
+                          <Student key={student.id} title={student.fullName}>{student.fullName}</Student>
+                        ))}
+                        <Student>Lisa Simpson</Student>
+                        <Student>Bart Simpson Conrero</Student>
+                      </SlotStudentsContainer>
                     </>
-                  )
-                  }
-                  <SlotStudentsContainer>
-                    {slot?.students?.map((student) => (
-                      <Student key={student.id} title={student.fullName}>{student.fullName}</Student>))}
-                  </SlotStudentsContainer>
+                  )}
                 </SpecificSlot>
               );
             })}
           </DayColumn>
         ))}
 
-      </SecondaryContainer>
+      </CalendarContainer>
     </MainContainer >
   );
 }

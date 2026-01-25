@@ -9,59 +9,49 @@ import {
     WARNING_COLOR
 }
     from "../../utils/Stylesheet";
+const ROW_HEIGHT = '260px';
+const GAP = '32px'
 
 export const MainContainer = styled.div`
     display: flex;
     width: 100%;
     height: 100%;
-    margin-bottom:15px;
+    margin-top: 24px;
     justify-content: center; 
+    padding: 0 24px; 
 `;
 
-interface SecondaryContainerProps {
+interface CalendarContainerProps {
     $columnsCount: number;
 };
 
-export const SecondaryContainer = styled.div<SecondaryContainerProps>`
-    width:100%;
-    gap: 0px;
+export const CalendarContainer = styled.div<CalendarContainerProps>`
     display:grid;
     grid-template-columns: 85px repeat(${(props) => props.$columnsCount || 3}, minmax(200px, 300px));
-    overflow: hidden;
-    padding: 0 24px; 
-    box-sizing: border-box;
-    justify-content: center;
 `;
 
 export const DayColumn = styled.div`
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 32px;
-    height: auto;
-    overflow: hidden; 
+    gap:${GAP};
     padding: 0 8px;
-    min-width: 0;
-    box-sizing: border-box;
     max-width:272px;
 `;
 
-export const TitleContainer = styled.div`
+export const DayContainer = styled.div`
     display: flex;
-    flex-direction: row;
     align-items: center;
     justify-content: center;
-    margin-top: 24px;
+    gap:8px;
 `;
 
-export const Title = styled.h1`
+export const DayOfWeek = styled.h1`
     font-family: ${FONT_FAMILY};
     color: ${DEFAULT_TEXT_COLOR};
     font-weight: ${FONT_WEIGHT_BOLD};
-    font-size: 16px;  
+    font-size:16px;  
 `;
 export const Number = styled.span`
-   font-size: 16px;
     width: 32px;          
     height: 32px;          
     border-radius: 50%;
@@ -72,28 +62,25 @@ export const Number = styled.span`
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-left: 8px;
 `;
 export const ScheduledTime = styled.div`
     display: flex;
     flex-direction: column;
-    gap:32px;
-    margin-top: 101px;   
+    gap:${GAP};
+    margin-top: 77px;   
 `;
 export const TimeSlot = styled.p`
-    font-size: 16px;
     font-family: ${FONT_FAMILY};
     font-weight: ${FONT_WEIGHT_BOLD};
     border-radius: 5px;
     color: ${DEFAULT_TEXT_COLOR};
-    height: 260px;
+    height: ${ROW_HEIGHT};
     width: 64px;
     background-color: ${LIGHT_NEUTRAL_COLOR};
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 0px;
     margin: 0px;
 `;
 
@@ -103,26 +90,22 @@ interface SpecificSlotProps {
 }
 
 export const SpecificSlot = styled.div<SpecificSlotProps>`
-    height: 260px;
+    height: ${ROW_HEIGHT};
     border: ${(props) => props.$isNull ? "none" : "4px solid " + LIGHT_NEUTRAL_COLOR};
+    background-color: ${(props) => props.$isNull ? LIGHT_NEUTRAL_COLOR : "transparent"};
     border-radius: 8px;
-    max-height: 260px;
     width: 100%;
-    max-width: 100%; 
     overflow-y: auto;
     overflow-x: hidden; 
     padding: 8px;
-    margin: 0px;
     box-sizing: border-box;
 `;
 
 export const ActionsContainer = styled.div`
     display: flex;
     flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    margin-top: 16px;
-    gap: 16px;
+    justify-content: space-between;
+   
 `;
 
 export const Action = styled.button`
@@ -146,10 +129,9 @@ export const SlotInfoContainer = styled.div`
 `;
 
 interface SlotInfoProps {
-    $isFull?: boolean;
-    $isFinalized?: boolean;
-    $isInProgress?: boolean;
-}
+    $isFull?: boolean,
+    $status?: string
+};
 
 export const SlotInfo = styled.span<SlotInfoProps>`
     display: flex;
@@ -169,9 +151,9 @@ export const SlotCapacity = styled(SlotInfo) <SlotInfoProps>`
 `;
 
 export const SlotStatus = styled(SlotInfo) <SlotInfoProps>`
-   background-color: ${({ $isFinalized, $isInProgress }) => {
-        if ($isFinalized) return SUCCESS_COLOR;
-        if ($isInProgress) return WARNING_COLOR;
+   background-color: ${({ $status }) => {
+        if ($status === "FINALIZED") return SUCCESS_COLOR;
+        if ($status === "IN_PROGRESS") return WARNING_COLOR;
         return "transparent";
     }};
 `;
@@ -180,19 +162,13 @@ export const SlotStudentsContainer = styled.div`
     display: flex;
     flex-direction: column;
     margin-top: 16px;
-    gap: 4px;
-    margin-bottom: 8px;
 `;
 
 export const Student = styled.span` 
-    display: block;
     line-height: 36px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    width: 100%; 
-    max-width: 100%;
-    font-size: 16px;
     font-family: ${FONT_FAMILY};
     height: 36px;
     color: ${DEFAULT_TEXT_COLOR};
