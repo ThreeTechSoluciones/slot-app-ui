@@ -1,7 +1,7 @@
 import LogoCeci from "../../assets/logoCeci.png";
 import OpenEyeIcon from "../../assets/openEye-icon.png";
 import ClosedEyeIcon from "../../assets/closeEye-icon.png";
-import UserIcon from "../../assets/userIcon.png";
+import UserIcon from "../../assets/user-icon.svg";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { loginScheme } from "./login.scheme";
@@ -69,7 +69,12 @@ function Login() {
         <Label>Usuario*</Label>
         <InputContainer>
           <Input placeholder="Usuario" {...register("username")}></Input>
-          <Img src={UserIcon} width={"24"} height={"24"}></Img>
+          <Img
+            src={UserIcon}
+            width={"24"}
+            height={"24"}
+            style={{ filter: "brightness(0)" }}>
+          </Img>
         </InputContainer>
         <ErrorMessage error={errors.username} />
         <Label>Contraseña*</Label>

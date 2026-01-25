@@ -14,19 +14,21 @@ import {
   CalendarContainer,
   Number,
   TimeSlot,
-  SlotCapacity
+  SlotCapacity,
+  NoResponseContainer
 }
   from './CalendarViewPage.styles';
 import { useGetCalendarViewQuery } from '../../app/services/UserService';
 import CheckIcon from "../../assets/check.svg";
 import useAuthentication from '../../hooks/useAuthentication';
-import UserIcon from "../../assets/white-user-icon.svg"
+import UserIcon from "../../assets/user-icon.svg"
 import ProgressIcon from "../../assets/progress-icon.svg"
 import { DaysOfWeekReverse } from '../../utils/DaysOfWeek';
-import { StatesTranslation } from './StatesTranslation';
+import { StatesTranslation } from '../../utils/StatesTranslation';
 import { CalendarViewName } from '../../app/types/models/CalendarViewName';
 import type { SpecificSlotResponse } from '../../app/types/responses/CalendarResponse.type';
 import { SearchNotFound } from '../../components/search_not_found/SearchNotFound';
+import { formatDateToIsoString } from '../../utils/DateFormatter';
 
 function CalendarView() {
 
@@ -34,14 +36,18 @@ function CalendarView() {
 
   const { data: calendarData } = useGetCalendarViewQuery({
     userId: userId!,
-    date: new Date().toISOString().split('T')[0], //2026-01-26 format
+    date: formatDateToIsoString(new Date()), //date: "2026-01-26" para probarlo,
     typeOfView: CalendarViewName.WEEKLY
   });
 
   const columnsCount = calendarData?.days.length || 0;
 
   if (columnsCount === 0) {
-    return <SearchNotFound />;
+    return (
+      <NoResponseContainer>
+        <SearchNotFound />
+      </NoResponseContainer>
+    )
   }
 
   const STATUS_ICONS: { [key: string]: string } = {
@@ -66,7 +72,7 @@ function CalendarView() {
           <img
             src={UserIcon}
             alt="Capacity"
-            style={{ width: 16, height: 16, marginRight: 2 }}
+            style={{ width: 16, height: 16, marginRight: 2, filter: "brightness(0) invert(1)" }}
           />
           {slot.capacity} / {slot.maxCapacity}
         </SlotCapacity>
@@ -110,8 +116,6 @@ function CalendarView() {
                         {slot?.students?.map((student) => (
                           <Student key={student.id} title={student.fullName}>{student.fullName}</Student>
                         ))}
-                        <Student>Lisa Simpson</Student>
-                        <Student>Bart Simpson Conrero</Student>
                       </SlotStudentsContainer>
                     </>
                   )}
@@ -120,7 +124,6 @@ function CalendarView() {
             })}
           </DayColumn>
         ))}
-
       </CalendarContainer>
     </MainContainer >
   );

@@ -13,7 +13,7 @@ import type { CalendarParams } from "../types/requests/GetCalendarViewRequest.ty
 
 export const UserService = createApi({
   reducerPath: "users",
-  tagTypes: ["userStudents", "userPrices", "userPlans", "userSlots", "userPreferences", "userSpecificSlots"],
+  tagTypes: ["userStudents", "userPrices", "userPlans", "userSlots", "userPreferences", "userCalendar"],
   baseQuery: fetchBaseQuery({
     baseUrl: `${import.meta.env.VITE_BACKEND_URL}/users`,
   }),
@@ -124,22 +124,7 @@ export const UserService = createApi({
         url: `${userId}/calendar`,
         params: { date, typeOfView },
       }),
-      providesTags: (result) => {
-        if (!result || !result.slots || result.slots.length === 0) {
-          return [{ type: "userSpecificSlots", id: "LIST" }];
-        }
-        const allSlots = result.slots
-          .flat()
-          .filter((slot): slot is SpecificSlotResponse => slot !== null);
-
-        return [
-          { type: "userSpecificSlots", id: "LIST" },
-          ...allSlots.map((slot) => ({
-            type: "userSpecificSlots" as const,
-            id: slot.id,
-          })),
-        ];
-      },
+      providesTags: ["userCalendar"],
     }),
   }),
 });

@@ -10,12 +10,17 @@ import {
 }
     from "../../utils/Stylesheet";
 const ROW_HEIGHT = '260px';
-const GAP = '32px'
+const ROW_SPACING_HEIGHT = '16px'
+
+export const NoResponseContainer = styled.div`
+    display:flex;
+    align-items:center;
+    min-height:80vh;
+`
 
 export const MainContainer = styled.div`
     display: flex;
     width: 100%;
-    height: 100%;
     margin-top: 24px;
     justify-content: center; 
     padding: 0 24px; 
@@ -33,7 +38,7 @@ export const CalendarContainer = styled.div<CalendarContainerProps>`
 export const DayColumn = styled.div`
     display: flex;
     flex-direction: column;
-    gap:${GAP};
+    gap:${ROW_SPACING_HEIGHT};
     padding: 0 8px;
     max-width:272px;
 `;
@@ -66,8 +71,8 @@ export const Number = styled.span`
 export const ScheduledTime = styled.div`
     display: flex;
     flex-direction: column;
-    gap:${GAP};
-    margin-top: 77px;   
+    gap:${ROW_SPACING_HEIGHT};
+    margin-top: 61px;   
 `;
 export const TimeSlot = styled.p`
     font-family: ${FONT_FAMILY};
@@ -161,7 +166,7 @@ export const SlotStatus = styled(SlotInfo) <SlotInfoProps>`
 export const SlotStudentsContainer = styled.div`
     display: flex;
     flex-direction: column;
-    margin-top: 16px;
+    margin-top: 10px;
 `;
 
 export const Student = styled.span` 
