@@ -26,7 +26,10 @@ import StudentIcon from "../../assets/student-icon.svg";
 import { DaysOfWeekTranslation } from "../../utils/DaysOfWeek";
 import { StatesTranslation } from "./StatesTranslation";
 import { CalendarViewName } from "../../app/types/models/CalendarViewName";
-import type { SpecificSlotResponse } from "../../app/types/responses/CalendarResponse.type";
+import type {
+  SpecificSlotResponse,
+  StudentInfo,
+} from "../../app/types/responses/CalendarResponse.type";
 import { getLayoutConfig } from "./CalendarResponsiveConfig";
 import { SearchNotFound } from "../../components/search_not_found/SearchNotFound";
 import { useState } from "react";
@@ -38,10 +41,7 @@ interface AbsenceData {
   studentName: string;
   specificSlotId: string;
 }
-type Student = {
-  id: string;
-  fullName: string;
-};
+
 function CalendarView() {
   const { userId } = useAuthentication();
 
@@ -55,7 +55,7 @@ function CalendarView() {
 
   const [absenceData, setAbsenceData] = useState<AbsenceData | null>(null);
 
-  const handleStudentClick = (student: Student, specificSlotId: string) => {
+  const handleStudentClick = (student: StudentInfo, specificSlotId: string) => {
     setAbsenceData({
       studentId: student.id,
       studentName: student.fullName,
