@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import {
     DANGER_COLOR,
+    DEFAULT_FONT_SIZE,
     DEFAULT_TEXT_COLOR,
     FONT_FAMILY,
     FONT_WEIGHT_BOLD,
@@ -54,7 +55,7 @@ export const DayOfWeek = styled.h1`
     font-family: ${FONT_FAMILY};
     color: ${DEFAULT_TEXT_COLOR};
     font-weight: ${FONT_WEIGHT_BOLD};
-    font-size:16px;  
+    font-size:${DEFAULT_FONT_SIZE};  
 `;
 export const Number = styled.span`
     width: 32px;          

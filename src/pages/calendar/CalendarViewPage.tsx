@@ -23,7 +23,7 @@ import CheckIcon from "../../assets/check.svg";
 import useAuthentication from '../../hooks/useAuthentication';
 import UserIcon from "../../assets/user-icon.svg"
 import ProgressIcon from "../../assets/progress-icon.svg"
-import { DaysOfWeekReverse } from '../../utils/DaysOfWeek';
+import { DaysOfWeekTranslation } from '../../utils/DaysOfWeek';
 import { StatesTranslation } from '../../utils/StatesTranslation';
 import { CalendarViewName } from '../../app/types/models/CalendarViewName';
 import type { SpecificSlotResponse } from '../../app/types/responses/CalendarResponse.type';
@@ -36,7 +36,7 @@ function CalendarView() {
 
   const { data: calendarData } = useGetCalendarViewQuery({
     userId: userId!,
-    date: formatDateToIsoString(new Date()), //date: "2026-01-26" para probarlo,
+    date: formatDateToIsoString(new Date()),
     typeOfView: CalendarViewName.WEEKLY
   });
 
@@ -101,7 +101,7 @@ function CalendarView() {
         {calendarData?.days.map((day, colIndex) => (
           <DayColumn key={day.dayOfWeek}>
             <DayContainer>
-              <DayOfWeek>{DaysOfWeekReverse[day.dayOfWeek].toUpperCase()}</DayOfWeek>
+              <DayOfWeek>{DaysOfWeekTranslation[day.dayOfWeek]}</DayOfWeek>
               <Number>{day.numberOfDay}</Number>
             </DayContainer>
             {calendarData?.times.map((_, rowIndex) => {
