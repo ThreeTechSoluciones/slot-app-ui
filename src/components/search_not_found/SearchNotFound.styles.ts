@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { DEFAULT_TEXT_COLOR } from "../../utils/Stylesheet";
+import { DEFAULT_TEXT_COLOR, FONT_FAMILY } from "../../utils/Stylesheet";
 
 export const Container = styled.div`
   display: flex;
@@ -19,4 +19,5 @@ export const Message = styled.p`
   color: ${DEFAULT_TEXT_COLOR};
   font-size: 16px;
   max-width: 470px;
+  font-family: ${FONT_FAMILY};
 `;

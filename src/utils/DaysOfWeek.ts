@@ -8,3 +8,13 @@ export const DaysOfWeek: Record<string, string> = {
     "Sábado": "SATURDAY",
     "Domingo": "SUNDAY"
 };
+
+export const DaysOfWeekTranslation: Record<string, string> = {
+    "MONDAY": "LUNES",
+    "TUESDAY": "MARTES",
+    "WEDNESDAY": "MIÉRCOLES",
+    "THURSDAY": "JUEVES",
+    "FRIDAY": "VIERNES",
+    "SATURDAY": "SÁBADO",
+    "SUNDAY": "DOMINGO"
+};
