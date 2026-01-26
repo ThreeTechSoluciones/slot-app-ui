@@ -7,11 +7,22 @@ import type { SlotListResponse } from "../types/responses/SlotResponse.type";
 import type { GetSlotsByDayParams } from "../types/requests/GetUserSlotsRequest.type";
 import type { SortConfig } from "../types/sort";
 import type { UserPreferencesResponse } from "../types/responses/UserPreferencesResponse.type";
-
+import type {
+  CalendarResponse,
+  SpecificSlotResponse,
+} from "../types/responses/CalendarResponse.type";
+import type { CalendarParams } from "../types/requests/GetCalendarViewRequest.type";
 
 export const UserService = createApi({
   reducerPath: "users",
-  tagTypes: ["userStudents", "userPrices", "userPlans", "userSlots", "userPreferences"],
+  tagTypes: [
+    "userStudents",
+    "userPrices",
+    "userPlans",
+    "userSlots",
+    "userPreferences",
+    "userCalendar",
+  ],
   baseQuery: fetchBaseQuery({
     baseUrl: `${import.meta.env.VITE_BACKEND_URL}/users`,
   }),
@@ -46,12 +57,12 @@ export const UserService = createApi({
       providesTags: (result) =>
         result
           ? [
-            { type: "userStudents", id: "LIST" },
-            ...result.content.map(({ id }) => ({
-              type: "userStudents" as const,
-              id,
-            })),
-          ]
+              { type: "userStudents", id: "LIST" },
+              ...result.content.map(({ id }) => ({
+                type: "userStudents" as const,
+                id,
+              })),
+            ]
           : [{ type: "userStudents", id: "LIST" }],
     }),
 
@@ -60,9 +71,9 @@ export const UserService = createApi({
       providesTags: (result) =>
         result
           ? [
-            { type: "userPrices", id: "LIST" },
-            ...result.map(({ id }) => ({ type: "userPrices" as const, id })),
-          ]
+              { type: "userPrices", id: "LIST" },
+              ...result.map(({ id }) => ({ type: "userPrices" as const, id })),
+            ]
           : [{ type: "userPrices", id: "LIST" }],
     }),
     getUserPlans: builder.query<
@@ -76,9 +87,9 @@ export const UserService = createApi({
       providesTags: (result) =>
         result
           ? [
-            { type: "userPlans", id: "LIST" },
-            ...result.map(({ id }) => ({ type: "userPlans" as const, id })),
-          ]
+              { type: "userPlans", id: "LIST" },
+              ...result.map(({ id }) => ({ type: "userPlans" as const, id })),
+            ]
           : [{ type: "userPlans", id: "LIST" }],
     }),
     getUserPreferences: builder.query<UserPreferencesResponse, string>({
@@ -87,7 +98,10 @@ export const UserService = createApi({
         { type: "userPreferences", id: userId },
       ],
     }),
-    updateSlotsCapacity: builder.mutation<void, { userId: string; capacity: number }>({
+    updateSlotsCapacity: builder.mutation<
+      void,
+      { userId: string; capacity: number }
+    >({
       query: ({ userId, capacity }) => ({
         url: `/${userId}/capacity`,
         method: "PATCH",
@@ -98,7 +112,10 @@ export const UserService = createApi({
         { type: "userPreferences", id: userId },
       ],
     }),
-    getSlots: builder.query<{ slots: SlotListResponse[]; day: SlotListResponse | null }, GetSlotsByDayParams>({
+    getSlots: builder.query<
+      { slots: SlotListResponse[]; day: SlotListResponse | null },
+      GetSlotsByDayParams
+    >({
       query: ({ userId, dayOfWeek }) => ({
         url: `${userId}/slots`,
         params: { dayOfWeek },
@@ -111,7 +128,7 @@ export const UserService = createApi({
         if (!result?.slots || result.slots.length === 0) {
           return [{ type: "userSlots" as const, id: "LIST" }];
         }
-        const allSlots = result.slots.flatMap(day => day.slots || []);
+        const allSlots = result.slots.flatMap((day) => day.slots || []);
         return [
           { type: "userSlots" as const, id: "LIST" },
           ...allSlots.map((slot) => ({
@@ -121,7 +138,13 @@ export const UserService = createApi({
         ];
       },
     }),
-
+    getCalendarView: builder.query<CalendarResponse, CalendarParams>({
+      query: ({ userId, date, typeOfView }) => ({
+        url: `${userId}/calendar`,
+        params: { date, typeOfView },
+      }),
+      providesTags: ["userCalendar"],
+    }),
   }),
 });
 export const {
@@ -130,5 +153,6 @@ export const {
   useGetUserPlansQuery,
   useGetSlotsQuery,
   useUpdateSlotsCapacityMutation,
-  useGetUserPreferencesQuery
+  useGetUserPreferencesQuery,
+  useGetCalendarViewQuery,
 } = UserService;
