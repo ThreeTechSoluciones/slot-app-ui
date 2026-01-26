@@ -16,18 +16,18 @@ const daysOrder: Record<string, number> = {
   DOM: 7,
 };
 
-export function useShiftHandler() {
-  const [shifts, setShifts] = useState<Shift[]>([]);
+export function useSlotHandler() {
+  const [slots, setSlots] = useState<Shift[]>([]);
 
   const parseHour = (hour: string) => {
     const [h, m] = hour.split(":").map(Number);
     return h * 60 + m;
   };
 
-  const newShift = (id: string, day: string, hour: string) => {
-    setShifts((prev) => {
-      const orderedShifts = [...prev, { id, day, hour }];
-      return orderedShifts.sort((a, b) => {
+  const newSlot = (id: string, day: string, hour: string) => {
+    setSlots((prev) => {
+      const orderedSlots = [...prev, { id, day, hour }];
+      return orderedSlots.sort((a, b) => {
         const dayDiff = daysOrder[a.day] - daysOrder[b.day];
         if (dayDiff !== 0) return dayDiff;
         return parseHour(a.hour) - parseHour(b.hour);
@@ -35,9 +35,9 @@ export function useShiftHandler() {
     });
   };
 
-  const removeShift = (id: string) => {
-    setShifts((prev) => prev.filter((s) => !(s.id === id)));
+  const removeSlot = (id: string) => {
+    setSlots((prev) => prev.filter((s) => !(s.id === id)));
   };
 
-  return { shifts, newShift, removeShift };
+  return { slots, newSlot, removeSlot };
 }

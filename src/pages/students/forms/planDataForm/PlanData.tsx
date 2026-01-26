@@ -9,9 +9,9 @@ import {
   PlanContainer,
 } from "./PlanData.styles";
 import { yupResolver } from "@hookform/resolvers/yup";
-import ShiftRegistrationCalendar from "../../../../components/shiftRegistrationCalendar/ShiftRegistrationCalendar";
-import ShiftDetail from "../../../../components/shiftsDetail/ShiftDetail";
-import { useShiftHandler } from "../../../../components/shiftRegistrationCalendar/UseShiftHandler";
+import SlotRegistrationCalendar from "../../../../components/slotRegistrationCalendar/SlotRegistrationCalendar";
+import SlotDetail from "../../../../components/slotDetail/SlotDetail";
+import { useSlotHandler } from "../../../../components/slotRegistrationCalendar/UseSlotHandler";
 import useAuthentication from "../../../../hooks/useAuthentication";
 import {
   useGetSlotsQuery,
@@ -38,7 +38,7 @@ const PlanData = forwardRef<FormProp<PlanDataProps>, FormProp<PlanDataProps>>(
       userId ? { userId } : skipToken,
     );
     const schema = useMemo(() => planDataScheme(planTypes), [planTypes]);
-    const { shifts, removeShift, newShift } = useShiftHandler();
+    const { slots, removeSlot, newSlot } = useSlotHandler();
     const {
       register,
       handleSubmit,
@@ -62,7 +62,7 @@ const PlanData = forwardRef<FormProp<PlanDataProps>, FormProp<PlanDataProps>>(
           dayData.dayOfWeek
         ).toUpperCase(),
 
-        shifts: dayData.slots.map((slot) => ({
+        slots: dayData.slots.map((slot) => ({
           id: slot.id,
           day: dayData.dayOfWeek,
           hour: slot.startTime,
@@ -76,25 +76,25 @@ const PlanData = forwardRef<FormProp<PlanDataProps>, FormProp<PlanDataProps>>(
       (data: PlanDataProps) => {
         onSubmit?.({
           planId: data.planId,
-          slotIds: shifts.map((s) => s.id),
+          slotIds: slots.map((s) => s.id),
         });
         return true;
       },
-      [onSubmit, shifts],
+      [onSubmit, slots],
     );
 
-    const handleSelectShift = (id: string, day: string, hour: string) => {
-      newShift(id, day, hour);
+    const handleSelectSlot = (id: string, day: string, hour: string) => {
+      newSlot(id, day, hour);
       setValue("slotIds", getValues().slotIds.concat(id), {
         shouldValidate: true,
       });
     };
 
-    const handleDeleteShift = (shiftId: string) => {
-      removeShift(shiftId);
+    const handleDeleteSlot = (slotId: string) => {
+      removeSlot(slotId);
       setValue(
         "slotIds",
-        getValues().slotIds.filter((s) => s !== shiftId),
+        getValues().slotIds.filter((s) => s !== slotId),
         { shouldValidate: true },
       );
     };
@@ -139,16 +139,16 @@ const PlanData = forwardRef<FormProp<PlanDataProps>, FormProp<PlanDataProps>>(
           {isLoadingCalendar ? (
             <p>Cargando turnos...</p>
           ) : (
-            <ShiftRegistrationCalendar
-              listShifts={userSlots}
-              selectedShifts={shifts}
-              onSelectShift={handleSelectShift}
-              onDeleteShift={handleDeleteShift}
+            <SlotRegistrationCalendar
+              listSlots={userSlots}
+              selectedSlots={slots}
+              onSelectSlot={handleSelectSlot}
+              onDeleteSlot={handleDeleteSlot}
             />
           )}
         </FormContainer>
         <ErrorMessage error={errors.slotIds} />
-        <ShiftDetail shifts={shifts} />
+        <SlotDetail slots={slots} />
       </MainContainer>
     );
   },

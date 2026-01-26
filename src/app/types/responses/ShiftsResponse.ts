@@ -1,10 +1,10 @@
-export type Shifts = {
-    day:string;
-    shifts:Shift[]
-}
+export type Slots = {
+  day: string;
+  slots: Slot[];
+};
 
-type Shift = {
-    id:string;
-    hour:string;
-    status: string;
-}
+type Slot = {
+  id: string;
+  hour: string;
+  status: string;
+};
