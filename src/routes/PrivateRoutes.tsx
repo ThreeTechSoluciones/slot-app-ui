@@ -6,9 +6,7 @@ function PrivateLayout() {
   return (
     <>
       <Header />
-      <main className="content">
-        <Outlet />
-      </main>
+      <Outlet />
     </>
   );
 }

@@ -1,5 +1,5 @@
-export type SlotResponse = {
-    slotId: string;
+export type Slot = {
+    id: string;
     startTime: string;
     endTime: string;
     maxCapacity: number;
@@ -7,6 +7,8 @@ export type SlotResponse = {
 }
 
 export type SlotListResponse = {
+    dayOfWeek: string;
     numberOfSlots: number;
-    slots: SlotResponse[];
+    slots: Slot[];
 }
+

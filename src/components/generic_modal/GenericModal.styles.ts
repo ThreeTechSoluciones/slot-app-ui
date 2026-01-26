@@ -70,5 +70,5 @@ export const ModalBody = styled.div`
 export const ModalFooter = styled.div`
   display: flex;
   justify-content: center;
-  gap: 12px;
+  gap: 24px;
 `;

@@ -30,6 +30,7 @@ import { skipToken } from "@reduxjs/toolkit/query/react";
 import useAuthentication from "../../hooks/useAuthentication";
 import EditPlan from "./EditPlan/EditPlan";
 import { capitalize } from "../../utils/CapitalizeWords";
+import { formatDateToDash } from "../../utils/DateFormatter";
 
 function Plans() {
   const formRef = useRef<any>(null);
@@ -86,8 +87,10 @@ function Plans() {
     const data = await formRef.current.submit();
     if (!data) return;
 
+    const formattedStartDate = formatDateToDash(data.startDate);
+
     await handleMutation(
-      () => editPlan(data).unwrap(),
+      () => editPlan({ ...data, startDate: formattedStartDate }).unwrap(),
       () => setShowModal(null),
       "Plan editado correctamente",
     );
@@ -132,7 +135,7 @@ function Plans() {
           setShowModal(null);
           setSelectedPlan(null);
         }}
-        height="585px"
+        height="610px"
       >
         <EditPlan
           ref={formRef}
