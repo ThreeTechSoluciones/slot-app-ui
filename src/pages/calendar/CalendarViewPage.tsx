@@ -4,6 +4,8 @@ import {
   SpecificSlot,
   ActionsContainer,
   Action,
+  Tooltip,
+  TooltipContainer,
   SlotInfoContainer,
   SlotStatus,
   SlotStudentsContainer,
@@ -15,29 +17,28 @@ import {
   Number,
   TimeSlot,
   SlotCapacity,
-  NoResponseContainer
-}
-  from './CalendarViewPage.styles';
-import { useGetCalendarViewQuery } from '../../app/services/UserService';
+  NoResponseContainer,
+} from "./CalendarViewPage.styles";
+import { useGetCalendarViewQuery } from "../../app/services/UserService";
 import CheckIcon from "../../assets/check.svg";
-import useAuthentication from '../../hooks/useAuthentication';
-import UserIcon from "../../assets/user-icon.svg"
-import ProgressIcon from "../../assets/progress-icon.svg"
-import { DaysOfWeekTranslation } from '../../utils/DaysOfWeek';
-import { StatesTranslation } from '../../utils/StatesTranslation';
-import { CalendarViewName } from '../../app/types/models/CalendarViewName';
-import type { SpecificSlotResponse } from '../../app/types/responses/CalendarResponse.type';
-import { SearchNotFound } from '../../components/search_not_found/SearchNotFound';
-import { formatDateToIsoString } from '../../utils/DateFormatter';
+import useAuthentication from "../../hooks/useAuthentication";
+import UserIcon from "../../assets/user-icon.svg";
+import ProgressIcon from "../../assets/progress-icon.svg";
+import PlusIcon from "../../assets/plus-icon.svg";
+import { DaysOfWeekTranslation } from "../../utils/DaysOfWeek";
+import { StatesTranslation } from "../../utils/StatesTranslation";
+import { CalendarViewName } from "../../app/types/models/CalendarViewName";
+import type { SpecificSlotResponse } from "../../app/types/responses/CalendarResponse.type";
+import { SearchNotFound } from "../../components/search_not_found/SearchNotFound";
+import { formatDateToIsoString } from "../../utils/DateFormatter";
 
 function CalendarView() {
-
   const { userId } = useAuthentication();
 
   const { data: calendarData } = useGetCalendarViewQuery({
     userId: userId!,
     date: formatDateToIsoString(new Date()),
-    typeOfView: CalendarViewName.WEEKLY
+    typeOfView: CalendarViewName.WEEKLY,
   });
 
   const columnsCount = calendarData?.days.length || 0;
@@ -47,23 +48,27 @@ function CalendarView() {
       <NoResponseContainer>
         <SearchNotFound />
       </NoResponseContainer>
-    )
+    );
   }
 
   const STATUS_ICONS: { [key: string]: string } = {
-    'FINALIZED': CheckIcon,
-    'IN_PROGRESS': ProgressIcon,
-  }
+    FINALIZED: CheckIcon,
+    IN_PROGRESS: ProgressIcon,
+  };
 
   const ActionsSkeleton = () => {
     return (
       <ActionsContainer>
         <Action>Buscar</Action>
+        <TooltipContainer>
+          <img src={PlusIcon} alt="Añadir alumno" />
+          <Tooltip>Añadir alumno</Tooltip>
+        </TooltipContainer>
+
         <Action>Cancelar</Action>
-        <Action>Agregar</Action>
       </ActionsContainer>
     );
-  }
+  };
 
   const SlotInfoSkeleton = (slot: SpecificSlotResponse) => {
     return (
@@ -72,7 +77,12 @@ function CalendarView() {
           <img
             src={UserIcon}
             alt="Capacity"
-            style={{ width: 16, height: 16, marginRight: 2, filter: "brightness(0) invert(1)" }}
+            style={{
+              width: 16,
+              height: 16,
+              marginRight: 2,
+              filter: "brightness(0) invert(1)",
+            }}
           />
           {slot.capacity} / {slot.maxCapacity}
         </SlotCapacity>
@@ -87,7 +97,7 @@ function CalendarView() {
           {StatesTranslation[slot.status]}
         </SlotStatus>
       </SlotInfoContainer>
-    )
+    );
   };
 
   return (
@@ -95,7 +105,10 @@ function CalendarView() {
       <CalendarContainer $columnsCount={columnsCount}>
         <ScheduledTime>
           {calendarData?.times.map((timeSlot) => (
-            <TimeSlot key={timeSlot.startTime}>{timeSlot.startTime} <br /> - <br />{timeSlot.endTime}</TimeSlot>
+            <TimeSlot key={timeSlot.startTime}>
+              {timeSlot.startTime} <br /> - <br />
+              {timeSlot.endTime}
+            </TimeSlot>
           ))}
         </ScheduledTime>
         {calendarData?.days.map((day, colIndex) => (
@@ -107,14 +120,20 @@ function CalendarView() {
             {calendarData?.times.map((_, rowIndex) => {
               const slot = calendarData.slots[rowIndex][colIndex];
               return (
-                <SpecificSlot $isNull={!slot} key={rowIndex} $columnsCount={columnsCount}>
+                <SpecificSlot
+                  $isNull={!slot}
+                  key={rowIndex}
+                  $columnsCount={columnsCount}
+                >
                   {slot && (
                     <>
                       <ActionsSkeleton />
                       <SlotInfoSkeleton {...slot} />
                       <SlotStudentsContainer>
                         {slot?.students?.map((student) => (
-                          <Student key={student.id} title={student.fullName}>{student.fullName}</Student>
+                          <Student key={student.id} title={student.fullName}>
+                            {student.fullName}
+                          </Student>
                         ))}
                       </SlotStudentsContainer>
                     </>
@@ -125,7 +144,7 @@ function CalendarView() {
           </DayColumn>
         ))}
       </CalendarContainer>
-    </MainContainer >
+    </MainContainer>
   );
 }
 export default CalendarView;
