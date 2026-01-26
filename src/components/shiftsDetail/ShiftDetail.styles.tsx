@@ -9,29 +9,16 @@ import {
 export const ShiftDetailContainer = styled.div`
   width: 620px;
   max-width: 620px;
-  height: 172px;
+  height: 130px;
   display: flex;
   flex-direction: column;
   border-radius: ${BORDER_RADIUS};
   gap: 16px;
   overflow-x: auto;
+  justify-content: center;
+  margin-left: 32px;
 `;
 
-export const MainTitle = styled.h2`
-  font-family: ${FONT_FAMILY};
-  font-size: 16px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 10px;
-  margin: 0;
-`;
-export const SubTitle = styled.p`
-  font-size: 12px;
-  font-family: ${FONT_FAMILY};
-  margin: 0;
-  padding-left: 14px;
-`;
 export const ShiftContainer = styled.div`
   display: flex;
   flex-direction: row;

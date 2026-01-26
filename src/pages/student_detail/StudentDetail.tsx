@@ -19,7 +19,10 @@ import {
   ButtonContainer,
   SubTitle,
   Title,
+  SlotTitleContainer,
+  PlanContainer,
   TitleContainer,
+  SlotPlanContainer,
 } from "./StudentDetail.styles";
 import { useLocation } from "react-router";
 import { useNavigate } from "react-router-dom";
@@ -33,6 +36,7 @@ import BackIcon from "../../assets/back-icon.svg";
 import InfoIcon from "../../assets/info-icon.svg";
 import EditIcon from "../../assets/edit-icon.svg";
 import DesactivateIcon from "../../assets/desactivate-icon.svg";
+import CalendarIcon from "../../assets/CalenderIcon.png";
 import Button from "../../components/button/Button";
 import { ConfirmDialog } from "../../components/confirm_dialog/ConfirmDialog";
 import {
@@ -41,7 +45,7 @@ import {
   ModificarTurnos,
 } from "../../routes/RoutesUtils";
 import toast from "react-hot-toast";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import type { StudentDetailResponse } from "../../app/types/responses/StudentDetailResponse.type";
 import {
   studentPaymentInfo,
@@ -273,21 +277,35 @@ const ShiftData = ({
   navigate: (path: string, options?: { state?: any }) => void;
 }) => {
   const shifts = studentShiftInfo(student);
+  const hasShifts = shifts.length > 0;
 
   return (
     <ShiftInfoContainer>
       <HeaderBoxes>
-        {shifts.length > 0 ? (
-          <ShiftDetail shifts={shifts} subtitle={student.plan} />
-        ) : (
-          <SearchNotFoundStyles>
-            <SearchNotFound />
-          </SearchNotFoundStyles>
-        )}
+        {hasShifts ? (
+          <>
+            <SlotTitleContainer>
+              <img src={CalendarIcon} width={"24px"} height={"24px"}></img>
+              Turnos asignados
+            </SlotTitleContainer>
+          </>
+        ) : null}
         <EditIconStyles onClick={() => navigate(ModificarTurnos)}>
           <img src={EditIcon} alt="edit-icon" />
         </EditIconStyles>
       </HeaderBoxes>
+
+      <PlanContainer>
+        <strong>Plan asignado</strong> <br /> {student.plan}
+      </PlanContainer>
+
+      {hasShifts ? (
+        <ShiftDetail shifts={shifts} />
+      ) : (
+        <SearchNotFoundStyles>
+          <SearchNotFound />
+        </SearchNotFoundStyles>
+      )}
     </ShiftInfoContainer>
   );
 };

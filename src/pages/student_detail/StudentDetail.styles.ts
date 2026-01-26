@@ -30,7 +30,14 @@ export const HeaderBoxes = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: left;
-  padding: 1rem;
+  padding: 12px;
+  align-items: center;
+`;
+export const SlotPlanContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 `;
 
 export const EditIconStyles = styled.div`
@@ -140,7 +147,21 @@ export const SubTitle = styled.h2`
   margin: 0px;
   margin-left: 2rem;
 `;
-
+export const SlotTitleContainer = styled.h2`
+  font-family: ${FONT_FAMILY};
+  font-size: 16px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+`;
+export const PlanContainer = styled.p`
+  font-size: 12px;
+  font-family: ${FONT_FAMILY};
+  margin: 0;
+  padding-left: 32px;
+`;
 export const IconStyles = styled.div`
   margin-right: 0.5rem;
   display: flex;
