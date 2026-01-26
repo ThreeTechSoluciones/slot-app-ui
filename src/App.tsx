@@ -12,6 +12,7 @@ import {
   MisTurnos,
   ListadoCuotas,
   getEditarEstudianteStep,
+  Calendario,
 } from "./routes/RoutesUtils";
 import CreateStudent from "./pages/students/create-student/CreateStudent";
 import StudentFeesList from "./pages/student_fees_list/FeesList";
@@ -33,7 +34,7 @@ function App() {
           <Route path={DetalleAlumno} element={<StudentDetail />} />
           <Route path={ListadoCuotas} element={<StudentFeesList />} />
           <Route path={MisTurnos} element={<SlotConfiguration />} />
-          <Route path="/calendar" element={<CalendarView />} />
+          <Route path={Calendario} element={<CalendarView />} />
           <Route
             path={getEditarEstudianteStep(":numberOfStep")}
             element={<EditStudent />}

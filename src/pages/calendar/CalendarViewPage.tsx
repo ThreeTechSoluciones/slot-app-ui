@@ -47,10 +47,10 @@ function CalendarView() {
 
   const [markAbsence] = useMarkStudentAbsenceMutation();
 
-  const { data: calendarData } = useGetCalendarViewQuery({
+   const { data: calendarData } = useGetCalendarViewQuery({
     userId: userId!,
-    date: "2026-01-20",
-    typeOfView: CalendarViewName.WEEKLY,
+    date: formatDateToIsoString(new Date()),
+    typeOfView: CalendarViewName.WEEKLY
   });
 
   const [absenceData, setAbsenceData] = useState<AbsenceData | null>(null);
@@ -77,23 +77,20 @@ function CalendarView() {
       });
   };
 
-  const columnsCount = calendarData?.days?.length || 0;
+   const columnsCount = calendarData?.days.length || 0;
+
   if (columnsCount === 0) {
-    return <SearchNotFound />;
+    return (
+      <NoResponseContainer>
+        <SearchNotFound />
+      </NoResponseContainer>
+    )
   }
 
-  const layout = getLayoutConfig(columnsCount);
-
-  const getStatusIcon = (status: string) => {
-    switch (status) {
-      case "FINALIZED":
-        return CheckIcon;
-      case "IN_PROGRESS":
-        return ProgressIcon;
-      default:
-        return undefined;
-    }
-  };
+const STATUS_ICONS: { [key: string]: string } = {
+    'FINALIZED': CheckIcon,
+    'IN_PROGRESS': ProgressIcon,
+  }
 
   const ActionsSkeleton = () => {
     return (
@@ -103,55 +100,39 @@ function CalendarView() {
         <Action>Agregar</Action>
       </ActionsContainer>
     );
-  };
+  }
 
-  const SlotInfoSkeleton = ({ slot }: { slot: SpecificSlotResponse }) => {
+  const SlotInfoSkeleton = (slot: SpecificSlotResponse) => {
     return (
       <SlotInfoContainer>
         <SlotCapacity $isFull={slot.capacity === slot.maxCapacity}>
           <img
             src={UserIcon}
             alt="Capacity"
-            style={{ width: 16, height: 16, marginRight: 2 }}
+            style={{ width: 16, height: 16, marginRight: 2, filter: "brightness(0) invert(1)" }}
           />
           {slot.capacity} / {slot.maxCapacity}
         </SlotCapacity>
-        <SlotStatus
-          $isFinalized={slot.status === "FINALIZED"}
-          $isInProgress={slot.status === "IN_PROGRESS"}
-        >
-          <img
-            src={getStatusIcon(slot.status)}
-            alt="Status"
-            style={{ width: 12, height: 12, marginRight: 3 }}
-          />
+        <SlotStatus $status={slot.status}>
+          {STATUS_ICONS[slot.status] && (
+            <img
+              src={STATUS_ICONS[slot.status]}
+              alt="Status"
+              style={{ width: 12, height: 12, marginRight: 3 }}
+            />
+          )}
           {StatesTranslation[slot.status]}
         </SlotStatus>
       </SlotInfoContainer>
-    );
+    )
   };
 
   return (
-    <MainContainer
-      style={
-        {
-          "--slot-width": layout.slotWidth,
-          "--padding-left": layout.paddingLeft,
-          "--margin-info-left": layout.marginInfoLeft,
-          "--margin-student-left": layout.marginStudentLeft,
-          "--student-width": layout.studentWidth,
-          "--overflowX": layout.overflowX,
-          "--padding": layout.padding,
-        } as React.CSSProperties
-      }
-    >
-      <SecondaryContainer>
+    <MainContainer>
+      <CalendarContainer $columnsCount={columnsCount}>
         <ScheduledTime>
           {calendarData?.times.map((timeSlot) => (
-            <TimeSlot key={timeSlot.startTime}>
-              {timeSlot.startTime} <br /> - <br />
-              {timeSlot.endTime}
-            </TimeSlot>
+            <TimeSlot key={timeSlot.startTime}>{timeSlot.startTime} <br /> - <br />{timeSlot.endTime}</TimeSlot>
           ))}
         </ScheduledTime>
         {calendarData?.days.map((day, colIndex) => (
@@ -205,6 +186,7 @@ function CalendarView() {
           confirmVariant="primary"
         ></GenericModal>
       )}
+         </CalendarContainer>
     </MainContainer>
   );
 }
