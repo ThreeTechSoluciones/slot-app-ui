@@ -4,15 +4,16 @@ import {
   SpecificSlot,
   ActionsContainer,
   Action,
+  NoResponseContainer,
+  CalendarContainer,
   SlotInfoContainer,
   SlotStatus,
   SlotStudentsContainer,
   StudentName,
   ScheduledTime,
-  Title,
-  TitleContainer,
-  SecondaryContainer,
   Number,
+  DayContainer,
+  DayOfWeek,
   TimeSlot,
   SlotCapacity,
 } from "./CalendarViewPage.styles";
@@ -30,11 +31,11 @@ import type {
   SpecificSlotResponse,
   Student,
 } from "../../app/types/responses/CalendarResponse.type";
-import { getLayoutConfig } from "./CalendarResponsiveConfig";
 import { SearchNotFound } from "../../components/search_not_found/SearchNotFound";
 import { useState } from "react";
 import { GenericModal } from "../../components/generic_modal/GenericModal";
 import { toast } from "react-hot-toast";
+import { formatDateToIsoString } from "../../utils/DateFormatter";
 
 interface AbsenceData {
   studentId: string;
@@ -47,10 +48,10 @@ function CalendarView() {
 
   const [markAbsence] = useMarkStudentAbsenceMutation();
 
-   const { data: calendarData } = useGetCalendarViewQuery({
+  const { data: calendarData } = useGetCalendarViewQuery({
     userId: userId!,
     date: formatDateToIsoString(new Date()),
-    typeOfView: CalendarViewName.WEEKLY
+    typeOfView: CalendarViewName.WEEKLY,
   });
 
   const [absenceData, setAbsenceData] = useState<AbsenceData | null>(null);
@@ -77,20 +78,20 @@ function CalendarView() {
       });
   };
 
-   const columnsCount = calendarData?.days.length || 0;
+  const columnsCount = calendarData?.days.length || 0;
 
   if (columnsCount === 0) {
     return (
       <NoResponseContainer>
         <SearchNotFound />
       </NoResponseContainer>
-    )
+    );
   }
 
-const STATUS_ICONS: { [key: string]: string } = {
-    'FINALIZED': CheckIcon,
-    'IN_PROGRESS': ProgressIcon,
-  }
+  const STATUS_ICONS: { [key: string]: string } = {
+    FINALIZED: CheckIcon,
+    IN_PROGRESS: ProgressIcon,
+  };
 
   const ActionsSkeleton = () => {
     return (
@@ -100,7 +101,7 @@ const STATUS_ICONS: { [key: string]: string } = {
         <Action>Agregar</Action>
       </ActionsContainer>
     );
-  }
+  };
 
   const SlotInfoSkeleton = (slot: SpecificSlotResponse) => {
     return (
@@ -109,7 +110,12 @@ const STATUS_ICONS: { [key: string]: string } = {
           <img
             src={UserIcon}
             alt="Capacity"
-            style={{ width: 16, height: 16, marginRight: 2, filter: "brightness(0) invert(1)" }}
+            style={{
+              width: 16,
+              height: 16,
+              marginRight: 2,
+              filter: "brightness(0) invert(1)",
+            }}
           />
           {slot.capacity} / {slot.maxCapacity}
         </SlotCapacity>
@@ -124,7 +130,7 @@ const STATUS_ICONS: { [key: string]: string } = {
           {StatesTranslation[slot.status]}
         </SlotStatus>
       </SlotInfoContainer>
-    )
+    );
   };
 
   return (
@@ -132,15 +138,18 @@ const STATUS_ICONS: { [key: string]: string } = {
       <CalendarContainer $columnsCount={columnsCount}>
         <ScheduledTime>
           {calendarData?.times.map((timeSlot) => (
-            <TimeSlot key={timeSlot.startTime}>{timeSlot.startTime} <br /> - <br />{timeSlot.endTime}</TimeSlot>
+            <TimeSlot key={timeSlot.startTime}>
+              {timeSlot.startTime} <br /> - <br />
+              {timeSlot.endTime}
+            </TimeSlot>
           ))}
         </ScheduledTime>
         {calendarData?.days.map((day, colIndex) => (
           <DayColumn key={day.dayOfWeek}>
-            <TitleContainer>
-              <Title>{DaysOfWeekTranslation[day.dayOfWeek]}</Title>
+            <DayContainer>
+              <DayOfWeek>{DaysOfWeekTranslation[day.dayOfWeek]}</DayOfWeek>
               <Number>{day.numberOfDay}</Number>
-            </TitleContainer>
+            </DayContainer>
             {calendarData?.times.map((_, rowIndex) => {
               const slot = calendarData?.slots[rowIndex][colIndex];
               return (
@@ -152,41 +161,40 @@ const STATUS_ICONS: { [key: string]: string } = {
                   {slot && (
                     <>
                       <ActionsSkeleton />
-                      <SlotInfoSkeleton slot={slot} />
+                      <SlotInfoSkeleton {...slot} />
+                      <SlotStudentsContainer>
+                        {slot?.students?.map((student) => (
+                          <StudentName
+                            key={student.id}
+                            title={student.fullName}
+                          >
+                            {student.fullName}
+                          </StudentName>
+                        ))}
+                      </SlotStudentsContainer>
                     </>
                   )}
-                  <SlotStudentsContainer>
-                    {slot?.students?.map((student) => (
-                      <StudentName
-                        key={student.id}
-                        title={student.fullName}
-                        onClick={() => handleStudentClick(student, slot.id)}
-                      >
-                        {student.fullName}
-                      </StudentName>
-                    ))}
-                  </SlotStudentsContainer>
                 </SpecificSlot>
               );
             })}
           </DayColumn>
         ))}
-      </SecondaryContainer>
-      {absenceData && (
-        <GenericModal
-          icon={StudentIcon}
-          title={absenceData.studentName}
-          isConfirmModal={true}
-          onCancel={() => setAbsenceData(null)}
-          onConfirm={() => handleConfirmAbsence(absenceData)}
-          confirmText="Registrar Inasistencia"
-          cancelText="Cancelar"
-          width="480px"
-          height="226px"
-          confirmVariant="primary"
-        ></GenericModal>
-      )}
-         </CalendarContainer>
+
+        {absenceData && (
+          <GenericModal
+            icon={StudentIcon}
+            title={absenceData.studentName}
+            isConfirmModal={true}
+            onCancel={() => setAbsenceData(null)}
+            onConfirm={() => handleConfirmAbsence(absenceData)}
+            confirmText="Registrar Inasistencia"
+            cancelText="Cancelar"
+            width="480px"
+            height="226px"
+            confirmVariant="primary"
+          ></GenericModal>
+        )}
+      </CalendarContainer>
     </MainContainer>
   );
 }
