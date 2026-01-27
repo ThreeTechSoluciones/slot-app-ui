@@ -4,13 +4,14 @@ import {
   SUCCESS_COLOR,
   NEUTRAL_COLOR,
   DANGER_COLOR,
+  FONT_WEIGHT_BOLD,
 } from "../../utils/Stylesheet";
 
 export const MainContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 0px 20px;
+  margin: 0px 20px 20px 0px;
   overflow: hidden;
   width: 100%;
   height: 100%;
@@ -117,11 +118,13 @@ export const StudentInfo = styled.p`
 `;
 export const StudentStatusStyle = styled.p<{ $status: boolean }>`
   margin: 0;
+  font-weight: ${FONT_WEIGHT_BOLD};
   color: ${({ $status }) => ($status ? SUCCESS_COLOR : NEUTRAL_COLOR)};
 `;
 
 export const StudentSituationStyle = styled.p<{ $situation: string }>`
   margin: 0;
+  font-weight: ${FONT_WEIGHT_BOLD};
   color: ${({ $situation }) =>
     $situation === "En término" ? SUCCESS_COLOR : DANGER_COLOR};
 `;
@@ -162,6 +165,18 @@ export const PlanContainer = styled.p`
   margin: 0;
   padding-left: 32px;
 `;
+export const AssignedPlan = styled.p`
+  font-size: 12px;
+  margin: 0px;
+  font-family: ${FONT_FAMILY};
+  font-weight: ${FONT_WEIGHT_BOLD};
+`;
+export const DaysPlan = styled.p`
+  font-size: 16px;
+  font-family: ${FONT_FAMILY};
+  margin: 0px;
+`;
+
 export const IconStyles = styled.div`
   margin-right: 0.5rem;
   display: flex;
@@ -172,6 +187,7 @@ export const ButtonContainer = styled.div`
   align-items: center;
   justify-content: center;
   grid-column: span 2;
+  margin-bottom: 8px;
 `;
 
 export const NotFoundStudentMessage = styled.p`

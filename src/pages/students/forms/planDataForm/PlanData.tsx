@@ -8,6 +8,8 @@ import {
   Select,
   FormContainer,
   SlotTitleContainer,
+  SlotsContainer,
+  SlotDetailContainer,
 } from "./PlanData.styles";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -92,12 +94,15 @@ const PlanData = forwardRef<FormProp<PlanDataProps>, FormProp<PlanDataProps>>(
             onSelectShift={newShift}
             onDeleteShift={removeShift}
           />
-          <SlotTitleContainer>
-            <img src={CalendarIcon} width={"24px"} height={"24px"}></img>
-            Turnos asignados
-          </SlotTitleContainer>
-
-          <ShiftDetail shifts={shifts} />
+          <SlotsContainer>
+            <SlotTitleContainer>
+              <img src={CalendarIcon} width={"24px"} height={"24px"}></img>
+              Turnos asignados
+            </SlotTitleContainer>
+            <SlotDetailContainer>
+              <ShiftDetail shifts={shifts} />
+            </SlotDetailContainer>
+          </SlotsContainer>
         </FormContainer>
       </MainContainer>
     );

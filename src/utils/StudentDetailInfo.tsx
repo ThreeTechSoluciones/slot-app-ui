@@ -59,7 +59,9 @@ export const studentPaymentInfo = (
   },
 ];
 
-export const studentShiftInfo = (student: StudentDetailResponse): Shift[] => {
+export const mapStudentShiftInfo = (
+  student: StudentDetailResponse,
+): Shift[] => {
   if (!student.slots?.length) return [];
 
   return student.slots.map((slot) => ({

@@ -90,3 +90,20 @@ export const SlotTitleContainer = styled.h2`
   gap: 8px;
   margin: 0;
 `;
+export const SlotsContainer = styled.div`
+  width: 630px;
+  max-width: 620px;
+  height: 150px;
+  border: 5px solid ${LIGHT_NEUTRAL_COLOR};
+  border-radius: ${BORDER_RADIUS};
+  padding: 12px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+`;
+export const SlotDetailContainer = styled.div`
+  flex: 1;
+  overflow-x: auto;
+  overflow-y: hidden;
+  box-sizing: border-box;
+`;

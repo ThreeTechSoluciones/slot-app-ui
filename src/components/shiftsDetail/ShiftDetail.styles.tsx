@@ -7,16 +7,17 @@ import {
 } from "../../utils/Stylesheet";
 
 export const ShiftDetailContainer = styled.div`
-  width: 620px;
-  max-width: 620px;
-  height: 130px;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   border-radius: ${BORDER_RADIUS};
   gap: 16px;
-  overflow-x: auto;
   justify-content: center;
-  margin-left: 32px;
+  margin-left: 30px;
+  margin-right: 30px;
+  margin-top: 8px;
+  margin-bottom: 8px;
 `;
 
 export const ShiftContainer = styled.div`
@@ -36,7 +37,8 @@ export const Shift = styled.div`
   width: 120px;
   height: 56px;
   border-radius: ${BORDER_RADIUS};
-  border: 1px solid ${LIGHT_NEUTRAL_COLOR};
+  border-left: 5px solid ${LIGHT_NEUTRAL_COLOR};
+  border-bottom: 5px solid ${LIGHT_NEUTRAL_COLOR};
   padding-top: 16px;
 `;
 interface TextProps {

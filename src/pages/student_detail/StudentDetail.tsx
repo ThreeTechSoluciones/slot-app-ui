@@ -22,7 +22,8 @@ import {
   SlotTitleContainer,
   PlanContainer,
   TitleContainer,
-  SlotPlanContainer,
+  AssignedPlan,
+  DaysPlan,
 } from "./StudentDetail.styles";
 import { useLocation } from "react-router";
 import { useNavigate } from "react-router-dom";
@@ -48,9 +49,9 @@ import toast from "react-hot-toast";
 import { useState } from "react";
 import type { StudentDetailResponse } from "../../app/types/responses/StudentDetailResponse.type";
 import {
+  mapStudentShiftInfo,
   studentPaymentInfo,
   studentPersonalInfo,
-  studentShiftInfo,
 } from "../../utils/StudentDetailInfo";
 import ShiftDetail from "../../components/shiftsDetail/ShiftDetail";
 import { SearchNotFound } from "../../components/search_not_found/SearchNotFound";
@@ -276,7 +277,7 @@ const ShiftData = ({
   student: StudentDetailResponse;
   navigate: (path: string, options?: { state?: any }) => void;
 }) => {
-  const shifts = studentShiftInfo(student);
+  const shifts = mapStudentShiftInfo(student);
   const hasShifts = shifts.length > 0;
 
   return (
@@ -285,7 +286,12 @@ const ShiftData = ({
         {hasShifts ? (
           <>
             <SlotTitleContainer>
-              <img src={CalendarIcon} width={"24px"} height={"24px"}></img>
+              <img
+                src={CalendarIcon}
+                width={"24px"}
+                height={"24px"}
+                style={{ paddingLeft: "16px" }}
+              ></img>
               Turnos asignados
             </SlotTitleContainer>
           </>
@@ -296,7 +302,8 @@ const ShiftData = ({
       </HeaderBoxes>
 
       <PlanContainer>
-        <strong>Plan asignado</strong> <br /> {student.plan}
+        <AssignedPlan>Plan asignado</AssignedPlan>
+        <DaysPlan>{student.plan}</DaysPlan>
       </PlanContainer>
 
       {hasShifts ? (
