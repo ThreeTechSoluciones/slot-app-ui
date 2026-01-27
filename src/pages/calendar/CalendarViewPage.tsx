@@ -10,12 +10,14 @@ import {
   SlotStatus,
   SlotStudentsContainer,
   StudentName,
+  StudentText,
   ScheduledTime,
   Number,
   DayContainer,
   DayOfWeek,
   TimeSlot,
   SlotCapacity,
+  AbsenceBadge,
 } from "./CalendarViewPage.styles";
 import { useGetCalendarViewQuery } from "../../app/services/UserService";
 import { useMarkStudentAbsenceMutation } from "../../app/services/StudentService";
@@ -163,14 +165,24 @@ function CalendarView() {
                       <ActionsSkeleton />
                       <SlotInfoSkeleton {...slot} />
                       <SlotStudentsContainer>
-                        {slot?.students?.map((student) => (
-                          <StudentName
-                            key={student.id}
-                            title={student.fullName}
-                          >
-                            {student.fullName}
-                          </StudentName>
-                        ))}
+                        {slot?.students?.map((student) => {
+                          const isAbsent = student.status === "ABSENCE";
+                          return (
+                            <StudentName
+                              key={student.id}
+                              title={student.fullName}
+                              onClick={() =>
+                                handleStudentClick(student, slot.id)
+                              }
+                            >
+                              {isAbsent && <AbsenceBadge>A</AbsenceBadge>}
+
+                              <StudentText $isAbsent={isAbsent}>
+                                {student.fullName}
+                              </StudentText>
+                            </StudentName>
+                          );
+                        })}
                       </SlotStudentsContainer>
                     </>
                   )}

@@ -110,7 +110,7 @@ export const StudentService = createApi({
       ],
       onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
         await queryFulfilled;
-        dispatch(UserService.util.invalidateTags(["userSlots"]));
+        dispatch(UserService.util.invalidateTags(["userCalendar"]));
       },
     }),
   }),
