@@ -1,8 +1,8 @@
 import {
-  ShiftDetailContainer,
+  SlotDetailContainer,
   MainTitle,
-  ShiftContainer,
-  Shift,
+  SlotContainer,
+  Slot,
   Text,
 } from "./SlotDetail.styles";
 import CalendarIcon from "../../assets/CalenderIcon.png";
@@ -20,20 +20,20 @@ interface SlotDetailProps {
 
 function SlotDetail({ slots }: SlotDetailProps) {
   return (
-    <ShiftDetailContainer>
+    <SlotDetailContainer>
       <MainTitle>
         <img src={CalendarIcon} width={"24px"} height={"24px"}></img>Turnos
         asignados
       </MainTitle>
-      <ShiftContainer>
+      <SlotContainer>
         {slots.map((slot) => (
-          <Shift key={slot.id}>
+          <Slot key={slot.id}>
             <Text $isADay={true}>{slot.day}</Text>
             <Text>{slot.hour} hs</Text>
-          </Shift>
+          </Slot>
         ))}
-      </ShiftContainer>
-    </ShiftDetailContainer>
+      </SlotContainer>
+    </SlotDetailContainer>
   );
 }
 

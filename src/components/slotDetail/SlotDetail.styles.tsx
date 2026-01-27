@@ -7,8 +7,8 @@ import {
   FONT_WEIGHT_BOLD,
 } from "../../utils/Stylesheet";
 
-export const ShiftDetailContainer = styled.div`
-  width: 810px;
+export const SlotDetailContainer = styled.div`
+  width: 100%;
   box-sizing: border-box;
   height: 191px;
   display: flex;
@@ -30,7 +30,7 @@ export const MainTitle = styled.h2`
   gap: 10px;
   margin-left: 32px;
 `;
-export const ShiftContainer = styled.div`
+export const SlotContainer = styled.div`
   display: flex;
   gap: 24px;
   overflow-x: auto;
@@ -38,7 +38,7 @@ export const ShiftContainer = styled.div`
   padding: 0 60px;
   padding-bottom: 20px;
 `;
-export const Shift = styled.div`
+export const Slot = styled.div`
   flex: 1 0 180px;
   max-width: 130px;
   display: flex;

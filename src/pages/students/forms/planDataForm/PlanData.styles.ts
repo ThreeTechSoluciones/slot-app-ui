@@ -7,7 +7,7 @@ import {
   BORDER_RADIUS,
   FONT_WEIGHT_BOLD,
 } from "../../../../utils/Stylesheet";
-
+export const WIDTH = "810px";
 export const MainContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -24,9 +24,11 @@ export const PlanContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  width: 810px;
+  width: ${WIDTH};
 `;
-
+export const SlotDetailContainer = styled.div`
+  width: ${WIDTH};
+`;
 export const Label = styled.p`
   font-size: 16px;
   font-weight: ${FONT_WEIGHT_BOLD};

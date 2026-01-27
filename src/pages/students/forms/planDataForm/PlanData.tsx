@@ -7,6 +7,7 @@ import {
   Select,
   FormContainer,
   PlanContainer,
+  SlotDetailContainer,
 } from "./PlanData.styles";
 import { yupResolver } from "@hookform/resolvers/yup";
 import SlotRegistrationCalendar from "../../../../components/slotRegistrationCalendar/SlotRegistrationCalendar";
@@ -148,7 +149,9 @@ const PlanData = forwardRef<FormProp<PlanDataProps>, FormProp<PlanDataProps>>(
           )}
         </FormContainer>
         <ErrorMessage error={errors.slotIds} />
-        <SlotDetail slots={slots} />
+        <SlotDetailContainer>
+          <SlotDetail slots={slots} />
+        </SlotDetailContainer>
       </MainContainer>
     );
   },
