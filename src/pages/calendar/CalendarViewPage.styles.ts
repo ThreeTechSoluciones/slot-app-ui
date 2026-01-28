@@ -33,7 +33,6 @@ export const MainContainer = styled.div`
 interface CalendarContainerProps {
   $columnsCount: number;
 }
-
 export const CalendarContainer = styled.div<CalendarContainerProps>`
   display: grid;
   grid-template-columns: 85px repeat(
@@ -41,7 +40,6 @@ export const CalendarContainer = styled.div<CalendarContainerProps>`
       minmax(200px, 300px)
     );
 `;
-
 export const DayColumn = styled.div`
   display: flex;
   flex-direction: column;
@@ -144,7 +142,6 @@ interface SlotInfoProps {
   $isFull?: boolean;
   $status?: string;
 }
-
 export const SlotInfo = styled.span<SlotInfoProps>`
   display: flex;
   align-items: center;
@@ -176,14 +173,12 @@ export const SlotStudentsContainer = styled.div`
   flex-direction: column;
   margin-top: 10px;
 `;
-
 export const StudentName = styled.span`
   display: flex;
   align-items: center;
   gap: 6px;
-
-  font-family: ${FONT_FAMILY};
-  font-size: 16px;
+  line-height: 36px;
+  white-space: nowrap;
   height: 36px;
   border-radius: 5px;
   padding: 0 8px;
@@ -197,6 +192,7 @@ export const StudentName = styled.span`
 `;
 export const StudentText = styled.span<{ $isAbsent?: boolean }>`
   font-family: ${FONT_FAMILY};
+  font-size: 16px;
 
   color: ${({ $isAbsent }) => ($isAbsent ? NEUTRAL_COLOR : DEFAULT_TEXT_COLOR)};
   text-decoration: ${({ $isAbsent }) => ($isAbsent ? "line-through" : "none")};

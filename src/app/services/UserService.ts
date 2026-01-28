@@ -134,25 +134,7 @@ export const UserService = createApi({
         url: `${userId}/calendar`,
         params: { date, typeOfView },
       }),
-      providesTags: (result) => {
-        if (!result || !result.slots || result.slots.length === 0) {
-          return [{ type: "userSlots", id: "LIST" },  { type: "userCalendar", id: "VIEW" }]
-          
-        }
-        const allSlots = result.slots
-          .flat()
-          .filter((slot): slot is SpecificSlotResponse => slot !== null);
-
-        return [
-          { type: "userSlots", id: "LIST" },
-          { type: "userCalendar", id: "VIEW" },
-          ...allSlots.map((slot) => ({
-            type: "userSlots" as const,
-            id: slot.id,
-          })),
-        ];
-      },
-    
+      providesTags: ["userCalendar"],
     }),
   }),
 });
@@ -164,5 +146,9 @@ export const {
   useGetSlotsQuery,
   useUpdateSlotsCapacityMutation,
   useGetUserPreferencesQuery,
+<<<<<<< HEAD
   useGetCalendarViewQuery,
+=======
+  useGetCalendarViewQuery
+>>>>>>> dev
 } = UserService;

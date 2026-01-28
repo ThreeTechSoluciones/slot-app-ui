@@ -153,7 +153,7 @@ function CalendarView() {
               <Number>{day.numberOfDay}</Number>
             </DayContainer>
             {calendarData?.times.map((_, rowIndex) => {
-              const slot = calendarData?.slots[rowIndex][colIndex];
+              const slot = calendarData.slots[rowIndex][colIndex];
               return (
                 <SpecificSlot
                   $isNull={!slot}
