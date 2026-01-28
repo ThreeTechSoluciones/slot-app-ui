@@ -173,27 +173,27 @@ export const SlotStudentsContainer = styled.div`
   flex-direction: column;
   margin-top: 10px;
 `;
-export const StudentName = styled.span`
+export const StudentName = styled.div`
   display: flex;
   align-items: center;
   gap: 6px;
-  line-height: 36px;
-  white-space: nowrap;
   height: 36px;
   border-radius: 5px;
-  padding: 0 8px;
   box-sizing: border-box;
   color: ${DEFAULT_TEXT_COLOR};
-
   &:hover {
     cursor: pointer;
     background-color: ${BRAND_COLOR};
   }
 `;
-export const StudentText = styled.span<{ $isAbsent?: boolean }>`
+export const StudentText = styled.p<{ $isAbsent?: boolean }>`
   font-family: ${FONT_FAMILY};
   font-size: 16px;
-
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   color: ${({ $isAbsent }) => ($isAbsent ? NEUTRAL_COLOR : DEFAULT_TEXT_COLOR)};
   text-decoration: ${({ $isAbsent }) => ($isAbsent ? "line-through" : "none")};
   opacity: ${({ $isAbsent }) => ($isAbsent ? 0.7 : 1)};
@@ -203,9 +203,11 @@ export const AbsenceBadge = styled.div`
   color: ${BACKGROUND_COLOR};
   font-size: 11px;
   font-weight: ${FONT_WEIGHT_BOLD};
+
   width: 16px;
   height: 17px;
   border-radius: 4px;
+  flex-shrink: 0;
 
   display: flex;
   align-items: center;
