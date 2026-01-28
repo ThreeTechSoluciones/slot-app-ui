@@ -1,5 +1,6 @@
 import PlusIcon from "../../assets/plus-icon-circle.webp";
 import LogoCeci from "../../assets/logoCeci.png";
+<<<<<<< HEAD
 import LogoutIcon from "../../assets/logout.png";
 import PerfilPicture from "../../assets/perfil.jpg";
 import {
@@ -9,6 +10,11 @@ import {
   MisTurnos,
   Calendario,
 } from "../../routes/RoutesUtils";
+=======
+import LogoutIcon from "../../assets/logout.png"
+import PerfilPicture from "../../assets/perfil.jpg"
+import { MisAlumnos, NuevoAlumno, MisPlanes, MisTurnos, Calendario } from "../../routes/RoutesUtils"
+>>>>>>> dev
 import {
   MainContainer,
   LeftOptionsContainer,
@@ -41,9 +47,7 @@ function Header() {
   return (
     <MainContainer>
       <LeftOptionsContainer>
-        <Logo>
-          <img src={LogoCeci} alt="Logo" />
-        </Logo>
+        <Logo><img src={LogoCeci} alt="Logo" /></Logo>
         <Option onClick={() => navigate(Calendario)}>Calendario</Option>
         <Option onClick={() => navigate(MisAlumnos)}>Mis alumnos</Option>
         <Option onClick={() => navigate(MisPlanes)}>Mis planes</Option>

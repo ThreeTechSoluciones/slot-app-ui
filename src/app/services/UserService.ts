@@ -147,6 +147,7 @@ export const UserService = createApi({
     }),
   }),
 });
+
 export const {
   useGetUserStudentsQuery,
   useGetUserPricesQuery,

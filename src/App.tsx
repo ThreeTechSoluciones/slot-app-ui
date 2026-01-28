@@ -19,6 +19,7 @@ import StudentFeesList from "./pages/student_fees_list/FeesList";
 import SlotConfiguration from "./pages/slots/SlotConfiguration";
 import StudentList from "./pages/student_list/StudentList";
 import EditStudent from "./pages/students/edit-student/EditStudent";
+import CalendarView from "./pages/calendar/CalendarViewPage";
 import { MainContent } from "./App.styles";
 import CalendarView from "./pages/calendar/CalendarViewPage";
 

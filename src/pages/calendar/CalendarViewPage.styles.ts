@@ -15,7 +15,6 @@ const ROW_SPACING_HEIGHT = "16px";
 export const NoResponseContainer = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
   min-height: 80vh;
 `;
 
