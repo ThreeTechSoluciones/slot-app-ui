@@ -1,39 +1,77 @@
 import styled from "styled-components";
 import {
-    DANGER_COLOR,
-    DEFAULT_FONT_SIZE,
-    DEFAULT_TEXT_COLOR,
-    FONT_FAMILY,
-    FONT_WEIGHT_BOLD,
-    LIGHT_NEUTRAL_COLOR,
-    SUCCESS_COLOR,
-    WARNING_COLOR
+  BRAND_COLOR,
+  DANGER_COLOR,
+  DEFAULT_FONT_SIZE,
+  DEFAULT_TEXT_COLOR,
+  FONT_FAMILY,
+  FONT_WEIGHT_BOLD,
+  LIGHT_NEUTRAL_COLOR,
+  SUCCESS_COLOR,
+  WARNING_COLOR
 }
-    from "../../utils/Stylesheet";
+  from "../../utils/Stylesheet";
+
 const ROW_HEIGHT = '260px';
 const ROW_SPACING_HEIGHT = '16px'
 
 export const NoResponseContainer = styled.div`
     display:flex;
+    flex-direction: column;
     align-items:center;
-    min-height:80vh;
+    justify-content:center;
+    margin-top:32px;
 `
-
 export const MainContainer = styled.div`
     display: flex;
-    width: 100%;
-    margin-top: 24px;
+    flex-direction:column;
+    align-items:Center;
+    margin:32px 0px 32px 0px;
     justify-content: center; 
     padding: 0 24px; 
 `;
 
+export const NavigationDateContainer = styled.div`
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:16px
+`
+export const CustomDisplay = styled.div`
+  position: absolute;
+  background-color:white;
+  font-family:${FONT_FAMILY};
+  font-weight:${FONT_WEIGHT_BOLD};
+  top: 8px;
+  left: 16px;
+  width: 180px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  z-index: 1000;
+`;
+
+export const NavigationArrow = styled.div`
+  display:flex;
+  width:32px;
+  height:32px;
+  border-radius:50%;
+  background-color: ${LIGHT_NEUTRAL_COLOR};
+  align-items:center;
+  justify-content:center;
+  &:hover {
+    cursor:pointer;
+    background-color: ${BRAND_COLOR}
+  }
+`
 interface CalendarContainerProps {
-    $columnsCount: number;
+  $columnsCount: number;
 };
 
 export const CalendarContainer = styled.div<CalendarContainerProps>`
     display:grid;
     grid-template-columns: 85px repeat(${(props) => props.$columnsCount || 3}, minmax(200px, 300px));
+    margin-top:56px;
 `;
 
 export const DayColumn = styled.div`
@@ -69,12 +107,14 @@ export const Number = styled.span`
     align-items: center;
     justify-content: center;
 `;
+
 export const ScheduledTime = styled.div`
     display: flex;
     flex-direction: column;
     gap:${ROW_SPACING_HEIGHT};
     margin-top: 61px;   
 `;
+
 export const TimeSlot = styled.p`
     font-family: ${FONT_FAMILY};
     font-weight: ${FONT_WEIGHT_BOLD};
@@ -91,8 +131,8 @@ export const TimeSlot = styled.p`
 `;
 
 interface SpecificSlotProps {
-    $isNull: boolean;
-    $columnsCount: number;
+  $isNull: boolean;
+  $columnsCount: number;
 }
 
 export const SpecificSlot = styled.div<SpecificSlotProps>`
@@ -135,8 +175,8 @@ export const SlotInfoContainer = styled.div`
 `;
 
 interface SlotInfoProps {
-    $isFull?: boolean,
-    $status?: string
+  $isFull?: boolean,
+  $status?: string
 };
 
 export const SlotInfo = styled.span<SlotInfoProps>`
@@ -158,10 +198,10 @@ export const SlotCapacity = styled(SlotInfo) <SlotInfoProps>`
 
 export const SlotStatus = styled(SlotInfo) <SlotInfoProps>`
    background-color: ${({ $status }) => {
-        if ($status === "FINALIZED") return SUCCESS_COLOR;
-        if ($status === "IN_PROGRESS") return WARNING_COLOR;
-        return "transparent";
-    }};
+    if ($status === "FINALIZED") return SUCCESS_COLOR;
+    if ($status === "IN_PROGRESS") return WARNING_COLOR;
+    return "transparent";
+  }};
 `;
 
 export const SlotStudentsContainer = styled.div`
@@ -186,5 +226,4 @@ export const Student = styled.span`
         background-color: ${LIGHT_NEUTRAL_COLOR};
     }
 `;
-
 

@@ -61,25 +61,25 @@ const StudentData = forwardRef<
   useImperativeHandle(
     ref,
     () =>
-      ({
-        submit: () =>
-          new Promise<boolean>((resolve) => {
-            handleSubmit(
-              (data) => {
-                const formattedData = {
-                  ...data,
-                  name: capitalize(data.name),
-                  lastName: capitalize(data.lastName),
-                };
-                onSubmit?.(formattedData);
-                resolve(true);
-              },
-              () => {
-                resolve(false);
-              }
-            )();
-          }),
-      } as unknown as FormProp<StudentDataProps>)
+    ({
+      submit: () =>
+        new Promise<boolean>((resolve) => {
+          handleSubmit(
+            (data) => {
+              const formattedData = {
+                ...data,
+                name: capitalize(data.name),
+                lastName: capitalize(data.lastName),
+              };
+              onSubmit?.(formattedData);
+              resolve(true);
+            },
+            () => {
+              resolve(false);
+            }
+          )();
+        }),
+    } as unknown as FormProp<StudentDataProps>)
   );
 
   return (
@@ -115,6 +115,7 @@ const StudentData = forwardRef<
                 value={field.value || null}
                 format="dd/MM/yyyy"
                 calendarPosition="top"
+                width="408px"
                 locale="es-ES"
                 clearIcon={null}
                 calendarIcon={

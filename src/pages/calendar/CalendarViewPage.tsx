@@ -15,7 +15,10 @@ import {
   Number,
   TimeSlot,
   SlotCapacity,
-  NoResponseContainer
+  NoResponseContainer,
+  NavigationArrow,
+  NavigationDateContainer,
+  CustomDisplay
 }
   from './CalendarViewPage.styles';
 import { useGetCalendarViewQuery } from '../../app/services/UserService';
@@ -29,26 +32,38 @@ import { CalendarViewName } from '../../app/types/models/CalendarViewName';
 import type { SpecificSlotResponse } from '../../app/types/responses/CalendarResponse.type';
 import { SearchNotFound } from '../../components/search_not_found/SearchNotFound';
 import { formatDateToIsoString } from '../../utils/DateFormatter';
+import InputDate from '../../components/date/inputDate';
+import CalendarIcon from "../../assets/CalenderIcon.png";
+import BackIcon from "../../assets/back-arrow-icon.svg";
+import NextIcon from "../../assets/next-arrow-icon.svg";
+import { useState } from 'react';
+import { CalendarMonth } from '../../utils/MonthsOfYear';
+
 
 function CalendarView() {
 
+  const [selectDate, setSelectDate] = useState<Date>(new Date());
+
   const { userId } = useAuthentication();
+
+  const calculateWeek = (days: number) => {
+    const week = new Date(selectDate!);
+    setSelectDate(new Date((week.setDate(week.getDate() + days))));
+  }
+
+  const calendarPlaceholder = () => {
+    const month = CalendarMonth[selectDate!.getMonth()];
+    const year = selectDate!.getFullYear();
+    return `${month} ${year}`;
+  }
 
   const { data: calendarData } = useGetCalendarViewQuery({
     userId: userId!,
-    date: formatDateToIsoString(new Date()),
+    date: formatDateToIsoString(selectDate!),
     typeOfView: CalendarViewName.WEEKLY
   });
 
   const columnsCount = calendarData?.days.length || 0;
-
-  if (columnsCount === 0) {
-    return (
-      <NoResponseContainer>
-        <SearchNotFound />
-      </NoResponseContainer>
-    )
-  }
 
   const STATUS_ICONS: { [key: string]: string } = {
     'FINALIZED': CheckIcon,
@@ -90,8 +105,52 @@ function CalendarView() {
     )
   };
 
+  const SelectDateContainer = () => {
+    return (<NavigationDateContainer>
+      <NavigationArrow onClick={() => calculateWeek(-7)}>
+        <img src={BackIcon} style={{ marginLeft: "8px" }}></img>
+      </NavigationArrow>
+      <div style={{ position: 'relative' }}>
+        <CustomDisplay>{calendarPlaceholder()}</CustomDisplay>
+        <InputDate
+          value={selectDate}
+          onChange={(date) => {
+            if (date instanceof Date) {
+              setSelectDate(date);
+            }
+          }}
+          format="dd/MM/yyyy"
+          calendarPosition="top"
+          width="408px"
+          locale="es-ES"
+          clearIcon={null}
+          calendarIcon={
+            <img
+              src={CalendarIcon}
+              alt="Calendario"
+              style={{ width: 20, height: 20 }}
+            />
+          }
+        />
+      </div>
+      <NavigationArrow onClick={() => calculateWeek(7)}><img src={NextIcon}></img>
+      </NavigationArrow>
+    </NavigationDateContainer>
+    )
+  }
+
+  if (columnsCount === 0) {
+    return (
+      <NoResponseContainer>
+        <SelectDateContainer />
+        <SearchNotFound />
+      </NoResponseContainer>
+    )
+  }
+
   return (
     <MainContainer>
+      <SelectDateContainer />
       <CalendarContainer $columnsCount={columnsCount}>
         <ScheduledTime>
           {calendarData?.times.map((timeSlot) => (
@@ -129,3 +188,4 @@ function CalendarView() {
   );
 }
 export default CalendarView;
+

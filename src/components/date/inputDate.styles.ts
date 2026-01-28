@@ -10,11 +10,12 @@ import {
 
 interface StyledWrapperProps {
   $calendarPosition?: "bottom" | "top";
+  $width: string;
 }
 export const StyledWrapper = styled.div<StyledWrapperProps>`
   position: relative;
   .react-date-picker__wrapper {
-    width: 100%;
+     width: ${props => props.$width};
     height: 56px;
     box-sizing: border-box;
     border: 1px solid black;
@@ -31,14 +32,14 @@ export const StyledWrapper = styled.div<StyledWrapperProps>`
     z-index: 9999;
 
     ${(props) =>
-      props.$calendarPosition === "top"
-        ? `
+    props.$calendarPosition === "top"
+      ? `
           bottom: 100%;
           left: 0;
           margin-bottom: 4px;
 
         `
-        : `
+      : `
           top: 100%;
           left: 0;
           margin-top: 4px;
