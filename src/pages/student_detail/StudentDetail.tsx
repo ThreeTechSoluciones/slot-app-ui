@@ -22,6 +22,7 @@ import {
   SlotTitleContainer,
   PlanContainer,
   TitleContainer,
+  SlotsContainer,
   AssignedPlan,
   DaysPlan,
 } from "./StudentDetail.styles";
@@ -307,7 +308,9 @@ const ShiftData = ({
       </PlanContainer>
 
       {hasShifts ? (
-        <ShiftDetail shifts={shifts} />
+        <SlotsContainer>
+          <ShiftDetail shifts={shifts} />
+        </SlotsContainer>
       ) : (
         <SearchNotFoundStyles>
           <SearchNotFound />

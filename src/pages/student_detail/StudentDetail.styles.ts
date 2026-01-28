@@ -150,21 +150,21 @@ export const SubTitle = styled.h2`
   margin: 0px;
   margin-left: 2rem;
 `;
-export const SlotTitleContainer = styled.h2`
+export const SlotTitleContainer = styled.div`
   font-family: ${FONT_FAMILY};
   font-size: 16px;
+  font-weight: ${FONT_WEIGHT_BOLD};
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: 8px;
   margin: 0;
 `;
-export const PlanContainer = styled.p`
-  font-size: 12px;
-  font-family: ${FONT_FAMILY};
+export const PlanContainer = styled.div`
   margin: 0;
   padding-left: 32px;
 `;
+
 export const AssignedPlan = styled.p`
   font-size: 12px;
   margin: 0px;
@@ -176,7 +176,12 @@ export const DaysPlan = styled.p`
   font-family: ${FONT_FAMILY};
   margin: 0px;
 `;
-
+export const SlotsContainer = styled.div`
+  margin-left: 30px;
+  margin-right: 30px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+`;
 export const IconStyles = styled.div`
   margin-right: 0.5rem;
   display: flex;

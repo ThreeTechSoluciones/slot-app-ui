@@ -1,9 +1,4 @@
-import {
-  ShiftDetailContainer,
-  ShiftContainer,
-  Shift,
-  Text,
-} from "./ShiftDetail.styles";
+import { ShiftContainer, Shift, Text } from "./ShiftDetail.styles";
 
 export type Shift = {
   id: string;
@@ -18,16 +13,14 @@ interface ShiftDetailProps {
 
 function ShiftDetail({ shifts }: ShiftDetailProps) {
   return (
-    <ShiftDetailContainer>
-      <ShiftContainer>
-        {shifts.map((shift) => (
-          <Shift key={shift.id}>
-            <Text $isADay={true}>{shift.day}</Text>
-            <Text>{shift.hour} hs</Text>
-          </Shift>
-        ))}
-      </ShiftContainer>
-    </ShiftDetailContainer>
+    <ShiftContainer>
+      {shifts.map((shift) => (
+        <Shift key={shift.id}>
+          <Text $isADay={true}>{shift.day}</Text>
+          <Text>{shift.hour} hs</Text>
+        </Shift>
+      ))}
+    </ShiftContainer>
   );
 }
 

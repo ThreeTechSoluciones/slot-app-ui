@@ -93,10 +93,11 @@ export const SlotTitleContainer = styled.h2`
 export const SlotsContainer = styled.div`
   width: 630px;
   max-width: 620px;
-  height: 150px;
+  height: 172px;
   border: 5px solid ${LIGHT_NEUTRAL_COLOR};
   border-radius: ${BORDER_RADIUS};
   padding: 12px;
+  gap: 16px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -106,4 +107,6 @@ export const SlotDetailContainer = styled.div`
   overflow-x: auto;
   overflow-y: hidden;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
 `;
