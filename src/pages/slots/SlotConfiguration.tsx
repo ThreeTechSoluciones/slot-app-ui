@@ -53,9 +53,9 @@ function SlotConfiguration() {
 
   const [modalType, setModalType] = useState<ModalType>();
 
-  const [currentSlot, setCurrentSlot] = useState<Slot | null>(null);
 
   const [showConfirm, setShowConfirm] = useState(false);
+    const [currentSlot, setCurrentSlot] = useState<Slot | null>(null);
 
   const { userId } = useAuthentication();
 
@@ -100,7 +100,7 @@ function SlotConfiguration() {
     setModalType(type);
     setShowModal(true);
   };
-
+ 
   const handleEditCapacityModal = async () => {
     const response = await editCapacityRef.current.submitForm();
     if (response) {
@@ -126,54 +126,52 @@ function SlotConfiguration() {
           setShowModal(false);
         });
     }
-  };
 
-  const handleDeleteSlot = () => {
-    setShowConfirm(false);
-    deleteSlot({ slotId: currentSlot?.id! })
-      .unwrap()
-      .then(() => {
-        toast.success("El turno ha sido eliminado");
-      });
-  };
-
-  const handleCreateSlotModal = async () => {
-    const response = await createSlotRef.current.submitForm();
-    if (response) {
-      createSlot({
-        dayOfWeek: selectEnglishValue,
-        startTime: response.startTime,
-        userId: userId!,
-      })
-        .unwrap()
-        .then(() => {
-          setShowModal(false);
-          toast.success("El turno ha sido registrado");
-          setTimeout(() => {
-            const elementId = `slot-${response.startTime.replace(":", "-")}`;
-            const element = document.getElementById(elementId);
-            if (element) {
-              element.scrollIntoView({
-                behavior: "smooth",
-                block: "center",
-              });
-              element.classList.add("highlight");
-              setTimeout(() => {
-                element.classList.remove("highlight");
-              }, 1500);
-            }
-          }, 100);
-        });
+    const handleEditSlotModal = async () => {
+        const response = await editSlotRef.current.submitForm();
+        if (response) {
+            updateSlot({ slotId: currentSlot?.id!, startTime: response.startTime })
+                .unwrap()
+                .then(() => {
+                    toast.success("El turno ha sido actualizado")
+                    setShowModal(false);
+                });
+        }
     }
-  };
 
-  const SlotConfigurationSkeleton = () => {
-    const getPlaceholder = () => {
-      if (isLoading) return "Cargando...";
-      if (isError) return "Error al cargar capacidad";
-      if (userPreferences?.capacity)
-        return `${userPreferences.capacity} cupos por turno`;
-      return "Sin capacidad definida";
+    const handleDeleteSlot = () => {
+        setShowConfirm(false);
+        deleteSlot({ slotId: currentSlot?.id! })
+            .unwrap()
+            .then(() => {
+                toast.success("El turno ha sido eliminado")
+            });
+    };
+
+    const handleCreateSlotModal = async () => {
+        const response = await createSlotRef.current.submitForm();
+        if (response) {
+            createSlot({ dayOfWeek: selectEnglishValue, startTime: response.startTime, userId: userId! })
+                .unwrap()
+                .then(() => {
+                    setShowModal(false);
+                    toast.success("El turno ha sido registrado")
+                    setTimeout(() => {
+                        const elementId = `slot-${response.startTime.replace(':', '-')}`;
+                        const element = document.getElementById(elementId);
+                        if (element) {
+                            element.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'center'
+                            });
+                            element.classList.add('highlight');
+                            setTimeout(() => {
+                                element.classList.remove('highlight');
+                            }, 1500);
+                        }
+                    }, 100);
+                });
+        }
     };
     return (
       <ScreenContainer>
@@ -218,59 +216,129 @@ function SlotConfiguration() {
     );
   };
 
-  const VisualizeSlotsSkeleton = () => {
-    return (
-      <SlotsContainer>
-        <TitlesContainer>
-          <MainTitle>Turnos del {selectSpanishValue}</MainTitle>
-          <Subtitle>
-            {totalSlots}
-            {totalSlots > 1 ? " turnos registrados" : " turno registrado"}
-          </Subtitle>
-        </TitlesContainer>
-        {registeredSlots?.[0]?.slots?.map((slot, index) => (
-          <SpecificSlotContainer
-            key={slot.id}
-            id={`slot-${slot.startTime.replace(":", "-")}`}
-            $isLast={
-              index === registeredSlots[0].numberOfSlots - 1 &&
-              registeredSlots[0].numberOfSlots > 3
-            }
-          >
-            <img src={CalendarIcon} width={35} height={35}></img>
-            <SlotInfoContainer>
-              <PrimaryText>
-                {slot.startTime} - {slot.endTime}
-              </PrimaryText>
-              <SecondaryText>
-                {slot.usedCapacity}/{slot.maxCapacity} cupos ocupados
-              </SecondaryText>
-            </SlotInfoContainer>
-            <ActionsContainer>
-              <img
-                src={EditIcon}
-                width={"24px"}
-                height={"24px"}
-                onClick={() => {
-                  setCurrentSlot(slot);
-                  openModal(ModalType.EDIT_START_TIME);
-                }}
-              ></img>
-              <img
-                src={DeleteIcon}
-                width={"24px"}
-                height={"24px"}
-                onClick={() => {
-                  setCurrentSlot(slot);
-                  setShowConfirm(true);
-                }}
-              ></img>
-            </ActionsContainer>
-          </SpecificSlotContainer>
-        ))}
-      </SlotsContainer>
-    );
-  };
+    const SlotConfigurationSkeleton = () => {
+        const getPlaceholder = () => {
+            if (isLoading) return "Cargando...";
+            if (isError) return "Error al cargar capacidad";
+            if (userPreferences?.capacity) return `${userPreferences.capacity} cupos por turno`;
+            return "Sin capacidad definida";
+        };
+        return (
+            <ScreenContainer>
+                <InputContainer>
+                    <EditContainer>
+                        <Label>Cupos disponibles</Label>
+                        <EditCapacity onClick={() => { openModal(ModalType.EDIT_CAPACITY); }} >Editar
+                            <img
+                                src={EditIcon}
+                                width={16}
+                                height={16}
+                            />
+                        </EditCapacity>
+                    </EditContainer>
+                    <Input disabled placeholder={getPlaceholder()} />
+                </InputContainer>
+                <InputContainer>
+                    <Label> Día del turno</Label>
+                    <Select onChange={handleSelectValue} value={selectEnglishValue} defaultValue="">
+                        <option value="" disabled hidden>Seleccione un día</option>
+                        {Object.entries(DaysOfWeek).map(([key, value]) => (
+                            <option key={key} value={value}>{key}</option>
+                        ))}
+                    </Select>
+                </InputContainer>
+                <Button $isDisabled={selectEnglishValue === ""} disabled={selectEnglishValue === ""} onClick={() => { openModal(ModalType.CREATE); }}>Nuevo turno
+                    <img
+                        src={AddIcon}
+                        width={24}
+                        height={24} />
+                </Button>
+            </ScreenContainer>
+        )
+
+    };
+
+    const VisualizeSlotsSkeleton = () => {
+        return (
+            <SlotsContainer>
+                <TitlesContainer>
+                    <MainTitle>Turnos del {selectSpanishValue}</MainTitle>
+                    <Subtitle>
+                        {totalSlots}
+                        {totalSlots > 1 ? " turnos registrados" : " turno registrado"}
+                    </Subtitle>
+                </TitlesContainer>
+                {registeredSlots?.day?.slots?.map((slot, index) => (
+                    <SpecificSlotContainer
+                        key={slot.id}
+                        id={`slot-${slot.startTime.replace(':', '-')}`}
+                        $isLast={index === (registeredSlots?.day?.numberOfSlots ?? 0) - 1 && (registeredSlots?.day?.numberOfSlots ?? 0) > 3}
+                    >
+                        <img src={CalendarIcon} width={35} height={35}></img>
+                        <SlotInfoContainer >
+                            <PrimaryText>
+                                {slot.startTime} - {slot.endTime}
+                            </PrimaryText>
+                            <SecondaryText>{slot.usedCapacity}/{slot.maxCapacity} cupos ocupados</SecondaryText>
+                        </SlotInfoContainer>
+                        <ActionsContainer>
+                            <img src={EditIcon} width={"24px"} height={"24px"} onClick={() => {
+                                setCurrentSlot(slot);
+                                openModal(ModalType.EDIT_START_TIME);
+                            }}>
+                            </img>
+                            <img src={DeleteIcon} width={"24px"} height={"24px"} onClick={() => {
+                                setCurrentSlot(slot);
+                                setShowConfirm(true);
+                            }}>
+                            </img>
+                        </ActionsContainer>
+                    </SpecificSlotContainer>
+                ))
+                }
+            </SlotsContainer >
+        )
+    };
+
+    const NonExistingSlotsSkeleton = () => {
+        return (
+            <SlotsContainer>
+                <TitlesContainer>
+                    <MainTitle>Turnos del {selectSpanishValue}</MainTitle>
+                    <Subtitle>No hay turnos registrados</Subtitle>
+                </TitlesContainer>
+                <InfoContainer>
+                    <img src={CalendarIcon} width={32} height={32}></img>
+                    <PrimaryText>Aún no existen turnos para este día</PrimaryText>
+                    <SecondaryText>Podés registrar tu primer turno</SecondaryText>
+                </InfoContainer>
+                <Button onClick={() => { openModal(ModalType.CREATE); }}>Crear primer turno
+                    <img
+                        src={AddIcon}
+                        width={24}
+                        height={24} />
+                </Button>
+            </SlotsContainer>
+        )
+    }
+
+    const modalConfig: Record<ModalType, ModalConfig> = {
+        [ModalType.CREATE]: {
+            contentRef: createSlotRef,
+            content: <CreateSlotForm ref={createSlotRef} />,
+            onConfirm: handleCreateSlotModal
+        },
+        [ModalType.EDIT_CAPACITY]: {
+            contentRef: editCapacityRef,
+            content: <EditCapacityForm ref={editCapacityRef} />,
+            onConfirm: handleEditCapacityModal
+        },
+        [ModalType.EDIT_START_TIME]: {
+            contentRef: editSlotRef,
+            content: <EditSlotForm ref={editSlotRef} initialStartTime={currentSlot?.startTime} />,
+            onConfirm: handleEditSlotModal
+        }
+    }
 
   const NonExistingSlotsSkeleton = () => {
     return (

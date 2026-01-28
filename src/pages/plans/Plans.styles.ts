@@ -1,9 +1,12 @@
 import styled from "styled-components";
-import { FONT_WEIGHT_BOLD, FONT_FAMILY } from "../../utils/Stylesheet";
+import {
+  FONT_WEIGHT_BOLD,
+  FONT_FAMILY,
+  DEFAULT_TEXT_COLOR,
+} from "../../utils/Stylesheet";
 
 export const PlansContainer = styled.div`
   width: 100%;
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
 `;
@@ -12,6 +15,7 @@ export const Title = styled.h1`
   font-size: 24px;
   font-family: ${FONT_FAMILY};
   font-weight: ${FONT_WEIGHT_BOLD};
+  color: ${DEFAULT_TEXT_COLOR};
   text-align: left;
   margin-left: 80px;
   margin-top: 56px;

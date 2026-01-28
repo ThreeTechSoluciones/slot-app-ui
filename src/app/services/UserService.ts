@@ -6,16 +6,12 @@ import type { Page } from "../types/responses/common/Page";
 import type { SlotListResponse } from "../types/responses/SlotResponse.type";
 import type { SortConfig } from "../types/sort";
 import type { UserPreferencesResponse } from "../types/responses/UserPreferencesResponse.type";
+import type { CalendarResponse, SpecificSlotResponse } from "../types/responses/CalendarResponse.type";
+import type { CalendarParams } from "../types/requests/GetCalendarViewRequest.type";
 
 export const UserService = createApi({
   reducerPath: "users",
-  tagTypes: [
-    "userStudents",
-    "userPrices",
-    "userPlans",
-    "userSlots",
-    "userPreferences",
-  ],
+  tagTypes: ["userStudents", "userPrices", "userPlans", "userSlots", "userPreferences", "userCalendar"],
   baseQuery: fetchBaseQuery({
     baseUrl: `${import.meta.env.VITE_BACKEND_URL}/users`,
   }),
@@ -50,12 +46,12 @@ export const UserService = createApi({
       providesTags: (result) =>
         result
           ? [
-              { type: "userStudents", id: "LIST" },
-              ...result.content.map(({ id }) => ({
-                type: "userStudents" as const,
-                id,
-              })),
-            ]
+            { type: "userStudents", id: "LIST" },
+            ...result.content.map(({ id }) => ({
+              type: "userStudents" as const,
+              id,
+            })),
+          ]
           : [{ type: "userStudents", id: "LIST" }],
     }),
 
@@ -64,9 +60,9 @@ export const UserService = createApi({
       providesTags: (result) =>
         result
           ? [
-              { type: "userPrices", id: "LIST" },
-              ...result.map(({ id }) => ({ type: "userPrices" as const, id })),
-            ]
+            { type: "userPrices", id: "LIST" },
+            ...result.map(({ id }) => ({ type: "userPrices" as const, id })),
+          ]
           : [{ type: "userPrices", id: "LIST" }],
     }),
     getUserPlans: builder.query<
@@ -105,27 +101,35 @@ export const UserService = createApi({
         { type: "userPreferences", id: userId },
       ],
     }),
-    getSlots: builder.query<
-      SlotListResponse[],
-      { userId: string; dayOfWeek?: string }
-    >({
+    getSlots: builder.query<{ slots: SlotListResponse[]; day: SlotListResponse | null }>({
       query: ({ userId, dayOfWeek }) => ({
         url: `${userId}/slots`,
         params: { dayOfWeek },
       }),
+      transformResponse: (response: SlotListResponse[]) => ({
+        slots: response,
+        day: response.length > 0 ? response[0] : null,
+      }),
       providesTags: (result) => {
-        if (!result || !Array.isArray(result) || result.length === 0) {
-          return [{ type: "userSlots", id: "LIST" }];
+        if (!result?.slots || result.slots.length === 0) {
+          return [{ type: "userSlots" as const, id: "LIST" }];
         }
-        const allSlots = result.flatMap((day) => day.slots || []);
+        const allSlots = result.slots.flatMap(day => day.slots || []);
         return [
-          { type: "userSlots", id: "LIST" },
+          { type: "userSlots" as const, id: "LIST" },
           ...allSlots.map((slot) => ({
             type: "userSlots" as const,
             id: slot.id,
           })),
         ];
       },
+    }),
+    getCalendarView: builder.query<CalendarResponse, CalendarParams>({
+      query: ({ userId, date, typeOfView }) => ({
+        url: `${userId}/calendar`,
+        params: { date, typeOfView },
+      }),
+      providesTags: ["userCalendar"],
     }),
   }),
 });
@@ -137,4 +141,5 @@ export const {
   useGetSlotsQuery,
   useUpdateSlotsCapacityMutation,
   useGetUserPreferencesQuery,
+  useGetCalendarViewQuery
 } = UserService;
