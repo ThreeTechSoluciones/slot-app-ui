@@ -2,6 +2,8 @@ import styled from "styled-components";
 import { DEFAULT_TEXT_COLOR, FONT_FAMILY } from "../../utils/Stylesheet";
 
 export const Container = styled.div`
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;

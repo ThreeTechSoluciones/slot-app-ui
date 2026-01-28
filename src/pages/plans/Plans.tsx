@@ -44,7 +44,7 @@ function Plans() {
   const [createPlan] = useCreatePlanMutation();
   const { userId } = useAuthentication();
   const { data: plansData } = useGetUserPlansQuery(
-    userId ? { userId, planName: filter } : skipToken
+    userId ? { userId, planName: filter } : skipToken,
   );
   const plansToDisplay = plansData || [];
 
@@ -54,7 +54,7 @@ function Plans() {
   const handleMutation = async (
     action: () => Promise<any>,
     onSuccess: () => void,
-    successMessage: string
+    successMessage: string,
   ) => {
     try {
       await action();
@@ -77,7 +77,7 @@ function Plans() {
     await handleMutation(
       () => createPlan(finalRequest).unwrap(),
       () => setShowModal(null),
-      "Plan creado correctamente"
+      "Plan creado correctamente",
     );
   };
   //EDITAR PLAN
@@ -92,7 +92,7 @@ function Plans() {
     await handleMutation(
       () => editPlan({ ...data, startDate: formattedStartDate }).unwrap(),
       () => setShowModal(null),
-      "Plan editado correctamente"
+      "Plan editado correctamente",
     );
   };
   //ELIMINAR PLAN
@@ -105,7 +105,7 @@ function Plans() {
         setShowModal(null);
         setSelectedPlan(null);
       },
-      "Plan eliminado correctamente"
+      "Plan eliminado correctamente",
     );
   };
   const MODALS = {

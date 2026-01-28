@@ -6,40 +6,82 @@ import {
   Action,
   Tooltip,
   TooltipContainer,
+  NoResponseContainer,
+  CalendarContainer,
   SlotInfoContainer,
   SlotStatus,
   SlotStudentsContainer,
-  Student,
+  StudentName,
+  StudentText,
   ScheduledTime,
-  DayOfWeek,
-  DayContainer,
-  CalendarContainer,
   Number,
+  DayContainer,
+  DayOfWeek,
   TimeSlot,
   SlotCapacity,
-  NoResponseContainer,
+  AbsenceBadge,
 } from "./CalendarViewPage.styles";
 import { useGetCalendarViewQuery } from "../../app/services/UserService";
+import { useMarkStudentAbsenceMutation } from "../../app/services/StudentService";
 import CheckIcon from "../../assets/check.svg";
 import useAuthentication from "../../hooks/useAuthentication";
-import UserIcon from "../../assets/user-icon.svg";
+import UserIcon from "../../assets/white-user-icon.svg";
 import ProgressIcon from "../../assets/progress-icon.svg";
 import PlusIcon from "../../assets/plus-icon.svg";
+import StudentIcon from "../../assets/student-icon.svg";
 import { DaysOfWeekTranslation } from "../../utils/DaysOfWeek";
-import { StatesTranslation } from "../../utils/StatesTranslation";
+import { StatesTranslation } from "./StatesTranslation";
 import { CalendarViewName } from "../../app/types/models/CalendarViewName";
-import type { SpecificSlotResponse } from "../../app/types/responses/CalendarResponse.type";
+import type {
+  SpecificSlotResponse,
+  Student,
+} from "../../app/types/responses/CalendarResponse.type";
 import { SearchNotFound } from "../../components/search_not_found/SearchNotFound";
+import { useState } from "react";
+import { GenericModal } from "../../components/generic_modal/GenericModal";
+import { toast } from "react-hot-toast";
 import { formatDateToIsoString } from "../../utils/DateFormatter";
+
+interface AbsenceData {
+  studentId: string;
+  studentName: string;
+  specificSlotId: string;
+}
 
 function CalendarView() {
   const { userId } = useAuthentication();
+
+  const [markAbsence] = useMarkStudentAbsenceMutation();
 
   const { data: calendarData } = useGetCalendarViewQuery({
     userId: userId!,
     date: formatDateToIsoString(new Date()),
     typeOfView: CalendarViewName.WEEKLY,
   });
+
+  const [absenceData, setAbsenceData] = useState<AbsenceData | null>(null);
+
+  const handleStudentClick = (student: Student, specificSlotId: string) => {
+    setAbsenceData({
+      studentId: student.id,
+      studentName: student.fullName,
+      specificSlotId,
+    });
+  };
+
+  const handleConfirmAbsence = async (absenceData: AbsenceData) => {
+    markAbsence({
+      studentId: absenceData.studentId,
+      specificSlotId: absenceData.specificSlotId,
+    })
+      .unwrap()
+      .then(() => {
+        toast.success("Se ha registrado la inasistencia");
+      })
+      .finally(() => {
+        setAbsenceData(null);
+      });
+  };
 
   const columnsCount = calendarData?.days.length || 0;
 
@@ -130,11 +172,24 @@ function CalendarView() {
                       <ActionsSkeleton />
                       <SlotInfoSkeleton {...slot} />
                       <SlotStudentsContainer>
-                        {slot?.students?.map((student) => (
-                          <Student key={student.id} title={student.fullName}>
-                            {student.fullName}
-                          </Student>
-                        ))}
+                        {slot?.students?.map((student) => {
+                          const isAbsent = student.status === "ABSENCE";
+                          return (
+                            <StudentName
+                              key={student.id}
+                              title={student.fullName}
+                              onClick={() =>
+                                handleStudentClick(student, slot.id)
+                              }
+                            >
+                              {isAbsent && <AbsenceBadge>A</AbsenceBadge>}
+
+                              <StudentText $isAbsent={isAbsent}>
+                                {student.fullName}
+                              </StudentText>
+                            </StudentName>
+                          );
+                        })}
                       </SlotStudentsContainer>
                     </>
                   )}
@@ -143,6 +198,21 @@ function CalendarView() {
             })}
           </DayColumn>
         ))}
+
+        {absenceData && (
+          <GenericModal
+            icon={StudentIcon}
+            title={absenceData.studentName}
+            isConfirmModal={true}
+            onCancel={() => setAbsenceData(null)}
+            onConfirm={() => handleConfirmAbsence(absenceData)}
+            confirmText="Registrar Inasistencia"
+            cancelText="Cancelar"
+            width="480px"
+            height="226px"
+            confirmVariant="primary"
+          ></GenericModal>
+        )}
       </CalendarContainer>
     </MainContainer>
   );
