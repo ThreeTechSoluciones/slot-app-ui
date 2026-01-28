@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import {
-  BRAND_COLOR,
   DANGER_COLOR,
   DEFAULT_FONT_SIZE,
   DEFAULT_TEXT_COLOR,
@@ -173,6 +172,7 @@ export const SlotStudentsContainer = styled.div`
   flex-direction: column;
   margin-top: 10px;
 `;
+
 export const StudentName = styled.div`
   display: flex;
   align-items: center;
@@ -183,9 +183,10 @@ export const StudentName = styled.div`
   color: ${DEFAULT_TEXT_COLOR};
   &:hover {
     cursor: pointer;
-    background-color: ${BRAND_COLOR};
+    background-color: ${LIGHT_NEUTRAL_COLOR};
   }
 `;
+
 export const StudentText = styled.p<{ $isAbsent?: boolean }>`
   font-family: ${FONT_FAMILY};
   font-size: 16px;
@@ -197,18 +198,19 @@ export const StudentText = styled.p<{ $isAbsent?: boolean }>`
   color: ${({ $isAbsent }) => ($isAbsent ? NEUTRAL_COLOR : DEFAULT_TEXT_COLOR)};
   text-decoration: ${({ $isAbsent }) => ($isAbsent ? "line-through" : "none")};
   opacity: ${({ $isAbsent }) => ($isAbsent ? 0.7 : 1)};
+  margin-left: 6px;
 `;
+
 export const AbsenceBadge = styled.div`
   background-color: ${NEUTRAL_COLOR};
   color: ${BACKGROUND_COLOR};
   font-size: 11px;
   font-weight: ${FONT_WEIGHT_BOLD};
-
+  margin-left: 6px;
   width: 16px;
   height: 17px;
   border-radius: 4px;
   flex-shrink: 0;
-
   display: flex;
   align-items: center;
   justify-content: center;

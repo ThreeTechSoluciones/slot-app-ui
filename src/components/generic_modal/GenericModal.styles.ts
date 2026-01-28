@@ -58,6 +58,7 @@ export const ModalTitle = styled.h2<TitleProps>`
   align-items: center;
   display: flex;
   justify-content: center;
+
   font-size: 24px;
   font-family: ${FONT_FAMILY};
   font-weight: ${FONT_WEIGHT_BOLD};
