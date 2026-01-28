@@ -6,12 +6,20 @@ import type { Page } from "../types/responses/common/Page";
 import type { SlotListResponse } from "../types/responses/SlotResponse.type";
 import type { SortConfig } from "../types/sort";
 import type { UserPreferencesResponse } from "../types/responses/UserPreferencesResponse.type";
-import type { CalendarResponse, SpecificSlotResponse } from "../types/responses/CalendarResponse.type";
+import type { CalendarResponse } from "../types/responses/CalendarResponse.type";
 import type { CalendarParams } from "../types/requests/GetCalendarViewRequest.type";
+import type { GetSlotsByDayParams } from "../types/requests/GetUserSlotsRequest.type";
 
 export const UserService = createApi({
   reducerPath: "users",
-  tagTypes: ["userStudents", "userPrices", "userPlans", "userSlots", "userPreferences", "userCalendar"],
+  tagTypes: [
+    "userStudents",
+    "userPrices",
+    "userPlans",
+    "userSlots",
+    "userPreferences",
+    "userCalendar",
+  ],
   baseQuery: fetchBaseQuery({
     baseUrl: `${import.meta.env.VITE_BACKEND_URL}/users`,
   }),
@@ -46,12 +54,12 @@ export const UserService = createApi({
       providesTags: (result) =>
         result
           ? [
-            { type: "userStudents", id: "LIST" },
-            ...result.content.map(({ id }) => ({
-              type: "userStudents" as const,
-              id,
-            })),
-          ]
+              { type: "userStudents", id: "LIST" },
+              ...result.content.map(({ id }) => ({
+                type: "userStudents" as const,
+                id,
+              })),
+            ]
           : [{ type: "userStudents", id: "LIST" }],
     }),
 
@@ -60,9 +68,9 @@ export const UserService = createApi({
       providesTags: (result) =>
         result
           ? [
-            { type: "userPrices", id: "LIST" },
-            ...result.map(({ id }) => ({ type: "userPrices" as const, id })),
-          ]
+              { type: "userPrices", id: "LIST" },
+              ...result.map(({ id }) => ({ type: "userPrices" as const, id })),
+            ]
           : [{ type: "userPrices", id: "LIST" }],
     }),
     getUserPlans: builder.query<
@@ -101,7 +109,10 @@ export const UserService = createApi({
         { type: "userPreferences", id: userId },
       ],
     }),
-    getSlots: builder.query<{ slots: SlotListResponse[]; day: SlotListResponse | null }>({
+    getSlots: builder.query<
+      { slots: SlotListResponse[]; day: SlotListResponse | null },
+      GetSlotsByDayParams
+    >({
       query: ({ userId, dayOfWeek }) => ({
         url: `${userId}/slots`,
         params: { dayOfWeek },
@@ -114,7 +125,7 @@ export const UserService = createApi({
         if (!result?.slots || result.slots.length === 0) {
           return [{ type: "userSlots" as const, id: "LIST" }];
         }
-        const allSlots = result.slots.flatMap(day => day.slots || []);
+        const allSlots = result.slots.flatMap((day) => day.slots || []);
         return [
           { type: "userSlots" as const, id: "LIST" },
           ...allSlots.map((slot) => ({
@@ -141,5 +152,5 @@ export const {
   useGetSlotsQuery,
   useUpdateSlotsCapacityMutation,
   useGetUserPreferencesQuery,
-  useGetCalendarViewQuery
+  useGetCalendarViewQuery,
 } = UserService;

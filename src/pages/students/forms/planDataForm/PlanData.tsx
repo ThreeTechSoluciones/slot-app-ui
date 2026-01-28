@@ -21,7 +21,7 @@ import {
 import type { FormProp } from "../../create-student/FormProp.type";
 import { forwardRef, useImperativeHandle, useMemo, useCallback } from "react";
 import { skipToken } from "@reduxjs/toolkit/query";
-import { DaysOfWeekReverse } from "../../../../utils/DaysOfWeek";
+import { DaysOfWeekTranslation } from "../../../../utils/DaysOfWeek";
 
 export interface PlanDataProps {
   planId: string;
@@ -33,7 +33,7 @@ const PlanData = forwardRef<FormProp<PlanDataProps>, FormProp<PlanDataProps>>(
     const { userId } = useAuthentication();
 
     const { data: slotsData, isLoading: isLoadingCalendar } = useGetSlotsQuery(
-      userId ? { userId } : skipToken,
+      userId ? { userId, dayOfWeek: "" } : skipToken,
     );
     const { data: planTypes } = useGetUserPlansQuery(
       userId ? { userId } : skipToken,
@@ -55,13 +55,12 @@ const PlanData = forwardRef<FormProp<PlanDataProps>, FormProp<PlanDataProps>>(
     });
 
     const userSlots = useMemo(() => {
-      if (!slotsData?.length) return [];
+      if (!slotsData?.slots.length) return [];
 
-      return slotsData.map((dayData) => ({
-        day: (
-          DaysOfWeekReverse[dayData.dayOfWeek]?.substring(0, 3) ??
-          dayData.dayOfWeek
-        ).toUpperCase(),
+      return slotsData.slots.map((dayData) => ({
+        day:
+          DaysOfWeekTranslation[dayData.dayOfWeek]?.substring(0, 3) ??
+          dayData.dayOfWeek,
 
         slots: dayData.slots.map((slot) => ({
           id: slot.id,
