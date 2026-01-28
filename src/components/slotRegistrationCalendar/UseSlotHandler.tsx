@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-type Shift = {
+type Slot = {
   id: string;
   day: string;
   hour: string;
@@ -17,7 +17,7 @@ const daysOrder: Record<string, number> = {
 };
 
 export function useSlotHandler() {
-  const [slots, setSlots] = useState<Shift[]>([]);
+  const [slots, setSlots] = useState<Slot[]>([]);
 
   const parseHour = (hour: string) => {
     const [h, m] = hour.split(":").map(Number);
