@@ -237,3 +237,76 @@ export const AbsenceBadge = styled.div`
   align-items: center;
   justify-content: center;
 `;
+export const RecoverContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 0 32px;
+`;
+export const RecoverSubtitle = styled.p`
+  font-size: 16px;
+  color: ${DEFAULT_TEXT_COLOR};
+`;
+export const RecoverList = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 584px;
+  overflow-y: auto;
+  padding-right: 4px;
+  max-height: 340px;
+`;
+export const RecoverItem = styled.div<{ $selected?: boolean }>`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 410px;
+  height: 56px;
+  border-radius: 12px;
+  cursor: pointer;
+  border: 1.5px solid ${DEFAULT_TEXT_COLOR};
+  transition: all 0.2s ease;
+`;
+export const RecoverItemLeft = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+`;
+export const RecoverCheckbox = styled.div<{ $checked?: boolean }>`
+  width: 28px;
+  height: 26px;
+  border-radius: 35%;
+  background-color: ${({ $checked }) =>
+    $checked ? SUCCESS_COLOR : LIGHT_NEUTRAL_COLOR};
+  margin-left: 8px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  img {
+    width: 26px;
+    height: 24px;
+    opacity: ${({ $checked }) => ($checked ? 1 : 0)};
+    transform: ${({ $checked }) => ($checked ? "scale(1)" : "scale(0.6)")};
+    transition: all 0.3s ease;
+  }
+`;
+export const RecoverStudentName = styled(StudentName)`
+  color: ${DEFAULT_TEXT_COLOR};
+  height: 56px;
+`;
+export const RecoverBadge = styled.div`
+  width: 28px;
+  height: 26px;
+  border-radius: 50%;
+  background-color: #f1f1f1;
+  color: #1f1f1f;
+  font-size: 12px;
+  font-weight: 600;
+  margin-right: 8px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
