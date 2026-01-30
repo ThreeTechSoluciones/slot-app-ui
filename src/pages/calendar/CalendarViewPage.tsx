@@ -20,14 +20,6 @@ import {
   TimeSlot,
   SlotCapacity,
   AbsenceBadge,
-  RecoverContainer,
-  RecoverSubtitle,
-  RecoverList,
-  RecoverItem,
-  RecoverItemLeft,
-  RecoverCheckbox,
-  RecoverBadge,
-  RecoverStudentName,
 } from "./CalendarViewPage.styles";
 import { useGetCalendarViewQuery } from "../../app/services/UserService";
 import {
@@ -41,10 +33,9 @@ import ProgressIcon from "../../assets/progress-icon.svg";
 import PlusIcon from "../../assets/plus-icon.svg";
 import StudentIcon from "../../assets/student-icon.svg";
 import { DaysOfWeekTranslation } from "../../utils/DaysOfWeek";
-import { StatesTranslation } from "./StatesTranslation";
+import { StatesTranslation } from "../../utils/StatesTranslation";
 import { CalendarViewName } from "../../app/types/models/CalendarViewName";
 import type {
-  CalendarResponse,
   SpecificSlotResponse,
   Student,
 } from "../../app/types/responses/CalendarResponse.type";
@@ -53,24 +44,15 @@ import { useState } from "react";
 import { GenericModal } from "../../components/generic_modal/GenericModal";
 import { toast } from "react-hot-toast";
 import { formatDateToIsoString } from "../../utils/DateFormatter";
-type AbsenceAction = {
-  type: "ABSENCE";
-  studentId: string;
-  studentName: string;
-  specificSlotId: string;
-};
-
-type RecoverAction = {
-  type: "RECOVER";
-  specificSlotId: string;
-  studentId?: string;
-  studentName?: string;
-  absenceSlotId: string;
-  recoverSlotId?: string;
-};
-
-type SlotActionData = AbsenceAction | RecoverAction;
-
+import { StudentRecover } from "./studentRecover/StudentRecover";
+type CalendarAction =
+  | {
+      type: "ABSENCE";
+      studentId: string;
+      studentName: string;
+      specificSlotId: string;
+    }
+  | { type: "RECOVER"; specificSlotId: string };
 function CalendarView() {
   const { userId } = useAuthentication();
 
@@ -83,8 +65,7 @@ function CalendarView() {
     typeOfView: CalendarViewName.WEEKLY,
   });
 
-  const [slotAction, setSlotAction] = useState<SlotActionData | null>(null);
-  const [recoverSlotId, setRecoverSlotId] = useState<string | null>(null);
+  const [slotAction, setSlotAction] = useState<CalendarAction | null>(null);
 
   const handleAbsenceSlot = (student: Student, specificSlotId: string) => {
     setSlotAction({
@@ -94,94 +75,31 @@ function CalendarView() {
       specificSlotId,
     });
   };
-  // Devuelve todos los alumnos que tienen ausencias pendientes en otros turnos
-  const getPendingRecoveries = (
-    calendarData: CalendarResponse,
-    currentSlotId: string,
-  ) => {
-    const studentsMap: Record<string, Student> = {};
 
-    calendarData.slots.flat().forEach((slot) => {
-      if (!slot) return;
-
-      slot.students.forEach((student) => {
-        if (student.status === "ABSENCE") {
-          // solo los alumnos que aún no se han recuperado en este slot
-          studentsMap[student.id] = {
-            id: student.id,
-            fullName: student.fullName,
-            status: student.status,
-          };
-        }
-      });
-    });
-
-    return Object.values(studentsMap);
-  };
-
-  const handleSelectRecoverStudent = (student: Student) => {
-    setSlotAction((prev) =>
-      prev
-        ? { ...prev, studentId: student.id, studentName: student.fullName }
-        : {
-            type: "RECOVER",
-            specificSlotId: recoverSlotId!,
-            studentId: student.id,
-            studentName: student.fullName,
-            absenceSlotId: "",
-          },
-    );
-  };
   const handleRecoverSlot = (specificSlotId: string) => {
     setSlotAction({
       type: "RECOVER",
       specificSlotId,
-      absenceSlotId: "",
     });
   };
-
-  const handleConfirmSlotAction = () => {
-    if (!slotAction) return;
-
-    if (slotAction.type === "ABSENCE") {
+  const closeModals = () => setSlotAction(null);
+  const handleConfirmAbsence = () => {
+    if (slotAction?.type === "ABSENCE") {
       markAbsence({
         studentId: slotAction.studentId,
         specificSlotId: slotAction.specificSlotId,
       })
         .unwrap()
-        .then(() => {
-          toast.success("Se ha registrado la inasistencia");
-        })
-        .finally(() => {
-          setSlotAction(null);
-        });
-    }
-
-    if (slotAction.type === "RECOVER") {
-      recoverSlot({
-        studentId: slotAction.studentId!,
-        specificSlotId: slotAction.specificSlotId,
-      })
-        .unwrap()
-        .then(() => {
-          toast.success("El/los alumnos ha/han sido registrado/s");
-        })
-        .finally(() => {
-          setSlotAction(null);
-          setRecoverSlotId(null);
-        });
+        .then(() => toast.success("Se ha registrado la inasistencia"))
+        .finally(closeModals);
     }
   };
-  const selectedSlot = calendarData?.slots
-    .flat()
-    .find((slot): slot is SpecificSlotResponse =>
-      Boolean(slot && slot.id === slotAction?.specificSlotId),
-    );
-
-  const absentStudents: Student[] =
-    slotAction?.type === "RECOVER" && calendarData
-      ? getPendingRecoveries(calendarData, slotAction.specificSlotId)
-      : [];
+  const handleConfirmRecover = async (
+    studentId: string,
+    specificSlotId: string,
+  ) => {
+    return recoverSlot({ studentId, specificSlotId }).unwrap();
+  };
 
   const columnsCount = calendarData?.days.length || 0;
   if (columnsCount === 0) {
@@ -303,58 +221,21 @@ function CalendarView() {
             icon={StudentIcon}
             title={slotAction.studentName}
             isConfirmModal
-            onCancel={() => setSlotAction(null)}
-            onConfirm={handleConfirmSlotAction}
+            onCancel={closeModals}
+            onConfirm={handleConfirmAbsence}
             confirmText="Registrar Inasistencia"
             cancelText="Cancelar"
             width="480px"
             height="226px"
           ></GenericModal>
         )}
-        {slotAction?.type === "RECOVER" && (
-          <GenericModal
-            title="AGREGAR ALUMNO"
-            isConfirmModal
-            onCancel={() => setSlotAction(null)}
-            onConfirm={handleConfirmSlotAction}
-            confirmText="Registrar"
-            cancelText="Cancelar"
-            width="480px"
-            height="auto"
-          >
-            <RecoverContainer>
-              <RecoverSubtitle>
-                Capacidad disponible:
-                {selectedSlot?.maxCapacity! - selectedSlot?.capacity!}
-              </RecoverSubtitle>
-
-              <RecoverList>
-                {absentStudents.map((student) => {
-                  const selected = slotAction.studentId === student.id;
-
-                  return (
-                    <RecoverItem
-                      key={student.id}
-                      $selected={selected}
-                      onClick={() => handleSelectRecoverStudent(student)}
-                    >
-                      <RecoverItemLeft>
-                        <RecoverCheckbox $checked={selected}>
-                          <img src={CheckIcon} />
-                        </RecoverCheckbox>
-                        <RecoverStudentName>
-                          {student.fullName}
-                        </RecoverStudentName>
-                      </RecoverItemLeft>
-
-                      <RecoverBadge>1</RecoverBadge>
-                    </RecoverItem>
-                  );
-                })}
-              </RecoverList>
-            </RecoverContainer>
-          </GenericModal>
-        )}
+        <StudentRecover
+          isOpen={slotAction?.type === "RECOVER"}
+          calendarData={calendarData}
+          selectedSlotId={slotAction?.specificSlotId || null}
+          onClose={closeModals}
+          onConfirm={handleConfirmRecover}
+        />
       </CalendarContainer>
     </MainContainer>
   );
