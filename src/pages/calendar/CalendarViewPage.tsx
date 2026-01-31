@@ -35,8 +35,7 @@ function CalendarView() {
 
   const { data: calendarData } = useGetCalendarViewQuery({
     userId: userId!,
-    date: "2026-02-02",
-    // date: formatDateToIsoString(new Date()),
+    date: formatDateToIsoString(new Date()),
     typeOfView: CalendarViewName.WEEKLY,
   });
 
