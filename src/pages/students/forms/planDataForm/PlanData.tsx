@@ -2,7 +2,15 @@ import { useForm } from "react-hook-form";
 import { ErrorMessage } from "../../../../components/error_message/ErrorMessage";
 import { planDataScheme } from "./PlanData.scheme";
 import { shiftRegistrationCalendarData } from "../../../../components/shiftRegistrationCalendar/ShiftRegistrationCalendarData";
-import { MainContainer, Label, Select, FormContainer } from "./PlanData.styles";
+import {
+  MainContainer,
+  Label,
+  Select,
+  FormContainer,
+  SlotTitleContainer,
+  SlotsContainer,
+  SlotDetailContainer,
+} from "./PlanData.styles";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import ShiftRegistrationCalendar from "../../../../components/shiftRegistrationCalendar/ShiftRegistrationCalendar";
@@ -13,6 +21,7 @@ import { useGetUserPlansQuery } from "../../../../app/services/UserService";
 import type { FormProp } from "../../create-student/FormProp.type";
 import { forwardRef, useImperativeHandle } from "react";
 import { skipToken } from "@reduxjs/toolkit/query";
+import CalendarIcon from "../../../../assets/CalenderIcon.png";
 
 export interface PlanDataProps {
   planId: string;
@@ -27,7 +36,7 @@ const PlanData = forwardRef<FormProp<PlanDataProps>, FormProp<PlanDataProps>>(
     const { userId } = useAuthentication();
 
     const { data: planTypes } = useGetUserPlansQuery(
-      userId ? { userId } : skipToken
+      userId ? { userId } : skipToken,
     );
 
     const { shifts, removeShift, newShift } = useShiftHandler();
@@ -58,10 +67,10 @@ const PlanData = forwardRef<FormProp<PlanDataProps>, FormProp<PlanDataProps>>(
                 },
                 () => {
                   resolve(false);
-                }
+                },
               )();
             }),
-        } as unknown as FormProp<PlanDataProps>)
+        }) as unknown as FormProp<PlanDataProps>,
     );
 
     return (
@@ -85,11 +94,19 @@ const PlanData = forwardRef<FormProp<PlanDataProps>, FormProp<PlanDataProps>>(
             onSelectShift={newShift}
             onDeleteShift={removeShift}
           />
-          <ShiftDetail shifts={shifts} />
+          <SlotsContainer>
+            <SlotTitleContainer>
+              <img src={CalendarIcon} width={"24px"} height={"24px"}></img>
+              Turnos asignados
+            </SlotTitleContainer>
+            <SlotDetailContainer>
+              <ShiftDetail shifts={shifts} />
+            </SlotDetailContainer>
+          </SlotsContainer>
         </FormContainer>
       </MainContainer>
     );
-  }
+  },
 );
 
 PlanData.displayName = "PlanDataForm";
