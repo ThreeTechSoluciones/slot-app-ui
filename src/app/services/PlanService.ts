@@ -24,7 +24,7 @@ export const PlanService = createApi({
       },
     }),
 
-    updatePlanPrice: builder.mutation<PlanResponse, UpdatePlanRequest>({
+    updatePlan: builder.mutation<PlanResponse, UpdatePlanRequest>({
       query: ({ planId, name, numberOfDays, amount, startDate }) => ({
         url: `/${planId}`,
         method: "PATCH",
@@ -54,6 +54,6 @@ export const PlanService = createApi({
 
 export const {
   useCreatePlanMutation,
-  useUpdatePlanPriceMutation,
+  useUpdatePlanMutation,
   useDeletePlanMutation,
 } = PlanService;

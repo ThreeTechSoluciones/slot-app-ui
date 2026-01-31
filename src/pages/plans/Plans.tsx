@@ -22,7 +22,7 @@ import { GenericModal } from "../../components/generic_modal/GenericModal";
 import CreatePlanForm from "./CreatePlanForm/CreatePlanForm";
 import {
   useCreatePlanMutation,
-  useUpdatePlanPriceMutation,
+  useUpdatePlanMutation,
   useDeletePlanMutation,
 } from "../../app/services/PlanService";
 import { useGetUserPlansQuery } from "../../app/services/UserService";
@@ -39,7 +39,7 @@ function Plans() {
     "CREATE" | "EDIT" | "DELETE" | null
   >(null);
   const [selectedPlan, setSelectedPlan] = useState<PlanResponse | null>(null);
-  const [editPlan] = useUpdatePlanPriceMutation();
+  const [editPlan] = useUpdatePlanMutation();
   const [deletePlan] = useDeletePlanMutation();
   const [createPlan] = useCreatePlanMutation();
   const { userId } = useAuthentication();
