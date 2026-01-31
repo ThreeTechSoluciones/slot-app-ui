@@ -7,7 +7,10 @@ import type { SlotListResponse } from "../types/responses/SlotResponse.type";
 import type { GetSlotsByDayParams } from "../types/requests/GetUserSlotsRequest.type";
 import type { SortConfig } from "../types/sort";
 import type { UserPreferencesResponse } from "../types/responses/UserPreferencesResponse.type";
-import type { CalendarResponse } from "../types/responses/CalendarResponse.type";
+import type {
+  CalendarResponse,
+  SpecificSlotResponse,
+} from "../types/responses/CalendarResponse.type";
 import type { CalendarParams } from "../types/requests/GetCalendarViewRequest.type";
 
 export const UserService = createApi({
