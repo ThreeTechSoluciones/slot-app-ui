@@ -1,5 +1,6 @@
 import type { StudentDetailResponse } from "../app/types/responses/StudentDetailResponse.type";
 import { DaysOfWeekTranslation } from "../utils/DaysOfWeek";
+import { capitalize } from "../utils/CapitalizeWords";
 import {
   StudentStatusStyle,
   StudentSituationStyle,
@@ -66,7 +67,7 @@ export const mapStudentShiftInfo = (
 
   return student.slots.map((slot) => ({
     id: slot.slotId,
-    day: DaysOfWeekTranslation[slot.dayOfWeek],
+    day: capitalize(DaysOfWeekTranslation[slot.dayOfWeek]),
     hour: slot.startTime,
   }));
 };
