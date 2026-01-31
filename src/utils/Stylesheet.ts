@@ -12,3 +12,4 @@ export const FONT_FAMILY = "Inter, sans-serif";
 export const BORDER_RADIUS = "10px";
 export const FONT_WEIGHT_NORMAL = "500";
 export const FONT_WEIGHT_BOLD = "700";
+export const DEFAULT_FONT_SIZE = "16px"
