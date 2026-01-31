@@ -77,8 +77,8 @@ export const RecoverBadge = styled.div`
   width: 28px;
   height: 26px;
   border-radius: 50%;
-  background-color: #f1f1f1;
-  color: #1f1f1f;
+  background-color: ${LIGHT_NEUTRAL_COLOR};
+  color: ${DEFAULT_TEXT_COLOR};
   font-size: 12px;
   font-weight: 600;
   margin-right: 8px;

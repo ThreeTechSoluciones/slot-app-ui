@@ -5,6 +5,7 @@ import CheckIcon from "../../../assets/check.svg";
 import { useRecoverStudentSlotMutation } from "../../../app/services/StudentService";
 import { useGetUserStudentsQuery } from "../../../app/services/UserService";
 import useAuthentication from "../../../hooks/useAuthentication";
+import toast from "react-hot-toast";
 
 interface StudentRecoverProps {
   isOpen: boolean;
@@ -33,7 +34,12 @@ export const StudentRecover = ({
     studentId: string,
     specificSlotId: string,
   ) => {
-    return recoverSlot({ studentId, specificSlotId }).unwrap();
+    return recoverSlot({ studentId, specificSlotId })
+      .unwrap()
+      .then(() => {
+        toast.success("Se ha registrado la recuperación de la clase con éxito");
+        onClose();
+      });
   };
 
   if (!isOpen) return null;

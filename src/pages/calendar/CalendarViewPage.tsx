@@ -35,7 +35,8 @@ function CalendarView() {
 
   const { data: calendarData } = useGetCalendarViewQuery({
     userId: userId!,
-    date: formatDateToIsoString(new Date()),
+    date: "2026-02-02",
+    // date: formatDateToIsoString(new Date()),
     typeOfView: CalendarViewName.WEEKLY,
   });
 
@@ -196,7 +197,6 @@ function CalendarView() {
                               }
                             >
                               {isAbsent && <s.AbsenceBadge>A</s.AbsenceBadge>}
-
                               <s.StudentText $isAbsent={isAbsent}>
                                 {student.fullName}
                               </s.StudentText>

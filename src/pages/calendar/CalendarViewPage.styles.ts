@@ -135,8 +135,8 @@ export const Tooltip = styled.div`
   top: 120%;
   left: 50%;
   transform: translateX(-50%);
-  background: #222;
-  color: #fff;
+  background: ${DEFAULT_TEXT_COLOR};
+  color: ${BACKGROUND_COLOR};
   padding: 6px 10px;
   border-radius: 6px;
   font-size: 12px;
@@ -147,13 +147,14 @@ export const Tooltip = styled.div`
 `;
 
 export const TooltipContainer = styled(TooltipWrapper)<{ $disabled?: boolean }>`
+  margin-left: auto;
   cursor: ${(props) => (props.$disabled ? "not-allowed" : "pointer")};
   ${(props) =>
     props.$disabled &&
     `
     filter: grayscale(1) opacity(0.5);
     &:hover ${Tooltip} {
-      background: #cc0000; /* Opcional: un color de alerta para el tooltip */
+      background: DANGER_COLOR; 
     }
   `}
   &:hover ${Tooltip} {
@@ -177,7 +178,7 @@ export const SlotInfo = styled.span<SlotInfoProps>`
   align-items: center;
   justify-content: center;
   font-size: 12px;
-  color: white;
+  color: ${BACKGROUND_COLOR};
   font-family: ${FONT_FAMILY};
   font-weight: ${FONT_WEIGHT_BOLD};
   border-radius: 5px;
