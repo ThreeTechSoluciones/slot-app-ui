@@ -284,19 +284,16 @@ const ShiftData = ({
   return (
     <ShiftInfoContainer>
       <HeaderBoxes>
-        {hasShifts ? (
-          <>
-            <SlotTitleContainer>
-              <img
-                src={CalendarIcon}
-                width={"24px"}
-                height={"24px"}
-                style={{ paddingLeft: "16px" }}
-              ></img>
-              Turnos asignados
-            </SlotTitleContainer>
-          </>
-        ) : null}
+        <SlotTitleContainer>
+          <img
+            src={CalendarIcon}
+            width={"24px"}
+            height={"24px"}
+            style={{ paddingLeft: "16px" }}
+          ></img>
+          Turnos asignados
+        </SlotTitleContainer>
+
         <EditIconStyles onClick={() => navigate(ModificarTurnos)}>
           <img src={EditIcon} alt="edit-icon" />
         </EditIconStyles>

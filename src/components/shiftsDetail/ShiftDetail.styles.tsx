@@ -4,6 +4,7 @@ import {
   FONT_FAMILY,
   LIGHT_NEUTRAL_COLOR,
   DEFAULT_TEXT_COLOR,
+  FONT_WEIGHT_BOLD,
 } from "../../utils/Stylesheet";
 
 export const ShiftContainer = styled.div`
@@ -33,4 +34,5 @@ export const Text = styled.p<TextProps>`
   padding: 0px;
   font-family: ${FONT_FAMILY};
   font-size: ${(props) => (props.$isADay ? "16px" : "12px")};
+  font-weight: ${FONT_WEIGHT_BOLD};
 `;
