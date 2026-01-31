@@ -6,6 +6,7 @@ import {
   DEFAULT_TEXT_COLOR,
   FONT_WEIGHT_BOLD,
 } from "../../../utils/Stylesheet";
+
 export const FormStyle = styled.form`
   display: flex;
   flex-direction: column;
@@ -14,65 +15,68 @@ export const FormStyle = styled.form`
   height: auto;
   padding: 0 36px;
   box-sizing: border-box;
+  margin:0px;
 `;
+
 export const InfoContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  gap: 8px;
 `;
 
-export const InfoStyle = styled.div`
-  width: 100%;
+export const InputContainer = styled.div`
+  display:flex;
+  flex-direction:column;
+  gap:4px;
 `;
 
-export const InputStyle = styled.input`
+interface InputProps {
+  $isNonEditable?: boolean;
+}
+
+export const Input = styled.input <InputProps>`
   border-radius: ${BORDER_RADIUS};
   height: 56px;
   width: 100%;
   box-sizing: border-box;
-  border: 1.5px solid ${DEFAULT_TEXT_COLOR};
   padding: 0 12px;
   font-family: ${FONT_FAMILY};
   font-size: 16px;
   color: ${DEFAULT_TEXT_COLOR};
-  &[type="number"] {
-    -moz-appearance: textfield;
-    appearance: none;
-  }
-  &[type="number"]::-webkit-inner-spin-button,
-  &[type="number"]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-  }
-`;
-export const InfoValue = styled(InputStyle)`
-  cursor: not-allowed;
-  background-color: ${LIGHT_NEUTRAL_COLOR};
-  pointer-events: none;
-`;
+  background-color: white;
+  background-color: ${(props) => (props.$isNonEditable ? LIGHT_NEUTRAL_COLOR : "white")};
+  border: ${(props) => props.$isNonEditable ? `2px solid ${LIGHT_NEUTRAL_COLOR}` : `1px solid ${DEFAULT_TEXT_COLOR}`};
+  pointer-events: ${(props) => (props.$isNonEditable ? "none" : "auto")};
+  `;
+
 export const InputWrapper = styled.div`
   display: flex;
   flex: 1;
   flex-direction: column;
   width: 100%;
-  position: relative;
 `;
-export const LabelStyle = styled.label`
+
+export const Label = styled.label`
   text-align: left;
   white-space: nowrap;
   font-size: 16px;
   font-weight: ${FONT_WEIGHT_BOLD};
+  margin:1px 0px 1px 0px;
+   
 `;
-export const InputGroup = styled.div`
+
+export const EditPriceOptionContainer = styled.div`
   display: flex;
   width: 100%;
   flex-direction: column;
-  margin-top: 8px;
+  margin-top:6px;
 `;
+
 export const Description = styled.span`
   font-size: 12px;
   color: ${DEFAULT_TEXT_COLOR};
 `;
+
 export const DatePickerCustomWrapper = styled.div`
   width: 100%;
   .react-date-picker__wrapper {
@@ -82,16 +86,12 @@ export const DatePickerCustomWrapper = styled.div`
     border-radius: ${BORDER_RADIUS} !important;
     box-sizing: border-box !important;
   }
-
   .react-calendar {
     max-width: 90vw !important;
   }
 `;
-export const ErrorWrapper = styled.div`
-  margin-top: 4px;
-  height: 25px;
-`;
-export const RowContainer = styled.div`
+
+export const EditPriceInputs = styled.div`
   display: flex;
   justify-content: space-between;
   gap: 16px;

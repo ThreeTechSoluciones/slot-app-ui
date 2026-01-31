@@ -122,8 +122,10 @@ function Plans() {
         confirmText="Registrar"
         onConfirm={handleCreatePlan}
         onCancel={() => setShowModal(null)}
+        width="480px"
       >
         <CreatePlanForm ref={formRef} />
+
       </GenericModal>
     ),
     EDIT: selectedPlan && (
@@ -135,7 +137,7 @@ function Plans() {
           setShowModal(null);
           setSelectedPlan(null);
         }}
-        height="610px"
+        height="620px"
       >
         <EditPlan
           ref={formRef}
