@@ -22,7 +22,7 @@ export const RecoverList = styled.div`
   flex-direction: column;
   width: 100%;
   gap: 12px;
-  max-height: 584px;
+  max-height: 328px;
   overflow-y: auto;
   padding-right: 4px;
 `;
