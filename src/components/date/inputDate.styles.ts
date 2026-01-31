@@ -15,7 +15,7 @@ interface StyledWrapperProps {
 export const StyledWrapper = styled.div<StyledWrapperProps>`
   position: relative;
   .react-date-picker__wrapper {
-     width: ${props => props.$width};
+   width: 100%;
     height: 56px;
     box-sizing: border-box;
     border: 1px solid black;
@@ -25,6 +25,9 @@ export const StyledWrapper = styled.div<StyledWrapperProps>`
     background: none;
     color: ${DEFAULT_TEXT_COLOR};
     font-family: ${FONT_FAMILY};
+  }
+    .react-date-picker {
+    width: 100%
   }
   //CONTENEDOR REAL DEL CALENDARIO
   .react-date-picker__calendar {
@@ -95,6 +98,11 @@ export const StyledWrapper = styled.div<StyledWrapperProps>`
     height: 40px;
     border-radius: 50%;
   }
+
+  .react-date-picker__inputGroup {
+      font-family: ${FONT_FAMILY};
+      font-size: 12px ; 
+    }
 
   //HOVER SOBRE DIAS
   .react-calendar__tile:hover {

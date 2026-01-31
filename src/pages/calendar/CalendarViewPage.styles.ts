@@ -1,16 +1,16 @@
 import styled from "styled-components";
 import {
-  BRAND_COLOR,
-  DANGER_COLOR,
-  DEFAULT_FONT_SIZE,
-  DEFAULT_TEXT_COLOR,
-  FONT_FAMILY,
-  FONT_WEIGHT_BOLD,
-  LIGHT_NEUTRAL_COLOR,
-  SUCCESS_COLOR,
-  WARNING_COLOR
+    BRAND_COLOR,
+    DANGER_COLOR,
+    DEFAULT_FONT_SIZE,
+    DEFAULT_TEXT_COLOR,
+    FONT_FAMILY,
+    FONT_WEIGHT_BOLD,
+    LIGHT_NEUTRAL_COLOR,
+    SUCCESS_COLOR,
+    WARNING_COLOR
 }
-  from "../../utils/Stylesheet";
+    from "../../utils/Stylesheet";
 
 const ROW_HEIGHT = '260px';
 const ROW_SPACING_HEIGHT = '16px'
@@ -35,8 +35,15 @@ export const NavigationDateContainer = styled.div`
   display:flex;
   align-items:center;
   justify-content:center;
-  gap:16px
+  gap:16px;
 `
+export const InputDateContainer = styled.div`
+    width:408px;
+`
+export const CustomDisplayContainer = styled.div`
+    position: relative;
+`;
+
 export const CustomDisplay = styled.div`
   position: absolute;
   background-color:white;
@@ -44,7 +51,7 @@ export const CustomDisplay = styled.div`
   font-weight:${FONT_WEIGHT_BOLD};
   top: 8px;
   left: 16px;
-  width: 180px;
+  width: 350px;
   height: 40px;
   display: flex;
   align-items: center;
@@ -65,7 +72,7 @@ export const NavigationArrow = styled.div`
   }
 `
 interface CalendarContainerProps {
-  $columnsCount: number;
+    $columnsCount: number;
 };
 
 export const CalendarContainer = styled.div<CalendarContainerProps>`
@@ -131,8 +138,8 @@ export const TimeSlot = styled.p`
 `;
 
 interface SpecificSlotProps {
-  $isNull: boolean;
-  $columnsCount: number;
+    $isNull: boolean;
+    $columnsCount: number;
 }
 
 export const SpecificSlot = styled.div<SpecificSlotProps>`
@@ -175,8 +182,8 @@ export const SlotInfoContainer = styled.div`
 `;
 
 interface SlotInfoProps {
-  $isFull?: boolean,
-  $status?: string
+    $isFull?: boolean,
+    $status?: string
 };
 
 export const SlotInfo = styled.span<SlotInfoProps>`
@@ -198,10 +205,10 @@ export const SlotCapacity = styled(SlotInfo) <SlotInfoProps>`
 
 export const SlotStatus = styled(SlotInfo) <SlotInfoProps>`
    background-color: ${({ $status }) => {
-    if ($status === "FINALIZED") return SUCCESS_COLOR;
-    if ($status === "IN_PROGRESS") return WARNING_COLOR;
-    return "transparent";
-  }};
+        if ($status === "FINALIZED") return SUCCESS_COLOR;
+        if ($status === "IN_PROGRESS") return WARNING_COLOR;
+        return "transparent";
+    }};
 `;
 
 export const SlotStudentsContainer = styled.div`

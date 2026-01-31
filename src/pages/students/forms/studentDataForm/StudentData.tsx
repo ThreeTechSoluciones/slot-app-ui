@@ -18,6 +18,7 @@ import "react-calendar/dist/Calendar.css";
 import InputDate from "../../../../components/date/inputDate";
 import CalendarIcon from "../../../../assets/CalenderIcon.png";
 import { capitalize } from "../../../../utils/CapitalizeWords";
+import { InputDateContainer } from "./StudentData.styles";
 
 export interface StudentDataProps {
   name: string;
@@ -105,30 +106,30 @@ const StudentData = forwardRef<
         </div>
         <div>
           <Label>Fecha de nacimiento</Label>
-          <Controller
-            name="birthday"
-            control={control}
-            render={({ field }) => (
-              <InputDate
-                {...field}
-                onChange={(date) => field.onChange(date)}
-                value={field.value || null}
-                format="dd/MM/yyyy"
-                calendarPosition="top"
-                width="408px"
-                locale="es-ES"
-                clearIcon={null}
-                calendarIcon={
-                  <img
-                    src={CalendarIcon}
-                    alt="Calendario"
-                    style={{ width: 20, height: 20 }}
-                  />
-                }
-              />
-            )}
-          />
-
+          <InputDateContainer>
+            <Controller
+              name="birthday"
+              control={control}
+              render={({ field }) => (
+                <InputDate
+                  {...field}
+                  onChange={(date) => field.onChange(date)}
+                  value={field.value || null}
+                  format="dd/MM/yyyy"
+                  calendarPosition="top"
+                  locale="es-ES"
+                  clearIcon={null}
+                  calendarIcon={
+                    <img
+                      src={CalendarIcon}
+                      alt="Calendario"
+                      style={{ width: 20, height: 20 }}
+                    />
+                  }
+                />
+              )}
+            />
+          </InputDateContainer>
           <ErrorMessage error={errors.birthday} />
         </div>
         <div>

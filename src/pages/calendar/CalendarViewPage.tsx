@@ -1,26 +1,4 @@
-import {
-  MainContainer,
-  DayColumn,
-  SpecificSlot,
-  ActionsContainer,
-  Action,
-  SlotInfoContainer,
-  SlotStatus,
-  SlotStudentsContainer,
-  Student,
-  ScheduledTime,
-  DayOfWeek,
-  DayContainer,
-  CalendarContainer,
-  Number,
-  TimeSlot,
-  SlotCapacity,
-  NoResponseContainer,
-  NavigationArrow,
-  NavigationDateContainer,
-  CustomDisplay
-}
-  from './CalendarViewPage.styles';
+
 import { useGetCalendarViewQuery } from '../../app/services/UserService';
 import CheckIcon from "../../assets/check.svg";
 import useAuthentication from '../../hooks/useAuthentication';
@@ -38,6 +16,7 @@ import BackIcon from "../../assets/back-arrow-icon.svg";
 import NextIcon from "../../assets/next-arrow-icon.svg";
 import { useState } from 'react';
 import { CalendarMonth } from '../../utils/MonthsOfYear';
+import * as s from './CalendarViewPage.styles';
 
 
 function CalendarView() {
@@ -47,8 +26,7 @@ function CalendarView() {
   const { userId } = useAuthentication();
 
   const calculateWeek = (days: number) => {
-    const week = new Date(selectDate!);
-    setSelectDate(new Date((week.setDate(week.getDate() + days))));
+    setSelectDate(new Date(selectDate.setDate(selectDate.getDate() + days)));
   }
 
   const calendarPlaceholder = () => {
@@ -59,7 +37,7 @@ function CalendarView() {
 
   const { data: calendarData } = useGetCalendarViewQuery({
     userId: userId!,
-    date: formatDateToIsoString(selectDate!),
+    date: formatDateToIsoString(selectDate),
     typeOfView: CalendarViewName.WEEKLY
   });
 
@@ -72,26 +50,26 @@ function CalendarView() {
 
   const ActionsSkeleton = () => {
     return (
-      <ActionsContainer>
-        <Action>Buscar</Action>
-        <Action>Cancelar</Action>
-        <Action>Agregar</Action>
-      </ActionsContainer>
+      <s.ActionsContainer>
+        <s.Action>Buscar</s.Action>
+        <s.Action>Cancelar</s.Action>
+        <s.Action>Agregar</s.Action>
+      </s.ActionsContainer>
     );
   }
 
   const SlotInfoSkeleton = (slot: SpecificSlotResponse) => {
     return (
-      <SlotInfoContainer>
-        <SlotCapacity $isFull={slot.capacity === slot.maxCapacity}>
+      <s.SlotInfoContainer>
+        <s.SlotCapacity $isFull={slot.capacity === slot.maxCapacity}>
           <img
             src={UserIcon}
             alt="Capacity"
             style={{ width: 16, height: 16, marginRight: 2, filter: "brightness(0) invert(1)" }}
           />
           {slot.capacity} / {slot.maxCapacity}
-        </SlotCapacity>
-        <SlotStatus $status={slot.status}>
+        </s.SlotCapacity>
+        <s.SlotStatus $status={slot.status}>
           {STATUS_ICONS[slot.status] && (
             <img
               src={STATUS_ICONS[slot.status]}
@@ -100,91 +78,94 @@ function CalendarView() {
             />
           )}
           {StatesTranslation[slot.status]}
-        </SlotStatus>
-      </SlotInfoContainer>
+        </s.SlotStatus>
+      </s.SlotInfoContainer>
     )
   };
 
   const SelectDateContainer = () => {
-    return (<NavigationDateContainer>
-      <NavigationArrow onClick={() => calculateWeek(-7)}>
-        <img src={BackIcon} style={{ marginLeft: "8px" }}></img>
-      </NavigationArrow>
-      <div style={{ position: 'relative' }}>
-        <CustomDisplay>{calendarPlaceholder()}</CustomDisplay>
-        <InputDate
-          value={selectDate}
-          onChange={(date) => {
-            if (date instanceof Date) {
-              setSelectDate(date);
-            }
-          }}
-          format="dd/MM/yyyy"
-          calendarPosition="top"
-          width="408px"
-          locale="es-ES"
-          clearIcon={null}
-          calendarIcon={
-            <img
-              src={CalendarIcon}
-              alt="Calendario"
-              style={{ width: 20, height: 20 }}
+    return (
+      <s.NavigationDateContainer>
+        <s.NavigationArrow onClick={() => calculateWeek(-7)}>
+          <img src={BackIcon} style={{ marginLeft: "8px" }} />
+        </s.NavigationArrow>
+        <s.CustomDisplayContainer>
+          <s.CustomDisplay>{calendarPlaceholder()}</s.CustomDisplay>
+          <s.InputDateContainer>
+            <InputDate
+              value={selectDate}
+              onChange={(date) => {
+                if (date instanceof Date) {
+                  setSelectDate(date);
+                }
+              }}
+              format="dd/MM/yyyy"
+              calendarPosition="top"
+              locale="es-ES"
+              clearIcon={null}
+              calendarIcon={
+                <img
+                  src={CalendarIcon}
+                  alt="Calendario"
+                  style={{ width: 20, height: 20 }}
+                />
+              }
             />
-          }
-        />
-      </div>
-      <NavigationArrow onClick={() => calculateWeek(7)}><img src={NextIcon}></img>
-      </NavigationArrow>
-    </NavigationDateContainer>
+          </s.InputDateContainer>
+        </s.CustomDisplayContainer>
+        <s.NavigationArrow onClick={() => calculateWeek(7)}>
+          <img src={NextIcon} />
+        </s.NavigationArrow>
+      </s.NavigationDateContainer>
     )
   }
 
   if (columnsCount === 0) {
     return (
-      <NoResponseContainer>
+      <s.NoResponseContainer>
         <SelectDateContainer />
         <SearchNotFound />
-      </NoResponseContainer>
+      </s.NoResponseContainer>
     )
   }
 
   return (
-    <MainContainer>
+    <s.MainContainer>
       <SelectDateContainer />
-      <CalendarContainer $columnsCount={columnsCount}>
-        <ScheduledTime>
+      <s.CalendarContainer $columnsCount={columnsCount}>
+        <s.ScheduledTime>
           {calendarData?.times.map((timeSlot) => (
-            <TimeSlot key={timeSlot.startTime}>{timeSlot.startTime} <br /> - <br />{timeSlot.endTime}</TimeSlot>
+            <s.TimeSlot key={timeSlot.startTime}>{timeSlot.startTime} <br /> - <br />{timeSlot.endTime}</s.TimeSlot>
           ))}
-        </ScheduledTime>
+        </s.ScheduledTime>
         {calendarData?.days.map((day, colIndex) => (
-          <DayColumn key={day.dayOfWeek}>
-            <DayContainer>
-              <DayOfWeek>{DaysOfWeekTranslation[day.dayOfWeek]}</DayOfWeek>
-              <Number>{day.numberOfDay}</Number>
-            </DayContainer>
+          <s.DayColumn key={day.dayOfWeek}>
+            <s.DayContainer>
+              <s.DayOfWeek>{DaysOfWeekTranslation[day.dayOfWeek]}</s.DayOfWeek>
+              <s.Number>{day.numberOfDay}</s.Number>
+            </s.DayContainer>
             {calendarData?.times.map((_, rowIndex) => {
               const slot = calendarData.slots[rowIndex][colIndex];
               return (
-                <SpecificSlot $isNull={!slot} key={rowIndex} $columnsCount={columnsCount}>
+                <s.SpecificSlot $isNull={!slot} key={rowIndex} $columnsCount={columnsCount}>
                   {slot && (
                     <>
                       <ActionsSkeleton />
                       <SlotInfoSkeleton {...slot} />
-                      <SlotStudentsContainer>
+                      <s.SlotStudentsContainer>
                         {slot?.students?.map((student) => (
-                          <Student key={student.id} title={student.fullName}>{student.fullName}</Student>
+                          <s.Student key={student.id} title={student.fullName}>{student.fullName}</s.Student>
                         ))}
-                      </SlotStudentsContainer>
+                      </s.SlotStudentsContainer>
                     </>
                   )}
-                </SpecificSlot>
+                </s.SpecificSlot>
               );
             })}
-          </DayColumn>
+          </s.DayColumn>
         ))}
-      </CalendarContainer>
-    </MainContainer >
+      </s.CalendarContainer>
+    </s.MainContainer >
   );
 }
 export default CalendarView;
