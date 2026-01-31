@@ -97,6 +97,22 @@ export const StudentService = createApi({
         dispatch(UserService.util.invalidateTags(["userStudents"]));
       },
     }),
+    markStudentAbsence: builder.mutation<
+      void,
+      { studentId: string; specificSlotId: string }
+    >({
+      query: ({ studentId, specificSlotId }) => ({
+        url: `/${studentId}/slots/specific-slot/${specificSlotId}/absence`,
+        method: "POST",
+      }),
+      invalidatesTags: (_result, _error, { studentId }) => [
+        { type: "Student", id: studentId },
+      ],
+      onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
+        await queryFulfilled;
+        dispatch(UserService.util.invalidateTags(["userCalendar"]));
+      },
+    }),
   }),
 });
 
@@ -108,4 +124,5 @@ export const {
   useActivateStudentMutation,
   useGetStudentMonthlyFeesQuery,
   useCreateStudentMonthlyFeeMutation,
+  useMarkStudentAbsenceMutation,
 } = StudentService;

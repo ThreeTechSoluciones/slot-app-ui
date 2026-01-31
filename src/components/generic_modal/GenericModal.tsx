@@ -3,6 +3,8 @@ import {
   ModalOverlay,
   ModalContainer,
   ModalHeader,
+  IconWrapper,
+  StyledIcon,
   ModalTitle,
   ModalBody,
   ModalFooter,
@@ -11,6 +13,9 @@ import Button from "../button/Button";
 
 type GenericModalProps = {
   isOpen?: boolean;
+  icon?: string;
+  iconSize?: string;
+  isConfirmModal?: boolean;
   title: string;
   children?: React.ReactNode;
   onConfirm?: () => void;
@@ -23,6 +28,9 @@ type GenericModalProps = {
 };
 
 export const GenericModal: React.FC<GenericModalProps> = ({
+  icon,
+  iconSize,
+  isConfirmModal,
   title,
   children,
   onConfirm,
@@ -50,7 +58,12 @@ export const GenericModal: React.FC<GenericModalProps> = ({
     <ModalOverlay>
       <ModalContainer $width={width} $height={height}>
         <ModalHeader>
-          <ModalTitle>{title}</ModalTitle>
+          {icon && (
+            <IconWrapper $size={iconSize}>
+              <StyledIcon src={icon} alt="modal-icon" $size={iconSize} />
+            </IconWrapper>
+          )}
+          <ModalTitle $isConfirmModal={isConfirmModal}>{title}</ModalTitle>
         </ModalHeader>
 
         <ModalBody>{children}</ModalBody>
