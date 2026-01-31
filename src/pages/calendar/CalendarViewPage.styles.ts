@@ -146,7 +146,16 @@ export const Tooltip = styled.div`
   transition: 0.2s ease;
 `;
 
-export const TooltipContainer = styled(TooltipWrapper)`
+export const TooltipContainer = styled(TooltipWrapper)<{ $disabled?: boolean }>`
+  cursor: ${(props) => (props.$disabled ? "not-allowed" : "pointer")};
+  ${(props) =>
+    props.$disabled &&
+    `
+    filter: grayscale(1) opacity(0.5);
+    &:hover ${Tooltip} {
+      background: #cc0000; /* Opcional: un color de alerta para el tooltip */
+    }
+  `}
   &:hover ${Tooltip} {
     opacity: 1;
   }

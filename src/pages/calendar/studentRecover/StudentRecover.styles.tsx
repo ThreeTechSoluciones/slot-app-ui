@@ -10,6 +10,8 @@ export const RecoverContainer = styled.div`
   align-items: center;
   gap: 12px;
   padding: 0 32px;
+  width: 100%;
+  box-sizing: border-box;
 `;
 export const RecoverSubtitle = styled.p`
   font-size: 16px;
@@ -18,19 +20,20 @@ export const RecoverSubtitle = styled.p`
 export const RecoverList = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%;
   gap: 12px;
   max-height: 584px;
   overflow-y: auto;
   padding-right: 4px;
-  max-height: 340px;
 `;
 export const RecoverItem = styled.div<{ $selected?: boolean }>`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 410px;
+  width: 100%;
   height: 56px;
   border-radius: 12px;
+  box-sizing: border-box;
   cursor: pointer;
   border: 1.5px solid ${DEFAULT_TEXT_COLOR};
   transition: all 0.2s ease;
@@ -61,11 +64,9 @@ export const RecoverCheckbox = styled.div<{ $checked?: boolean }>`
 `;
 export const RecoverStudentName = styled.p`
   color: ${DEFAULT_TEXT_COLOR};
-  height: 56px;
   display: flex;
   align-items: center;
   gap: 6px;
-  height: 36px;
   border-radius: 5px;
   box-sizing: border-box;
   &:hover {
