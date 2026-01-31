@@ -5,4 +5,5 @@ export interface StudentResponse {
   lastname: string;
   status: string;
   isActive: boolean;
+  daysToRecover: number;
 }

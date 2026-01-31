@@ -1,91 +1,30 @@
-import { useMemo, useState } from "react";
-import type {
-  CalendarResponse,
-  Student,
-  SpecificSlotResponse,
-} from "../../../app/types/responses/CalendarResponse.type";
+import { useState } from "react";
 import * as s from "./StudentRecover.styles";
 import { GenericModal } from "../../../components/generic_modal/GenericModal";
 import CheckIcon from "../../../assets/check.svg";
 import { toast } from "react-hot-toast";
+import type { StudentResponse } from "../../../app/types/responses/StudentResponse.type";
 
-export const getValidAbsentStudents = (
-  calendarData: CalendarResponse,
-  selectedSlotId: string | null,
-): Student[] => {
-  const absentStudentMap = new Map<string, Student>();
-
-  let dayOfRecovery = -1;
-  calendarData.slots.forEach((row) => {
-    const dayOfAbsenceIndex = row.findIndex((s) => s?.id === selectedSlotId);
-    if (dayOfAbsenceIndex !== -1) dayOfRecovery = dayOfAbsenceIndex;
-  });
-
-  if (dayOfRecovery === -1) return [];
-
-  calendarData.slots.forEach((row) => {
-    row.forEach((slot, dayOfAbsenceIndex) => {
-      if (!slot) return;
-
-      slot.students.forEach((student) => {
-        if (
-          student.status === "ABSENCE" &&
-          dayOfAbsenceIndex <= dayOfRecovery &&
-          slot.id !== selectedSlotId
-        ) {
-          absentStudentMap.set(student.id, student);
-        }
-      });
-    });
-  });
-
-  const targetSlot = calendarData.slots
-    .flat()
-    .find((s) => s?.id === selectedSlotId);
-  targetSlot?.students.forEach((s) => {
-    absentStudentMap.delete(s.id);
-  });
-
-  return Array.from(absentStudentMap.values());
-};
 interface StudentRecoverProps {
-  calendarData: CalendarResponse | undefined;
+  students: StudentResponse[];
   selectedSlotId: string | null;
   isOpen: boolean;
+  availableCapacity: number;
   onClose: () => void;
   onConfirm: (studentId: string, specificSlotId: string) => Promise<any>;
 }
 
 export const StudentRecover = ({
-  calendarData,
+  students,
   selectedSlotId,
   isOpen,
+  availableCapacity,
   onClose,
   onConfirm,
 }: StudentRecoverProps) => {
   const [tempSelectedStudentId, setTempSelectedStudentId] = useState<
     string | null
   >(null);
-
-  const absentStudents = useMemo(
-    () =>
-      calendarData ? getValidAbsentStudents(calendarData, selectedSlotId) : [],
-    [calendarData, selectedSlotId],
-  );
-
-  const selectedSlot = useMemo(
-    () =>
-      calendarData?.slots
-        .flat()
-        .find(
-          (slot): slot is SpecificSlotResponse => slot?.id === selectedSlotId,
-        ),
-    [calendarData, selectedSlotId],
-  );
-
-  const handleSelectStudent = (student: Student) => {
-    setTempSelectedStudentId(student.id);
-  };
 
   const handleConfirm = () => {
     if (!tempSelectedStudentId || !selectedSlotId) {
@@ -106,10 +45,6 @@ export const StudentRecover = ({
 
   if (!isOpen) return null;
 
-  const availableCapacity = selectedSlot
-    ? selectedSlot.maxCapacity - selectedSlot.capacity
-    : 0;
-
   return (
     <GenericModal
       title="AGREGAR ALUMNO"
@@ -127,26 +62,25 @@ export const StudentRecover = ({
         </s.RecoverSubtitle>
 
         <s.RecoverList>
-          {absentStudents.length > 0 ? (
-            absentStudents.map((student) => {
+          {students.length > 0 ? (
+            students.map((student) => {
               const isSelected = tempSelectedStudentId === student.id;
-
               return (
                 <s.RecoverItem
                   key={student.id}
                   $selected={isSelected}
-                  onClick={() => handleSelectStudent(student)}
+                  onClick={() => setTempSelectedStudentId(student.id)}
                 >
                   <s.RecoverItemLeft>
                     <s.RecoverCheckbox $checked={isSelected}>
                       <img src={CheckIcon} alt="check" />
                     </s.RecoverCheckbox>
                     <s.RecoverStudentName>
-                      {student.fullName}
+                      {student.name} {student.lastname}
                     </s.RecoverStudentName>
                   </s.RecoverItemLeft>
 
-                  <s.RecoverBadge>1</s.RecoverBadge>
+                  <s.RecoverBadge>{student.daysToRecover}</s.RecoverBadge>
                 </s.RecoverItem>
               );
             })

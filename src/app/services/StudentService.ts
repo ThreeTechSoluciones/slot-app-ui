@@ -111,6 +111,7 @@ export const StudentService = createApi({
       onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
         await queryFulfilled;
         dispatch(UserService.util.invalidateTags(["userCalendar"]));
+        dispatch(UserService.util.invalidateTags(["userStudents"]));
       },
     }),
     recoverStudentSlot: builder.mutation<
@@ -127,6 +128,7 @@ export const StudentService = createApi({
       onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
         await queryFulfilled;
         dispatch(UserService.util.invalidateTags(["userCalendar"]));
+        dispatch(UserService.util.invalidateTags(["userStudents"]));
       },
     }),
   }),

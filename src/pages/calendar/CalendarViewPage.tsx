@@ -1,27 +1,8 @@
+import * as s from "./CalendarViewPage.styles";
 import {
-  MainContainer,
-  DayColumn,
-  SpecificSlot,
-  ActionsContainer,
-  Action,
-  Tooltip,
-  TooltipContainer,
-  NoResponseContainer,
-  CalendarContainer,
-  SlotInfoContainer,
-  SlotStatus,
-  SlotStudentsContainer,
-  StudentName,
-  StudentText,
-  ScheduledTime,
-  Number,
-  DayContainer,
-  DayOfWeek,
-  TimeSlot,
-  SlotCapacity,
-  AbsenceBadge,
-} from "./CalendarViewPage.styles";
-import { useGetCalendarViewQuery } from "../../app/services/UserService";
+  useGetCalendarViewQuery,
+  useGetUserStudentsQuery,
+} from "../../app/services/UserService";
 import {
   useMarkStudentAbsenceMutation,
   useRecoverStudentSlotMutation,
@@ -40,7 +21,7 @@ import type {
   Student,
 } from "../../app/types/responses/CalendarResponse.type";
 import { SearchNotFound } from "../../components/search_not_found/SearchNotFound";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { GenericModal } from "../../components/generic_modal/GenericModal";
 import { toast } from "react-hot-toast";
 import { formatDateToIsoString } from "../../utils/DateFormatter";
@@ -64,6 +45,12 @@ function CalendarView() {
     date: formatDateToIsoString(new Date()),
     typeOfView: CalendarViewName.WEEKLY,
   });
+
+  const { data: studentsResponse } = useGetUserStudentsQuery({
+    userId: userId!,
+    filterByAbsences: true,
+  });
+  const studentsToRecover = studentsResponse?.content ?? [];
 
   const [slotAction, setSlotAction] = useState<CalendarAction | null>(null);
 
@@ -100,13 +87,25 @@ function CalendarView() {
   ) => {
     return recoverSlot({ studentId, specificSlotId }).unwrap();
   };
+  const selectedSlot = useMemo(() => {
+    if (!calendarData || slotAction?.type !== "RECOVER") return null;
+
+    return (
+      calendarData.slots
+        .flat()
+        .find((slot) => slot?.id === slotAction.specificSlotId) ?? null
+    );
+  }, [calendarData, slotAction]);
+  const availableCapacity = selectedSlot
+    ? selectedSlot.maxCapacity - selectedSlot.capacity
+    : 0;
 
   const columnsCount = calendarData?.days.length || 0;
   if (columnsCount === 0) {
     return (
-      <NoResponseContainer>
+      <s.NoResponseContainer>
         <SearchNotFound />
-      </NoResponseContainer>
+      </s.NoResponseContainer>
     );
   }
 
@@ -117,22 +116,22 @@ function CalendarView() {
 
   const ActionsSkeleton = ({ specificSlotId }: { specificSlotId: string }) => {
     return (
-      <ActionsContainer>
-        <Action>Buscar</Action>
-        <TooltipContainer onClick={() => handleRecoverSlot(specificSlotId)}>
+      <s.ActionsContainer>
+        <s.Action>Buscar</s.Action>
+        <s.TooltipContainer onClick={() => handleRecoverSlot(specificSlotId)}>
           <img src={PlusIcon} alt="Añadir alumno" />
-          <Tooltip>Añadir alumno</Tooltip>
-        </TooltipContainer>
+          <s.Tooltip>Añadir alumno</s.Tooltip>
+        </s.TooltipContainer>
 
-        <Action>Cancelar</Action>
-      </ActionsContainer>
+        <s.Action>Cancelar</s.Action>
+      </s.ActionsContainer>
     );
   };
 
   const SlotInfoSkeleton = (slot: SpecificSlotResponse) => {
     return (
-      <SlotInfoContainer>
-        <SlotCapacity $isFull={slot.capacity === slot.maxCapacity}>
+      <s.SlotInfoContainer>
+        <s.SlotCapacity $isFull={slot.capacity === slot.maxCapacity}>
           <img
             src={UserIcon}
             alt="Capacity"
@@ -144,8 +143,8 @@ function CalendarView() {
             }}
           />
           {slot.capacity} / {slot.maxCapacity}
-        </SlotCapacity>
-        <SlotStatus $status={slot.status}>
+        </s.SlotCapacity>
+        <s.SlotStatus $status={slot.status}>
           {STATUS_ICONS[slot.status] && (
             <img
               src={STATUS_ICONS[slot.status]}
@@ -154,32 +153,32 @@ function CalendarView() {
             />
           )}
           {StatesTranslation[slot.status]}
-        </SlotStatus>
-      </SlotInfoContainer>
+        </s.SlotStatus>
+      </s.SlotInfoContainer>
     );
   };
 
   return (
-    <MainContainer>
-      <CalendarContainer $columnsCount={columnsCount}>
-        <ScheduledTime>
+    <s.MainContainer>
+      <s.CalendarContainer $columnsCount={columnsCount}>
+        <s.ScheduledTime>
           {calendarData?.times.map((timeSlot) => (
-            <TimeSlot key={timeSlot.startTime}>
+            <s.TimeSlot key={timeSlot.startTime}>
               {timeSlot.startTime} <br /> - <br />
               {timeSlot.endTime}
-            </TimeSlot>
+            </s.TimeSlot>
           ))}
-        </ScheduledTime>
+        </s.ScheduledTime>
         {calendarData?.days.map((day, colIndex) => (
-          <DayColumn key={day.dayOfWeek}>
-            <DayContainer>
-              <DayOfWeek>{DaysOfWeekTranslation[day.dayOfWeek]}</DayOfWeek>
-              <Number>{day.numberOfDay}</Number>
-            </DayContainer>
+          <s.DayColumn key={day.dayOfWeek}>
+            <s.DayContainer>
+              <s.DayOfWeek>{DaysOfWeekTranslation[day.dayOfWeek]}</s.DayOfWeek>
+              <s.Number>{day.numberOfDay}</s.Number>
+            </s.DayContainer>
             {calendarData?.times.map((_, rowIndex) => {
               const slot = calendarData.slots[rowIndex][colIndex];
               return (
-                <SpecificSlot
+                <s.SpecificSlot
                   $isNull={!slot}
                   key={rowIndex}
                   $columnsCount={columnsCount}
@@ -188,32 +187,32 @@ function CalendarView() {
                     <>
                       <ActionsSkeleton specificSlotId={slot.id} />
                       <SlotInfoSkeleton {...slot} />
-                      <SlotStudentsContainer>
+                      <s.SlotStudentsContainer>
                         {slot?.students?.map((student) => {
                           const isAbsent = student.status === "ABSENCE";
                           return (
-                            <StudentName
+                            <s.StudentName
                               key={student.id}
                               title={student.fullName}
                               onClick={() =>
                                 handleAbsenceSlot(student, slot.id)
                               }
                             >
-                              {isAbsent && <AbsenceBadge>A</AbsenceBadge>}
+                              {isAbsent && <s.AbsenceBadge>A</s.AbsenceBadge>}
 
-                              <StudentText $isAbsent={isAbsent}>
+                              <s.StudentText $isAbsent={isAbsent}>
                                 {student.fullName}
-                              </StudentText>
-                            </StudentName>
+                              </s.StudentText>
+                            </s.StudentName>
                           );
                         })}
-                      </SlotStudentsContainer>
+                      </s.SlotStudentsContainer>
                     </>
                   )}
-                </SpecificSlot>
+                </s.SpecificSlot>
               );
             })}
-          </DayColumn>
+          </s.DayColumn>
         ))}
 
         {slotAction?.type === "ABSENCE" && (
@@ -231,13 +230,14 @@ function CalendarView() {
         )}
         <StudentRecover
           isOpen={slotAction?.type === "RECOVER"}
-          calendarData={calendarData}
+          students={studentsToRecover}
+          availableCapacity={availableCapacity}
           selectedSlotId={slotAction?.specificSlotId || null}
           onClose={closeModals}
           onConfirm={handleConfirmRecover}
         />
-      </CalendarContainer>
-    </MainContainer>
+      </s.CalendarContainer>
+    </s.MainContainer>
   );
 }
 export default CalendarView;
