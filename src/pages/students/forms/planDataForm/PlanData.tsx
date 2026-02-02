@@ -8,7 +8,10 @@ import {
   FormContainer,
   PlanContainer,
   SlotDetailContainer,
+  SlotTitleContainer,
+  SlotsContainer,
 } from "./PlanData.styles";
+import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import SlotRegistrationCalendar from "../../../../components/slotRegistrationCalendar/SlotRegistrationCalendar";
 import SlotDetail from "../../../../components/slotDetail/SlotDetail";
@@ -22,6 +25,7 @@ import type { FormProp } from "../../create-student/FormProp.type";
 import { forwardRef, useImperativeHandle, useMemo, useCallback } from "react";
 import { skipToken } from "@reduxjs/toolkit/query";
 import { DaysOfWeekTranslation } from "../../../../utils/DaysOfWeek";
+import CalendarIcon from "../../../../assets/CalenderIcon.png";
 
 export interface PlanDataProps {
   planId: string;
@@ -38,6 +42,7 @@ const PlanData = forwardRef<FormProp<PlanDataProps>, FormProp<PlanDataProps>>(
     const { data: planTypes } = useGetUserPlansQuery(
       userId ? { userId } : skipToken,
     );
+
     const schema = useMemo(() => planDataScheme(planTypes), [planTypes]);
     const { slots, removeSlot, newSlot } = useSlotHandler();
     const {
@@ -148,9 +153,15 @@ const PlanData = forwardRef<FormProp<PlanDataProps>, FormProp<PlanDataProps>>(
           )}
         </FormContainer>
         <ErrorMessage error={errors.slotIds} />
-        <SlotDetailContainer>
-          <SlotDetail slots={slots} />
-        </SlotDetailContainer>
+        <SlotsContainer>
+          <SlotTitleContainer>
+            <img src={CalendarIcon} width={"24px"} height={"24px"}></img>
+            Turnos asignados
+          </SlotTitleContainer>
+          <SlotDetailContainer>
+            <SlotDetail slots={slots} />
+          </SlotDetailContainer>
+        </SlotsContainer>
       </MainContainer>
     );
   },

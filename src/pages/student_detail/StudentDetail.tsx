@@ -8,6 +8,8 @@ import {
   ButtonWrapper,
   AllInformationContainer,
   PaymentInfoContainer,
+  SlotInfoContainer,
+  SearchNotFoundStyles,
   NotFoundStudentMessage,
   InfoBoxesContainer,
   StudentInfo,
@@ -17,7 +19,12 @@ import {
   ButtonContainer,
   SubTitle,
   Title,
+  SlotTitleContainer,
+  PlanContainer,
   TitleContainer,
+  SlotsContainer,
+  AssignedPlan,
+  DaysPlan,
 } from "./StudentDetail.styles";
 import { useLocation } from "react-router";
 import { useNavigate } from "react-router-dom";
@@ -31,19 +38,25 @@ import BackIcon from "../../assets/back-icon.svg";
 import InfoIcon from "../../assets/info-icon.svg";
 import EditIcon from "../../assets/edit-icon.svg";
 import DesactivateIcon from "../../assets/desactivate-icon.svg";
+import CalendarIcon from "../../assets/CalenderIcon.png";
 import Button from "../../components/button/Button";
 import { ConfirmDialog } from "../../components/confirm_dialog/ConfirmDialog";
 import {
   getEditarEstudianteStep,
   ListadoCuotas,
+  ModificarTurnos,
 } from "../../routes/RoutesUtils";
 import toast from "react-hot-toast";
 import { useState } from "react";
 import type { StudentDetailResponse } from "../../app/types/responses/StudentDetailResponse.type";
 import {
+  mapStudentSlotInfo,
   studentPaymentInfo,
   studentPersonalInfo,
 } from "../../utils/StudentDetailInfo";
+import { SearchNotFound } from "../../components/search_not_found/SearchNotFound";
+import SlotDetail from "../../components/slotDetail/SlotDetail";
+
 const StudentDetail = () => {
   const { studentId } = useLocation().state;
   const {
@@ -153,6 +166,7 @@ const StudentDetail = () => {
       <InfoBoxesContainer>
         <StudentData student={student} navigate={navigate} />
         <PaymentData student={student} navigate={navigate} />
+        <SlotData student={student} navigate={navigate} />
       </InfoBoxesContainer>
     </MainContainer>
   );
@@ -255,5 +269,50 @@ const PaymentData = ({
         </ButtonContainer>
       </AllInformationContainer>
     </PaymentInfoContainer>
+  );
+};
+const SlotData = ({
+  student,
+  navigate,
+}: {
+  student: StudentDetailResponse;
+  navigate: (path: string, options?: { state?: any }) => void;
+}) => {
+  const slots = mapStudentSlotInfo(student);
+  const hasSlots = slots.length > 0;
+
+  return (
+    <SlotInfoContainer>
+      <HeaderBoxes>
+        <SlotTitleContainer>
+          <img
+            src={CalendarIcon}
+            width={"24px"}
+            height={"24px"}
+            style={{ paddingLeft: "16px" }}
+          ></img>
+          Turnos asignados
+        </SlotTitleContainer>
+
+        <EditIconStyles onClick={() => navigate(ModificarTurnos)}>
+          <img src={EditIcon} alt="edit-icon" />
+        </EditIconStyles>
+      </HeaderBoxes>
+
+      <PlanContainer>
+        <AssignedPlan>Plan asignado</AssignedPlan>
+        <DaysPlan>{student.plan}</DaysPlan>
+      </PlanContainer>
+
+      {hasSlots ? (
+        <SlotsContainer>
+          <SlotDetail slots={slots} />
+        </SlotsContainer>
+      ) : (
+        <SearchNotFoundStyles>
+          <SearchNotFound />
+        </SearchNotFoundStyles>
+      )}
+    </SlotInfoContainer>
   );
 };

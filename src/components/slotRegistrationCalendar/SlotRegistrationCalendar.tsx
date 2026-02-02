@@ -6,13 +6,13 @@ import {
   WarningContainer,
 } from "./SlotRegistrationCalendar.styles";
 import { SUCCESS_COLOR } from "../../utils/Stylesheet";
-import type { Slots } from "../../app/types/responses/ShiftsResponse";
-
+import type { Slot } from "../slotDetail/SlotDetail";
+type DayWithSlots = { day: string; slots: Slot[] };
 type CalendarProps = {
   selectedSlots: { id: string }[];
   onSelectSlot: (id: string, day: string, hour: string) => void;
   onDeleteSlot: (id: string, day: string, hour: string) => void;
-  listSlots: Slots[];
+  listSlots: DayWithSlots[];
 };
 
 function SlotRegistrationCalendar({

@@ -4,13 +4,14 @@ import {
   SUCCESS_COLOR,
   NEUTRAL_COLOR,
   DANGER_COLOR,
+  FONT_WEIGHT_BOLD,
 } from "../../utils/Stylesheet";
 
 export const MainContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 0px 20px;
+  margin: 0px 20px 20px 0px;
   overflow: hidden;
   width: 100%;
   height: 100%;
@@ -30,7 +31,14 @@ export const HeaderBoxes = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: left;
-  padding: 1rem;
+  padding: 12px;
+  align-items: center;
+`;
+export const SlotPlanContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 `;
 
 export const EditIconStyles = styled.div`
@@ -41,7 +49,7 @@ export const InfoBoxesContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  gap: 84px;
+  gap: 40px 80px;
   font-family: ${FONT_FAMILY};
   flex-wrap: wrap;
   max-width: 1200px;
@@ -76,7 +84,19 @@ export const InformationContainer = styled.div`
   text-align: left;
   margin-bottom: 1rem;
 `;
-
+export const SlotInfoContainer = styled(StudentInfoContainer)`
+  width: 1158px;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+`;
+export const SearchNotFoundStyles = styled.div`
+  display: grid;
+  place-content: center;
+  width: 100%;
+  height: 100%;
+`;
 export const Label = styled.p`
   font-family: ${FONT_FAMILY};
   font-size: 12px;
@@ -98,11 +118,13 @@ export const StudentInfo = styled.p`
 `;
 export const StudentStatusStyle = styled.p<{ $status: boolean }>`
   margin: 0;
+  font-weight: ${FONT_WEIGHT_BOLD};
   color: ${({ $status }) => ($status ? SUCCESS_COLOR : NEUTRAL_COLOR)};
 `;
 
 export const StudentSituationStyle = styled.p<{ $situation: string }>`
   margin: 0;
+  font-weight: ${FONT_WEIGHT_BOLD};
   color: ${({ $situation }) =>
     $situation === "En término" ? SUCCESS_COLOR : DANGER_COLOR};
 `;
@@ -128,7 +150,38 @@ export const SubTitle = styled.h2`
   margin: 0px;
   margin-left: 2rem;
 `;
+export const SlotTitleContainer = styled.div`
+  font-family: ${FONT_FAMILY};
+  font-size: 16px;
+  font-weight: ${FONT_WEIGHT_BOLD};
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+`;
+export const PlanContainer = styled.div`
+  margin: 0;
+  padding-left: 32px;
+`;
 
+export const AssignedPlan = styled.p`
+  font-size: 12px;
+  margin: 0px;
+  font-family: ${FONT_FAMILY};
+  font-weight: ${FONT_WEIGHT_BOLD};
+`;
+export const DaysPlan = styled.p`
+  font-size: 16px;
+  font-family: ${FONT_FAMILY};
+  margin: 0px;
+`;
+export const SlotsContainer = styled.div`
+  margin-left: 30px;
+  margin-right: 30px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+`;
 export const IconStyles = styled.div`
   margin-right: 0.5rem;
   display: flex;
@@ -139,6 +192,7 @@ export const ButtonContainer = styled.div`
   align-items: center;
   justify-content: center;
   grid-column: span 2;
+  margin-bottom: 8px;
 `;
 
 export const NotFoundStudentMessage = styled.p`

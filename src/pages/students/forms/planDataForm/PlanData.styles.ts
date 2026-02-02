@@ -6,6 +6,7 @@ import {
   FONT_FAMILY,
   BORDER_RADIUS,
   FONT_WEIGHT_BOLD,
+  LIGHT_NEUTRAL_COLOR,
 } from "../../../../utils/Stylesheet";
 export const WIDTH = "810px";
 export const MainContainer = styled.div`
@@ -17,8 +18,7 @@ export const MainContainer = styled.div`
 export const FormContainer = styled.form`
   display: flex;
   flex-direction: column;
-  align-items: center;
-  width: 100%;
+  align-items: right;
 `;
 export const PlanContainer = styled.div`
   display: flex;
@@ -26,9 +26,7 @@ export const PlanContainer = styled.div`
   align-items: flex-start;
   width: ${WIDTH};
 `;
-export const SlotDetailContainer = styled.div`
-  width: ${WIDTH};
-`;
+
 export const Label = styled.p`
   font-size: 16px;
   font-weight: ${FONT_WEIGHT_BOLD};
@@ -60,4 +58,33 @@ export const Select = styled.select`
   &::placeholder {
     color: ${NEUTRAL_COLOR};
   }
+`;
+export const SlotTitleContainer = styled.h2`
+  font-family: ${FONT_FAMILY};
+  font-size: 16px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+`;
+export const SlotsContainer = styled.div`
+  width: 810px;
+  max-width: 810px;
+  height: 172px;
+  border: 5px solid ${LIGHT_NEUTRAL_COLOR};
+  border-radius: ${BORDER_RADIUS};
+  padding: 12px;
+  gap: 16px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+`;
+export const SlotDetailContainer = styled.div`
+  flex: 1;
+  overflow-x: auto;
+  overflow-y: hidden;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
 `;
