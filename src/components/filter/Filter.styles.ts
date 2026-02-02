@@ -6,13 +6,16 @@ import {
   NEUTRAL_COLOR,
   DEFAULT_TEXT_COLOR,
 } from "../../utils/Stylesheet";
+
 interface DropdownWrapperProps {
   $hasValue: boolean;
 }
+
 export const FilterContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  
 `;
 
 export const DropdownWrapper = styled.div<DropdownWrapperProps>`

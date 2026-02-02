@@ -23,11 +23,10 @@ export type CalendarAction =
   | { type: "RECOVER"; specificSlotId: string };
 
 function CalendarView() {
+
   const { userId } = useAuthentication();
 
   const [markAbsence] = useMarkStudentAbsenceMutation();
-
-  const [filter, setFilter] = useState<string>("");
 
   const { data: calendarData } = useGetCalendarViewQuery({
     userId: userId!,
@@ -60,10 +59,13 @@ function CalendarView() {
         .find((slot) => slot?.id === slotAction.specificSlotId) ?? null
     );
   }, [calendarData, slotAction]);
+
   const availableCapacity = selectedSlot
     ? selectedSlot.maxCapacity - selectedSlot.capacity
     : 0;
+
   const columnsCount = calendarData?.days.length || 0;
+
   if (columnsCount === 0) {
     return (
       <s.NoResponseContainer>
@@ -71,7 +73,6 @@ function CalendarView() {
       </s.NoResponseContainer>
     );
   }
-
 
   return (
     <s.MainContainer>
@@ -92,7 +93,6 @@ function CalendarView() {
             </s.DayContainer>
             {calendarData?.times.map((_, rowIndex) => {
               const slot = calendarData.slots[rowIndex][colIndex];
-
               return (
                 <Slot
                   slot={slot}
@@ -124,7 +124,6 @@ function CalendarView() {
           availableCapacity={availableCapacity}
           onClose={closeModals}
         />
-        ;
       </s.CalendarContainer>
     </s.MainContainer>
   );

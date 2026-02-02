@@ -1,5 +1,12 @@
 import styled from "styled-components";
-import { BORDER_RADIUS, DEFAULT_TEXT_COLOR, FONT_FAMILY, LIGHT_NEUTRAL_COLOR, NEUTRAL_COLOR } from "../../utils/Stylesheet";
+import {
+  BORDER_RADIUS,
+  DEFAULT_TEXT_COLOR,
+  FONT_FAMILY,
+  LIGHT_NEUTRAL_COLOR,
+  NEUTRAL_COLOR
+}
+  from "../../utils/Stylesheet";
 
 export const FilterDiv = styled.div`
   position: relative;
@@ -18,7 +25,6 @@ export const FilterInputStyled = styled.input`
   border:none;
   background-color: transparent;
   font-size: 12px;
-  padding: 0px 0px 0px 0px;
   &:focus {
     outline: none;
     box-shadow: none;  
@@ -28,10 +34,11 @@ export const FilterInputStyled = styled.input`
     font-family:${FONT_FAMILY};
   }
 `;
+
 export const IconWrapper = styled.div`
   position: absolute;
   top: 45%;
-  left:86%;
+  right:8%;
   transform: translateY(-50%);
   pointer-events: none;
 `;

@@ -1,23 +1,28 @@
 import styled from "styled-components";
-import { BACKGROUND_COLOR, DANGER_COLOR, DEFAULT_TEXT_COLOR, FONT_FAMILY, FONT_WEIGHT_BOLD, LIGHT_NEUTRAL_COLOR, NEUTRAL_COLOR, SUCCESS_COLOR, WARNING_COLOR } from "../../../utils/Stylesheet";
+import {
+  BACKGROUND_COLOR,
+  DANGER_COLOR,
+  DEFAULT_TEXT_COLOR,
+  FONT_FAMILY,
+  FONT_WEIGHT_BOLD,
+  LIGHT_NEUTRAL_COLOR,
+  NEUTRAL_COLOR,
+  SUCCESS_COLOR,
+  WARNING_COLOR
+}
+  from "../../../utils/Stylesheet";
 
 const ROW_HEIGHT = "260px";
-const ROW_SPACING_HEIGHT = "16px";
-
-
 
 interface SpecificSlotProps {
-    $isNull: boolean;
-    $columnsCount: number;
+  $isNull: boolean;
+  $columnsCount: number;
 }
-
 
 export const SpecificSlot = styled.div<SpecificSlotProps>`
       height: ${ROW_HEIGHT};
-      border: ${(props) =>
-        props.$isNull ? "none" : "4px solid " + LIGHT_NEUTRAL_COLOR};
-      background-color: ${(props) =>
-        props.$isNull ? LIGHT_NEUTRAL_COLOR : "transparent"};
+      border: ${(props) => props.$isNull ? "none" : "4px solid " + LIGHT_NEUTRAL_COLOR};
+      background-color: ${(props) => props.$isNull ? LIGHT_NEUTRAL_COLOR : "transparent"};
       border-radius: 8px;
       width: 100%;
       overflow-y: auto;
@@ -26,23 +31,24 @@ export const SpecificSlot = styled.div<SpecificSlotProps>`
       box-sizing: border-box;
     `;
 
-
-
 export const ActionsContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   margin-top:4px;
-
+  align-items:center;
+  gap:4px;
 `;
 
 export const Action = styled.button`
-  padding: 4px 8px;
+  width:25px;
+  height:25px;
   border: none;
-  border-radius: 4px;
+  border-radius: 50%;
   color: black;
   cursor: pointer;
 `;
+
 const TooltipWrapper = styled.div`
   position: relative;
   display: inline-flex;
@@ -69,8 +75,8 @@ export const TooltipContainer = styled(TooltipWrapper) <{ $disabled?: boolean }>
   margin-left: auto;
   cursor: ${(props) => (props.$disabled ? "not-allowed" : "pointer")};
   ${(props) =>
-        props.$disabled &&
-        `
+    props.$disabled &&
+    `
     filter: grayscale(1) opacity(0.5);
     &:hover ${Tooltip} {
       background: DANGER_COLOR; 
@@ -86,8 +92,6 @@ export const SearchFilterContainer = styled.div`
   width:136px;
   height:34px;
 `
-
-
 export const SlotInfoContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -96,9 +100,10 @@ export const SlotInfoContainer = styled.div`
 `;
 
 interface SlotInfoProps {
-    $isFull?: boolean;
-    $status?: string;
+  $isFull?: boolean;
+  $status?: string;
 }
+
 export const SlotInfo = styled.span<SlotInfoProps>`
   display: flex;
   align-items: center;
@@ -114,15 +119,15 @@ export const SlotInfo = styled.span<SlotInfoProps>`
 
 export const SlotCapacity = styled(SlotInfo) <SlotInfoProps>`
   background-color: ${(props) =>
-        props.$isFull ? DANGER_COLOR : SUCCESS_COLOR};
+    props.$isFull ? DANGER_COLOR : SUCCESS_COLOR};
 `;
 
 export const SlotStatus = styled(SlotInfo) <SlotInfoProps>`
   background-color: ${({ $status }) => {
-        if ($status === "FINALIZED") return SUCCESS_COLOR;
-        if ($status === "IN_PROGRESS") return WARNING_COLOR;
-        return "transparent";
-    }};
+    if ($status === "FINALIZED") return SUCCESS_COLOR;
+    if ($status === "IN_PROGRESS") return WARNING_COLOR;
+    return "transparent";
+  }};
 `;
 
 export const SlotStudentsContainer = styled.div`
@@ -159,7 +164,6 @@ export const StudentText = styled.p<{ $isAbsent?: boolean }>`
   margin-left: 6px;
 `;
 
-
 export const AbsenceBadge = styled.div`
   background-color: ${NEUTRAL_COLOR};
   color: ${BACKGROUND_COLOR};
@@ -167,7 +171,7 @@ export const AbsenceBadge = styled.div`
   font-weight: ${FONT_WEIGHT_BOLD};
   margin-left: 6px;
   width: 16px;
-  height: 17px;
+  height: 16px;
   border-radius: 4px;
   flex-shrink: 0;
   display: flex;

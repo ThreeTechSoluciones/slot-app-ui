@@ -1,16 +1,12 @@
 import styled from "styled-components";
 import {
-  DANGER_COLOR,
   DEFAULT_FONT_SIZE,
   DEFAULT_TEXT_COLOR,
   FONT_FAMILY,
   FONT_WEIGHT_BOLD,
   LIGHT_NEUTRAL_COLOR,
-  SUCCESS_COLOR,
-  NEUTRAL_COLOR,
-  BACKGROUND_COLOR,
-  WARNING_COLOR,
 } from "../../utils/Stylesheet";
+
 const ROW_HEIGHT = "260px";
 const ROW_SPACING_HEIGHT = "16px";
 
@@ -23,21 +19,24 @@ export const NoResponseContainer = styled.div`
 export const MainContainer = styled.div`
   display: flex;
   width: 100%;
-  margin-top: 24px;
+  margin: 24px 0px 24px 0px;
   justify-content: center;
   padding: 0 24px;
+  box-sizing: border-box;
 `;
 
 interface CalendarContainerProps {
   $columnsCount: number;
 }
+
 export const CalendarContainer = styled.div<CalendarContainerProps>`
   display: grid;
   grid-template-columns: 85px repeat(
       ${(props) => props.$columnsCount || 3},
-      minmax(200px, 300px)
+      minmax(204px, 300px)
     );
 `;
+
 export const DayColumn = styled.div`
   display: flex;
   flex-direction: column;
@@ -59,6 +58,7 @@ export const DayOfWeek = styled.h1`
   font-weight: ${FONT_WEIGHT_BOLD};
   font-size: ${DEFAULT_FONT_SIZE};
 `;
+
 export const Number = styled.span`
   width: 32px;
   height: 32px;
@@ -71,12 +71,14 @@ export const Number = styled.span`
   align-items: center;
   justify-content: center;
 `;
+
 export const ScheduledTime = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${ROW_SPACING_HEIGHT};
   margin-top: 61px;
 `;
+
 export const TimeSlot = styled.p`
   font-family: ${FONT_FAMILY};
   font-weight: ${FONT_WEIGHT_BOLD};
