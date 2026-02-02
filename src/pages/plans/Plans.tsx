@@ -15,6 +15,7 @@ import {
   LeftContainer,
   RightContainer,
   Title,
+  FilterSearchContainer,
 } from "./Plans.styles";
 import { ConfirmDialog } from "../../components/confirm_dialog/ConfirmDialog";
 import { toast } from "react-hot-toast";
@@ -195,12 +196,14 @@ function Plans() {
 
       <FiltersContainer>
         <LeftContainer>
-          <FilterSearch
-            value={filter}
-            onChange={setFilter}
-            placeholder="Buscar por nombre"
-          />
+          <FilterSearchContainer>
+            <FilterSearch
+              value={filter}
+              onChange={setFilter}
+              placeholder="Buscar por nombre"
+            />
 
+          </FilterSearchContainer>
           <Button size="small" variant="primary" onClick={handleClearFilters}>
             Limpiar filtros
           </Button>

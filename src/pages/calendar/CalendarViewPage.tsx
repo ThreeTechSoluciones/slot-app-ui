@@ -1,37 +1,33 @@
 import * as s from "./CalendarViewPage.styles";
 import { useGetCalendarViewQuery } from "../../app/services/UserService";
 import { useMarkStudentAbsenceMutation } from "../../app/services/StudentService";
-import CheckIcon from "../../assets/check.svg";
 import useAuthentication from "../../hooks/useAuthentication";
-import UserIcon from "../../assets/white-user-icon.svg";
-import ProgressIcon from "../../assets/progress-icon.svg";
-import PlusIcon from "../../assets/plus-icon.svg";
 import StudentIcon from "../../assets/student-icon.svg";
 import { DaysOfWeekTranslation } from "../../utils/DaysOfWeek";
-import { StatesTranslation } from "../../utils/StatesTranslation";
 import { CalendarViewName } from "../../app/types/models/CalendarViewName";
-import type {
-  SpecificSlotResponse,
-  Student,
-} from "../../app/types/responses/CalendarResponse.type";
 import { SearchNotFound } from "../../components/search_not_found/SearchNotFound";
 import { useMemo, useState } from "react";
 import { GenericModal } from "../../components/generic_modal/GenericModal";
 import { toast } from "react-hot-toast";
 import { formatDateToIsoString } from "../../utils/DateFormatter";
 import { StudentRecover } from "./studentRecover/StudentRecover";
-type CalendarAction =
+import Slot from "./slot/Slot";
+
+export type CalendarAction =
   | {
-      type: "ABSENCE";
-      studentId: string;
-      studentName: string;
-      specificSlotId: string;
-    }
+    type: "ABSENCE";
+    studentId: string;
+    studentName: string;
+    specificSlotId: string;
+  }
   | { type: "RECOVER"; specificSlotId: string };
+
 function CalendarView() {
   const { userId } = useAuthentication();
 
   const [markAbsence] = useMarkStudentAbsenceMutation();
+
+  const [filter, setFilter] = useState<string>("");
 
   const { data: calendarData } = useGetCalendarViewQuery({
     userId: userId!,
@@ -42,21 +38,6 @@ function CalendarView() {
 
   const [slotAction, setSlotAction] = useState<CalendarAction | null>(null);
 
-  const handleAbsenceSlot = (student: Student, specificSlotId: string) => {
-    setSlotAction({
-      type: "ABSENCE",
-      studentId: student.id,
-      studentName: student.fullName,
-      specificSlotId,
-    });
-  };
-
-  const handleRecoverSlot = (specificSlotId: string) => {
-    setSlotAction({
-      type: "RECOVER",
-      specificSlotId,
-    });
-  };
   const closeModals = () => setSlotAction(null);
   const handleConfirmAbsence = () => {
     if (slotAction?.type === "ABSENCE") {
@@ -91,64 +72,6 @@ function CalendarView() {
     );
   }
 
-  const STATUS_ICONS: { [key: string]: string } = {
-    FINALIZED: CheckIcon,
-    IN_PROGRESS: ProgressIcon,
-  };
-
-  const ActionsSkeleton = ({
-    specificSlotId,
-    availableCapacity,
-  }: {
-    specificSlotId: string;
-    availableCapacity: number;
-  }) => {
-    const isFull = availableCapacity <= 0;
-    return (
-      <s.ActionsContainer>
-        <s.Action>Buscar</s.Action>
-        <s.TooltipContainer
-          $disabled={isFull}
-          onClick={() => !isFull && handleRecoverSlot(specificSlotId)}
-        >
-          <img src={PlusIcon} alt="Añadir alumno" />
-          <s.Tooltip>{isFull ? "Cupo lleno" : "Añadir alumno"}</s.Tooltip>
-        </s.TooltipContainer>
-
-        <s.Action>Cancelar</s.Action>
-      </s.ActionsContainer>
-    );
-  };
-
-  const SlotInfoSkeleton = (slot: SpecificSlotResponse) => {
-    return (
-      <s.SlotInfoContainer>
-        <s.SlotCapacity $isFull={slot.capacity === slot.maxCapacity}>
-          <img
-            src={UserIcon}
-            alt="Capacity"
-            style={{
-              width: 16,
-              height: 16,
-              marginRight: 2,
-              filter: "brightness(0) invert(1)",
-            }}
-          />
-          {slot.capacity} / {slot.maxCapacity}
-        </s.SlotCapacity>
-        <s.SlotStatus $status={slot.status}>
-          {STATUS_ICONS[slot.status] && (
-            <img
-              src={STATUS_ICONS[slot.status]}
-              alt="Status"
-              style={{ width: 12, height: 12, marginRight: 3 }}
-            />
-          )}
-          {StatesTranslation[slot.status]}
-        </s.SlotStatus>
-      </s.SlotInfoContainer>
-    );
-  };
 
   return (
     <s.MainContainer>
@@ -169,44 +92,15 @@ function CalendarView() {
             </s.DayContainer>
             {calendarData?.times.map((_, rowIndex) => {
               const slot = calendarData.slots[rowIndex][colIndex];
-              const slotAvailability = slot
-                ? slot.maxCapacity - slot.capacity
-                : 0;
+
               return (
-                <s.SpecificSlot
-                  $isNull={!slot}
-                  key={rowIndex}
-                  $columnsCount={columnsCount}
-                >
-                  {slot && (
-                    <>
-                      <ActionsSkeleton
-                        specificSlotId={slot.id}
-                        availableCapacity={slotAvailability}
-                      />
-                      <SlotInfoSkeleton {...slot} />
-                      <s.SlotStudentsContainer>
-                        {slot?.students?.map((student) => {
-                          const isAbsent = student.status === "ABSENCE";
-                          return (
-                            <s.StudentName
-                              key={student.id}
-                              title={student.fullName}
-                              onClick={() =>
-                                handleAbsenceSlot(student, slot.id)
-                              }
-                            >
-                              {isAbsent && <s.AbsenceBadge>A</s.AbsenceBadge>}
-                              <s.StudentText $isAbsent={isAbsent}>
-                                {student.fullName}
-                              </s.StudentText>
-                            </s.StudentName>
-                          );
-                        })}
-                      </s.SlotStudentsContainer>
-                    </>
-                  )}
-                </s.SpecificSlot>
+                <Slot
+                  slot={slot}
+                  rowIndex={rowIndex}
+                  columnsCount={columnsCount}
+                  setSlotAction={setSlotAction}
+                />
+
               );
             })}
           </s.DayColumn>

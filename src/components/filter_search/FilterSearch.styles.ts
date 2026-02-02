@@ -1,33 +1,37 @@
 import styled from "styled-components";
+import { BORDER_RADIUS, DEFAULT_TEXT_COLOR, FONT_FAMILY, LIGHT_NEUTRAL_COLOR, NEUTRAL_COLOR } from "../../utils/Stylesheet";
 
 export const FilterDiv = styled.div`
-  display: inline-block;
   position: relative;
+  width:100%;
+  background-color: ${LIGHT_NEUTRAL_COLOR};
+  padding-left: 16px;
+  border-radius:${BORDER_RADIUS};
+  display: inline-block;
 `;
 
 export const FilterInputStyled = styled.input`
-  width: 352px;
-  height: 48px;
-  background-color: #f0f0f0;
-  border-radius: 10px;
-  color: black;
-  border: #f0f0f0;
+  width: 100%;
+  height: 100%;
+  color:${DEFAULT_TEXT_COLOR};
+  font-family:${FONT_FAMILY};
+  border:none;
+  background-color: transparent;
   font-size: 12px;
-  padding-left: 16px;
+  padding: 0px 0px 0px 0px;
   &:focus {
     outline: none;
-    border: 1px solid white;
-    box-shadow: 0 0 3px #cccccce4;
+    box-shadow: none;  
   }
-
   &::placeholder {
-    color: black;
+    color: ${NEUTRAL_COLOR};
+    font-family:${FONT_FAMILY};
   }
 `;
 export const IconWrapper = styled.div`
   position: absolute;
-  top: 50%;
-  right: 8px;
+  top: 45%;
+  left:86%;
   transform: translateY(-50%);
   pointer-events: none;
 `;
