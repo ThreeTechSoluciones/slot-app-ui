@@ -21,6 +21,7 @@ import CurrencyInput from "../../../utils/InputPrice/CurrencyInput";
 import InputDate from "../../../components/date/inputDate";
 import CalendarIcon from "../../../assets/calendar-icon.svg";
 import { editPlanSchema } from "./EditPlan.scheme";
+import * as yup from "yup";
 
 export interface EditPlanFormData {
   name: string;
@@ -38,13 +39,14 @@ export interface EditPlanFormProps {
 
 const EditPlanForm = forwardRef<FormProp<any>, EditPlanFormProps>(
   (props, ref) => {
+    type FormData = yup.InferType<typeof editPlanSchema>;
     const { planId, planName, numberOfDays, currentAmount } = props;
     const {
       handleSubmit,
       control,
       formState: { errors },
-    } = useForm<EditPlanFormData>({
-      resolver: yupResolver(editPlanSchema),
+    } = useForm<FormData>({
+      resolver: yupResolver(editPlanSchema) as any,
       defaultValues: {
         name: planName,
         numberOfDays: numberOfDays,

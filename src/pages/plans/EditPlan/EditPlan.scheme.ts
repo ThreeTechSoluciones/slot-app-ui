@@ -6,7 +6,8 @@ export const editPlanSchema = yup.object({
   numberOfDays: yup
     .number()
     .required("El número de días es requerido")
-    .max(7, "No puede superar 7 días"),
+    .max(7, "No puede superar 7 días")
+    .min(1, "No puede ser menor a 1 día"),
   amount: yup
     .number()
     .nullable()
