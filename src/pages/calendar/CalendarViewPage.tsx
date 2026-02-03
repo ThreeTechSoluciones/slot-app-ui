@@ -1,62 +1,57 @@
-import {
-  MainContainer,
-  DayColumn,
-  SpecificSlot,
-  ActionsContainer,
-  Action,
-  NoResponseContainer,
-  CalendarContainer,
-  SlotInfoContainer,
-  SlotStatus,
-  SlotStudentsContainer,
-  StudentName,
-  StudentText,
-  ScheduledTime,
-  Number,
-  DayContainer,
-  DayOfWeek,
-  TimeSlot,
-  SlotCapacity,
-  AbsenceBadge,
-} from "./CalendarViewPage.styles";
-import { useGetCalendarViewQuery } from "../../app/services/UserService";
-import { useMarkStudentAbsenceMutation } from "../../app/services/StudentService";
+import { useGetCalendarViewQuery } from '../../app/services/UserService';
 import CheckIcon from "../../assets/check.svg";
-import useAuthentication from "../../hooks/useAuthentication";
-import UserIcon from "../../assets/white-user-icon.svg";
-import ProgressIcon from "../../assets/progress-icon.svg";
+import useAuthentication from '../../hooks/useAuthentication';
+import UserIcon from "../../assets/user-icon.svg"
+import ProgressIcon from "../../assets/progress-icon.svg"
+import { DaysOfWeekTranslation } from '../../utils/DaysOfWeek';
+import { StatesTranslation } from '../../utils/StatesTranslation';
+import { CalendarViewName } from '../../app/types/models/CalendarViewName';
+import type { SpecificSlotResponse, Student } from '../../app/types/responses/CalendarResponse.type';
+import { SearchNotFound } from '../../components/search_not_found/SearchNotFound';
+import { formatDateToIsoString } from '../../utils/DateFormatter';
+import InputDate from '../../components/date/inputDate';
+import CalendarIcon from "../../assets/CalenderIcon.png";
+import BackIcon from "../../assets/back-arrow-icon.svg";
+import NextIcon from "../../assets/next-arrow-icon.svg";
+import { useState } from 'react';
+import { CalendarMonth } from '../../utils/MonthsOfYear';
+import * as s from './CalendarViewPage.styles';
+import { useMarkStudentAbsenceMutation } from "../../app/services/StudentService";
 import StudentIcon from "../../assets/student-icon.svg";
-import { DaysOfWeekTranslation } from "../../utils/DaysOfWeek";
-import { StatesTranslation } from "./StatesTranslation";
-import { CalendarViewName } from "../../app/types/models/CalendarViewName";
-import type {
-  SpecificSlotResponse,
-  Student,
-} from "../../app/types/responses/CalendarResponse.type";
-import { SearchNotFound } from "../../components/search_not_found/SearchNotFound";
-import { useState } from "react";
 import { GenericModal } from "../../components/generic_modal/GenericModal";
 import { toast } from "react-hot-toast";
-import { formatDateToIsoString } from "../../utils/DateFormatter";
-
-interface AbsenceData {
-  studentId: string;
-  studentName: string;
-  specificSlotId: string;
-}
 
 function CalendarView() {
+
+  const [selectDate, setSelectDate] = useState<Date>(new Date());
+
   const { userId } = useAuthentication();
 
   const [markAbsence] = useMarkStudentAbsenceMutation();
 
+  const [absenceData, setAbsenceData] = useState<AbsenceData | null>(null);
+
+  const calculateWeek = (days: number) => {
+    setSelectDate(new Date(selectDate.setDate(selectDate.getDate() + days)));
+  }
+
+  const calendarPlaceholder = () => {
+    const month = CalendarMonth[selectDate!.getMonth()];
+    const year = selectDate!.getFullYear();
+    return `${month} ${year}`;
+  }
+
   const { data: calendarData } = useGetCalendarViewQuery({
     userId: userId!,
-    date: formatDateToIsoString(new Date()),
-    typeOfView: CalendarViewName.WEEKLY,
+    date: formatDateToIsoString(selectDate),
+    typeOfView: CalendarViewName.WEEKLY
   });
 
-  const [absenceData, setAbsenceData] = useState<AbsenceData | null>(null);
+  interface AbsenceData {
+    studentId: string;
+    studentName: string;
+    specificSlotId: string;
+  }
 
   const handleStudentClick = (student: Student, specificSlotId: string) => {
     setAbsenceData({
@@ -82,14 +77,6 @@ function CalendarView() {
 
   const columnsCount = calendarData?.days.length || 0;
 
-  if (columnsCount === 0) {
-    return (
-      <NoResponseContainer>
-        <SearchNotFound />
-      </NoResponseContainer>
-    );
-  }
-
   const STATUS_ICONS: { [key: string]: string } = {
     FINALIZED: CheckIcon,
     IN_PROGRESS: ProgressIcon,
@@ -97,18 +84,18 @@ function CalendarView() {
 
   const ActionsSkeleton = () => {
     return (
-      <ActionsContainer>
-        <Action>Buscar</Action>
-        <Action>Cancelar</Action>
-        <Action>Agregar</Action>
-      </ActionsContainer>
+      <s.ActionsContainer>
+        <s.Action>Buscar</s.Action>
+        <s.Action>Cancelar</s.Action>
+        <s.Action>Agregar</s.Action>
+      </s.ActionsContainer>
     );
   };
 
   const SlotInfoSkeleton = (slot: SpecificSlotResponse) => {
     return (
-      <SlotInfoContainer>
-        <SlotCapacity $isFull={slot.capacity === slot.maxCapacity}>
+      <s.SlotInfoContainer>
+        <s.SlotCapacity $isFull={slot.capacity === slot.maxCapacity}>
           <img
             src={UserIcon}
             alt="Capacity"
@@ -120,8 +107,8 @@ function CalendarView() {
             }}
           />
           {slot.capacity} / {slot.maxCapacity}
-        </SlotCapacity>
-        <SlotStatus $status={slot.status}>
+        </s.SlotCapacity>
+        <s.SlotStatus $status={slot.status}>
           {STATUS_ICONS[slot.status] && (
             <img
               src={STATUS_ICONS[slot.status]}
@@ -130,32 +117,81 @@ function CalendarView() {
             />
           )}
           {StatesTranslation[slot.status]}
-        </SlotStatus>
-      </SlotInfoContainer>
+        </s.SlotStatus>
+      </s.SlotInfoContainer>
     );
   };
 
+  const SelectDateContainer = () => {
+    return (
+      <s.NavigationDateContainer>
+        <s.NavigationArrow onClick={() => calculateWeek(-7)}>
+          <img src={BackIcon} style={{ marginLeft: "8px" }} />
+        </s.NavigationArrow>
+        <s.CustomDisplayContainer>
+          <s.CustomDisplay>{calendarPlaceholder()}</s.CustomDisplay>
+          <s.InputDateContainer>
+            <InputDate
+              value={selectDate}
+              onChange={(date) => {
+                if (date instanceof Date) {
+                  setSelectDate(date);
+                }
+              }}
+              format="dd/MM/yyyy"
+              calendarPosition="top"
+              locale="es-ES"
+              clearIcon={null}
+              calendarIcon={
+                <img
+                  src={CalendarIcon}
+                  alt="Calendario"
+                  style={{ width: 20, height: 20 }}
+                />
+              }
+            />
+          </s.InputDateContainer>
+        </s.CustomDisplayContainer>
+        <s.NavigationArrow onClick={() => calculateWeek(7)}>
+          <img src={NextIcon} />
+        </s.NavigationArrow>
+      </s.NavigationDateContainer>
+    )
+  }
+
+  if (columnsCount === 0) {
+    return (
+      <s.NoResponseContainer>
+        <SelectDateContainer />
+        <s.Spacing>
+          <SearchNotFound />
+        </s.Spacing>
+      </s.NoResponseContainer>
+    )
+  }
+
   return (
-    <MainContainer>
-      <CalendarContainer $columnsCount={columnsCount}>
-        <ScheduledTime>
+    <s.MainContainer>
+      <SelectDateContainer />
+      <s.CalendarContainer $columnsCount={columnsCount}>
+        <s.ScheduledTime>
           {calendarData?.times.map((timeSlot) => (
-            <TimeSlot key={timeSlot.startTime}>
+            <s.TimeSlot key={timeSlot.startTime}>
               {timeSlot.startTime} <br /> - <br />
               {timeSlot.endTime}
-            </TimeSlot>
+            </s.TimeSlot>
           ))}
-        </ScheduledTime>
+        </s.ScheduledTime>
         {calendarData?.days.map((day, colIndex) => (
-          <DayColumn key={day.dayOfWeek}>
-            <DayContainer>
-              <DayOfWeek>{DaysOfWeekTranslation[day.dayOfWeek]}</DayOfWeek>
-              <Number>{day.numberOfDay}</Number>
-            </DayContainer>
+          <s.DayColumn key={day.dayOfWeek}>
+            <s.DayContainer>
+              <s.DayOfWeek>{DaysOfWeekTranslation[day.dayOfWeek]}</s.DayOfWeek>
+              <s.Number>{day.numberOfDay}</s.Number>
+            </s.DayContainer>
             {calendarData?.times.map((_, rowIndex) => {
               const slot = calendarData.slots[rowIndex][colIndex];
               return (
-                <SpecificSlot
+                <s.SpecificSlot
                   $isNull={!slot}
                   key={rowIndex}
                   $columnsCount={columnsCount}
@@ -164,34 +200,34 @@ function CalendarView() {
                     <>
                       <ActionsSkeleton />
                       <SlotInfoSkeleton {...slot} />
-                      <SlotStudentsContainer>
+                      <s.SlotStudentsContainer>
                         {slot?.students?.map((student) => {
                           const isAbsent = student.status === "ABSENCE";
                           return (
-                            <StudentName
+                            <s.StudentName
                               key={student.id}
                               title={student.fullName}
                               onClick={() =>
                                 handleStudentClick(student, slot.id)
                               }
                             >
-                              {isAbsent && <AbsenceBadge>A</AbsenceBadge>}
+                              {isAbsent && <s.AbsenceBadge>A</s.AbsenceBadge>}
 
-                              <StudentText $isAbsent={isAbsent}>
+                              <s.StudentText $isAbsent={isAbsent}>
                                 {student.fullName}
-                              </StudentText>
-                            </StudentName>
+                              </s.StudentText>
+                            </s.StudentName>
                           );
                         })}
-                      </SlotStudentsContainer>
+                      </s.SlotStudentsContainer>
                     </>
-                  )}
-                </SpecificSlot>
+                  )
+                  }
+                </s.SpecificSlot >
               );
             })}
-          </DayColumn>
+          </s.DayColumn >
         ))}
-
         {absenceData && (
           <GenericModal
             icon={StudentIcon}
@@ -206,9 +242,8 @@ function CalendarView() {
             confirmVariant="primary"
           ></GenericModal>
         )}
-      </CalendarContainer>
-    </MainContainer>
+      </s.CalendarContainer>
+    </s.MainContainer>
   );
 }
-
 export default CalendarView;
