@@ -1,4 +1,3 @@
-import { skipToken } from "@reduxjs/toolkit/query";
 import { useGetStudentPaymentMetricsQuery } from "../../app/services/MetricService";
 import {
   MetricCards,
@@ -16,7 +15,7 @@ const PaymentMetrics = ({ studentId }: PaymentMetricsProps) => {
     data: metrics,
     isLoading,
     isError,
-  } = useGetStudentPaymentMetricsQuery(studentId ? { studentId } : skipToken);
+  } = useGetStudentPaymentMetricsQuery({ studentId });
 
   if (isLoading) return <div>Cargando estadísticas...</div>;
   if (isError || !metrics) return null;
@@ -25,26 +24,32 @@ const PaymentMetrics = ({ studentId }: PaymentMetricsProps) => {
     {
       title: "Cuotas Pagadas",
       value: metrics.payedCount,
-      subtitle: "cuotas fueron pagadas.",
+      description:
+        metrics.payedCount === 1
+          ? "cuota fue pagada."
+          : "cuotas fueron pagadas.",
       icon: <FiCheckCircle size={20} />,
       color: SUCCESS_COLOR,
-      isSuccess: true,
     },
     {
       title: "Cuotas al día",
       value: metrics.onTimeCount,
-      subtitle: "cuotas fueron pagadas al día.",
+      description:
+        metrics.onTimeCount === 1
+          ? "cuota fue pagada al día."
+          : "cuotas fueron pagadas al día.",
       icon: <FiCheckCircle size={20} />,
       color: SUCCESS_COLOR,
-      isSuccess: true,
     },
     {
       title: "Cuotas adeudadas",
       value: metrics.outstandingCount,
-      subtitle: "cuota no fue pagada.",
+      description:
+        metrics.outstandingCount === 1
+          ? "cuota no fue pagada."
+          : "cuotas no fueron pagadas.",
       icon: <FiXCircle size={20} />,
       color: DANGER_COLOR,
-      isSuccess: false,
     },
   ];
 
