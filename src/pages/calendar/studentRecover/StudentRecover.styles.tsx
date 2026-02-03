@@ -1,6 +1,9 @@
 import styled from "styled-components";
 import {
+  BACKGROUND_COLOR,
   DEFAULT_TEXT_COLOR,
+  FONT_WEIGHT_BOLD,
+  FONT_WEIGHT_NORMAL,
   LIGHT_NEUTRAL_COLOR,
   SUCCESS_COLOR,
 } from "../../../utils/Stylesheet";
@@ -62,8 +65,23 @@ export const RecoverCheckbox = styled.div<{ $checked?: boolean }>`
     transition: all 0.3s ease;
   }
 `;
-export const RecoverStudentName = styled.p`
+export const RecoverLetter = styled.div`
+  width: 24px;
+  height: 24px;
+  background-color: ${SUCCESS_COLOR};
+  color: ${BACKGROUND_COLOR};
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 14px;
+  margin-left: 8px;
+`;
+export const RecoverStudentName = styled.p<{ $selected?: boolean }>`
   color: ${DEFAULT_TEXT_COLOR};
+  font-weight: ${({ $selected }) =>
+    $selected ? FONT_WEIGHT_BOLD : FONT_WEIGHT_NORMAL};
   display: flex;
   align-items: center;
   gap: 6px;
@@ -82,7 +100,6 @@ export const RecoverBadge = styled.div`
   font-size: 12px;
   font-weight: 600;
   margin-right: 8px;
-
   display: flex;
   align-items: center;
   justify-content: center;

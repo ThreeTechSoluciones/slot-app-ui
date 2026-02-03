@@ -10,6 +10,7 @@ import {
   NEUTRAL_COLOR,
   BACKGROUND_COLOR,
   WARNING_COLOR,
+  FONT_WEIGHT_NORMAL,
 } from "../../utils/Stylesheet";
 const ROW_HEIGHT = "260px";
 const ROW_SPACING_HEIGHT = "16px";
@@ -25,7 +26,6 @@ export const MainContainer = styled.div`
   width: 100%;
   margin-top: 24px;
   justify-content: center;
-  padding: 0 24px;
 `;
 
 interface CalendarContainerProps {
@@ -124,10 +124,12 @@ export const Action = styled.button`
   color: black;
   cursor: pointer;
 `;
-const TooltipWrapper = styled.div`
+const TooltipWrapper = styled.button`
   position: relative;
   display: inline-flex;
   align-items: center;
+  background: none;
+  border: none;
 `;
 
 export const Tooltip = styled.div`
@@ -219,7 +221,10 @@ export const StudentName = styled.div`
   }
 `;
 
-export const StudentText = styled.p<{ $isAbsent?: boolean }>`
+export const StudentText = styled.p<{
+  $isAbsent?: boolean;
+  $isRecover?: boolean;
+}>`
   font-family: ${FONT_FAMILY};
   font-size: 16px;
   flex: 1;
@@ -228,6 +233,8 @@ export const StudentText = styled.p<{ $isAbsent?: boolean }>`
   white-space: nowrap;
   text-overflow: ellipsis;
   color: ${({ $isAbsent }) => ($isAbsent ? NEUTRAL_COLOR : DEFAULT_TEXT_COLOR)};
+  font-weight: ${({ $isRecover }) =>
+    $isRecover ? FONT_WEIGHT_BOLD : FONT_WEIGHT_NORMAL};
   text-decoration: ${({ $isAbsent }) => ($isAbsent ? "line-through" : "none")};
   opacity: ${({ $isAbsent }) => ($isAbsent ? 0.7 : 1)};
   margin-left: 6px;
@@ -246,4 +253,8 @@ export const AbsenceBadge = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+`;
+
+export const RecoverBadge = styled(AbsenceBadge)`
+  background-color: ${SUCCESS_COLOR};
 `;

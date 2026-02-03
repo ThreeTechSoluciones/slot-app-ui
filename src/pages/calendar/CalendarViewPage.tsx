@@ -15,7 +15,7 @@ import type {
   Student,
 } from "../../app/types/responses/CalendarResponse.type";
 import { SearchNotFound } from "../../components/search_not_found/SearchNotFound";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { GenericModal } from "../../components/generic_modal/GenericModal";
 import { toast } from "react-hot-toast";
 import { formatDateToIsoString } from "../../utils/DateFormatter";
@@ -27,7 +27,7 @@ type CalendarAction =
       studentName: string;
       specificSlotId: string;
     }
-  | { type: "RECOVER"; specificSlotId: string };
+  | { type: "RECOVER"; specificSlotId: string; availableCapacity: number };
 function CalendarView() {
   const { userId } = useAuthentication();
 
@@ -35,8 +35,7 @@ function CalendarView() {
 
   const { data: calendarData } = useGetCalendarViewQuery({
     userId: userId!,
-    date: "2026-02-02",
-    // date: formatDateToIsoString(new Date()),
+    date: formatDateToIsoString(new Date()),
     typeOfView: CalendarViewName.WEEKLY,
   });
 
@@ -51,37 +50,28 @@ function CalendarView() {
     });
   };
 
-  const handleRecoverSlot = (specificSlotId: string) => {
+  const handleRecoverSlot = (
+    specificSlotId: string,
+    availableCapacity: number,
+  ) => {
     setSlotAction({
       type: "RECOVER",
       specificSlotId,
+      availableCapacity,
     });
   };
-  const closeModals = () => setSlotAction(null);
+  const closeModal = () => setSlotAction(null);
   const handleConfirmAbsence = () => {
-    if (slotAction?.type === "ABSENCE") {
-      markAbsence({
-        studentId: slotAction.studentId,
-        specificSlotId: slotAction.specificSlotId,
-      })
-        .unwrap()
-        .then(() => toast.success("Se ha registrado la inasistencia"))
-        .finally(closeModals);
-    }
+    if (slotAction?.type !== "ABSENCE") return;
+    markAbsence({
+      studentId: slotAction.studentId,
+      specificSlotId: slotAction.specificSlotId,
+    })
+      .unwrap()
+      .then(() => toast.success("Se ha registrado la inasistencia"))
+      .finally(closeModal);
   };
 
-  const selectedSlot = useMemo(() => {
-    if (!calendarData || slotAction?.type !== "RECOVER") return null;
-
-    return (
-      calendarData.slots
-        .flat()
-        .find((slot) => slot?.id === slotAction.specificSlotId) ?? null
-    );
-  }, [calendarData, slotAction]);
-  const availableCapacity = selectedSlot
-    ? selectedSlot.maxCapacity - selectedSlot.capacity
-    : 0;
   const columnsCount = calendarData?.days.length || 0;
   if (columnsCount === 0) {
     return (
@@ -97,19 +87,23 @@ function CalendarView() {
   };
 
   const ActionsSkeleton = ({
-    specificSlotId,
-    availableCapacity,
+    specificSlot,
+    isFull,
   }: {
-    specificSlotId: string;
-    availableCapacity: number;
+    specificSlot: SpecificSlotResponse;
+    isFull: boolean;
   }) => {
-    const isFull = availableCapacity <= 0;
     return (
       <s.ActionsContainer>
         <s.Action>Buscar</s.Action>
         <s.TooltipContainer
           $disabled={isFull}
-          onClick={() => !isFull && handleRecoverSlot(specificSlotId)}
+          onClick={() =>
+            handleRecoverSlot(
+              specificSlot.id,
+              specificSlot.maxCapacity - specificSlot.capacity,
+            )
+          }
         >
           <img src={PlusIcon} alt="Añadir alumno" />
           <s.Tooltip>{isFull ? "Cupo lleno" : "Añadir alumno"}</s.Tooltip>
@@ -169,9 +163,6 @@ function CalendarView() {
             </s.DayContainer>
             {calendarData?.times.map((_, rowIndex) => {
               const slot = calendarData.slots[rowIndex][colIndex];
-              const slotAvailability = slot
-                ? slot.maxCapacity - slot.capacity
-                : 0;
               return (
                 <s.SpecificSlot
                   $isNull={!slot}
@@ -181,13 +172,14 @@ function CalendarView() {
                   {slot && (
                     <>
                       <ActionsSkeleton
-                        specificSlotId={slot.id}
-                        availableCapacity={slotAvailability}
+                        specificSlot={slot}
+                        isFull={slot.maxCapacity == slot.capacity}
                       />
                       <SlotInfoSkeleton {...slot} />
                       <s.SlotStudentsContainer>
                         {slot?.students?.map((student) => {
                           const isAbsent = student.status === "ABSENCE";
+                          const isRecover = student.status === "RECOVERED";
                           return (
                             <s.StudentName
                               key={student.id}
@@ -197,7 +189,11 @@ function CalendarView() {
                               }
                             >
                               {isAbsent && <s.AbsenceBadge>A</s.AbsenceBadge>}
-                              <s.StudentText $isAbsent={isAbsent}>
+                              {isRecover && <s.RecoverBadge>R</s.RecoverBadge>}
+                              <s.StudentText
+                                $isAbsent={isAbsent}
+                                $isRecover={isRecover}
+                              >
                                 {student.fullName}
                               </s.StudentText>
                             </s.StudentName>
@@ -213,10 +209,11 @@ function CalendarView() {
         ))}
         {slotAction?.type === "ABSENCE" && (
           <GenericModal
+            isOpen={true}
             icon={StudentIcon}
             title={slotAction.studentName}
             isConfirmModal
-            onCancel={closeModals}
+            onCancel={closeModal}
             onConfirm={handleConfirmAbsence}
             confirmText="Registrar Inasistencia"
             cancelText="Cancelar"
@@ -224,13 +221,13 @@ function CalendarView() {
             height="226px"
           ></GenericModal>
         )}
-        <StudentRecover
-          isOpen={slotAction?.type === "RECOVER"}
-          selectedSlotId={slotAction?.specificSlotId || null}
-          availableCapacity={availableCapacity}
-          onClose={closeModals}
-        />
-        ;
+        {slotAction && slotAction.type === "RECOVER" && (
+          <StudentRecover
+            selectedSlotId={slotAction.specificSlotId}
+            availableCapacity={slotAction.availableCapacity}
+            onClose={closeModal}
+          />
+        )}
       </s.CalendarContainer>
     </s.MainContainer>
   );
