@@ -1,4 +1,3 @@
-
 import { useGetCalendarViewQuery } from '../../app/services/UserService';
 import CheckIcon from "../../assets/check.svg";
 import useAuthentication from '../../hooks/useAuthentication';
@@ -17,7 +16,6 @@ import NextIcon from "../../assets/next-arrow-icon.svg";
 import { useState } from 'react';
 import { CalendarMonth } from '../../utils/MonthsOfYear';
 import * as s from './CalendarViewPage.styles';
-
 
 function CalendarView() {
 
