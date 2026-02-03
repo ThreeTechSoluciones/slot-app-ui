@@ -94,7 +94,7 @@ function StudentFeesList() {
       }
       : skipToken
   );
-  console.log(fees)
+
   const [createMonthlyFee] = useCreateStudentMonthlyFeeMutation();
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   if (fetchingStudent) return <p>Cargando información del alumno...</p>;
