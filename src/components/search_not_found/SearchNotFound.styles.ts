@@ -2,11 +2,14 @@ import styled from "styled-components";
 import { DEFAULT_TEXT_COLOR, FONT_FAMILY } from "../../utils/Stylesheet";
 
 export const Container = styled.div`
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2px;
-  margin-top: 100px;
+  justify-content: center;
+  padding: 40px 20px;
+  box-sizing: border-box;
 `;
 
 export const Icon = styled.img`
