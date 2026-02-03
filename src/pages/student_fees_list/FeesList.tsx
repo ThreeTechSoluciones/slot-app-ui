@@ -53,6 +53,7 @@ import type {
   PAY_MONTHLY_FEE_MODAL_TYPE,
   PAYMENT_DETAIL_MODAL_TYPE,
 } from "../../utils/MonthlyFeesStatus";
+import PaymentMetrics from "./PaymentMetrics";
 function StudentFeesList() {
   const location = useLocation();
   const { studentId } = location.state || {};
@@ -73,7 +74,7 @@ function StudentFeesList() {
   >(null);
   const [selectedFeeId, setSelectedFeeId] = useState<string | null>(null);
   const [selectedPaymentId, setSelectedPaymentId] = useState<string | null>(
-    null
+    null,
   );
   const [payMonthlyFee] = useUpdateMonthlyFeeMutation();
 
@@ -87,12 +88,12 @@ function StudentFeesList() {
   } = useGetStudentMonthlyFeesQuery(
     student?.id
       ? {
-        studentId: student.id,
-        month: monthFilter || undefined,
-        expirationDate: formattedExpirationDate,
-        status: statusFilter || undefined,
-      }
-      : skipToken
+          studentId: student.id,
+          month: monthFilter || undefined,
+          expirationDate: formattedExpirationDate,
+          status: statusFilter || undefined,
+        }
+      : skipToken,
   );
 
   const [createMonthlyFee] = useCreateStudentMonthlyFeeMutation();
@@ -175,7 +176,7 @@ function StudentFeesList() {
       render: (student) => {
         const canPay = MONTHLY_FEE_STATUS_CAN_BE_PAID.includes(student.status);
         const canViewPayment = MONTHLY_FEE_STATUS_CAN_VIEW_PAYMENT.includes(
-          student.status
+          student.status,
         );
         if (canPay) {
           return (
@@ -221,6 +222,7 @@ function StudentFeesList() {
         <SubTitle>Cantidad de días: {student?.numberOfDays}</SubTitle>
         <SubTitle>Día de pago: {student?.paymentDay}</SubTitle>
       </InformationStudent>
+      <PaymentMetrics studentId={student.id} />
       <FiltersContainer>
         <LeftContainer>
           <Filter
