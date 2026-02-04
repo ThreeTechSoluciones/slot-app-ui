@@ -24,7 +24,6 @@ export const Card = styled.div<{ $borderColor: string }>`
   border-radius: ${BORDER_RADIUS};
   display: flex;
   flex-direction: column;
-  justify-content: center;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.04);
   padding: 8px 16px;
   border-left: 5px solid ${({ $borderColor }) => $borderColor};
