@@ -150,9 +150,9 @@ function StudentFeesList() {
       header: "Estado",
       accessor: "status",
       render: (student) => (
-        <s.FeeStatusContainer>
-          <s.FeeStatus $status={student.status}>{student.status}</s.FeeStatus>
-        </s.FeeStatusContainer>
+        <FeeStatusContainer>
+          <FeeStatus $status={student.status}>{student.status === "Pagado vencido" ? "Pago con atraso" : student.status}</FeeStatus>
+        </FeeStatusContainer>
       ),
     },
     {
