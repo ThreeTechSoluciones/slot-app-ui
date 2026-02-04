@@ -20,6 +20,7 @@ import { authSlice } from "../slices/AuthSlice";
 import { MonthlyFeeService } from "../services/MonthlyFeeService";
 import { PaymentService } from "../services/PaymentService";
 import { SlotService } from "../services/SlotService";
+import { SpecificSlotService } from "../services/SpecificSlotService";
 
 const reducers = combineReducers({
   [AuthService.reducerPath]: AuthService.reducer,
@@ -31,6 +32,7 @@ const reducers = combineReducers({
   [PaymentService.reducerPath]: PaymentService.reducer,
   [SlotService.reducerPath]: SlotService.reducer,
   [authSlice.reducerPath]: authSlice.reducer,
+  [SpecificSlotService.reducerPath]: SpecificSlotService.reducer
 });
 
 const persistConfig = {
@@ -59,7 +61,8 @@ export const store = configureStore({
       .concat(PlanService.middleware)
       .concat(MonthlyFeeService.middleware)
       .concat(PaymentService.middleware)
-      .concat(SlotService.middleware),
+      .concat(SlotService.middleware)
+      .concat(SpecificSlotService.middleware)
 });
 
 export const persistor = persistStore(store);

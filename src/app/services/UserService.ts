@@ -7,10 +7,7 @@ import type { SlotListResponse } from "../types/responses/SlotResponse.type";
 import type { GetSlotsByDayParams } from "../types/requests/GetUserSlotsRequest.type";
 import type { SortConfig } from "../types/sort";
 import type { UserPreferencesResponse } from "../types/responses/UserPreferencesResponse.type";
-import type {
-  CalendarResponse,
-  SpecificSlotResponse,
-} from "../types/responses/CalendarResponse.type";
+import type { CalendarResponse } from "../types/responses/CalendarResponse.type";
 import type { CalendarParams } from "../types/requests/GetCalendarViewRequest.type";
 
 export const UserService = createApi({
@@ -35,9 +32,10 @@ export const UserService = createApi({
         status?: string;
         isActive?: boolean;
         sort?: SortConfig | SortConfig[];
+        filterByAbsences?: boolean;
       }
     >({
-      query: ({ userId, filter, status, isActive, sort }) => {
+      query: ({ userId, filter, status, isActive, sort, filterByAbsences }) => {
         let sortParams: string | string[] | undefined;
         if (sort) {
           sortParams = Array.isArray(sort)
@@ -51,6 +49,7 @@ export const UserService = createApi({
             status,
             isActive,
             sort: sortParams,
+            filterByAbsences,
           },
         };
       },

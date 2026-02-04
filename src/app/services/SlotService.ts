@@ -17,9 +17,14 @@ export const SlotService = createApi({
                 method: "POST",
                 body: request,
             }),
-            onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
+            async onQueryStarted(_, { dispatch, queryFulfilled }) {
                 await queryFulfilled;
-                dispatch(UserService.util.invalidateTags([{ type: "userSlots", id: "LIST" }]));
+                dispatch(
+                    UserService.util.invalidateTags([
+                        { type: "userSlots" },
+                        { type: "userCalendar" }
+                    ])
+                );
             },
         }),
         updateSlot: builder.mutation<void, { slotId: string; startTime: string }>({
@@ -31,7 +36,10 @@ export const SlotService = createApi({
             async onQueryStarted({ slotId }, { dispatch, queryFulfilled }) {
                 await queryFulfilled;
                 dispatch(
-                    UserService.util.invalidateTags([{ type: "userSlots", id: slotId }])
+                    UserService.util.invalidateTags([
+                        { type: "userSlots", id: slotId },
+                        { type: "userCalendar" }
+                    ])
                 );
             },
         }),
@@ -43,7 +51,10 @@ export const SlotService = createApi({
             async onQueryStarted({ slotId }, { dispatch, queryFulfilled }) {
                 await queryFulfilled;
                 dispatch(
-                    UserService.util.invalidateTags([{ type: "userSlots", id: slotId }])
+                    UserService.util.invalidateTags([
+                        { type: "userSlots", id: slotId },
+                        { type: "userCalendar" }
+                    ])
                 );
             },
         }),

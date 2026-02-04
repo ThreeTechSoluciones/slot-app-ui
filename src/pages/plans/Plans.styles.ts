@@ -41,3 +41,9 @@ export const RightContainer = styled.div`
   margin-right: 80px;
   align-items: center;
 `;
+
+export const FilterSearchContainer = styled.div`
+  display:flex;
+  width:352px;
+  height:48px;
+`

@@ -1,4 +1,4 @@
-import { HiOutlineSearch } from "react-icons/hi";
+import SearchIcon from "../../assets/search.svg"
 import {
   FilterInputStyled,
   IconWrapper,
@@ -22,10 +22,14 @@ const FilterSearch: React.FC<FilterSearchProps> = ({
   const [internalValue, setInternalValue] = useState(value);
 
   useEffect(() => {
-    setInternalValue(value);
+    if (internalValue !== value) {
+      setInternalValue(value);
+    }
   }, [value]);
 
   useEffect(() => {
+    if (internalValue === value) return;
+
     const handler = setTimeout(() => {
       onChange(internalValue);
     }, debounceTime);
@@ -36,6 +40,7 @@ const FilterSearch: React.FC<FilterSearchProps> = ({
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInternalValue(e.target.value);
   };
+
   return (
     <FilterDiv>
       <FilterInputStyled
@@ -45,7 +50,7 @@ const FilterSearch: React.FC<FilterSearchProps> = ({
         onChange={handleChange}
       />
       <IconWrapper>
-        <HiOutlineSearch />
+        <img src={SearchIcon}></img>
       </IconWrapper>
     </FilterDiv>
   );
