@@ -11,7 +11,7 @@ import { GenericModal } from "../../components/generic_modal/GenericModal";
 import { toast } from "react-hot-toast";
 import { formatDateToIsoString } from "../../utils/DateFormatter";
 import { StudentRecover } from "./studentRecover/StudentRecover";
-import Slot from "./slot/Slot";
+import Slot from "./slot/SpecificSlotActions"
 
 export type CalendarAction =
   | {
@@ -30,14 +30,14 @@ function CalendarView() {
 
   const { data: calendarData } = useGetCalendarViewQuery({
     userId: userId!,
-    date: "2026-02-02",
-    // date: formatDateToIsoString(new Date()),
+    date: formatDateToIsoString(new Date()),
     typeOfView: CalendarViewName.WEEKLY,
   });
 
   const [slotAction, setSlotAction] = useState<CalendarAction | null>(null);
 
   const closeModals = () => setSlotAction(null);
+
   const handleConfirmAbsence = () => {
     if (slotAction?.type === "ABSENCE") {
       markAbsence({
@@ -93,10 +93,10 @@ function CalendarView() {
             </s.DayContainer>
             {calendarData?.times.map((_, rowIndex) => {
               const slot = calendarData.slots[rowIndex][colIndex];
+              if (!slot) { return <s.SpecificEmptySlot /> };
               return (
                 <Slot
                   slot={slot}
-                  rowIndex={rowIndex}
                   columnsCount={columnsCount}
                   setSlotAction={setSlotAction}
                 />

@@ -11,6 +11,8 @@ interface FilterSearchProps {
   value: string;
   onChange: (value: string) => void;
   debounceTime?: number;
+  iconWidth?: number;
+  iconHeight?: number;
 }
 
 const FilterSearch: React.FC<FilterSearchProps> = ({
@@ -18,6 +20,8 @@ const FilterSearch: React.FC<FilterSearchProps> = ({
   value,
   onChange,
   debounceTime = 400,
+  iconWidth = 15,
+  iconHeight = 15
 }) => {
   const [internalValue, setInternalValue] = useState(value);
 
@@ -49,8 +53,8 @@ const FilterSearch: React.FC<FilterSearchProps> = ({
         value={internalValue}
         onChange={handleChange}
       />
-      <IconWrapper>
-        <img src={SearchIcon}></img>
+      <IconWrapper >
+        <img src={SearchIcon} width={iconWidth} height={iconHeight}></img>
       </IconWrapper>
     </FilterDiv>
   );

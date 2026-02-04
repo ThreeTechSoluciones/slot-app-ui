@@ -69,7 +69,7 @@ export const DatePickerWrapper = styled.div<DatePickerWrapperProps>`
     min-width: unset;
     max-width: 100px;
     font-family: ${FONT_FAMILY};
-    font-size: 12px ; 
+    font-size: 12px; 
     flex: 1;
     display: ${(props) => (props.$hasValue ? "flex" : "none")};
     

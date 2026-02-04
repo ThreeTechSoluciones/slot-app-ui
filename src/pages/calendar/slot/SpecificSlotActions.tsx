@@ -1,5 +1,4 @@
-
-import * as s from "./Slot.styles"
+import * as s from "./SpecificSlotActions.styles"
 import type { SpecificSlotResponse, Student } from "../../../app/types/responses/CalendarResponse.type";
 import FilterSearch from "../../../components/filter_search/FilterSearch";
 import { useState } from "react";
@@ -13,8 +12,7 @@ import { useGetSpecificSlotStudentsQuery } from "../../../app/services/SpecificS
 import { skipToken } from '@reduxjs/toolkit/query'
 
 interface SlotParams {
-    slot: SpecificSlotResponse | null;
-    rowIndex: number;
+    slot: SpecificSlotResponse;
     columnsCount: number;
     setSlotAction: React.Dispatch<React.SetStateAction<CalendarAction | null>>
 }
@@ -44,6 +42,8 @@ const ActionsSkeleton = ({
                     value={filter}
                     onChange={setFilter}
                     placeholder="Buscar"
+                    iconWidth={10}
+                    iconHeight={14}
                 />
             </s.SearchFilterContainer>
             <s.TooltipContainer
@@ -88,21 +88,12 @@ const SlotInfoSkeleton = (slot: SpecificSlotResponse) => {
     );
 };
 
-interface SlotParams {
-    slot: SpecificSlotResponse | null;
-    rowIndex: number;
-    columnsCount: number;
-    setSlotAction: React.Dispatch<React.SetStateAction<CalendarAction | null>>;
-}
-
-function Slot(props: SlotParams) {
-
-    const { slot, rowIndex, columnsCount, setSlotAction } = props;
+function Slot({ slot, columnsCount, setSlotAction }: SlotParams) {
 
     const [filter, setFilter] = useState<string>("");
 
-    const { data } = useGetSpecificSlotStudentsQuery(
-        slot?.id ? { specificSlotId: slot.id, filter: filter } : skipToken
+    const { data: filteredStudents } = useGetSpecificSlotStudentsQuery(
+        filter ? { specificSlotId: slot.id, filter: filter } : skipToken
     );
 
     const handleAbsenceSlot = (student: Student, specificSlotId: string) => {
@@ -121,19 +112,17 @@ function Slot(props: SlotParams) {
         });
     };
 
-    const slotAvailability = slot ? slot.maxCapacity - slot.capacity : 0;
+    const rawStudents = filter ? filteredStudents : slot.students;
 
-    const rawStudents = filter == "" ? slot?.students : data;
-
-    const students = Array.isArray(rawStudents) ? rawStudents : [rawStudents];
+    const students = rawStudents ? rawStudents : [rawStudents];
 
     return (
-        <s.SpecificSlot $isNull={!slot} key={rowIndex} $columnsCount={columnsCount}>
+        <s.SpecificSlot $columnsCount={columnsCount}>
             {slot && (
                 <>
                     <ActionsSkeleton
                         specificSlotId={slot.id}
-                        availableCapacity={slotAvailability}
+                        availableCapacity={slot.maxCapacity - slot.capacity}
                         filter={filter}
                         setFilter={setFilter}
                         onRecover={() => handleRecoverSlot(slot.id)}

@@ -15,21 +15,20 @@ import {
 const ROW_HEIGHT = "260px";
 
 interface SpecificSlotProps {
-  $isNull: boolean;
   $columnsCount: number;
 }
 
 export const SpecificSlot = styled.div<SpecificSlotProps>`
-      height: ${ROW_HEIGHT};
-      border: ${(props) => props.$isNull ? "none" : "4px solid " + LIGHT_NEUTRAL_COLOR};
-      background-color: ${(props) => props.$isNull ? LIGHT_NEUTRAL_COLOR : "transparent"};
-      border-radius: 8px;
-      width: 100%;
-      overflow-y: auto;
-      overflow-x: hidden;
-      padding: 8px;
-      box-sizing: border-box;
-    `;
+  height: ${ROW_HEIGHT};
+  border: 4px solid ${LIGHT_NEUTRAL_COLOR};
+  background-color: "transparent";
+  border-radius: 8px;
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 8px;
+  box-sizing: border-box;
+`;
 
 export const ActionsContainer = styled.div`
   display: flex;
@@ -102,7 +101,7 @@ export const SlotInfoContainer = styled.div`
 interface SlotInfoProps {
   $isFull?: boolean;
   $status?: string;
-}
+};
 
 export const SlotInfo = styled.span<SlotInfoProps>`
   display: flex;
@@ -118,8 +117,7 @@ export const SlotInfo = styled.span<SlotInfoProps>`
 `;
 
 export const SlotCapacity = styled(SlotInfo) <SlotInfoProps>`
-  background-color: ${(props) =>
-    props.$isFull ? DANGER_COLOR : SUCCESS_COLOR};
+  background-color: ${(props) => props.$isFull ? DANGER_COLOR : SUCCESS_COLOR};
 `;
 
 export const SlotStatus = styled(SlotInfo) <SlotInfoProps>`
