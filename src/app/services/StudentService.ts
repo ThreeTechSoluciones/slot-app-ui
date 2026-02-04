@@ -45,6 +45,10 @@ export const StudentService = createApi({
       invalidatesTags: (_result, _error, { studentId }) => [
         { type: "MonthlyFees", id: studentId },
       ],
+      onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
+        await queryFulfilled;
+        dispatch(MetricService.util.invalidateTags(["Metric"]));
+      },
     }),
     getStudentMonthlyFees: builder.query<
       StudentMonthlyFeeResponse[],
@@ -66,10 +70,6 @@ export const StudentService = createApi({
       providesTags: (_result, _error, { studentId }) => [
         { type: "MonthlyFees", id: studentId },
       ],
-      onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
-        await queryFulfilled;
-        dispatch(MetricService.util.invalidateTags(["Metric"]));
-      },
     }),
 
     getStudentById: builder.query<StudentDetailResponse, string>({
