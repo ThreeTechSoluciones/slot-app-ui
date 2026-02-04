@@ -65,19 +65,7 @@ export const RecoverCheckbox = styled.div<{ $checked?: boolean }>`
     transition: all 0.3s ease;
   }
 `;
-export const RecoverLetter = styled.div`
-  width: 24px;
-  height: 24px;
-  background-color: ${SUCCESS_COLOR};
-  color: ${BACKGROUND_COLOR};
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  font-size: 14px;
-  margin-left: 8px;
-`;
+
 export const RecoverStudentName = styled.p<{ $selected?: boolean }>`
   color: ${DEFAULT_TEXT_COLOR};
   font-weight: ${({ $selected }) =>

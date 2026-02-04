@@ -148,11 +148,11 @@ export const Tooltip = styled.div`
   transition: 0.2s ease;
 `;
 
-export const TooltipContainer = styled(TooltipWrapper)<{ $disabled?: boolean }>`
+export const TooltipContainer = styled(TooltipWrapper)<{ disabled?: boolean }>`
   margin-left: auto;
-  cursor: ${(props) => (props.$disabled ? "not-allowed" : "pointer")};
+  cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
   ${(props) =>
-    props.$disabled &&
+    props.disabled &&
     `
     filter: grayscale(1) opacity(0.5);
     &:hover ${Tooltip} {

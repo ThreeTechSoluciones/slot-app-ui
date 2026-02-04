@@ -89,21 +89,18 @@ function CalendarView() {
   const ActionsSkeleton = ({
     specificSlot,
     isFull,
+    availableCapacity,
   }: {
     specificSlot: SpecificSlotResponse;
     isFull: boolean;
+    availableCapacity: number;
   }) => {
     return (
       <s.ActionsContainer>
         <s.Action>Buscar</s.Action>
         <s.TooltipContainer
-          $disabled={isFull}
-          onClick={() =>
-            handleRecoverSlot(
-              specificSlot.id,
-              specificSlot.maxCapacity - specificSlot.capacity,
-            )
-          }
+          disabled={isFull}
+          onClick={() => handleRecoverSlot(specificSlot.id, availableCapacity)}
         >
           <img src={PlusIcon} alt="Añadir alumno" />
           <s.Tooltip>{isFull ? "Cupo lleno" : "Añadir alumno"}</s.Tooltip>
@@ -114,10 +111,16 @@ function CalendarView() {
     );
   };
 
-  const SlotInfoSkeleton = (slot: SpecificSlotResponse) => {
+  const SlotInfoSkeleton = ({
+    slot,
+    isFull,
+  }: {
+    slot: SpecificSlotResponse;
+    isFull: boolean;
+  }) => {
     return (
       <s.SlotInfoContainer>
-        <s.SlotCapacity $isFull={slot.capacity === slot.maxCapacity}>
+        <s.SlotCapacity $isFull={isFull}>
           <img
             src={UserIcon}
             alt="Capacity"
@@ -162,7 +165,12 @@ function CalendarView() {
               <s.Number>{day.numberOfDay}</s.Number>
             </s.DayContainer>
             {calendarData?.times.map((_, rowIndex) => {
-              const slot = calendarData.slots[rowIndex][colIndex];
+              const slot = calendarData.slots[rowIndex]?.[colIndex] ?? null;
+              const isFull = slot ? slot.capacity === slot.maxCapacity : true;
+
+              const availableCapacity = slot
+                ? slot.maxCapacity - slot.capacity
+                : 0;
               return (
                 <s.SpecificSlot
                   $isNull={!slot}
@@ -173,9 +181,10 @@ function CalendarView() {
                     <>
                       <ActionsSkeleton
                         specificSlot={slot}
-                        isFull={slot.maxCapacity == slot.capacity}
+                        isFull={isFull}
+                        availableCapacity={availableCapacity}
                       />
-                      <SlotInfoSkeleton {...slot} />
+                      <SlotInfoSkeleton slot={slot} isFull={isFull} />
                       <s.SlotStudentsContainer>
                         {slot?.students?.map((student) => {
                           const isAbsent = student.status === "ABSENCE";
