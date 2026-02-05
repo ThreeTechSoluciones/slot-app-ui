@@ -6,34 +6,36 @@ import {
   FONT_FAMILY,
   BACKGROUND_COLOR,
 } from "../../../utils/Stylesheet";
+
 export const FormStyle = styled.form`
   display: flex;
   flex-direction: column;
-  alignt-items:center;
   justify-content:center;
   text-align:center;
   width: 408px;
   height: auto;
-    gap:20px;
-    margin-left:35px;
+  gap:20px;
+  margin-left:35px;
 `;
+
 export const InputContainer = styled.div`
   display: flex;
   flex-direction: column;
- 
-
-    box-sizing: border-box;
+  box-sizing: border-box;
 `;
+
 export const LabelStyle = styled.label`
   text-align: left;
   font-weight: ${FONT_WEIGHT_BOLD};
   font-size: 16px;
 `;
+
 export const InputWrapper = styled.div`
   display: flex;
   flex-direction: column;
  
 `;
+
 export const InputStyle = styled.input`
   border-radius: ${BORDER_RADIUS};
   width: 100%;
@@ -49,13 +51,13 @@ export const InputStyle = styled.input`
     font-size:12px;
   }
 `;
+
 export const NumberInputContainer = styled.div`
   position: relative;
   display: flex;
   width: 100%;
   max-width: 400px;
   flex-direction: column;
- 
 `;
 
 

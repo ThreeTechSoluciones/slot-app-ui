@@ -1,16 +1,5 @@
 import { forwardRef, useImperativeHandle } from "react";
-import {
-  FormStyle,
-  InfoContainer,
-  InputContainer,
-  Input,
-  EditPriceOptionContainer,
-  Description,
-  DatePickerCustomWrapper,
-  InputWrapper,
-  Label,
-  EditPriceInputs,
-} from "./EditPlan.styles";
+import * as s from "./EditPlan.styles";
 import { formatCurrency } from "../../../utils/Formatter";
 import type { FormProp } from "../../../app/types/FormProp";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -74,21 +63,21 @@ const EditPlanForm = forwardRef<FormProp<any>, EditPlanFormProps>(
     );
 
     return (
-      <FormStyle>
-        <InfoContainer>
-          <InputContainer>
-            <Label>Nombre del plan</Label>
+      <s.FormStyle>
+        <s.InfoContainer>
+          <s.InputContainer>
+            <s.Label>Nombre del plan</s.Label>
             <Controller
               name="name"
               control={control}
               render={({ field }) => (
-                <Input {...field} />
+                <s.Input {...field} />
               )}
             />
             <ErrorMessage error={errors.name} />
-          </InputContainer>
-          <InputContainer>
-            <Label>Cantidad de días por semana</Label>
+          </s.InputContainer>
+          <s.InputContainer>
+            <s.Label>Cantidad de días por semana</s.Label>
             <Controller
               name="numberOfDays"
               control={control}
@@ -98,22 +87,22 @@ const EditPlanForm = forwardRef<FormProp<any>, EditPlanFormProps>(
                   onChange={field.onChange}
                   min={1}
                   max={7}
-                  placeholder="Cantidad de días"
+                  placeholder="Ej: 2 días "
                 />
               )}
             />
             <ErrorMessage error={errors.numberOfDays} />
-          </InputContainer>
-          <InputContainer>
-            <Label>Precio vigente</Label>
-            <Input $isNonEditable={true} value={formatCurrency(currentAmount!)} readOnly />
-          </InputContainer>
-        </InfoContainer>
-        <EditPriceOptionContainer>
-          <Label>Actualizar precio (opcional)</Label>
-          <Description> Ingresá el nuevo monto y la fecha a partir de la cual será válido.</Description>
-          <EditPriceInputs>
-            <InputWrapper>
+          </s.InputContainer>
+          <s.InputContainer>
+            <s.Label>Precio vigente</s.Label>
+            <s.Input $isNonEditable={true} value={formatCurrency(currentAmount!)} readOnly />
+          </s.InputContainer>
+        </s.InfoContainer>
+        <s.EditPriceOptionContainer>
+          <s.Label>Actualizar precio (opcional)</s.Label>
+          <s.Description> Ingresá el nuevo monto y la fecha a partir de la cual será válido.</s.Description>
+          <s.EditPriceInputs>
+            <s.InputWrapper>
               <Controller
                 name="amount"
                 control={control}
@@ -128,9 +117,9 @@ const EditPlanForm = forwardRef<FormProp<any>, EditPlanFormProps>(
                 )}
               />
               <ErrorMessage error={errors.amount} />
-            </InputWrapper>
-            <InputWrapper>
-              <DatePickerCustomWrapper>
+            </s.InputWrapper>
+            <s.InputWrapper>
+              <s.DatePickerCustomWrapper>
                 <Controller
                   name="startDate"
                   control={control}
@@ -152,12 +141,12 @@ const EditPlanForm = forwardRef<FormProp<any>, EditPlanFormProps>(
                     />
                   )}
                 />
-              </DatePickerCustomWrapper>
+              </s.DatePickerCustomWrapper>
               <ErrorMessage error={errors.startDate} />
-            </InputWrapper>
-          </EditPriceInputs>
-        </EditPriceOptionContainer>
-      </FormStyle>
+            </s.InputWrapper>
+          </s.EditPriceInputs>
+        </s.EditPriceOptionContainer>
+      </s.FormStyle>
     );
   }
 );

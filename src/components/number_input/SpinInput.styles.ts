@@ -36,7 +36,6 @@ export const InputWithIconWrapper = styled.div`
     align-items: center;
     width: 100%;
     position: relative;
-  }
 `;
 
 interface InputIconProps {

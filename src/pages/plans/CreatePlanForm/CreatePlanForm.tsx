@@ -1,13 +1,7 @@
 import { forwardRef, useImperativeHandle } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import {
-  FormStyle,
-  InputContainer,
-  LabelStyle,
-  InputWrapper,
-  InputStyle,
-} from "./CreatePlanForm.styles";
+import * as s from "./CreatePlanForm.styles"
 import { createPlanSchema } from "./CreatePlanForm.scheme";
 import type { FormProp } from "../../../app/types/FormProp";
 import { ErrorMessage } from "../../../components/error_message/ErrorMessage";
@@ -60,18 +54,16 @@ const CreatePlanForm = forwardRef<
   );
 
   return (
-    <FormStyle>
-      <InputContainer>
-        <LabelStyle>Nombre del plan</LabelStyle>
-        <InputWrapper>
-          <InputStyle placeholder="Ej: Pase Libre" {...register("name")} />
-
+    <s.FormStyle>
+      <s.InputContainer>
+        <s.LabelStyle>Nombre del plan</s.LabelStyle>
+        <s.InputWrapper>
+          <s.InputStyle placeholder="Ej: Pase Libre" {...register("name")} />
           <ErrorMessage error={errors.name} />
-
-        </InputWrapper>
-      </InputContainer>
-      <InputContainer>
-        <LabelStyle>Cantidad de días por semana</LabelStyle>
+        </s.InputWrapper>
+      </s.InputContainer>
+      <s.InputContainer>
+        <s.LabelStyle>Cantidad de días por semana</s.LabelStyle>
         <Controller
           name="numberOfDays"
           control={control}
@@ -85,13 +77,11 @@ const CreatePlanForm = forwardRef<
             />
           )}
         />
-
         <ErrorMessage error={errors.numberOfDays} />
-
-      </InputContainer>
-      <InputContainer>
-        <LabelStyle>Precio</LabelStyle>
-        <InputWrapper>
+      </s.InputContainer>
+      <s.InputContainer>
+        <s.LabelStyle>Precio</s.LabelStyle>
+        <s.InputWrapper>
           <Controller
             name="amount"
             control={control}
@@ -105,12 +95,10 @@ const CreatePlanForm = forwardRef<
               />
             )}
           />
-
           <ErrorMessage error={errors.amount} />
-
-        </InputWrapper>
-      </InputContainer>
-    </FormStyle>
+        </s.InputWrapper>
+      </s.InputContainer>
+    </s.FormStyle>
   );
 });
 

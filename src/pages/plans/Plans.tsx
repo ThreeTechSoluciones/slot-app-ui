@@ -29,7 +29,6 @@ import { useGetUserPlansQuery } from "../../app/services/UserService";
 import { skipToken } from "@reduxjs/toolkit/query/react";
 import useAuthentication from "../../hooks/useAuthentication";
 import EditPlan from "./EditPlan/EditPlan";
-import { capitalize } from "../../utils/CapitalizeWords";
 import { formatDateToDash } from "../../utils/DateFormatter";
 
 function Plans() {
@@ -71,7 +70,7 @@ function Plans() {
     if (!data || !userId) return;
     const finalRequest = {
       ...data,
-      name: capitalize(data.name),
+      name: data.name.charAt(0).toUpperCase() + data.name.slice(1).toLowerCase(),
       userId,
     };
     await handleMutation(
@@ -80,17 +79,19 @@ function Plans() {
       "Plan creado correctamente"
     );
   };
+
   //EDITAR PLAN
   const handleEditPlan = async () => {
     if (!formRef.current) return;
-
     const data = await formRef.current.submit();
     if (!data) return;
-
-    const formattedStartDate = formatDateToDash(data.startDate);
-
+    const finalRequest = {
+      ...data,
+      name: data.name.charAt(0).toUpperCase() + data.name.slice(1).toLowerCase(),
+      startDate: formatDateToDash(data.startDate),
+    };
     await handleMutation(
-      () => editPlan({ ...data, startDate: formattedStartDate }).unwrap(),
+      () => editPlan(finalRequest).unwrap(),
       () => setShowModal(null),
       "Plan editado correctamente"
     );
