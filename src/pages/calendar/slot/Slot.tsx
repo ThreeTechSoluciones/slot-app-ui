@@ -14,13 +14,6 @@ import ProgressIcon from "../../../assets/progress-icon.svg";
 import { useGetSpecificSlotStudentsQuery } from "../../../app/services/SpecificSlotService";
 import { skipToken } from "@reduxjs/toolkit/query";
 
-interface SlotParams {
-  slot: SpecificSlotResponse | null;
-  rowIndex: number;
-  columnsCount: number;
-  setSlotAction: React.Dispatch<React.SetStateAction<CalendarAction | null>>;
-}
-
 const STATUS_ICONS: { [key: string]: string } = {
   FINALIZED: CheckIcon,
   IN_PROGRESS: ProgressIcon,
@@ -115,14 +108,14 @@ const SlotInfoSkeleton = (slot: SpecificSlotResponse) => {
 
 interface SlotParams {
   slot: SpecificSlotResponse | null;
-  dayOfWeek?: string;
+  dayOfWeek: string;
   rowIndex: number;
   columnsCount: number;
   setSlotAction: React.Dispatch<React.SetStateAction<CalendarAction | null>>;
 }
 
 function Slot(props: SlotParams) {
-  const { slot, rowIndex, columnsCount, setSlotAction } = props;
+  const { slot, dayOfWeek, rowIndex, columnsCount, setSlotAction } = props;
 
   const [filter, setFilter] = useState<string>("");
 
@@ -146,9 +139,12 @@ function Slot(props: SlotParams) {
     });
   };
   const handleCancelSlot = (specificSlotId: string) => {
+    if (!slot || !dayOfWeek) return;
     setSlotAction({
       type: "CANCEL",
       specificSlotId,
+      dayOfWeek,
+      slot: { startTime: slot.startTime, endTime: slot.endTime },
     });
   };
 

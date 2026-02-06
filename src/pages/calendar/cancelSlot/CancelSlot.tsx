@@ -17,7 +17,7 @@ export const CancelSlot = ({
   slot,
   dayOfWeek,
 }: SlotCancelProps) => {
-  const [cancelSlot, { isLoading }] = useCancelSpecificSlotMutation();
+  const [cancelSlot] = useCancelSpecificSlotMutation();
 
   const handleConfirmCancel = async () => {
     return cancelSlot({ specificSlotId })
@@ -35,7 +35,6 @@ export const CancelSlot = ({
       message={message}
       onConfirm={handleConfirmCancel}
       onCancel={onClose}
-      isLoading={isLoading}
     ></ConfirmDialog>
   );
 };

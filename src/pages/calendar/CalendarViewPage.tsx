@@ -13,6 +13,7 @@ import { formatDateToIsoString } from "../../utils/DateFormatter";
 import { StudentRecover } from "./studentRecover/StudentRecover";
 import { CancelSlot } from "./cancelSlot/CancelSlot";
 import Slot from "./slot/Slot";
+import { capitalize } from "../../utils/CapitalizeWords";
 
 export type CalendarAction =
   | {
@@ -22,7 +23,12 @@ export type CalendarAction =
       specificSlotId: string;
     }
   | { type: "RECOVER"; specificSlotId: string }
-  | { type: "CANCEL"; specificSlotId: string };
+  | {
+      type: "CANCEL";
+      specificSlotId: string;
+      dayOfWeek: string;
+      slot: { startTime: string; endTime: string };
+    };
 
 function CalendarView() {
   const [selectDate, setSelectDate] = useState<Date>(new Date());
@@ -33,7 +39,7 @@ function CalendarView() {
 
   const { data: calendarData } = useGetCalendarViewQuery({
     userId: userId!,
-    date: formatDateToIsoString(new Date()),
+    date: formatDateToIsoString(selectDate),
     typeOfView: CalendarViewName.WEEKLY,
   });
 
@@ -97,7 +103,9 @@ function CalendarView() {
               const slot = calendarData.slots[rowIndex][colIndex];
               return (
                 <Slot
+                  key={`${day.dayOfWeek}-${rowIndex}`}
                   slot={slot}
+                  dayOfWeek={day.dayOfWeek}
                   rowIndex={rowIndex}
                   columnsCount={columnsCount}
                   setSlotAction={setSlotAction}
@@ -130,10 +138,8 @@ function CalendarView() {
             isOpen
             specificSlotId={slotAction.specificSlotId}
             onClose={() => setSlotAction(null)}
-            dayOfWeek={
-              selectedSlot ? DaysOfWeekTranslation[selectedSlot.dayOfWeek] : ""
-            }
-            slot={selectedSlot}
+            dayOfWeek={capitalize(DaysOfWeekTranslation[slotAction.dayOfWeek])}
+            slot={slotAction.slot}
           />
         )}
       </s.CalendarContainer>
