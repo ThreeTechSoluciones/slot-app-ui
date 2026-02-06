@@ -6,12 +6,16 @@ interface SlotCancelProps {
   isOpen: boolean;
   onClose: () => void;
   specificSlotId: string;
+  slot?: { startTime: string; endTime: string };
+  dayOfWeek: string;
 }
 
 export const CancelSlot = ({
   isOpen,
   onClose,
   specificSlotId,
+  slot,
+  dayOfWeek,
 }: SlotCancelProps) => {
   const [cancelSlot, { isLoading }] = useCancelSpecificSlotMutation();
 
@@ -25,12 +29,13 @@ export const CancelSlot = ({
   };
 
   if (!isOpen) return null;
-
+  const message = `¿Estás seguro de cancelar el turno del ${dayOfWeek} de ${slot?.startTime} a ${slot?.endTime} hs?`;
   return (
     <ConfirmDialog
-      message="¿Estás seguro de cancelar el turno?"
+      message={message}
       onConfirm={handleConfirmCancel}
       onCancel={onClose}
+      isLoading={isLoading}
     ></ConfirmDialog>
   );
 };

@@ -32,6 +32,7 @@ const ActionsSkeleton = ({
   setFilter,
   onRecover,
   onCancel,
+  isCanceled,
 }: {
   specificSlotId: string;
   availableCapacity: number;
@@ -39,6 +40,7 @@ const ActionsSkeleton = ({
   setFilter: (value: string) => void;
   onRecover: () => void;
   onCancel: () => void;
+  isCanceled: boolean;
 }) => {
   const isFull = availableCapacity <= 0;
   return (
@@ -52,15 +54,26 @@ const ActionsSkeleton = ({
       </s.SearchFilterContainer>
       <s.ActionGroup>
         <s.TooltipContainer
-          $disabled={isFull}
+          $disabled={isFull || isCanceled}
           onClick={() => !isFull && onRecover()}
         >
           <img src={PlusIcon} alt="Añadir alumno" />
-          <s.Tooltip>{isFull ? "Cupo lleno" : "Añadir alumno"}</s.Tooltip>
+          <s.Tooltip>
+            {isCanceled
+              ? "Turno cancelado"
+              : isFull
+                ? "Cupo lleno"
+                : "Añadir alumno"}
+          </s.Tooltip>
         </s.TooltipContainer>
-        <s.TooltipContainer onClick={() => onCancel()}>
+        <s.TooltipContainer
+          $disabled={isCanceled}
+          onClick={() => !isCanceled && onCancel()}
+        >
           <s.CancelIcon src={PlusIcon} alt="Cancelar turno" />
-          <s.Tooltip>{"Cancelar turno"}</s.Tooltip>
+          <s.Tooltip>
+            {isCanceled ? "Turno cancelado" : "Cancelar turno"}
+          </s.Tooltip>
         </s.TooltipContainer>
       </s.ActionGroup>
     </s.ActionsContainer>
@@ -70,7 +83,10 @@ const ActionsSkeleton = ({
 const SlotInfoSkeleton = (slot: SpecificSlotResponse) => {
   return (
     <s.SlotInfoContainer>
-      <s.SlotCapacity $isFull={slot.capacity === slot.maxCapacity}>
+      <s.SlotCapacity
+        $isFull={slot.capacity === slot.maxCapacity}
+        $isCanceled={slot.status === "CANCELED"}
+      >
         <img
           src={UserIcon}
           alt="Capacity"
@@ -99,6 +115,7 @@ const SlotInfoSkeleton = (slot: SpecificSlotResponse) => {
 
 interface SlotParams {
   slot: SpecificSlotResponse | null;
+  dayOfWeek?: string;
   rowIndex: number;
   columnsCount: number;
   setSlotAction: React.Dispatch<React.SetStateAction<CalendarAction | null>>;
@@ -137,7 +154,7 @@ function Slot(props: SlotParams) {
 
   const slotAvailability = slot ? slot.maxCapacity - slot.capacity : 0;
 
-  const rawStudents = filter == "" ? slot?.students : data;
+  const rawStudents = data || slot?.students;
 
   const students = Array.isArray(rawStudents) ? rawStudents : [rawStudents];
 
@@ -152,25 +169,32 @@ function Slot(props: SlotParams) {
             setFilter={setFilter}
             onRecover={() => handleRecoverSlot(slot.id)}
             onCancel={() => handleCancelSlot(slot.id)}
+            isCanceled={slot.status === "CANCELED"}
           />
           <SlotInfoSkeleton {...slot} />
-          <s.SlotStudentsContainer>
-            {students?.map((student) => {
-              const isAbsent = student?.status === "ABSENCE";
-              return (
-                <s.StudentName
-                  key={student?.id}
-                  title={student?.fullName}
-                  onClick={() => student && handleAbsenceSlot(student, slot.id)}
-                >
-                  {isAbsent && <s.AbsenceBadge>A</s.AbsenceBadge>}
-                  <s.StudentText $isAbsent={isAbsent}>
-                    {student?.fullName}
-                  </s.StudentText>
-                </s.StudentName>
-              );
-            })}
-          </s.SlotStudentsContainer>
+          {slot.status === "CANCELED" ? (
+            <s.CanceledSlot>Turno cancelado</s.CanceledSlot>
+          ) : (
+            <s.SlotStudentsContainer>
+              {students?.map((student) => {
+                const isAbsent = student?.status === "ABSENCE";
+                return (
+                  <s.StudentName
+                    key={student?.id}
+                    title={student?.fullName}
+                    onClick={() =>
+                      student && handleAbsenceSlot(student, slot.id)
+                    }
+                  >
+                    {isAbsent && <s.AbsenceBadge>A</s.AbsenceBadge>}
+                    <s.StudentText $isAbsent={isAbsent}>
+                      {student?.fullName}
+                    </s.StudentText>
+                  </s.StudentName>
+                );
+              })}
+            </s.SlotStudentsContainer>
+          )}
         </>
       )}
     </s.SpecificSlot>

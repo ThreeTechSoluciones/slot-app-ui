@@ -130,6 +130,10 @@ function CalendarView() {
             isOpen
             specificSlotId={slotAction.specificSlotId}
             onClose={() => setSlotAction(null)}
+            dayOfWeek={
+              selectedSlot ? DaysOfWeekTranslation[selectedSlot.dayOfWeek] : ""
+            }
+            slot={selectedSlot}
           />
         )}
       </s.CalendarContainer>

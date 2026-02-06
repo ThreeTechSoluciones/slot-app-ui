@@ -26,9 +26,9 @@ export const SpecificSlot = styled.div<SpecificSlotProps>`
     props.$isNull ? LIGHT_NEUTRAL_COLOR : "transparent"};
   border-radius: 8px;
   width: 100%;
-  overflow-y: auto;
-  overflow-x: hidden;
   padding: 8px;
+  position: relative;
+  z-index: 80;
   box-sizing: border-box;
 `;
 
@@ -37,11 +37,11 @@ export const ActionsContainer = styled.div`
   flex-direction: row;
   margin-top: 4px;
   align-items: center;
+  justify-content: space-between;
 `;
 export const ActionGroup = styled.div`
   display: flex;
   gap: 20px;
-  margin-left: auto;
 `;
 const TooltipWrapper = styled.div`
   position: relative;
@@ -99,6 +99,7 @@ export const SlotInfoContainer = styled.div`
 interface SlotInfoProps {
   $isFull?: boolean;
   $status?: string;
+  $isCanceled?: boolean;
 }
 
 export const SlotInfo = styled.span<SlotInfoProps>`
@@ -115,8 +116,8 @@ export const SlotInfo = styled.span<SlotInfoProps>`
 `;
 
 export const SlotCapacity = styled(SlotInfo)<SlotInfoProps>`
-  background-color: ${(props) =>
-    props.$isFull ? DANGER_COLOR : SUCCESS_COLOR};
+  background-color: ${({ $isCanceled, $isFull }) =>
+    $isCanceled ? NEUTRAL_COLOR : $isFull ? DANGER_COLOR : SUCCESS_COLOR};
 `;
 
 export const SlotStatus = styled(SlotInfo)<SlotInfoProps>`
@@ -126,11 +127,21 @@ export const SlotStatus = styled(SlotInfo)<SlotInfoProps>`
     return "transparent";
   }};
 `;
-
+export const CanceledSlot = styled.p`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: ${NEUTRAL_COLOR};
+  font-size: 16px;
+  font-weight: ${FONT_WEIGHT_BOLD};
+  font-family: ${FONT_FAMILY};
+`;
 export const SlotStudentsContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 10px;
+  overflow-y: auto;
+  max-height: 140px;
 `;
 
 export const StudentName = styled.div`
