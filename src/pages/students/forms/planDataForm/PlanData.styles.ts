@@ -1,85 +1,63 @@
 import styled from "styled-components";
 import Arrow from "../../../../assets/Arrow.png";
 import {
-  LIGHT_NEUTRAL_COLOR,
   NEUTRAL_COLOR,
   DEFAULT_TEXT_COLOR,
   FONT_FAMILY,
   BORDER_RADIUS,
+  FONT_WEIGHT_BOLD,
+  LIGHT_NEUTRAL_COLOR,
 } from "../../../../utils/Stylesheet";
-
+export const WIDTH = "810px";
 export const MainContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
 `;
-
-export const TitleContainer = styled.div`
-  width: 100%;
-  margin-left: 80px;
+export const FormContainer = styled.form`
+  display: flex;
+  flex-direction: column;
+  align-items: right;
+`;
+export const PlanContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: ${WIDTH};
 `;
 
-export const Title = styled.h1`
-  font-size: 24px;
-  margin-right: 80px;
-  margin-top: 32px;
-  font-family: ${FONT_FAMILY};
-  font-weight: bold;
-`;
 export const Label = styled.p`
   font-size: 16px;
-  font-weight: bold;
-  margin-top: 8ipx;
+  font-weight: ${FONT_WEIGHT_BOLD};
+  margin-top: 8px;
   margin-bottom: 8px;
   padding: 0px;
   font-family: ${FONT_FAMILY};
 `;
-export const BaseStyle = styled.input`
-  width: 392px;
+
+export const Select = styled.select`
+  width: 410px;
   height: 56px;
-  border: 1px solid black;
   border-radius: ${BORDER_RADIUS};
+  border: 1px solid ${DEFAULT_TEXT_COLOR};
   font-size: 12px;
   padding-left: 16px;
+  padding-right: 32px;
+
   background: none;
   color: ${DEFAULT_TEXT_COLOR};
   font-family: ${FONT_FAMILY};
-  &::placeholder {
-    color: ${NEUTRAL_COLOR};
-  }
-`;
-export const FormContainer = styled.form`
-  display: flex;
-  align-items: right;
-  flex-direction: column;
-`;
-export const Select = styled(BaseStyle).attrs({ as: "select" })`
-  width: 410px;
-  height: 56px;
-  border-radius: 10px;
-  border: 1px solid black;
-  color: black;
-  font-size: 12px;
-  padding-left: 16px;
+
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  background: url(${Arrow}) no-repeat right 12px center;
-  padding-right: 32px;
-`;
 
-export const Input = styled(BaseStyle)<{ disabled?: boolean }>`
-  background: ${(props) => (props.disabled ? LIGHT_NEUTRAL_COLOR : "none")};
-  border: ${(props) =>
-    props.disabled ? LIGHT_NEUTRAL_COLOR : "1px solid black"};
+  background: url(${Arrow}) no-repeat right 12px center;
+
   &::placeholder {
-    color: ${(props) => (props.disabled ? LIGHT_NEUTRAL_COLOR : NEUTRAL_COLOR)};
+    color: ${NEUTRAL_COLOR};
   }
-`;
-export const InputsContainer = styled.div`
-  display: flex;
-  gap: 16px;
 `;
 export const SlotTitleContainer = styled.h2`
   font-family: ${FONT_FAMILY};
@@ -91,8 +69,8 @@ export const SlotTitleContainer = styled.h2`
   margin: 0;
 `;
 export const SlotsContainer = styled.div`
-  width: 630px;
-  max-width: 620px;
+  width: 810px;
+  max-width: 810px;
   height: 172px;
   border: 5px solid ${LIGHT_NEUTRAL_COLOR};
   border-radius: ${BORDER_RADIUS};

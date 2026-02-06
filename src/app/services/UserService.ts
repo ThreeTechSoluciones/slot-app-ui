@@ -4,14 +4,11 @@ import type { PriceResponse } from "../types/responses/PriceResponse.type";
 import type { PlanResponse } from "../types/responses/PlanResponse.type";
 import type { Page } from "../types/responses/common/Page";
 import type { SlotListResponse } from "../types/responses/SlotResponse.type";
-import type { GetSlotsByDayParams } from "../types/requests/GetUserSlotsRequest.type";
 import type { SortConfig } from "../types/sort";
 import type { UserPreferencesResponse } from "../types/responses/UserPreferencesResponse.type";
-import type {
-  CalendarResponse,
-  SpecificSlotResponse,
-} from "../types/responses/CalendarResponse.type";
+import type { CalendarResponse } from "../types/responses/CalendarResponse.type";
 import type { CalendarParams } from "../types/requests/GetCalendarViewRequest.type";
+import type { GetSlotsByDayParams } from "../types/requests/GetUserSlotsRequest.type";
 
 export const UserService = createApi({
   reducerPath: "users",
