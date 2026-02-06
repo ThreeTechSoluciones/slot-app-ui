@@ -1,8 +1,11 @@
 import type { StudentDetailResponse } from "../app/types/responses/StudentDetailResponse.type";
+import { DaysOfWeekTranslation } from "../utils/DaysOfWeek";
+import { capitalize } from "../utils/CapitalizeWords";
 import {
   StudentStatusStyle,
   StudentSituationStyle,
 } from "../pages/student_detail/StudentDetail.styles";
+import type { Shift } from "../components/shiftsDetail/ShiftDetail";
 interface InfoItem {
   title: string;
   data?: string | number | null;
@@ -10,7 +13,7 @@ interface InfoItem {
 }
 
 export const studentPersonalInfo = (
-  student: StudentDetailResponse
+  student: StudentDetailResponse,
 ): InfoItem[] => [
   { title: "Nombre", data: student.name },
   { title: "Apellido", data: student.lastName },
@@ -24,7 +27,7 @@ export const studentPersonalInfo = (
 ];
 
 export const studentPaymentInfo = (
-  student: StudentDetailResponse
+  student: StudentDetailResponse,
 ): InfoItem[] => [
   {
     title: "Forma de pago",
@@ -56,3 +59,15 @@ export const studentPaymentInfo = (
     ),
   },
 ];
+
+export const mapStudentShiftInfo = (
+  student: StudentDetailResponse,
+): Shift[] => {
+  if (!student.slots?.length) return [];
+
+  return student.slots.map((slot) => ({
+    id: slot.slotId,
+    day: capitalize(DaysOfWeekTranslation[slot.dayOfWeek]),
+    hour: slot.startTime,
+  }));
+};

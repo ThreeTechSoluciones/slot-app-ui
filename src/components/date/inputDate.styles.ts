@@ -10,11 +10,12 @@ import {
 
 interface StyledWrapperProps {
   $calendarPosition?: "bottom" | "top";
+  $width: string;
 }
 export const StyledWrapper = styled.div<StyledWrapperProps>`
   position: relative;
   .react-date-picker__wrapper {
-    width: 100%;
+   width: 100%;
     height: 56px;
     box-sizing: border-box;
     border: 1px solid black;
@@ -25,20 +26,23 @@ export const StyledWrapper = styled.div<StyledWrapperProps>`
     color: ${DEFAULT_TEXT_COLOR};
     font-family: ${FONT_FAMILY};
   }
+    .react-date-picker {
+    width: 100%
+  }
   //CONTENEDOR REAL DEL CALENDARIO
   .react-date-picker__calendar {
     position: absolute !important;
     z-index: 9999;
 
     ${(props) =>
-      props.$calendarPosition === "top"
-        ? `
+    props.$calendarPosition === "top"
+      ? `
           bottom: 100%;
           left: 0;
           margin-bottom: 4px;
 
         `
-        : `
+      : `
           top: 100%;
           left: 0;
           margin-top: 4px;
@@ -94,6 +98,11 @@ export const StyledWrapper = styled.div<StyledWrapperProps>`
     height: 40px;
     border-radius: 50%;
   }
+
+  .react-date-picker__inputGroup {
+      font-family: ${FONT_FAMILY};
+      font-size: 12px ; 
+    }
 
   //HOVER SOBRE DIAS
   .react-calendar__tile:hover {

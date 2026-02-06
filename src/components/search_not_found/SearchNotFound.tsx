@@ -5,9 +5,7 @@ export function SearchNotFound() {
   return (
     <Container>
       <Icon src={SearchIcon} alt="No results" />
-      <Message>
-        No hay resultados para mostrar.
-      </Message>
+      <Message>No hay resultados para mostrar.</Message>
     </Container>
   );
 }

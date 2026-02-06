@@ -7,6 +7,9 @@ import UserIcon from "../../assets/white-user-icon.svg";
 import ProgressIcon from "../../assets/progress-icon.svg";
 import PlusIcon from "../../assets/plus-icon.svg";
 import StudentIcon from "../../assets/student-icon.svg";
+import NextIcon from "../../assets/next-arrow-icon.svg";
+import BackIcon from "../../assets/back-arrow-icon.svg";
+import CalendarIcon from "../../assets/calendar-icon.svg";
 import { DaysOfWeekTranslation } from "../../utils/DaysOfWeek";
 import { StatesTranslation } from "../../utils/StatesTranslation";
 import { CalendarViewName } from "../../app/types/models/CalendarViewName";
@@ -20,6 +23,8 @@ import { GenericModal } from "../../components/generic_modal/GenericModal";
 import { toast } from "react-hot-toast";
 import { formatDateToIsoString } from "../../utils/DateFormatter";
 import { StudentRecover } from "./studentRecover/StudentRecover";
+import { CalendarMonth } from "../../utils/MonthsOfYear";
+import InputDate from "../../components/date/inputDate";
 type CalendarAction =
   | {
       type: "ABSENCE";
@@ -30,12 +35,12 @@ type CalendarAction =
   | { type: "RECOVER"; specificSlotId: string; availableCapacity: number };
 function CalendarView() {
   const { userId } = useAuthentication();
-
+  const [selectDate, setSelectDate] = useState<Date>(new Date());
   const [markAbsence] = useMarkStudentAbsenceMutation();
 
   const { data: calendarData } = useGetCalendarViewQuery({
     userId: userId!,
-    date: formatDateToIsoString(new Date()),
+    date: formatDateToIsoString(selectDate),
     typeOfView: CalendarViewName.WEEKLY,
   });
 
@@ -84,6 +89,15 @@ function CalendarView() {
   const STATUS_ICONS: { [key: string]: string } = {
     FINALIZED: CheckIcon,
     IN_PROGRESS: ProgressIcon,
+  };
+  const calculateWeek = (days: number) => {
+    setSelectDate(new Date(selectDate.setDate(selectDate.getDate() + days)));
+  };
+
+  const calendarPlaceholder = () => {
+    const month = CalendarMonth[selectDate!.getMonth()];
+    const year = selectDate!.getFullYear();
+    return `${month} ${year}`;
   };
 
   const ActionsSkeleton = ({
@@ -147,8 +161,57 @@ function CalendarView() {
     );
   };
 
+  const SelectDateContainer = () => {
+    return (
+      <s.NavigationDateContainer>
+        <s.NavigationArrow onClick={() => calculateWeek(-7)}>
+          <img src={BackIcon} style={{ marginLeft: "8px" }} />
+        </s.NavigationArrow>
+        <s.CustomDisplayContainer>
+          <s.CustomDisplay>{calendarPlaceholder()}</s.CustomDisplay>
+          <s.InputDateContainer>
+            <InputDate
+              value={selectDate}
+              onChange={(date) => {
+                if (date instanceof Date) {
+                  setSelectDate(date);
+                }
+              }}
+              format="dd/MM/yyyy"
+              calendarPosition="top"
+              locale="es-ES"
+              clearIcon={null}
+              calendarIcon={
+                <img
+                  src={CalendarIcon}
+                  alt="Calendario"
+                  style={{ width: 20, height: 20 }}
+                />
+              }
+            />
+          </s.InputDateContainer>
+        </s.CustomDisplayContainer>
+        <s.NavigationArrow onClick={() => calculateWeek(7)}>
+          <img src={NextIcon} />
+        </s.NavigationArrow>
+      </s.NavigationDateContainer>
+    );
+  };
+
+  if (columnsCount === 0) {
+    return (
+      <s.NoResponseContainer>
+        <SelectDateContainer />
+        <s.Spacing>
+          <SearchNotFound />
+        </s.Spacing>
+      </s.NoResponseContainer>
+    );
+  }
+
   return (
     <s.MainContainer>
+      <SelectDateContainer />
       <s.CalendarContainer $columnsCount={columnsCount}>
         <s.ScheduledTime>
           {calendarData?.times.map((timeSlot) => (

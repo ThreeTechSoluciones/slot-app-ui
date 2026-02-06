@@ -71,4 +71,7 @@ export const Button = styled.button`
         background: ${NEUTRAL_COLOR};
     }
 `
+export const InputDateContainer = styled.div`
+    width:408px;
+`
 

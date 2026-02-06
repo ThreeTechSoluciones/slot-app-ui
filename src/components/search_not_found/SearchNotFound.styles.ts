@@ -7,8 +7,9 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2px;
-  margin-top: 100px;
+  justify-content: center;
+  padding: 40px 20px;
+  box-sizing: border-box;
 `;
 
 export const Icon = styled.img`
