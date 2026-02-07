@@ -73,7 +73,7 @@ const CreatePlanForm = forwardRef<
               onChange={field.onChange}
               min={1}
               max={7}
-              placeholder="Cantidad de días"
+              placeholder="Ej: 2 días"
             />
           )}
         />

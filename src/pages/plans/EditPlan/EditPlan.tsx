@@ -87,7 +87,7 @@ const EditPlanForm = forwardRef<FormProp<any>, EditPlanFormProps>(
                   onChange={field.onChange}
                   min={1}
                   max={7}
-                  placeholder="Ej: 2 días "
+                  placeholder="Ej: 2 días"
                 />
               )}
             />
