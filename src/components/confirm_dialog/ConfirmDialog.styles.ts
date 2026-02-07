@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { FONT_WEIGHT_NORMAL, FONT_FAMILY } from "../../utils/Stylesheet";
 export const ConfirmOverlay = styled.div`
   position: fixed;
   top: 0;
@@ -24,7 +25,7 @@ export const ConfirmBox = styled.div`
   justify-content: center;
   gap: 5px;
   width: 360px;
-  height: 164px;
+  height: 148px;
 `;
 
 export const InfoBox = styled.div`
@@ -46,7 +47,8 @@ export const ConfirmActions = styled.div`
   flex: 1;
 `;
 export const MessageStyle = styled.p`
-  font-size: 20px;
-  font-weight: medium;
+ font-size: 16px;
+  font-weight: ${FONT_WEIGHT_NORMAL};
+  font-family:${FONT_FAMILY};
   initial-letter: 0.15px;
 `;
