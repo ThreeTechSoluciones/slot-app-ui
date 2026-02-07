@@ -6,16 +6,15 @@ import { useRecoverStudentSlotMutation } from "../../../app/services/StudentServ
 import { useGetUserStudentsQuery } from "../../../app/services/UserService";
 import useAuthentication from "../../../hooks/useAuthentication";
 import toast from "react-hot-toast";
+import type { StudentResponse } from "../../../app/types/responses/StudentResponse.type";
 
 interface StudentRecoverProps {
-  isOpen: boolean;
   onClose: () => void;
-  selectedSlotId: string | null;
+  selectedSlotId: string;
   availableCapacity: number;
 }
 
 export const StudentRecover = ({
-  isOpen,
   onClose,
   selectedSlotId,
   availableCapacity,
@@ -41,16 +40,41 @@ export const StudentRecover = ({
         onClose();
       });
   };
+  const Student = (student: StudentResponse) => {
+    const isSelected = selectedStudentId === student.id;
+    return (
+      <s.RecoverItem
+        key={student.id}
+        $selected={isSelected}
+        onClick={() =>
+          setSelectedStudentId((prevId) =>
+            prevId === student.id ? null : student.id,
+          )
+        }
+      >
+        <s.RecoverItemLeft>
+          <s.RecoverCheckbox $checked={isSelected}>
+            <img src={CheckIcon} alt="check" />
+          </s.RecoverCheckbox>
+          <s.RecoverStudentName>
+            {student.name} {student.lastname}
+          </s.RecoverStudentName>
+        </s.RecoverItemLeft>
 
-  if (!isOpen) return null;
-
+        <s.RecoverBadge>{student.daysToRecover}</s.RecoverBadge>
+      </s.RecoverItem>
+    );
+  };
   return (
     <GenericModal
+      isOpen={true}
       title="AGREGAR ALUMNO"
       isConfirmModal
       onCancel={onClose}
       onConfirm={() =>
-        handleConfirmRecover(selectedStudentId!, selectedSlotId!)
+        selectedStudentId
+          ? handleConfirmRecover(selectedStudentId, selectedSlotId)
+          : toast.error("Por favor, seleccione un alumno.")
       }
       confirmText="Registrar"
       cancelText="Cancelar"
@@ -65,29 +89,7 @@ export const StudentRecover = ({
         <s.RecoverList>
           {students.length > 0 ? (
             students.map((student) => {
-              const isSelected = selectedStudentId === student.id;
-              return (
-                <s.RecoverItem
-                  key={student.id}
-                  $selected={isSelected}
-                  onClick={() =>
-                    setSelectedStudentId((prevId) =>
-                      prevId === student.id ? null : student.id,
-                    )
-                  }
-                >
-                  <s.RecoverItemLeft>
-                    <s.RecoverCheckbox $checked={isSelected}>
-                      <img src={CheckIcon} alt="check" />
-                    </s.RecoverCheckbox>
-                    <s.RecoverStudentName>
-                      {student.name} {student.lastname}
-                    </s.RecoverStudentName>
-                  </s.RecoverItemLeft>
-
-                  <s.RecoverBadge>{student.daysToRecover}</s.RecoverBadge>
-                </s.RecoverItem>
-              );
+              return <Student key={student.id} {...student} />;
             })
           ) : (
             <p style={{ textAlign: "center", padding: "20px" }}>

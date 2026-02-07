@@ -6,76 +6,118 @@ import StudentIcon from "../../assets/student-icon.svg";
 import { DaysOfWeekTranslation } from "../../utils/DaysOfWeek";
 import { CalendarViewName } from "../../app/types/models/CalendarViewName";
 import { SearchNotFound } from "../../components/search_not_found/SearchNotFound";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { GenericModal } from "../../components/generic_modal/GenericModal";
 import { toast } from "react-hot-toast";
 import { formatDateToIsoString } from "../../utils/DateFormatter";
 import { StudentRecover } from "./studentRecover/StudentRecover";
-import Slot from "./slot/SpecificSlotActions"
+import Slot from "./slot/SpecificSlotActions";
+import NextIcon from "../../assets/next-arrow-icon.svg";
+import BackIcon from "../../assets/back-arrow-icon.svg";
+import CalendarIcon from "../../assets/calendar-icon.svg";
+import { CalendarMonth } from "../../utils/MonthsOfYear";
+import InputDate from "../../components/date/inputDate";
 
-export type CalendarAction =
+type CalendarAction =
   | {
     type: "ABSENCE";
     studentId: string;
     studentName: string;
     specificSlotId: string;
   }
-  | { type: "RECOVER"; specificSlotId: string };
+  | { type: "RECOVER"; specificSlotId: string; availableCapacity: number };
 
 function CalendarView() {
 
   const { userId } = useAuthentication();
 
+  const [selectDate, setSelectDate] = useState<Date>(new Date());
+
   const [markAbsence] = useMarkStudentAbsenceMutation();
 
   const { data: calendarData } = useGetCalendarViewQuery({
     userId: userId!,
-    date: formatDateToIsoString(new Date()),
+    date: formatDateToIsoString(selectDate),
     typeOfView: CalendarViewName.WEEKLY,
   });
 
   const [slotAction, setSlotAction] = useState<CalendarAction | null>(null);
 
-  const closeModals = () => setSlotAction(null);
+  const closeModal = () => setSlotAction(null);
 
-  const handleConfirmAbsence = () => {
-    if (slotAction?.type === "ABSENCE") {
-      markAbsence({
-        studentId: slotAction.studentId,
-        specificSlotId: slotAction.specificSlotId,
-      })
-        .unwrap()
-        .then(() => toast.success("Se ha registrado la inasistencia"))
-        .finally(closeModals);
-    }
+  const calculateWeek = (days: number) => {
+    setSelectDate(new Date(selectDate.setDate(selectDate.getDate() + days)));
   };
 
-  const selectedSlot = useMemo(() => {
-    if (!calendarData || slotAction?.type !== "RECOVER") return null;
+  const calendarPlaceholder = () => {
+    const month = CalendarMonth[selectDate!.getMonth()];
+    const year = selectDate!.getFullYear();
+    return `${month} ${year}`;
+  };
 
+  const handleConfirmAbsence = () => {
+    if (slotAction?.type !== "ABSENCE") return;
+    markAbsence({
+      studentId: slotAction.studentId,
+      specificSlotId: slotAction.specificSlotId,
+    })
+      .unwrap()
+      .then(() => toast.success("Se ha registrado la inasistencia"))
+      .finally(closeModal);
+  };
+
+  const SelectDateContainer = () => {
     return (
-      calendarData.slots
-        .flat()
-        .find((slot) => slot?.id === slotAction.specificSlotId) ?? null
+      <s.NavigationDateContainer>
+        <s.NavigationArrow onClick={() => calculateWeek(-7)}>
+          <img src={BackIcon} style={{ marginLeft: "8px" }} />
+        </s.NavigationArrow>
+        <s.CustomDisplayContainer>
+          <s.CustomDisplay>{calendarPlaceholder()}</s.CustomDisplay>
+          <s.InputDateContainer>
+            <InputDate
+              value={selectDate}
+              onChange={(date) => {
+                if (date instanceof Date) {
+                  setSelectDate(date);
+                }
+              }}
+              format="dd/MM/yyyy"
+              calendarPosition="top"
+              locale="es-ES"
+              clearIcon={null}
+              calendarIcon={
+                <img
+                  src={CalendarIcon}
+                  alt="Calendario"
+                  style={{ width: 20, height: 20 }}
+                />
+              }
+            />
+          </s.InputDateContainer>
+        </s.CustomDisplayContainer>
+        <s.NavigationArrow onClick={() => calculateWeek(7)}>
+          <img src={NextIcon} />
+        </s.NavigationArrow>
+      </s.NavigationDateContainer>
     );
-  }, [calendarData, slotAction]);
-
-  const availableCapacity = selectedSlot
-    ? selectedSlot.maxCapacity - selectedSlot.capacity
-    : 0;
+  };
 
   const columnsCount = calendarData?.days.length || 0;
-
   if (columnsCount === 0) {
     return (
       <s.NoResponseContainer>
-        <SearchNotFound />
+        <SelectDateContainer />
+        <s.Spacing>
+          <SearchNotFound />
+        </s.Spacing>
       </s.NoResponseContainer>
     );
   }
 
   return (
     <s.MainContainer>
+      <SelectDateContainer />
       <s.CalendarContainer $columnsCount={columnsCount}>
         <s.ScheduledTime>
           {calendarData?.times.map((timeSlot) => (
@@ -93,39 +135,44 @@ function CalendarView() {
             </s.DayContainer>
             {calendarData?.times.map((_, rowIndex) => {
               const slot = calendarData.slots[rowIndex][colIndex];
-              if (!slot) { return <s.SpecificEmptySlot /> };
+              if (!slot) {
+                return <s.SpecificEmptySlot key={`empty-${rowIndex}-${colIndex}`} />;
+              }
               return (
                 <Slot
+                  key={slot.id}
                   slot={slot}
                   columnsCount={columnsCount}
                   setSlotAction={setSlotAction}
                 />
-
               );
             })}
           </s.DayColumn>
         ))}
         {slotAction?.type === "ABSENCE" && (
           <GenericModal
+            isOpen={true}
             icon={StudentIcon}
             title={slotAction.studentName}
             isConfirmModal
-            onCancel={closeModals}
+            onCancel={closeModal}
             onConfirm={handleConfirmAbsence}
             confirmText="Registrar Inasistencia"
             cancelText="Cancelar"
             width="480px"
             height="226px"
-          ></GenericModal>
+          />
         )}
-        <StudentRecover
-          isOpen={slotAction?.type === "RECOVER"}
-          selectedSlotId={slotAction?.specificSlotId || null}
-          availableCapacity={availableCapacity}
-          onClose={closeModals}
-        />
+        {slotAction?.type === "RECOVER" && (
+          <StudentRecover
+            selectedSlotId={slotAction.specificSlotId}
+            availableCapacity={slotAction.availableCapacity}
+            onClose={closeModal}
+          />
+        )}
       </s.CalendarContainer>
     </s.MainContainer>
-  );
-}
+  )
+};
+
 export default CalendarView;

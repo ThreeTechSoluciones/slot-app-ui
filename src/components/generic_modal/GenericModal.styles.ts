@@ -70,7 +70,6 @@ export const ModalBody = styled.div`
   margin-bottom: 25px;
   font-size: 16px;
   font-family: ${FONT_FAMILY};
-  overflow-y: auto;
 `;
 export const ModalFooter = styled.div`
   display: flex;

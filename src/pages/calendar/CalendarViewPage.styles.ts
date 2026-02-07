@@ -1,20 +1,21 @@
 import styled from "styled-components";
 import {
+  BACKGROUND_COLOR,
+  BRAND_COLOR,
+  DANGER_COLOR,
   DEFAULT_FONT_SIZE,
   DEFAULT_TEXT_COLOR,
   FONT_FAMILY,
   FONT_WEIGHT_BOLD,
   LIGHT_NEUTRAL_COLOR,
+  SUCCESS_COLOR,
+  NEUTRAL_COLOR,
+  WARNING_COLOR,
+  FONT_WEIGHT_NORMAL,
 } from "../../utils/Stylesheet";
 
 const ROW_HEIGHT = "260px";
 const ROW_SPACING_HEIGHT = "16px";
-
-export const NoResponseContainer = styled.div`
-  display: flex;
-  align-items: center;
-  min-height: 80vh;
-`;
 
 export const MainContainer = styled.div`
   display: flex;
@@ -23,6 +24,64 @@ export const MainContainer = styled.div`
   justify-content: center;
   padding: 0 24px;
   box-sizing: border-box;
+  flex-direction: column;
+  align-items: center;
+  margin: 32px 0px 32px 0px;
+`;
+
+export const NoResponseContainer = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 32px;
+`;
+
+export const Spacing = styled.div`
+  margin-top: 132px;
+`;
+
+export const NavigationDateContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+`;
+
+export const InputDateContainer = styled.div`
+  width: 408px;
+`;
+
+export const CustomDisplayContainer = styled.div`
+  position: relative;
+`;
+
+export const CustomDisplay = styled.div`
+  position: absolute;
+  background-color: white;
+  font-family: ${FONT_FAMILY};
+  font-weight: ${FONT_WEIGHT_BOLD};
+  top: 8px;
+  left: 16px;
+  width: 350px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  z-index: 1000;
+`;
+
+export const NavigationArrow = styled.div`
+  display: flex;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: ${LIGHT_NEUTRAL_COLOR};
+  align-items: center;
+  justify-content: center;
+  &:hover {
+    cursor: pointer;
+    background-color: ${BRAND_COLOR};
+  }
 `;
 
 interface CalendarContainerProps {
@@ -30,6 +89,7 @@ interface CalendarContainerProps {
 }
 
 export const CalendarContainer = styled.div<CalendarContainerProps>`
+  margin-top: 56px;
   display: grid;
   grid-template-columns: 85px repeat(
       ${(props) => props.$columnsCount || 3},
