@@ -2,6 +2,7 @@ import styled from "styled-components";
 import {
   BORDER_RADIUS,
   BRAND_COLOR,
+  FONT_FAMILY,
   LIGHT_NEUTRAL_COLOR,
 } from "../../utils/Stylesheet";
 
@@ -21,9 +22,6 @@ export const ButtonTrigger = styled.div<ButtonTriggerProps>`
   cursor: pointer;
   gap: 10px;
   padding: 12px;
-  &:hover {
-    background: #e6e6e6;
-  }
   img {
     width: ${(props) => props.imgWidth};
     height: ${(props) => props.imgHeight};
@@ -48,6 +46,7 @@ export const DropdownMenuStyle = styled.div<DropdownContainerProps>`
   max-height: 135px;
   overflow-y: auto;
   width: ${(props) => (props.size === "small" ? "184px" : "408px")};
+  
 `;
 
 export const ButtonOption = styled.button`
@@ -58,6 +57,7 @@ export const ButtonOption = styled.button`
   font-size: 12px;
   text-align: center;
   cursor: pointer;
+  font-family:${FONT_FAMILY};
   &:hover {
     background: ${BRAND_COLOR};
   }
