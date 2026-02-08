@@ -131,15 +131,11 @@ function Slot({ slot, columnsCount, setSlotAction }: SlotParams) {
         });
     };
 
-    const rawStudents = filter ? filteredStudents : slot.students;
+    const students = filter ? filteredStudents : slot.students;
 
-    const students = rawStudents ? rawStudents : [rawStudents];
+    const availableCapacity = slot.maxCapacity - slot.capacity
 
-    const availableCapacity = slot
-        ? slot.maxCapacity - slot.capacity
-        : 0;
-
-    const isFull = slot ? slot.capacity === slot.maxCapacity : true;
+    const isFull = slot.capacity === slot.maxCapacity;
 
     return (
         <s.SpecificSlot $columnsCount={columnsCount}>
