@@ -1,46 +1,44 @@
 import { forwardRef, useImperativeHandle } from "react";
-import {
-  FormStyle,
-  InfoContainer,
-  InfoStyle,
-  InfoValue,
-  InputGroup,
-  Description,
-  DatePickerCustomWrapper,
-  InputWrapper,
-  LabelStyle,
-  ErrorWrapper,
-  RowContainer,
-} from "./EditPlan.styles";
+import * as s from "./EditPlan.styles";
 import { formatCurrency } from "../../../utils/Formatter";
 import type { FormProp } from "../../../app/types/FormProp";
-import { editPlanSchema } from "./EditPlan.scheme";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, useForm } from "react-hook-form";
 import { ErrorMessage } from "../../../components/error_message/ErrorMessage";
+import SpinInput from "../../../components/number_input/SpinInput";
 import CurrencyInput from "../../../utils/InputPrice/CurrencyInput";
 import InputDate from "../../../components/date/inputDate";
 import CalendarIcon from "../../../assets/calendar-icon.svg";
+import { editPlanSchema } from "./EditPlan.scheme";
+import * as yup from "yup";
+
 export interface EditPlanFormData {
-  amount: number;
+  name: string;
+  numberOfDays: number;
+  amount?: number;
   startDate: Date;
 }
+
 export interface EditPlanFormProps {
   planId: string;
   planName: string;
   numberOfDays: number;
   currentAmount: number;
 }
+
 const EditPlanForm = forwardRef<FormProp<any>, EditPlanFormProps>(
   (props, ref) => {
+    type FormData = yup.InferType<typeof editPlanSchema>;
     const { planId, planName, numberOfDays, currentAmount } = props;
     const {
       handleSubmit,
       control,
       formState: { errors },
-    } = useForm<EditPlanFormData>({
-      resolver: yupResolver(editPlanSchema),
+    } = useForm<FormData>({
+      resolver: yupResolver(editPlanSchema) as any,
       defaultValues: {
+        name: planName,
+        numberOfDays: numberOfDays,
         amount: undefined,
         startDate: new Date(),
       },
@@ -49,47 +47,62 @@ const EditPlanForm = forwardRef<FormProp<any>, EditPlanFormProps>(
     useImperativeHandle(
       ref,
       () =>
-        ({
-          submit: () =>
-            new Promise((resolve) => {
-              handleSubmit(
-                (data) => {
-                  resolve({ planId, ...data });
-                },
-                () => {
-                  resolve(null);
-                }
-              )();
-            }),
-        } as unknown as FormProp<EditPlanFormProps>)
+      ({
+        submit: () =>
+          new Promise((resolve) => {
+            handleSubmit(
+              (data) => {
+                resolve({ planId, ...data });
+              },
+              () => {
+                resolve(null);
+              }
+            )();
+          }),
+      } as unknown as FormProp<EditPlanFormProps>)
     );
 
     return (
-      <FormStyle>
-        <InfoContainer>
-          <InfoStyle>
-            <LabelStyle>Nombre del plan*</LabelStyle>
-            <InfoValue value={planName} readOnly />
-          </InfoStyle>
-
-          <InfoStyle>
-            <LabelStyle>Cantidad de días por semana*</LabelStyle>
-            <InfoValue value={numberOfDays} readOnly />
-          </InfoStyle>
-
-          <InfoStyle>
-            <LabelStyle>Precio vigente</LabelStyle>
-            <InfoValue value={formatCurrency(currentAmount)} readOnly />
-          </InfoStyle>
-        </InfoContainer>
-        <InputGroup>
-          <LabelStyle>Actualizar precio (opcional)</LabelStyle>
-          <Description>
-            Ingresá el nuevo monto y la fecha a partir de la cual será válido.
-          </Description>
-
-          <RowContainer>
-            <InputWrapper>
+      <s.FormStyle>
+        <s.InfoContainer>
+          <s.InputContainer>
+            <s.Label>Nombre del plan</s.Label>
+            <Controller
+              name="name"
+              control={control}
+              render={({ field }) => (
+                <s.Input {...field} />
+              )}
+            />
+            <ErrorMessage error={errors.name} />
+          </s.InputContainer>
+          <s.InputContainer>
+            <s.Label>Cantidad de días por semana</s.Label>
+            <Controller
+              name="numberOfDays"
+              control={control}
+              render={({ field }) => (
+                <SpinInput
+                  value={field.value}
+                  onChange={field.onChange}
+                  min={1}
+                  max={7}
+                  placeholder="Ej: 2 días"
+                />
+              )}
+            />
+            <ErrorMessage error={errors.numberOfDays} />
+          </s.InputContainer>
+          <s.InputContainer>
+            <s.Label>Precio vigente</s.Label>
+            <s.Input $isNonEditable={true} value={formatCurrency(currentAmount!)} readOnly />
+          </s.InputContainer>
+        </s.InfoContainer>
+        <s.EditPriceOptionContainer>
+          <s.Label>Actualizar precio (opcional)</s.Label>
+          <s.Description> Ingresá el nuevo monto y la fecha a partir de la cual será válido.</s.Description>
+          <s.EditPriceInputs>
+            <s.InputWrapper>
               <Controller
                 name="amount"
                 control={control}
@@ -103,13 +116,10 @@ const EditPlanForm = forwardRef<FormProp<any>, EditPlanFormProps>(
                   />
                 )}
               />
-              <ErrorWrapper>
-                <ErrorMessage error={errors.amount} />
-              </ErrorWrapper>
-            </InputWrapper>
-
-            <InputWrapper>
-              <DatePickerCustomWrapper>
+              <ErrorMessage error={errors.amount} />
+            </s.InputWrapper>
+            <s.InputWrapper>
+              <s.DatePickerCustomWrapper>
                 <Controller
                   name="startDate"
                   control={control}
@@ -131,14 +141,12 @@ const EditPlanForm = forwardRef<FormProp<any>, EditPlanFormProps>(
                     />
                   )}
                 />
-              </DatePickerCustomWrapper>
-              <ErrorWrapper>
-                <ErrorMessage error={errors.startDate} />
-              </ErrorWrapper>
-            </InputWrapper>
-          </RowContainer>
-        </InputGroup>
-      </FormStyle>
+              </s.DatePickerCustomWrapper>
+              <ErrorMessage error={errors.startDate} />
+            </s.InputWrapper>
+          </s.EditPriceInputs>
+        </s.EditPriceOptionContainer>
+      </s.FormStyle>
     );
   }
 );

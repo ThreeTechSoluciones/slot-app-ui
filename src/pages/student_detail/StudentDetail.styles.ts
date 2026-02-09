@@ -84,7 +84,7 @@ export const InformationContainer = styled.div`
   text-align: left;
   margin-bottom: 1rem;
 `;
-export const ShiftInfoContainer = styled(StudentInfoContainer)`
+export const SlotInfoContainer = styled(StudentInfoContainer)`
   width: 1158px;
   height: auto;
   display: flex;

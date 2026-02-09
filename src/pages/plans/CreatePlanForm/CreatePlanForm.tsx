@@ -1,25 +1,12 @@
 import { forwardRef, useImperativeHandle } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-
-import {
-  FormStyle,
-  InputContainer,
-  LabelStyle,
-  InputWrapper,
-  InputStyle,
-  NumberInputContainer,
-  InputFieldWrapper,
-  SpinButton,
-  ErrorWrapper,
-} from "./CreatePlanForm.styles";
-
-import AddIcon from "../../../assets/add-icon.svg";
-import LessIcon from "../../../assets/less-icon.svg";
+import * as s from "./CreatePlanForm.styles"
 import { createPlanSchema } from "./CreatePlanForm.scheme";
 import type { FormProp } from "../../../app/types/FormProp";
 import { ErrorMessage } from "../../../components/error_message/ErrorMessage";
 import CurrencyInput from "../../../utils/InputPrice/CurrencyInput";
+import SpinInput from "../../../components/number_input/SpinInput";
 
 export interface CreatePlanProp {
   name: string;
@@ -31,7 +18,7 @@ const CreatePlanForm = forwardRef<
   FormProp<CreatePlanProp>,
   FormProp<CreatePlanProp>
 >((props, ref) => {
-  const { data, onSubmit } = props;
+  const { data } = props;
   const planForm = data;
 
   type FormData = CreatePlanProp;
@@ -39,8 +26,6 @@ const CreatePlanForm = forwardRef<
   const {
     register,
     handleSubmit,
-    setValue,
-    watch,
     control,
     formState: { errors },
   } = useForm<FormData>({
@@ -50,75 +35,53 @@ const CreatePlanForm = forwardRef<
     },
   });
 
-  const numberOfDays = watch("numberOfDays");
-
   useImperativeHandle(
     ref,
     () =>
-      ({
-        submit: () =>
-          new Promise<CreatePlanProp | null>((resolve) => {
-            handleSubmit(
-              (data) => {
-                resolve(data);
-              },
-              () => {
-                resolve(null);
-              }
-            )();
-          }),
-      } as unknown as FormProp<CreatePlanProp>)
+    ({
+      submit: () =>
+        new Promise<CreatePlanProp | null>((resolve) => {
+          handleSubmit(
+            (data) => {
+              resolve(data);
+            },
+            () => {
+              resolve(null);
+            }
+          )();
+        }),
+    } as unknown as FormProp<CreatePlanProp>)
   );
 
   return (
-    <FormStyle>
-      <InputContainer>
-        <LabelStyle>Nombre del plan*</LabelStyle>
-        <InputWrapper>
-          <InputStyle placeholder="Ej: Pase Libre" {...register("name")} />
-          <ErrorWrapper>
-            <ErrorMessage error={errors.name} />
-          </ErrorWrapper>
-        </InputWrapper>
-      </InputContainer>
-
-      <InputContainer>
-        <LabelStyle>Cantidad de días por semana*</LabelStyle>
-        <NumberInputContainer>
-          <InputFieldWrapper>
-            <InputWrapper>
-              <InputStyle placeholder="Ej: 5" {...register("numberOfDays")} />
-              <ErrorWrapper>
-                <ErrorMessage error={errors.numberOfDays} />
-              </ErrorWrapper>
-            </InputWrapper>
-
-            <SpinButton
-              type="button"
-              style={{ right: "72px" }}
-              onClick={() =>
-                setValue("numberOfDays", Math.max(1, numberOfDays - 1))
-              }
-            >
-              <img src={LessIcon} />
-            </SpinButton>
-
-            <SpinButton
-              type="button"
-              style={{ right: "24px" }}
-              onClick={() =>
-                setValue("numberOfDays", Math.min(7, numberOfDays + 1))
-              }
-            >
-              <img src={AddIcon} />
-            </SpinButton>
-          </InputFieldWrapper>
-        </NumberInputContainer>
-      </InputContainer>
-
-      <InputContainer>
-        <LabelStyle>Precio*</LabelStyle>
-        <InputWrapper>
+    <s.FormStyle>
+      <s.InputContainer>
+        <s.LabelStyle>Nombre del plan</s.LabelStyle>
+        <s.InputWrapper>
+          <s.InputStyle placeholder="Ej: Pase Libre" {...register("name")} />
+          <ErrorMessage error={errors.name} />
+        </s.InputWrapper>
+      </s.InputContainer>
+      <s.InputContainer>
+        <s.LabelStyle>Cantidad de días por semana</s.LabelStyle>
+        <Controller
+          name="numberOfDays"
+          control={control}
+          render={({ field }) => (
+            <SpinInput
+              value={field.value}
+              onChange={field.onChange}
+              min={1}
+              max={7}
+              placeholder="Ej: 2 días"
+            />
+          )}
+        />
+        <ErrorMessage error={errors.numberOfDays} />
+      </s.InputContainer>
+      <s.InputContainer>
+        <s.LabelStyle>Precio</s.LabelStyle>
+        <s.InputWrapper>
           <Controller
             name="amount"
             control={control}
@@ -132,12 +95,10 @@ const CreatePlanForm = forwardRef<
               />
             )}
           />
-          <ErrorWrapper>
-            <ErrorMessage error={errors.amount} />
-          </ErrorWrapper>
-        </InputWrapper>
-      </InputContainer>
-    </FormStyle>
+          <ErrorMessage error={errors.amount} />
+        </s.InputWrapper>
+      </s.InputContainer>
+    </s.FormStyle>
   );
 });
 

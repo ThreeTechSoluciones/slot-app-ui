@@ -6,6 +6,7 @@ import type { StudentDetailResponse } from "../types/responses/StudentDetailResp
 import type { UpdateStudentRequest } from "../types/requests/UpdateStudentRequest.type";
 import type { StudentMonthlyFeeResponse } from "../types/responses/StudentMonthlyFee.type";
 import { SpecificSlotService } from "./SpecificSlotService";
+import { MetricService } from "./MetricService";
 
 export const StudentService = createApi({
   reducerPath: "students",
@@ -45,6 +46,10 @@ export const StudentService = createApi({
       invalidatesTags: (_result, _error, { studentId }) => [
         { type: "MonthlyFees", id: studentId },
       ],
+      onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
+        await queryFulfilled;
+        dispatch(MetricService.util.invalidateTags(["Metric"]));
+      },
     }),
     getStudentMonthlyFees: builder.query<
       StudentMonthlyFeeResponse[],

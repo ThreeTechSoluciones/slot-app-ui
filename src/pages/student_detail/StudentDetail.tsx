@@ -8,7 +8,7 @@ import {
   ButtonWrapper,
   AllInformationContainer,
   PaymentInfoContainer,
-  ShiftInfoContainer,
+  SlotInfoContainer,
   SearchNotFoundStyles,
   NotFoundStudentMessage,
   InfoBoxesContainer,
@@ -50,12 +50,12 @@ import toast from "react-hot-toast";
 import { useState } from "react";
 import type { StudentDetailResponse } from "../../app/types/responses/StudentDetailResponse.type";
 import {
-  mapStudentShiftInfo,
+  mapStudentSlotInfo,
   studentPaymentInfo,
   studentPersonalInfo,
 } from "../../utils/StudentDetailInfo";
-import ShiftDetail from "../../components/shiftsDetail/ShiftDetail";
 import { SearchNotFound } from "../../components/search_not_found/SearchNotFound";
+import SlotDetail from "../../components/slotDetail/SlotDetail";
 
 const StudentDetail = () => {
   const { studentId } = useLocation().state;
@@ -166,7 +166,7 @@ const StudentDetail = () => {
       <InfoBoxesContainer>
         <StudentData student={student} navigate={navigate} />
         <PaymentData student={student} navigate={navigate} />
-        <ShiftData student={student} navigate={navigate} />
+        <SlotData student={student} navigate={navigate} />
       </InfoBoxesContainer>
     </MainContainer>
   );
@@ -271,18 +271,18 @@ const PaymentData = ({
     </PaymentInfoContainer>
   );
 };
-const ShiftData = ({
+const SlotData = ({
   student,
   navigate,
 }: {
   student: StudentDetailResponse;
   navigate: (path: string, options?: { state?: any }) => void;
 }) => {
-  const shifts = mapStudentShiftInfo(student);
-  const hasShifts = shifts.length > 0;
+  const slots = mapStudentSlotInfo(student);
+  const hasSlots = slots.length > 0;
 
   return (
-    <ShiftInfoContainer>
+    <SlotInfoContainer>
       <HeaderBoxes>
         <SlotTitleContainer>
           <img
@@ -304,15 +304,15 @@ const ShiftData = ({
         <DaysPlan>{student.plan}</DaysPlan>
       </PlanContainer>
 
-      {hasShifts ? (
+      {hasSlots ? (
         <SlotsContainer>
-          <ShiftDetail shifts={shifts} />
+          <SlotDetail slots={slots} />
         </SlotsContainer>
       ) : (
         <SearchNotFoundStyles>
           <SearchNotFound />
         </SearchNotFoundStyles>
       )}
-    </ShiftInfoContainer>
+    </SlotInfoContainer>
   );
 };

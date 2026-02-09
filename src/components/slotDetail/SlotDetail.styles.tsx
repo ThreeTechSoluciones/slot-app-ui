@@ -7,13 +7,13 @@ import {
   FONT_WEIGHT_BOLD,
 } from "../../utils/Stylesheet";
 
-export const ShiftContainer = styled.div`
+export const SlotContainer = styled.div`
   display: flex;
   flex-direction: row;
   gap: 24px;
   overflow-x: auto;
 `;
-export const Shift = styled.div`
+export const Slot = styled.div`
   display: flex;
   flex-direction: column;
   background-color: ${LIGHT_NEUTRAL_COLOR};
@@ -32,7 +32,7 @@ interface TextProps {
 export const Text = styled.p<TextProps>`
   margin: 0 0 0 16px;
   padding: 0px;
+  font-weight: ${FONT_WEIGHT_BOLD};
   font-family: ${FONT_FAMILY};
   font-size: ${(props) => (props.$isADay ? "16px" : "12px")};
-  font-weight: ${FONT_WEIGHT_BOLD};
 `;

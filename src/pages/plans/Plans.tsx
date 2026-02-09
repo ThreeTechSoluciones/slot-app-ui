@@ -23,14 +23,13 @@ import { GenericModal } from "../../components/generic_modal/GenericModal";
 import CreatePlanForm from "./CreatePlanForm/CreatePlanForm";
 import {
   useCreatePlanMutation,
-  useUpdatePlanPriceMutation,
+  useUpdatePlanMutation,
   useDeletePlanMutation,
 } from "../../app/services/PlanService";
 import { useGetUserPlansQuery } from "../../app/services/UserService";
 import { skipToken } from "@reduxjs/toolkit/query/react";
 import useAuthentication from "../../hooks/useAuthentication";
 import EditPlan from "./EditPlan/EditPlan";
-import { capitalize } from "../../utils/CapitalizeWords";
 import { formatDateToDash } from "../../utils/DateFormatter";
 
 function Plans() {
@@ -40,7 +39,7 @@ function Plans() {
     "CREATE" | "EDIT" | "DELETE" | null
   >(null);
   const [selectedPlan, setSelectedPlan] = useState<PlanResponse | null>(null);
-  const [editPlan] = useUpdatePlanPriceMutation();
+  const [editPlan] = useUpdatePlanMutation();
   const [deletePlan] = useDeletePlanMutation();
   const [createPlan] = useCreatePlanMutation();
   const { userId } = useAuthentication();
@@ -72,7 +71,7 @@ function Plans() {
     if (!data || !userId) return;
     const finalRequest = {
       ...data,
-      name: capitalize(data.name),
+      name: data.name.charAt(0).toUpperCase() + data.name.slice(1).toLowerCase(),
       userId,
     };
     await handleMutation(
@@ -81,17 +80,19 @@ function Plans() {
       "Plan creado correctamente",
     );
   };
+
   //EDITAR PLAN
   const handleEditPlan = async () => {
     if (!formRef.current) return;
-
     const data = await formRef.current.submit();
     if (!data) return;
-
-    const formattedStartDate = formatDateToDash(data.startDate);
-
+    const finalRequest = {
+      ...data,
+      name: data.name.charAt(0).toUpperCase() + data.name.slice(1).toLowerCase(),
+      startDate: formatDateToDash(data.startDate),
+    };
     await handleMutation(
-      () => editPlan({ ...data, startDate: formattedStartDate }).unwrap(),
+      () => editPlan(finalRequest).unwrap(),
       () => setShowModal(null),
       "Plan editado correctamente",
     );
@@ -123,8 +124,10 @@ function Plans() {
         confirmText="Registrar"
         onConfirm={handleCreatePlan}
         onCancel={() => setShowModal(null)}
+        width="480px"
       >
         <CreatePlanForm ref={formRef} />
+
       </GenericModal>
     ),
     EDIT: selectedPlan && (
@@ -136,7 +139,7 @@ function Plans() {
           setShowModal(null);
           setSelectedPlan(null);
         }}
-        height="610px"
+        height="620px"
       >
         <EditPlan
           ref={formRef}

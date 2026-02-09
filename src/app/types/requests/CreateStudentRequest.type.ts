@@ -12,4 +12,5 @@ export type CreateStudentRequest = {
   planId: string;
   admissionDate: Date;
   userId: string;
+  slotIds: string[];
 };
