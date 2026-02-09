@@ -4,7 +4,7 @@ import * as s from "./MetricCard.styles";
 export interface MetricItem {
   title: string;
   value: number | string;
-  description?: string;
+  description?: React.ReactNode;
   icon?: ReactNode;
   color: string;
 }

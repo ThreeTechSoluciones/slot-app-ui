@@ -1,5 +1,8 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import type { PaymentMetrics } from "../types/responses/MetricResponse";
+import type {
+  PaymentMetrics,
+  StudentSummary,
+} from "../types/responses/MetricResponse";
 export const MetricService = createApi({
   reducerPath: "metrics",
   tagTypes: ["Metric"],
@@ -18,7 +21,15 @@ export const MetricService = createApi({
       }),
       providesTags: ["Metric"],
     }),
+    getStudentSummary: builder.query<StudentSummary, void>({
+      query: () => ({
+        url: `/students-summary`,
+        method: "GET",
+      }),
+      providesTags: [{ type: "Metric", id: "Summary" }],
+    }),
   }),
 });
 
-export const { useGetStudentPaymentMetricsQuery } = MetricService;
+export const { useGetStudentPaymentMetricsQuery, useGetStudentSummaryQuery } =
+  MetricService;

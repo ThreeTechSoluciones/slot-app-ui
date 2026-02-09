@@ -18,11 +18,12 @@ export const Title = styled.h1`
   font-weight: ${FONT_WEIGHT_BOLD};
   margin-top: 56px;
 `;
+export const MetricsContainer = styled.div`
+  margin-left: 80px;
+`;
 export const FiltersContainer = styled.div`
   display: flex;
-  margin: 0px 80px;
-
-
+  margin: 30px 80px;
 `;
 
 export const LeftContainer = styled.div`
@@ -50,14 +51,14 @@ const CommonStatusAndSituation = styled.p`
   font-weight: 700;
 `;
 
-export const SituationText = styled(CommonStatusAndSituation) <{
+export const SituationText = styled(CommonStatusAndSituation)<{
   $status: string;
 }>`
   background-color: ${({ $status }) =>
     $status === "En término" ? `${SUCCESS_COLOR}` : `${DANGER_COLOR}`};
 `;
 
-export const StatusText = styled(CommonStatusAndSituation) <{
+export const StatusText = styled(CommonStatusAndSituation)<{
   $isActive: boolean;
 }>`
   background-color: ${({ $isActive }) =>
