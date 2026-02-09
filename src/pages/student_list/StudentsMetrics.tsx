@@ -44,11 +44,11 @@ const StudentMetrics = () => {
       description:
         metrics.activeStudentsWithDebtCount === 1 ? (
           <>
-            alumno que <strong>asiste</strong> a tu clase debe cuotas.
+            alumno que <strong>asiste</strong> a tus clases debe cuotas.
           </>
         ) : (
           <>
-            alumnos que <strong>asisten</strong> a tu clase deben cuotas.
+            alumnos que <strong>asisten</strong> a tus clases deben cuotas.
           </>
         ),
       icon: <CgDanger size={20} />,
@@ -60,7 +60,7 @@ const StudentMetrics = () => {
       description:
         metrics.inactiveStudentsWithDebtCount === 1 ? (
           <>
-            alumno que <strong>no asiste</strong> a tu clase debe cuotas.
+            alumno que <strong>no asiste</strong> a tus clases debe cuotas.
           </>
         ) : (
           <>
