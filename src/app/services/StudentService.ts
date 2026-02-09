@@ -5,6 +5,7 @@ import type { StudentResponse } from "../types/responses/StudentResponse.type";
 import type { StudentDetailResponse } from "../types/responses/StudentDetailResponse.type";
 import type { UpdateStudentRequest } from "../types/requests/UpdateStudentRequest.type";
 import type { StudentMonthlyFeeResponse } from "../types/responses/StudentMonthlyFee.type";
+import { SpecificSlotService } from "./SpecificSlotService";
 
 export const StudentService = createApi({
   reducerPath: "students",
@@ -110,8 +111,10 @@ export const StudentService = createApi({
       ],
       onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
         await queryFulfilled;
-        dispatch(UserService.util.invalidateTags(["userCalendar"]));
-        dispatch(UserService.util.invalidateTags(["userStudents"]));
+        dispatch(
+          UserService.util.invalidateTags(["userCalendar", "userStudents"]),
+        );
+        dispatch(SpecificSlotService.util.invalidateTags(["SpecificSlot"]));
       },
     }),
     recoverStudentSlot: builder.mutation<
