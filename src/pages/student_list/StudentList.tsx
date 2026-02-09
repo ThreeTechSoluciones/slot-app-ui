@@ -6,6 +6,7 @@ import {
   LeftContainer,
   RightContainer,
   FiltersContainer,
+  FilterSearchContainer,
 } from "./StudentList.styles";
 import { useLocation, useNavigate } from "react-router";
 import useAuthentication from "../../hooks/useAuthentication";
@@ -45,12 +46,12 @@ function StudentList() {
   } = useGetUserStudentsQuery(
     userId
       ? {
-          userId,
-          filter,
-          status: situationFilter || undefined,
-          isActive: statusFilter === "" ? undefined : statusFilter === "activo",
-          sort: sort.length > 0 ? sort : undefined,
-        }
+        userId,
+        filter,
+        status: situationFilter || undefined,
+        isActive: statusFilter === "" ? undefined : statusFilter === "activo",
+        sort: sort.length > 0 ? sort : undefined,
+      }
       : skipToken
   );
 
@@ -150,11 +151,13 @@ function StudentList() {
       <Title>LISTADO DE ALUMNOS</Title>
       <FiltersContainer>
         <LeftContainer>
-          <FilterSearch
-            value={filter}
-            onChange={setFilter}
-            placeholder="Buscar por DNI, nombre o apellido"
-          />
+          <FilterSearchContainer>
+            <FilterSearch
+              value={filter}
+              onChange={setFilter}
+              placeholder="Buscar por DNI, nombre o apellido"
+            />
+          </FilterSearchContainer>
           <Filter
             placeholder="Filtrar por situación"
             options={[
@@ -173,7 +176,6 @@ function StudentList() {
             value={statusFilter}
             onSelect={setStatusFilter}
           />
-
           <Button
             size="small"
             variant="primary"

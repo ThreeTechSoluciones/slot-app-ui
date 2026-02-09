@@ -1,8 +1,14 @@
-import PlusIcon from "../../assets/plus-icon.webp";
+import PlusIcon from "../../assets/plus-icon-circle.webp";
 import LogoCeci from "../../assets/logoCeci.png";
-import LogoutIcon from "../../assets/logout.png"
-import PerfilPicture from "../../assets/perfil.jpg"
-import { MisAlumnos, NuevoAlumno, MisPlanes, MisTurnos, Calendario } from "../../routes/RoutesUtils"
+import LogoutIcon from "../../assets/logout.png";
+import PerfilPicture from "../../assets/perfil.jpg";
+import {
+  MisAlumnos,
+  NuevoAlumno,
+  MisPlanes,
+  MisTurnos,
+  Calendario,
+} from "../../routes/RoutesUtils";
 import {
   MainContainer,
   LeftOptionsContainer,
@@ -10,7 +16,7 @@ import {
   Logo,
   Logout,
   Photo,
-  Option
+  Option,
 } from "./header.styles";
 import { useNavigate } from "react-router";
 import { ConfirmDialog } from "../confirm_dialog/ConfirmDialog";
@@ -20,13 +26,12 @@ import { clearUser } from "../../app/slices/AuthSlice";
 import toast from "react-hot-toast";
 
 function Header() {
-
   const dispatch = useDispatch();
 
   const handleLogout = () => {
     setShowConfirm(false);
     dispatch(clearUser());
-    toast.success("Has cerrado sesión con éxito")
+    toast.success("Has cerrado sesión con éxito");
   };
 
   const navigate = useNavigate();
@@ -36,22 +41,20 @@ function Header() {
   return (
     <MainContainer>
       <LeftOptionsContainer>
-        <Logo><img src={LogoCeci} alt="Logo" /></Logo>
+        <Logo>
+          <img src={LogoCeci} alt="Logo" />
+        </Logo>
         <Option onClick={() => navigate(Calendario)}>Calendario</Option>
         <Option onClick={() => navigate(MisAlumnos)}>Mis alumnos</Option>
         <Option onClick={() => navigate(MisPlanes)}>Mis planes</Option>
         <Option onClick={() => navigate(MisTurnos)}>Mis turnos</Option>
-        <Option
-          $isLast
-          $hasImg
-          onClick={() => navigate(NuevoAlumno)}>
+        <Option $isLast $hasImg onClick={() => navigate(NuevoAlumno)}>
           Nuevo alumno
           <img src={PlusIcon} />
         </Option>
       </LeftOptionsContainer>
       <RightOptionsContainer>
-        <Logout
-          onClick={() => setShowConfirm(true)}>
+        <Logout onClick={() => setShowConfirm(true)}>
           <img src={LogoutIcon} />
           Cerrar sesión
         </Logout>
@@ -67,6 +70,6 @@ function Header() {
         />
       )}
     </MainContainer>
-  )
-};
+  );
+}
 export default Header;

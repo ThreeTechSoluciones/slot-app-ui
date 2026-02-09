@@ -32,9 +32,10 @@ export const UserService = createApi({
         status?: string;
         isActive?: boolean;
         sort?: SortConfig | SortConfig[];
+        filterByAbsences?: boolean;
       }
     >({
-      query: ({ userId, filter, status, isActive, sort }) => {
+      query: ({ userId, filter, status, isActive, sort, filterByAbsences }) => {
         let sortParams: string | string[] | undefined;
         if (sort) {
           sortParams = Array.isArray(sort)
@@ -48,6 +49,7 @@ export const UserService = createApi({
             status,
             isActive,
             sort: sortParams,
+            filterByAbsences,
           },
         };
       },

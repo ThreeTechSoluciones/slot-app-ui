@@ -21,11 +21,13 @@ export const Title = styled.h1`
 export const FiltersContainer = styled.div`
   display: flex;
   margin: 0px 80px;
+
+
 `;
 
 export const LeftContainer = styled.div`
   display: flex;
-  gap: 26px;
+  gap:24px;
 `;
 
 export const RightContainer = styled.div`
@@ -61,3 +63,9 @@ export const StatusText = styled(CommonStatusAndSituation) <{
   background-color: ${({ $isActive }) =>
     $isActive ? `${SUCCESS_COLOR}` : `${NEUTRAL_COLOR}`};
 `;
+
+export const FilterSearchContainer = styled.div`
+  display:flex;
+  width:352px;
+  height:48px;
+`

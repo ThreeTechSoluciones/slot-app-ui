@@ -13,6 +13,7 @@ export const DateFilterContainer = styled.div`
   z-index: 1;
   width: 184px;
   min-width: 184px;
+
 `;
 interface DatePickerWrapperProps {
   $hasValue: boolean;
@@ -68,10 +69,12 @@ export const DatePickerWrapper = styled.div<DatePickerWrapperProps>`
     min-width: unset;
     max-width: 100px;
     font-family: ${FONT_FAMILY};
-    font-size: 12px;
+    font-size: 12px; 
     flex: 1;
     display: ${(props) => (props.$hasValue ? "flex" : "none")};
+    
   }
+    
   //ICONO CALENDARIO
   .react-date-picker__button {
     padding: 0;
