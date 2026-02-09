@@ -25,6 +25,9 @@ export const ModalContainer = styled.div<{ $width: string; $height: string }>`
   height: ${(props) => props.$height};
   border-radius: ${BORDER_RADIUS};
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 24px;
 `;
 export const ModalHeader = styled.div`
   margin-top: 40px;

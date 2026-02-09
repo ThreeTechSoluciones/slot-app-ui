@@ -38,13 +38,13 @@ function StudentList() {
   } = useGetUserStudentsQuery(
     userId
       ? {
-          userId,
-          filter,
-          status: situationFilter || undefined,
-          isActive: statusFilter === "" ? undefined : statusFilter === "activo",
-          sort: sort.length > 0 ? sort : undefined,
-        }
-      : skipToken,
+        userId,
+        filter,
+        status: situationFilter || undefined,
+        isActive: statusFilter === "" ? undefined : statusFilter === "activo",
+        sort: sort.length > 0 ? sort : undefined,
+      }
+      : skipToken
   );
 
   if (isLoading) return <div>Cargando...</div>;
@@ -172,7 +172,6 @@ function StudentList() {
             value={statusFilter}
             onSelect={setStatusFilter}
           />
-
           <Button
             size="small"
             variant="primary"

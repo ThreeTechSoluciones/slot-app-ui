@@ -5,6 +5,7 @@ import type { StudentResponse } from "../types/responses/StudentResponse.type";
 import type { StudentDetailResponse } from "../types/responses/StudentDetailResponse.type";
 import type { UpdateStudentRequest } from "../types/requests/UpdateStudentRequest.type";
 import type { StudentMonthlyFeeResponse } from "../types/responses/StudentMonthlyFee.type";
+import { SpecificSlotService } from "./SpecificSlotService";
 import { MetricService } from "./MetricService";
 
 export const StudentService = createApi({
@@ -138,7 +139,27 @@ export const StudentService = createApi({
       ],
       onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
         await queryFulfilled;
+        dispatch(
+          UserService.util.invalidateTags(["userCalendar", "userStudents"]),
+        );
+        dispatch(SpecificSlotService.util.invalidateTags(["SpecificSlot"]));
+      },
+    }),
+    recoverStudentSlot: builder.mutation<
+      void,
+      { studentId: string; specificSlotId: string }
+    >({
+      query: ({ studentId, specificSlotId }) => ({
+        url: `/${studentId}/slots/specific-slot/${specificSlotId}/recover`,
+        method: "POST",
+      }),
+      invalidatesTags: (_result, _error, { studentId }) => [
+        { type: "Student", id: studentId },
+      ],
+      onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
+        await queryFulfilled;
         dispatch(UserService.util.invalidateTags(["userCalendar"]));
+        dispatch(UserService.util.invalidateTags(["userStudents"]));
       },
     }),
   }),
@@ -153,4 +174,5 @@ export const {
   useGetStudentMonthlyFeesQuery,
   useCreateStudentMonthlyFeeMutation,
   useMarkStudentAbsenceMutation,
+  useRecoverStudentSlotMutation,
 } = StudentService;
