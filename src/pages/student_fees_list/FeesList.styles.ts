@@ -9,6 +9,7 @@ import {
   FONT_WEIGHT_BOLD,
   FONT_WEIGHT_NORMAL,
   WARNING_COLOR,
+  BACKGROUND_COLOR,
 } from "../../utils/Stylesheet";
 
 export const InformationStudent = styled.div``;
@@ -29,6 +30,8 @@ export const Title = styled.h1`
   font-size: 24px;
   justify-content: flex-start;
   width: 100%;
+  color: ${DEFAULT_TEXT_COLOR};
+  font-family: ${FONT_FAMILY};
 `;
 interface SubtitleProps {
   $isBold?: boolean;
@@ -36,6 +39,7 @@ interface SubtitleProps {
 export const SubTitle = styled.h2<SubtitleProps>`
   display: flex;
   align-items: center;
+  color: ${DEFAULT_TEXT_COLOR};
   font-size: 1rem;
   margin-left: 5rem;
   font-family: ${FONT_FAMILY};
@@ -45,9 +49,14 @@ export const SubTitle = styled.h2<SubtitleProps>`
     padding-right: 6px;
   }
 `;
+export const MetricsContainer = styled.div`
+  padding-left: 80px;
+  margin-bottom: 20px;
+`;
+
 export const FiltersContainer = styled.div`
   display: flex;
-  margin: 0px 80px;
+  margin: 20px 80px;
 `;
 
 export const LeftContainer = styled.div`
@@ -61,7 +70,7 @@ export const RightContainer = styled.div`
   flex-direction: row-reverse;
 `;
 export const ActionButton = styled.button`
-  color: black;
+  color: ${DEFAULT_TEXT_COLOR};
   border: none;
   background: none;
   font-size: 16px;
@@ -88,16 +97,19 @@ const STATUS_COLORS: { [key: string]: string } = {
   Pendiente: WARNING_COLOR,
   Vencido: DANGER_COLOR,
   Pagado: SUCCESS_COLOR,
-  "Pago con atraso": NEUTRAL_COLOR
+  "Pago con atraso": NEUTRAL_COLOR,
 };
 
 export const FeeStatus = styled.div<{
   $status: string;
 }>`
-  background-color: ${({ $status }) => { return STATUS_COLORS[$status] || NEUTRAL_COLOR }};
+  background-color: ${({ $status }) => {
+    return STATUS_COLORS[$status] || NEUTRAL_COLOR;
+  }};
   border-radius: ${BORDER_RADIUS};
   font-family: ${FONT_FAMILY};
-  color: ${DEFAULT_TEXT_COLOR};
+  color: ${BACKGROUND_COLOR};
+  font-weight: ${FONT_WEIGHT_BOLD};
   width: 136px;
   height: 32px;
   display: flex;

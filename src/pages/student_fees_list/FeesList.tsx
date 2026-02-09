@@ -1,31 +1,15 @@
 import { useLocation, useNavigate } from "react-router";
 import { SortableButton } from "../../components/sort_button/SortButton";
-import {
-  StudentsContainer,
-  FiltersContainer,
-  LeftContainer,
-  RightContainer,
-  ActionButton,
-  ViewIconStyle,
-  FeeStatus,
-  FeeStatusContainer,
-  InformationStudent,
-  Title,
-  TitleContainer,
-  CoinIconStyles,
-  SubTitle,
-} from "./FeesList.styles";
+import * as s from "./FeesList.styles";
 import Filter from "../../components/filter/Filter";
 import Button from "../../components/button/Button";
 import Table from "../../components/table/Table";
 import type { Column } from "../../app/types/table";
-
 import AddIcon from "../../assets/add-icon.svg";
 import BackIcon from "../../assets/back-icon.svg";
 import StudentIcon from "../../assets/student-icon.svg";
 import ViewIcon from "../../assets/openEye-icon.png";
 import CoinIcon from "../../assets/coin-icon.svg";
-
 import type { StudentMonthlyFeeResponse } from "../../app/types/responses/StudentMonthlyFee.type";
 import { useState } from "react";
 import { ConfirmDialog } from "../../components/confirm_dialog/ConfirmDialog";
@@ -53,6 +37,7 @@ import type {
   PAY_MONTHLY_FEE_MODAL_TYPE,
   PAYMENT_DETAIL_MODAL_TYPE,
 } from "../../utils/MonthlyFeesStatus";
+import PaymentMetrics from "./PaymentMetrics";
 function StudentFeesList() {
   const location = useLocation();
   const { studentId } = location.state || {};
@@ -183,23 +168,23 @@ function StudentFeesList() {
         );
         if (canPay) {
           return (
-            <ActionButton onClick={() => handleOpenPayModal(student.id)}>
+            <s.ActionButton onClick={() => handleOpenPayModal(student.id)}>
               Pagar
-              <CoinIconStyles src={CoinIcon} alt="coin-icon" />
-            </ActionButton>
+              <s.CoinIconStyles src={CoinIcon} alt="coin-icon" />
+            </s.ActionButton>
           );
         }
 
         if (canViewPayment) {
           return (
-            <ActionButton
+            <s.ActionButton
               onClick={() => {
                 handleOpenPaymentInfoModal(student.paymentId);
               }}
             >
               Ver pago
-              <ViewIconStyle src={ViewIcon} alt="view-icon" />
-            </ActionButton>
+              <s.ViewIconStyle src={ViewIcon} alt="view-icon" />
+            </s.ActionButton>
           );
         }
         return <></>;
@@ -207,26 +192,29 @@ function StudentFeesList() {
     },
   ];
   return (
-    <StudentsContainer>
-      <InformationStudent>
-        <TitleContainer>
+    <s.StudentsContainer>
+      <s.InformationStudent>
+        <s.TitleContainer>
           <img
             src={BackIcon}
             alt="back-icon"
             onClick={() => navigate(MisAlumnos)}
             style={{ cursor: "pointer" }}
           />
-          <Title>LISTADO DE CUOTAS</Title>
-        </TitleContainer>
-        <SubTitle $isBold={true}>
+          <s.Title>LISTADO DE CUOTAS</s.Title>
+        </s.TitleContainer>
+        <s.SubTitle $isBold={true}>
           <img src={StudentIcon} alt="student-icon" width={16} height={16} />
           {student?.name} {student?.lastName}
-        </SubTitle>
-        <SubTitle>Cantidad de días: {student?.numberOfDays}</SubTitle>
-        <SubTitle>Día de pago: {student?.paymentDay}</SubTitle>
-      </InformationStudent>
-      <FiltersContainer>
-        <LeftContainer>
+        </s.SubTitle>
+        <s.SubTitle>Cantidad de días: {student?.numberOfDays}</s.SubTitle>
+        <s.SubTitle>Día de pago: {student?.paymentDay}</s.SubTitle>
+      </s.InformationStudent>
+      <s.MetricsContainer>
+        <PaymentMetrics studentId={student.id} />
+      </s.MetricsContainer>
+      <s.FiltersContainer>
+        <s.LeftContainer>
           <Filter
             placeholder="Filtrar por mes"
             options={Object.entries(MonthsOfYear).map(([label, value]) => ({
@@ -259,8 +247,8 @@ function StudentFeesList() {
           >
             Limpiar filtros
           </Button>
-        </LeftContainer>
-        <RightContainer>
+        </s.LeftContainer>
+        <s.RightContainer>
           <Button
             variant="primary"
             size="medium"
@@ -276,8 +264,8 @@ function StudentFeesList() {
               onCancel={() => setShowConfirmDialog(false)}
             />
           )}
-        </RightContainer>
-      </FiltersContainer>
+        </s.RightContainer>
+      </s.FiltersContainer>
       {modalType === "pay" && (
         <ConfirmDialog
           message="¿Estás seguro de realizar este pago?"
@@ -293,7 +281,7 @@ function StudentFeesList() {
         />
       )}
       <Table columns={columns} data={fees || []} />;
-    </StudentsContainer>
+    </s.StudentsContainer>
   );
 }
 export default StudentFeesList;

@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { StudentService } from "./StudentService";
+import { MetricService } from "./MetricService";
 
 export const MonthlyFeeService = createApi({
   reducerPath: "monthlyFees",
@@ -21,8 +22,9 @@ export const MonthlyFeeService = createApi({
         dispatch(
           StudentService.util.invalidateTags([
             { type: "MonthlyFees", id: studentId },
-          ])
+          ]),
         );
+        dispatch(MetricService.util.invalidateTags([{ type: "Metric" }]));
       },
     }),
   }),
