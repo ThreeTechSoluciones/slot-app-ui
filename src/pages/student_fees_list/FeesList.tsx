@@ -40,7 +40,7 @@ import { formatCurrency } from "../../utils/Formatter";
 import DateFilter from "../../components/date_filter/DateFilter";
 import { toast } from "react-hot-toast";
 import { useUpdateMonthlyFeeMutation } from "../../app/services/MonthlyFeeService";
-import PaymentInfoModal from "../../components/payment_detail/paymentInfo";
+import PaymentInfoModal from "./payment_detail/paymentInfo";
 import { MonthsOfYear } from "../../utils/MonthsOfYear";
 import {
   MONTHLY_FEE_STATUS_CAN_BE_PAID,
@@ -73,7 +73,7 @@ function StudentFeesList() {
   >(null);
   const [selectedFeeId, setSelectedFeeId] = useState<string | null>(null);
   const [selectedPaymentId, setSelectedPaymentId] = useState<string | null>(
-    null
+    null,
   );
   const [payMonthlyFee] = useUpdateMonthlyFeeMutation();
 
@@ -87,12 +87,12 @@ function StudentFeesList() {
   } = useGetStudentMonthlyFeesQuery(
     student?.id
       ? {
-        studentId: student.id,
-        month: monthFilter || undefined,
-        expirationDate: formattedExpirationDate,
-        status: statusFilter || undefined,
-      }
-      : skipToken
+          studentId: student.id,
+          month: monthFilter || undefined,
+          expirationDate: formattedExpirationDate,
+          status: statusFilter || undefined,
+        }
+      : skipToken,
   );
 
   const [createMonthlyFee] = useCreateStudentMonthlyFeeMutation();
@@ -166,7 +166,11 @@ function StudentFeesList() {
       accessor: "status",
       render: (student) => (
         <FeeStatusContainer>
-          <FeeStatus $status={student.status}>{student.status === "Pagado vencido" ? "Pago con atraso" : student.status}</FeeStatus>
+          <FeeStatus $status={student.status}>
+            {student.status === "Pagado vencido"
+              ? "Pago con atraso"
+              : student.status}
+          </FeeStatus>
         </FeeStatusContainer>
       ),
     },
@@ -175,7 +179,7 @@ function StudentFeesList() {
       render: (student) => {
         const canPay = MONTHLY_FEE_STATUS_CAN_BE_PAID.includes(student.status);
         const canViewPayment = MONTHLY_FEE_STATUS_CAN_VIEW_PAYMENT.includes(
-          student.status
+          student.status,
         );
         if (canPay) {
           return (
