@@ -6,6 +6,8 @@ import {
   SUCCESS_COLOR,
   NEUTRAL_COLOR,
   DEFAULT_TEXT_COLOR,
+  FONT_WEIGHT_BOLD,
+  BACKGROUND_COLOR,
 } from "../../utils/Stylesheet";
 
 interface HourProps {
@@ -14,16 +16,13 @@ interface HourProps {
 
 export const MainContainer = styled.div`
   display: flex;
+  box-sizing: border-box;
+  width: 810px;
   flex-direction: row;
   justify-content: center;
   align-items: flex-start;
-  border-left: 5px solid ${LIGHT_NEUTRAL_COLOR};
-  border-bottom: 5px solid ${LIGHT_NEUTRAL_COLOR};
   margin-top: 32px;
-  margin-bottom: 32px;
-  max-height: 20vw;
-  overflow-x: auto;
-  border-radius: ${BORDER_RADIUS};
+  margin-bottom: 16px;
 `;
 
 export const Column = styled.div`
@@ -32,38 +31,44 @@ export const Column = styled.div`
   text-align: center;
   justify-content: center;
   gap: 16px;
+  flex: 1;
+  padding-bottom: 20px;
   align-items: center;
   border-right: 5px solid ${LIGHT_NEUTRAL_COLOR};
-  padding-bottom: 20px;
+  border-bottom: 5px solid ${LIGHT_NEUTRAL_COLOR};
+  &:first-child {
+    border-left: 5px solid ${LIGHT_NEUTRAL_COLOR};
+  }
 `;
 
 export const Day = styled.p`
   display: flex;
   height: 32px;
-  width: 120px;
+  width: 100%;
   justify-content: center;
   align-items: center;
   margin: 0px;
   padding: 0px;
-  font-size: 16px;
-  font-weight: bold;
-  color: black;
+  font-size: 14px;
+  font-weight: ${FONT_WEIGHT_BOLD};
+  color: ${DEFAULT_TEXT_COLOR};
   background-color: ${LIGHT_NEUTRAL_COLOR};
   font-family: ${FONT_FAMILY};
 `;
 export const Hour = styled.button<HourProps>`
   display: flex;
-  width: 72px;
-  height: 28px;
+  width: 80px;
+  height: 32px;
+  font-size: 12px;
   border-radius: ${BORDER_RADIUS};
   font-family: ${FONT_FAMILY};
   justify-content: center;
   align-items: center;
-  text-align: Center;
+  text-align: center;
   justify-content: center;
-  color: black;
+  color: ${DEFAULT_TEXT_COLOR};
   background-color: ${(props) =>
-    props.$isAvailable ? `white` : LIGHT_NEUTRAL_COLOR};
+    props.$isAvailable ? BACKGROUND_COLOR : LIGHT_NEUTRAL_COLOR};
   color: ${(props) =>
     props.$isAvailable ? `${DEFAULT_TEXT_COLOR}` : `${NEUTRAL_COLOR}`};
   border: ${(props) =>

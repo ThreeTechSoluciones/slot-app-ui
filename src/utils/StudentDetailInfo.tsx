@@ -5,7 +5,7 @@ import {
   StudentStatusStyle,
   StudentSituationStyle,
 } from "../pages/student_detail/StudentDetail.styles";
-import type { Shift } from "../components/shiftsDetail/ShiftDetail";
+import type { Slot } from "../components/slotDetail/SlotDetail";
 interface InfoItem {
   title: string;
   data?: string | number | null;
@@ -60,9 +60,7 @@ export const studentPaymentInfo = (
   },
 ];
 
-export const mapStudentShiftInfo = (
-  student: StudentDetailResponse,
-): Shift[] => {
+export const mapStudentSlotInfo = (student: StudentDetailResponse): Slot[] => {
   if (!student.slots?.length) return [];
 
   return student.slots.map((slot) => ({

@@ -24,7 +24,7 @@ import { formatCurrency } from "../../utils/Formatter";
 import DateFilter from "../../components/date_filter/DateFilter";
 import { toast } from "react-hot-toast";
 import { useUpdateMonthlyFeeMutation } from "../../app/services/MonthlyFeeService";
-import PaymentInfoModal from "../../components/payment_detail/paymentInfo";
+import PaymentInfoModal from "./payment_detail/paymentInfo";
 import { MonthsOfYear } from "../../utils/MonthsOfYear";
 import {
   MONTHLY_FEE_STATUS_CAN_BE_PAID,
@@ -151,7 +151,11 @@ function StudentFeesList() {
       accessor: "status",
       render: (student) => (
         <s.FeeStatusContainer>
-          <s.FeeStatus $status={student.status}>{student.status}</s.FeeStatus>
+          <s.FeeStatus $status={student.status}>
+            {student.status === "Pagado vencido"
+              ? "Pago con atraso"
+              : student.status}
+          </s.FeeStatus>
         </s.FeeStatusContainer>
       ),
     },

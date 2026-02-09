@@ -26,5 +26,6 @@ export const PriceInput = styled.input<PriceInputProps>`
     props.disabled ? LIGHT_NEUTRAL_COLOR : "1px solid black"};
   &::placeholder {
     color: ${(props) => (props.disabled ? LIGHT_NEUTRAL_COLOR : NEUTRAL_COLOR)};
+    font-size:12px;
   }
 `;
