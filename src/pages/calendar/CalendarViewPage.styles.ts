@@ -11,12 +11,6 @@ import {
 const ROW_HEIGHT = "260px";
 const ROW_SPACING_HEIGHT = "16px";
 
-export const NoResponseContainer = styled.div`
-  display: flex;
-  align-items: center;
-  min-height: 80vh;
-`;
-
 export const MainContainer = styled.div`
   display: flex;
   width: 100%;
@@ -24,20 +18,34 @@ export const MainContainer = styled.div`
   justify-content: center;
   padding: 0 24px;
   box-sizing: border-box;
+  flex-direction: column;
+  align-items: center;
+  margin: 32px 0px 32px 0px;
+`;
+
+export const NoResponseContainer = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 32px;
 `;
 
 export const Spacing = styled.div`
   margin-top: 132px;
 `;
+
 export const NavigationDateContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 16px;
 `;
+
 export const InputDateContainer = styled.div`
   width: 408px;
 `;
+
 export const CustomDisplayContainer = styled.div`
   position: relative;
 `;
@@ -74,11 +82,24 @@ interface CalendarContainerProps {
 }
 
 export const CalendarContainer = styled.div<CalendarContainerProps>`
+  margin-top: 56px;
   display: grid;
   grid-template-columns: 85px repeat(
       ${(props) => props.$columnsCount || 3},
       minmax(204px, 300px)
     );
+`;
+
+export const SpecificEmptySlot = styled.div`
+  height: ${ROW_HEIGHT};
+  border: ${LIGHT_NEUTRAL_COLOR};
+  background-color: ${LIGHT_NEUTRAL_COLOR};
+  border-radius: 8px;
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 8px;
+  box-sizing: border-box;
 `;
 
 export const DayColumn = styled.div`

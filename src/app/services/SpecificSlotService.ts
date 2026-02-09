@@ -1,16 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import type { Student } from "../types/responses/CalendarResponse.type";
+import type { FilterParams } from "../types/requests/GetCalendarViewRequest.type";
 import { UserService } from "./UserService";
-
-interface Student {
-  id: string;
-  fullName: string;
-  status: string;
-}
-
-interface Params {
-  specificSlotId: string;
-  filter: string;
-}
 
 export const SpecificSlotService = createApi({
   reducerPath: "specificSlots",
@@ -19,8 +10,8 @@ export const SpecificSlotService = createApi({
     baseUrl: `${import.meta.env.VITE_BACKEND_URL}/specific-slots`,
   }),
   endpoints: (builder) => ({
-    getSpecificSlotStudents: builder.query<Student, Params>({
-      query: ({ specificSlotId, filter }: Params) => ({
+    getSpecificSlotStudents: builder.query<Student[], FilterParams>({
+      query: ({ specificSlotId, filter }: FilterParams) => ({
         url: `/${specificSlotId}/students`,
         params: { filter },
       }),

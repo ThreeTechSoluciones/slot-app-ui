@@ -37,7 +37,7 @@ export const FilterInputStyled = styled.input`
 
 export const IconWrapper = styled.div`
   position: absolute;
-  top: 45%;
+  top: 50%;
   right:8%;
   transform: translateY(-50%);
   pointer-events: none;

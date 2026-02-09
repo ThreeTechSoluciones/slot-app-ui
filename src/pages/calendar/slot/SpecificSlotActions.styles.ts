@@ -5,6 +5,7 @@ import {
   DEFAULT_TEXT_COLOR,
   FONT_FAMILY,
   FONT_WEIGHT_BOLD,
+  FONT_WEIGHT_NORMAL,
   LIGHT_NEUTRAL_COLOR,
   NEUTRAL_COLOR,
   SUCCESS_COLOR,
@@ -14,16 +15,11 @@ import {
 const ROW_HEIGHT = "260px";
 
 interface SpecificSlotProps {
-  $isNull: boolean;
   $columnsCount: number;
 }
 
 export const SpecificSlot = styled.div<SpecificSlotProps>`
   height: ${ROW_HEIGHT};
-  border: ${(props) =>
-    props.$isNull ? "none" : "4px solid " + LIGHT_NEUTRAL_COLOR};
-  background-color: ${(props) =>
-    props.$isNull ? LIGHT_NEUTRAL_COLOR : "transparent"};
   border-radius: 8px;
   width: 100%;
   padding: 8px;
@@ -102,6 +98,10 @@ interface SlotInfoProps {
   $isCanceled?: boolean;
 }
 
+interface SlotInfoProps {
+  $isFull?: boolean;
+  $status?: string;
+}
 export const SlotInfo = styled.span<SlotInfoProps>`
   display: flex;
   align-items: center;
@@ -158,7 +158,10 @@ export const StudentName = styled.div`
   }
 `;
 
-export const StudentText = styled.p<{ $isAbsent?: boolean }>`
+export const StudentText = styled.p<{
+  $isAbsent?: boolean;
+  $isRecover?: boolean;
+}>`
   font-family: ${FONT_FAMILY};
   font-size: 16px;
   flex: 1;
@@ -167,6 +170,8 @@ export const StudentText = styled.p<{ $isAbsent?: boolean }>`
   white-space: nowrap;
   text-overflow: ellipsis;
   color: ${({ $isAbsent }) => ($isAbsent ? NEUTRAL_COLOR : DEFAULT_TEXT_COLOR)};
+  font-weight: ${({ $isRecover }) =>
+    $isRecover ? FONT_WEIGHT_BOLD : FONT_WEIGHT_NORMAL};
   text-decoration: ${({ $isAbsent }) => ($isAbsent ? "line-through" : "none")};
   opacity: ${({ $isAbsent }) => ($isAbsent ? 0.7 : 1)};
   margin-left: 6px;
@@ -185,4 +190,8 @@ export const AbsenceBadge = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+`;
+
+export const RecoverBadge = styled(AbsenceBadge)`
+  background-color: ${SUCCESS_COLOR};
 `;

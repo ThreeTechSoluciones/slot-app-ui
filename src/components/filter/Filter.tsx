@@ -1,5 +1,5 @@
 import { DropdownMenu } from "../dropdownMenu/DropdownMenu";
-import filterIcon from "../../assets/filter-icon.png";
+import FilterIcon from "../../assets/filter-icon.svg";
 import { FilterContainer, DropdownWrapper } from "./Filter.styles";
 
 interface FilterOption {
@@ -34,7 +34,7 @@ const Filter: React.FC<FilterProps> = ({
           label={selectedLabel || placeholder}
           size="small"
           icon={
-            <img src={filterIcon} alt="FilterIcon" width={12} height={12} />
+            <img src={FilterIcon} alt="FilterIcon" width={20} height={20} />
           }
           options={dropdownOptions}
         />

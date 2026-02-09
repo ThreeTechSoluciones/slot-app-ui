@@ -28,6 +28,7 @@ type GenericModalProps = {
 };
 
 export const GenericModal: React.FC<GenericModalProps> = ({
+  isOpen = true,
   icon,
   iconSize,
   isConfirmModal,
@@ -41,6 +42,7 @@ export const GenericModal: React.FC<GenericModalProps> = ({
   width = "480px",
   height = "550px",
 }) => {
+  if (!isOpen) return null;
   return (
     <ModalOverlay>
       <ModalContainer

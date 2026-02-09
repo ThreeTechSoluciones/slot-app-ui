@@ -4,7 +4,7 @@ import { ConfirmDialog } from "../../../components/confirm_dialog/ConfirmDialog"
 
 interface SlotCancelProps {
   isOpen: boolean;
-  onClose: () => void;
+  onCancel: () => void;
   specificSlotId: string;
   slot?: { startTime: string; endTime: string };
   dayOfWeek: string;
@@ -12,7 +12,7 @@ interface SlotCancelProps {
 
 export const CancelSlot = ({
   isOpen,
-  onClose,
+  onCancel,
   specificSlotId,
   slot,
   dayOfWeek,
@@ -24,7 +24,7 @@ export const CancelSlot = ({
       .unwrap()
       .then(() => {
         toast.success("El turno fue cancelado correctamente");
-        onClose();
+        onCancel();
       });
   };
 
@@ -34,7 +34,7 @@ export const CancelSlot = ({
     <ConfirmDialog
       message={message}
       onConfirm={handleConfirmCancel}
-      onCancel={onClose}
+      onCancel={onCancel}
     ></ConfirmDialog>
   );
 };

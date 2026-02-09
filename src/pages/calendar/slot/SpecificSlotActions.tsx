@@ -1,4 +1,4 @@
-import * as s from "./Slot.styles";
+import * as s from "./SpecificSlotActions.styles";
 import type {
   SpecificSlotResponse,
   Student,
@@ -6,26 +6,38 @@ import type {
 import FilterSearch from "../../../components/filter_search/FilterSearch";
 import { useState } from "react";
 import PlusIcon from "../../../assets/plus-icon.svg";
-import type { CalendarAction } from "../CalendarViewPage";
 import UserIcon from "../../../assets/white-user-icon.svg";
 import { StatesTranslation } from "../../../utils/StatesTranslation";
 import CheckIcon from "../../../assets/check.svg";
 import ProgressIcon from "../../../assets/progress-icon.svg";
 import { useGetSpecificSlotStudentsQuery } from "../../../app/services/SpecificSlotService";
 import { skipToken } from "@reduxjs/toolkit/query";
-
+type CalendarAction =
+  | {
+      type: "ABSENCE";
+      studentId: string;
+      studentName: string;
+      specificSlotId: string;
+    }
+  | { type: "RECOVER"; specificSlotId: string; availableCapacity: number }
+  | {
+      type: "CANCEL";
+      specificSlotId: string;
+      dayOfWeek: string;
+      slot: { startTime: string; endTime: string };
+    };
 const STATUS_ICONS: { [key: string]: string } = {
   FINALIZED: CheckIcon,
   IN_PROGRESS: ProgressIcon,
 };
 
 const ActionsSkeleton = ({
-  availableCapacity,
   filter,
   setFilter,
   onRecover,
   onCancel,
   isCanceled,
+  isFull,
 }: {
   specificSlotId: string;
   availableCapacity: number;
@@ -34,8 +46,8 @@ const ActionsSkeleton = ({
   onRecover: () => void;
   onCancel: () => void;
   isCanceled: boolean;
+  isFull: boolean;
 }) => {
-  const isFull = availableCapacity <= 0;
   return (
     <s.ActionsContainer>
       <s.SearchFilterContainer>
@@ -73,13 +85,16 @@ const ActionsSkeleton = ({
   );
 };
 
-const SlotInfoSkeleton = (slot: SpecificSlotResponse) => {
+const SlotInfoSkeleton = ({
+  slot,
+  isFull,
+}: {
+  slot: SpecificSlotResponse;
+  isFull: boolean;
+}) => {
   return (
     <s.SlotInfoContainer>
-      <s.SlotCapacity
-        $isFull={slot.capacity === slot.maxCapacity}
-        $isCanceled={slot.status === "CANCELED"}
-      >
+      <s.SlotCapacity $isFull={isFull} $isCanceled={slot.status === "CANCELED"}>
         <img
           src={UserIcon}
           alt="Capacity"
@@ -107,7 +122,7 @@ const SlotInfoSkeleton = (slot: SpecificSlotResponse) => {
 };
 
 interface SlotParams {
-  slot: SpecificSlotResponse | null;
+  slot: SpecificSlotResponse;
   dayOfWeek: string;
   rowIndex: number;
   columnsCount: number;
@@ -119,7 +134,7 @@ function Slot(props: SlotParams) {
 
   const [filter, setFilter] = useState<string>("");
 
-  const { data } = useGetSpecificSlotStudentsQuery(
+  const { data: filteredStudents } = useGetSpecificSlotStudentsQuery(
     slot?.id ? { specificSlotId: slot.id, filter: filter } : skipToken,
   );
 
@@ -132,10 +147,14 @@ function Slot(props: SlotParams) {
     });
   };
 
-  const handleRecoverSlot = (specificSlotId: string) => {
+  const handleRecoverSlot = (
+    specificSlotId: string,
+    availableCapacity: number,
+  ) => {
     setSlotAction({
       type: "RECOVER",
       specificSlotId,
+      availableCapacity,
     });
   };
   const handleCancelSlot = (specificSlotId: string) => {
@@ -148,32 +167,31 @@ function Slot(props: SlotParams) {
     });
   };
 
-  const slotAvailability = slot ? slot.maxCapacity - slot.capacity : 0;
-
-  const rawStudents = data || slot?.students;
-
-  const students = Array.isArray(rawStudents) ? rawStudents : [rawStudents];
-
+  const students = filter ? filteredStudents : slot.students;
+  const availableCapacity = slot.maxCapacity - slot.capacity;
+  const isFull = slot.capacity === slot.maxCapacity;
   return (
-    <s.SpecificSlot $isNull={!slot} key={rowIndex} $columnsCount={columnsCount}>
+    <s.SpecificSlot key={rowIndex} $columnsCount={columnsCount}>
       {slot && (
         <>
           <ActionsSkeleton
             specificSlotId={slot.id}
-            availableCapacity={slotAvailability}
+            availableCapacity={availableCapacity}
             filter={filter}
             setFilter={setFilter}
-            onRecover={() => handleRecoverSlot(slot.id)}
+            onRecover={() => handleRecoverSlot(slot.id, availableCapacity)}
             onCancel={() => handleCancelSlot(slot.id)}
             isCanceled={slot.status === "CANCELED"}
+            isFull={isFull}
           />
-          <SlotInfoSkeleton {...slot} />
+          <SlotInfoSkeleton slot={slot} isFull={isFull} />
           {slot.status === "CANCELED" ? (
             <s.CanceledSlot>Turno cancelado</s.CanceledSlot>
           ) : (
             <s.SlotStudentsContainer>
               {students?.map((student) => {
-                const isAbsent = student?.status === "ABSENCE";
+                const isAbsent = student.status === "ABSENCE";
+                const isRecover = student.status === "RECOVERED";
                 return (
                   <s.StudentName
                     key={student?.id}
@@ -183,7 +201,8 @@ function Slot(props: SlotParams) {
                     }
                   >
                     {isAbsent && <s.AbsenceBadge>A</s.AbsenceBadge>}
-                    <s.StudentText $isAbsent={isAbsent}>
+                    {isRecover && <s.RecoverBadge>R</s.RecoverBadge>}
+                    <s.StudentText $isAbsent={isAbsent} $isRecover={isRecover}>
                       {student?.fullName}
                     </s.StudentText>
                   </s.StudentName>
