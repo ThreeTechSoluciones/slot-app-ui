@@ -28,7 +28,7 @@ export const FiltersContainer = styled.div`
 
 export const LeftContainer = styled.div`
   display: flex;
-  gap:24px;
+  gap: 24px;
 `;
 
 export const RightContainer = styled.div`
@@ -66,7 +66,7 @@ export const StatusText = styled(CommonStatusAndSituation)<{
 `;
 
 export const FilterSearchContainer = styled.div`
-  display:flex;
-  width:352px;
-  height:48px;
-`
+  display: flex;
+  width: 352px;
+  height: 48px;
+`;

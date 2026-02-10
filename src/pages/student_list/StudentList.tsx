@@ -1,7 +1,7 @@
 import * as s from "./StudentList.styles";
-import { useLocation, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import useAuthentication from "../../hooks/useAuthentication";
-import { useEffect, useMemo, useState } from "react";
+import { useState } from "react";
 import Table from "../../components/table/Table";
 import type { StudentResponse } from "../../app/types/responses/StudentResponse.type";
 import type { Column } from "../../app/types/table";
@@ -38,13 +38,13 @@ function StudentList() {
   } = useGetUserStudentsQuery(
     userId
       ? {
-        userId,
-        filter,
-        status: situationFilter || undefined,
-        isActive: statusFilter === "" ? undefined : statusFilter === "activo",
-        sort: sort.length > 0 ? sort : undefined,
-      }
-      : skipToken
+          userId,
+          filter,
+          status: situationFilter || undefined,
+          isActive: statusFilter === "" ? undefined : statusFilter === "activo",
+          sort: sort.length > 0 ? sort : undefined,
+        }
+      : skipToken,
   );
 
   if (isLoading) return <div>Cargando...</div>;
@@ -149,11 +149,13 @@ function StudentList() {
 
       <s.FiltersContainer>
         <s.LeftContainer>
-          <FilterSearch
-            value={filter}
-            onChange={setFilter}
-            placeholder="Buscar por DNI, nombre o apellido"
-          />
+          <s.FilterSearchContainer>
+            <FilterSearch
+              value={filter}
+              onChange={setFilter}
+              placeholder="Buscar por DNI, nombre o apellido"
+            />
+          </s.FilterSearchContainer>
           <Filter
             placeholder="Filtrar por situación"
             options={[

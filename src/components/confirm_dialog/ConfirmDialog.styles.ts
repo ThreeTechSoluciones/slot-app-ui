@@ -44,11 +44,10 @@ export const ConfirmActions = styled.div`
   display: flex;
   justify-content: center;
   gap: 1vw;
-  flex: 1;
 `;
 export const MessageStyle = styled.p`
- font-size: 16px;
+  font-size: 16px;
   font-weight: ${FONT_WEIGHT_NORMAL};
-  font-family:${FONT_FAMILY};
+  font-family: ${FONT_FAMILY};
   initial-letter: 0.15px;
 `;
