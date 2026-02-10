@@ -9,13 +9,13 @@ import toast from "react-hot-toast";
 import type { StudentResponse } from "../../../app/types/responses/StudentResponse.type";
 
 interface StudentRecoverProps {
-  onCancel: () => void;
+  onClose: () => void;
   selectedSlotId: string;
   availableCapacity: number;
 }
 
 export const StudentRecover = ({
-  onCancel,
+  onClose,
   selectedSlotId,
   availableCapacity,
 }: StudentRecoverProps) => {
@@ -37,7 +37,7 @@ export const StudentRecover = ({
       .unwrap()
       .then(() => {
         toast.success("Se ha registrado la recuperación de la clase con éxito");
-        onCancel();
+        onClose();
       });
   };
   const Student = (student: StudentResponse) => {
@@ -70,7 +70,7 @@ export const StudentRecover = ({
       isOpen={true}
       title="AGREGAR ALUMNO"
       isConfirmModal
-      onCancel={onCancel}
+      onCancel={onClose}
       onConfirm={() =>
         selectedStudentId
           ? handleConfirmRecover(selectedStudentId, selectedSlotId)

@@ -1,16 +1,7 @@
-import {
-  SituationText,
-  StatusText,
-  StudentsContainer,
-  Title,
-  LeftContainer,
-  RightContainer,
-  FiltersContainer,
-  FilterSearchContainer,
-} from "./StudentList.styles";
-import { useLocation, useNavigate } from "react-router";
+import * as s from "./StudentList.styles";
+import { useNavigate } from "react-router";
 import useAuthentication from "../../hooks/useAuthentication";
-import { useEffect, useMemo, useState } from "react";
+import { useState } from "react";
 import Table from "../../components/table/Table";
 import type { StudentResponse } from "../../app/types/responses/StudentResponse.type";
 import type { Column } from "../../app/types/table";
@@ -30,6 +21,7 @@ import {
   NuevoAlumno,
   ModificarTurnos,
 } from "../../routes/RoutesUtils";
+import StudentMetrics from "./StudentsMetrics";
 
 function StudentList() {
   const { userId } = useAuthentication();
@@ -46,13 +38,13 @@ function StudentList() {
   } = useGetUserStudentsQuery(
     userId
       ? {
-        userId,
-        filter,
-        status: situationFilter || undefined,
-        isActive: statusFilter === "" ? undefined : statusFilter === "activo",
-        sort: sort.length > 0 ? sort : undefined,
-      }
-      : skipToken
+          userId,
+          filter,
+          status: situationFilter || undefined,
+          isActive: statusFilter === "" ? undefined : statusFilter === "activo",
+          sort: sort.length > 0 ? sort : undefined,
+        }
+      : skipToken,
   );
 
   if (isLoading) return <div>Cargando...</div>;
@@ -101,15 +93,17 @@ function StudentList() {
     {
       header: "Situación",
       render: (student) => (
-        <SituationText $status={student.status}>{student.status}</SituationText>
+        <s.SituationText $status={student.status}>
+          {student.status}
+        </s.SituationText>
       ),
     },
     {
       header: "Estado",
       render: (student) => (
-        <StatusText $isActive={student.isActive}>
+        <s.StatusText $isActive={student.isActive}>
           {student.isActive ? "Activo" : "Inactivo"}
-        </StatusText>
+        </s.StatusText>
       ),
     },
     {
@@ -147,17 +141,21 @@ function StudentList() {
   ];
 
   return (
-    <StudentsContainer>
-      <Title>LISTADO DE ALUMNOS</Title>
-      <FiltersContainer>
-        <LeftContainer>
-          <FilterSearchContainer>
+    <s.StudentsContainer>
+      <s.Title>LISTADO DE ALUMNOS</s.Title>
+      <s.MetricsContainer>
+        <StudentMetrics />
+      </s.MetricsContainer>
+
+      <s.FiltersContainer>
+        <s.LeftContainer>
+          <s.FilterSearchContainer>
             <FilterSearch
               value={filter}
               onChange={setFilter}
               placeholder="Buscar por DNI, nombre o apellido"
             />
-          </FilterSearchContainer>
+          </s.FilterSearchContainer>
           <Filter
             placeholder="Filtrar por situación"
             options={[
@@ -188,8 +186,8 @@ function StudentList() {
           >
             Limpiar filtros
           </Button>
-        </LeftContainer>
-        <RightContainer>
+        </s.LeftContainer>
+        <s.RightContainer>
           <Button
             variant="primary"
             size="medium"
@@ -198,10 +196,10 @@ function StudentList() {
           >
             Nuevo alumno
           </Button>
-        </RightContainer>
-      </FiltersContainer>
+        </s.RightContainer>
+      </s.FiltersContainer>
       <Table columns={columns} data={studentsPage.content} />
-    </StudentsContainer>
+    </s.StudentsContainer>
   );
 }
 export default StudentList;

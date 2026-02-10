@@ -77,6 +77,7 @@ export const NavigationArrow = styled.div`
     background-color: ${BRAND_COLOR};
   }
 `;
+
 interface CalendarContainerProps {
   $columnsCount: number;
 }
@@ -91,15 +92,15 @@ export const CalendarContainer = styled.div<CalendarContainerProps>`
 `;
 
 export const SpecificEmptySlot = styled.div`
-  height: ${ROW_HEIGHT};
-  border: ${LIGHT_NEUTRAL_COLOR};
-  background-color: ${LIGHT_NEUTRAL_COLOR};
-  border-radius: 8px;
-  width: 100%;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding: 8px;
-  box-sizing: border-box;
+      height: ${ROW_HEIGHT};
+      border: ${LIGHT_NEUTRAL_COLOR};
+      background-color: ${LIGHT_NEUTRAL_COLOR};
+      border-radius: 8px;
+      width: 100%;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 8px;
+      box-sizing: border-box;
 `;
 
 export const DayColumn = styled.div`

@@ -9,8 +9,9 @@ import {
   LIGHT_NEUTRAL_COLOR,
   NEUTRAL_COLOR,
   SUCCESS_COLOR,
-  WARNING_COLOR,
-} from "../../../utils/Stylesheet";
+  WARNING_COLOR
+}
+  from "../../../utils/Stylesheet";
 
 const ROW_HEIGHT = "260px";
 
@@ -20,11 +21,13 @@ interface SpecificSlotProps {
 
 export const SpecificSlot = styled.div<SpecificSlotProps>`
   height: ${ROW_HEIGHT};
+  border: 4px solid ${LIGHT_NEUTRAL_COLOR};
+  background-color: "transparent";
   border-radius: 8px;
   width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
   padding: 8px;
-  position: relative;
-  z-index: 80;
   box-sizing: border-box;
 `;
 
@@ -80,11 +83,12 @@ export const CancelIcon = styled.img`
   height: 18px;
   transform: rotate(45deg);
 `;
+
 export const SearchFilterContainer = styled.div`
-  display: flex;
-  width: 136px;
-  height: 34px;
-`;
+  display:flex;
+  width:136px;
+  height:34px;
+`
 export const SlotInfoContainer = styled.div`
   display: flex;
   flex-direction: row;

@@ -37,7 +37,9 @@ type CalendarAction =
       dayOfWeek: string;
       slot: { startTime: string; endTime: string };
     };
+
 function CalendarView() {
+
   const { userId } = useAuthentication();
 
   const [selectDate, setSelectDate] = useState<Date>(new Date());
@@ -151,9 +153,7 @@ function CalendarView() {
             {calendarData?.times.map((_, rowIndex) => {
               const slot = calendarData.slots[rowIndex][colIndex];
               if (!slot) {
-                return (
-                  <s.SpecificEmptySlot key={`empty-${rowIndex}-${colIndex}`} />
-                );
+                return <s.SpecificEmptySlot key={`empty-${rowIndex}-${colIndex}`} />;
               }
               return (
                 <Slot
@@ -182,6 +182,13 @@ function CalendarView() {
             height="226px"
           ></GenericModal>
         )}
+        {slotAction?.type === "RECOVER" && (
+          <StudentRecover
+            selectedSlotId={slotAction.specificSlotId}
+            availableCapacity={slotAction.availableCapacity}
+            onClose={closeModal}
+          />
+        )}
         {slotAction && slotAction.type === "RECOVER" && (
           <StudentRecover
             selectedSlotId={slotAction.specificSlotId}
@@ -200,6 +207,7 @@ function CalendarView() {
         )}
       </s.CalendarContainer>
     </s.MainContainer>
-  );
-}
+  )
+};
+
 export default CalendarView;

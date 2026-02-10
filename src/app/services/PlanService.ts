@@ -1,8 +1,8 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import type { PlanResponse } from "../types/responses/PlanResponse.type";
 import type { CreatePlanRequest } from "../types/requests/PlansRequest/CreatePlansRequest.type";
-import type { UpdatePlanPriceRequest } from "../types/requests/PlansRequest/UpdatePlanPriceRequest.type";
 import { UserService } from "./UserService";
+import type { UpdatePlanRequest } from "../types/requests/PlansRequest/UpdatePlanRequest";
 
 export const PlanService = createApi({
   reducerPath: "plans",
@@ -24,11 +24,11 @@ export const PlanService = createApi({
       },
     }),
 
-    updatePlanPrice: builder.mutation<PlanResponse, UpdatePlanPriceRequest>({
-      query: ({ planId, amount, startDate }) => ({
-        url: `/${planId}/prices`,
+    updatePlan: builder.mutation<PlanResponse, UpdatePlanRequest>({
+      query: ({ planId, name, numberOfDays, amount, startDate }) => ({
+        url: `/${planId}`,
         method: "PATCH",
-        body: { amount, startDate },
+        body: { name, numberOfDays, amount, startDate },
       }),
       invalidatesTags: (_result, _error, id) => [
         { type: "Plan", id: id.planId },
@@ -54,6 +54,6 @@ export const PlanService = createApi({
 
 export const {
   useCreatePlanMutation,
-  useUpdatePlanPriceMutation,
+  useUpdatePlanMutation,
   useDeletePlanMutation,
 } = PlanService;
