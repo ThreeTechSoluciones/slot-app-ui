@@ -19,10 +19,7 @@ import BackIcon from "../../assets/back-arrow-icon.svg";
 import CalendarIcon from "../../assets/calendar-icon.svg";
 import { CalendarMonth } from "../../utils/MonthsOfYear";
 import InputDate from "../../components/date/inputDate";
-import type {
-  SpecificSlotResponse,
-  Student,
-} from "../../app/types/responses/CalendarResponse.type";
+import type { Student } from "../../app/types/responses/CalendarResponse.type";
 type CalendarAction =
   | {
       type: "ABSENCE";
@@ -39,7 +36,6 @@ type CalendarAction =
     };
 
 function CalendarView() {
-
   const { userId } = useAuthentication();
 
   const [selectDate, setSelectDate] = useState<Date>(new Date());
@@ -64,14 +60,6 @@ function CalendarView() {
     return `${month} ${year}`;
   };
 
-  const handleAbsenceSlot = (student: Student, specificSlotId: string) => {
-    setSlotAction({
-      type: "ABSENCE",
-      studentId: student.id,
-      studentName: student.fullName,
-      specificSlotId,
-    });
-  };
   const handleConfirmAbsence = () => {
     if (slotAction?.type !== "ABSENCE") return;
     markAbsence({
@@ -153,7 +141,9 @@ function CalendarView() {
             {calendarData?.times.map((_, rowIndex) => {
               const slot = calendarData.slots[rowIndex][colIndex];
               if (!slot) {
-                return <s.SpecificEmptySlot key={`empty-${rowIndex}-${colIndex}`} />;
+                return (
+                  <s.SpecificEmptySlot key={`empty-${rowIndex}-${colIndex}`} />
+                );
               }
               return (
                 <Slot
@@ -186,7 +176,7 @@ function CalendarView() {
           <StudentRecover
             selectedSlotId={slotAction.specificSlotId}
             availableCapacity={slotAction.availableCapacity}
-            onClose={closeModal}
+            onCancel={closeModal}
           />
         )}
         {slotAction && slotAction.type === "RECOVER" && (
@@ -207,7 +197,7 @@ function CalendarView() {
         )}
       </s.CalendarContainer>
     </s.MainContainer>
-  )
-};
+  );
+}
 
 export default CalendarView;

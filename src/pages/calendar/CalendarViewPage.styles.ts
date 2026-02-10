@@ -6,6 +6,7 @@ import {
   FONT_WEIGHT_BOLD,
   LIGHT_NEUTRAL_COLOR,
   BRAND_COLOR,
+  BACKGROUND_COLOR,
 } from "../../utils/Stylesheet";
 
 const ROW_HEIGHT = "260px";
@@ -52,7 +53,7 @@ export const CustomDisplayContainer = styled.div`
 
 export const CustomDisplay = styled.div`
   position: absolute;
-  background-color: white;
+  background-color: ${BACKGROUND_COLOR};
   font-family: ${FONT_FAMILY};
   font-weight: ${FONT_WEIGHT_BOLD};
   top: 8px;
@@ -92,15 +93,15 @@ export const CalendarContainer = styled.div<CalendarContainerProps>`
 `;
 
 export const SpecificEmptySlot = styled.div`
-      height: ${ROW_HEIGHT};
-      border: ${LIGHT_NEUTRAL_COLOR};
-      background-color: ${LIGHT_NEUTRAL_COLOR};
-      border-radius: 8px;
-      width: 100%;
-      overflow-y: auto;
-      overflow-x: hidden;
-      padding: 8px;
-      box-sizing: border-box;
+  height: ${ROW_HEIGHT};
+  border: ${LIGHT_NEUTRAL_COLOR};
+  background-color: ${LIGHT_NEUTRAL_COLOR};
+  border-radius: 8px;
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 8px;
+  box-sizing: border-box;
 `;
 
 export const DayColumn = styled.div`
