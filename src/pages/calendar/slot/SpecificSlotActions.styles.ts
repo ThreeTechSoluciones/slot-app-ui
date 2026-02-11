@@ -9,9 +9,8 @@ import {
   LIGHT_NEUTRAL_COLOR,
   NEUTRAL_COLOR,
   SUCCESS_COLOR,
-  WARNING_COLOR
-}
-  from "../../../utils/Stylesheet";
+  WARNING_COLOR,
+} from "../../../utils/Stylesheet";
 
 const ROW_HEIGHT = "260px";
 
@@ -25,8 +24,6 @@ export const SpecificSlot = styled.div<SpecificSlotProps>`
   background-color: "transparent";
   border-radius: 8px;
   width: 100%;
-  overflow-y: auto;
-  overflow-x: hidden;
   padding: 8px;
   box-sizing: border-box;
 `;
@@ -34,25 +31,20 @@ export const SpecificSlot = styled.div<SpecificSlotProps>`
 export const ActionsContainer = styled.div`
   display: flex;
   flex-direction: row;
+  margin-top: 4px;
+  align-items: center;
   justify-content: space-between;
-  margin-top:4px;
-  align-items:center;
-  gap:4px;
 `;
-
-export const Action = styled.button`
-  width:25px;
-  height:25px;
-  border: none;
-  border-radius: 50%;
-  color: black;
-  cursor: pointer;
+export const ActionGroup = styled.div`
+  display: flex;
+  gap: 20px;
 `;
-
-const TooltipWrapper = styled.div`
+const TooltipWrapper = styled.button`
   position: relative;
   display: inline-flex;
   align-items: center;
+  background-color: transparent;
+  border: none;
 `;
 
 export const Tooltip = styled.div`
@@ -71,11 +63,10 @@ export const Tooltip = styled.div`
   transition: 0.2s ease;
 `;
 
-export const TooltipContainer = styled(TooltipWrapper) <{ $disabled?: boolean }>`
-  margin-left: auto;
-  cursor: ${(props) => (props.$disabled ? "not-allowed" : "pointer")};
+export const TooltipContainer = styled(TooltipWrapper)<{ disabled?: boolean }>`
+  cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
   ${(props) =>
-    props.$disabled &&
+    props.disabled &&
     `
     filter: grayscale(1) opacity(0.5);
     &:hover ${Tooltip} {
@@ -86,12 +77,17 @@ export const TooltipContainer = styled(TooltipWrapper) <{ $disabled?: boolean }>
     opacity: 1;
   }
 `;
+export const CancelIcon = styled.img`
+  width: 18px;
+  height: 18px;
+  transform: rotate(45deg);
+`;
 
 export const SearchFilterContainer = styled.div`
-  display:flex;
-  width:136px;
-  height:34px;
-`
+  display: flex;
+  width: 136px;
+  height: 34px;
+`;
 export const SlotInfoContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -102,7 +98,8 @@ export const SlotInfoContainer = styled.div`
 interface SlotInfoProps {
   $isFull?: boolean;
   $status?: string;
-};
+  $isCanceled?: boolean;
+}
 
 interface SlotInfoProps {
   $isFull?: boolean;
@@ -121,22 +118,33 @@ export const SlotInfo = styled.span<SlotInfoProps>`
   margin-left: 2px;
 `;
 
-export const SlotCapacity = styled(SlotInfo) <SlotInfoProps>`
-  background-color: ${(props) => props.$isFull ? DANGER_COLOR : SUCCESS_COLOR};
+export const SlotCapacity = styled(SlotInfo)<SlotInfoProps>`
+  background-color: ${({ $isCanceled, $isFull }) =>
+    $isCanceled ? NEUTRAL_COLOR : $isFull ? DANGER_COLOR : SUCCESS_COLOR};
 `;
 
-export const SlotStatus = styled(SlotInfo) <SlotInfoProps>`
+export const SlotStatus = styled(SlotInfo)<SlotInfoProps>`
   background-color: ${({ $status }) => {
     if ($status === "FINALIZED") return SUCCESS_COLOR;
     if ($status === "IN_PROGRESS") return WARNING_COLOR;
     return "transparent";
   }};
 `;
-
+export const CanceledSlot = styled.p`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: ${NEUTRAL_COLOR};
+  font-size: 16px;
+  font-weight: ${FONT_WEIGHT_BOLD};
+  font-family: ${FONT_FAMILY};
+`;
 export const SlotStudentsContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 10px;
+  overflow-y: auto;
+  max-height: 140px;
 `;
 
 export const StudentName = styled.div`

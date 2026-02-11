@@ -11,39 +11,43 @@ import { GenericModal } from "../../components/generic_modal/GenericModal";
 import { toast } from "react-hot-toast";
 import { formatDateToIsoString } from "../../utils/DateFormatter";
 import { StudentRecover } from "./studentRecover/StudentRecover";
+import { CancelSlot } from "./cancelSlot/CancelSlot";
+import { capitalize } from "../../utils/CapitalizeWords";
 import Slot from "./slot/SpecificSlotActions";
 import NextIcon from "../../assets/next-arrow-icon.svg";
 import BackIcon from "../../assets/back-arrow-icon.svg";
 import CalendarIcon from "../../assets/calendar-icon.svg";
 import { CalendarMonth } from "../../utils/MonthsOfYear";
 import InputDate from "../../components/date/inputDate";
-
-type CalendarAction =
+export type CalendarAction =
   | {
-    type: "ABSENCE";
-    studentId: string;
-    studentName: string;
-    specificSlotId: string;
-  }
-  | { type: "RECOVER"; specificSlotId: string; availableCapacity: number };
+      type: "ABSENCE";
+      studentId: string;
+      studentName: string;
+      specificSlotId: string;
+    }
+  | { type: "RECOVER"; specificSlotId: string; availableCapacity: number }
+  | {
+      type: "CANCEL";
+      specificSlotId: string;
+      dayOfWeek: string;
+      slot: { startTime: string; endTime: string };
+    };
 
 function CalendarView() {
-
   const { userId } = useAuthentication();
 
   const [selectDate, setSelectDate] = useState<Date>(new Date());
 
   const [markAbsence] = useMarkStudentAbsenceMutation();
+  const [slotAction, setSlotAction] = useState<CalendarAction | null>(null);
+  const closeModal = () => setSlotAction(null);
 
   const { data: calendarData } = useGetCalendarViewQuery({
     userId: userId!,
     date: formatDateToIsoString(selectDate),
     typeOfView: CalendarViewName.WEEKLY,
   });
-
-  const [slotAction, setSlotAction] = useState<CalendarAction | null>(null);
-
-  const closeModal = () => setSlotAction(null);
 
   const calculateWeek = (days: number) => {
     setSelectDate(new Date(selectDate.setDate(selectDate.getDate() + days)));
@@ -136,13 +140,17 @@ function CalendarView() {
             {calendarData?.times.map((_, rowIndex) => {
               const slot = calendarData.slots[rowIndex][colIndex];
               if (!slot) {
-                return <s.SpecificEmptySlot key={`empty-${rowIndex}-${colIndex}`} />;
+                return (
+                  <s.SpecificEmptySlot key={`empty-${rowIndex}-${colIndex}`} />
+                );
               }
               return (
                 <Slot
                   key={slot.id}
                   slot={slot}
                   columnsCount={columnsCount}
+                  dayOfWeek={day.dayOfWeek}
+                  rowIndex={rowIndex}
                   setSlotAction={setSlotAction}
                 />
               );
@@ -161,18 +169,27 @@ function CalendarView() {
             cancelText="Cancelar"
             width="480px"
             height="226px"
-          />
+          ></GenericModal>
         )}
-        {slotAction?.type === "RECOVER" && (
+        {slotAction && slotAction.type === "RECOVER" && (
           <StudentRecover
             selectedSlotId={slotAction.specificSlotId}
             availableCapacity={slotAction.availableCapacity}
-            onClose={closeModal}
+            onCancel={closeModal}
+          />
+        )}
+        {slotAction?.type === "CANCEL" && (
+          <CancelSlot
+            isOpen
+            specificSlotId={slotAction.specificSlotId}
+            onCancel={closeModal}
+            dayOfWeek={capitalize(DaysOfWeekTranslation[slotAction.dayOfWeek])}
+            slot={slotAction.slot}
           />
         )}
       </s.CalendarContainer>
     </s.MainContainer>
-  )
-};
+  );
+}
 
 export default CalendarView;
