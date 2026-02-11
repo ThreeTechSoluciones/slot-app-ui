@@ -12,20 +12,8 @@ import CheckIcon from "../../../assets/check.svg";
 import ProgressIcon from "../../../assets/progress-icon.svg";
 import { useGetSpecificSlotStudentsQuery } from "../../../app/services/SpecificSlotService";
 import { skipToken } from "@reduxjs/toolkit/query";
-type CalendarAction =
-  | {
-      type: "ABSENCE";
-      studentId: string;
-      studentName: string;
-      specificSlotId: string;
-    }
-  | { type: "RECOVER"; specificSlotId: string; availableCapacity: number }
-  | {
-      type: "CANCEL";
-      specificSlotId: string;
-      dayOfWeek: string;
-      slot: { startTime: string; endTime: string };
-    };
+import type { CalendarAction } from "../CalendarViewPage";
+
 const STATUS_ICONS: { [key: string]: string } = {
   FINALIZED: CheckIcon,
   IN_PROGRESS: ProgressIcon,

@@ -19,8 +19,7 @@ import BackIcon from "../../assets/back-arrow-icon.svg";
 import CalendarIcon from "../../assets/calendar-icon.svg";
 import { CalendarMonth } from "../../utils/MonthsOfYear";
 import InputDate from "../../components/date/inputDate";
-import type { Student } from "../../app/types/responses/CalendarResponse.type";
-type CalendarAction =
+export type CalendarAction =
   | {
       type: "ABSENCE";
       studentId: string;
@@ -171,13 +170,6 @@ function CalendarView() {
             width="480px"
             height="226px"
           ></GenericModal>
-        )}
-        {slotAction?.type === "RECOVER" && (
-          <StudentRecover
-            selectedSlotId={slotAction.specificSlotId}
-            availableCapacity={slotAction.availableCapacity}
-            onCancel={closeModal}
-          />
         )}
         {slotAction && slotAction.type === "RECOVER" && (
           <StudentRecover
