@@ -39,10 +39,12 @@ export const ActionGroup = styled.div`
   display: flex;
   gap: 20px;
 `;
-const TooltipWrapper = styled.div`
+const TooltipWrapper = styled.button`
   position: relative;
   display: inline-flex;
   align-items: center;
+  background-color: transparent;
+  border: none;
 `;
 
 export const Tooltip = styled.div`
@@ -61,10 +63,10 @@ export const Tooltip = styled.div`
   transition: 0.2s ease;
 `;
 
-export const TooltipContainer = styled(TooltipWrapper)<{ $disabled?: boolean }>`
-  cursor: ${(props) => (props.$disabled ? "not-allowed" : "pointer")};
+export const TooltipContainer = styled(TooltipWrapper)<{ disabled?: boolean }>`
+  cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
   ${(props) =>
-    props.$disabled &&
+    props.disabled &&
     `
     filter: grayscale(1) opacity(0.5);
     &:hover ${Tooltip} {

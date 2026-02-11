@@ -47,7 +47,7 @@ const ActionsSkeleton = ({
       </s.SearchFilterContainer>
       <s.ActionGroup>
         <s.TooltipContainer
-          $disabled={isFull || isCanceled}
+          disabled={isFull || isCanceled}
           onClick={() => !isFull && onRecover()}
         >
           <img src={PlusIcon} alt="Añadir alumno" />
@@ -60,7 +60,7 @@ const ActionsSkeleton = ({
           </s.Tooltip>
         </s.TooltipContainer>
         <s.TooltipContainer
-          $disabled={isCanceled}
+          disabled={isCanceled}
           onClick={() => !isCanceled && onCancel()}
         >
           <s.CancelIcon src={PlusIcon} alt="Cancelar turno" />
