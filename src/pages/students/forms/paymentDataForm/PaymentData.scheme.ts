@@ -1,15 +1,14 @@
 import * as yup from "yup";
 import { PaymentPlanName } from "../../../../app/types/models/PaymentPlanName";
 
-
 export const paymentDataScheme = yup.object().shape({
-
-  paymentPlanName: yup
-    .string().required("Debe seleccionar un plan de pago"),
+  paymentPlanName: yup.string().required("Debe seleccionar un plan de pago"),
 
   extraClasses: yup
     .number()
-    .transform((value, originalValue) => (originalValue === "" ? undefined : value))
+    .transform((value, originalValue) =>
+      originalValue === "" ? undefined : value,
+    )
     .typeError("Solo se permiten números")
     .notRequired()
     .when(["paymentPlanName", "$actionType"], {
@@ -20,18 +19,14 @@ export const paymentDataScheme = yup.object().shape({
           .typeError("Solo se permiten números")
           .max(7, "No puede superar 7 clases")
           .min(0, "No puede ser negativo")
-          .test(
-            "validateDay",
-            "Debe ingresar las clases extras",
-            (value) => {
-              const today = new Date();
-              const dayOfMonth = today.getDate();
-              if (dayOfMonth > 10) {
-                return value !== undefined && value !== null;
-              }
-              return true;
+          .test("validateDay", "Debe ingresar clases extras", (value) => {
+            const today = new Date();
+            const dayOfMonth = today.getDate();
+            if (dayOfMonth > 10) {
+              return value !== undefined && value !== null;
             }
-          )
+            return true;
+          })
           .notRequired(),
       otherwise: (schema) => schema.notRequired(),
     }),
@@ -50,18 +45,14 @@ export const paymentDataScheme = yup.object().shape({
         schema
           .typeError("Solo se permiten números")
           .min(0, "No puede ser negativo")
-          .test(
-            "validateDay",
-            "Debe ingresar el precio",
-            (value) => {
-              const today = new Date();
-              const dayOfMonth = today.getDate();
-              if (dayOfMonth > 10) {
-                return value !== undefined && value !== null;
-              }
-              return true;
+          .test("validateDay", "Debe ingresar el precio", (value) => {
+            const today = new Date();
+            const dayOfMonth = today.getDate();
+            if (dayOfMonth > 10) {
+              return value !== undefined && value !== null;
             }
-          )
+            return true;
+          })
           .notRequired(),
       otherwise: (schema) => schema.notRequired(),
     }),
@@ -80,4 +71,3 @@ export const paymentDataScheme = yup.object().shape({
       otherwise: (schema) => schema.notRequired(),
     }),
 });
-

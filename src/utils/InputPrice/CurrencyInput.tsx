@@ -1,4 +1,4 @@
-import { PriceInput } from "./CurrencyInput.styles";
+import * as s from "./CurrencyInput.styles";
 import React from "react";
 
 function formatArgentinePeso(value: number) {
@@ -35,7 +35,7 @@ export default function CurrencyInput({
   };
 
   return (
-    <PriceInput
+    <s.PriceInput
       type="text"
       value={value !== null ? formatArgentinePeso(value) : ""}
       onChange={handleChange}
