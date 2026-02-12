@@ -1,10 +1,7 @@
-import SearchIcon from "../../assets/search.svg"
-import {
-  FilterInputStyled,
-  IconWrapper,
-  FilterDiv,
-} from "./FilterSearch.styles";
+import SearchIcon from "../../assets/search.svg";
+import * as s from "./FilterSearch.styles";
 import { useEffect, useState } from "react";
+import { NEUTRAL_COLOR } from "../../utils/Stylesheet";
 
 interface FilterSearchProps {
   placeholder?: string;
@@ -13,6 +10,7 @@ interface FilterSearchProps {
   debounceTime?: number;
   iconWidth?: number;
   iconHeight?: number;
+  disabled?: boolean;
 }
 
 const FilterSearch: React.FC<FilterSearchProps> = ({
@@ -21,7 +19,8 @@ const FilterSearch: React.FC<FilterSearchProps> = ({
   onChange,
   debounceTime = 400,
   iconWidth = 15,
-  iconHeight = 15
+  iconHeight = 15,
+  disabled = false,
 }) => {
   const [internalValue, setInternalValue] = useState(value);
 
@@ -46,17 +45,26 @@ const FilterSearch: React.FC<FilterSearchProps> = ({
   };
 
   return (
-    <FilterDiv>
-      <FilterInputStyled
+    <s.FilterDiv>
+      <s.FilterInputStyled
         type="text"
         placeholder={placeholder}
         value={internalValue}
         onChange={handleChange}
+        disabled={disabled}
       />
-      <IconWrapper >
-        <img src={SearchIcon} width={iconWidth} height={iconHeight}></img>
-      </IconWrapper>
-    </FilterDiv>
+      <s.IconWrapper>
+        <img
+          src={SearchIcon}
+          width={iconWidth}
+          height={iconHeight}
+          style={{
+            filter: disabled ? "grayscale(100%) opacity(0.5)" : "none",
+            cursor: disabled ? "not-allowed" : "default",
+          }}
+        ></img>
+      </s.IconWrapper>
+    </s.FilterDiv>
   );
 };
 

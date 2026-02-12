@@ -43,6 +43,7 @@ const ActionsSkeleton = ({
           value={filter}
           onChange={setFilter}
           placeholder="Buscar"
+          disabled={isCanceled}
         />
       </s.SearchFilterContainer>
       <s.ActionGroup>
@@ -123,7 +124,9 @@ function Slot(props: SlotParams) {
   const [filter, setFilter] = useState<string>("");
 
   const { data: filteredStudents } = useGetSpecificSlotStudentsQuery(
-    slot?.id ? { specificSlotId: slot.id, filter: filter } : skipToken,
+    slot.id && slot.status !== "CANCELED" && filter
+      ? { specificSlotId: slot.id, filter }
+      : skipToken,
   );
 
   const handleAbsenceSlot = (student: Student, specificSlotId: string) => {
@@ -147,6 +150,7 @@ function Slot(props: SlotParams) {
   };
   const handleCancelSlot = (specificSlotId: string) => {
     if (!slot || !dayOfWeek) return;
+    setFilter("");
     setSlotAction({
       type: "CANCEL",
       specificSlotId,
