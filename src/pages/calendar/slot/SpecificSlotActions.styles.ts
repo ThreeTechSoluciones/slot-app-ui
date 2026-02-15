@@ -3,7 +3,6 @@ import {
   BACKGROUND_COLOR,
   DANGER_COLOR,
   DEFAULT_TEXT_COLOR,
-  FONT_FAMILY,
   FONT_WEIGHT_BOLD,
   FONT_WEIGHT_NORMAL,
   LIGHT_NEUTRAL_COLOR,
@@ -111,7 +110,6 @@ export const SlotInfo = styled.span<SlotInfoProps>`
   justify-content: center;
   font-size: 12px;
   color: ${BACKGROUND_COLOR};
-  font-family: ${FONT_FAMILY};
   font-weight: ${FONT_WEIGHT_BOLD};
   border-radius: 5px;
   padding: 2px 6px 2px 4px;
@@ -137,7 +135,6 @@ export const CanceledSlot = styled.p`
   color: ${NEUTRAL_COLOR};
   font-size: 16px;
   font-weight: ${FONT_WEIGHT_BOLD};
-  font-family: ${FONT_FAMILY};
 `;
 export const SlotStudentsContainer = styled.div`
   display: flex;
@@ -165,7 +162,6 @@ export const StudentText = styled.p<{
   $isAbsent?: boolean;
   $isRecover?: boolean;
 }>`
-  font-family: ${FONT_FAMILY};
   font-size: 16px;
   flex: 1;
   min-width: 0;

@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import {
   BORDER_RADIUS,
-  FONT_FAMILY,
   NEUTRAL_COLOR,
   DEFAULT_TEXT_COLOR,
 } from "../../utils/Stylesheet";
@@ -16,7 +15,6 @@ export const MainContainer = styled.div`
 `;
 
 export const Title = styled.h1`
-  font-family: ${FONT_FAMILY};
   font-size: 24px;
   margin: 0px;
 `;
@@ -42,7 +40,6 @@ export const Form = styled.form`
   display: flex;
   flex-direction: column;
   gap: 8px;
-  font-family: ${FONT_FAMILY};
 `;
 export const Label = styled.label`
   font-size: 16px;
@@ -68,7 +65,6 @@ export const Input = styled.input`
   padding-left: 16px;
   background: white;
   color: ${DEFAULT_TEXT_COLOR};
-  font-family: ${FONT_FAMILY};
   &::-ms-reveal,
   &::-ms-clear,
   &::-webkit-textfield-decoration-container,
@@ -80,7 +76,6 @@ export const Input = styled.input`
 
   &::placeholder {
     color: ${NEUTRAL_COLOR};
-    font-family: ${FONT_FAMILY};
   }
   &:focus {
     outline: none;
@@ -112,7 +107,6 @@ export const Button = styled.button`
   border: none;
   font-size: 12px;
   color: black;
-  font-family: ${FONT_FAMILY};
   &:hover {
     cursor: pointer;
     background: ${NEUTRAL_COLOR};

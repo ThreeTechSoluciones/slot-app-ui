@@ -5,7 +5,6 @@ import {
   DANGER_COLOR,
   SUCCESS_COLOR,
   NEUTRAL_COLOR,
-  FONT_FAMILY,
   FONT_WEIGHT_BOLD,
 } from "../../utils/Stylesheet";
 export const StudentsContainer = styled.div`
@@ -14,7 +13,6 @@ export const StudentsContainer = styled.div`
 export const Title = styled.h1`
   font-size: 24px;
   margin-left: 80px;
-  font-family: ${FONT_FAMILY};
   font-weight: ${FONT_WEIGHT_BOLD};
   margin-top: 56px;
 `;

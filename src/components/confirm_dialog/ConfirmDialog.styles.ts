@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { FONT_WEIGHT_NORMAL, FONT_FAMILY } from "../../utils/Stylesheet";
+import { FONT_WEIGHT_NORMAL } from "../../utils/Stylesheet";
 export const ConfirmOverlay = styled.div`
   position: fixed;
   top: 0;
@@ -48,6 +48,5 @@ export const ConfirmActions = styled.div`
 export const MessageStyle = styled.p`
   font-size: 16px;
   font-weight: ${FONT_WEIGHT_NORMAL};
-  font-family: ${FONT_FAMILY};
   initial-letter: 0.15px;
 `;
