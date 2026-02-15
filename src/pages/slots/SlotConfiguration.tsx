@@ -1,27 +1,4 @@
-import {
-  MainContainer,
-  Label,
-  Input,
-  Button,
-  Select,
-  InputContainer,
-  EditContainer,
-  EditCapacity,
-  SlotsContainer,
-  Title,
-  Subtitle,
-  SpecificSlotContainer,
-  SlotInfoContainer,
-  PrimaryText,
-  SecondaryText,
-  TitlesContainer,
-  ActionsContainer,
-  ScreenContainer,
-  MainTitle,
-  SkeletonsContainer,
-  InfoContainer,
-  AnimatedContainer,
-} from "./SlotConfiguration.styles";
+import * as s from "./SlotConfiguration.styles";
 import EditIcon from "../../assets/edit-icon.png";
 import EditSlotForm from "./forms/EditSlotForm";
 import { useRef, useState } from "react";
@@ -46,14 +23,14 @@ import {
 } from "../../app/services/UserService";
 import { ConfirmDialog } from "../../components/confirm_dialog/ConfirmDialog";
 import EditCapacityForm from "./forms/EditCapacityForm";
-import type { Slot } from "../../app/types/responses/SlotResponse.type";
+import type { SlotResponse } from "../../app/types/responses/SlotResponse.type";
 
 function SlotConfiguration() {
   const [showModal, setShowModal] = useState<boolean>(false);
 
   const [modalType, setModalType] = useState<ModalType>();
 
-  const [currentSlot, setCurrentSlot] = useState<Slot | null>(null);
+  const [currentSlot, setCurrentSlot] = useState<SlotResponse | null>(null);
 
   const [showConfirm, setShowConfirm] = useState(false);
 
@@ -174,28 +151,24 @@ function SlotConfiguration() {
       return "Sin capacidad definida";
     };
     return (
-      <ScreenContainer>
-        <InputContainer>
-          <EditContainer>
-            <Label>Cupos disponibles</Label>
-            <EditCapacity
+      <s.ScreenContainer>
+        <s.InputContainer>
+          <s.EditContainer>
+            <s.Label>Cupos disponibles</s.Label>
+            <s.EditCapacity
               onClick={() => {
                 openModal(ModalType.EDIT_CAPACITY);
               }}
             >
               Editar
               <img src={EditIcon} width={16} height={16} />
-            </EditCapacity>
-          </EditContainer>
-          <Input disabled placeholder={getPlaceholder()} />
-        </InputContainer>
-        <InputContainer>
-          <Label> Día del turno</Label>
-          <Select
-            onChange={handleSelectValue}
-            value={selectEnglishValue}
-            defaultValue=""
-          >
+            </s.EditCapacity>
+          </s.EditContainer>
+          <s.Input disabled placeholder={getPlaceholder()} />
+        </s.InputContainer>
+        <s.InputContainer>
+          <s.Label> Día del turno</s.Label>
+          <s.Select onChange={handleSelectValue} value={selectEnglishValue}>
             <option value="" disabled hidden>
               Seleccione un día
             </option>
@@ -204,9 +177,9 @@ function SlotConfiguration() {
                 {key}
               </option>
             ))}
-          </Select>
-        </InputContainer>
-        <Button
+          </s.Select>
+        </s.InputContainer>
+        <s.Button
           $isDisabled={selectEnglishValue === ""}
           disabled={selectEnglishValue === ""}
           onClick={() => {
@@ -215,23 +188,23 @@ function SlotConfiguration() {
         >
           Nuevo turno
           <img src={AddIcon} width={24} height={24} />
-        </Button>
-      </ScreenContainer>
+        </s.Button>
+      </s.ScreenContainer>
     );
   };
 
   const VisualizeSlotsSkeleton = () => {
     return (
-      <SlotsContainer>
-        <TitlesContainer>
-          <MainTitle>Turnos del {selectSpanishValue}</MainTitle>
-          <Subtitle>
+      <s.SlotsContainer>
+        <s.TitlesContainer>
+          <s.MainTitle>Turnos del {selectSpanishValue}</s.MainTitle>
+          <s.Subtitle>
             {totalSlots}
             {totalSlots > 1 ? " turnos registrados" : " turno registrado"}
-          </Subtitle>
-        </TitlesContainer>
+          </s.Subtitle>
+        </s.TitlesContainer>
         {registeredSlots?.day?.slots?.map((slot, index) => (
-          <SpecificSlotContainer
+          <s.SpecificSlotContainer
             key={slot.id}
             id={`slot-${slot.startTime.replace(":", "-")}`}
             $isLast={
@@ -240,15 +213,15 @@ function SlotConfiguration() {
             }
           >
             <img src={CalendarIcon} width={35} height={35}></img>
-            <SlotInfoContainer>
-              <PrimaryText>
+            <s.SlotInfoContainer>
+              <s.PrimaryText>
                 {slot.startTime} - {slot.endTime}
-              </PrimaryText>
-              <SecondaryText>
+              </s.PrimaryText>
+              <s.SecondaryText>
                 {slot.usedCapacity}/{slot.maxCapacity} cupos ocupados
-              </SecondaryText>
-            </SlotInfoContainer>
-            <ActionsContainer>
+              </s.SecondaryText>
+            </s.SlotInfoContainer>
+            <s.ActionsContainer>
               <img
                 src={EditIcon}
                 width={"24px"}
@@ -267,34 +240,34 @@ function SlotConfiguration() {
                   setShowConfirm(true);
                 }}
               ></img>
-            </ActionsContainer>
-          </SpecificSlotContainer>
+            </s.ActionsContainer>
+          </s.SpecificSlotContainer>
         ))}
-      </SlotsContainer>
+      </s.SlotsContainer>
     );
   };
 
   const NonExistingSlotsSkeleton = () => {
     return (
-      <SlotsContainer>
-        <TitlesContainer>
-          <MainTitle>Turnos del {selectSpanishValue}</MainTitle>
-          <Subtitle>No hay turnos registrados</Subtitle>
-        </TitlesContainer>
-        <InfoContainer>
+      <s.SlotsContainer>
+        <s.TitlesContainer>
+          <s.MainTitle>Turnos del {selectSpanishValue}</s.MainTitle>
+          <s.Subtitle>No hay turnos registrados</s.Subtitle>
+        </s.TitlesContainer>
+        <s.InfoContainer>
           <img src={CalendarIcon} width={32} height={32}></img>
-          <PrimaryText>Aún no existen turnos para este día</PrimaryText>
-          <SecondaryText>Podés registrar tu primer turno</SecondaryText>
-        </InfoContainer>
-        <Button
+          <s.PrimaryText>Aún no existen turnos para este día</s.PrimaryText>
+          <s.SecondaryText>Podés registrar tu primer turno</s.SecondaryText>
+        </s.InfoContainer>
+        <s.Button
           onClick={() => {
             openModal(ModalType.CREATE);
           }}
         >
           Crear primer turno
           <img src={AddIcon} width={24} height={24} />
-        </Button>
-      </SlotsContainer>
+        </s.Button>
+      </s.SlotsContainer>
     );
   };
 
@@ -322,8 +295,8 @@ function SlotConfiguration() {
   };
 
   return (
-    <MainContainer>
-      <Title>MIS TURNOS</Title>
+    <s.MainContainer>
+      <s.Title>MIS TURNOS</s.Title>
       {showModal && modalType && (
         <Modal
           onClose={() => setShowModal(false)}
@@ -341,19 +314,19 @@ function SlotConfiguration() {
           onCancel={() => setShowConfirm(false)}
         />
       )}
-      <SkeletonsContainer>
+      <s.SkeletonsContainer>
         <SlotConfigurationSkeleton />
         {selectEnglishValue !== "" && (
-          <AnimatedContainer>
+          <s.AnimatedContainer>
             {totalSlots === 0 ? (
               <NonExistingSlotsSkeleton />
             ) : (
               <VisualizeSlotsSkeleton />
             )}
-          </AnimatedContainer>
+          </s.AnimatedContainer>
         )}
-      </SkeletonsContainer>
-    </MainContainer>
+      </s.SkeletonsContainer>
+    </s.MainContainer>
   );
 }
 
