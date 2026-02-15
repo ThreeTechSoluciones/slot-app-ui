@@ -68,7 +68,6 @@ export const Option = styled.div<OptionProps>`
   img {
     width: ${({ $hasImg }) => ($hasImg ? "16px" : "0")};
     height: ${({ $hasImg }) => ($hasImg ? "16px" : "0")};
-    padding-top: ${({ $hasImg }) => ($hasImg ? "4px" : "0")};
   }
 `;
 
