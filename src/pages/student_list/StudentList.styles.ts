@@ -70,3 +70,6 @@ export const FilterSearchContainer = styled.div`
   width: 352px;
   height: 48px;
 `;
+export const PaginationContainer = styled.div`
+  margin: 10px 0px;
+`;
