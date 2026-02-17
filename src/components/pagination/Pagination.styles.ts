@@ -25,6 +25,7 @@ export const ArrowButton = styled.button<{ disabled?: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
+  line-height: 0;
   cursor: pointer;
   color: ${({ disabled }) => (disabled ? NEUTRAL_COLOR : DEFAULT_TEXT_COLOR)};
   &:hover {
@@ -35,14 +36,12 @@ export const ArrowIconContainer = styled.div<{
   $rotated?: boolean;
   $disabled?: boolean;
 }>`
-  width: 20px;
-  height: 20px;
   transform: ${({ $rotated }) => ($rotated ? "rotate(180deg)" : "none")};
   opacity: ${({ $disabled }) => ($disabled ? 0.3 : 1)};
   filter: ${({ $disabled }) => ($disabled ? "grayscale(100%)" : "none")};
   img {
-    width: 100%;
-    height: 100%;
+    width: 20px;
+    height: 20px;
   }
 `;
 
