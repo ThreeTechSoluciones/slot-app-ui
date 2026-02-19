@@ -1,5 +1,5 @@
-export interface FormProp<T> {
+export interface FormProps<T> {
   data?: T;
   onSubmit?: (data: T) => void;
-  submit?: () => Promise<boolean>;
+  actionType?: "create" | "edit";
 }
