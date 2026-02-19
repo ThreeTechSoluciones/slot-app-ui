@@ -33,6 +33,7 @@ export const DatePickerWrapper = styled.div<DatePickerWrapperProps>`
     display: ${(props) => (props.$hasValue ? "none" : "block")};
     max-width: calc(100% - 50px);
   }
+
   //CONTENEDOR DEL FILTRO
   && .react-date-picker {
     width: 184px !important;
@@ -63,10 +64,11 @@ export const DatePickerWrapper = styled.div<DatePickerWrapperProps>`
 
   //DIV DE FECHA
   .react-date-picker__inputGroup {
-    min-width: unset;
+    align-items: center;
     max-width: 100px;
     font-size: 12px;
     flex: 1;
+    line-height: 1;
     display: ${(props) => (props.$hasValue ? "flex" : "none")};
   }
 

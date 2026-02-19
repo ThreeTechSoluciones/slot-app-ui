@@ -36,7 +36,6 @@ export const ActionsContainer = styled.div`
 `;
 export const ActionGroup = styled.div`
   display: flex;
-  gap: 20px;
 `;
 const TooltipWrapper = styled.button`
   position: relative;
@@ -84,7 +83,6 @@ export const CancelIcon = styled.img`
 
 export const SearchFilterContainer = styled.div`
   display: flex;
-  width: 136px;
   height: 34px;
 `;
 export const SlotInfoContainer = styled.div`

@@ -30,7 +30,11 @@ export const SpecificSlotService = createApi({
       onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
         await queryFulfilled;
         dispatch(
-          UserService.util.invalidateTags(["userCalendar", "userSlots"]),
+          UserService.util.invalidateTags([
+            "userCalendar",
+            "userSlots",
+            "userStudents",
+          ]),
         );
       },
     }),

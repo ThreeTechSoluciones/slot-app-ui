@@ -310,7 +310,7 @@ const SlotData = ({
         </SlotsContainer>
       ) : (
         <SearchNotFoundStyles>
-          <SearchNotFound />
+          <SearchNotFound message="Este alumno aún no tiene turnos asignados" />
         </SearchNotFoundStyles>
       )}
     </SlotInfoContainer>

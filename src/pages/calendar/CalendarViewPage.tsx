@@ -113,7 +113,7 @@ function CalendarView() {
       <s.NoResponseContainer>
         <SelectDateContainer />
         <s.Spacing>
-          <SearchNotFound />
+          <SearchNotFound message="No hay turnos para mostrar" />
         </s.Spacing>
       </s.NoResponseContainer>
     );
