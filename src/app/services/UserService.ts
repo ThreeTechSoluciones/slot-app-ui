@@ -107,6 +107,7 @@ export const UserService = createApi({
         body: { capacity },
       }),
       invalidatesTags: (_result, _error, { userId }) => [
+        "userCalendar",
         { type: "userSlots", id: userId },
         { type: "userPreferences", id: userId },
       ],

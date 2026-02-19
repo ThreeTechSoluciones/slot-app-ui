@@ -1,11 +1,15 @@
 import { Container, Message, Icon } from "./SearchNotFound.styles";
 import SearchIcon from "../../assets/search-icon.svg";
-
-export function SearchNotFound() {
+interface SearchNotFoundProps {
+  message?: string;
+}
+export function SearchNotFound({
+  message = "No hay resultados para mostrar.",
+}: SearchNotFoundProps) {
   return (
     <Container>
       <Icon src={SearchIcon} alt="No results" />
-      <Message>No hay resultados para mostrar.</Message>
+      <Message>{message}</Message>
     </Container>
   );
 }

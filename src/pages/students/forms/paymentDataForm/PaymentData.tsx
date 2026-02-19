@@ -14,9 +14,9 @@ import { forwardRef, useImperativeHandle } from "react";
 
 export interface PaymentDataProps {
   paymentPlanName: string;
-  extraClasses?: number | null | undefined;
-  classPrice?: number | null | undefined;
-  paymentDay?: number | undefined;
+  extraClasses?: number | null;
+  classPrice?: number | null;
+  paymentDay?: number;
 }
 
 const PaymentData = forwardRef<
@@ -29,18 +29,16 @@ const PaymentData = forwardRef<
 
   const DEFAULT_PAYMENT_DATA: PaymentDataProps = {
     paymentPlanName: "",
-    extraClasses: null,
-    classPrice: undefined,
-    paymentDay: undefined,
   };
 
-  const studentRegistrationForm = data || DEFAULT_PAYMENT_DATA;
+  const studentRegistrationForm = data ?? DEFAULT_PAYMENT_DATA;
 
   const {
     register,
     handleSubmit,
     watch,
     control,
+    setValue,
     formState: { errors },
   } = useForm<FormData>({
     resolver: yupResolver(paymentDataScheme) as any,
@@ -135,16 +133,39 @@ const PaymentData = forwardRef<
       <s.FormContainer>
         <div>
           <s.Label>Plan de pago</s.Label>
-          <s.Select {...register("paymentPlanName")} defaultValue="">
-            <option value="" disabled hidden>
-              Seleccione una opción
-            </option>
-            {PlanTypeNameArray.map((planType) => (
-              <option key={planType} value={planType}>
-                {planType}
-              </option>
-            ))}
-          </s.Select>
+          <Controller
+            name="paymentPlanName"
+            control={control}
+            defaultValue=""
+            render={({ field }) => (
+              <s.Select
+                {...field}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  field.onChange(value);
+
+                  if (value === PaymentPlanName.BEGINNING_OF_MONTH) {
+                    setValue("paymentDay", undefined);
+                  }
+
+                  if (value === PaymentPlanName.SPECIFIC_DAY) {
+                    setValue("extraClasses", undefined);
+                    setValue("classPrice", undefined);
+                  }
+                }}
+              >
+                <option value="" disabled hidden>
+                  Seleccione una opción
+                </option>
+                {PlanTypeNameArray.map((planType) => (
+                  <option key={planType} value={planType}>
+                    {planType}
+                  </option>
+                ))}
+              </s.Select>
+            )}
+          />
+
           <ErrorMessage error={errors.paymentPlanName} />
         </div>
         <div>
