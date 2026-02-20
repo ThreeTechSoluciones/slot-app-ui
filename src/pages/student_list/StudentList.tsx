@@ -149,78 +149,79 @@ function StudentList() {
 
   return (
     <s.StudentsContainer>
-      <s.Title>LISTADO DE ALUMNOS</s.Title>
-      <s.MetricsContainer>
-        <StudentMetrics />
-      </s.MetricsContainer>
+      <s.ContentContainer>
+        <s.Title>LISTADO DE ALUMNOS</s.Title>
+        <s.MetricsContainer>
+          <StudentMetrics />
+        </s.MetricsContainer>
 
-      <s.FiltersContainer>
-        <s.LeftContainer>
-          <s.FilterSearchContainer>
-            <FilterSearch
-              value={filter}
-              onChange={setFilter}
-              placeholder="Buscar por DNI, nombre o apellido"
+        <s.FiltersContainer>
+          <s.LeftContainer>
+            <s.FilterSearchContainer>
+              <FilterSearch
+                value={filter}
+                onChange={setFilter}
+                placeholder="Buscar por DNI, nombre o apellido"
+              />
+            </s.FilterSearchContainer>
+            <Filter
+              placeholder="Filtrar por situación"
+              options={[
+                { label: "Con deuda", value: "CON_DEUDA" },
+                { label: "En término", value: "EN_TERMINO" },
+              ]}
+              value={situationFilter}
+              onSelect={setSituationFilter}
             />
-          </s.FilterSearchContainer>
-          <Filter
-            placeholder="Filtrar por situación"
-            options={[
-              { label: "Con deuda", value: "CON_DEUDA" },
-              { label: "En término", value: "EN_TERMINO" },
-            ]}
-            value={situationFilter}
-            onSelect={setSituationFilter}
-          />
-          <Filter
-            placeholder="Filtrar por estado"
-            options={[
-              { label: "Activo", value: "activo" },
-              { label: "Inactivo", value: "inactivo" },
-            ]}
-            value={statusFilter}
-            onSelect={setStatusFilter}
-          />
-          <Button
-            size="small"
-            variant="primary"
-            fontsize="small"
-            onClick={() => {
-              setFilter("");
-              setSituationFilter("");
-              setStatusFilter("");
-            }}
-          >
-            Limpiar filtros
-          </Button>
-        </s.LeftContainer>
-        <s.RightContainer>
-          <Button
-            variant="primary"
-            size="medium"
-            icon={<img src={AddIcon} alt="Add Icon" />}
-            onClick={() => navigate(NuevoAlumno)}
-          >
-            Nuevo alumno
-          </Button>
-        </s.RightContainer>
-      </s.FiltersContainer>
-      <Table columns={columns} data={studentsPage.content} />
-      {studentsPage && (
-        <s.PaginationContainer>
-          <Pagination
-            page={page}
-            size={size}
-            totalElements={studentsPage.totalElements}
-            totalPages={studentsPage.totalPages}
-            onPageChange={setPage}
-            onSizeChange={(newSize) => {
-              setPage(1);
-              setSize(newSize);
-            }}
-          />
-        </s.PaginationContainer>
-      )}
+            <Filter
+              placeholder="Filtrar por estado"
+              options={[
+                { label: "Activo", value: "activo" },
+                { label: "Inactivo", value: "inactivo" },
+              ]}
+              value={statusFilter}
+              onSelect={setStatusFilter}
+            />
+            <Button
+              size="small"
+              variant="primary"
+              fontsize="small"
+              onClick={() => {
+                setFilter("");
+                setSituationFilter("");
+                setStatusFilter("");
+              }}
+            >
+              Limpiar filtros
+            </Button>
+          </s.LeftContainer>
+          <s.RightContainer>
+            <Button
+              variant="primary"
+              size="medium"
+              icon={<img src={AddIcon} alt="Add Icon" />}
+              onClick={() => navigate(NuevoAlumno)}
+            >
+              Nuevo alumno
+            </Button>
+          </s.RightContainer>
+        </s.FiltersContainer>
+        <Table columns={columns} data={studentsPage.content} />
+      </s.ContentContainer>
+
+      <s.PaginationContainer>
+        <Pagination
+          page={page}
+          size={size}
+          totalElements={studentsPage.totalElements}
+          totalPages={studentsPage.totalPages}
+          onPageChange={setPage}
+          onSizeChange={(newSize) => {
+            setPage(1);
+            setSize(newSize);
+          }}
+        />
+      </s.PaginationContainer>
     </s.StudentsContainer>
   );
 }

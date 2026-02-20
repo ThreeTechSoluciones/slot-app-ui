@@ -10,6 +10,9 @@ import {
 } from "../../utils/Stylesheet";
 export const StudentsContainer = styled.div`
   width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 `;
 export const Title = styled.h1`
   font-size: 24px;
@@ -70,6 +73,9 @@ export const FilterSearchContainer = styled.div`
   width: 352px;
   height: 48px;
 `;
+export const ContentContainer = styled.div`
+  flex: 1;
+`;
 export const PaginationContainer = styled.div`
-  margin: 10px 0px;
+  margin: 8px 0px;
 `;

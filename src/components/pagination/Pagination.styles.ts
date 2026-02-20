@@ -29,7 +29,8 @@ export const ArrowButton = styled.button<{ disabled?: boolean }>`
   cursor: pointer;
   color: ${({ disabled }) => (disabled ? NEUTRAL_COLOR : DEFAULT_TEXT_COLOR)};
   &:hover {
-    background-color: ${BRAND_COLOR};
+    background-color: ${({ disabled }) =>
+      disabled ? LIGHT_NEUTRAL_COLOR : BRAND_COLOR};
   }
 `;
 export const ArrowIconContainer = styled.div<{
