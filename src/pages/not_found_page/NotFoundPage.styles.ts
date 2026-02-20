@@ -6,12 +6,9 @@ import {
   DEFAULT_FONT_SIZE,
 } from "../../utils/Stylesheet";
 export const PageNotFoundContainer = styled.div`
-  position: absolute;
-  width: 100%;
-  top: 60%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   display: flex;
+  width: 100%;
+  min-height: calc(100vh - 96px);
   justify-content: center;
   align-items: center;
   flex-direction: column;
