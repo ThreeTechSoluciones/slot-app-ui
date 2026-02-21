@@ -21,26 +21,29 @@ import { CalendarMonth } from "../../utils/MonthsOfYear";
 import InputDate from "../../components/date/inputDate";
 export type CalendarAction =
   | {
-      type: "ABSENCE";
-      studentId: string;
-      studentName: string;
-      specificSlotId: string;
-    }
+    type: "ABSENCE";
+    studentId: string;
+    studentName: string;
+    specificSlotId: string;
+  }
   | { type: "RECOVER"; specificSlotId: string; availableCapacity: number }
   | {
-      type: "CANCEL";
-      specificSlotId: string;
-      dayOfWeek: string;
-      slot: { startTime: string; endTime: string };
-    };
+    type: "CANCEL";
+    specificSlotId: string;
+    dayOfWeek: string;
+    slot: { startTime: string; endTime: string };
+  };
 
 function CalendarView() {
+
   const { userId } = useAuthentication();
 
   const [selectDate, setSelectDate] = useState<Date>(new Date());
 
   const [markAbsence] = useMarkStudentAbsenceMutation();
+
   const [slotAction, setSlotAction] = useState<CalendarAction | null>(null);
+
   const closeModal = () => setSlotAction(null);
 
   const { data: calendarData } = useGetCalendarViewQuery({
@@ -135,7 +138,7 @@ function CalendarView() {
           <s.DayColumn key={day.dayOfWeek}>
             <s.DayContainer>
               <s.DayOfWeek>{DaysOfWeekTranslation[day.dayOfWeek]}</s.DayOfWeek>
-              <s.Number>{day.numberOfDay}</s.Number>
+              <s.Number $isCurrentDay={day.current}>{day.numberOfDay}</s.Number>
             </s.DayContainer>
             {calendarData?.times.map((_, rowIndex) => {
               const slot = calendarData.slots[rowIndex][colIndex];
