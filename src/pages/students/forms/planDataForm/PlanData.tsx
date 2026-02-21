@@ -43,7 +43,7 @@ const PlanData = forwardRef<FormProp<PlanDataProps>, FormProp<PlanDataProps>>(
       userId ? { userId } : skipToken,
     );
 
-    const schema = useMemo(() => planDataScheme(planTypes), [planTypes]);
+    const schema = useMemo(() => planDataScheme(planTypes?.content), [planTypes]);
     const { slots, removeSlot, newSlot } = useSlotHandler();
     const {
       register,
@@ -131,7 +131,7 @@ const PlanData = forwardRef<FormProp<PlanDataProps>, FormProp<PlanDataProps>>(
               <option value="" disabled hidden>
                 Seleccione una opción
               </option>
-              {planTypes?.map((plan) => (
+              {planTypes?.content.map((plan) => (
                 <option key={plan.id} value={plan.id}>
                   {plan.name}
                 </option>

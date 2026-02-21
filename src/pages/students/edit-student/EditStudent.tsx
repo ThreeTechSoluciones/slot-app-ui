@@ -59,6 +59,8 @@ function EditStudent() {
         return <p>Hubo un error al obtener la informacion del estudiante. Intente nuevamente</p>;
     }
 
+    console.log(studentSaveData);
+
     const handleUpdateStudentData = (data: StudentDataProps) => {
         updateStudentData({
             studentId: studentId,

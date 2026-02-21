@@ -224,7 +224,7 @@ function Plans() {
         </RightContainer>
       </FiltersContainer>
 
-      <Table columns={columns} data={plansToDisplay} />
+      <Table columns={columns} data={plansData?.content || []} />
 
       {showModal && MODALS[showModal]}
     </PlansContainer>
