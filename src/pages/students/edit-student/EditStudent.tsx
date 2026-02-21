@@ -59,7 +59,7 @@ function EditStudent() {
         return <p>Hubo un error al obtener la informacion del estudiante. Intente nuevamente</p>;
     }
 
-    console.log(studentSaveData);
+
 
     const handleUpdateStudentData = (data: StudentDataProps) => {
         updateStudentData({
@@ -68,8 +68,10 @@ function EditStudent() {
             ...studentSaveData,
             ...data,
             birthday: formatDateToDash(data.birthday),
+            slotIds: studentSaveData.slots.map(slot => slot.slotId)
         });
     }
+    console.log(studentSaveData);
 
     const handleUpdatePaymentData = (data: PaymentDataProps) => {
         updateStudentData({
@@ -77,7 +79,8 @@ function EditStudent() {
             userId: userId,
             ...studentSaveData,
             ...data,
-            birthday: formatDateToISO(studentSaveData.birthday)
+            birthday: formatDateToISO(studentSaveData.birthday),
+            slotIds: studentSaveData.slots.map(slot => slot.slotId)
         }
 
         );
