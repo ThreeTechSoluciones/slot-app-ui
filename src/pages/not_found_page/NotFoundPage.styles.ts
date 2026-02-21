@@ -5,10 +5,11 @@ import {
   FONT_WEIGHT_BOLD,
   DEFAULT_FONT_SIZE,
 } from "../../utils/Stylesheet";
+import { MIN_HEIGHT_HEADER } from "../../components/header/header.styles";
 export const PageNotFoundContainer = styled.div`
   display: flex;
   width: 100%;
-  min-height: calc(100vh - 96px);
+  min-height: calc(100vh - ${MIN_HEIGHT_HEADER});
   justify-content: center;
   align-items: center;
   flex-direction: column;
