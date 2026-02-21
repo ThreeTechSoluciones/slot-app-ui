@@ -22,7 +22,7 @@ import {
   useGetUserPlansQuery,
 } from "../../../../app/services/UserService";
 import type { FormProp } from "../../create-student/FormProp.type";
-import { forwardRef, useImperativeHandle, useMemo, useCallback } from "react";
+import { forwardRef, useImperativeHandle, useMemo, useCallback, useEffect } from "react";
 import { skipToken } from "@reduxjs/toolkit/query";
 import { DaysOfWeekTranslation } from "../../../../utils/DaysOfWeek";
 import CalendarIcon from "../../../../assets/CalenderIcon.png";
@@ -33,7 +33,7 @@ export interface PlanDataProps {
 }
 const PlanData = forwardRef<FormProp<PlanDataProps>, FormProp<PlanDataProps>>(
   (props, ref) => {
-    const { onSubmit } = props;
+    const { data, onSubmit: onSubmit } = props;
     const { userId } = useAuthentication();
 
     const { data: slotsData, isLoading: isLoadingCalendar } = useGetSlotsQuery(
@@ -44,7 +44,17 @@ const PlanData = forwardRef<FormProp<PlanDataProps>, FormProp<PlanDataProps>>(
     );
 
     const schema = useMemo(() => planDataScheme(planTypes?.content), [planTypes]);
-    const { slots, removeSlot, newSlot } = useSlotHandler();
+
+    const studentRegistrationForm = data;
+
+    const { slots, removeSlot, newSlot } = useSlotHandler(
+      (studentRegistrationForm as any).slots?.map((s: any) => ({
+        id: s.slotId,
+        day: DaysOfWeekTranslation[s.dayOfWeek].substring(0, 3) ?? s.dayOfWeek,
+        hour: s.startTime,
+      })) ?? []
+    );
+
     const {
       register,
       handleSubmit,
@@ -53,11 +63,12 @@ const PlanData = forwardRef<FormProp<PlanDataProps>, FormProp<PlanDataProps>>(
       formState: { errors },
     } = useForm<PlanDataProps>({
       resolver: yupResolver(schema),
-      defaultValues: {
-        planId: "",
-        slotIds: [],
-      },
+      defaultValues: { ...studentRegistrationForm },
     });
+
+    useEffect(() => {
+      setValue("slotIds", slots.map((s) => s.id));
+    }, [slots]);
 
     const userSlots = useMemo(() => {
       if (!slotsData?.slots.length) return [];
@@ -66,7 +77,6 @@ const PlanData = forwardRef<FormProp<PlanDataProps>, FormProp<PlanDataProps>>(
         day:
           DaysOfWeekTranslation[dayData.dayOfWeek]?.substring(0, 3) ??
           dayData.dayOfWeek,
-
         slots: dayData.slots.map((slot) => ({
           id: slot.id,
           day: dayData.dayOfWeek,
@@ -88,6 +98,26 @@ const PlanData = forwardRef<FormProp<PlanDataProps>, FormProp<PlanDataProps>>(
       [onSubmit, slots],
     );
 
+    useImperativeHandle(
+      ref,
+      () =>
+        ({
+          submit: () =>
+            new Promise<boolean>((resolve) => {
+              handleSubmit(
+                async (data) => {
+                  const success = onFormSubmit(data);
+                  resolve(success);
+                },
+                () => {
+                  resolve(false);
+                },
+              )();
+            }),
+        }) as unknown as FormProp<PlanDataProps>,
+      [handleSubmit, onFormSubmit],
+    );
+
     const handleSelectSlot = (id: string, day: string, hour: string) => {
       newSlot(id, day, hour);
       setValue("slotIds", getValues().slotIds.concat(id), {
@@ -103,25 +133,6 @@ const PlanData = forwardRef<FormProp<PlanDataProps>, FormProp<PlanDataProps>>(
         { shouldValidate: true },
       );
     };
-    useImperativeHandle(
-      ref,
-      () =>
-        ({
-          submit: () =>
-            new Promise<boolean>((resolve) => {
-              handleSubmit(
-                async (data: PlanDataProps) => {
-                  const success = onFormSubmit(data);
-                  resolve(success);
-                },
-                () => {
-                  resolve(false);
-                },
-              )();
-            }),
-        }) as unknown as FormProp<PlanDataProps>,
-      [handleSubmit, onFormSubmit],
-    );
     return (
       <MainContainer>
         <FormContainer>
@@ -137,7 +148,6 @@ const PlanData = forwardRef<FormProp<PlanDataProps>, FormProp<PlanDataProps>>(
                 </option>
               ))}
             </Select>
-
             <ErrorMessage error={errors.planId} />
           </PlanContainer>
           {isLoadingCalendar ? (

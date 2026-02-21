@@ -30,7 +30,7 @@ interface TextProps {
 }
 
 export const Text = styled.p<TextProps>`
-  margin: 0 0 0 16px;
+  margin: 0 0 0 8px;
   padding: 0px;
   font-weight: ${FONT_WEIGHT_BOLD};
   font-family: ${FONT_FAMILY};

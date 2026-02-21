@@ -8,19 +8,28 @@ export const planDataScheme = (plans: PlanResponse[] | undefined) => {
     slotIds: yup
       .array()
       .of(yup.string().required())
+      .default([])
       .test(
         "match-plan-days-slots",
-        "La cantidad de turnos no coincide con el plan seleccionado",
         function (value) {
           const { planId } = this.parent;
-
           const selectedPlan = plans?.find((p) => p.id === planId);
-
           if (!selectedPlan) return true;
-
-          return value?.length === selectedPlan.numberOfDays;
+          if (value?.length !== selectedPlan.numberOfDays) {
+            if (!value?.length) {
+              return this.createError({
+                message: "Debes seleccionar al menos un turno",
+              });
+            }
+            if (value.length !== selectedPlan.numberOfDays) {
+              return this.createError({
+                message: `El plan seleccionado permite ${selectedPlan.numberOfDays} ${selectedPlan.numberOfDays === 1 ? "turno" : "turnos"}, actualmente tenés ${value.length} seleccionado${value.length === 1 ? "" : "s"}`,
+              });
+            }
+          }
+          return true;
         },
-      )
-      .required("Debes seleccionar al menos un turno"),
+      ),
+
   });
 };

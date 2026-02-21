@@ -19,7 +19,7 @@ import {
   DetalleAlumno,
   ListadoCuotas,
   NuevoAlumno,
-  ModificarTurnos,
+  getEditarEstudianteStep,
 } from "../../routes/RoutesUtils";
 import StudentMetrics from "./StudentsMetrics";
 
@@ -38,12 +38,12 @@ function StudentList() {
   } = useGetUserStudentsQuery(
     userId
       ? {
-          userId,
-          filter,
-          status: situationFilter || undefined,
-          isActive: statusFilter === "" ? undefined : statusFilter === "activo",
-          sort: sort.length > 0 ? sort : undefined,
-        }
+        userId,
+        filter,
+        status: situationFilter || undefined,
+        isActive: statusFilter === "" ? undefined : statusFilter === "activo",
+        sort: sort.length > 0 ? sort : undefined,
+      }
       : skipToken,
   );
 
@@ -130,7 +130,7 @@ function StudentList() {
             {
               label: "Modificar turnos",
               onClick: () =>
-                navigate(ModificarTurnos, {
+                navigate(getEditarEstudianteStep(3), {
                   state: { studentId: student.id },
                 }),
             },

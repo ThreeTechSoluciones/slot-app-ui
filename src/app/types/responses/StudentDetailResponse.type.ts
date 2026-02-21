@@ -19,6 +19,7 @@ export interface StudentDetailResponse {
   plan: string;
   payments: PaymentDetailResponse[];
   slots: StudentSlotResponse[];
+  slotIds: string[];
 }
 
 interface PaymentDetailResponse {

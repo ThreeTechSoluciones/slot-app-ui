@@ -16,9 +16,8 @@ const daysOrder: Record<string, number> = {
   DOM: 7,
 };
 
-export function useSlotHandler() {
-  const [slots, setSlots] = useState<Slot[]>([]);
-
+export function useSlotHandler(initialSlots: Slot[] = []) {
+  const [slots, setSlots] = useState<Slot[]>(initialSlots);
   const parseHour = (hour: string) => {
     const [h, m] = hour.split(":").map(Number);
     return h * 60 + m;
@@ -38,6 +37,6 @@ export function useSlotHandler() {
   const removeSlot = (id: string) => {
     setSlots((prev) => prev.filter((s) => !(s.id === id)));
   };
-
+  console.log("Turnos seleccionados", slots);
   return { slots, newSlot, removeSlot };
 }
