@@ -13,4 +13,5 @@ export type UpdateStudentRequest = {
   planId: string;
   admissionDate: string;
   userId: string;
+  slotIds: string[];
 };
