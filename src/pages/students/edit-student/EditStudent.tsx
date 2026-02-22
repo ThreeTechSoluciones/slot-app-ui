@@ -59,8 +59,6 @@ function EditStudent() {
         return <p>Hubo un error al obtener la informacion del estudiante. Intente nuevamente</p>;
     }
 
-
-
     const handleUpdateStudentData = (data: StudentDataProps) => {
         updateStudentData({
             studentId: studentId,
@@ -71,7 +69,6 @@ function EditStudent() {
             slotIds: studentSaveData.slots.map(slot => slot.slotId)
         });
     }
-    console.log(studentSaveData);
 
     const handleUpdatePaymentData = (data: PaymentDataProps) => {
         updateStudentData({
