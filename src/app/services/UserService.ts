@@ -1,24 +1,24 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import type { StudentResponse } from "../types/responses/StudentResponse.type";
-import type { PriceResponse } from "../types/responses/PriceResponse.type";
-import type { PlanResponse } from "../types/responses/PlanResponse.type";
-import type { Page } from "../types/responses/common/Page";
-import type { SlotListResponse } from "../types/responses/SlotResponse.type";
-import type { SortConfig } from "../types/sort";
-import type { UserPreferencesResponse } from "../types/responses/UserPreferencesResponse.type";
-import type { CalendarResponse } from "../types/responses/CalendarResponse.type";
-import type { CalendarParams } from "../types/requests/GetCalendarViewRequest.type";
-import type { GetSlotsByDayParams } from "../types/requests/GetUserSlotsRequest.type";
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import type { StudentResponse } from '../types/responses/StudentResponse.type';
+import type { PriceResponse } from '../types/responses/PriceResponse.type';
+import type { PlanResponse } from '../types/responses/PlanResponse.type';
+import type { Page } from '../types/responses/common/Page';
+import type { SlotListResponse } from '../types/responses/SlotResponse.type';
+import type { SortConfig } from '../types/sort';
+import type { UserPreferencesResponse } from '../types/responses/UserPreferencesResponse.type';
+import type { CalendarResponse } from '../types/responses/CalendarResponse.type';
+import type { CalendarParams } from '../types/requests/GetCalendarViewRequest.type';
+import type { GetSlotsByDayParams } from '../types/requests/GetUserSlotsRequest.type';
 
 export const UserService = createApi({
-  reducerPath: "users",
+  reducerPath: 'users',
   tagTypes: [
-    "userStudents",
-    "userPrices",
-    "userPlans",
-    "userSlots",
-    "userPreferences",
-    "userCalendar",
+    'userStudents',
+    'userPrices',
+    'userPlans',
+    'userSlots',
+    'userPreferences',
+    'userCalendar',
   ],
   baseQuery: fetchBaseQuery({
     baseUrl: `${import.meta.env.VITE_BACKEND_URL}/users`,
@@ -37,16 +37,7 @@ export const UserService = createApi({
         filterByAbsences?: boolean;
       }
     >({
-      query: ({
-        userId,
-        filter,
-        page,
-        size,
-        status,
-        isActive,
-        sort,
-        filterByAbsences,
-      }) => {
+      query: ({ userId, filter, page, size, status, isActive, sort, filterByAbsences }) => {
         let sortParams: string | string[] | undefined;
         if (sort) {
           sortParams = Array.isArray(sort)
@@ -69,13 +60,13 @@ export const UserService = createApi({
       providesTags: (result) =>
         result
           ? [
-              { type: "userStudents", id: "LIST" },
+              { type: 'userStudents', id: 'LIST' },
               ...result.content.map(({ id }) => ({
-                type: "userStudents" as const,
+                type: 'userStudents' as const,
                 id,
               })),
             ]
-          : [{ type: "userStudents", id: "LIST" }],
+          : [{ type: 'userStudents', id: 'LIST' }],
     }),
 
     getUserPrices: builder.query<PriceResponse[], string>({
@@ -83,15 +74,12 @@ export const UserService = createApi({
       providesTags: (result) =>
         result
           ? [
-              { type: "userPrices", id: "LIST" },
-              ...result.map(({ id }) => ({ type: "userPrices" as const, id })),
+              { type: 'userPrices', id: 'LIST' },
+              ...result.map(({ id }) => ({ type: 'userPrices' as const, id })),
             ]
-          : [{ type: "userPrices", id: "LIST" }],
+          : [{ type: 'userPrices', id: 'LIST' }],
     }),
-    getUserPlans: builder.query<
-      PlanResponse[],
-      { userId: string; planName?: string }
-    >({
+    getUserPlans: builder.query<PlanResponse[], { userId: string; planName?: string }>({
       query: ({ userId, planName }) => ({
         url: `/${userId}/plans`,
         params: { planName },
@@ -99,30 +87,25 @@ export const UserService = createApi({
       providesTags: (result) =>
         result
           ? [
-              { type: "userPlans", id: "LIST" },
-              ...result.map(({ id }) => ({ type: "userPlans" as const, id })),
+              { type: 'userPlans', id: 'LIST' },
+              ...result.map(({ id }) => ({ type: 'userPlans' as const, id })),
             ]
-          : [{ type: "userPlans", id: "LIST" }],
+          : [{ type: 'userPlans', id: 'LIST' }],
     }),
     getUserPreferences: builder.query<UserPreferencesResponse, string>({
       query: (userId) => `${userId}/userPreferences`,
-      providesTags: (_result, _error, userId) => [
-        { type: "userPreferences", id: userId },
-      ],
+      providesTags: (_result, _error, userId) => [{ type: 'userPreferences', id: userId }],
     }),
-    updateSlotsCapacity: builder.mutation<
-      void,
-      { userId: string; capacity: number }
-    >({
+    updateSlotsCapacity: builder.mutation<void, { userId: string; capacity: number }>({
       query: ({ userId, capacity }) => ({
         url: `/${userId}/capacity`,
-        method: "PATCH",
+        method: 'PATCH',
         body: { capacity },
       }),
       invalidatesTags: (_result, _error, { userId }) => [
-        "userCalendar",
-        { type: "userSlots", id: userId },
-        { type: "userPreferences", id: userId },
+        'userCalendar',
+        { type: 'userSlots', id: userId },
+        { type: 'userPreferences', id: userId },
       ],
     }),
     getSlots: builder.query<
@@ -139,13 +122,13 @@ export const UserService = createApi({
       }),
       providesTags: (result) => {
         if (!result?.slots || result.slots.length === 0) {
-          return [{ type: "userSlots" as const, id: "LIST" }];
+          return [{ type: 'userSlots' as const, id: 'LIST' }];
         }
         const allSlots = result.slots.flatMap((day) => day.slots || []);
         return [
-          { type: "userSlots" as const, id: "LIST" },
+          { type: 'userSlots' as const, id: 'LIST' },
           ...allSlots.map((slot) => ({
-            type: "userSlots" as const,
+            type: 'userSlots' as const,
             id: slot.id,
           })),
         ];
@@ -156,7 +139,7 @@ export const UserService = createApi({
         url: `${userId}/calendar`,
         params: { date, typeOfView },
       }),
-      providesTags: ["userCalendar"],
+      providesTags: ['userCalendar'],
     }),
   }),
 });

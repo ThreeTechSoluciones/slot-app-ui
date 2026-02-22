@@ -1,10 +1,10 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 import {
   BORDER_RADIUS,
   DEFAULT_TEXT_COLOR,
   LIGHT_NEUTRAL_COLOR,
   NEUTRAL_COLOR,
-} from "../../utils/Stylesheet";
+} from '../../utils/Stylesheet';
 
 export const FilterDiv = styled.div`
   position: relative;

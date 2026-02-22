@@ -1,4 +1,4 @@
-import { SlotContainer, Slot, Text } from "./SlotDetail.styles";
+import { SlotContainer, Slot, Text } from './SlotDetail.styles';
 
 export type Slot = {
   id: string;

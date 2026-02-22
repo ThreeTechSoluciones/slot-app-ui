@@ -1,10 +1,10 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 import {
   SUCCESS_COLOR,
   NEUTRAL_COLOR,
   DANGER_COLOR,
   FONT_WEIGHT_BOLD,
-} from "../../utils/Stylesheet";
+} from '../../utils/Stylesheet';
 
 export const MainContainer = styled.div`
   display: flex;
@@ -122,8 +122,7 @@ export const StudentStatusStyle = styled.p<{ $status: boolean }>`
 export const StudentSituationStyle = styled.p<{ $situation: string }>`
   margin: 0;
   font-weight: ${FONT_WEIGHT_BOLD};
-  color: ${({ $situation }) =>
-    $situation === "En término" ? SUCCESS_COLOR : DANGER_COLOR};
+  color: ${({ $situation }) => ($situation === 'En término' ? SUCCESS_COLOR : DANGER_COLOR)};
 `;
 export const TitleContainer = styled.div`
   display: flex;

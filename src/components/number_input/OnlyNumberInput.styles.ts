@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const NumberInput = styled.input`
   /* Para Chrome, Edge y Safari */

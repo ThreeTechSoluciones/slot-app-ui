@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { SUCCESS_COLOR } from "../../utils/Stylesheet";
+import styled from 'styled-components';
+import { SUCCESS_COLOR } from '../../utils/Stylesheet';
 
 interface CircleProps {
   $isCurrentStep?: boolean;
@@ -14,19 +14,14 @@ export const MainContainer = styled.div`
 `;
 export const Circle = styled.div<CircleProps>`
   background-color: ${(props) =>
-    props.$isCurrentStep
-      ? "black"
-      : props.$isBackStep
-        ? SUCCESS_COLOR
-        : "white"};
+    props.$isCurrentStep ? 'black' : props.$isBackStep ? SUCCESS_COLOR : 'white'};
   border: ${(props) =>
     props.$isCurrentStep
-      ? "1px solid black"
+      ? '1px solid black'
       : props.$isBackStep
         ? `1px solid ${SUCCESS_COLOR}`
-        : "2px solid black"};
-  color: ${(props) =>
-    props.$isCurrentStep ? "white" : props.$isBackStep ? "white" : "black"};
+        : '2px solid black'};
+  color: ${(props) => (props.$isCurrentStep ? 'white' : props.$isBackStep ? 'white' : 'black')};
   width: 40px;
   height: 40px;
   max-width: 40px;
@@ -39,24 +34,22 @@ export const Circle = styled.div<CircleProps>`
   justify-content: center;
   position: relative;
   &::before {
-    content: "";
+    content: '';
     position: absolute;
     height: 2px;
     width: 105px;
-    background-color: ${(props) =>
-      props.$isBackStep ? SUCCESS_COLOR : "black"};
+    background-color: ${(props) => (props.$isBackStep ? SUCCESS_COLOR : 'black')};
     left: -50%;
     top: 50%;
     transform: translateY(-50%);
     z-index: -1;
   }
   &::after {
-    content: "";
+    content: '';
     position: absolute;
     height: 2px;
     width: 105px;
-    background-color: ${(props) =>
-      props.$isBackStep ? SUCCESS_COLOR : "black"};
+    background-color: ${(props) => (props.$isBackStep ? SUCCESS_COLOR : 'black')};
     right: -50%;
     top: 50%;
     transform: translateY(-50%);

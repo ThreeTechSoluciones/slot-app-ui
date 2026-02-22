@@ -1,16 +1,16 @@
 export const MonthsOfYear: Record<string, string> = {
-  Enero: "JANUARY",
-  Febrero: "FEBRUARY",
-  Marzo: "MARCH",
-  Abril: "APRIL",
-  Mayo: "MAY",
-  Junio: "JUNE",
-  Julio: "JULY",
-  Agosto: "AUGUST",
-  Septiembre: "SEPTEMBER",
-  Octubre: "OCTOBER",
-  Noviembre: "NOVEMBER",
-  Diciembre: "DECEMBER",
+  Enero: 'JANUARY',
+  Febrero: 'FEBRUARY',
+  Marzo: 'MARCH',
+  Abril: 'APRIL',
+  Mayo: 'MAY',
+  Junio: 'JUNE',
+  Julio: 'JULY',
+  Agosto: 'AUGUST',
+  Septiembre: 'SEPTEMBER',
+  Octubre: 'OCTOBER',
+  Noviembre: 'NOVEMBER',
+  Diciembre: 'DECEMBER',
 };
 
 export const CalendarMonth: Record<number, string> = {
@@ -25,6 +25,5 @@ export const CalendarMonth: Record<number, string> = {
   8: 'SEPTIEMBRE',
   9: 'OCTUBRE',
   10: 'NOVIEMBRE',
-  11: 'DICIEMBRE'
+  11: 'DICIEMBRE',
 };
-

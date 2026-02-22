@@ -1,4 +1,4 @@
-import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import {
   persistStore,
   persistReducer,
@@ -8,20 +8,20 @@ import {
   PERSIST,
   PURGE,
   REGISTER,
-} from "redux-persist";
-import storageSession from "redux-persist/lib/storage/session";
-import { AuthService } from "../services/AuthService";
-import { errorHandler } from "../errorHandler/errorHandler";
-import { UserService } from "../services/UserService";
-import { StudentService } from "../services/StudentService";
-import { PriceService } from "../services/PriceService";
-import { PlanService } from "../services/PlanService";
-import { authSlice } from "../slices/AuthSlice";
-import { MonthlyFeeService } from "../services/MonthlyFeeService";
-import { PaymentService } from "../services/PaymentService";
-import { SlotService } from "../services/SlotService";
-import { SpecificSlotService } from "../services/SpecificSlotService";
-import { MetricService } from "../services/MetricService";
+} from 'redux-persist';
+import storageSession from 'redux-persist/lib/storage/session';
+import { AuthService } from '../services/AuthService';
+import { errorHandler } from '../errorHandler/errorHandler';
+import { UserService } from '../services/UserService';
+import { StudentService } from '../services/StudentService';
+import { PriceService } from '../services/PriceService';
+import { PlanService } from '../services/PlanService';
+import { authSlice } from '../slices/AuthSlice';
+import { MonthlyFeeService } from '../services/MonthlyFeeService';
+import { PaymentService } from '../services/PaymentService';
+import { SlotService } from '../services/SlotService';
+import { SpecificSlotService } from '../services/SpecificSlotService';
+import { MetricService } from '../services/MetricService';
 
 const reducers = combineReducers({
   [AuthService.reducerPath]: AuthService.reducer,
@@ -34,14 +34,14 @@ const reducers = combineReducers({
   [SlotService.reducerPath]: SlotService.reducer,
   [MetricService.reducerPath]: MetricService.reducer,
   [authSlice.reducerPath]: authSlice.reducer,
-  [SpecificSlotService.reducerPath]: SpecificSlotService.reducer
+  [SpecificSlotService.reducerPath]: SpecificSlotService.reducer,
 });
 
 const persistConfig = {
-  key: "root",
+  key: 'root',
   version: 1,
   storage: storageSession,
-  whitelist: ["auth"],
+  whitelist: ['auth'],
 };
 
 const persistedReducer = persistReducer(persistConfig, reducers);

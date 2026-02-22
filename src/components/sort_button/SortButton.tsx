@@ -1,10 +1,6 @@
-import React, { useState } from "react";
-import ArrowIcon from "../../assets/arrow-icon.png";
-import {
-  HeaderContainer,
-  SortIcon,
-  Text,
-} from "../sort_button/SortButton.styles";
+import React, { useState } from 'react';
+import ArrowIcon from '../../assets/arrow-icon.png';
+import { HeaderContainer, SortIcon, Text } from '../sort_button/SortButton.styles';
 
 interface SortableHeaderProps {
   text: string;
@@ -12,11 +8,7 @@ interface SortableHeaderProps {
   allowWrap?: boolean;
 }
 
-export const SortableButton: React.FC<SortableHeaderProps> = ({
-  text,
-  onSort,
-  allowWrap,
-}) => {
+export const SortableButton: React.FC<SortableHeaderProps> = ({ text, onSort, allowWrap }) => {
   const [asc, setAsc] = useState(true);
 
   const handleClick = () => {
@@ -28,8 +20,8 @@ export const SortableButton: React.FC<SortableHeaderProps> = ({
     <HeaderContainer onClick={handleClick}>
       <Text
         style={{
-          whiteSpace: allowWrap ? "pre-line" : "nowrap",
-          textAlign: "center",
+          whiteSpace: allowWrap ? 'pre-line' : 'nowrap',
+          textAlign: 'center',
         }}
       >
         {text}

@@ -1,6 +1,6 @@
-import type { Column } from "../../app/types/table";
-import { TableStyle, Thead, Tbody, Td, Tr } from "./Table.styles";
-import { SearchNotFound } from "../search_not_found/SearchNotFound";
+import type { Column } from '../../app/types/table';
+import { TableStyle, Thead, Tbody, Td, Tr } from './Table.styles';
+import { SearchNotFound } from '../search_not_found/SearchNotFound';
 
 interface TableProps<T> {
   columns: Column<T>[];
@@ -8,10 +8,7 @@ interface TableProps<T> {
   className?: string;
 }
 
-function Table<T extends { id: string | number }>({
-  columns,
-  data,
-}: TableProps<T>) {
+function Table<T extends { id: string | number }>({ columns, data }: TableProps<T>) {
   return (
     <TableStyle>
       <Thead>
@@ -33,11 +30,7 @@ function Table<T extends { id: string | number }>({
             <Tr key={row.id}>
               {columns.map((col, index) => (
                 <Td key={index}>
-                  {col.render
-                    ? col.render(row)
-                    : col.accessor
-                    ? String(row[col.accessor])
-                    : null}
+                  {col.render ? col.render(row) : col.accessor ? String(row[col.accessor]) : null}
                 </Td>
               ))}
             </Tr>

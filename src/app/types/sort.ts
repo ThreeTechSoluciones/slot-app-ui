@@ -1,4 +1,4 @@
 export type SortConfig = {
   property: string;
-  direction: "ASC" | "DESC";
+  direction: 'ASC' | 'DESC';
 };

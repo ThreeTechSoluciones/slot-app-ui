@@ -1,14 +1,14 @@
-import { useState, useRef } from "react";
-import { formatCurrency } from "../../utils/Formatter";
-import type { Column } from "../../app/types/table";
-import type { PlanResponse } from "../../app/types/responses/PlanResponse.type";
-import Table from "../../components/table/Table";
-import { SortableButton } from "../../components/sort_button/SortButton";
-import { DropdownMenu } from "../../components/dropdownMenu/DropdownMenu";
-import FilterSearch from "../../components/filter_search/FilterSearch";
-import Button from "../../components/button/Button";
-import DotsIcon from "../../assets/dots-icon.png";
-import AddIcon from "../../assets/add-icon.svg";
+import { useState, useRef } from 'react';
+import { formatCurrency } from '../../utils/Formatter';
+import type { Column } from '../../app/types/table';
+import type { PlanResponse } from '../../app/types/responses/PlanResponse.type';
+import Table from '../../components/table/Table';
+import { SortableButton } from '../../components/sort_button/SortButton';
+import { DropdownMenu } from '../../components/dropdownMenu/DropdownMenu';
+import FilterSearch from '../../components/filter_search/FilterSearch';
+import Button from '../../components/button/Button';
+import DotsIcon from '../../assets/dots-icon.png';
+import AddIcon from '../../assets/add-icon.svg';
 import {
   PlansContainer,
   FiltersContainer,
@@ -16,28 +16,26 @@ import {
   RightContainer,
   Title,
   FilterSearchContainer,
-} from "./Plans.styles";
-import { ConfirmDialog } from "../../components/confirm_dialog/ConfirmDialog";
-import { toast } from "react-hot-toast";
-import { GenericModal } from "../../components/generic_modal/GenericModal";
-import CreatePlanForm from "./CreatePlanForm/CreatePlanForm";
+} from './Plans.styles';
+import { ConfirmDialog } from '../../components/confirm_dialog/ConfirmDialog';
+import { toast } from 'react-hot-toast';
+import { GenericModal } from '../../components/generic_modal/GenericModal';
+import CreatePlanForm from './CreatePlanForm/CreatePlanForm';
 import {
   useCreatePlanMutation,
   useUpdatePlanMutation,
   useDeletePlanMutation,
-} from "../../app/services/PlanService";
-import { useGetUserPlansQuery } from "../../app/services/UserService";
-import { skipToken } from "@reduxjs/toolkit/query/react";
-import useAuthentication from "../../hooks/useAuthentication";
-import EditPlan from "./EditPlan/EditPlan";
-import { formatDateToDash } from "../../utils/DateFormatter";
+} from '../../app/services/PlanService';
+import { useGetUserPlansQuery } from '../../app/services/UserService';
+import { skipToken } from '@reduxjs/toolkit/query/react';
+import useAuthentication from '../../hooks/useAuthentication';
+import EditPlan from './EditPlan/EditPlan';
+import { formatDateToDash } from '../../utils/DateFormatter';
 
 function Plans() {
   const formRef = useRef<any>(null);
-  const [filter, setFilter] = useState<string>("");
-  const [showModal, setShowModal] = useState<
-    "CREATE" | "EDIT" | "DELETE" | null
-  >(null);
+  const [filter, setFilter] = useState<string>('');
+  const [showModal, setShowModal] = useState<'CREATE' | 'EDIT' | 'DELETE' | null>(null);
   const [selectedPlan, setSelectedPlan] = useState<PlanResponse | null>(null);
   const [editPlan] = useUpdatePlanMutation();
   const [deletePlan] = useDeletePlanMutation();
@@ -49,7 +47,7 @@ function Plans() {
   const plansToDisplay = plansData || [];
 
   const handleClearFilters = () => {
-    setFilter("");
+    setFilter('');
   };
   const handleMutation = async (
     action: () => Promise<any>,
@@ -77,7 +75,7 @@ function Plans() {
     await handleMutation(
       () => createPlan(finalRequest).unwrap(),
       () => setShowModal(null),
-      "Plan creado correctamente",
+      'Plan creado correctamente',
     );
   };
 
@@ -94,7 +92,7 @@ function Plans() {
     await handleMutation(
       () => editPlan(finalRequest).unwrap(),
       () => setShowModal(null),
-      "Plan editado correctamente",
+      'Plan editado correctamente',
     );
   };
   //ELIMINAR PLAN
@@ -107,7 +105,7 @@ function Plans() {
         setShowModal(null);
         setSelectedPlan(null);
       },
-      "Plan eliminado correctamente",
+      'Plan eliminado correctamente',
     );
   };
   const MODALS = {
@@ -127,7 +125,6 @@ function Plans() {
         width="480px"
       >
         <CreatePlanForm ref={formRef} />
-
       </GenericModal>
     ),
     EDIT: selectedPlan && (
@@ -154,36 +151,36 @@ function Plans() {
   const columns: Column<PlanResponse>[] = [
     {
       header: <SortableButton text="Nombre del plan" />,
-      accessor: "name",
+      accessor: 'name',
     },
     {
       header: <SortableButton text="Cantidad de días asignados" />,
-      accessor: "numberOfDays",
+      accessor: 'numberOfDays',
       render: (plan) => <span>{plan.numberOfDays}</span>,
     },
     {
       header: <SortableButton text="Precio actual" />,
-      accessor: "price",
+      accessor: 'price',
       render: (plan) => <span>{formatCurrency(plan.price)}</span>,
     },
     {
-      header: "Acciones",
+      header: 'Acciones',
       render: (plan) => (
         <DropdownMenu
           icon={<img src={DotsIcon} alt="Opciones" width={30} height={30} />}
           size="small"
           options={[
             {
-              label: "Editar plan",
+              label: 'Editar plan',
               onClick: () => {
-                setShowModal("EDIT");
+                setShowModal('EDIT');
                 setSelectedPlan(plan);
               },
             },
             {
-              label: "Eliminar",
+              label: 'Eliminar',
               onClick: () => {
-                setShowModal("DELETE");
+                setShowModal('DELETE');
                 setSelectedPlan(plan);
               },
             },
@@ -200,12 +197,7 @@ function Plans() {
       <FiltersContainer>
         <LeftContainer>
           <FilterSearchContainer>
-            <FilterSearch
-              value={filter}
-              onChange={setFilter}
-              placeholder="Buscar por nombre"
-            />
-
+            <FilterSearch value={filter} onChange={setFilter} placeholder="Buscar por nombre" />
           </FilterSearchContainer>
           <Button size="small" variant="primary" onClick={handleClearFilters}>
             Limpiar filtros
@@ -217,7 +209,7 @@ function Plans() {
             variant="primary"
             size="medium"
             icon={<img src={AddIcon} alt="Agregar" />}
-            onClick={() => setShowModal("CREATE")}
+            onClick={() => setShowModal('CREATE')}
           >
             Nuevo plan
           </Button>

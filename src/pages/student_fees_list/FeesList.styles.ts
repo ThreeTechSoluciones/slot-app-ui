@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 import {
   DANGER_COLOR,
   SUCCESS_COLOR,
@@ -9,7 +9,7 @@ import {
   FONT_WEIGHT_NORMAL,
   WARNING_COLOR,
   BACKGROUND_COLOR,
-} from "../../utils/Stylesheet";
+} from '../../utils/Stylesheet';
 
 export const InformationStudent = styled.div``;
 export const StudentsContainer = styled.div`
@@ -40,8 +40,7 @@ export const SubTitle = styled.h2<SubtitleProps>`
   color: ${DEFAULT_TEXT_COLOR};
   font-size: 1rem;
   margin-left: 5rem;
-  font-weight: ${(props) =>
-    props.$isBold ? FONT_WEIGHT_BOLD : FONT_WEIGHT_NORMAL};
+  font-weight: ${(props) => (props.$isBold ? FONT_WEIGHT_BOLD : FONT_WEIGHT_NORMAL)};
   img {
     padding-right: 6px;
   }
@@ -93,7 +92,7 @@ const STATUS_COLORS: { [key: string]: string } = {
   Pendiente: WARNING_COLOR,
   Vencido: DANGER_COLOR,
   Pagado: SUCCESS_COLOR,
-  "Pago con atraso": NEUTRAL_COLOR,
+  'Pago con atraso': NEUTRAL_COLOR,
 };
 
 export const FeeStatus = styled.div<{

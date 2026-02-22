@@ -25,45 +25,37 @@ import {
   SlotsContainer,
   AssignedPlan,
   DaysPlan,
-} from "./StudentDetail.styles";
-import { useLocation } from "react-router";
-import { useNavigate } from "react-router-dom";
+} from './StudentDetail.styles';
+import { useLocation } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 import {
   useActivateStudentMutation,
   useDeleteStudentMutation,
   useGetStudentByIdQuery,
-} from "../../app/services/StudentService";
-import StudentIcon from "../../assets/student-icon.svg";
-import BackIcon from "../../assets/back-icon.svg";
-import InfoIcon from "../../assets/info-icon.svg";
-import EditIcon from "../../assets/edit-icon.svg";
-import DesactivateIcon from "../../assets/desactivate-icon.svg";
-import CalendarIcon from "../../assets/CalenderIcon.png";
-import Button from "../../components/button/Button";
-import { ConfirmDialog } from "../../components/confirm_dialog/ConfirmDialog";
-import {
-  getEditarEstudianteStep,
-  ListadoCuotas,
-  ModificarTurnos,
-} from "../../routes/RoutesUtils";
-import toast from "react-hot-toast";
-import { useState } from "react";
-import type { StudentDetailResponse } from "../../app/types/responses/StudentDetailResponse.type";
+} from '../../app/services/StudentService';
+import StudentIcon from '../../assets/student-icon.svg';
+import BackIcon from '../../assets/back-icon.svg';
+import InfoIcon from '../../assets/info-icon.svg';
+import EditIcon from '../../assets/edit-icon.svg';
+import DesactivateIcon from '../../assets/desactivate-icon.svg';
+import CalendarIcon from '../../assets/CalenderIcon.png';
+import Button from '../../components/button/Button';
+import { ConfirmDialog } from '../../components/confirm_dialog/ConfirmDialog';
+import { getEditarEstudianteStep, ListadoCuotas, ModificarTurnos } from '../../routes/RoutesUtils';
+import toast from 'react-hot-toast';
+import { useState } from 'react';
+import type { StudentDetailResponse } from '../../app/types/responses/StudentDetailResponse.type';
 import {
   mapStudentSlotInfo,
   studentPaymentInfo,
   studentPersonalInfo,
-} from "../../utils/StudentDetailInfo";
-import { SearchNotFound } from "../../components/search_not_found/SearchNotFound";
-import SlotDetail from "../../components/slotDetail/SlotDetail";
+} from '../../utils/StudentDetailInfo';
+import { SearchNotFound } from '../../components/search_not_found/SearchNotFound';
+import SlotDetail from '../../components/slotDetail/SlotDetail';
 
 const StudentDetail = () => {
   const { studentId } = useLocation().state;
-  const {
-    data: student,
-    isError,
-    isLoading,
-  } = useGetStudentByIdQuery(studentId);
+  const { data: student, isError, isLoading } = useGetStudentByIdQuery(studentId);
   const [activateStudent] = useActivateStudentMutation();
   const [desactivateStudent] = useDeleteStudentMutation();
   const [showConfirm, setShowConfirm] = useState(false);
@@ -76,7 +68,7 @@ const StudentDetail = () => {
     desactivateStudent(studentId)
       .unwrap()
       .then(() => {
-        toast.success("El alumno ha sido dado de baja.");
+        toast.success('El alumno ha sido dado de baja.');
       })
       .finally(() => {
         setShowConfirm(false);
@@ -86,7 +78,7 @@ const StudentDetail = () => {
     activateStudent(studentId)
       .unwrap()
       .then(() => {
-        toast.success("El alumno ha sido dado de alta.");
+        toast.success('El alumno ha sido dado de alta.');
       })
       .finally(() => {
         setShowConfirm(false);
@@ -114,7 +106,7 @@ const StudentDetail = () => {
       {showConfirm && (
         <ConfirmDialog
           message={`¿Estás seguro de ${
-            student.status ? "dar de baja" : "dar de alta"
+            student.status ? 'dar de baja' : 'dar de alta'
           } a ${student.name} ${student.lastName}?`}
           onConfirm={handleConfirm}
           onCancel={() => setShowConfirm(false)}
@@ -126,7 +118,7 @@ const StudentDetail = () => {
             src={BackIcon}
             alt="back-icon"
             onClick={() => navigate(-1)}
-            style={{ cursor: "pointer" }}
+            style={{ cursor: 'pointer' }}
           />
 
           <Title>DETALLE DEL ALUMNO</Title>
@@ -136,7 +128,7 @@ const StudentDetail = () => {
           <Button
             size="medium"
             fontsize="large"
-            variant={student.status ? "warning" : "success"}
+            variant={student.status ? 'warning' : 'success'}
             icon={
               student.status ? (
                 <img src={DesactivateIcon} alt="desactivate-icon" />
@@ -144,13 +136,13 @@ const StudentDetail = () => {
                 <img
                   src={DesactivateIcon}
                   alt="activate-icon"
-                  style={{ transform: "rotate(180deg)" }}
+                  style={{ transform: 'rotate(180deg)' }}
                 />
               )
             }
             onClick={handleOpenConfirm}
           >
-            {student.status ? "Dar de baja" : "Dar de alta"}
+            {student.status ? 'Dar de baja' : 'Dar de alta'}
           </Button>
         </ButtonWrapper>
       </HeaderContainer>
@@ -210,8 +202,8 @@ const StudentData = ({
           </InformationContainer>
         ))}
       </AllInformationContainer>
-      {student.pathologies && student.pathologies.trim() !== "" && (
-        <InformationContainer key={"Patologías"}>
+      {student.pathologies && student.pathologies.trim() !== '' && (
+        <InformationContainer key={'Patologías'}>
           <Label>Patologías</Label>
           <StudentInfo>{student.pathologies}</StudentInfo>
         </InformationContainer>
@@ -251,20 +243,14 @@ const PaymentData = ({
         {info.map((item, index) => (
           <InformationContainer key={index}>
             <Label>{item.title}</Label>
-            {item.component ? (
-              item.component
-            ) : (
-              <StudentInfo>{item.data}</StudentInfo>
-            )}
+            {item.component ? item.component : <StudentInfo>{item.data}</StudentInfo>}
           </InformationContainer>
         ))}
         <ButtonContainer>
           <Button
             variant="primary"
             size="large"
-            onClick={() =>
-              navigate(ListadoCuotas, { state: { studentId: student.id } })
-            }
+            onClick={() => navigate(ListadoCuotas, { state: { studentId: student.id } })}
           >
             Ver cuotas
           </Button>
@@ -289,9 +275,9 @@ const SlotData = ({
         <SlotTitleContainer>
           <img
             src={CalendarIcon}
-            width={"24px"}
-            height={"24px"}
-            style={{ paddingLeft: "16px" }}
+            width={'24px'}
+            height={'24px'}
+            style={{ paddingLeft: '16px' }}
           ></img>
           Turnos asignados
         </SlotTitleContainer>

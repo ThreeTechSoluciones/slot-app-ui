@@ -1,15 +1,8 @@
-import { useGetStudentSummaryQuery } from "../../app/services/MetricService";
-import {
-  MetricCards,
-  type MetricItem,
-} from "../../components/metric_card/MetricCard";
-import { FiCheckCircle, FiXCircle, FiUserCheck } from "react-icons/fi";
-import { CgDanger } from "react-icons/cg";
-import {
-  DANGER_COLOR,
-  SUCCESS_COLOR,
-  WARNING_COLOR,
-} from "../../utils/Stylesheet";
+import { useGetStudentSummaryQuery } from '../../app/services/MetricService';
+import { MetricCards, type MetricItem } from '../../components/metric_card/MetricCard';
+import { FiCheckCircle, FiXCircle, FiUserCheck } from 'react-icons/fi';
+import { CgDanger } from 'react-icons/cg';
+import { DANGER_COLOR, SUCCESS_COLOR, WARNING_COLOR } from '../../utils/Stylesheet';
 
 const StudentMetrics = () => {
   const { data: metrics, isLoading, isError } = useGetStudentSummaryQuery();
@@ -19,27 +12,25 @@ const StudentMetrics = () => {
 
   const items: MetricItem[] = [
     {
-      title: "Alumnos activos",
+      title: 'Alumnos activos',
       value: metrics.activeStudentsCount,
       description:
-        metrics.activeStudentsCount === 1
-          ? "alumno está activo."
-          : "alumnos están activos.",
+        metrics.activeStudentsCount === 1 ? 'alumno está activo.' : 'alumnos están activos.',
       icon: <FiUserCheck size={20} />,
       color: SUCCESS_COLOR,
     },
     {
-      title: "Cuotas al día",
+      title: 'Cuotas al día',
       value: metrics.activeStudentsOnTimeCount,
       description:
         metrics.activeStudentsOnTimeCount === 1
-          ? "alumno no debe cuotas."
-          : "alumnos no deben cuotas.",
+          ? 'alumno no debe cuotas.'
+          : 'alumnos no deben cuotas.',
       icon: <FiCheckCircle size={20} />,
       color: SUCCESS_COLOR,
     },
     {
-      title: "Deudas de activos",
+      title: 'Deudas de activos',
       value: metrics.activeStudentsWithDebtCount,
       description:
         metrics.activeStudentsWithDebtCount === 1 ? (
@@ -55,7 +46,7 @@ const StudentMetrics = () => {
       color: WARNING_COLOR,
     },
     {
-      title: "Deudas de inactivos",
+      title: 'Deudas de inactivos',
       value: metrics.inactiveStudentsWithDebtCount,
       description:
         metrics.inactiveStudentsWithDebtCount === 1 ? (

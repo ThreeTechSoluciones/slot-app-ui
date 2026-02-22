@@ -1,10 +1,10 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 import {
   BORDER_RADIUS,
   BACKGROUND_COLOR,
   LIGHT_NEUTRAL_COLOR,
   FONT_WEIGHT_BOLD,
-} from "../../utils/Stylesheet";
+} from '../../utils/Stylesheet';
 export const ModalOverlay = styled.div`
   position: fixed;
   top: 0;
@@ -47,8 +47,8 @@ export const IconWrapper = styled.div<{ $size?: string }>`
   align-items: center;
 `;
 export const StyledIcon = styled.img<{ $size?: string }>`
-  width: ${(props) => props.$size || "24px"};
-  height: ${(props) => props.$size || "24px"};
+  width: ${(props) => props.$size || '24px'};
+  height: ${(props) => props.$size || '24px'};
 `;
 
 interface TitleProps {
@@ -56,7 +56,7 @@ interface TitleProps {
 }
 
 export const ModalTitle = styled.h2<TitleProps>`
-  margin: ${(props) => (props.$isConfirmModal ? "0" : "10px 0 20px 0")};
+  margin: ${(props) => (props.$isConfirmModal ? '0' : '10px 0 20px 0')};
   align-items: center;
   display: flex;
   justify-content: center;

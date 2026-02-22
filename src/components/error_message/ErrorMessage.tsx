@@ -1,5 +1,5 @@
-import ErrorIcon from "../../assets/error-icon.png";
-import { ErrorText } from "../error_message/ErrorMessage.styles";
+import ErrorIcon from '../../assets/error-icon.png';
+import { ErrorText } from '../error_message/ErrorMessage.styles';
 
 type ErrorMessageProps = {
   error?: {

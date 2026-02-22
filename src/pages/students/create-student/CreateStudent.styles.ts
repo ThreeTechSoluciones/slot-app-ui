@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { FONT_WEIGHT_BOLD } from "../../../utils/Stylesheet";
+import styled from 'styled-components';
+import { FONT_WEIGHT_BOLD } from '../../../utils/Stylesheet';
 
 export const Title = styled.h1`
   font-size: 24px;

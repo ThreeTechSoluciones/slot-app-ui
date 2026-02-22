@@ -1,10 +1,10 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 import {
   BACKGROUND_COLOR,
   BORDER_RADIUS,
   BRAND_COLOR,
   LIGHT_NEUTRAL_COLOR,
-} from "../../utils/Stylesheet";
+} from '../../utils/Stylesheet';
 export const TableStyle = styled.table`
   width: calc(100% - 160px);
   border-collapse: collapse;

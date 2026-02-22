@@ -1,35 +1,35 @@
-import * as s from "./StudentList.styles";
-import { useNavigate } from "react-router";
-import useAuthentication from "../../hooks/useAuthentication";
-import { useEffect, useState } from "react";
-import Table from "../../components/table/Table";
-import type { StudentResponse } from "../../app/types/responses/StudentResponse.type";
-import type { Column } from "../../app/types/table";
-import dotsIcon from "../../assets/dots-icon.png";
-import { useGetUserStudentsQuery } from "../../app/services/UserService";
-import { DropdownMenu } from "../../components/dropdownMenu/DropdownMenu";
-import { SortableButton } from "../../components/sort_button/SortButton";
-import { skipToken } from "@reduxjs/toolkit/query/react";
-import FilterSearch from "../../components/filter_search/FilterSearch";
-import Filter from "../../components/filter/Filter";
-import Button from "../../components/button/Button";
-import AddIcon from "../../assets/add-icon.svg";
-import type { SortConfig } from "../../app/types/sort";
+import * as s from './StudentList.styles';
+import { useNavigate } from 'react-router';
+import useAuthentication from '../../hooks/useAuthentication';
+import { useEffect, useState } from 'react';
+import Table from '../../components/table/Table';
+import type { StudentResponse } from '../../app/types/responses/StudentResponse.type';
+import type { Column } from '../../app/types/table';
+import dotsIcon from '../../assets/dots-icon.png';
+import { useGetUserStudentsQuery } from '../../app/services/UserService';
+import { DropdownMenu } from '../../components/dropdownMenu/DropdownMenu';
+import { SortableButton } from '../../components/sort_button/SortButton';
+import { skipToken } from '@reduxjs/toolkit/query/react';
+import FilterSearch from '../../components/filter_search/FilterSearch';
+import Filter from '../../components/filter/Filter';
+import Button from '../../components/button/Button';
+import AddIcon from '../../assets/add-icon.svg';
+import type { SortConfig } from '../../app/types/sort';
 import {
   DetalleAlumno,
   ListadoCuotas,
   NuevoAlumno,
   ModificarTurnos,
-} from "../../routes/RoutesUtils";
-import StudentMetrics from "./StudentsMetrics";
-import { Pagination } from "../../components/pagination/Pagination";
+} from '../../routes/RoutesUtils';
+import StudentMetrics from './StudentsMetrics';
+import { Pagination } from '../../components/pagination/Pagination';
 
 function StudentList() {
   const { userId } = useAuthentication();
   const navigate = useNavigate();
-  const [statusFilter, setStatusFilter] = useState<string>("");
-  const [situationFilter, setSituationFilter] = useState<string>("");
-  const [filter, setFilter] = useState<string>("");
+  const [statusFilter, setStatusFilter] = useState<string>('');
+  const [situationFilter, setSituationFilter] = useState<string>('');
+  const [filter, setFilter] = useState<string>('');
   const [sort, setSort] = useState<SortConfig[]>([]);
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(5);
@@ -45,7 +45,7 @@ function StudentList() {
           page: page - 1,
           size,
           status: situationFilter || undefined,
-          isActive: statusFilter === "" ? undefined : statusFilter === "activo",
+          isActive: statusFilter === '' ? undefined : statusFilter === 'activo',
           sort: sort.length > 0 ? sort : undefined,
         }
       : skipToken,
@@ -55,87 +55,76 @@ function StudentList() {
     setPage(1);
   }, [filter, situationFilter, statusFilter]);
   if (isLoading) return <div>Cargando...</div>;
-  if (isError)
-    return <div>Ocurrió un error a la hora de cargar a los estudiantes.</div>;
+  if (isError) return <div>Ocurrió un error a la hora de cargar a los estudiantes.</div>;
   if (!studentsPage) return <div>No hay información disponible.</div>;
   const columns: Column<StudentResponse>[] = [
     {
       header: (
         <SortableButton
           text="DNI"
-          onSort={(isAsc) =>
-            setSort([{ property: "dni", direction: isAsc ? "ASC" : "DESC" }])
-          }
+          onSort={(isAsc) => setSort([{ property: 'dni', direction: isAsc ? 'ASC' : 'DESC' }])}
         />
       ),
-      accessor: "dni",
+      accessor: 'dni',
     },
 
     {
       header: (
         <SortableButton
           text="Nombre"
-          onSort={(isAsc) =>
-            setSort([{ property: "name", direction: isAsc ? "ASC" : "DESC" }])
-          }
+          onSort={(isAsc) => setSort([{ property: 'name', direction: isAsc ? 'ASC' : 'DESC' }])}
         />
       ),
-      accessor: "name",
+      accessor: 'name',
       render: (student) => <span>{student.name}</span>,
     },
     {
       header: (
         <SortableButton
           text="Apellido"
-          onSort={(isAsc) =>
-            setSort([
-              { property: "lastname", direction: isAsc ? "ASC" : "DESC" },
-            ])
-          }
+          onSort={(isAsc) => setSort([{ property: 'lastname', direction: isAsc ? 'ASC' : 'DESC' }])}
         />
       ),
-      accessor: "lastname",
+      accessor: 'lastname',
       render: (student) => <span>{student.lastname}</span>,
     },
     {
-      header: "Situación",
+      header: 'Situación',
       render: (student) => (
-        <s.SituationText $status={student.status}>
-          {student.status}
-        </s.SituationText>
+        <s.SituationText $status={student.status}>{student.status}</s.SituationText>
       ),
     },
     {
-      header: "Estado",
+      header: 'Estado',
       render: (student) => (
         <s.StatusText $isActive={student.isActive}>
-          {student.isActive ? "Activo" : "Inactivo"}
+          {student.isActive ? 'Activo' : 'Inactivo'}
         </s.StatusText>
       ),
     },
     {
-      header: "Acciones",
+      header: 'Acciones',
       render: (student) => (
         <DropdownMenu
           icon={<img src={dotsIcon} alt="Opciones" width={30} height={30} />}
           size="small"
           options={[
             {
-              label: "Ver cuotas",
+              label: 'Ver cuotas',
               onClick: () =>
                 navigate(ListadoCuotas, {
                   state: { studentId: student.id },
                 }),
             },
             {
-              label: "Ver alumno",
+              label: 'Ver alumno',
               onClick: () =>
                 navigate(DetalleAlumno, {
                   state: { studentId: student.id },
                 }),
             },
             {
-              label: "Modificar turnos",
+              label: 'Modificar turnos',
               onClick: () =>
                 navigate(ModificarTurnos, {
                   state: { studentId: student.id },
@@ -167,8 +156,8 @@ function StudentList() {
             <Filter
               placeholder="Filtrar por situación"
               options={[
-                { label: "Con deuda", value: "CON_DEUDA" },
-                { label: "En término", value: "EN_TERMINO" },
+                { label: 'Con deuda', value: 'CON_DEUDA' },
+                { label: 'En término', value: 'EN_TERMINO' },
               ]}
               value={situationFilter}
               onSelect={setSituationFilter}
@@ -176,8 +165,8 @@ function StudentList() {
             <Filter
               placeholder="Filtrar por estado"
               options={[
-                { label: "Activo", value: "activo" },
-                { label: "Inactivo", value: "inactivo" },
+                { label: 'Activo', value: 'activo' },
+                { label: 'Inactivo', value: 'inactivo' },
               ]}
               value={statusFilter}
               onSelect={setStatusFilter}
@@ -187,9 +176,9 @@ function StudentList() {
               variant="primary"
               fontsize="small"
               onClick={() => {
-                setFilter("");
-                setSituationFilter("");
-                setStatusFilter("");
+                setFilter('');
+                setSituationFilter('');
+                setStatusFilter('');
               }}
             >
               Limpiar filtros

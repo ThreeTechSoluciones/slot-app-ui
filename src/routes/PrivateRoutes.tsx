@@ -1,6 +1,6 @@
-import { Navigate, Outlet } from "react-router";
+import { Navigate, Outlet } from 'react-router';
 import useAuthentication from '../hooks/useAuthentication';
-import Header from "../components/header/header";
+import Header from '../components/header/header';
 
 function PrivateLayout() {
   return (

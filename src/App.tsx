@@ -1,8 +1,8 @@
-import { Navigate, Route, Routes } from "react-router";
-import Login from "./pages/login/Login";
-import Plans from "./pages/plans/Plans";
-import { PrivateRoute } from "./routes/PrivateRoutes";
-import StudentDetail from "./pages/student_detail/StudentDetail";
+import { Navigate, Route, Routes } from 'react-router';
+import Login from './pages/login/Login';
+import Plans from './pages/plans/Plans';
+import { PrivateRoute } from './routes/PrivateRoutes';
+import StudentDetail from './pages/student_detail/StudentDetail';
 import {
   MisAlumnos,
   NuevoAlumno,
@@ -13,14 +13,14 @@ import {
   ListadoCuotas,
   getEditarEstudianteStep,
   Calendario,
-} from "./routes/RoutesUtils";
-import CreateStudent from "./pages/students/create-student/CreateStudent";
-import StudentFeesList from "./pages/student_fees_list/FeesList";
-import SlotConfiguration from "./pages/slots/SlotConfiguration";
-import StudentList from "./pages/student_list/StudentList";
-import EditStudent from "./pages/students/edit-student/EditStudent";
-import CalendarView from "./pages/calendar/CalendarViewPage";
-import { MainContent } from "./App.styles";
+} from './routes/RoutesUtils';
+import CreateStudent from './pages/students/create-student/CreateStudent';
+import StudentFeesList from './pages/student_fees_list/FeesList';
+import SlotConfiguration from './pages/slots/SlotConfiguration';
+import StudentList from './pages/student_list/StudentList';
+import EditStudent from './pages/students/edit-student/EditStudent';
+import CalendarView from './pages/calendar/CalendarViewPage';
+import { MainContent } from './App.styles';
 
 function App() {
   return (
@@ -35,10 +35,7 @@ function App() {
           <Route path={ListadoCuotas} element={<StudentFeesList />} />
           <Route path={MisTurnos} element={<SlotConfiguration />} />
           <Route path={Calendario} element={<CalendarView />} />
-          <Route
-            path={getEditarEstudianteStep(":numberOfStep")}
-            element={<EditStudent />}
-          />
+          <Route path={getEditarEstudianteStep(':numberOfStep')} element={<EditStudent />} />
         </Route>
         <Route path="/" element={<Navigate to={IniciarSesion} />} />
       </Routes>

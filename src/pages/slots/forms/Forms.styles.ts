@@ -1,10 +1,6 @@
-import styled from "styled-components";
-import { NEUTRAL_COLOR } from "../../../utils/Stylesheet";
-import {
-  DEFAULT_TEXT_COLOR,
-  BORDER_RADIUS,
-  BACKGROUND_COLOR,
-} from "../../../utils/Stylesheet";
+import styled from 'styled-components';
+import { NEUTRAL_COLOR } from '../../../utils/Stylesheet';
+import { DEFAULT_TEXT_COLOR, BORDER_RADIUS, BACKGROUND_COLOR } from '../../../utils/Stylesheet';
 
 export const FormContainer = styled.form`
   display: flex;

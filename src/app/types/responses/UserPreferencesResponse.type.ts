@@ -1,4 +1,4 @@
 export type UserPreferencesResponse = {
-    capacity: number;
-    slotDurationMinutes: number;
+  capacity: number;
+  slotDurationMinutes: number;
 };

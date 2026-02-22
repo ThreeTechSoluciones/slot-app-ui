@@ -1,11 +1,11 @@
-import { useSelector } from "react-redux";
-import { store } from "../app/store/store";
+import { useSelector } from 'react-redux';
+import { store } from '../app/store/store';
 
 const useAuthentication = () => {
   const user = useSelector((state: ReturnType<typeof store.getState>) => state.auth.user);
-  if(!user) return { isAuthenticated: false };
+  if (!user) return { isAuthenticated: false };
 
-   return {
+  return {
     isAuthenticated: user.accessToken != null,
     userId: user.userId,
     accessToken: user.accessToken,

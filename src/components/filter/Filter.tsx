@@ -1,6 +1,6 @@
-import { DropdownMenu } from "../dropdownMenu/DropdownMenu";
-import FilterIcon from "../../assets/filter-icon.svg";
-import { FilterContainer, DropdownWrapper } from "./Filter.styles";
+import { DropdownMenu } from '../dropdownMenu/DropdownMenu';
+import FilterIcon from '../../assets/filter-icon.svg';
+import { FilterContainer, DropdownWrapper } from './Filter.styles';
 
 interface FilterOption {
   label: string;
@@ -14,18 +14,13 @@ interface FilterProps {
   onSelect: (value: string) => void;
 }
 
-const Filter: React.FC<FilterProps> = ({
-  placeholder,
-  options,
-  value,
-  onSelect,
-}) => {
+const Filter: React.FC<FilterProps> = ({ placeholder, options, value, onSelect }) => {
   const dropdownOptions = options.map((opt) => ({
     label: opt.label,
     onClick: () => onSelect(opt.value),
   }));
 
-  const selectedLabel = options.find((o) => o.value === value)?.label || "";
+  const selectedLabel = options.find((o) => o.value === value)?.label || '';
 
   return (
     <FilterContainer>
@@ -33,9 +28,7 @@ const Filter: React.FC<FilterProps> = ({
         <DropdownMenu
           label={selectedLabel || placeholder}
           size="small"
-          icon={
-            <img src={FilterIcon} alt="FilterIcon" width={20} height={20} />
-          }
+          icon={<img src={FilterIcon} alt="FilterIcon" width={20} height={20} />}
           options={dropdownOptions}
         />
       </DropdownWrapper>

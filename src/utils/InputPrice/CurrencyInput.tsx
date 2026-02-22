@@ -1,10 +1,10 @@
-import * as s from "./CurrencyInput.styles";
-import React from "react";
+import * as s from './CurrencyInput.styles';
+import React from 'react';
 
 function formatArgentinePeso(value: number) {
-  return new Intl.NumberFormat("es-AR", {
-    style: "currency",
-    currency: "ARS",
+  return new Intl.NumberFormat('es-AR', {
+    style: 'currency',
+    currency: 'ARS',
     minimumFractionDigits: 2,
   }).format(value);
 }
@@ -25,7 +25,7 @@ export default function CurrencyInput({
   style,
 }: CurrencyInputProps) {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const raw = e.target.value.replace(/[^\d]/g, "");
+    const raw = e.target.value.replace(/[^\d]/g, '');
     if (!raw) {
       onChange(null);
       return;
@@ -37,7 +37,7 @@ export default function CurrencyInput({
   return (
     <s.PriceInput
       type="text"
-      value={value !== null ? formatArgentinePeso(value) : ""}
+      value={value !== null ? formatArgentinePeso(value) : ''}
       onChange={handleChange}
       width={width}
       placeholder={placeholder}

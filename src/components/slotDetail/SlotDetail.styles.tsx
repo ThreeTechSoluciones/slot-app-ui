@@ -1,10 +1,10 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 import {
   BORDER_RADIUS,
   LIGHT_NEUTRAL_COLOR,
   DEFAULT_TEXT_COLOR,
   FONT_WEIGHT_BOLD,
-} from "../../utils/Stylesheet";
+} from '../../utils/Stylesheet';
 
 export const SlotContainer = styled.div`
   display: flex;
@@ -32,5 +32,5 @@ export const Text = styled.p<TextProps>`
   margin: 0 0 0 16px;
   padding: 0px;
   font-weight: ${FONT_WEIGHT_BOLD};
-  font-size: ${(props) => (props.$isADay ? "16px" : "12px")};
+  font-size: ${(props) => (props.$isADay ? '16px' : '12px')};
 `;

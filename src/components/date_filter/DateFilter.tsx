@@ -1,6 +1,6 @@
-import CalendarIcon from "../../assets/calendar-icon.png";
-import { DateFilterContainer, DatePickerWrapper } from "./DateFilter.styles";
-import InputDate from "../date/inputDate";
+import CalendarIcon from '../../assets/calendar-icon.png';
+import { DateFilterContainer, DatePickerWrapper } from './DateFilter.styles';
+import InputDate from '../date/inputDate';
 
 interface DateFilterProps {
   value: Date | null | undefined;
@@ -21,11 +21,7 @@ const DateFilter: React.FC<DateFilterProps> = ({ value, onChange }) => {
           clearIcon={null}
           calendarPosition="bottom"
           calendarIcon={
-            <img
-              src={CalendarIcon}
-              alt="Calendario"
-              style={{ width: 24, height: 24 }}
-            />
+            <img src={CalendarIcon} alt="Calendario" style={{ width: 24, height: 24 }} />
           }
         />
       </DatePickerWrapper>
