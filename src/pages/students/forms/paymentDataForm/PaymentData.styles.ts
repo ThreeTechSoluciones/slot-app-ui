@@ -4,7 +4,6 @@ import {
   LIGHT_NEUTRAL_COLOR,
   NEUTRAL_COLOR,
   DEFAULT_TEXT_COLOR,
-  FONT_FAMILY,
 } from "../../../../utils/Stylesheet";
 export const FORM_WIDTH = "410px";
 export const MainContainer = styled.div`
@@ -31,7 +30,6 @@ export const Label = styled.p`
   font-weight: bold;
   margin-top: 8px;
   margin-bottom: 8px;
-  font-family: ${FONT_FAMILY};
 `;
 export const BaseStyle = styled.input`
   width: 100%;
@@ -43,7 +41,6 @@ export const BaseStyle = styled.input`
   background: none;
   box-sizing: border-box;
   color: ${DEFAULT_TEXT_COLOR};
-  font-family: ${FONT_FAMILY};
   &::placeholder {
     color: ${NEUTRAL_COLOR};
   }
@@ -85,7 +82,6 @@ interface TextProps {
 export const Text = styled.p<TextProps>`
   font-size: 12px;
   color: ${DEFAULT_TEXT_COLOR};
-  font-family: ${FONT_FAMILY};
   margin-top: ${(props) => (props.$isRegister ? "8px" : "0px")};
   margin-bottom: ${(props) => (props.$isRegister ? "8px" : "0px")};
   width: 100%;

@@ -4,7 +4,6 @@ import {
   LIGHT_NEUTRAL_COLOR,
   NEUTRAL_COLOR,
   DEFAULT_TEXT_COLOR,
-  FONT_FAMILY,
 } from "../../../../utils/Stylesheet";
 
 export const MainContainer = styled.div`
@@ -26,7 +25,6 @@ export const BaseStyle = styled.input`
   padding-left: 16px;
   background: none;
   color: ${DEFAULT_TEXT_COLOR};
-  font-family: ${FONT_FAMILY};
   &::placeholder {
     color: ${NEUTRAL_COLOR};
   }
@@ -56,13 +54,11 @@ export const Label = styled.p`
   margin-top: 8ipx;
   margin-bottom: 8px;
   padding: 0px;
-  font-family: ${FONT_FAMILY};
 `;
 export const Button = styled.button`
   width: 192px;
   height: 48px;
   background: ${BRAND_COLOR};
-  font-family: ${FONT_FAMILY};
   border-radius: 10px;
   border: none;
   font-size: 12px;
