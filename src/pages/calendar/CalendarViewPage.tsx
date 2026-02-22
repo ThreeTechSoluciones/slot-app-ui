@@ -74,7 +74,7 @@ function CalendarView() {
     return (
       <s.NavigationDateContainer>
         <s.NavigationArrow onClick={() => calculateWeek(-7)}>
-          <img src={BackIcon} style={{ marginLeft: "8px" }} />
+          <img src={BackIcon} />
         </s.NavigationArrow>
         <s.CustomDisplayContainer>
           <s.CustomDisplay>{calendarPlaceholder()}</s.CustomDisplay>
