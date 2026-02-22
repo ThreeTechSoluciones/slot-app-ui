@@ -14,7 +14,6 @@ export const PriceInput = styled.input<PriceInputProps>`
   box-sizing: border-box;
   height: 56px;
   padding: 0 16px;
-  line-height: 56px;
   border-radius: 10px;
   font-size: 16px;
   color: ${DEFAULT_TEXT_COLOR};
