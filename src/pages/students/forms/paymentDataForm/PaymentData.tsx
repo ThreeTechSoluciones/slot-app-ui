@@ -52,21 +52,21 @@ const PaymentData = forwardRef<
 
   const NoPaymentSelectedSkeleton = () => {
     return (
-      <div>
+      <s.FieldContainer>
         <s.Text $isRegister={actionType !== "edit"}>
           Este campo se habilitará una vez seleccione el plan de pago.
         </s.Text>
         <s.Input disabled={PaymentPlanNameSelected === ""}></s.Input>
-      </div>
+      </s.FieldContainer>
     );
   };
   const SpecificDaySkeleton = () => {
     return (
-      <>
+      <s.FieldContainer>
         <s.Label>Día de pago</s.Label>
         <s.Input placeholder="15" {...register("paymentDay")} />
         <ErrorMessage error={errors.paymentDay} />
-      </>
+      </s.FieldContainer>
     );
   };
   const BeginningOfMonthSkeleton = () => {
@@ -78,23 +78,22 @@ const PaymentData = forwardRef<
             clases extras para realizar el primer pago.
           </s.Text>
           <s.SecondaryInputsContainer>
-            <div>
+            <s.FieldContainer>
               <s.Label>Clases extras</s.Label>
               <s.Input
-                $isSmallSize
                 placeholder="Clases extras"
                 {...register("extraClasses")}
               ></s.Input>
               <ErrorMessage error={errors.extraClasses} />
-            </div>
-            <div>
+            </s.FieldContainer>
+            <s.FieldContainer>
               <s.Label>Precio clase individual</s.Label>
               <Controller
                 name="classPrice"
                 control={control}
                 render={({ field }) => (
                   <CurrencyInput
-                    width="176"
+                    width="100%"
                     value={field.value ?? null}
                     onChange={field.onChange}
                     placeholder="Precio clase individual"
@@ -102,7 +101,7 @@ const PaymentData = forwardRef<
                 )}
               />
               <ErrorMessage error={errors.classPrice} />
-            </div>
+            </s.FieldContainer>
           </s.SecondaryInputsContainer>
         </s.InputsContainer>
       );
@@ -131,7 +130,7 @@ const PaymentData = forwardRef<
   return (
     <s.MainContainer>
       <s.FormContainer>
-        <div>
+        <s.FieldContainer>
           <s.Label>Plan de pago</s.Label>
           <Controller
             name="paymentPlanName"
@@ -167,15 +166,15 @@ const PaymentData = forwardRef<
           />
 
           <ErrorMessage error={errors.paymentPlanName} />
-        </div>
-        <div>
+        </s.FieldContainer>
+        <s.FieldContainer>
           {PaymentPlanNameSelected === "" && <NoPaymentSelectedSkeleton />}
           {PaymentPlanNameSelected === PaymentPlanName.SPECIFIC_DAY && (
             <SpecificDaySkeleton />
           )}
           {PaymentPlanNameSelected === PaymentPlanName.BEGINNING_OF_MONTH &&
             actionType !== "edit" && <BeginningOfMonthSkeleton />}
-        </div>
+        </s.FieldContainer>
       </s.FormContainer>
     </s.MainContainer>
   );

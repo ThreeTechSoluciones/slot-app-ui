@@ -19,7 +19,7 @@ export const paymentDataScheme = yup.object().shape({
           .typeError("Solo se permiten números")
           .max(7, "No puede superar 7 clases")
           .min(0, "No puede ser negativo")
-          .test("validateDay", "Debe ingresar las clases extras", (value) => {
+          .test("validateDay", "Debe ingresar clases extras", (value) => {
             const today = new Date();
             const dayOfMonth = today.getDate();
             if (dayOfMonth > 10) {
