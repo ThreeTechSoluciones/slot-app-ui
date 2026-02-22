@@ -2,6 +2,7 @@
 export type Day = {
     dayOfWeek: string;
     numberOfDay: number;
+    current: boolean;
 };
 
 export type SlotTime = {

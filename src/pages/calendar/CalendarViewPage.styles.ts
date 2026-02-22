@@ -123,11 +123,15 @@ export const DayOfWeek = styled.h1`
   font-size: ${DEFAULT_FONT_SIZE};
 `;
 
-export const Number = styled.span`
+export interface NumberProps {
+  $isCurrentDay?: boolean;
+}
+
+export const Number = styled.span<NumberProps>`
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background-color: ${LIGHT_NEUTRAL_COLOR};
+  background-color: ${(props) => (props.$isCurrentDay ? BRAND_COLOR : LIGHT_NEUTRAL_COLOR)};
   font-weight: ${FONT_WEIGHT_BOLD};
   color: ${DEFAULT_TEXT_COLOR};
   display: flex;
