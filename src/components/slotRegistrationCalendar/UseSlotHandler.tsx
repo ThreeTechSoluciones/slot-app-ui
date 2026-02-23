@@ -37,6 +37,6 @@ export function useSlotHandler(initialSlots: Slot[] = []) {
   const removeSlot = (id: string) => {
     setSlots((prev) => prev.filter((s) => !(s.id === id)));
   };
-  console.log("Turnos seleccionados", slots);
+
   return { slots, newSlot, removeSlot };
 }

@@ -11,7 +11,6 @@ import {
   SlotTitleContainer,
   SlotsContainer,
 } from "./PlanData.styles";
-import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import SlotRegistrationCalendar from "../../../../components/slotRegistrationCalendar/SlotRegistrationCalendar";
 import SlotDetail from "../../../../components/slotDetail/SlotDetail";
@@ -45,12 +44,17 @@ const PlanData = forwardRef<FormProp<PlanDataProps>, FormProp<PlanDataProps>>(
 
     const schema = useMemo(() => planDataScheme(planTypes?.content), [planTypes]);
 
-    const studentRegistrationForm = data;
+    const DEFAULT_PLAN_DATA: PlanDataProps = {
+      planId: "",
+      slotIds: [],
+    };
+
+    const studentRegistrationForm = data ?? DEFAULT_PLAN_DATA;
 
     const { slots, removeSlot, newSlot } = useSlotHandler(
       (studentRegistrationForm as any).slots?.map((s: any) => ({
         id: s.slotId,
-        day: DaysOfWeekTranslation[s.dayOfWeek].substring(0, 3) ?? s.dayOfWeek,
+        day: s.dayOfWeek,
         hour: s.startTime,
       })) ?? []
     );

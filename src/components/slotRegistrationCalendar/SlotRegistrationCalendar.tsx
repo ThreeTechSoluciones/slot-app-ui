@@ -7,6 +7,7 @@ import {
 } from "./SlotRegistrationCalendar.styles";
 import { SUCCESS_COLOR } from "../../utils/Stylesheet";
 import type { Slot } from "../slotDetail/SlotDetail";
+import { DaysOfWeekTranslation } from "../../utils/DaysOfWeek";
 type DayWithSlots = { day: string; slots: Slot[] };
 type CalendarProps = {
   selectedSlots: { id: string }[];
@@ -51,7 +52,11 @@ const Slots = ({
   const maxTurnos = Math.max(...listSlots.map((day) => day.slots.length));
   return listSlots.map((day) => (
     <Column key={day.day}>
-      <Day>{day.day}</Day>
+      <Day>
+        {(
+          DaysOfWeekTranslation[day.day]?.substring(0, 3) ?? day.day
+        ).toUpperCase()}
+      </Day>
       {Array.from({ length: maxTurnos }).map((_, idx) => {
         const slot = day.slots[idx];
         const isSelected = selectedSlots.some(

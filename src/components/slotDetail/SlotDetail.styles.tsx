@@ -13,6 +13,7 @@ export const SlotContainer = styled.div`
   gap: 24px;
   overflow-x: auto;
 `;
+
 export const Slot = styled.div`
   display: flex;
   flex-direction: column;
@@ -25,6 +26,7 @@ export const Slot = styled.div`
   border-bottom: 5px solid ${LIGHT_NEUTRAL_COLOR};
   padding-top: 16px;
 `;
+
 interface TextProps {
   $isADay?: boolean;
 }

@@ -1,3 +1,4 @@
+import { DaysOfWeekTranslation } from "../../utils/DaysOfWeek";
 import { SlotContainer, Slot, Text } from "./SlotDetail.styles";
 
 export type Slot = {
@@ -18,7 +19,9 @@ function SlotDetail({ slots }: SlotDetailProps) {
     <SlotContainer>
       {slots.map((slot) => (
         <Slot key={slot.id}>
-          <Text $isADay={true}>{slot.day.toUpperCase()}</Text>
+          <Text $isADay={true}>
+            {(DaysOfWeekTranslation[slot.day] ?? slot.day).toUpperCase()}
+          </Text>
           <Text>{slot.hour} hs</Text>
         </Slot>
       ))}

@@ -79,6 +79,7 @@ export const SlotsContainer = styled.div`
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  margin-top: 10px;
 `;
 export const SlotDetailContainer = styled.div`
   flex: 1;
