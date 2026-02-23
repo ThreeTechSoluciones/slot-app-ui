@@ -54,7 +54,7 @@ const PlanData = forwardRef<FormProp<PlanDataProps>, FormProp<PlanDataProps>>(
     const { slots, removeSlot, newSlot } = useSlotHandler(
       (studentRegistrationForm as any).slots?.map((s: any) => ({
         id: s.slotId,
-        day: s.dayOfWeek,
+        day: DaysOfWeekTranslation[s.dayOfWeek].substring(0, 3).toUpperCase() ?? s.dayOfWeek,
         hour: s.startTime,
       })) ?? []
     );
