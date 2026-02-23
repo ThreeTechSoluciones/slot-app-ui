@@ -21,6 +21,7 @@ import StudentList from "./pages/student_list/StudentList";
 import EditStudent from "./pages/students/edit-student/EditStudent";
 import CalendarView from "./pages/calendar/CalendarViewPage";
 import { MainContent } from "./App.styles";
+import NotFoundPage from "./pages/not_found_page/NotFoundPage";
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
             path={getEditarEstudianteStep(":numberOfStep")}
             element={<EditStudent />}
           />
+          <Route path="*" element={<NotFoundPage />} />
         </Route>
         <Route path="/" element={<Navigate to={IniciarSesion} />} />
       </Routes>

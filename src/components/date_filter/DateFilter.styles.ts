@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import {
   BORDER_RADIUS,
-  FONT_FAMILY,
   LIGHT_NEUTRAL_COLOR,
   NEUTRAL_COLOR,
 } from "../../utils/Stylesheet";
@@ -29,7 +28,6 @@ export const DatePickerWrapper = styled.div<DatePickerWrapperProps>`
     transform: translateY(-50%);
     color: ${NEUTRAL_COLOR};
     font-size: 12px;
-    font-family: ${FONT_FAMILY};
     pointer-events: none;
     z-index: 1;
     display: ${(props) => (props.$hasValue ? "none" : "block")};
@@ -68,7 +66,6 @@ export const DatePickerWrapper = styled.div<DatePickerWrapperProps>`
   .react-date-picker__inputGroup {
     align-items: center;
     max-width: 100px;
-    font-family: ${FONT_FAMILY};
     font-size: 12px;
     flex: 1;
     line-height: 1;

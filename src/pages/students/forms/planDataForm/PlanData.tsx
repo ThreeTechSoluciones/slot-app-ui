@@ -36,12 +36,28 @@ const PlanData = forwardRef<FormRef, FormProps<PlanDataProps>>((props, ref) => {
   const { onSubmit } = props;
   const { userId } = useAuthentication();
 
-  const { data: slotsData, isLoading: isLoadingCalendar } = useGetSlotsQuery(
-    userId ? { userId, dayOfWeek: "" } : skipToken,
-  );
-  const { data: planTypes } = useGetUserPlansQuery(
-    userId ? { userId } : skipToken,
-  );
+    const { data: slotsData, isLoading: isLoadingCalendar } = useGetSlotsQuery(
+      userId ? { userId, dayOfWeek: "" } : skipToken,
+    );
+    const { data: planTypes } = useGetUserPlansQuery(
+      userId ? { userId } : skipToken,
+    );
+
+    const schema = useMemo(() => planDataScheme(planTypes?.content), [planTypes]);
+    const { slots, removeSlot, newSlot } = useSlotHandler();
+    const {
+      register,
+      handleSubmit,
+      setValue,
+      getValues,
+      formState: { errors },
+    } = useForm<PlanDataProps>({
+      resolver: yupResolver(schema),
+      defaultValues: {
+        planId: "",
+        slotIds: [],
+      },
+    });
 
   const schema = useMemo(() => planDataScheme(planTypes), [planTypes]);
   const { slots, removeSlot, newSlot } = useSlotHandler();
@@ -134,8 +150,12 @@ const PlanData = forwardRef<FormRef, FormProps<PlanDataProps>>((props, ref) => {
               <option key={plan.id} value={plan.id}>
                 {plan.name}
               </option>
-            ))}
-          </Select>
+              {planTypes?.content.map((plan) => (
+                <option key={plan.id} value={plan.id}>
+                  {plan.name}
+                </option>
+              ))}
+            </Select>
 
           <ErrorMessage error={errors.planId} />
         </PlanContainer>

@@ -2,7 +2,6 @@ import styled from "styled-components";
 import {
   DEFAULT_FONT_SIZE,
   DEFAULT_TEXT_COLOR,
-  FONT_FAMILY,
   FONT_WEIGHT_BOLD,
   LIGHT_NEUTRAL_COLOR,
   BRAND_COLOR,
@@ -54,7 +53,6 @@ export const CustomDisplayContainer = styled.div`
 export const CustomDisplay = styled.div`
   position: absolute;
   background-color: ${BACKGROUND_COLOR};
-  font-family: ${FONT_FAMILY};
   font-weight: ${FONT_WEIGHT_BOLD};
   top: 8px;
   left: 16px;
@@ -120,19 +118,21 @@ export const DayContainer = styled.div`
 `;
 
 export const DayOfWeek = styled.h1`
-  font-family: ${FONT_FAMILY};
   color: ${DEFAULT_TEXT_COLOR};
   font-weight: ${FONT_WEIGHT_BOLD};
   font-size: ${DEFAULT_FONT_SIZE};
 `;
 
-export const Number = styled.span`
+export interface NumberProps {
+  $isCurrentDay?: boolean;
+}
+
+export const Number = styled.span<NumberProps>`
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background-color: ${LIGHT_NEUTRAL_COLOR};
+  background-color: ${(props) => (props.$isCurrentDay ? BRAND_COLOR : LIGHT_NEUTRAL_COLOR)};
   font-weight: ${FONT_WEIGHT_BOLD};
-  font-family: ${FONT_FAMILY};
   color: ${DEFAULT_TEXT_COLOR};
   display: flex;
   align-items: center;
@@ -147,7 +147,6 @@ export const ScheduledTime = styled.div`
 `;
 
 export const TimeSlot = styled.p`
-  font-family: ${FONT_FAMILY};
   font-weight: ${FONT_WEIGHT_BOLD};
   border-radius: 5px;
   color: ${DEFAULT_TEXT_COLOR};

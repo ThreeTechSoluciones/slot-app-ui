@@ -4,7 +4,6 @@ import {
   SUCCESS_COLOR,
   NEUTRAL_COLOR,
   BORDER_RADIUS,
-  FONT_FAMILY,
   DEFAULT_TEXT_COLOR,
   FONT_WEIGHT_BOLD,
   FONT_WEIGHT_NORMAL,
@@ -31,7 +30,6 @@ export const Title = styled.h1`
   justify-content: flex-start;
   width: 100%;
   color: ${DEFAULT_TEXT_COLOR};
-  font-family: ${FONT_FAMILY};
 `;
 interface SubtitleProps {
   $isBold?: boolean;
@@ -42,7 +40,6 @@ export const SubTitle = styled.h2<SubtitleProps>`
   color: ${DEFAULT_TEXT_COLOR};
   font-size: 1rem;
   margin-left: 5rem;
-  font-family: ${FONT_FAMILY};
   font-weight: ${(props) =>
     props.$isBold ? FONT_WEIGHT_BOLD : FONT_WEIGHT_NORMAL};
   img {
@@ -74,7 +71,6 @@ export const ActionButton = styled.button`
   border: none;
   background: none;
   font-size: 16px;
-  font-family: ${FONT_FAMILY};
   font-weight: ${FONT_WEIGHT_BOLD};
   text-decoration: underline;
   cursor: pointer;
@@ -107,7 +103,6 @@ export const FeeStatus = styled.div<{
     return STATUS_COLORS[$status] || NEUTRAL_COLOR;
   }};
   border-radius: ${BORDER_RADIUS};
-  font-family: ${FONT_FAMILY};
   color: ${BACKGROUND_COLOR};
   font-weight: ${FONT_WEIGHT_BOLD};
   width: 136px;

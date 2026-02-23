@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import {
-  FONT_FAMILY,
   SUCCESS_COLOR,
   NEUTRAL_COLOR,
   DANGER_COLOR,
@@ -50,7 +49,6 @@ export const InfoBoxesContainer = styled.div`
   flex-direction: row;
   justify-content: center;
   gap: 40px 80px;
-  font-family: ${FONT_FAMILY};
   flex-wrap: wrap;
   max-width: 1200px;
 `;
@@ -98,7 +96,6 @@ export const SearchNotFoundStyles = styled.div`
   height: 100%;
 `;
 export const Label = styled.p`
-  font-family: ${FONT_FAMILY};
   font-size: 12px;
   margin: 0px;
   width: fit-content;
@@ -151,7 +148,6 @@ export const SubTitle = styled.h2`
   margin-left: 2rem;
 `;
 export const SlotTitleContainer = styled.div`
-  font-family: ${FONT_FAMILY};
   font-size: 16px;
   font-weight: ${FONT_WEIGHT_BOLD};
   display: flex;
@@ -168,12 +164,10 @@ export const PlanContainer = styled.div`
 export const AssignedPlan = styled.p`
   font-size: 12px;
   margin: 0px;
-  font-family: ${FONT_FAMILY};
   font-weight: ${FONT_WEIGHT_BOLD};
 `;
 export const DaysPlan = styled.p`
   font-size: 16px;
-  font-family: ${FONT_FAMILY};
   margin: 0px;
 `;
 export const SlotsContainer = styled.div`

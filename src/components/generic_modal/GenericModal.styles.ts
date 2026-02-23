@@ -2,7 +2,6 @@ import styled from "styled-components";
 import {
   BORDER_RADIUS,
   BACKGROUND_COLOR,
-  FONT_FAMILY,
   LIGHT_NEUTRAL_COLOR,
   FONT_WEIGHT_BOLD,
 } from "../../utils/Stylesheet";
@@ -61,15 +60,12 @@ export const ModalTitle = styled.h2<TitleProps>`
   align-items: center;
   display: flex;
   justify-content: center;
-
   font-size: 24px;
-  font-family: ${FONT_FAMILY};
   font-weight: ${FONT_WEIGHT_BOLD};
 `;
 export const ModalBody = styled.div`
   margin-bottom: 25px;
   font-size: 16px;
-  font-family: ${FONT_FAMILY};
 `;
 export const ModalFooter = styled.div`
   display: flex;

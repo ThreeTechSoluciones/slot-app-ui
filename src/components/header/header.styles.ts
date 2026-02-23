@@ -1,5 +1,5 @@
 import styled, { keyframes } from "styled-components";
-
+export const MIN_HEIGHT_HEADER = "96px";
 interface OptionProps {
   $isLast?: boolean;
   $hasImg?: boolean;
@@ -8,7 +8,7 @@ interface OptionProps {
 export const MainContainer = styled.header`
   display: flex;
   width: 100%;
-  min-height: 96px;
+  min-height: ${MIN_HEIGHT_HEADER};
   background-color: #f0e21e;
   box-sizing: border-box;
   justify-content: space-between;
@@ -17,7 +17,7 @@ export const LeftOptionsContainer = styled.section`
   display: flex;
   flex-direction: row;
   margin-left: 80px;
-  min-height: 96px;
+  min-height: ${MIN_HEIGHT_HEADER};
   align-items: center;
   font-size: 16px;
 `;

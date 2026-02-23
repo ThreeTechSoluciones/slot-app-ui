@@ -2,8 +2,8 @@ import styled from "styled-components";
 import {
   BORDER_RADIUS,
   BACKGROUND_COLOR,
-  FONT_FAMILY,
   LIGHT_NEUTRAL_COLOR,
+  FONT_WEIGHT_BOLD,
 } from "../../../utils/Stylesheet";
 export const ModalOverlay = styled.div`
   position: fixed;
@@ -35,8 +35,7 @@ export const ModalTitle = styled.h2`
   font-size: 24px;
   margin: 0;
   text-align: center;
-  font-weight: 800;
-  font-family: ${FONT_FAMILY};
+  font-weight: ${FONT_WEIGHT_BOLD};
 `;
 export const CloseButton = styled.button`
   position: absolute;
@@ -55,23 +54,20 @@ export const TextColumn = styled.div`
 `;
 
 export const FeeTitle = styled.h3`
-  font-family: ${FONT_FAMILY};
   font-size: 16px;
-  font-weight: 800;
+  font-weight: ${FONT_WEIGHT_BOLD};
   margin: 0 0 56px 0;
   text-align: center;
 `;
 
 export const FieldLabel = styled.span`
-  font-family: ${FONT_FAMILY};
   font-size: 16px;
-  font-weight: 800;
+  font-weight: ${FONT_WEIGHT_BOLD};
   line-height: 1.2;
   margin: 0;
 `;
 
 export const Value = styled.p`
-  font-family: ${FONT_FAMILY};
   font-size: 16px;
   line-height: 1.2;
   margin: 0;
