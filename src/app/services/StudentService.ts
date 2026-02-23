@@ -158,8 +158,16 @@ export const StudentService = createApi({
       ],
       onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
         await queryFulfilled;
-        dispatch(UserService.util.invalidateTags(["userCalendar", "userStudents"]));
+        dispatch(
+          UserService.util.invalidateTags(["userCalendar", "userStudents"]),
+        );
       },
+    }),
+    validateStudentDni: builder.mutation<boolean, { dni: string }>({
+      query: ({ dni }) => ({
+        url: `/dni/${dni}/validate`,
+        method: "POST",
+      }),
     }),
   }),
 });
@@ -174,4 +182,5 @@ export const {
   useCreateStudentMonthlyFeeMutation,
   useMarkStudentAbsenceMutation,
   useRecoverStudentSlotMutation,
+  useValidateStudentDniMutation,
 } = StudentService;
