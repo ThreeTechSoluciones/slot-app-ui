@@ -3,7 +3,7 @@ import {
   MetricCards,
   type MetricItem,
 } from "../../components/metric_card/MetricCard";
-import { FiCheckCircle, FiXCircle, FiUserCheck } from "react-icons/fi";
+import { FiXCircle, FiUserCheck } from "react-icons/fi";
 import { CgDanger } from "react-icons/cg";
 import {
   DANGER_COLOR,
@@ -26,16 +26,6 @@ const StudentMetrics = () => {
           ? "alumno está activo."
           : "alumnos están activos.",
       icon: <FiUserCheck size={20} />,
-      color: SUCCESS_COLOR,
-    },
-    {
-      title: "Cuotas al día",
-      value: metrics.activeStudentsOnTimeCount,
-      description:
-        metrics.activeStudentsOnTimeCount === 1
-          ? "alumno no debe cuotas."
-          : "alumnos no deben cuotas.",
-      icon: <FiCheckCircle size={20} />,
       color: SUCCESS_COLOR,
     },
     {

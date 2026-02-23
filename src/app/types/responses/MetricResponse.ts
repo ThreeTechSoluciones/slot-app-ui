@@ -1,12 +1,11 @@
 export interface PaymentMetrics {
-  onTimeCount: number;
-  outstandingCount: number;
-  payedCount: number;
+  paidCount: number;
+  expiredCount: number;
+  paidOutOfTimeCount: number;
 }
 
 export interface StudentSummary {
   activeStudentsCount: number;
-  activeStudentsOnTimeCount: number;
   activeStudentsWithDebtCount: number;
   inactiveStudentsWithDebtCount: number;
 }
