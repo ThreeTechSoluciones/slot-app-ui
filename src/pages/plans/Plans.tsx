@@ -9,14 +9,7 @@ import FilterSearch from "../../components/filter_search/FilterSearch";
 import Button from "../../components/button/Button";
 import DotsIcon from "../../assets/dots-icon.png";
 import AddIcon from "../../assets/add-icon.svg";
-import {
-  PlansContainer,
-  FiltersContainer,
-  LeftContainer,
-  RightContainer,
-  Title,
-  FilterSearchContainer,
-} from "./Plans.styles";
+import * as s from "./Plans.styles";
 import { ConfirmDialog } from "../../components/confirm_dialog/ConfirmDialog";
 import { toast } from "react-hot-toast";
 import { GenericModal } from "../../components/generic_modal/GenericModal";
@@ -31,6 +24,7 @@ import { skipToken } from "@reduxjs/toolkit/query/react";
 import useAuthentication from "../../hooks/useAuthentication";
 import EditPlan from "./EditPlan/EditPlan";
 import { formatDateToDash } from "../../utils/DateFormatter";
+import { Pagination } from "../../components/pagination/Pagination";
 
 function Plans() {
   const formRef = useRef<any>(null);
@@ -42,11 +36,16 @@ function Plans() {
   const [editPlan] = useUpdatePlanMutation();
   const [deletePlan] = useDeletePlanMutation();
   const [createPlan] = useCreatePlanMutation();
+  const [page, setPage] = useState(1);
+  const [size, setSize] = useState(5);
   const { userId } = useAuthentication();
-  const { data: plansData } = useGetUserPlansQuery(
-    userId ? { userId, planName: filter } : skipToken,
+  const {
+    data: plansData,
+    isLoading,
+    isError,
+  } = useGetUserPlansQuery(
+    userId ? { userId, page: page - 1, size, planName: filter } : skipToken,
   );
-  const plansToDisplay = plansData || [];
 
   const handleClearFilters = () => {
     setFilter("");
@@ -71,7 +70,8 @@ function Plans() {
     if (!data || !userId) return;
     const finalRequest = {
       ...data,
-      name: data.name.charAt(0).toUpperCase() + data.name.slice(1).toLowerCase(),
+      name:
+        data.name.charAt(0).toUpperCase() + data.name.slice(1).toLowerCase(),
       userId,
     };
     await handleMutation(
@@ -88,7 +88,8 @@ function Plans() {
     if (!data) return;
     const finalRequest = {
       ...data,
-      name: data.name.charAt(0).toUpperCase() + data.name.slice(1).toLowerCase(),
+      name:
+        data.name.charAt(0).toUpperCase() + data.name.slice(1).toLowerCase(),
       startDate: formatDateToDash(data.startDate),
     };
     await handleMutation(
@@ -127,7 +128,6 @@ function Plans() {
         width="480px"
       >
         <CreatePlanForm ref={formRef} />
-
       </GenericModal>
     ),
     EDIT: selectedPlan && (
@@ -192,27 +192,29 @@ function Plans() {
       ),
     },
   ];
-
+  if (isLoading) return <div>Cargando...</div>;
+  if (isError)
+    return <div>Ocurrió un error a la hora de cargar a los planes.</div>;
+  if (!plansData) return <div>No hay información disponible.</div>;
   return (
-    <PlansContainer>
-      <Title>GESTIÓN DE PLANES</Title>
+    <s.PlansContainer>
+      <s.Title>GESTIÓN DE PLANES</s.Title>
 
-      <FiltersContainer>
-        <LeftContainer>
-          <FilterSearchContainer>
+      <s.FiltersContainer>
+        <s.LeftContainer>
+          <s.FilterSearchContainer>
             <FilterSearch
               value={filter}
               onChange={setFilter}
               placeholder="Buscar por nombre"
             />
-
-          </FilterSearchContainer>
+          </s.FilterSearchContainer>
           <Button size="small" variant="primary" onClick={handleClearFilters}>
             Limpiar filtros
           </Button>
-        </LeftContainer>
+        </s.LeftContainer>
 
-        <RightContainer>
+        <s.RightContainer>
           <Button
             variant="primary"
             size="medium"
@@ -221,13 +223,26 @@ function Plans() {
           >
             Nuevo plan
           </Button>
-        </RightContainer>
-      </FiltersContainer>
+        </s.RightContainer>
+      </s.FiltersContainer>
 
-      <Table columns={columns} data={plansData?.content || []} />
+      <Table columns={columns} data={plansData.content} />
+      <s.PaginationContainer>
+        <Pagination
+          page={page}
+          size={size}
+          totalElements={plansData.totalElements}
+          totalPages={plansData.totalPages}
+          onPageChange={setPage}
+          onSizeChange={(newSize) => {
+            setPage(1);
+            setSize(newSize);
+          }}
+        />
+      </s.PaginationContainer>
 
       {showModal && MODALS[showModal]}
-    </PlansContainer>
+    </s.PlansContainer>
   );
 }
 
