@@ -4,7 +4,12 @@ import {
   type MetricItem,
 } from "../../components/metric_card/MetricCard";
 import { FiCheckCircle, FiXCircle } from "react-icons/fi";
-import { DANGER_COLOR, SUCCESS_COLOR } from "../../utils/Stylesheet";
+import { CgDanger } from "react-icons/cg";
+import {
+  DANGER_COLOR,
+  SUCCESS_COLOR,
+  WARNING_COLOR,
+} from "../../utils/Stylesheet";
 
 interface PaymentMetricsProps {
   studentId: string;
@@ -23,33 +28,33 @@ const PaymentMetrics = ({ studentId }: PaymentMetricsProps) => {
   const items: MetricItem[] = [
     {
       title: "Cuotas Pagadas",
-      value: metrics.payedCount,
+      value: metrics.paidCount,
       description:
-        metrics.payedCount === 1
+        metrics.paidCount === 1
           ? "cuota fue pagada."
           : "cuotas fueron pagadas.",
       icon: <FiCheckCircle size={20} />,
       color: SUCCESS_COLOR,
     },
     {
-      title: "Cuotas al día",
-      value: metrics.onTimeCount,
+      title: "Cuotas Vencidas",
+      value: metrics.expiredCount,
       description:
-        metrics.onTimeCount === 1
-          ? "cuota fue pagada al día."
-          : "cuotas fueron pagadas al día.",
-      icon: <FiCheckCircle size={20} />,
-      color: SUCCESS_COLOR,
-    },
-    {
-      title: "Cuotas adeudadas",
-      value: metrics.outstandingCount,
-      description:
-        metrics.outstandingCount === 1
-          ? "cuota no fue pagada."
-          : "cuotas no fueron pagadas.",
+        metrics.expiredCount === 1
+          ? "cuota se encuentra vencida."
+          : "cuotas se encuentran vencidas.",
       icon: <FiXCircle size={20} />,
       color: DANGER_COLOR,
+    },
+    {
+      title: "Pagos Atrasados",
+      value: metrics.paidOutOfTimeCount,
+      description:
+        metrics.paidOutOfTimeCount === 1
+          ? "cuota no fue pagada."
+          : "cuotas no fueron pagadas.",
+      icon: <CgDanger size={20} />,
+      color: WARNING_COLOR,
     },
   ];
 
