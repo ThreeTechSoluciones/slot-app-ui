@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import {
-  BACKGROUND_COLOR,
   DEFAULT_TEXT_COLOR,
   FONT_WEIGHT_BOLD,
   FONT_WEIGHT_NORMAL,

@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import {
   BORDER_RADIUS,
-  FONT_FAMILY,
   LIGHT_NEUTRAL_COLOR,
   DEFAULT_TEXT_COLOR,
   FONT_WEIGHT_BOLD,
@@ -35,6 +34,5 @@ export const Text = styled.p<TextProps>`
   margin: 0 0 0 8px;
   padding: 0px;
   font-weight: ${FONT_WEIGHT_BOLD};
-  font-family: ${FONT_FAMILY};
   font-size: ${(props) => (props.$isADay ? "16px" : "12px")};
 `;

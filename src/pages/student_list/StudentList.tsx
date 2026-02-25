@@ -1,7 +1,7 @@
 import * as s from "./StudentList.styles";
 import { useNavigate } from "react-router";
 import useAuthentication from "../../hooks/useAuthentication";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Table from "../../components/table/Table";
 import type { StudentResponse } from "../../app/types/responses/StudentResponse.type";
 import type { Column } from "../../app/types/table";
@@ -22,6 +22,7 @@ import {
   getEditarEstudianteStep,
 } from "../../routes/RoutesUtils";
 import StudentMetrics from "./StudentsMetrics";
+import { Pagination } from "../../components/pagination/Pagination";
 
 function StudentList() {
   const { userId } = useAuthentication();
@@ -30,7 +31,8 @@ function StudentList() {
   const [situationFilter, setSituationFilter] = useState<string>("");
   const [filter, setFilter] = useState<string>("");
   const [sort, setSort] = useState<SortConfig[]>([]);
-
+  const [page, setPage] = useState(1);
+  const [size, setSize] = useState(5);
   const {
     data: studentsPage,
     isLoading,
@@ -40,13 +42,18 @@ function StudentList() {
       ? {
         userId,
         filter,
+        page: page - 1,
+        size,
         status: situationFilter || undefined,
         isActive: statusFilter === "" ? undefined : statusFilter === "activo",
         sort: sort.length > 0 ? sort : undefined,
       }
       : skipToken,
+    { refetchOnMountOrArgChange: true },
   );
-
+  useEffect(() => {
+    setPage(1);
+  }, [filter, situationFilter, statusFilter]);
   if (isLoading) return <div>Cargando...</div>;
   if (isError)
     return <div>Ocurrió un error a la hora de cargar a los estudiantes.</div>;
@@ -142,63 +149,79 @@ function StudentList() {
 
   return (
     <s.StudentsContainer>
-      <s.Title>LISTADO DE ALUMNOS</s.Title>
-      <s.MetricsContainer>
-        <StudentMetrics />
-      </s.MetricsContainer>
+      <s.ContentContainer>
+        <s.Title>LISTADO DE ALUMNOS</s.Title>
+        <s.MetricsContainer>
+          <StudentMetrics />
+        </s.MetricsContainer>
 
-      <s.FiltersContainer>
-        <s.LeftContainer>
-          <s.FilterSearchContainer>
-            <FilterSearch
-              value={filter}
-              onChange={setFilter}
-              placeholder="Buscar por DNI, nombre o apellido"
+        <s.FiltersContainer>
+          <s.LeftContainer>
+            <s.FilterSearchContainer>
+              <FilterSearch
+                value={filter}
+                onChange={setFilter}
+                placeholder="Buscar por DNI, nombre o apellido"
+              />
+            </s.FilterSearchContainer>
+            <Filter
+              placeholder="Filtrar por situación"
+              options={[
+                { label: "Con deuda", value: "CON_DEUDA" },
+                { label: "En término", value: "EN_TERMINO" },
+              ]}
+              value={situationFilter}
+              onSelect={setSituationFilter}
             />
-          </s.FilterSearchContainer>
-          <Filter
-            placeholder="Filtrar por situación"
-            options={[
-              { label: "Con deuda", value: "CON_DEUDA" },
-              { label: "En término", value: "EN_TERMINO" },
-            ]}
-            value={situationFilter}
-            onSelect={setSituationFilter}
-          />
-          <Filter
-            placeholder="Filtrar por estado"
-            options={[
-              { label: "Activo", value: "activo" },
-              { label: "Inactivo", value: "inactivo" },
-            ]}
-            value={statusFilter}
-            onSelect={setStatusFilter}
-          />
-          <Button
-            size="small"
-            variant="primary"
-            fontsize="small"
-            onClick={() => {
-              setFilter("");
-              setSituationFilter("");
-              setStatusFilter("");
-            }}
-          >
-            Limpiar filtros
-          </Button>
-        </s.LeftContainer>
-        <s.RightContainer>
-          <Button
-            variant="primary"
-            size="medium"
-            icon={<img src={AddIcon} alt="Add Icon" />}
-            onClick={() => navigate(NuevoAlumno)}
-          >
-            Nuevo alumno
-          </Button>
-        </s.RightContainer>
-      </s.FiltersContainer>
-      <Table columns={columns} data={studentsPage.content} />
+            <Filter
+              placeholder="Filtrar por estado"
+              options={[
+                { label: "Activo", value: "activo" },
+                { label: "Inactivo", value: "inactivo" },
+              ]}
+              value={statusFilter}
+              onSelect={setStatusFilter}
+            />
+            <Button
+              size="small"
+              variant="primary"
+              fontsize="small"
+              onClick={() => {
+                setFilter("");
+                setSituationFilter("");
+                setStatusFilter("");
+              }}
+            >
+              Limpiar filtros
+            </Button>
+          </s.LeftContainer>
+          <s.RightContainer>
+            <Button
+              variant="primary"
+              size="medium"
+              icon={<img src={AddIcon} alt="Add Icon" />}
+              onClick={() => navigate(NuevoAlumno)}
+            >
+              Nuevo alumno
+            </Button>
+          </s.RightContainer>
+        </s.FiltersContainer>
+        <Table columns={columns} data={studentsPage.content} />
+      </s.ContentContainer>
+
+      <s.PaginationContainer>
+        <Pagination
+          page={page}
+          size={size}
+          totalElements={studentsPage.totalElements}
+          totalPages={studentsPage.totalPages}
+          onPageChange={setPage}
+          onSizeChange={(newSize) => {
+            setPage(1);
+            setSize(newSize);
+          }}
+        />
+      </s.PaginationContainer>
     </s.StudentsContainer>
   );
 }

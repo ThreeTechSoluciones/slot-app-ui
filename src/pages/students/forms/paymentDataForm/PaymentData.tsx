@@ -4,7 +4,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { paymentDataScheme } from "./PaymentData.scheme";
 import { ErrorMessage } from "../../../../components/error_message/ErrorMessage";
-import type { FormProp } from "../../create-student/FormProp.type";
+import type { FormProps } from "../../../../app/types/FormProp";
+import type { FormRef } from "../../../../app/types/FormRef";
 import {
   PaymentPlanName,
   PlanTypeNameArray,
@@ -19,82 +20,77 @@ export interface PaymentDataProps {
   paymentDay?: number;
 }
 
-const PaymentData = forwardRef<
-  FormProp<PaymentDataProps>,
-  FormProp<PaymentDataProps>
->((props, ref) => {
-  const { data, onSubmit: onSubmit, actionType } = props;
+const PaymentData = forwardRef<FormRef, FormProps<PaymentDataProps>>(
+  (props, ref) => {
+    const { data, onSubmit: onSubmit, actionType } = props;
 
-  type FormData = yup.InferType<typeof paymentDataScheme>;
+    type FormData = yup.InferType<typeof paymentDataScheme>;
 
-  const DEFAULT_PAYMENT_DATA: PaymentDataProps = {
-    paymentPlanName: "",
-  };
+    const DEFAULT_PAYMENT_DATA: PaymentDataProps = {
+      paymentPlanName: "",
+    };
 
-  const studentRegistrationForm = data ?? DEFAULT_PAYMENT_DATA;
+    const studentRegistrationForm = data ?? DEFAULT_PAYMENT_DATA;
 
-  const {
-    register,
-    handleSubmit,
-    watch,
-    control,
-    setValue,
-    formState: { errors },
-  } = useForm<FormData>({
-    resolver: yupResolver(paymentDataScheme) as any,
-    defaultValues: { ...studentRegistrationForm },
-    context: {
-      actionType: actionType,
-    },
-  });
+    const {
+      register,
+      handleSubmit,
+      watch,
+      control,
+      setValue,
+      formState: { errors },
+    } = useForm<FormData>({
+      resolver: yupResolver(paymentDataScheme) as any,
+      defaultValues: { ...studentRegistrationForm },
+      context: {
+        actionType: actionType,
+      },
+    });
 
-  const PaymentPlanNameSelected = watch("paymentPlanName");
+    const PaymentPlanNameSelected = watch("paymentPlanName");
 
-  const NoPaymentSelectedSkeleton = () => {
-    return (
-      <div>
-        <s.Text $isRegister={actionType !== "edit"}>
-          Este campo se habilitará una vez seleccione el plan de pago.
-        </s.Text>
-        <s.Input disabled={PaymentPlanNameSelected === ""}></s.Input>
-      </div>
-    );
-  };
-  const SpecificDaySkeleton = () => {
-    return (
-      <>
-        <s.Label>Día de pago</s.Label>
-        <s.Input placeholder="15" {...register("paymentDay")} />
-        <ErrorMessage error={errors.paymentDay} />
-      </>
-    );
-  };
-  const BeginningOfMonthSkeleton = () => {
-    {
+    const NoPaymentSelectedSkeleton = () => {
+      return (
+        <s.FieldContainer>
+          <s.Text $isRegister={actionType !== "edit"}>
+            Este campo se habilitará una vez seleccione el plan de pago.
+          </s.Text>
+          <s.Input disabled={PaymentPlanNameSelected === ""}></s.Input>
+        </s.FieldContainer>
+      );
+    };
+    const SpecificDaySkeleton = () => {
+      return (
+        <s.FieldContainer>
+          <s.Label>Día de pago</s.Label>
+          <s.Input placeholder="15" {...register("paymentDay")} />
+          <ErrorMessage error={errors.paymentDay} />
+        </s.FieldContainer>
+      );
+    };
+    const BeginningOfMonthSkeleton = () => {
       return (
         <s.InputsContainer>
           <s.Text $isRegister={actionType !== "edit"}>
-            Si el alumno empezó luego del día 10, puede indicar la cantidad de
-            clases extras para realizar el primer pago.
+            Este campo se habilitará una vez seleccione el plan de pago.
           </s.Text>
           <s.SecondaryInputsContainer>
-            <div>
+            <s.FieldContainer>
               <s.Label>Clases extras</s.Label>
               <s.Input
-                $isSmallSize
                 placeholder="Clases extras"
                 {...register("extraClasses")}
               ></s.Input>
               <ErrorMessage error={errors.extraClasses} />
-            </div>
-            <div>
+            </s.FieldContainer>
+            <s.FieldContainer>
               <s.Label>Precio clase individual</s.Label>
               <Controller
                 name="classPrice"
                 control={control}
                 render={({ field }) => (
                   <CurrencyInput
-                    width="176"
+                    width="100%"
                     value={field.value ?? null}
                     onChange={field.onChange}
                     placeholder="Precio clase individual"
@@ -102,84 +98,80 @@ const PaymentData = forwardRef<
                 )}
               />
               <ErrorMessage error={errors.classPrice} />
-            </div>
+            </s.FieldContainer>
           </s.SecondaryInputsContainer>
         </s.InputsContainer>
       );
-    }
-  };
+    };
 
-  useImperativeHandle(
-    ref,
-    () =>
-      ({
-        submit: () =>
-          new Promise<boolean>((resolve) => {
-            handleSubmit(
-              (data) => {
-                onSubmit?.({ ...data });
-                resolve(true);
-              },
-              () => {
-                resolve(false);
-              },
-            )();
-          }),
-      }) as unknown as FormProp<PaymentDataProps>,
-  );
+    useImperativeHandle(ref, () => ({
+      submit: () =>
+        new Promise<boolean>((resolve) => {
+          handleSubmit(
+            (data) => {
+              onSubmit?.({ ...data });
+              resolve(true);
+            },
+            () => {
+              resolve(false);
+            },
+          )();
+        }),
+    }));
 
-  return (
-    <s.MainContainer>
-      <s.FormContainer>
-        <div>
-          <s.Label>Plan de pago</s.Label>
-          <Controller
-            name="paymentPlanName"
-            control={control}
-            defaultValue=""
-            render={({ field }) => (
-              <s.Select
-                {...field}
-                onChange={(e) => {
-                  const value = e.target.value;
-                  field.onChange(value);
+    return (
+      <s.MainContainer>
+        <s.FormContainer>
+          <s.FieldContainer>
+            <s.Label>Plan de pago</s.Label>
+            <Controller
+              name="paymentPlanName"
+              control={control}
+              defaultValue=""
+              render={({ field }) => (
+                <s.Select
+                  {...field}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    field.onChange(value);
 
-                  if (value === PaymentPlanName.BEGINNING_OF_MONTH) {
-                    setValue("paymentDay", undefined);
-                  }
+                    if (value === PaymentPlanName.BEGINNING_OF_MONTH) {
+                      setValue("paymentDay", undefined);
+                    }
 
-                  if (value === PaymentPlanName.SPECIFIC_DAY) {
-                    setValue("extraClasses", undefined);
-                    setValue("classPrice", undefined);
-                  }
-                }}
-              >
-                <option value="" disabled hidden>
-                  Seleccione una opción
-                </option>
-                {PlanTypeNameArray.map((planType) => (
-                  <option key={planType} value={planType}>
-                    {planType}
+                    if (value === PaymentPlanName.SPECIFIC_DAY) {
+                      setValue("extraClasses", undefined);
+                      setValue("classPrice", undefined);
+                    }
+                  }}
+                >
+                  <option value="" disabled hidden>
+                    Seleccione una opción
                   </option>
-                ))}
-              </s.Select>
-            )}
-          />
+                  {PlanTypeNameArray.map((planType) => (
+                    <option key={planType} value={planType}>
+                      {planType}
+                    </option>
+                  ))}
+                </s.Select>
+              )}
+            />
 
-          <ErrorMessage error={errors.paymentPlanName} />
-        </div>
-        <div>
-          {PaymentPlanNameSelected === "" && <NoPaymentSelectedSkeleton />}
-          {PaymentPlanNameSelected === PaymentPlanName.SPECIFIC_DAY && (
-            <SpecificDaySkeleton />
-          )}
-          {PaymentPlanNameSelected === PaymentPlanName.BEGINNING_OF_MONTH &&
-            actionType !== "edit" && <BeginningOfMonthSkeleton />}
-        </div>
-      </s.FormContainer>
-    </s.MainContainer>
-  );
-});
+            <ErrorMessage error={errors.paymentPlanName} />
+          </s.FieldContainer>
+          <s.FieldContainer>
+            {PaymentPlanNameSelected === "" && <NoPaymentSelectedSkeleton />}
+            {PaymentPlanNameSelected === PaymentPlanName.SPECIFIC_DAY && (
+              <SpecificDaySkeleton />
+            )}
+            {PaymentPlanNameSelected === PaymentPlanName.BEGINNING_OF_MONTH &&
+              actionType !== "edit" && <BeginningOfMonthSkeleton />}
+          </s.FieldContainer>
+        </s.FormContainer>
+      </s.MainContainer>
+    );
+  },
+);
 
 PaymentData.displayName = "PaymentDataForm";
 export default PaymentData;

@@ -29,13 +29,24 @@ export const UserService = createApi({
       {
         userId: string;
         filter?: string;
+        page: number;
+        size: number;
         status?: string;
         isActive?: boolean;
         sort?: SortConfig | SortConfig[];
         filterByAbsences?: boolean;
       }
     >({
-      query: ({ userId, filter, status, isActive, sort, filterByAbsences }) => {
+      query: ({
+        userId,
+        filter,
+        page,
+        size,
+        status,
+        isActive,
+        sort,
+        filterByAbsences,
+      }) => {
         let sortParams: string | string[] | undefined;
         if (sort) {
           sortParams = Array.isArray(sort)
@@ -45,6 +56,8 @@ export const UserService = createApi({
         return {
           url: `/${userId}/students`,
           params: {
+            page,
+            size,
             filter,
             status,
             isActive,

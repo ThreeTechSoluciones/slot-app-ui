@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import {
   BORDER_RADIUS,
-  FONT_FAMILY,
   LIGHT_NEUTRAL_COLOR,
   SUCCESS_COLOR,
   NEUTRAL_COLOR,
@@ -53,7 +52,6 @@ export const Day = styled.p`
   font-weight: ${FONT_WEIGHT_BOLD};
   color: ${DEFAULT_TEXT_COLOR};
   background-color: ${LIGHT_NEUTRAL_COLOR};
-  font-family: ${FONT_FAMILY};
 `;
 export const Hour = styled.button<HourProps>`
   display: flex;
@@ -61,7 +59,6 @@ export const Hour = styled.button<HourProps>`
   height: 32px;
   font-size: 12px;
   border-radius: ${BORDER_RADIUS};
-  font-family: ${FONT_FAMILY};
   justify-content: center;
   align-items: center;
   text-align: center;
@@ -86,5 +83,4 @@ export const WarningContainer = styled.div`
   justify-content: center;
   border-right: 5px solid ${LIGHT_NEUTRAL_COLOR};
   border-top: 5px solid ${LIGHT_NEUTRAL_COLOR};
-  font-family: ${FONT_FAMILY};
 `;

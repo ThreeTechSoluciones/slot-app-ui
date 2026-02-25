@@ -1,26 +1,25 @@
 import styled from "styled-components";
-import { BORDER_RADIUS, DEFAULT_TEXT_COLOR, FONT_FAMILY } from "../../utils/Stylesheet";
+import { BORDER_RADIUS, DEFAULT_TEXT_COLOR } from "../../utils/Stylesheet";
 
 export const Input = styled.input`
-    border: 1px solid ${DEFAULT_TEXT_COLOR};
-    border-radius: ${BORDER_RADIUS};
-    height: 56px;
-    width: 100%;
-    box-sizing: border-box;
-    padding: 0 12px;
-    font-family: ${FONT_FAMILY};
-    font-size: 16px;
-    color: ${DEFAULT_TEXT_COLOR};
-    background-color: white;
-    &::placeholder {
-      font-size:12px;
-    }
-    &[type="number"] {
+  border: 1px solid ${DEFAULT_TEXT_COLOR};
+  border-radius: ${BORDER_RADIUS};
+  height: 56px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 12px;
+  font-size: 16px;
+  color: ${DEFAULT_TEXT_COLOR};
+  background-color: white;
+  &::placeholder {
+    font-size: 12px;
+  }
+  &[type="number"] {
     -moz-appearance: textfield;
-    appearance: textfield; 
-    }
-    &[type="number"]::-webkit-inner-spin-button,
-    &[type="number"]::-webkit-outer-spin-button {
+    appearance: textfield;
+  }
+  &[type="number"]::-webkit-inner-spin-button,
+  &[type="number"]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
   }
@@ -29,13 +28,12 @@ export const Input = styled.input`
     appearance: none;
     -moz-appearance: none;
   }
-  
 `;
 export const InputWithIconWrapper = styled.div`
-    display: flex;
-    align-items: center;
-    width: 100%;
-    position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  position: relative;
 `;
 
 interface InputIconProps {

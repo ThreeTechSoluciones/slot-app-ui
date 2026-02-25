@@ -208,10 +208,12 @@ const StudentData = ({
           </InformationContainer>
         ))}
       </AllInformationContainer>
-      <InformationContainer key={"Patologías"}>
-        <Label>Patologías</Label>
-        <StudentInfo>{student.pathologies}</StudentInfo>
-      </InformationContainer>
+      {student.pathologies && student.pathologies.trim() !== "" && (
+        <InformationContainer key={"Patologías"}>
+          <Label>Patologías</Label>
+          <StudentInfo>{student.pathologies}</StudentInfo>
+        </InformationContainer>
+      )}
     </StudentInfoContainer>
   );
 };

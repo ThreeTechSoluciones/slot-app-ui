@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import {
-  FONT_FAMILY,
   BRAND_COLOR,
   LIGHT_NEUTRAL_COLOR,
   NEUTRAL_COLOR,
@@ -15,7 +14,7 @@ interface StyledWrapperProps {
 export const StyledWrapper = styled.div<StyledWrapperProps>`
   position: relative;
   .react-date-picker__wrapper {
-   width: 100%;
+    width: 100%;
     height: 56px;
     box-sizing: border-box;
     border: 1px solid black;
@@ -24,10 +23,9 @@ export const StyledWrapper = styled.div<StyledWrapperProps>`
     padding: 0 16px;
     background: none;
     color: ${DEFAULT_TEXT_COLOR};
-    font-family: ${FONT_FAMILY};
   }
-    .react-date-picker {
-    width: 100%
+  .react-date-picker {
+    width: 100%;
   }
   //CONTENEDOR REAL DEL CALENDARIO
   .react-date-picker__calendar {
@@ -35,14 +33,14 @@ export const StyledWrapper = styled.div<StyledWrapperProps>`
     z-index: 9999;
 
     ${(props) =>
-    props.$calendarPosition === "top"
-      ? `
+      props.$calendarPosition === "top"
+        ? `
           bottom: 100%;
           left: 0;
           margin-bottom: 4px;
 
         `
-      : `
+        : `
           top: 100%;
           left: 0;
           margin-top: 4px;
@@ -53,7 +51,6 @@ export const StyledWrapper = styled.div<StyledWrapperProps>`
     background-color: white;
     border: 2px solid ${LIGHT_NEUTRAL_COLOR};
     border-radius: 10px;
-    font-family: ${FONT_FAMILY};
     font-size: 16px;
     padding: 20px;
     z-index: 9999;
@@ -67,7 +64,6 @@ export const StyledWrapper = styled.div<StyledWrapperProps>`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    font-family: ${FONT_FAMILY};
     font-weight: bold;
     font-size: 12px;
     color: ${DEFAULT_TEXT_COLOR};
@@ -77,7 +73,6 @@ export const StyledWrapper = styled.div<StyledWrapperProps>`
   .react-calendar__month-view__weekdays {
     text-decoration: none;
     color: black;
-    font-family: ${FONT_FAMILY};
     font-size: 12px;
   }
 
@@ -85,7 +80,7 @@ export const StyledWrapper = styled.div<StyledWrapperProps>`
   .react-calendar__tile {
     color: black;
     border-radius: ${BORDER_RADIUS};
-    font-family: ${FONT_FAMILY};
+
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -100,9 +95,8 @@ export const StyledWrapper = styled.div<StyledWrapperProps>`
   }
 
   .react-date-picker__inputGroup {
-      font-family: ${FONT_FAMILY};
-      font-size: 12px ; 
-    }
+    font-size: 12px;
+  }
 
   //HOVER SOBRE DIAS
   .react-calendar__tile:hover {

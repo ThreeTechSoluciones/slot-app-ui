@@ -1,9 +1,5 @@
 import styled from "styled-components";
-import {
-  FONT_WEIGHT_BOLD,
-  FONT_FAMILY,
-  DEFAULT_TEXT_COLOR,
-} from "../../utils/Stylesheet";
+import { FONT_WEIGHT_BOLD, DEFAULT_TEXT_COLOR } from "../../utils/Stylesheet";
 
 export const PlansContainer = styled.div`
   width: 100%;
@@ -13,7 +9,6 @@ export const PlansContainer = styled.div`
 
 export const Title = styled.h1`
   font-size: 24px;
-  font-family: ${FONT_FAMILY};
   font-weight: ${FONT_WEIGHT_BOLD};
   color: ${DEFAULT_TEXT_COLOR};
   text-align: left;
@@ -43,7 +38,7 @@ export const RightContainer = styled.div`
 `;
 
 export const FilterSearchContainer = styled.div`
-  display:flex;
-  width:352px;
-  height:48px;
-`
+  display: flex;
+  width: 352px;
+  height: 48px;
+`;

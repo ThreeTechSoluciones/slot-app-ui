@@ -3,7 +3,6 @@ import Arrow from "../../../../assets/Arrow.png";
 import {
   NEUTRAL_COLOR,
   DEFAULT_TEXT_COLOR,
-  FONT_FAMILY,
   BORDER_RADIUS,
   FONT_WEIGHT_BOLD,
   LIGHT_NEUTRAL_COLOR,
@@ -33,7 +32,6 @@ export const Label = styled.p`
   margin-top: 8px;
   margin-bottom: 8px;
   padding: 0px;
-  font-family: ${FONT_FAMILY};
 `;
 
 export const Select = styled.select`
@@ -44,23 +42,17 @@ export const Select = styled.select`
   font-size: 12px;
   padding-left: 16px;
   padding-right: 32px;
-
   background: none;
   color: ${DEFAULT_TEXT_COLOR};
-  font-family: ${FONT_FAMILY};
-
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-
   background: url(${Arrow}) no-repeat right 12px center;
-
   &::placeholder {
     color: ${NEUTRAL_COLOR};
   }
 `;
 export const SlotTitleContainer = styled.h2`
-  font-family: ${FONT_FAMILY};
   font-size: 16px;
   display: flex;
   flex-direction: row;
