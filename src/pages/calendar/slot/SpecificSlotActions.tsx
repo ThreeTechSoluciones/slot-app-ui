@@ -1,18 +1,18 @@
-import * as s from "./SpecificSlotActions.styles";
+import * as s from './SpecificSlotActions.styles';
 import type {
   SpecificSlotResponse,
   Student,
-} from "../../../app/types/responses/CalendarResponse.type";
-import FilterSearch from "../../../components/filter_search/FilterSearch";
-import { useState } from "react";
-import PlusIcon from "../../../assets/plus-icon.svg";
-import UserIcon from "../../../assets/white-user-icon.svg";
-import { StatesTranslation } from "../../../utils/StatesTranslation";
-import CheckIcon from "../../../assets/check.svg";
-import ProgressIcon from "../../../assets/progress-icon.svg";
-import { useGetSpecificSlotStudentsQuery } from "../../../app/services/SpecificSlotService";
-import { skipToken } from "@reduxjs/toolkit/query";
-import type { CalendarAction } from "../CalendarViewPage";
+} from '../../../app/types/responses/CalendarResponse.type';
+import FilterSearch from '../../../components/filter_search/FilterSearch';
+import { useState } from 'react';
+import PlusIcon from '../../../assets/plus-icon.svg';
+import UserIcon from '../../../assets/white-user-icon.svg';
+import { StatesTranslation } from '../../../utils/StatesTranslation';
+import CheckIcon from '../../../assets/check.svg';
+import ProgressIcon from '../../../assets/progress-icon.svg';
+import { useGetSpecificSlotStudentsQuery } from '../../../app/services/SpecificSlotService';
+import { skipToken } from '@reduxjs/toolkit/query';
+import type { CalendarAction } from '../CalendarViewPage';
 
 const STATUS_ICONS: { [key: string]: string } = {
   FINALIZED: CheckIcon,
@@ -47,43 +47,25 @@ const ActionsSkeleton = ({
         />
       </s.SearchFilterContainer>
       <s.ActionGroup>
-        <s.TooltipContainer
-          disabled={isFull || isCanceled}
-          onClick={() => !isFull && onRecover()}
-        >
+        <s.TooltipContainer disabled={isFull || isCanceled} onClick={() => !isFull && onRecover()}>
           <img src={PlusIcon} alt="Añadir alumno" />
           <s.Tooltip>
-            {isCanceled
-              ? "Turno cancelado"
-              : isFull
-                ? "Cupo lleno"
-                : "Añadir alumno"}
+            {isCanceled ? 'Turno cancelado' : isFull ? 'Cupo lleno' : 'Añadir alumno'}
           </s.Tooltip>
         </s.TooltipContainer>
-        <s.TooltipContainer
-          disabled={isCanceled}
-          onClick={() => !isCanceled && onCancel()}
-        >
+        <s.TooltipContainer disabled={isCanceled} onClick={() => !isCanceled && onCancel()}>
           <s.CancelIcon src={PlusIcon} alt="Cancelar turno" />
-          <s.Tooltip>
-            {isCanceled ? "Turno cancelado" : "Cancelar turno"}
-          </s.Tooltip>
+          <s.Tooltip>{isCanceled ? 'Turno cancelado' : 'Cancelar turno'}</s.Tooltip>
         </s.TooltipContainer>
       </s.ActionGroup>
     </s.ActionsContainer>
   );
 };
 
-const SlotInfoSkeleton = ({
-  slot,
-  isFull,
-}: {
-  slot: SpecificSlotResponse;
-  isFull: boolean;
-}) => {
+const SlotInfoSkeleton = ({ slot, isFull }: { slot: SpecificSlotResponse; isFull: boolean }) => {
   return (
     <s.SlotInfoContainer>
-      <s.SlotCapacity $isFull={isFull} $isCanceled={slot.status === "CANCELED"}>
+      <s.SlotCapacity $isFull={isFull} $isCanceled={slot.status === 'CANCELED'}>
         <img
           src={UserIcon}
           alt="Capacity"
@@ -91,7 +73,7 @@ const SlotInfoSkeleton = ({
             width: 16,
             height: 16,
             marginRight: 2,
-            filter: "brightness(0) invert(1)",
+            filter: 'brightness(0) invert(1)',
           }}
         />
         {slot.capacity} / {slot.maxCapacity}
@@ -121,7 +103,7 @@ interface SlotParams {
 function Slot(props: SlotParams) {
   const { slot, dayOfWeek, rowIndex, columnsCount, setSlotAction } = props;
 
-  const [filter, setFilter] = useState<string>("");
+  const [filter, setFilter] = useState<string>('');
 
   const { data: filteredStudents } = useGetSpecificSlotStudentsQuery(
     filter ? { specificSlotId: slot.id, filter } : skipToken,
@@ -129,27 +111,24 @@ function Slot(props: SlotParams) {
 
   const handleAbsenceSlot = (student: Student, specificSlotId: string) => {
     setSlotAction({
-      type: "ABSENCE",
+      type: 'ABSENCE',
       studentId: student.id,
       studentName: student.fullName,
       specificSlotId,
     });
   };
 
-  const handleRecoverSlot = (
-    specificSlotId: string,
-    availableCapacity: number,
-  ) => {
+  const handleRecoverSlot = (specificSlotId: string, availableCapacity: number) => {
     setSlotAction({
-      type: "RECOVER",
+      type: 'RECOVER',
       specificSlotId,
       availableCapacity,
     });
   };
   const handleCancelSlot = (specificSlotId: string) => {
-    setFilter("");
+    setFilter('');
     setSlotAction({
-      type: "CANCEL",
+      type: 'CANCEL',
       specificSlotId,
       dayOfWeek,
       slot: { startTime: slot.startTime, endTime: slot.endTime },
@@ -170,24 +149,22 @@ function Slot(props: SlotParams) {
             setFilter={setFilter}
             onRecover={() => handleRecoverSlot(slot.id, availableCapacity)}
             onCancel={() => handleCancelSlot(slot.id)}
-            isCanceled={slot.status === "CANCELED"}
+            isCanceled={slot.status === 'CANCELED'}
             isFull={isFull}
           />
           <SlotInfoSkeleton slot={slot} isFull={isFull} />
-          {slot.status === "CANCELED" ? (
+          {slot.status === 'CANCELED' ? (
             <s.CanceledSlot>Turno cancelado</s.CanceledSlot>
           ) : (
             <s.SlotStudentsContainer>
               {students?.map((student) => {
-                const isAbsent = student.status === "ABSENCE";
-                const isRecover = student.status === "RECOVERED";
+                const isAbsent = student.status === 'ABSENCE';
+                const isRecover = student.status === 'RECOVERED';
                 return (
                   <s.StudentName
                     key={student?.id}
                     title={student?.fullName}
-                    onClick={() =>
-                      student && handleAbsenceSlot(student, slot.id)
-                    }
+                    onClick={() => student && handleAbsenceSlot(student, slot.id)}
                   >
                     {isAbsent && <s.AbsenceBadge>A</s.AbsenceBadge>}
                     {isRecover && <s.RecoverBadge>R</s.RecoverBadge>}

@@ -1,3 +1,3 @@
 export interface FormSubmitHandle {
-    submitForm: () => void;
+  submitForm: () => void;
 }

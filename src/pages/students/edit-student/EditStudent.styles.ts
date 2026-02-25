@@ -1,10 +1,10 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 import {
   BORDER_RADIUS,
   BRAND_COLOR,
   FONT_WEIGHT_BOLD,
   NEUTRAL_COLOR,
-} from "../../../utils/Stylesheet";
+} from '../../../utils/Stylesheet';
 
 export const MainContainer = styled.div`
   display: flex;

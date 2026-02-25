@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 import {
   BACKGROUND_COLOR,
   DANGER_COLOR,
@@ -9,9 +9,9 @@ import {
   NEUTRAL_COLOR,
   SUCCESS_COLOR,
   WARNING_COLOR,
-} from "../../../utils/Stylesheet";
+} from '../../../utils/Stylesheet';
 
-const ROW_HEIGHT = "260px";
+const ROW_HEIGHT = '260px';
 
 interface SpecificSlotProps {
   $columnsCount: number;
@@ -20,7 +20,7 @@ interface SpecificSlotProps {
 export const SpecificSlot = styled.div<SpecificSlotProps>`
   height: ${ROW_HEIGHT};
   border: 4px solid ${LIGHT_NEUTRAL_COLOR};
-  background-color: "transparent";
+  background-color: 'transparent';
   border-radius: 8px;
   width: 100%;
   padding: 8px;
@@ -62,7 +62,7 @@ export const Tooltip = styled.div`
 `;
 
 export const TooltipContainer = styled(TooltipWrapper)<{ disabled?: boolean }>`
-  cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
+  cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
   ${(props) =>
     props.disabled &&
     `
@@ -121,9 +121,9 @@ export const SlotCapacity = styled(SlotInfo)<SlotInfoProps>`
 
 export const SlotStatus = styled(SlotInfo)<SlotInfoProps>`
   background-color: ${({ $status }) => {
-    if ($status === "FINALIZED") return SUCCESS_COLOR;
-    if ($status === "IN_PROGRESS") return WARNING_COLOR;
-    return "transparent";
+    if ($status === 'FINALIZED') return SUCCESS_COLOR;
+    if ($status === 'IN_PROGRESS') return WARNING_COLOR;
+    return 'transparent';
   }};
 `;
 export const CanceledSlot = styled.p`
@@ -167,9 +167,8 @@ export const StudentText = styled.p<{
   white-space: nowrap;
   text-overflow: ellipsis;
   color: ${({ $isAbsent }) => ($isAbsent ? NEUTRAL_COLOR : DEFAULT_TEXT_COLOR)};
-  font-weight: ${({ $isRecover }) =>
-    $isRecover ? FONT_WEIGHT_BOLD : FONT_WEIGHT_NORMAL};
-  text-decoration: ${({ $isAbsent }) => ($isAbsent ? "line-through" : "none")};
+  font-weight: ${({ $isRecover }) => ($isRecover ? FONT_WEIGHT_BOLD : FONT_WEIGHT_NORMAL)};
+  text-decoration: ${({ $isAbsent }) => ($isAbsent ? 'line-through' : 'none')};
   opacity: ${({ $isAbsent }) => ($isAbsent ? 0.7 : 1)};
   margin-left: 6px;
 `;

@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { FONT_WEIGHT_NORMAL } from "../../utils/Stylesheet";
+import styled from 'styled-components';
+import { FONT_WEIGHT_NORMAL } from '../../utils/Stylesheet';
 export const ConfirmOverlay = styled.div`
   position: fixed;
   top: 0;

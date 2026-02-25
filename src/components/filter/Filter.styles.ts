@@ -1,10 +1,10 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 import {
   BORDER_RADIUS,
   LIGHT_NEUTRAL_COLOR,
   NEUTRAL_COLOR,
   DEFAULT_TEXT_COLOR,
-} from "../../utils/Stylesheet";
+} from '../../utils/Stylesheet';
 
 interface DropdownWrapperProps {
   $hasValue: boolean;

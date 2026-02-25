@@ -1,29 +1,29 @@
-import * as s from "./SlotConfiguration.styles";
-import EditIcon from "../../assets/edit-icon.png";
-import EditSlotForm from "./forms/EditSlotForm";
-import { useRef, useState } from "react";
-import AddIcon from "../../assets/add-icon.svg";
-import Modal from "../../components/modal/Modal";
-import { DaysOfWeek } from "../../utils/DaysOfWeek";
-import DeleteIcon from "../../assets/delete-icon.png";
-import CalendarIcon from "../../assets/calendar-icon.png";
-import CreateSlotForm from "./forms/CreateSlotForm";
+import * as s from './SlotConfiguration.styles';
+import EditIcon from '../../assets/edit-icon.png';
+import EditSlotForm from './forms/EditSlotForm';
+import { useRef, useState } from 'react';
+import AddIcon from '../../assets/add-icon.svg';
+import Modal from '../../components/modal/Modal';
+import { DaysOfWeek } from '../../utils/DaysOfWeek';
+import DeleteIcon from '../../assets/delete-icon.png';
+import CalendarIcon from '../../assets/calendar-icon.png';
+import CreateSlotForm from './forms/CreateSlotForm';
 import {
   useCreateSlotMutation,
   useDeleteSlotMutation,
   useUpdateSlotMutation,
-} from "../../app/services/SlotService";
-import useAuthentication from "../../hooks/useAuthentication";
-import toast from "react-hot-toast";
-import { ModalType, type ModalConfig } from "../../utils/SlotsModalsUtils";
+} from '../../app/services/SlotService';
+import useAuthentication from '../../hooks/useAuthentication';
+import toast from 'react-hot-toast';
+import { ModalType, type ModalConfig } from '../../utils/SlotsModalsUtils';
 import {
   useGetSlotsQuery,
   useGetUserPreferencesQuery,
   useUpdateSlotsCapacityMutation,
-} from "../../app/services/UserService";
-import { ConfirmDialog } from "../../components/confirm_dialog/ConfirmDialog";
-import EditCapacityForm from "./forms/EditCapacityForm";
-import type { SlotResponse } from "../../app/types/responses/SlotResponse.type";
+} from '../../app/services/UserService';
+import { ConfirmDialog } from '../../components/confirm_dialog/ConfirmDialog';
+import EditCapacityForm from './forms/EditCapacityForm';
+import type { SlotResponse } from '../../app/types/responses/SlotResponse.type';
 
 function SlotConfiguration() {
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -40,19 +40,15 @@ function SlotConfiguration() {
 
   const [updateSlotCapacity] = useUpdateSlotsCapacityMutation();
 
-  const {
-    data: userPreferences,
-    isLoading,
-    isError,
-  } = useGetUserPreferencesQuery(userId!);
+  const { data: userPreferences, isLoading, isError } = useGetUserPreferencesQuery(userId!);
 
   const [updateSlot] = useUpdateSlotMutation();
 
   const [deleteSlot] = useDeleteSlotMutation();
 
-  const [selectEnglishValue, setSelectEnglishValue] = useState<string>("");
+  const [selectEnglishValue, setSelectEnglishValue] = useState<string>('');
 
-  const [selectSpanishValue, setSelectSpanishValue] = useState<string>("");
+  const [selectSpanishValue, setSelectSpanishValue] = useState<string>('');
 
   const editCapacityRef = useRef<any>(null);
 
@@ -62,7 +58,7 @@ function SlotConfiguration() {
 
   const { data: registeredSlots } = useGetSlotsQuery(
     { userId: userId!, dayOfWeek: selectEnglishValue },
-    { skip: selectEnglishValue === "" },
+    { skip: selectEnglishValue === '' },
   );
 
   const totalSlots = registeredSlots?.day?.numberOfSlots ?? 0;
@@ -86,7 +82,7 @@ function SlotConfiguration() {
         .unwrap()
         .then(() => {
           setShowModal(false);
-          toast.success("La capacidad de los turnos ha sido actualizada");
+          toast.success('La capacidad de los turnos ha sido actualizada');
         });
     }
   };
@@ -97,7 +93,7 @@ function SlotConfiguration() {
       updateSlot({ slotId: currentSlot?.id!, startTime: response.startTime })
         .unwrap()
         .then(() => {
-          toast.success("El turno ha sido actualizado");
+          toast.success('El turno ha sido actualizado');
           setShowModal(false);
         });
     }
@@ -108,7 +104,7 @@ function SlotConfiguration() {
     deleteSlot({ slotId: currentSlot?.id! })
       .unwrap()
       .then(() => {
-        toast.success("El turno ha sido eliminado");
+        toast.success('El turno ha sido eliminado');
       });
   };
 
@@ -123,18 +119,18 @@ function SlotConfiguration() {
         .unwrap()
         .then(() => {
           setShowModal(false);
-          toast.success("El turno ha sido registrado");
+          toast.success('El turno ha sido registrado');
           setTimeout(() => {
-            const elementId = `slot-${response.startTime.replace(":", "-")}`;
+            const elementId = `slot-${response.startTime.replace(':', '-')}`;
             const element = document.getElementById(elementId);
             if (element) {
               element.scrollIntoView({
-                behavior: "smooth",
-                block: "center",
+                behavior: 'smooth',
+                block: 'center',
               });
-              element.classList.add("highlight");
+              element.classList.add('highlight');
               setTimeout(() => {
-                element.classList.remove("highlight");
+                element.classList.remove('highlight');
               }, 1500);
             }
           }, 100);
@@ -144,11 +140,10 @@ function SlotConfiguration() {
 
   const SlotConfigurationSkeleton = () => {
     const getPlaceholder = () => {
-      if (isLoading) return "Cargando...";
-      if (isError) return "Error al cargar capacidad";
-      if (userPreferences?.capacity)
-        return `${userPreferences.capacity} cupos por turno`;
-      return "Sin capacidad definida";
+      if (isLoading) return 'Cargando...';
+      if (isError) return 'Error al cargar capacidad';
+      if (userPreferences?.capacity) return `${userPreferences.capacity} cupos por turno`;
+      return 'Sin capacidad definida';
     };
     return (
       <s.ScreenContainer>
@@ -180,8 +175,8 @@ function SlotConfiguration() {
           </s.Select>
         </s.InputContainer>
         <s.Button
-          $isDisabled={selectEnglishValue === ""}
-          disabled={selectEnglishValue === ""}
+          $isDisabled={selectEnglishValue === ''}
+          disabled={selectEnglishValue === ''}
           onClick={() => {
             openModal(ModalType.CREATE);
           }}
@@ -200,13 +195,13 @@ function SlotConfiguration() {
           <s.MainTitle>Turnos del {selectSpanishValue}</s.MainTitle>
           <s.Subtitle>
             {totalSlots}
-            {totalSlots > 1 ? " turnos registrados" : " turno registrado"}
+            {totalSlots > 1 ? ' turnos registrados' : ' turno registrado'}
           </s.Subtitle>
         </s.TitlesContainer>
         {registeredSlots?.day?.slots?.map((slot, index) => (
           <s.SpecificSlotContainer
             key={slot.id}
-            id={`slot-${slot.startTime.replace(":", "-")}`}
+            id={`slot-${slot.startTime.replace(':', '-')}`}
             $isLast={
               index === (registeredSlots?.day?.numberOfSlots ?? 0) - 1 &&
               (registeredSlots?.day?.numberOfSlots ?? 0) > 3
@@ -224,8 +219,8 @@ function SlotConfiguration() {
             <s.ActionsContainer>
               <img
                 src={EditIcon}
-                width={"24px"}
-                height={"24px"}
+                width={'24px'}
+                height={'24px'}
                 onClick={() => {
                   setCurrentSlot(slot);
                   openModal(ModalType.EDIT_START_TIME);
@@ -233,8 +228,8 @@ function SlotConfiguration() {
               ></img>
               <img
                 src={DeleteIcon}
-                width={"24px"}
-                height={"24px"}
+                width={'24px'}
+                height={'24px'}
                 onClick={() => {
                   setCurrentSlot(slot);
                   setShowConfirm(true);
@@ -284,12 +279,7 @@ function SlotConfiguration() {
     },
     [ModalType.EDIT_START_TIME]: {
       contentRef: editSlotRef,
-      content: (
-        <EditSlotForm
-          ref={editSlotRef}
-          initialStartTime={currentSlot?.startTime}
-        />
-      ),
+      content: <EditSlotForm ref={editSlotRef} initialStartTime={currentSlot?.startTime} />,
       onConfirm: handleEditSlotModal,
     },
   };
@@ -316,13 +306,9 @@ function SlotConfiguration() {
       )}
       <s.SkeletonsContainer>
         <SlotConfigurationSkeleton />
-        {selectEnglishValue !== "" && (
+        {selectEnglishValue !== '' && (
           <s.AnimatedContainer>
-            {totalSlots === 0 ? (
-              <NonExistingSlotsSkeleton />
-            ) : (
-              <VisualizeSlotsSkeleton />
-            )}
+            {totalSlots === 0 ? <NonExistingSlotsSkeleton /> : <VisualizeSlotsSkeleton />}
           </s.AnimatedContainer>
         )}
       </s.SkeletonsContainer>

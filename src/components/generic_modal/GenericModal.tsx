@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   ModalOverlay,
   ModalContainer,
@@ -8,8 +8,8 @@ import {
   ModalTitle,
   ModalBody,
   ModalFooter,
-} from "./GenericModal.styles";
-import Button from "../button/Button";
+} from './GenericModal.styles';
+import Button from '../button/Button';
 
 type GenericModalProps = {
   isOpen?: boolean;
@@ -22,7 +22,7 @@ type GenericModalProps = {
   onCancel: () => void;
   confirmText?: string;
   cancelText?: string;
-  confirmVariant?: "primary" | "warning" | "success";
+  confirmVariant?: 'primary' | 'warning' | 'success';
   width?: string;
   height?: string;
 };
@@ -36,11 +36,11 @@ export const GenericModal: React.FC<GenericModalProps> = ({
   children,
   onConfirm,
   onCancel,
-  confirmText = "Registrar",
-  cancelText = "Cancelar",
-  confirmVariant = "primary",
-  width = "480px",
-  height = "550px",
+  confirmText = 'Registrar',
+  cancelText = 'Cancelar',
+  confirmVariant = 'primary',
+  width = '480px',
+  height = '550px',
 }) => {
   if (!isOpen) return null;
   return (
@@ -50,7 +50,7 @@ export const GenericModal: React.FC<GenericModalProps> = ({
         $height={height}
         tabIndex={0}
         onKeyDown={(e) => {
-          if (e.key === "Enter") {
+          if (e.key === 'Enter') {
             e.preventDefault();
             onConfirm?.();
           }

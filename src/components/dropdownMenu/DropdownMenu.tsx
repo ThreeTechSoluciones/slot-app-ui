@@ -1,10 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from 'react';
 import {
   ButtonOption,
   ButtonTrigger,
   DropdownContainer,
   DropdownMenuStyle,
-} from "./DropdownMenu.styles";
+} from './DropdownMenu.styles';
 
 interface MenuOption {
   label: string;
@@ -16,15 +16,9 @@ interface DropdownMenuProps {
   label?: string;
   icon?: React.ReactNode;
   width?: string;
-  size?: "small" | "medium";
+  size?: 'small' | 'medium';
 }
-export function DropdownMenu({
-  options,
-  label,
-  icon,
-  width,
-  size,
-}: DropdownMenuProps) {
+export function DropdownMenu({ options, label, icon, width, size }: DropdownMenuProps) {
   const [open, setOpen] = useState(false);
   const menuContainerRef = useRef<HTMLDivElement>(null);
   const handleToggle = () => setOpen(!open);
@@ -35,18 +29,15 @@ export function DropdownMenu({
   };
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        menuContainerRef.current &&
-        !menuContainerRef.current.contains(event.target as Node)
-      ) {
+      if (menuContainerRef.current && !menuContainerRef.current.contains(event.target as Node)) {
         setOpen(false);
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
 
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
   return (
@@ -59,10 +50,7 @@ export function DropdownMenu({
       {open && (
         <DropdownMenuStyle width={width} size={size}>
           {options.map((opt, idx) => (
-            <ButtonOption
-              key={idx}
-              onClick={() => handleOptionClick(opt.onClick)}
-            >
+            <ButtonOption key={idx} onClick={() => handleOptionClick(opt.onClick)}>
               {opt.label}
             </ButtonOption>
           ))}

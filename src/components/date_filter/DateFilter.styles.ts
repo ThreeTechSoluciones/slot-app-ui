@@ -1,9 +1,5 @@
-import styled from "styled-components";
-import {
-  BORDER_RADIUS,
-  LIGHT_NEUTRAL_COLOR,
-  NEUTRAL_COLOR,
-} from "../../utils/Stylesheet";
+import styled from 'styled-components';
+import { BORDER_RADIUS, LIGHT_NEUTRAL_COLOR, NEUTRAL_COLOR } from '../../utils/Stylesheet';
 
 export const DateFilterContainer = styled.div`
   display: flex;
@@ -21,7 +17,7 @@ export const DatePickerWrapper = styled.div<DatePickerWrapperProps>`
   position: relative;
   z-index: 1;
   &::before {
-    content: "Filtrar por fecha de vencimiento";
+    content: 'Filtrar por fecha de vencimiento';
     position: absolute;
     left: 16px;
     top: 50%;
@@ -30,7 +26,7 @@ export const DatePickerWrapper = styled.div<DatePickerWrapperProps>`
     font-size: 12px;
     pointer-events: none;
     z-index: 1;
-    display: ${(props) => (props.$hasValue ? "none" : "block")};
+    display: ${(props) => (props.$hasValue ? 'none' : 'block')};
     max-width: calc(100% - 50px);
   }
 
@@ -69,7 +65,7 @@ export const DatePickerWrapper = styled.div<DatePickerWrapperProps>`
     font-size: 12px;
     flex: 1;
     line-height: 1;
-    display: ${(props) => (props.$hasValue ? "flex" : "none")};
+    display: ${(props) => (props.$hasValue ? 'flex' : 'none')};
   }
 
   //ICONO CALENDARIO
@@ -84,7 +80,7 @@ export const DatePickerWrapper = styled.div<DatePickerWrapperProps>`
   }
   .react-date-picker__calendar-button {
     &::after {
-      content: "";
+      content: '';
       position: absolute;
       top: 0;
       left: 0;

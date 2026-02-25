@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 import {
   SUCCESS_COLOR,
   BRAND_COLOR,
@@ -7,38 +7,35 @@ import {
   BACKGROUND_COLOR,
   NEUTRAL_COLOR,
   BORDER_RADIUS,
-} from "../../utils/Stylesheet";
+} from '../../utils/Stylesheet';
 export const StyledButton = styled.button<{
-  $size?: "small" | "medium" | "large";
-  $variant?: "primary" | "warning" | "success";
+  $size?: 'small' | 'medium' | 'large';
+  $variant?: 'primary' | 'warning' | 'success';
 }>`
   border: none;
   padding: 0;
   align-items: center;
   border-radius: ${BORDER_RADIUS};
   cursor: pointer;
-  width: ${({ $size }) =>
-    $size === "small" ? "104px" : $size === "medium" ? "192px" : "412px"};
-  height: ${({ $size }) =>
-    $size === "small" ? "48px" : $size === "medium" ? "48px" : "56px"};
-  font-size: ${({ $size }) =>
-    $size === "small" ? "12px" : $size === "medium" ? "12px" : "16px"};
+  width: ${({ $size }) => ($size === 'small' ? '104px' : $size === 'medium' ? '192px' : '412px')};
+  height: ${({ $size }) => ($size === 'small' ? '48px' : $size === 'medium' ? '48px' : '56px')};
+  font-size: ${({ $size }) => ($size === 'small' ? '12px' : $size === 'medium' ? '12px' : '16px')};
 
   background-color: ${({ $variant }) =>
-    $variant === "primary"
+    $variant === 'primary'
       ? BRAND_COLOR
-      : $variant === "warning"
+      : $variant === 'warning'
         ? DANGER_COLOR
-        : $variant === "success"
+        : $variant === 'success'
           ? SUCCESS_COLOR
           : DEFAULT_TEXT_COLOR};
 
   color: ${({ $variant }) =>
-    $variant === "primary"
+    $variant === 'primary'
       ? DEFAULT_TEXT_COLOR
-      : $variant === "warning"
+      : $variant === 'warning'
         ? DEFAULT_TEXT_COLOR
-        : $variant === "success"
+        : $variant === 'success'
           ? DEFAULT_TEXT_COLOR
           : BACKGROUND_COLOR};
 
@@ -61,10 +58,10 @@ export const ButtonIcon = styled.span`
 `;
 
 export const ButtonText = styled.span<{
-  $fontsize?: "small" | "medium" | "large";
+  $fontsize?: 'small' | 'medium' | 'large';
 }>`
   display: inline-block;
   text-align: center;
   font-size: ${({ $fontsize }) =>
-    $fontsize === "small" ? "12px" : $fontsize === "medium" ? "14px" : "16px"};
+    $fontsize === 'small' ? '12px' : $fontsize === 'medium' ? '14px' : '16px'};
 `;

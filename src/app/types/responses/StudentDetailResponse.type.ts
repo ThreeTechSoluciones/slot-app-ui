@@ -1,4 +1,4 @@
-import type { StudentSlotResponse } from "./SlotResponse.type";
+import type { StudentSlotResponse } from './SlotResponse.type';
 export interface StudentDetailResponse {
   id: string;
   name: string;

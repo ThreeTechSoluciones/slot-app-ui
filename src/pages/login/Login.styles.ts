@@ -1,9 +1,5 @@
-import styled from "styled-components";
-import {
-  BORDER_RADIUS,
-  NEUTRAL_COLOR,
-  DEFAULT_TEXT_COLOR,
-} from "../../utils/Stylesheet";
+import styled from 'styled-components';
+import { BORDER_RADIUS, NEUTRAL_COLOR, DEFAULT_TEXT_COLOR } from '../../utils/Stylesheet';
 
 export const MainContainer = styled.div`
   display: flex;

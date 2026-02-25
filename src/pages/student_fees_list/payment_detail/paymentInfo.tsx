@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   ModalOverlay,
   ModalContainer,
@@ -12,14 +12,14 @@ import {
   ModalRow,
   CloseButton,
   IconCircle,
-} from "./paymentInfo.styles";
-import CancelIcon from "../../../assets/cancel-icon.svg";
-import HashtagIcon from "../../../assets/hashtag-icon.svg";
-import PesoIcon from "../../../assets/peso-icon.svg";
-import CalendarIcon from "../../../assets/calendar-icon.svg";
-import { formatCurrency } from "../../../utils/Formatter";
-import { useGetPaymentInfoQuery } from "../../../app/services/PaymentService";
-import { skipToken } from "@reduxjs/toolkit/query";
+} from './paymentInfo.styles';
+import CancelIcon from '../../../assets/cancel-icon.svg';
+import HashtagIcon from '../../../assets/hashtag-icon.svg';
+import PesoIcon from '../../../assets/peso-icon.svg';
+import CalendarIcon from '../../../assets/calendar-icon.svg';
+import { formatCurrency } from '../../../utils/Formatter';
+import { useGetPaymentInfoQuery } from '../../../app/services/PaymentService';
+import { skipToken } from '@reduxjs/toolkit/query';
 
 interface PaymentInfoModalProps {
   isOpen: boolean;
@@ -27,16 +27,8 @@ interface PaymentInfoModalProps {
   paymentId: string | null;
 }
 
-const PaymentInfoModal: React.FC<PaymentInfoModalProps> = ({
-  isOpen,
-  onClose,
-  paymentId,
-}) => {
-  const {
-    data: payment,
-    isLoading,
-    isError,
-  } = useGetPaymentInfoQuery(paymentId ?? skipToken);
+const PaymentInfoModal: React.FC<PaymentInfoModalProps> = ({ isOpen, onClose, paymentId }) => {
+  const { data: payment, isLoading, isError } = useGetPaymentInfoQuery(paymentId ?? skipToken);
   if (!isOpen || !paymentId) return null;
   if (isLoading) {
     return (
@@ -74,12 +66,7 @@ const PaymentInfoModal: React.FC<PaymentInfoModalProps> = ({
         <ModalContent>
           <ModalRow>
             <IconCircle>
-              <img
-                src={HashtagIcon}
-                alt="Número de pago"
-                width={16}
-                height={16}
-              />
+              <img src={HashtagIcon} alt="Número de pago" width={16} height={16} />
             </IconCircle>
             <TextColumn>
               <FieldLabel>N° de pago </FieldLabel>

@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 import {
   BACKGROUND_COLOR,
   BORDER_RADIUS,
@@ -6,7 +6,7 @@ import {
   SUCCESS_COLOR,
   NEUTRAL_COLOR,
   FONT_WEIGHT_BOLD,
-} from "../../utils/Stylesheet";
+} from '../../utils/Stylesheet';
 export const StudentsContainer = styled.div`
   width: 100%;
   min-height: 85vh;
@@ -56,14 +56,13 @@ export const SituationText = styled(CommonStatusAndSituation)<{
   $status: string;
 }>`
   background-color: ${({ $status }) =>
-    $status === "En término" ? `${SUCCESS_COLOR}` : `${DANGER_COLOR}`};
+    $status === 'En término' ? `${SUCCESS_COLOR}` : `${DANGER_COLOR}`};
 `;
 
 export const StatusText = styled(CommonStatusAndSituation)<{
   $isActive: boolean;
 }>`
-  background-color: ${({ $isActive }) =>
-    $isActive ? `${SUCCESS_COLOR}` : `${NEUTRAL_COLOR}`};
+  background-color: ${({ $isActive }) => ($isActive ? `${SUCCESS_COLOR}` : `${NEUTRAL_COLOR}`)};
 `;
 
 export const FilterSearchContainer = styled.div`

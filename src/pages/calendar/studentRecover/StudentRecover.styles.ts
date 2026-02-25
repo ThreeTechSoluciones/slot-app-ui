@@ -1,11 +1,11 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 import {
   DEFAULT_TEXT_COLOR,
   FONT_WEIGHT_BOLD,
   FONT_WEIGHT_NORMAL,
   LIGHT_NEUTRAL_COLOR,
   SUCCESS_COLOR,
-} from "../../../utils/Stylesheet";
+} from '../../../utils/Stylesheet';
 export const RecoverContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -49,8 +49,7 @@ export const RecoverCheckbox = styled.div<{ $checked?: boolean }>`
   width: 28px;
   height: 26px;
   border-radius: 35%;
-  background-color: ${({ $checked }) =>
-    $checked ? SUCCESS_COLOR : LIGHT_NEUTRAL_COLOR};
+  background-color: ${({ $checked }) => ($checked ? SUCCESS_COLOR : LIGHT_NEUTRAL_COLOR)};
   margin-left: 8px;
   position: relative;
   display: flex;
@@ -60,15 +59,14 @@ export const RecoverCheckbox = styled.div<{ $checked?: boolean }>`
     width: 26px;
     height: 24px;
     opacity: ${({ $checked }) => ($checked ? 1 : 0)};
-    transform: ${({ $checked }) => ($checked ? "scale(1)" : "scale(0.6)")};
+    transform: ${({ $checked }) => ($checked ? 'scale(1)' : 'scale(0.6)')};
     transition: all 0.3s ease;
   }
 `;
 
 export const RecoverStudentName = styled.p<{ $selected?: boolean }>`
   color: ${DEFAULT_TEXT_COLOR};
-  font-weight: ${({ $selected }) =>
-    $selected ? FONT_WEIGHT_BOLD : FONT_WEIGHT_NORMAL};
+  font-weight: ${({ $selected }) => ($selected ? FONT_WEIGHT_BOLD : FONT_WEIGHT_NORMAL)};
   display: flex;
   align-items: center;
   gap: 6px;

@@ -1,10 +1,10 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 import {
   BORDER_RADIUS,
   BACKGROUND_COLOR,
   LIGHT_NEUTRAL_COLOR,
   FONT_WEIGHT_BOLD,
-} from "../../../utils/Stylesheet";
+} from '../../../utils/Stylesheet';
 export const ModalOverlay = styled.div`
   position: fixed;
   inset: 0;

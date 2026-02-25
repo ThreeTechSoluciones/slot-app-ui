@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { BRAND_COLOR, NEUTRAL_COLOR } from "../../utils/Stylesheet";
+import styled from 'styled-components';
+import { BRAND_COLOR, NEUTRAL_COLOR } from '../../utils/Stylesheet';
 
 export const MainContainer = styled.div`
   display: flex;

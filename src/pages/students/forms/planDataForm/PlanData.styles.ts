@@ -1,13 +1,13 @@
-import styled from "styled-components";
-import Arrow from "../../../../assets/Arrow.png";
+import styled from 'styled-components';
+import Arrow from '../../../../assets/Arrow.png';
 import {
   NEUTRAL_COLOR,
   DEFAULT_TEXT_COLOR,
   BORDER_RADIUS,
   FONT_WEIGHT_BOLD,
   LIGHT_NEUTRAL_COLOR,
-} from "../../../../utils/Stylesheet";
-export const WIDTH = "810px";
+} from '../../../../utils/Stylesheet';
+export const WIDTH = '810px';
 export const MainContainer = styled.div`
   display: flex;
   flex-direction: column;

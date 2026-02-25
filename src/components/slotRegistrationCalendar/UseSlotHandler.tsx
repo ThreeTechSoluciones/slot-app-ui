@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react';
 
 type Slot = {
   id: string;
@@ -19,7 +19,7 @@ const daysOrder: Record<string, number> = {
 export function useSlotHandler(initialSlots: Slot[] = []) {
   const [slots, setSlots] = useState<Slot[]>(initialSlots);
   const parseHour = (hour: string) => {
-    const [h, m] = hour.split(":").map(Number);
+    const [h, m] = hour.split(':').map(Number);
     return h * 60 + m;
   };
 

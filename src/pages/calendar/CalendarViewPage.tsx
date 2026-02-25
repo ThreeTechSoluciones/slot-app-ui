@@ -1,41 +1,40 @@
-import * as s from "./CalendarViewPage.styles";
-import { useGetCalendarViewQuery } from "../../app/services/UserService";
-import { useMarkStudentAbsenceMutation } from "../../app/services/StudentService";
-import useAuthentication from "../../hooks/useAuthentication";
-import StudentIcon from "../../assets/student-icon.svg";
-import { DaysOfWeekTranslation } from "../../utils/DaysOfWeek";
-import { CalendarViewName } from "../../app/types/models/CalendarViewName";
-import { SearchNotFound } from "../../components/search_not_found/SearchNotFound";
-import { useState } from "react";
-import { GenericModal } from "../../components/generic_modal/GenericModal";
-import { toast } from "react-hot-toast";
-import { formatDateToIsoString } from "../../utils/DateFormatter";
-import { StudentRecover } from "./studentRecover/StudentRecover";
-import { CancelSlot } from "./cancelSlot/CancelSlot";
-import { capitalize } from "../../utils/CapitalizeWords";
-import Slot from "./slot/SpecificSlotActions";
-import NextIcon from "../../assets/next-arrow-icon.svg";
-import BackIcon from "../../assets/back-arrow-icon.svg";
-import CalendarIcon from "../../assets/calendar-icon.svg";
-import { CalendarMonth } from "../../utils/MonthsOfYear";
-import InputDate from "../../components/date/inputDate";
+import * as s from './CalendarViewPage.styles';
+import { useGetCalendarViewQuery } from '../../app/services/UserService';
+import { useMarkStudentAbsenceMutation } from '../../app/services/StudentService';
+import useAuthentication from '../../hooks/useAuthentication';
+import StudentIcon from '../../assets/student-icon.svg';
+import { DaysOfWeekTranslation } from '../../utils/DaysOfWeek';
+import { CalendarViewName } from '../../app/types/models/CalendarViewName';
+import { SearchNotFound } from '../../components/search_not_found/SearchNotFound';
+import { useState } from 'react';
+import { GenericModal } from '../../components/generic_modal/GenericModal';
+import { toast } from 'react-hot-toast';
+import { formatDateToIsoString } from '../../utils/DateFormatter';
+import { StudentRecover } from './studentRecover/StudentRecover';
+import { CancelSlot } from './cancelSlot/CancelSlot';
+import { capitalize } from '../../utils/CapitalizeWords';
+import Slot from './slot/SpecificSlotActions';
+import NextIcon from '../../assets/next-arrow-icon.svg';
+import BackIcon from '../../assets/back-arrow-icon.svg';
+import CalendarIcon from '../../assets/calendar-icon.svg';
+import { CalendarMonth } from '../../utils/MonthsOfYear';
+import InputDate from '../../components/date/inputDate';
 export type CalendarAction =
   | {
-    type: "ABSENCE";
-    studentId: string;
-    studentName: string;
-    specificSlotId: string;
-  }
-  | { type: "RECOVER"; specificSlotId: string; availableCapacity: number }
+      type: 'ABSENCE';
+      studentId: string;
+      studentName: string;
+      specificSlotId: string;
+    }
+  | { type: 'RECOVER'; specificSlotId: string; availableCapacity: number }
   | {
-    type: "CANCEL";
-    specificSlotId: string;
-    dayOfWeek: string;
-    slot: { startTime: string; endTime: string };
-  };
+      type: 'CANCEL';
+      specificSlotId: string;
+      dayOfWeek: string;
+      slot: { startTime: string; endTime: string };
+    };
 
 function CalendarView() {
-
   const { userId } = useAuthentication();
 
   const [selectDate, setSelectDate] = useState<Date>(new Date());
@@ -63,13 +62,13 @@ function CalendarView() {
   };
 
   const handleConfirmAbsence = () => {
-    if (slotAction?.type !== "ABSENCE") return;
+    if (slotAction?.type !== 'ABSENCE') return;
     markAbsence({
       studentId: slotAction.studentId,
       specificSlotId: slotAction.specificSlotId,
     })
       .unwrap()
-      .then(() => toast.success("Se ha registrado la inasistencia"))
+      .then(() => toast.success('Se ha registrado la inasistencia'))
       .finally(closeModal);
   };
 
@@ -94,11 +93,7 @@ function CalendarView() {
               locale="es-ES"
               clearIcon={null}
               calendarIcon={
-                <img
-                  src={CalendarIcon}
-                  alt="Calendario"
-                  style={{ width: 20, height: 20 }}
-                />
+                <img src={CalendarIcon} alt="Calendario" style={{ width: 20, height: 20 }} />
               }
             />
           </s.InputDateContainer>
@@ -143,9 +138,7 @@ function CalendarView() {
             {calendarData?.times.map((_, rowIndex) => {
               const slot = calendarData.slots[rowIndex][colIndex];
               if (!slot) {
-                return (
-                  <s.SpecificEmptySlot key={`empty-${rowIndex}-${colIndex}`} />
-                );
+                return <s.SpecificEmptySlot key={`empty-${rowIndex}-${colIndex}`} />;
               }
               return (
                 <Slot
@@ -160,7 +153,7 @@ function CalendarView() {
             })}
           </s.DayColumn>
         ))}
-        {slotAction?.type === "ABSENCE" && (
+        {slotAction?.type === 'ABSENCE' && (
           <GenericModal
             isOpen={true}
             icon={StudentIcon}
@@ -174,14 +167,14 @@ function CalendarView() {
             height="226px"
           ></GenericModal>
         )}
-        {slotAction && slotAction.type === "RECOVER" && (
+        {slotAction && slotAction.type === 'RECOVER' && (
           <StudentRecover
             selectedSlotId={slotAction.specificSlotId}
             availableCapacity={slotAction.availableCapacity}
             onCancel={closeModal}
           />
         )}
-        {slotAction?.type === "CANCEL" && (
+        {slotAction?.type === 'CANCEL' && (
           <CancelSlot
             isOpen
             specificSlotId={slotAction.specificSlotId}

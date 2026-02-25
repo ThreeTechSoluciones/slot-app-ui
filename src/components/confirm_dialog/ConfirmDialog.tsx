@@ -1,4 +1,4 @@
-import Button from "../button/Button";
+import Button from '../button/Button';
 import {
   ConfirmOverlay,
   ConfirmBox,
@@ -6,8 +6,8 @@ import {
   MessageStyle,
   QuestionStyle,
   InfoBox,
-} from "./ConfirmDialog.styles";
-import QuestionMarkIcon from "../../assets/question-mark-icon.svg";
+} from './ConfirmDialog.styles';
+import QuestionMarkIcon from '../../assets/question-mark-icon.svg';
 
 type ConfirmDialogProps = {
   message: string;
@@ -15,11 +15,7 @@ type ConfirmDialogProps = {
   onCancel: () => void;
 };
 
-export function ConfirmDialog({
-  message,
-  onConfirm,
-  onCancel,
-}: ConfirmDialogProps) {
+export function ConfirmDialog({ message, onConfirm, onCancel }: ConfirmDialogProps) {
   return (
     <ConfirmOverlay>
       <ConfirmBox>

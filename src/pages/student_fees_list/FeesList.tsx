@@ -1,43 +1,43 @@
-import { useLocation, useNavigate } from "react-router";
-import { SortableButton } from "../../components/sort_button/SortButton";
-import * as s from "./FeesList.styles";
-import Filter from "../../components/filter/Filter";
-import Button from "../../components/button/Button";
-import Table from "../../components/table/Table";
-import type { Column } from "../../app/types/table";
-import AddIcon from "../../assets/add-icon.svg";
-import BackIcon from "../../assets/back-icon.svg";
-import StudentIcon from "../../assets/student-icon.svg";
-import ViewIcon from "../../assets/openEye-icon.png";
-import CoinIcon from "../../assets/coin-icon.svg";
-import type { StudentMonthlyFeeResponse } from "../../app/types/responses/StudentMonthlyFee.type";
-import { useState } from "react";
-import { ConfirmDialog } from "../../components/confirm_dialog/ConfirmDialog";
+import { useLocation, useNavigate } from 'react-router';
+import { SortableButton } from '../../components/sort_button/SortButton';
+import * as s from './FeesList.styles';
+import Filter from '../../components/filter/Filter';
+import Button from '../../components/button/Button';
+import Table from '../../components/table/Table';
+import type { Column } from '../../app/types/table';
+import AddIcon from '../../assets/add-icon.svg';
+import BackIcon from '../../assets/back-icon.svg';
+import StudentIcon from '../../assets/student-icon.svg';
+import ViewIcon from '../../assets/openEye-icon.png';
+import CoinIcon from '../../assets/coin-icon.svg';
+import type { StudentMonthlyFeeResponse } from '../../app/types/responses/StudentMonthlyFee.type';
+import { useState } from 'react';
+import { ConfirmDialog } from '../../components/confirm_dialog/ConfirmDialog';
 import {
   useGetStudentByIdQuery,
   useGetStudentMonthlyFeesQuery,
   useCreateStudentMonthlyFeeMutation,
-} from "../../app/services/StudentService";
-import { skipToken } from "@reduxjs/toolkit/query/react";
-import { translateMonth } from "../../utils/TranslateMonths";
-import { formatCurrency } from "../../utils/Formatter";
-import DateFilter from "../../components/date_filter/DateFilter";
-import { toast } from "react-hot-toast";
-import { useUpdateMonthlyFeeMutation } from "../../app/services/MonthlyFeeService";
-import PaymentInfoModal from "./payment_detail/paymentInfo";
-import { MonthsOfYear } from "../../utils/MonthsOfYear";
+} from '../../app/services/StudentService';
+import { skipToken } from '@reduxjs/toolkit/query/react';
+import { translateMonth } from '../../utils/TranslateMonths';
+import { formatCurrency } from '../../utils/Formatter';
+import DateFilter from '../../components/date_filter/DateFilter';
+import { toast } from 'react-hot-toast';
+import { useUpdateMonthlyFeeMutation } from '../../app/services/MonthlyFeeService';
+import PaymentInfoModal from './payment_detail/paymentInfo';
+import { MonthsOfYear } from '../../utils/MonthsOfYear';
 import {
   MONTHLY_FEE_STATUS_CAN_BE_PAID,
   MONTHLY_FEE_STATUS_CAN_VIEW_PAYMENT,
   MonthlyFeesStatusOptions,
-} from "../../utils/MonthlyFeesStatus";
-import { formatDateToIsoString } from "../../utils/DateFormatter";
-import { MisAlumnos } from "../../routes/RoutesUtils";
+} from '../../utils/MonthlyFeesStatus';
+import { formatDateToIsoString } from '../../utils/DateFormatter';
+import { MisAlumnos } from '../../routes/RoutesUtils';
 import type {
   PAY_MONTHLY_FEE_MODAL_TYPE,
   PAYMENT_DETAIL_MODAL_TYPE,
-} from "../../utils/MonthlyFeesStatus";
-import PaymentMetrics from "./PaymentMetrics";
+} from '../../utils/MonthlyFeesStatus';
+import PaymentMetrics from './PaymentMetrics';
 function StudentFeesList() {
   const location = useLocation();
   const { studentId } = location.state || {};
@@ -48,18 +48,14 @@ function StudentFeesList() {
   } = useGetStudentByIdQuery(studentId);
 
   const navigate = useNavigate();
-  const [monthFilter, setMonthFilter] = useState("");
-  const [expirationDateFilter, setExpirationDateFilter] = useState<
-    Date | undefined
-  >(undefined);
-  const [statusFilter, setStatusFilter] = useState("");
+  const [monthFilter, setMonthFilter] = useState('');
+  const [expirationDateFilter, setExpirationDateFilter] = useState<Date | undefined>(undefined);
+  const [statusFilter, setStatusFilter] = useState('');
   const [modalType, setModalType] = useState<
     PAY_MONTHLY_FEE_MODAL_TYPE | PAYMENT_DETAIL_MODAL_TYPE | null
   >(null);
   const [selectedFeeId, setSelectedFeeId] = useState<string | null>(null);
-  const [selectedPaymentId, setSelectedPaymentId] = useState<string | null>(
-    null,
-  );
+  const [selectedPaymentId, setSelectedPaymentId] = useState<string | null>(null);
   const [payMonthlyFee] = useUpdateMonthlyFeeMutation();
 
   const formattedExpirationDate = expirationDateFilter
@@ -72,19 +68,18 @@ function StudentFeesList() {
   } = useGetStudentMonthlyFeesQuery(
     student?.id
       ? {
-        studentId: student.id,
-        month: monthFilter || undefined,
-        expirationDate: formattedExpirationDate,
-        status: statusFilter || undefined,
-      }
+          studentId: student.id,
+          month: monthFilter || undefined,
+          expirationDate: formattedExpirationDate,
+          status: statusFilter || undefined,
+        }
       : skipToken,
   );
 
   const [createMonthlyFee] = useCreateStudentMonthlyFeeMutation();
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   if (fetchingStudent) return <p>Cargando información del alumno...</p>;
-  if (errorFetchingStudent)
-    return <p>Error al cargar la información del alumno.</p>;
+  if (errorFetchingStudent) return <p>Error al cargar la información del alumno.</p>;
   if (!student) return <p>Alumno no encontrado.</p>;
   const handleConfirmCreateFee = async () => {
     await createMonthlyFee({ studentId: student.id });
@@ -93,15 +88,15 @@ function StudentFeesList() {
 
   const handleOpenPayModal = (feeId: string) => {
     setSelectedFeeId(feeId);
-    setModalType("pay");
+    setModalType('pay');
   };
   const handleOpenPaymentInfoModal = (paymentId: string) => {
     setSelectedPaymentId(paymentId);
-    setModalType("details");
+    setModalType('details');
   };
   const handleConfirmPay = async () => {
     if (!student?.id) {
-      toast.error("Alumno no disponible para registrar la cuota como pagada");
+      toast.error('Alumno no disponible para registrar la cuota como pagada');
       return;
     }
     payMonthlyFee({
@@ -110,10 +105,10 @@ function StudentFeesList() {
     })
       .unwrap()
       .then(() => {
-        toast.success("Cuota registrada como pagada correctamente");
+        toast.success('Cuota registrada como pagada correctamente');
       })
       .catch(() => {
-        toast.error("Ocurrió un error al registrar la cuota como pagada");
+        toast.error('Ocurrió un error al registrar la cuota como pagada');
       })
       .finally(() => {
         setModalType(null);
@@ -127,45 +122,41 @@ function StudentFeesList() {
   const columns: Column<StudentMonthlyFeeResponse>[] = [
     {
       header: <SortableButton text="N° de cuota" />,
-      accessor: "number",
+      accessor: 'number',
     },
 
     {
       header: <SortableButton text="Mes" />,
-      accessor: "month",
+      accessor: 'month',
       render: (student) => <span>{translateMonth(student.month)} </span>,
     },
 
     {
-      header: <SortableButton text={"Fecha de\nvencimiento"} allowWrap />,
-      accessor: "expirationDate",
+      header: <SortableButton text={'Fecha de\nvencimiento'} allowWrap />,
+      accessor: 'expirationDate',
       render: (student) => <span>{student.expirationDate}</span>,
     },
     {
       header: <SortableButton text="Monto" />,
-      accessor: "amount",
+      accessor: 'amount',
       render: (student) => <span>{formatCurrency(student.amount)}</span>,
     },
     {
-      header: "Estado",
-      accessor: "status",
+      header: 'Estado',
+      accessor: 'status',
       render: (student) => (
         <s.FeeStatusContainer>
           <s.FeeStatus $status={student.status}>
-            {student.status === "Pagado vencido"
-              ? "Pago con atraso"
-              : student.status}
+            {student.status === 'Pagado vencido' ? 'Pago con atraso' : student.status}
           </s.FeeStatus>
         </s.FeeStatusContainer>
       ),
     },
     {
-      header: "Pago",
+      header: 'Pago',
       render: (student) => {
         const canPay = MONTHLY_FEE_STATUS_CAN_BE_PAID.includes(student.status);
-        const canViewPayment = MONTHLY_FEE_STATUS_CAN_VIEW_PAYMENT.includes(
-          student.status,
-        );
+        const canViewPayment = MONTHLY_FEE_STATUS_CAN_VIEW_PAYMENT.includes(student.status);
         if (canPay) {
           return (
             <s.ActionButton onClick={() => handleOpenPayModal(student.id)}>
@@ -199,7 +190,7 @@ function StudentFeesList() {
             src={BackIcon}
             alt="back-icon"
             onClick={() => navigate(MisAlumnos)}
-            style={{ cursor: "pointer" }}
+            style={{ cursor: 'pointer' }}
           />
           <s.Title>LISTADO DE CUOTAS</s.Title>
         </s.TitleContainer>
@@ -240,9 +231,9 @@ function StudentFeesList() {
             variant="primary"
             size="small"
             onClick={() => {
-              setStatusFilter("");
+              setStatusFilter('');
               setExpirationDateFilter(undefined);
-              setMonthFilter("");
+              setMonthFilter('');
             }}
           >
             Limpiar filtros
@@ -266,16 +257,16 @@ function StudentFeesList() {
           )}
         </s.RightContainer>
       </s.FiltersContainer>
-      {modalType === "pay" && (
+      {modalType === 'pay' && (
         <ConfirmDialog
           message="¿Estás seguro de realizar este pago?"
           onConfirm={handleConfirmPay}
           onCancel={() => setModalType(null)}
         />
       )}
-      {modalType === "details" && (
+      {modalType === 'details' && (
         <PaymentInfoModal
-          isOpen={modalType === "details"}
+          isOpen={modalType === 'details'}
           onClose={() => setModalType(null)}
           paymentId={selectedPaymentId}
         />

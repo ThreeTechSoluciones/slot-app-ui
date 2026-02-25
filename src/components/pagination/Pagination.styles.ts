@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 import {
   BORDER_RADIUS,
   BRAND_COLOR,
@@ -6,7 +6,7 @@ import {
   FONT_WEIGHT_BOLD,
   LIGHT_NEUTRAL_COLOR,
   NEUTRAL_COLOR,
-} from "../../utils/Stylesheet";
+} from '../../utils/Stylesheet';
 
 export const PaginationContainer = styled.div`
   width: 100%;
@@ -29,17 +29,16 @@ export const ArrowButton = styled.button<{ disabled?: boolean }>`
   cursor: pointer;
   color: ${({ disabled }) => (disabled ? NEUTRAL_COLOR : DEFAULT_TEXT_COLOR)};
   &:hover {
-    background-color: ${({ disabled }) =>
-      disabled ? LIGHT_NEUTRAL_COLOR : BRAND_COLOR};
+    background-color: ${({ disabled }) => (disabled ? LIGHT_NEUTRAL_COLOR : BRAND_COLOR)};
   }
 `;
 export const ArrowIconContainer = styled.div<{
   $rotated?: boolean;
   $disabled?: boolean;
 }>`
-  transform: ${({ $rotated }) => ($rotated ? "rotate(180deg)" : "none")};
+  transform: ${({ $rotated }) => ($rotated ? 'rotate(180deg)' : 'none')};
   opacity: ${({ $disabled }) => ($disabled ? 0.3 : 1)};
-  filter: ${({ $disabled }) => ($disabled ? "grayscale(100%)" : "none")};
+  filter: ${({ $disabled }) => ($disabled ? 'grayscale(100%)' : 'none')};
   img {
     width: 20px;
     height: 20px;
@@ -56,7 +55,7 @@ export const PageIndicator = styled.div`
 export const PageSizeSelect = styled.select`
   font-size: 14px;
   color: ${DEFAULT_TEXT_COLOR};
-  font-family: "Inter", sans-serif;
+  font-family: 'Inter', sans-serif;
   padding: 6px 8px;
   border-radius: ${BORDER_RADIUS};
   background-color: ${LIGHT_NEUTRAL_COLOR};

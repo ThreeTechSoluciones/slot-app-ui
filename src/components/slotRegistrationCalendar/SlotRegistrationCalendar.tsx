@@ -4,10 +4,10 @@ import {
   Day,
   Hour,
   WarningContainer,
-} from "./SlotRegistrationCalendar.styles";
-import { SUCCESS_COLOR } from "../../utils/Stylesheet";
-import type { Slot } from "../slotDetail/SlotDetail";
-import { DaysOfWeekTranslation } from "../../utils/DaysOfWeek";
+} from './SlotRegistrationCalendar.styles';
+import { SUCCESS_COLOR } from '../../utils/Stylesheet';
+import type { Slot } from '../slotDetail/SlotDetail';
+import { DaysOfWeekTranslation } from '../../utils/DaysOfWeek';
 type DayWithSlots = { day: string; slots: Slot[] };
 type CalendarProps = {
   selectedSlots: { id: string }[];
@@ -39,28 +39,17 @@ function SlotRegistrationCalendar({
 }
 export default SlotRegistrationCalendar;
 const WarningMessage = () => (
-  <WarningContainer>
-    No hay turnos disponibles para los próximos días.
-  </WarningContainer>
+  <WarningContainer>No hay turnos disponibles para los próximos días.</WarningContainer>
 );
-const Slots = ({
-  selectedSlots,
-  onSelectSlot,
-  onDeleteSlot,
-  listSlots,
-}: CalendarProps) => {
+const Slots = ({ selectedSlots, onSelectSlot, onDeleteSlot, listSlots }: CalendarProps) => {
   const maxTurnos = Math.max(...listSlots.map((day) => day.slots.length));
   return listSlots.map((day) => (
     <Column key={day.day}>
-      <Day>
-        {(day.day?.substring(0, 3))}
-      </Day>
+      <Day>{day.day?.substring(0, 3)}</Day>
       {Array.from({ length: maxTurnos }).map((_, idx) => {
         const slot = day.slots[idx];
-        const isSelected = selectedSlots.some(
-          (s) => s.id === (slot && slot.id),
-        );
-        const isAvailable = slot && slot.status === "Available";
+        const isSelected = selectedSlots.some((s) => s.id === (slot && slot.id));
+        const isAvailable = slot && slot.status === 'Available';
         return (
           <Hour
             $isAvailable={isAvailable}
@@ -74,7 +63,7 @@ const Slots = ({
             disabled={!isAvailable}
             style={{ backgroundColor: isSelected ? SUCCESS_COLOR : undefined }}
           >
-            {slot ? slot.hour : ""}
+            {slot ? slot.hour : ''}
           </Hour>
         );
       })}

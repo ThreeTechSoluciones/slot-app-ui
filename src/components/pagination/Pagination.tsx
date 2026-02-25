@@ -1,5 +1,5 @@
-import * as s from "./Pagination.styles";
-import BackArrow from "../../assets/back-arrow-icon.svg";
+import * as s from './Pagination.styles';
+import BackArrow from '../../assets/back-arrow-icon.svg';
 export interface PaginationProps {
   page: number;
   size: number;
@@ -20,10 +20,7 @@ export const Pagination = ({
 
   return (
     <s.PaginationContainer>
-      <s.ArrowButton
-        onClick={() => onPageChange(page - 1)}
-        disabled={page === 1}
-      >
+      <s.ArrowButton onClick={() => onPageChange(page - 1)} disabled={page === 1}>
         <s.ArrowIconContainer $disabled={page === 1}>
           <img src={BackArrow} alt="Anterior" />
         </s.ArrowIconContainer>
@@ -33,19 +30,13 @@ export const Pagination = ({
         {page} / {totalPages}
       </s.PageIndicator>
 
-      <s.ArrowButton
-        onClick={() => onPageChange(page + 1)}
-        disabled={page === totalPages}
-      >
+      <s.ArrowButton onClick={() => onPageChange(page + 1)} disabled={page === totalPages}>
         <s.ArrowIconContainer $rotated $disabled={page === totalPages}>
           <img src={BackArrow} alt="Siguiente" />
         </s.ArrowIconContainer>
       </s.ArrowButton>
 
-      <s.PageSizeSelect
-        value={size}
-        onChange={(e) => onSizeChange(Number(e.target.value))}
-      >
+      <s.PageSizeSelect value={size} onChange={(e) => onSizeChange(Number(e.target.value))}>
         {[5, 10, 20, 50].map((value) => (
           <option key={value} value={value}>
             {value} por página

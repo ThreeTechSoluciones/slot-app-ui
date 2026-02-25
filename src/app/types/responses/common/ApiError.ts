@@ -3,9 +3,9 @@ type ErrorPayload = {
   path: string;
   status: number;
   timestamp: Date;
-} 
+};
 
 export type ApiError = {
   status: number;
-  data: ErrorPayload
-}
+  data: ErrorPayload;
+};

@@ -1,9 +1,5 @@
-import styled from "styled-components";
-import {
-  BORDER_RADIUS,
-  BRAND_COLOR,
-  LIGHT_NEUTRAL_COLOR,
-} from "../../utils/Stylesheet";
+import styled from 'styled-components';
+import { BORDER_RADIUS, BRAND_COLOR, LIGHT_NEUTRAL_COLOR } from '../../utils/Stylesheet';
 
 export const DropdownContainer = styled.div`
   position: relative;
@@ -29,7 +25,7 @@ export const ButtonTrigger = styled.div<ButtonTriggerProps>`
 
 interface DropdownContainerProps {
   width?: string;
-  size?: "small" | "medium";
+  size?: 'small' | 'medium';
 }
 export const DropdownMenuStyle = styled.div<DropdownContainerProps>`
   position: absolute;
@@ -44,7 +40,7 @@ export const DropdownMenuStyle = styled.div<DropdownContainerProps>`
   z-index: 10;
   max-height: 135px;
   overflow-y: auto;
-  width: ${(props) => (props.size === "small" ? "184px" : "408px")};
+  width: ${(props) => (props.size === 'small' ? '184px' : '408px')};
 `;
 
 export const ButtonOption = styled.button`

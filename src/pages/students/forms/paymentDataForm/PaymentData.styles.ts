@@ -1,11 +1,11 @@
-import styled from "styled-components";
-import Arrow from "../../../../assets/arrow.png";
+import styled from 'styled-components';
+import Arrow from '../../../../assets/arrow.png';
 import {
   LIGHT_NEUTRAL_COLOR,
   NEUTRAL_COLOR,
   DEFAULT_TEXT_COLOR,
-} from "../../../../utils/Stylesheet";
-export const FORM_WIDTH = "410px";
+} from '../../../../utils/Stylesheet';
+export const FORM_WIDTH = '410px';
 export const MainContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -45,7 +45,7 @@ export const BaseStyle = styled.input`
     color: ${NEUTRAL_COLOR};
   }
 `;
-export const Select = styled(BaseStyle).attrs({ as: "select" })`
+export const Select = styled(BaseStyle).attrs({ as: 'select' })`
   width: 100%;
   height: 56px;
   border-radius: 10px;
@@ -62,9 +62,8 @@ export const Select = styled(BaseStyle).attrs({ as: "select" })`
 
 export const Input = styled(BaseStyle)`
   width: 100%;
-  background: ${(props) => (props.disabled ? LIGHT_NEUTRAL_COLOR : "none")};
-  border: ${(props) =>
-    props.disabled ? LIGHT_NEUTRAL_COLOR : "1px solid black"};
+  background: ${(props) => (props.disabled ? LIGHT_NEUTRAL_COLOR : 'none')};
+  border: ${(props) => (props.disabled ? LIGHT_NEUTRAL_COLOR : '1px solid black')};
   &::placeholder {
     color: ${(props) => (props.disabled ? LIGHT_NEUTRAL_COLOR : NEUTRAL_COLOR)};
   }
@@ -82,8 +81,8 @@ interface TextProps {
 export const Text = styled.p<TextProps>`
   font-size: 12px;
   color: ${DEFAULT_TEXT_COLOR};
-  margin-top: ${(props) => (props.$isRegister ? "8px" : "0px")};
-  margin-bottom: ${(props) => (props.$isRegister ? "8px" : "0px")};
+  margin-top: ${(props) => (props.$isRegister ? '8px' : '0px')};
+  margin-bottom: ${(props) => (props.$isRegister ? '8px' : '0px')};
   width: 100%;
 `;
 export const SecondaryInputsContainer = styled.div`

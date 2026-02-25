@@ -1,37 +1,35 @@
-import { useState, useRef } from "react";
-import { formatCurrency } from "../../utils/Formatter";
-import type { Column } from "../../app/types/table";
-import type { PlanResponse } from "../../app/types/responses/PlanResponse.type";
-import Table from "../../components/table/Table";
-import { SortableButton } from "../../components/sort_button/SortButton";
-import { DropdownMenu } from "../../components/dropdownMenu/DropdownMenu";
-import FilterSearch from "../../components/filter_search/FilterSearch";
-import Button from "../../components/button/Button";
-import DotsIcon from "../../assets/dots-icon.png";
-import AddIcon from "../../assets/add-icon.svg";
-import * as s from "./Plans.styles";
-import { ConfirmDialog } from "../../components/confirm_dialog/ConfirmDialog";
-import { toast } from "react-hot-toast";
-import { GenericModal } from "../../components/generic_modal/GenericModal";
-import CreatePlanForm from "./CreatePlanForm/CreatePlanForm";
+import { useState, useRef } from 'react';
+import { formatCurrency } from '../../utils/Formatter';
+import type { Column } from '../../app/types/table';
+import type { PlanResponse } from '../../app/types/responses/PlanResponse.type';
+import Table from '../../components/table/Table';
+import { SortableButton } from '../../components/sort_button/SortButton';
+import { DropdownMenu } from '../../components/dropdownMenu/DropdownMenu';
+import FilterSearch from '../../components/filter_search/FilterSearch';
+import Button from '../../components/button/Button';
+import DotsIcon from '../../assets/dots-icon.png';
+import AddIcon from '../../assets/add-icon.svg';
+import * as s from './Plans.styles';
+import { ConfirmDialog } from '../../components/confirm_dialog/ConfirmDialog';
+import { toast } from 'react-hot-toast';
+import { GenericModal } from '../../components/generic_modal/GenericModal';
+import CreatePlanForm from './CreatePlanForm/CreatePlanForm';
 import {
   useCreatePlanMutation,
   useUpdatePlanMutation,
   useDeletePlanMutation,
-} from "../../app/services/PlanService";
-import { useGetUserPlansQuery } from "../../app/services/UserService";
-import { skipToken } from "@reduxjs/toolkit/query/react";
-import useAuthentication from "../../hooks/useAuthentication";
-import EditPlan from "./EditPlan/EditPlan";
-import { formatDateToDash } from "../../utils/DateFormatter";
-import { Pagination } from "../../components/pagination/Pagination";
+} from '../../app/services/PlanService';
+import { useGetUserPlansQuery } from '../../app/services/UserService';
+import { skipToken } from '@reduxjs/toolkit/query/react';
+import useAuthentication from '../../hooks/useAuthentication';
+import EditPlan from './EditPlan/EditPlan';
+import { formatDateToDash } from '../../utils/DateFormatter';
+import { Pagination } from '../../components/pagination/Pagination';
 
 function Plans() {
   const formRef = useRef<any>(null);
-  const [filter, setFilter] = useState<string>("");
-  const [showModal, setShowModal] = useState<
-    "CREATE" | "EDIT" | "DELETE" | null
-  >(null);
+  const [filter, setFilter] = useState<string>('');
+  const [showModal, setShowModal] = useState<'CREATE' | 'EDIT' | 'DELETE' | null>(null);
   const [selectedPlan, setSelectedPlan] = useState<PlanResponse | null>(null);
   const [editPlan] = useUpdatePlanMutation();
   const [deletePlan] = useDeletePlanMutation();
@@ -43,12 +41,10 @@ function Plans() {
     data: plansData,
     isLoading,
     isError,
-  } = useGetUserPlansQuery(
-    userId ? { userId, page: page - 1, size, planName: filter } : skipToken,
-  );
+  } = useGetUserPlansQuery(userId ? { userId, page: page - 1, size, planName: filter } : skipToken);
 
   const handleClearFilters = () => {
-    setFilter("");
+    setFilter('');
   };
   const handleMutation = async (
     action: () => Promise<any>,
@@ -70,14 +66,13 @@ function Plans() {
     if (!data || !userId) return;
     const finalRequest = {
       ...data,
-      name:
-        data.name.charAt(0).toUpperCase() + data.name.slice(1).toLowerCase(),
+      name: data.name.charAt(0).toUpperCase() + data.name.slice(1).toLowerCase(),
       userId,
     };
     await handleMutation(
       () => createPlan(finalRequest).unwrap(),
       () => setShowModal(null),
-      "Plan creado correctamente",
+      'Plan creado correctamente',
     );
   };
 
@@ -88,14 +83,13 @@ function Plans() {
     if (!data) return;
     const finalRequest = {
       ...data,
-      name:
-        data.name.charAt(0).toUpperCase() + data.name.slice(1).toLowerCase(),
+      name: data.name.charAt(0).toUpperCase() + data.name.slice(1).toLowerCase(),
       startDate: formatDateToDash(data.startDate),
     };
     await handleMutation(
       () => editPlan(finalRequest).unwrap(),
       () => setShowModal(null),
-      "Plan editado correctamente",
+      'Plan editado correctamente',
     );
   };
   //ELIMINAR PLAN
@@ -108,7 +102,7 @@ function Plans() {
         setShowModal(null);
         setSelectedPlan(null);
       },
-      "Plan eliminado correctamente",
+      'Plan eliminado correctamente',
     );
   };
   const MODALS = {
@@ -154,36 +148,36 @@ function Plans() {
   const columns: Column<PlanResponse>[] = [
     {
       header: <SortableButton text="Nombre del plan" />,
-      accessor: "name",
+      accessor: 'name',
     },
     {
       header: <SortableButton text="Cantidad de días asignados" />,
-      accessor: "numberOfDays",
+      accessor: 'numberOfDays',
       render: (plan) => <span>{plan.numberOfDays}</span>,
     },
     {
       header: <SortableButton text="Precio actual" />,
-      accessor: "price",
+      accessor: 'price',
       render: (plan) => <span>{formatCurrency(plan.price)}</span>,
     },
     {
-      header: "Acciones",
+      header: 'Acciones',
       render: (plan) => (
         <DropdownMenu
           icon={<img src={DotsIcon} alt="Opciones" width={30} height={30} />}
           size="small"
           options={[
             {
-              label: "Editar plan",
+              label: 'Editar plan',
               onClick: () => {
-                setShowModal("EDIT");
+                setShowModal('EDIT');
                 setSelectedPlan(plan);
               },
             },
             {
-              label: "Eliminar",
+              label: 'Eliminar',
               onClick: () => {
-                setShowModal("DELETE");
+                setShowModal('DELETE');
                 setSelectedPlan(plan);
               },
             },
@@ -193,8 +187,7 @@ function Plans() {
     },
   ];
   if (isLoading) return <div>Cargando...</div>;
-  if (isError)
-    return <div>Ocurrió un error a la hora de cargar a los planes.</div>;
+  if (isError) return <div>Ocurrió un error a la hora de cargar a los planes.</div>;
   if (!plansData) return <div>No hay información disponible.</div>;
   return (
     <s.PlansContainer>
@@ -203,11 +196,7 @@ function Plans() {
       <s.FiltersContainer>
         <s.LeftContainer>
           <s.FilterSearchContainer>
-            <FilterSearch
-              value={filter}
-              onChange={setFilter}
-              placeholder="Buscar por nombre"
-            />
+            <FilterSearch value={filter} onChange={setFilter} placeholder="Buscar por nombre" />
           </s.FilterSearchContainer>
           <Button size="small" variant="primary" onClick={handleClearFilters}>
             Limpiar filtros
@@ -219,7 +208,7 @@ function Plans() {
             variant="primary"
             size="medium"
             icon={<img src={AddIcon} alt="Agregar" />}
-            onClick={() => setShowModal("CREATE")}
+            onClick={() => setShowModal('CREATE')}
           >
             Nuevo plan
           </Button>

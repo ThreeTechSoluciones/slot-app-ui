@@ -1,11 +1,7 @@
-import { Link } from "react-router";
-import styled from "styled-components";
-import {
-  DEFAULT_TEXT_COLOR,
-  FONT_WEIGHT_BOLD,
-  DEFAULT_FONT_SIZE,
-} from "../../utils/Stylesheet";
-import { MIN_HEIGHT_HEADER } from "../../components/header/header.styles";
+import { Link } from 'react-router';
+import styled from 'styled-components';
+import { DEFAULT_TEXT_COLOR, FONT_WEIGHT_BOLD, DEFAULT_FONT_SIZE } from '../../utils/Stylesheet';
+import { MIN_HEIGHT_HEADER } from '../../components/header/header.styles';
 export const PageNotFoundContainer = styled.div`
   display: flex;
   width: 100%;
