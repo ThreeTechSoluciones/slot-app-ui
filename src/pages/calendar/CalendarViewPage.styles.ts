@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 import {
   DEFAULT_FONT_SIZE,
   DEFAULT_TEXT_COLOR,
@@ -6,10 +6,10 @@ import {
   LIGHT_NEUTRAL_COLOR,
   BRAND_COLOR,
   BACKGROUND_COLOR,
-} from "../../utils/Stylesheet";
+} from '../../utils/Stylesheet';
 
-const ROW_HEIGHT = "260px";
-const ROW_SPACING_HEIGHT = "16px";
+const ROW_HEIGHT = '260px';
+const ROW_SPACING_HEIGHT = '16px';
 
 export const MainContainer = styled.div`
   display: flex;
@@ -84,10 +84,7 @@ interface CalendarContainerProps {
 export const CalendarContainer = styled.div<CalendarContainerProps>`
   margin-top: 56px;
   display: grid;
-  grid-template-columns: 85px repeat(
-      ${(props) => props.$columnsCount || 3},
-      minmax(204px, 300px)
-    );
+  grid-template-columns: 85px repeat(${(props) => props.$columnsCount || 3}, minmax(204px, 300px));
 `;
 
 export const SpecificEmptySlot = styled.div`

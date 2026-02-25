@@ -1,14 +1,14 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 import {
   BRAND_COLOR,
   LIGHT_NEUTRAL_COLOR,
   NEUTRAL_COLOR,
   DEFAULT_TEXT_COLOR,
   BORDER_RADIUS,
-} from "../../utils/Stylesheet";
+} from '../../utils/Stylesheet';
 
 interface StyledWrapperProps {
-  $calendarPosition?: "bottom" | "top";
+  $calendarPosition?: 'bottom' | 'top';
   $width: string;
 }
 export const StyledWrapper = styled.div<StyledWrapperProps>`
@@ -33,7 +33,7 @@ export const StyledWrapper = styled.div<StyledWrapperProps>`
     z-index: 9999;
 
     ${(props) =>
-      props.$calendarPosition === "top"
+      props.$calendarPosition === 'top'
         ? `
           bottom: 100%;
           left: 0;

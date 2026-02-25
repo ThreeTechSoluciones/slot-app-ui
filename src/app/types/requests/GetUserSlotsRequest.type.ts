@@ -1,4 +1,4 @@
 export type GetSlotsByDayParams = {
-    userId: string;
-    dayOfWeek: string;
-}
+  userId: string;
+  dayOfWeek: string;
+};

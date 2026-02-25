@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 import {
   BORDER_RADIUS,
   LIGHT_NEUTRAL_COLOR,
@@ -7,7 +7,7 @@ import {
   DEFAULT_TEXT_COLOR,
   FONT_WEIGHT_BOLD,
   BACKGROUND_COLOR,
-} from "../../utils/Stylesheet";
+} from '../../utils/Stylesheet';
 
 interface HourProps {
   $isAvailable?: boolean;
@@ -64,16 +64,12 @@ export const Hour = styled.button<HourProps>`
   text-align: center;
   justify-content: center;
   color: ${DEFAULT_TEXT_COLOR};
-  background-color: ${(props) =>
-    props.$isAvailable ? BACKGROUND_COLOR : LIGHT_NEUTRAL_COLOR};
-  color: ${(props) =>
-    props.$isAvailable ? `${DEFAULT_TEXT_COLOR}` : `${NEUTRAL_COLOR}`};
+  background-color: ${(props) => (props.$isAvailable ? BACKGROUND_COLOR : LIGHT_NEUTRAL_COLOR)};
+  color: ${(props) => (props.$isAvailable ? `${DEFAULT_TEXT_COLOR}` : `${NEUTRAL_COLOR}`)};
   border: ${(props) =>
-    props.$isAvailable
-      ? `2px solid ${SUCCESS_COLOR}`
-      : `2px solid ${LIGHT_NEUTRAL_COLOR}`};
+    props.$isAvailable ? `2px solid ${SUCCESS_COLOR}` : `2px solid ${LIGHT_NEUTRAL_COLOR}`};
   &:hover {
-    cursor: ${(props) => (props.$isAvailable ? "pointer" : "default")};
+    cursor: ${(props) => (props.$isAvailable ? 'pointer' : 'default')};
   }
 `;
 

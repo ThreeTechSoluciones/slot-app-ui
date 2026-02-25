@@ -1,6 +1,6 @@
-import { toast } from "react-hot-toast";
-import { useCancelSpecificSlotMutation } from "../../../app/services/SpecificSlotService";
-import { ConfirmDialog } from "../../../components/confirm_dialog/ConfirmDialog";
+import { toast } from 'react-hot-toast';
+import { useCancelSpecificSlotMutation } from '../../../app/services/SpecificSlotService';
+import { ConfirmDialog } from '../../../components/confirm_dialog/ConfirmDialog';
 
 interface SlotCancelProps {
   isOpen: boolean;
@@ -23,7 +23,7 @@ export const CancelSlot = ({
     return cancelSlot({ specificSlotId })
       .unwrap()
       .then(() => {
-        toast.success("El turno fue cancelado correctamente");
+        toast.success('El turno fue cancelado correctamente');
         onCancel();
       });
   };

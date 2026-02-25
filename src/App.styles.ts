@@ -1,5 +1,3 @@
 import { styled } from 'styled-components';
 
-export const MainContent = styled.main`
-
-`;
+export const MainContent = styled.main``;

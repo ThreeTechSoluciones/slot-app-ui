@@ -1,5 +1,5 @@
-import type { ReactNode } from "react";
-import * as s from "./MetricCard.styles";
+import type { ReactNode } from 'react';
+import * as s from './MetricCard.styles';
 
 export interface MetricItem {
   title: string;
@@ -22,14 +22,10 @@ export const MetricCards = ({ items }: MetricCardsProps) => {
 
           <s.ValueContainer>
             <s.Value>{item.value}</s.Value>
-            {item.icon && (
-              <s.IconWrapper $color={item.color}>{item.icon}</s.IconWrapper>
-            )}
+            {item.icon && <s.IconWrapper $color={item.color}>{item.icon}</s.IconWrapper>}
           </s.ValueContainer>
 
-          {item.description && (
-            <s.Description>{item.description}</s.Description>
-          )}
+          {item.description && <s.Description>{item.description}</s.Description>}
         </s.Card>
       ))}
     </s.MetricsContainer>

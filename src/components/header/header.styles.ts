@@ -1,5 +1,5 @@
-import styled, { keyframes } from "styled-components";
-export const MIN_HEIGHT_HEADER = "96px";
+import styled, { keyframes } from 'styled-components';
+export const MIN_HEIGHT_HEADER = '96px';
 interface OptionProps {
   $isLast?: boolean;
   $hasImg?: boolean;
@@ -53,9 +53,9 @@ export const Option = styled.div<OptionProps>`
   justify-content: center;
   text-align: center;
   align-items: center;
-  width: ${({ $hasImg }) => ($hasImg ? "200px" : "172px")};
-  border-right: ${({ $isLast }) => ($isLast ? "none" : "2px solid black")};
-  gap: ${({ $hasImg }) => ($hasImg ? "4px" : "0")};
+  width: ${({ $hasImg }) => ($hasImg ? '200px' : '172px')};
+  border-right: ${({ $isLast }) => ($isLast ? 'none' : '2px solid black')};
+  gap: ${({ $hasImg }) => ($hasImg ? '4px' : '0')};
   transition: font-size 0.3s ease-in-out;
   &:hover {
     cursor: pointer;
@@ -66,8 +66,8 @@ export const Option = styled.div<OptionProps>`
       ${boldEffect} 0.3s forwards;
   }
   img {
-    width: ${({ $hasImg }) => ($hasImg ? "16px" : "0")};
-    height: ${({ $hasImg }) => ($hasImg ? "16px" : "0")};
+    width: ${({ $hasImg }) => ($hasImg ? '16px' : '0')};
+    height: ${({ $hasImg }) => ($hasImg ? '16px' : '0')};
   }
 `;
 

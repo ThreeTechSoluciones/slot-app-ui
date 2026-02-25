@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { FONT_WEIGHT_BOLD, DEFAULT_TEXT_COLOR } from "../../utils/Stylesheet";
+import styled from 'styled-components';
+import { FONT_WEIGHT_BOLD, DEFAULT_TEXT_COLOR } from '../../utils/Stylesheet';
 
 export const PlansContainer = styled.div`
   width: 100%;

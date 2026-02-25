@@ -1,10 +1,10 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 import {
   BRAND_COLOR,
   LIGHT_NEUTRAL_COLOR,
   NEUTRAL_COLOR,
   DEFAULT_TEXT_COLOR,
-} from "../../../../utils/Stylesheet";
+} from '../../../../utils/Stylesheet';
 
 export const MainContainer = styled.div`
   display: flex;
@@ -30,14 +30,13 @@ export const BaseStyle = styled.input`
   }
 `;
 export const Input = styled(BaseStyle)<{ disabled?: boolean }>`
-  background: ${(props) => (props.disabled ? LIGHT_NEUTRAL_COLOR : "none")};
-  border: ${(props) =>
-    props.disabled ? LIGHT_NEUTRAL_COLOR : "1px solid black"};
+  background: ${(props) => (props.disabled ? LIGHT_NEUTRAL_COLOR : 'none')};
+  border: ${(props) => (props.disabled ? LIGHT_NEUTRAL_COLOR : '1px solid black')};
   &::placeholder {
     color: ${(props) => (props.disabled ? LIGHT_NEUTRAL_COLOR : NEUTRAL_COLOR)};
   }
 `;
-export const Description = styled(BaseStyle).attrs({ as: "textarea" })`
+export const Description = styled(BaseStyle).attrs({ as: 'textarea' })`
   width: 392px;
   height: 108px;
   padding-top: 16px;

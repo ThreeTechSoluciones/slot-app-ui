@@ -1,10 +1,10 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 import {
   BORDER_RADIUS,
   DEFAULT_TEXT_COLOR,
   FONT_WEIGHT_BOLD,
   BACKGROUND_COLOR,
-} from "../../../utils/Stylesheet";
+} from '../../../utils/Stylesheet';
 
 export const FormStyle = styled.form`
   display: flex;

@@ -1,12 +1,12 @@
-import { useState } from "react";
-import * as s from "./StudentRecover.styles";
-import { GenericModal } from "../../../components/generic_modal/GenericModal";
-import CheckIcon from "../../../assets/check.svg";
-import { useRecoverStudentSlotMutation } from "../../../app/services/StudentService";
-import { useGetUserStudentsQuery } from "../../../app/services/UserService";
-import useAuthentication from "../../../hooks/useAuthentication";
-import toast from "react-hot-toast";
-import type { StudentResponse } from "../../../app/types/responses/StudentResponse.type";
+import { useState } from 'react';
+import * as s from './StudentRecover.styles';
+import { GenericModal } from '../../../components/generic_modal/GenericModal';
+import CheckIcon from '../../../assets/check.svg';
+import { useRecoverStudentSlotMutation } from '../../../app/services/StudentService';
+import { useGetUserStudentsQuery } from '../../../app/services/UserService';
+import useAuthentication from '../../../hooks/useAuthentication';
+import toast from 'react-hot-toast';
+import type { StudentResponse } from '../../../app/types/responses/StudentResponse.type';
 
 interface StudentRecoverProps {
   onCancel: () => void;
@@ -19,9 +19,7 @@ export const StudentRecover = ({
   selectedSlotId,
   availableCapacity,
 }: StudentRecoverProps) => {
-  const [selectedStudentId, setSelectedStudentId] = useState<string | null>(
-    null,
-  );
+  const [selectedStudentId, setSelectedStudentId] = useState<string | null>(null);
   const { userId } = useAuthentication();
   const [recoverSlot] = useRecoverStudentSlotMutation();
   const { data: studentsResponse } = useGetUserStudentsQuery({
@@ -29,14 +27,11 @@ export const StudentRecover = ({
     filterByAbsences: true,
   });
   const students = studentsResponse?.content ?? [];
-  const handleConfirmRecover = async (
-    studentId: string,
-    specificSlotId: string,
-  ) => {
+  const handleConfirmRecover = async (studentId: string, specificSlotId: string) => {
     return recoverSlot({ studentId, specificSlotId })
       .unwrap()
       .then(() => {
-        toast.success("Se ha registrado la recuperación de la clase con éxito");
+        toast.success('Se ha registrado la recuperación de la clase con éxito');
         onCancel();
       });
   };
@@ -47,9 +42,7 @@ export const StudentRecover = ({
         key={student.id}
         $selected={isSelected}
         onClick={() =>
-          setSelectedStudentId((prevId) =>
-            prevId === student.id ? null : student.id,
-          )
+          setSelectedStudentId((prevId) => (prevId === student.id ? null : student.id))
         }
       >
         <s.RecoverItemLeft>
@@ -74,7 +67,7 @@ export const StudentRecover = ({
       onConfirm={() =>
         selectedStudentId
           ? handleConfirmRecover(selectedStudentId, selectedSlotId)
-          : toast.error("Por favor, seleccione un alumno.")
+          : toast.error('Por favor, seleccione un alumno.')
       }
       confirmText="Registrar"
       cancelText="Cancelar"
@@ -82,9 +75,7 @@ export const StudentRecover = ({
       height="auto"
     >
       <s.RecoverContainer>
-        <s.RecoverSubtitle>
-          Capacidad disponible: {availableCapacity}
-        </s.RecoverSubtitle>
+        <s.RecoverSubtitle>Capacidad disponible: {availableCapacity}</s.RecoverSubtitle>
 
         <s.RecoverList>
           {students.length > 0 ? (
@@ -92,7 +83,7 @@ export const StudentRecover = ({
               return <Student key={student.id} {...student} />;
             })
           ) : (
-            <p style={{ textAlign: "center", padding: "20px" }}>
+            <p style={{ textAlign: 'center', padding: '20px' }}>
               No hay alumnos con recuperaciones pendientes.
             </p>
           )}

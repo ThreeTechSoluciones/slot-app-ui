@@ -1,7 +1,7 @@
-import SearchIcon from "../../assets/search.svg";
-import * as s from "./FilterSearch.styles";
-import { useEffect, useState } from "react";
-import { NEUTRAL_COLOR } from "../../utils/Stylesheet";
+import SearchIcon from '../../assets/search.svg';
+import * as s from './FilterSearch.styles';
+import { useEffect, useState } from 'react';
+import { NEUTRAL_COLOR } from '../../utils/Stylesheet';
 
 interface FilterSearchProps {
   placeholder?: string;
@@ -59,8 +59,8 @@ const FilterSearch: React.FC<FilterSearchProps> = ({
           width={iconWidth}
           height={iconHeight}
           style={{
-            filter: disabled ? "grayscale(100%) opacity(0.5)" : "none",
-            cursor: disabled ? "not-allowed" : "default",
+            filter: disabled ? 'grayscale(100%) opacity(0.5)' : 'none',
+            cursor: disabled ? 'not-allowed' : 'default',
           }}
         ></img>
       </s.IconWrapper>

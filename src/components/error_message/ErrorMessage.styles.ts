@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { DANGER_COLOR } from "../../utils/Stylesheet";
+import styled from 'styled-components';
+import { DANGER_COLOR } from '../../utils/Stylesheet';
 
 export const ErrorText = styled.p`
   color: ${DANGER_COLOR};

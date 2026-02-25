@@ -1,14 +1,14 @@
-import PlusIcon from "../../assets/plus-icon-circle.webp";
-import LogoCeci from "../../assets/logoCeci.png";
-import LogoutIcon from "../../assets/logout.png";
-import PerfilPicture from "../../assets/perfil.jpg";
+import PlusIcon from '../../assets/plus-icon-circle.webp';
+import LogoCeci from '../../assets/logoCeci.png';
+import LogoutIcon from '../../assets/logout.png';
+import PerfilPicture from '../../assets/perfil.jpg';
 import {
   MisAlumnos,
   NuevoAlumno,
   MisPlanes,
   MisTurnos,
   Calendario,
-} from "../../routes/RoutesUtils";
+} from '../../routes/RoutesUtils';
 import {
   MainContainer,
   LeftOptionsContainer,
@@ -17,13 +17,13 @@ import {
   Logout,
   Photo,
   Option,
-} from "./header.styles";
-import { useNavigate } from "react-router";
-import { ConfirmDialog } from "../confirm_dialog/ConfirmDialog";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { clearUser } from "../../app/slices/AuthSlice";
-import toast from "react-hot-toast";
+} from './header.styles';
+import { useNavigate } from 'react-router';
+import { ConfirmDialog } from '../confirm_dialog/ConfirmDialog';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { clearUser } from '../../app/slices/AuthSlice';
+import toast from 'react-hot-toast';
 
 function Header() {
   const dispatch = useDispatch();
@@ -31,7 +31,7 @@ function Header() {
   const handleLogout = () => {
     setShowConfirm(false);
     dispatch(clearUser());
-    toast.success("Has cerrado sesión con éxito");
+    toast.success('Has cerrado sesión con éxito');
   };
 
   const navigate = useNavigate();

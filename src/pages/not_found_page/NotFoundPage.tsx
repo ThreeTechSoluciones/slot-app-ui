@@ -1,6 +1,6 @@
-import PageNotFoundIcon from "../../assets/page-not-found.svg";
-import * as s from "./NotFoundPage.styles";
-import { Calendario } from "../../routes/RoutesUtils";
+import PageNotFoundIcon from '../../assets/page-not-found.svg';
+import * as s from './NotFoundPage.styles';
+import { Calendario } from '../../routes/RoutesUtils';
 const NotFoundPage = () => {
   return (
     <s.PageNotFoundContainer>

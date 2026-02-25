@@ -1,5 +1,5 @@
-import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import type { SigninResponse } from "../types/responses/SigninResponse.type";
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import type { SigninResponse } from '../types/responses/SigninResponse.type';
 
 interface AuthState {
   user: SigninResponse | null;
@@ -10,7 +10,7 @@ const initialState: AuthState = {
 };
 
 export const authSlice = createSlice({
-  name: "auth",
+  name: 'auth',
   initialState,
   reducers: {
     setUser(state, action: PayloadAction<SigninResponse>) {

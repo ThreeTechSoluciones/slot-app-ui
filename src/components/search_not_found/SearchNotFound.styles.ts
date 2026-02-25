@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { DEFAULT_TEXT_COLOR } from "../../utils/Stylesheet";
+import styled from 'styled-components';
+import { DEFAULT_TEXT_COLOR } from '../../utils/Stylesheet';
 
 export const Container = styled.div`
   width: 100%;

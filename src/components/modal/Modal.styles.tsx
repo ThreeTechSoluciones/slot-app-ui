@@ -1,11 +1,11 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 import {
   BACKGROUND_COLOR,
   BORDER_RADIUS,
   BRAND_COLOR,
   NEUTRAL_COLOR,
   DEFAULT_TEXT_COLOR,
-} from "../../utils/Stylesheet";
+} from '../../utils/Stylesheet';
 
 export const ModalSlotContainer = styled.div`
   position: fixed;

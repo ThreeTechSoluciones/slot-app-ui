@@ -1,11 +1,11 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 import {
   BORDER_RADIUS,
   LIGHT_NEUTRAL_COLOR,
   DEFAULT_TEXT_COLOR,
   FONT_WEIGHT_BOLD,
   BACKGROUND_COLOR,
-} from "../../../utils/Stylesheet";
+} from '../../../utils/Stylesheet';
 
 export const FormStyle = styled.form`
   display: flex;
@@ -43,13 +43,10 @@ export const Input = styled.input<InputProps>`
   font-size: 16px;
   color: ${DEFAULT_TEXT_COLOR};
   background-color: ${BACKGROUND_COLOR};
-  background-color: ${(props) =>
-    props.$isNonEditable ? LIGHT_NEUTRAL_COLOR : BACKGROUND_COLOR};
+  background-color: ${(props) => (props.$isNonEditable ? LIGHT_NEUTRAL_COLOR : BACKGROUND_COLOR)};
   border: ${(props) =>
-    props.$isNonEditable
-      ? `2px solid ${LIGHT_NEUTRAL_COLOR}`
-      : `1px solid ${DEFAULT_TEXT_COLOR}`};
-  pointer-events: ${(props) => (props.$isNonEditable ? "none" : "auto")};
+    props.$isNonEditable ? `2px solid ${LIGHT_NEUTRAL_COLOR}` : `1px solid ${DEFAULT_TEXT_COLOR}`};
+  pointer-events: ${(props) => (props.$isNonEditable ? 'none' : 'auto')};
 `;
 
 export const InputWrapper = styled.div`

@@ -1,4 +1,4 @@
-import styled, { keyframes } from "styled-components";
+import styled, { keyframes } from 'styled-components';
 import {
   BORDER_RADIUS,
   NEUTRAL_COLOR,
@@ -8,8 +8,8 @@ import {
   FONT_WEIGHT_BOLD,
   BACKGROUND_COLOR,
   SUCCESS_COLOR,
-} from "../../utils/Stylesheet";
-import Arrow from "../../assets/Arrow.png";
+} from '../../utils/Stylesheet';
+import Arrow from '../../assets/Arrow.png';
 
 export const MainContainer = styled.div`
   display: flex;
@@ -77,7 +77,7 @@ export const Input = styled(BaseStyle)`
   }
 `;
 
-export const Select = styled(BaseStyle).attrs({ as: "select" })`
+export const Select = styled(BaseStyle).attrs({ as: 'select' })`
   width: 316px;
   border: 1px solid black;
   appearance: none;
@@ -98,8 +98,7 @@ export const Button = styled.button<ButtonProps>`
   gap: 8px;
   width: 316px;
   height: 48px;
-  background: ${(props) =>
-    props.$isDisabled ? LIGHT_NEUTRAL_COLOR : BRAND_COLOR};
+  background: ${(props) => (props.$isDisabled ? LIGHT_NEUTRAL_COLOR : BRAND_COLOR)};
   border-radius: ${BORDER_RADIUS};
   border: none;
   font-size: 12px;
@@ -171,9 +170,8 @@ export const SpecificSlotContainer = styled.div<SpecificSlotContainerProps>`
   display: flex;
   flex-direction: row;
   width: 456px;
-  border-bottom: ${(props) =>
-    props.$isLast ? "none" : `1px solid ${DEFAULT_TEXT_COLOR}`};
-  margin-bottom: ${(props) => (props.$isLast ? "px" : "none")};
+  border-bottom: ${(props) => (props.$isLast ? 'none' : `1px solid ${DEFAULT_TEXT_COLOR}`)};
+  margin-bottom: ${(props) => (props.$isLast ? 'px' : 'none')};
   padding: 2px;
   img {
     margin-top: 10px;
