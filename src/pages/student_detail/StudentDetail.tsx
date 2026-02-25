@@ -44,7 +44,6 @@ import { ConfirmDialog } from "../../components/confirm_dialog/ConfirmDialog";
 import {
   getEditarEstudianteStep,
   ListadoCuotas,
-  ModificarTurnos,
 } from "../../routes/RoutesUtils";
 import toast from "react-hot-toast";
 import { useState } from "react";
@@ -113,9 +112,8 @@ const StudentDetail = () => {
     <MainContainer>
       {showConfirm && (
         <ConfirmDialog
-          message={`¿Estás seguro de ${
-            student.status ? "dar de baja" : "dar de alta"
-          } a ${student.name} ${student.lastName}?`}
+          message={`¿Estás seguro de ${student.status ? "dar de baja" : "dar de alta"
+            } a ${student.name} ${student.lastName}?`}
           onConfirm={handleConfirm}
           onCancel={() => setShowConfirm(false)}
         />
@@ -296,7 +294,11 @@ const SlotData = ({
           Turnos asignados
         </SlotTitleContainer>
 
-        <EditIconStyles onClick={() => navigate(ModificarTurnos)}>
+        <EditIconStyles onClick={() =>
+          navigate(getEditarEstudianteStep(3), {
+            state: { studentId: student.id },
+          })
+        }>
           <img src={EditIcon} alt="edit-icon" />
         </EditIconStyles>
       </HeaderBoxes>

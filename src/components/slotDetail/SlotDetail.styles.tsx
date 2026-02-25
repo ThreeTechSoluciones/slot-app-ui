@@ -12,6 +12,7 @@ export const SlotContainer = styled.div`
   gap: 24px;
   overflow-x: auto;
 `;
+
 export const Slot = styled.div`
   display: flex;
   flex-direction: column;
@@ -24,12 +25,13 @@ export const Slot = styled.div`
   border-bottom: 5px solid ${LIGHT_NEUTRAL_COLOR};
   padding-top: 16px;
 `;
+
 interface TextProps {
   $isADay?: boolean;
 }
 
 export const Text = styled.p<TextProps>`
-  margin: 0 0 0 16px;
+  margin: 0 0 0 8px;
   padding: 0px;
   font-weight: ${FONT_WEIGHT_BOLD};
   font-size: ${(props) => (props.$isADay ? "16px" : "12px")};

@@ -1,5 +1,6 @@
 import StudentData, { type StudentDataProps } from "../forms/studentDataForm/StudentData"
 import PaymentData, { type PaymentDataProps } from "../forms/paymentDataForm/PaymentData"
+import PlanData, { type PlanDataProps } from "../forms/planDataForm/PlanData"
 import { useGetStudentByIdQuery, useUpdateStudentMutation } from "../../../app/services/StudentService"
 import useAuthentication from "../../../hooks/useAuthentication";
 import { useRef, type JSX } from "react";
@@ -20,6 +21,8 @@ function EditStudent() {
 
     const formPaymentDataRef = useRef<any>(undefined);
 
+    const formPlanDataRef = useRef<any>(undefined);
+
     const { numberOfStep } = useParams();
 
     const numberOfStepNum = numberOfStep ? parseInt(numberOfStep) : null;
@@ -29,6 +32,7 @@ function EditStudent() {
     if (!state || !userId || !numberOfStepNum) {
         return <p>Hubo un error al cargar la página. Intente nuevamente</p>;
     }
+
     const { studentId } = state as { studentId: string };
 
     const { data: studentSaveData, isLoading, isError } = useGetStudentByIdQuery(studentId!);
@@ -78,20 +82,30 @@ function EditStudent() {
             ...data,
             birthday: formatDateToISO(studentSaveData.birthday),
             slotIds: studentSaveData.slots.map(slot => slot.slotId)
-        }
+        });
+    }
 
-        );
-
+    const handleUpdatePlanData = (data: PlanDataProps) => {
+        updateStudentData({
+            studentId: studentId,
+            userId: userId,
+            ...studentSaveData,
+            ...data,
+            birthday: formatDateToISO(studentSaveData.birthday),
+            slotIds: data.slotIds,
+            planId: data.planId,
+        });
     }
 
     const handleClick = async () => {
-        const refs = [formStudentDataRef, formPaymentDataRef];
+        const refs = [formStudentDataRef, formPaymentDataRef, formPlanDataRef];
         refs[numberOfStepNum - 1].current.submit();
     }
 
     const forms: Record<number, { title: string, component: JSX.Element }> = {
         1: { title: "EDITAR DATOS DEL ALUMNO", component: (<StudentData ref={formStudentDataRef} onSubmit={handleUpdateStudentData} data={showStudentData(studentSaveData)} />) },
         2: { title: "EDITAR DATOS DEL PAGO", component: (<PaymentData ref={formPaymentDataRef} onSubmit={handleUpdatePaymentData} data={studentSaveData} actionType="edit" />) },
+        3: { title: "EDITAR TURNOS", component: (<PlanData ref={formPlanDataRef} onSubmit={handleUpdatePlanData} data={studentSaveData} actionType="edit" />) },
     };
 
     const updateStudentData = (data: UpdateStudentRequest) => {

@@ -108,6 +108,7 @@ export const StudentService = createApi({
       onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
         await queryFulfilled;
         dispatch(UserService.util.invalidateTags(["userStudents"]));
+        dispatch(UserService.util.invalidateTags(["userCalendar"]));
       },
     }),
     activateStudent: builder.mutation<void, string>({
