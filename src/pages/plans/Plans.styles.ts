@@ -3,6 +3,7 @@ import { FONT_WEIGHT_BOLD, DEFAULT_TEXT_COLOR } from "../../utils/Stylesheet";
 
 export const PlansContainer = styled.div`
   width: 100%;
+  min-height: 85vh;
   display: flex;
   flex-direction: column;
 `;
@@ -41,4 +42,7 @@ export const FilterSearchContainer = styled.div`
   display: flex;
   width: 352px;
   height: 48px;
+`;
+export const PaginationContainer = styled.div`
+  margin-top: auto;
 `;

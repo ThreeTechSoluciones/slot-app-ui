@@ -9,7 +9,7 @@ import {
 } from "../../utils/Stylesheet";
 export const StudentsContainer = styled.div`
   width: 100%;
-  min-height: 100vh;
+  min-height: 85vh;
   display: flex;
   flex-direction: column;
 `;
@@ -75,5 +75,5 @@ export const ContentContainer = styled.div`
   flex: 1;
 `;
 export const PaginationContainer = styled.div`
-  margin: 8px 0px;
+  margin: auto;
 `;
