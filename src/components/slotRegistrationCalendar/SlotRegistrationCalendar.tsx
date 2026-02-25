@@ -53,9 +53,7 @@ const Slots = ({
   return listSlots.map((day) => (
     <Column key={day.day}>
       <Day>
-        {(
-          DaysOfWeekTranslation[day.day]?.substring(0, 3) ?? day.day
-        ).toUpperCase()}
+        {(day.day?.substring(0, 3))}
       </Day>
       {Array.from({ length: maxTurnos }).map((_, idx) => {
         const slot = day.slots[idx];
