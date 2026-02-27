@@ -17,8 +17,8 @@ import SlotDetail from '../../../../components/slotDetail/SlotDetail';
 import { useSlotHandler } from '../../../../components/slotRegistrationCalendar/UseSlotHandler';
 import useAuthentication from '../../../../hooks/useAuthentication';
 import { useGetSlotsQuery, useGetUserPlansQuery } from '../../../../app/services/UserService';
-import type { FormProp } from '../../create-student/FormProp.type';
-import { forwardRef, useImperativeHandle, useMemo, useCallback, useEffect } from 'react';
+import type { FormProps } from '../../../../app/types/FormProp';
+import { forwardRef, useImperativeHandle, useMemo, useCallback, useEffect, useState } from 'react';
 import { skipToken } from '@reduxjs/toolkit/query';
 import { DaysOfWeekTranslation } from '../../../../utils/DaysOfWeek';
 import CalendarIcon from '../../../../assets/CalenderIcon.png';
@@ -27,14 +27,21 @@ export interface PlanDataProps {
   planId: string;
   slotIds: string[];
 }
-const PlanData = forwardRef<FormProp<PlanDataProps>, FormProp<PlanDataProps>>((props, ref) => {
+
+const PlanData = forwardRef<FormProps<PlanDataProps>, FormProps<PlanDataProps>>((props, ref) => {
   const { data, onSubmit: onSubmit } = props;
   const { userId } = useAuthentication();
 
   const { data: slotsData, isLoading: isLoadingCalendar } = useGetSlotsQuery(
     userId ? { userId, dayOfWeek: '' } : skipToken,
   );
-  const { data: planTypes } = useGetUserPlansQuery(userId ? { userId } : skipToken);
+
+  const [page, setPage] = useState(1);
+  const [size, setSize] = useState(5);
+
+  const { data: planTypes } = useGetUserPlansQuery(
+    userId ? { userId, page: page - 1, size } : skipToken,
+  );
 
   const schema = useMemo(() => planDataScheme(planTypes?.content), [planTypes]);
 
@@ -112,7 +119,7 @@ const PlanData = forwardRef<FormProp<PlanDataProps>, FormProp<PlanDataProps>>((p
               },
             )();
           }),
-      }) as unknown as FormProp<PlanDataProps>,
+      }) as unknown as FormProps<PlanDataProps>,
     [handleSubmit, onFormSubmit],
   );
 
