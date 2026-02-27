@@ -8,11 +8,11 @@ export const Input = styled.input`
   width: 100%;
   box-sizing: border-box;
   padding: 0 12px;
-  font-size: 16px;
+  font-size: 14px;
   color: ${DEFAULT_TEXT_COLOR};
   background-color: white;
   &::placeholder {
-    font-size: 12px;
+    font-size: 14px;
   }
   &[type='number'] {
     -moz-appearance: textfield;

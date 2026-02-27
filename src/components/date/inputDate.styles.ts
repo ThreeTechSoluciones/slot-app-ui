@@ -33,14 +33,14 @@ export const StyledWrapper = styled.div<StyledWrapperProps>`
     z-index: 9999;
 
     ${(props) =>
-      props.$calendarPosition === 'top'
-        ? `
+    props.$calendarPosition === 'top'
+      ? `
           bottom: 100%;
           left: 0;
           margin-bottom: 4px;
 
         `
-        : `
+      : `
           top: 100%;
           left: 0;
           margin-top: 4px;
@@ -95,7 +95,7 @@ export const StyledWrapper = styled.div<StyledWrapperProps>`
   }
 
   .react-date-picker__inputGroup {
-    font-size: 12px;
+    font-size: 16px;
   }
 
   //HOVER SOBRE DIAS

@@ -11,12 +11,12 @@ export const PriceInput = styled.input<PriceInputProps>`
   height: 56px;
   padding: 0 16px;
   border-radius: 10px;
-  font-size: 16px;
+  font-size: 14px;
   color: ${DEFAULT_TEXT_COLOR};
   background: ${(props) => (props.disabled ? LIGHT_NEUTRAL_COLOR : 'none')};
   border: ${(props) => (props.disabled ? LIGHT_NEUTRAL_COLOR : '1px solid black')};
   &::placeholder {
     color: ${(props) => (props.disabled ? LIGHT_NEUTRAL_COLOR : NEUTRAL_COLOR)};
-    font-size: 12px;
+    font-size: 14px;
   }
 `;

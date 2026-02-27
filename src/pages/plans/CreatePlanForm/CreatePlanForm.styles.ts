@@ -38,6 +38,7 @@ export const InputStyle = styled.input`
   border-radius: ${BORDER_RADIUS};
   width: 100%;
   height: 56px;
+  font-size: 14px;
   align-items: center;
   border: 1.5px solid ${DEFAULT_TEXT_COLOR};
   padding: 0 12px;
@@ -45,7 +46,7 @@ export const InputStyle = styled.input`
   background-color: ${BACKGROUND_COLOR};
   color: ${DEFAULT_TEXT_COLOR};
   &::placeholder {
-    font-size: 12px;
+    font-size: 14px;
   }
 `;
 

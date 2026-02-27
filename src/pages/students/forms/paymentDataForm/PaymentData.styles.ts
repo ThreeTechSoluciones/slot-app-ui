@@ -36,13 +36,14 @@ export const BaseStyle = styled.input`
   height: 56px;
   border: 1px solid black;
   border-radius: 10px;
-  font-size: 12px;
+  font-size: 14px;
   padding: 16px;
   background: none;
   box-sizing: border-box;
   color: ${DEFAULT_TEXT_COLOR};
   &::placeholder {
     color: ${NEUTRAL_COLOR};
+    font-size: 12px;
   }
 `;
 export const Select = styled(BaseStyle).attrs({ as: 'select' })`
@@ -51,13 +52,14 @@ export const Select = styled(BaseStyle).attrs({ as: 'select' })`
   border-radius: 10px;
   border: 1px solid black;
   color: black;
-  font-size: 12px;
+  font-size: 14px;
   padding-left: 16px;
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
   background: url(${Arrow}) no-repeat right 12px center;
   padding-right: 32px;
+}
 `;
 
 export const Input = styled(BaseStyle)`
@@ -66,11 +68,13 @@ export const Input = styled(BaseStyle)`
   border: ${(props) => (props.disabled ? LIGHT_NEUTRAL_COLOR : '1px solid black')};
   &::placeholder {
     color: ${(props) => (props.disabled ? LIGHT_NEUTRAL_COLOR : NEUTRAL_COLOR)};
+    color: ${NEUTRAL_COLOR};
+    font-size: 14px;
   }
 `;
 export const InputsContainer = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction:column;
   width: 100%;
 `;
 

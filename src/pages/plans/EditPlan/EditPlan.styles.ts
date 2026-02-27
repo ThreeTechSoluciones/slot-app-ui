@@ -40,7 +40,7 @@ export const Input = styled.input<InputProps>`
   width: 100%;
   box-sizing: border-box;
   padding: 0 12px;
-  font-size: 16px;
+  font-size: 14px;
   color: ${DEFAULT_TEXT_COLOR};
   background-color: ${BACKGROUND_COLOR};
   background-color: ${(props) => (props.$isNonEditable ? LIGHT_NEUTRAL_COLOR : BACKGROUND_COLOR)};

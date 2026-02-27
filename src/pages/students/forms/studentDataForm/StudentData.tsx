@@ -99,7 +99,7 @@ const StudentData = forwardRef<FormRef, FormProps<StudentDataProps>>((props, ref
         <div>
           <Label>DNI</Label>
           <Input
-            placeholder="56987256 (ingresar solo números, sin puntos ni espacios)"
+            placeholder="56987256 (solo números, sin puntos ni espacios)"
             {...register('dni')}
           ></Input>
           <ErrorMessage error={errors.dni} />

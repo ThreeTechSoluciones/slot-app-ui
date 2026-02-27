@@ -13,13 +13,14 @@ export const Input = styled.input`
   height: 56px;
   border: 1px solid black;
   border-radius: ${BORDER_RADIUS};
-  font-size: 12px;
+  font-size: 14px;
   padding-left: 16px;
   margin-bottom: 4px;
   color: ${DEFAULT_TEXT_COLOR};
   background-color: ${BACKGROUND_COLOR};
   &::placeholder {
     color: ${NEUTRAL_COLOR};
+    font-size: 14px;
   }
 `;
 

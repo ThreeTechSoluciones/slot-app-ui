@@ -39,7 +39,7 @@ export const Select = styled.select`
   height: 56px;
   border-radius: ${BORDER_RADIUS};
   border: 1px solid ${DEFAULT_TEXT_COLOR};
-  font-size: 12px;
+  font-size: 14px;
   padding-left: 16px;
   padding-right: 32px;
   background: none;

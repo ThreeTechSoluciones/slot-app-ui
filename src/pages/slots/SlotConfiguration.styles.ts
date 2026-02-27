@@ -58,6 +58,7 @@ export const EditContainer = styled.div`
 `;
 export const Label = styled.label`
   font-size: 16px;
+  font-weight: ${FONT_WEIGHT_BOLD};
 `;
 
 export const BaseStyle = styled.input`
@@ -71,9 +72,11 @@ export const BaseStyle = styled.input`
 
 export const Input = styled(BaseStyle)`
   background-color: ${LIGHT_NEUTRAL_COLOR};
+  font-size: 14px;
   border: none;
   &::placeholder {
     color: ${DEFAULT_TEXT_COLOR};
+    font-size: 14px;
   }
 `;
 
@@ -81,6 +84,7 @@ export const Select = styled(BaseStyle).attrs({ as: 'select' })`
   width: 316px;
   border: 1px solid black;
   appearance: none;
+  font-size: 14px;
   -webkit-appearance: none;
   -moz-appearance: none;
   background: url(${Arrow}) no-repeat right 12px center;
@@ -105,8 +109,8 @@ export const Button = styled.button<ButtonProps>`
   color: ${DEFAULT_TEXT_COLOR};
   &:hover {
     ${(props) =>
-      !props.$isDisabled &&
-      `
+    !props.$isDisabled &&
+    `
             cursor: pointer;
             background: ${NEUTRAL_COLOR};
         `}
