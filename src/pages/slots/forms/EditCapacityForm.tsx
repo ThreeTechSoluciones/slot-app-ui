@@ -45,7 +45,7 @@ const EditCapacityForm = forwardRef<FormSubmitHandle>((props, ref) => {
     <FormContainer onSubmit={handleSubmit(onSubmit)}>
       <InputContainer>
         <Label>Cupos disponibles</Label>
-        <Input {...register('capacity')} placeholder="25" />
+        <Input autoFocus {...register('capacity')} placeholder="25" />
         <ErrorMessage error={errors.capacity} />
       </InputContainer>
     </FormContainer>

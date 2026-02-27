@@ -105,8 +105,8 @@ export const Button = styled.button<ButtonProps>`
   color: ${DEFAULT_TEXT_COLOR};
   &:hover {
     ${(props) =>
-      !props.$isDisabled &&
-      `
+    !props.$isDisabled &&
+    `
             cursor: pointer;
             background: ${NEUTRAL_COLOR};
         `}
@@ -127,6 +127,11 @@ export const EditCapacity = styled.button`
   img {
     margin-left: 8px;
     margin-top: 4px;
+  }
+    }
+     &:focus {
+    outline: none;
+    border:none;
   }
 `;
 export const SlotsContainer = styled.div`

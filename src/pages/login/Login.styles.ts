@@ -1,5 +1,10 @@
 import styled from 'styled-components';
-import { BORDER_RADIUS, NEUTRAL_COLOR, DEFAULT_TEXT_COLOR } from '../../utils/Stylesheet';
+import {
+  BORDER_RADIUS,
+  NEUTRAL_COLOR,
+  DEFAULT_TEXT_COLOR,
+  LIGHT_NEUTRAL_COLOR,
+} from '../../utils/Stylesheet';
 
 export const MainContainer = styled.div`
   display: flex;
@@ -73,9 +78,9 @@ export const Input = styled.input`
   &::placeholder {
     color: ${NEUTRAL_COLOR};
   }
-  &:focus {
+ &:focus {
     outline: none;
-    background: none;
+    box-shadow: 0 0 0 3.5px rgba(0, 0, 0, 0.25);
   }
 `;
 interface ImgProps {

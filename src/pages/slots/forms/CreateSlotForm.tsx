@@ -44,7 +44,7 @@ const CreateSlotForm = forwardRef<FormSubmitHandle>((props, ref) => {
     <FormContainer onSubmit={handleSubmit(onSubmit)}>
       <InputContainer>
         <Label>Hora de inicio</Label>
-        <Input placeholder="15:00" {...register('startTime')} />
+        <Input autoFocus placeholder="15:00" {...register('startTime')} />
         <ErrorMessage error={errors.startTime} />
       </InputContainer>
     </FormContainer>

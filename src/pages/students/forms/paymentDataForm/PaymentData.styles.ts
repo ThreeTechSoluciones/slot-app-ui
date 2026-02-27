@@ -67,6 +67,11 @@ export const Input = styled(BaseStyle)`
   &::placeholder {
     color: ${(props) => (props.disabled ? LIGHT_NEUTRAL_COLOR : NEUTRAL_COLOR)};
   }
+  }
+     &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3.5px rgba(0, 0, 0, 0.25);
+  }
 `;
 export const InputsContainer = styled.div`
   display: flex;

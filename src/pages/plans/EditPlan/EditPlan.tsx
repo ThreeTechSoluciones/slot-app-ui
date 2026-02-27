@@ -69,7 +69,7 @@ const EditPlanForm = forwardRef<FormProp<any>, EditPlanFormProps>((props, ref) =
           <Controller
             name="name"
             control={control}
-            render={({ field }) => <s.Input {...field} />}
+            render={({ field }) => <s.Input autoFocus {...field} />}
           />
           <ErrorMessage error={errors.name} />
         </s.InputContainer>

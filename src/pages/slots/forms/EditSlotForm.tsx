@@ -49,7 +49,11 @@ const EditSlotForm = forwardRef<FormSubmitHandle, EditSlotFormProps>(
       <FormContainer onSubmit={handleSubmit(onSubmit)}>
         <InputContainer>
           <Label>Nueva hora de inicio</Label>
-          <Input placeholder={`Hora actual: ${initialStartTime}`} {...register('startTime')} />
+          <Input
+            autoFocus
+            placeholder={`Hora actual: ${initialStartTime}`}
+            {...register('startTime')}
+          />
           <ErrorMessage error={errors.startTime} />
         </InputContainer>
       </FormContainer>

@@ -88,7 +88,7 @@ const StudentData = forwardRef<FormRef, FormProps<StudentDataProps>>((props, ref
       <FormContainer>
         <div>
           <Label>Nombre</Label>
-          <Input placeholder="Juan" {...register('name')}></Input>
+          <Input autoFocus placeholder="Juan" {...register('name')}></Input>
           <ErrorMessage error={errors.name} />
         </div>
         <div>

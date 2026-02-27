@@ -29,11 +29,15 @@ export const BaseStyle = styled.input`
     color: ${NEUTRAL_COLOR};
   }
 `;
-export const Input = styled(BaseStyle)<{ disabled?: boolean }>`
+export const Input = styled(BaseStyle) <{ disabled?: boolean }>`
   background: ${(props) => (props.disabled ? LIGHT_NEUTRAL_COLOR : 'none')};
   border: ${(props) => (props.disabled ? LIGHT_NEUTRAL_COLOR : '1px solid black')};
   &::placeholder {
     color: ${(props) => (props.disabled ? LIGHT_NEUTRAL_COLOR : NEUTRAL_COLOR)};
+  }
+    &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3.5px rgba(0, 0, 0, 0.25);
   }
 `;
 export const Description = styled(BaseStyle).attrs({ as: 'textarea' })`
