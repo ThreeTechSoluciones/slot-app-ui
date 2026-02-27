@@ -105,7 +105,7 @@ export const Button = styled.button<ButtonProps>`
   background: ${(props) => (props.$isDisabled ? LIGHT_NEUTRAL_COLOR : BRAND_COLOR)};
   border-radius: ${BORDER_RADIUS};
   border: none;
-  font-size: 12px;
+  font-size: 14px;
   color: ${DEFAULT_TEXT_COLOR};
   &:hover {
     ${(props) =>

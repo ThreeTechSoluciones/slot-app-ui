@@ -38,13 +38,14 @@ export const SubTitle = styled.h2<SubtitleProps>`
   display: flex;
   align-items: center;
   color: ${DEFAULT_TEXT_COLOR};
-  font-size: 1rem;
+  font-size: 16px;
   margin-left: 5rem;
   font-weight: ${(props) => (props.$isBold ? FONT_WEIGHT_BOLD : FONT_WEIGHT_NORMAL)};
   img {
     padding-right: 6px;
   }
 `;
+
 export const MetricsContainer = styled.div`
   padding-left: 80px;
   margin-bottom: 20px;

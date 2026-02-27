@@ -17,13 +17,13 @@ export const DatePickerWrapper = styled.div<DatePickerWrapperProps>`
   position: relative;
   z-index: 1;
   &::before {
-    content: 'Filtrar por fecha de vencimiento';
+    content: 'Filtrar por vencimiento';
     position: absolute;
     left: 16px;
     top: 50%;
     transform: translateY(-50%);
     color: ${NEUTRAL_COLOR};
-    font-size: 12px;
+    font-size: 14px;
     pointer-events: none;
     z-index: 1;
     display: ${(props) => (props.$hasValue ? 'none' : 'block')};

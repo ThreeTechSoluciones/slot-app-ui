@@ -21,7 +21,7 @@ export const FilterInputStyled = styled.input`
   color: ${DEFAULT_TEXT_COLOR};
   border: none;
   background-color: transparent;
-  font-size: 12px;
+  font-size: 14px;
   &:focus {
     outline: none;
     box-shadow: none;

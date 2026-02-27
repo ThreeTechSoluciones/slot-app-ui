@@ -23,7 +23,7 @@ export const DropdownWrapper = styled.div<DropdownWrapperProps>`
   align-items: center;
   justify-content: center;
   border-radius: ${BORDER_RADIUS};
-  font-size: 12px;
+  font-size: 14px;
   color: ${NEUTRAL_COLOR};
   background-color: ${LIGHT_NEUTRAL_COLOR};
   color: ${(props) => (props.$hasValue ? DEFAULT_TEXT_COLOR : NEUTRAL_COLOR)};

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { BORDER_RADIUS, NEUTRAL_COLOR, DEFAULT_TEXT_COLOR } from '../../utils/Stylesheet';
+import { BORDER_RADIUS, NEUTRAL_COLOR, DEFAULT_TEXT_COLOR, BRAND_COLOR } from '../../utils/Stylesheet';
 
 export const MainContainer = styled.div`
   display: flex;
@@ -57,7 +57,7 @@ export const Input = styled.input`
   height: 56px;
   border: 1px solid black;
   border-radius: ${BORDER_RADIUS};
-  font-size: 12px;
+  font-size: 14px;
   padding-left: 16px;
   background: white;
   color: ${DEFAULT_TEXT_COLOR};
@@ -98,10 +98,10 @@ export const Button = styled.button`
   margin-top: 24px;
   width: 412px;
   height: 56px;
-  background-color: #f0e21e;
+  background-color: ${BRAND_COLOR};
   border-radius: 10px;
   border: none;
-  font-size: 12px;
+  font-size: 14px;
   color: black;
   &:hover {
     cursor: pointer;

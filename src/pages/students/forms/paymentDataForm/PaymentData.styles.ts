@@ -74,7 +74,7 @@ export const Input = styled(BaseStyle)`
 `;
 export const InputsContainer = styled.div`
   display: flex;
-  flex-direction:column;
+  flex-direction: column;
   width: 100%;
 `;
 

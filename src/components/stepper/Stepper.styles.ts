@@ -33,7 +33,7 @@ export const Button = styled.button`
   background: ${BRAND_COLOR};
   border-radius: 10px;
   border: none;
-  font-size: 12px;
+  font-size: 14px;
   color: black;
   &:hover {
     cursor: pointer;

@@ -105,9 +105,8 @@ const StudentDetail = () => {
     <MainContainer>
       {showConfirm && (
         <ConfirmDialog
-          message={`¿Estás seguro de ${
-            student.status ? 'dar de baja' : 'dar de alta'
-          } a ${student.name} ${student.lastName}?`}
+          message={`¿Estás seguro de ${student.status ? 'dar de baja' : 'dar de alta'
+            } a ${student.name} ${student.lastName}?`}
           onConfirm={handleConfirm}
           onCancel={() => setShowConfirm(false)}
         />
@@ -250,6 +249,7 @@ const PaymentData = ({
           <Button
             variant="primary"
             size="large"
+            fontsize='medium'
             onClick={() => navigate(ListadoCuotas, { state: { studentId: student.id } })}
           >
             Ver cuotas
