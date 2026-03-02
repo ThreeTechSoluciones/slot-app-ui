@@ -4,6 +4,7 @@ import {
   LIGHT_NEUTRAL_COLOR,
   NEUTRAL_COLOR,
   DEFAULT_TEXT_COLOR,
+  MEDIUM_FONT_SIZE,
 } from '../../utils/Stylesheet';
 
 interface DropdownWrapperProps {
@@ -23,7 +24,7 @@ export const DropdownWrapper = styled.div<DropdownWrapperProps>`
   align-items: center;
   justify-content: center;
   border-radius: ${BORDER_RADIUS};
-  font-size: 14px;
+  font-size: ${MEDIUM_FONT_SIZE};
   color: ${NEUTRAL_COLOR};
   background-color: ${LIGHT_NEUTRAL_COLOR};
   color: ${(props) => (props.$hasValue ? DEFAULT_TEXT_COLOR : NEUTRAL_COLOR)};

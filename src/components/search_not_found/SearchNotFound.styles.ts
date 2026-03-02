@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { DEFAULT_TEXT_COLOR } from '../../utils/Stylesheet';
+import { DEFAULT_FONT_SIZE, DEFAULT_TEXT_COLOR } from '../../utils/Stylesheet';
 
 export const Container = styled.div`
   width: 100%;
@@ -20,6 +20,6 @@ export const Icon = styled.img`
 export const Message = styled.p`
   text-align: center;
   color: ${DEFAULT_TEXT_COLOR};
-  font-size: 16px;
+  font-size: ${DEFAULT_FONT_SIZE};
   max-width: 470px;
 `;

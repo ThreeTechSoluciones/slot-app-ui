@@ -6,22 +6,28 @@ import {
   SUCCESS_COLOR,
   NEUTRAL_COLOR,
   FONT_WEIGHT_BOLD,
+  LARGE_FONT_SIZE,
+  DEFAULT_FONT_SIZE,
 } from '../../utils/Stylesheet';
+
 export const StudentsContainer = styled.div`
   width: 100%;
   min-height: 85vh;
   display: flex;
   flex-direction: column;
 `;
+
 export const Title = styled.h1`
-  font-size: 24px;
+  font-size: ${LARGE_FONT_SIZE};
   margin-left: 80px;
   font-weight: ${FONT_WEIGHT_BOLD};
   margin-top: 56px;
 `;
+
 export const MetricsContainer = styled.div`
   margin-left: 80px;
 `;
+
 export const FiltersContainer = styled.div`
   display: flex;
   margin: 30px 80px;
@@ -47,7 +53,7 @@ const CommonStatusAndSituation = styled.p`
   width: 136px;
   height: 32px;
   margin: 0 auto;
-  font-size: 16px;
+  font-size: ${DEFAULT_FONT_SIZE};
   border-radius: ${BORDER_RADIUS};
   font-weight: 700;
 `;
@@ -70,9 +76,11 @@ export const FilterSearchContainer = styled.div`
   width: 352px;
   height: 48px;
 `;
+
 export const ContentContainer = styled.div`
   flex: 1;
 `;
+
 export const PaginationContainer = styled.div`
   margin: auto;
 `;

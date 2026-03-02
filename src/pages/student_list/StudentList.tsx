@@ -40,14 +40,14 @@ function StudentList() {
   } = useGetUserStudentsQuery(
     userId
       ? {
-        userId,
-        filter,
-        page: page - 1,
-        size,
-        status: situationFilter || undefined,
-        isActive: statusFilter === '' ? undefined : statusFilter === 'activo',
-        sort: sort.length > 0 ? sort : undefined,
-      }
+          userId,
+          filter,
+          page: page - 1,
+          size,
+          status: situationFilter || undefined,
+          isActive: statusFilter === '' ? undefined : statusFilter === 'activo',
+          sort: sort.length > 0 ? sort : undefined,
+        }
       : skipToken,
     { refetchOnMountOrArgChange: true },
   );
@@ -181,7 +181,8 @@ function StudentList() {
                 setStatusFilter('');
               }}
             >
-              Limpiar <br />filtros
+              Limpiar <br />
+              filtros
             </Button>
           </s.LeftContainer>
           <s.RightContainer>

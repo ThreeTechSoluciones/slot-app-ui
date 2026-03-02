@@ -8,6 +8,10 @@ import {
   FONT_WEIGHT_BOLD,
   BACKGROUND_COLOR,
   SUCCESS_COLOR,
+  DEFAULT_FONT_SIZE,
+  LARGE_FONT_SIZE,
+  MEDIUM_FONT_SIZE,
+  SMALL_FONT_SIZE,
 } from '../../utils/Stylesheet';
 import Arrow from '../../assets/Arrow.png';
 
@@ -18,7 +22,7 @@ export const MainContainer = styled.div`
   margin: 0px;
 `;
 export const Title = styled.h1`
-  font-size: 24px;
+  font-size: ${LARGE_FONT_SIZE};
   display: flex;
   margin-top: 32px;
   margin-left: 80px;
@@ -57,7 +61,7 @@ export const EditContainer = styled.div`
   width: 316px;
 `;
 export const Label = styled.label`
-  font-size: 16px;
+  font-size: ${DEFAULT_FONT_SIZE};
   font-weight: ${FONT_WEIGHT_BOLD};
 `;
 
@@ -65,18 +69,18 @@ export const BaseStyle = styled.input`
   width: 300px;
   height: 48px;
   border-radius: ${BORDER_RADIUS};
-  font-size: 12px;
+  font-size: ${SMALL_FONT_SIZE};
   padding-left: 16px;
   color: ${DEFAULT_TEXT_COLOR};
 `;
 
 export const Input = styled(BaseStyle)`
   background-color: ${LIGHT_NEUTRAL_COLOR};
-  font-size: 14px;
+  font-size: ${DEFAULT_FONT_SIZE};
   border: none;
   &::placeholder {
     color: ${DEFAULT_TEXT_COLOR};
-    font-size: 14px;
+    font-size: ${DEFAULT_FONT_SIZE};
   }
 `;
 
@@ -84,7 +88,7 @@ export const Select = styled(BaseStyle).attrs({ as: 'select' })`
   width: 316px;
   border: 1px solid black;
   appearance: none;
-  font-size: 14px;
+  font-size: ${MEDIUM_FONT_SIZE};
   -webkit-appearance: none;
   -moz-appearance: none;
   background: url(${Arrow}) no-repeat right 12px center;
@@ -105,7 +109,7 @@ export const Button = styled.button<ButtonProps>`
   background: ${(props) => (props.$isDisabled ? LIGHT_NEUTRAL_COLOR : BRAND_COLOR)};
   border-radius: ${BORDER_RADIUS};
   border: none;
-  font-size: 14px;
+  font-size: ${MEDIUM_FONT_SIZE};
   color: ${DEFAULT_TEXT_COLOR};
   &:hover {
     ${(props) =>
@@ -120,7 +124,7 @@ export const Button = styled.button<ButtonProps>`
 export const EditCapacity = styled.button`
   display: flex;
   align-items: center;
-  font-size: 16px;
+  font-size: ${DEFAULT_FONT_SIZE};
   color: ${DEFAULT_TEXT_COLOR};
   background: none;
   border: none;
@@ -153,7 +157,7 @@ export const TitlesContainer = styled.div`
 `;
 
 export const MainTitle = styled.h1`
-  font-size: 16px;
+  font-size: ${DEFAULT_FONT_SIZE};
   font-weight: bold;
   margin: 0px;
   margin-top: 32px;
@@ -161,7 +165,7 @@ export const MainTitle = styled.h1`
 `;
 
 export const Subtitle = styled.h2`
-  font-size: 12px;
+  font-size: ${SMALL_FONT_SIZE};
   margin: 0px;
   font-weight: 500;
 `;
@@ -219,14 +223,14 @@ export const PrimaryText = styled.p`
   margin-top: 8px;
   margin-bottom: 0px;
   font-weight: ${FONT_WEIGHT_BOLD};
-  font-size: 16px;
+  font-size: ${DEFAULT_FONT_SIZE};
 `;
 
 export const SecondaryText = styled.p`
   color: ${DEFAULT_TEXT_COLOR};
   margin-top: 0px;
   margin-bottom: 4px;
-  font-size: 12px;
+  font-size: ${SMALL_FONT_SIZE};
 `;
 
 export const ActionsContainer = styled.div`

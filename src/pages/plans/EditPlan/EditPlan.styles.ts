@@ -5,6 +5,9 @@ import {
   DEFAULT_TEXT_COLOR,
   FONT_WEIGHT_BOLD,
   BACKGROUND_COLOR,
+  MEDIUM_FONT_SIZE,
+  DEFAULT_FONT_SIZE,
+  SMALL_FONT_SIZE,
 } from '../../../utils/Stylesheet';
 
 export const FormStyle = styled.form`
@@ -40,7 +43,7 @@ export const Input = styled.input<InputProps>`
   width: 100%;
   box-sizing: border-box;
   padding: 0 12px;
-  font-size: 14px;
+  font-size: ${MEDIUM_FONT_SIZE};
   color: ${DEFAULT_TEXT_COLOR};
   background-color: ${BACKGROUND_COLOR};
   background-color: ${(props) => (props.$isNonEditable ? LIGHT_NEUTRAL_COLOR : BACKGROUND_COLOR)};
@@ -59,7 +62,7 @@ export const InputWrapper = styled.div`
 export const Label = styled.label`
   text-align: left;
   white-space: nowrap;
-  font-size: 16px;
+  font-size: ${DEFAULT_FONT_SIZE};
   font-weight: ${FONT_WEIGHT_BOLD};
   margin: 1px 0px 1px 0px;
 `;
@@ -72,7 +75,7 @@ export const EditPriceOptionContainer = styled.div`
 `;
 
 export const Description = styled.span`
-  font-size: 12px;
+  font-size: ${SMALL_FONT_SIZE};
   color: ${DEFAULT_TEXT_COLOR};
 `;
 

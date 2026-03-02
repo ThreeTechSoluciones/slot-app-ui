@@ -4,6 +4,8 @@ import {
   DEFAULT_TEXT_COLOR,
   FONT_WEIGHT_BOLD,
   BACKGROUND_COLOR,
+  DEFAULT_FONT_SIZE,
+  MEDIUM_FONT_SIZE,
 } from '../../../utils/Stylesheet';
 
 export const FormStyle = styled.form`
@@ -26,7 +28,7 @@ export const InputContainer = styled.div`
 export const LabelStyle = styled.label`
   text-align: left;
   font-weight: ${FONT_WEIGHT_BOLD};
-  font-size: 16px;
+  font-size: ${DEFAULT_FONT_SIZE};
 `;
 
 export const InputWrapper = styled.div`
@@ -38,7 +40,7 @@ export const InputStyle = styled.input`
   border-radius: ${BORDER_RADIUS};
   width: 100%;
   height: 56px;
-  font-size: 14px;
+  font-size: ${MEDIUM_FONT_SIZE};
   align-items: center;
   border: 1.5px solid ${DEFAULT_TEXT_COLOR};
   padding: 0 12px;
@@ -46,7 +48,7 @@ export const InputStyle = styled.input`
   background-color: ${BACKGROUND_COLOR};
   color: ${DEFAULT_TEXT_COLOR};
   &::placeholder {
-    font-size: 14px;
+    font-size: ${MEDIUM_FONT_SIZE};
   }
 `;
 

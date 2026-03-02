@@ -5,6 +5,8 @@ import {
   NEUTRAL_COLOR,
   DEFAULT_TEXT_COLOR,
   BORDER_RADIUS,
+  DEFAULT_FONT_SIZE,
+  SMALL_FONT_SIZE,
 } from '../../utils/Stylesheet';
 
 interface StyledWrapperProps {
@@ -19,7 +21,7 @@ export const StyledWrapper = styled.div<StyledWrapperProps>`
     box-sizing: border-box;
     border: 1px solid black;
     border-radius: ${BORDER_RADIUS};
-    font-size: 16px;
+    font-size: ${DEFAULT_FONT_SIZE};
     padding: 0 16px;
     background: none;
     color: ${DEFAULT_TEXT_COLOR};
@@ -51,7 +53,7 @@ export const StyledWrapper = styled.div<StyledWrapperProps>`
     background-color: white;
     border: 2px solid ${LIGHT_NEUTRAL_COLOR};
     border-radius: 10px;
-    font-size: 16px;
+    font-size: ${DEFAULT_FONT_SIZE};
     padding: 20px;
     z-index: 9999;
     color: ${DEFAULT_TEXT_COLOR};
@@ -65,7 +67,7 @@ export const StyledWrapper = styled.div<StyledWrapperProps>`
     align-items: center;
     justify-content: space-between;
     font-weight: bold;
-    font-size: 12px;
+    font-size: ${SMALL_FONT_SIZE};
     color: ${DEFAULT_TEXT_COLOR};
   }
 
@@ -73,7 +75,7 @@ export const StyledWrapper = styled.div<StyledWrapperProps>`
   .react-calendar__month-view__weekdays {
     text-decoration: none;
     color: black;
-    font-size: 12px;
+    font-size: ${SMALL_FONT_SIZE};
   }
 
   //DIAS
@@ -95,7 +97,7 @@ export const StyledWrapper = styled.div<StyledWrapperProps>`
   }
 
   .react-date-picker__inputGroup {
-    font-size: 16px;
+    font-size: ${DEFAULT_FONT_SIZE};
   }
 
   //HOVER SOBRE DIAS

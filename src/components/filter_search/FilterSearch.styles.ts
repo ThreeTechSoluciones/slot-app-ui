@@ -3,6 +3,7 @@ import {
   BORDER_RADIUS,
   DEFAULT_TEXT_COLOR,
   LIGHT_NEUTRAL_COLOR,
+  MEDIUM_FONT_SIZE,
   NEUTRAL_COLOR,
 } from '../../utils/Stylesheet';
 
@@ -21,7 +22,7 @@ export const FilterInputStyled = styled.input`
   color: ${DEFAULT_TEXT_COLOR};
   border: none;
   background-color: transparent;
-  font-size: 14px;
+  font-size: ${MEDIUM_FONT_SIZE};
   &:focus {
     outline: none;
     box-shadow: none;

@@ -1,5 +1,10 @@
 import styled from 'styled-components';
-import { LIGHT_NEUTRAL_COLOR, NEUTRAL_COLOR, DEFAULT_TEXT_COLOR } from '../Stylesheet';
+import {
+  LIGHT_NEUTRAL_COLOR,
+  NEUTRAL_COLOR,
+  DEFAULT_TEXT_COLOR,
+  MEDIUM_FONT_SIZE,
+} from '../Stylesheet';
 
 type PriceInputProps = {
   width: string;
@@ -11,12 +16,12 @@ export const PriceInput = styled.input<PriceInputProps>`
   height: 56px;
   padding: 0 16px;
   border-radius: 10px;
-  font-size: 14px;
+  font-size: ${MEDIUM_FONT_SIZE};
   color: ${DEFAULT_TEXT_COLOR};
   background: ${(props) => (props.disabled ? LIGHT_NEUTRAL_COLOR : 'none')};
   border: ${(props) => (props.disabled ? LIGHT_NEUTRAL_COLOR : '1px solid black')};
   &::placeholder {
     color: ${(props) => (props.disabled ? LIGHT_NEUTRAL_COLOR : NEUTRAL_COLOR)};
-    font-size: 14px;
+    font-size: ${MEDIUM_FONT_SIZE};
   }
 `;

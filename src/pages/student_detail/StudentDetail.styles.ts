@@ -4,6 +4,9 @@ import {
   NEUTRAL_COLOR,
   DANGER_COLOR,
   FONT_WEIGHT_BOLD,
+  DEFAULT_FONT_SIZE,
+  SMALL_FONT_SIZE,
+  LARGE_FONT_SIZE,
 } from '../../utils/Stylesheet';
 
 export const MainContainer = styled.div`
@@ -23,6 +26,7 @@ export const HeaderContainer = styled.div`
   align-items: center;
   margin-top: 3rem;
 `;
+
 export const ButtonWrapper = styled.div`
   margin-right: 16rem;
 `;
@@ -33,6 +37,7 @@ export const HeaderBoxes = styled.div`
   padding: 12px;
   align-items: center;
 `;
+
 export const SlotPlanContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -44,6 +49,7 @@ export const EditIconStyles = styled.div`
   margin-left: auto;
   cursor: pointer;
 `;
+
 export const InfoBoxesContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -96,7 +102,7 @@ export const SearchNotFoundStyles = styled.div`
   height: 100%;
 `;
 export const Label = styled.p`
-  font-size: 12px;
+  font-size: ${SMALL_FONT_SIZE};
   margin: 0px;
   width: fit-content;
 `;
@@ -108,7 +114,7 @@ export const StudentNameContainer = styled.div`
 `;
 
 export const StudentInfo = styled.p`
-  font-size: 16px;
+  font-size: ${DEFAULT_FONT_SIZE};
   margin: 0px;
   text-align: justify;
   overflow-wrap: break-word;
@@ -133,7 +139,7 @@ export const TitleContainer = styled.div`
 export const Title = styled.h1`
   display: flex;
   align-items: center;
-  font-size: 24px;
+  font-size: ${LARGE_FONT_SIZE};
   justify-content: flex-start;
   width: 100%;
 `;
@@ -147,7 +153,7 @@ export const SubTitle = styled.h2`
   margin-left: 2rem;
 `;
 export const SlotTitleContainer = styled.div`
-  font-size: 16px;
+  font-size: ${DEFAULT_FONT_SIZE};
   font-weight: ${FONT_WEIGHT_BOLD};
   display: flex;
   flex-direction: row;
@@ -161,12 +167,12 @@ export const PlanContainer = styled.div`
 `;
 
 export const AssignedPlan = styled.p`
-  font-size: 12px;
+  font-size: ${SMALL_FONT_SIZE};
   margin: 0px;
   font-weight: ${FONT_WEIGHT_BOLD};
 `;
 export const DaysPlan = styled.p`
-  font-size: 16px;
+  font-size: ${DEFAULT_FONT_SIZE};
   margin: 0px;
 `;
 export const SlotsContainer = styled.div`

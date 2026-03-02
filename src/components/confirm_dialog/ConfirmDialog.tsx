@@ -27,8 +27,12 @@ export function ConfirmDialog({ message, onConfirm, onCancel }: ConfirmDialogPro
         </InfoBox>
 
         <ConfirmActions>
-          <Button fontsize="medium" onClick={onCancel}>Cancelar</Button>
-          <Button fontsize="medium" onClick={onConfirm}>Aceptar</Button>
+          <Button fontsize="medium" onClick={onCancel}>
+            Cancelar
+          </Button>
+          <Button fontsize="medium" onClick={onConfirm}>
+            Aceptar
+          </Button>
         </ConfirmActions>
       </ConfirmBox>
     </ConfirmOverlay>
