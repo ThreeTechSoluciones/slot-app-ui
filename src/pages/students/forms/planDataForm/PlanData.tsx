@@ -22,13 +22,14 @@ import { forwardRef, useImperativeHandle, useMemo, useCallback, useEffect, useSt
 import { skipToken } from '@reduxjs/toolkit/query';
 import { DaysOfWeekTranslation } from '../../../../utils/DaysOfWeek';
 import CalendarIcon from '../../../../assets/CalenderIcon.png';
+import type { FormRef } from '../../../../app/types/FormRef';
 
 export interface PlanDataProps {
   planId: string;
   slotIds: string[];
 }
 
-const PlanData = forwardRef<FormProps<PlanDataProps>, FormProps<PlanDataProps>>((props, ref) => {
+const PlanData = forwardRef<FormRef, FormProps<PlanDataProps>>((props, ref) => {
   const { data, onSubmit: onSubmit } = props;
   const { userId } = useAuthentication();
 
@@ -36,8 +37,9 @@ const PlanData = forwardRef<FormProps<PlanDataProps>, FormProps<PlanDataProps>>(
     userId ? { userId, dayOfWeek: '' } : skipToken,
   );
 
-  const [page, setPage] = useState(1);
-  const [size, setSize] = useState(5);
+  const page = 1;
+
+  const size = 100;
 
   const { data: planTypes } = useGetUserPlansQuery(
     userId ? { userId, page: page - 1, size } : skipToken,
@@ -106,20 +108,20 @@ const PlanData = forwardRef<FormProps<PlanDataProps>, FormProps<PlanDataProps>>(
   useImperativeHandle(
     ref,
     () =>
-      ({
-        submit: () =>
-          new Promise<boolean>((resolve) => {
-            handleSubmit(
-              async (data) => {
-                const success = onFormSubmit(data);
-                resolve(success);
-              },
-              () => {
-                resolve(false);
-              },
-            )();
-          }),
-      }) as unknown as FormProps<PlanDataProps>,
+    ({
+      submit: () =>
+        new Promise<boolean>((resolve) => {
+          handleSubmit(
+            async (data) => {
+              const success = onFormSubmit(data);
+              resolve(success);
+            },
+            () => {
+              resolve(false);
+            },
+          )();
+        }),
+    }),
     [handleSubmit, onFormSubmit],
   );
 
