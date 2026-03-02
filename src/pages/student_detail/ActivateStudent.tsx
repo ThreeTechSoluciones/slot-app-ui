@@ -32,8 +32,6 @@ const ActivateStudent = () => {
     const paymentValues = paymentRef.current?.getValues();
     const planValues = planRef.current?.getValues();
 
-    if (!paymentValues || !planValues) return;
-
     try {
       await activateStudent({
         studentId,
