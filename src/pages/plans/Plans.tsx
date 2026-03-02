@@ -191,7 +191,7 @@ function Plans() {
   if (!plansData) return <div>No hay información disponible.</div>;
   return (
     <s.PlansContainer>
-      <s.Title>GESTIÓN DE PLANES</s.Title>
+      <s.Title>MIS PLANES</s.Title>
 
       <s.FiltersContainer>
         <s.LeftContainer>

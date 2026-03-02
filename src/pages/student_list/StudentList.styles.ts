@@ -7,6 +7,7 @@ import {
   NEUTRAL_COLOR,
   FONT_WEIGHT_BOLD,
 } from '../../utils/Stylesheet';
+
 export const StudentsContainer = styled.div`
   width: 100%;
   min-height: 85vh;
@@ -17,7 +18,7 @@ export const Title = styled.h1`
   font-size: 24px;
   margin-left: 80px;
   font-weight: ${FONT_WEIGHT_BOLD};
-  margin-top: 56px;
+  margin-top: 32px;
 `;
 export const MetricsContainer = styled.div`
   margin-left: 80px;
@@ -52,14 +53,14 @@ const CommonStatusAndSituation = styled.p`
   font-weight: 700;
 `;
 
-export const SituationText = styled(CommonStatusAndSituation)<{
+export const SituationText = styled(CommonStatusAndSituation) <{
   $status: string;
 }>`
   background-color: ${({ $status }) =>
     $status === 'En término' ? `${SUCCESS_COLOR}` : `${DANGER_COLOR}`};
 `;
 
-export const StatusText = styled(CommonStatusAndSituation)<{
+export const StatusText = styled(CommonStatusAndSituation) <{
   $isActive: boolean;
 }>`
   background-color: ${({ $isActive }) => ($isActive ? `${SUCCESS_COLOR}` : `${NEUTRAL_COLOR}`)};
