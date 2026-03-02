@@ -34,6 +34,7 @@ const PaymentData = forwardRef<FormRef, FormProps<PaymentDataProps>>((props, ref
     watch,
     control,
     setValue,
+    getValues,
     formState: { errors },
   } = useForm<FormData>({
     resolver: yupResolver(paymentDataScheme) as any,
@@ -110,6 +111,7 @@ const PaymentData = forwardRef<FormRef, FormProps<PaymentDataProps>>((props, ref
           },
         )();
       }),
+    getValues: () => getValues(),
   }));
 
   return (

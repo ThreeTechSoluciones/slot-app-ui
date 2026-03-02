@@ -182,6 +182,7 @@ function StudentFeesList() {
       },
     },
   ];
+
   return (
     <s.StudentsContainer>
       <s.InformationStudent>
