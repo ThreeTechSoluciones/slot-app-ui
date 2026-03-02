@@ -31,7 +31,7 @@ export const StudentRecover = ({
     return recoverSlot({ studentId, specificSlotId })
       .unwrap()
       .then(() => {
-        toast.success('Se ha registrado la recuperación de la clase con éxito');
+        toast.success(`Recuperación registrada`);
         onCancel();
       });
   };

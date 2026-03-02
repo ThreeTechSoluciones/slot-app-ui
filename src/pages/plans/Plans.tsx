@@ -72,7 +72,7 @@ function Plans() {
     await handleMutation(
       () => createPlan(finalRequest).unwrap(),
       () => setShowModal(null),
-      'Plan creado correctamente',
+      'Plan registrado',
     );
   };
 
@@ -89,7 +89,7 @@ function Plans() {
     await handleMutation(
       () => editPlan(finalRequest).unwrap(),
       () => setShowModal(null),
-      'Plan editado correctamente',
+      'Plan editado',
     );
   };
   //ELIMINAR PLAN
@@ -102,7 +102,7 @@ function Plans() {
         setShowModal(null);
         setSelectedPlan(null);
       },
-      'Plan eliminado correctamente',
+      'Plan eliminado',
     );
   };
   const MODALS = {
