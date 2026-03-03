@@ -74,5 +74,6 @@ export const ContentContainer = styled.div`
   flex: 1;
 `;
 export const PaginationContainer = styled.div`
+  padding: 8px 0 8px 0;
   margin: auto;
 `;

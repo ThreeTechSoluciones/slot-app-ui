@@ -11,7 +11,7 @@ import StudentIcon from '../../assets/student-icon.svg';
 import ViewIcon from '../../assets/openEye-icon.png';
 import CoinIcon from '../../assets/coin-icon.svg';
 import type { StudentMonthlyFeeResponse } from '../../app/types/responses/StudentMonthlyFee.type';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ConfirmDialog } from '../../components/confirm_dialog/ConfirmDialog';
 import {
   useGetStudentByIdQuery,
@@ -38,6 +38,8 @@ import type {
   PAYMENT_DETAIL_MODAL_TYPE,
 } from '../../utils/MonthlyFeesStatus';
 import PaymentMetrics from './PaymentMetrics';
+import { Pagination } from '../../components/pagination/Pagination';
+import { SearchNotFound } from '../../components/search_not_found/SearchNotFound';
 function StudentFeesList() {
   const location = useLocation();
   const { studentId } = location.state || {};
@@ -57,7 +59,8 @@ function StudentFeesList() {
   const [selectedFeeId, setSelectedFeeId] = useState<string | null>(null);
   const [selectedPaymentId, setSelectedPaymentId] = useState<string | null>(null);
   const [payMonthlyFee] = useUpdateMonthlyFeeMutation();
-
+  const [page, setPage] = useState(1);
+  const [size, setSize] = useState(5);
   const formattedExpirationDate = expirationDateFilter
     ? formatDateToIsoString(expirationDateFilter)
     : undefined;
@@ -72,12 +75,17 @@ function StudentFeesList() {
           month: monthFilter || undefined,
           expirationDate: formattedExpirationDate,
           status: statusFilter || undefined,
+          page: page - 1,
+          size,
         }
       : skipToken,
   );
 
   const [createMonthlyFee] = useCreateStudentMonthlyFeeMutation();
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+  useEffect(() => {
+    setPage(1);
+  }, [monthFilter, statusFilter, formattedExpirationDate]);
   if (fetchingStudent) return <p>Cargando información del alumno...</p>;
   if (errorFetchingStudent) return <p>Error al cargar la información del alumno.</p>;
   if (!student) return <p>Alumno no encontrado.</p>;
@@ -118,7 +126,7 @@ function StudentFeesList() {
 
   if (isLoading) return <p>Cargando cuotas...</p>;
   if (isError) return <p>Error al cargar cuotas.</p>;
-
+  if (!fees) return <SearchNotFound message="No hay información disponible." />;
   const columns: Column<StudentMonthlyFeeResponse>[] = [
     {
       header: <SortableButton text="N° de cuota" />,
@@ -184,94 +192,110 @@ function StudentFeesList() {
   ];
   return (
     <s.StudentsContainer>
-      <s.InformationStudent>
-        <s.TitleContainer>
-          <img
-            src={BackIcon}
-            alt="back-icon"
-            onClick={() => navigate(MisAlumnos)}
-            style={{ cursor: 'pointer' }}
-          />
-          <s.Title>LISTADO DE CUOTAS</s.Title>
-        </s.TitleContainer>
-        <s.SubTitle $isBold={true}>
-          <img src={StudentIcon} alt="student-icon" width={16} height={16} />
-          {student?.name} {student?.lastName}
-        </s.SubTitle>
-        <s.SubTitle>Cantidad de días: {student?.numberOfDays}</s.SubTitle>
-        <s.SubTitle>Día de pago: {student?.paymentDay}</s.SubTitle>
-      </s.InformationStudent>
-      <s.MetricsContainer>
-        <PaymentMetrics studentId={student.id} />
-      </s.MetricsContainer>
-      <s.FiltersContainer>
-        <s.LeftContainer>
-          <Filter
-            placeholder="Filtrar por mes"
-            options={Object.entries(MonthsOfYear).map(([label, value]) => ({
-              label,
-              value: value.trim(),
-            }))}
-            value={monthFilter}
-            onSelect={setMonthFilter}
-          />
-          <DateFilter
-            value={expirationDateFilter}
-            onChange={(d) => setExpirationDateFilter(d ?? undefined)}
-          />
-
-          <Filter
-            placeholder="Filtrar por estado"
-            options={MonthlyFeesStatusOptions}
-            value={statusFilter}
-            onSelect={setStatusFilter}
-          />
-
-          <Button
-            variant="primary"
-            size="small"
-            onClick={() => {
-              setStatusFilter('');
-              setExpirationDateFilter(undefined);
-              setMonthFilter('');
-            }}
-          >
-            Limpiar filtros
-          </Button>
-        </s.LeftContainer>
-        <s.RightContainer>
-          <Button
-            variant="primary"
-            size="medium"
-            icon={<img src={AddIcon} alt="Add Icon" />}
-            onClick={() => setShowConfirmDialog(true)}
-          >
-            Nueva cuota
-          </Button>
-          {showConfirmDialog && (
-            <ConfirmDialog
-              message={`¿Estás seguro de que deseas generar una cuota para ${student.name} ${student.lastName}?`}
-              onConfirm={handleConfirmCreateFee}
-              onCancel={() => setShowConfirmDialog(false)}
+      <s.ContentContainer>
+        <s.InformationStudent>
+          <s.TitleContainer>
+            <img
+              src={BackIcon}
+              alt="back-icon"
+              onClick={() => navigate(MisAlumnos)}
+              style={{ cursor: 'pointer' }}
             />
-          )}
-        </s.RightContainer>
-      </s.FiltersContainer>
-      {modalType === 'pay' && (
-        <ConfirmDialog
-          message="¿Estás seguro de realizar este pago?"
-          onConfirm={handleConfirmPay}
-          onCancel={() => setModalType(null)}
+            <s.Title>LISTADO DE CUOTAS</s.Title>
+          </s.TitleContainer>
+          <s.SubTitle $isBold={true}>
+            <img src={StudentIcon} alt="student-icon" width={16} height={16} />
+            {student?.name} {student?.lastName}
+          </s.SubTitle>
+          <s.SubTitle>Cantidad de días: {student?.numberOfDays}</s.SubTitle>
+          <s.SubTitle>Día de pago: {student?.paymentDay}</s.SubTitle>
+        </s.InformationStudent>
+        <s.MetricsContainer>
+          <PaymentMetrics studentId={student.id} />
+        </s.MetricsContainer>
+        <s.FiltersContainer>
+          <s.LeftContainer>
+            <Filter
+              placeholder="Filtrar por mes"
+              options={Object.entries(MonthsOfYear).map(([label, value]) => ({
+                label,
+                value: value.trim(),
+              }))}
+              value={monthFilter}
+              onSelect={setMonthFilter}
+            />
+            <DateFilter
+              value={expirationDateFilter}
+              onChange={(d) => setExpirationDateFilter(d ?? undefined)}
+            />
+
+            <Filter
+              placeholder="Filtrar por estado"
+              options={MonthlyFeesStatusOptions}
+              value={statusFilter}
+              onSelect={setStatusFilter}
+            />
+
+            <Button
+              variant="primary"
+              size="small"
+              onClick={() => {
+                setStatusFilter('');
+                setExpirationDateFilter(undefined);
+                setMonthFilter('');
+              }}
+            >
+              Limpiar filtros
+            </Button>
+          </s.LeftContainer>
+          <s.RightContainer>
+            <Button
+              variant="primary"
+              size="medium"
+              icon={<img src={AddIcon} alt="Add Icon" />}
+              onClick={() => setShowConfirmDialog(true)}
+            >
+              Nueva cuota
+            </Button>
+            {showConfirmDialog && (
+              <ConfirmDialog
+                message={`¿Estás seguro de que deseas generar una cuota para ${student.name} ${student.lastName}?`}
+                onConfirm={handleConfirmCreateFee}
+                onCancel={() => setShowConfirmDialog(false)}
+              />
+            )}
+          </s.RightContainer>
+        </s.FiltersContainer>
+        {modalType === 'pay' && (
+          <ConfirmDialog
+            message="¿Estás seguro de realizar este pago?"
+            onConfirm={handleConfirmPay}
+            onCancel={() => setModalType(null)}
+          />
+        )}
+        {modalType === 'details' && (
+          <PaymentInfoModal
+            isOpen={modalType === 'details'}
+            onClose={() => setModalType(null)}
+            paymentId={selectedPaymentId}
+          />
+        )}
+        <Table columns={columns} data={fees.content} />
+      </s.ContentContainer>
+
+      <s.PaginationContainer>
+        <Pagination
+          page={page}
+          size={size}
+          totalElements={fees.totalElements}
+          totalPages={fees.totalPages}
+          onPageChange={setPage}
+          onSizeChange={(newSize) => {
+            setPage(1);
+            setSize(newSize);
+          }}
         />
-      )}
-      {modalType === 'details' && (
-        <PaymentInfoModal
-          isOpen={modalType === 'details'}
-          onClose={() => setModalType(null)}
-          paymentId={selectedPaymentId}
-        />
-      )}
-      <Table columns={columns} data={fees || []} />;
+      </s.PaginationContainer>
     </s.StudentsContainer>
   );
 }

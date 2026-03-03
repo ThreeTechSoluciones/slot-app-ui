@@ -7,6 +7,7 @@ import type { UpdateStudentRequest } from '../types/requests/UpdateStudentReques
 import type { StudentMonthlyFeeResponse } from '../types/responses/StudentMonthlyFee.type';
 import { SpecificSlotService } from './SpecificSlotService';
 import { MetricService } from './MetricService';
+import type { Page } from '../types/responses/common/Page';
 
 export const StudentService = createApi({
   reducerPath: 'students',
@@ -48,31 +49,38 @@ export const StudentService = createApi({
       invalidatesTags: (_result, _error, { studentId }) => [{ type: 'MonthlyFees', id: studentId }],
       onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
         await queryFulfilled;
-        dispatch(MetricService.util.invalidateTags([{ type: 'Metric', id: 'Summary' }]));
+        dispatch(
+          MetricService.util.invalidateTags([
+            { type: 'Metric', id: 'Summary' },
+            { type: 'Metric', id: 'Payment' },
+          ]),
+        );
       },
     }),
     getStudentMonthlyFees: builder.query<
-      StudentMonthlyFeeResponse[],
+      Page<StudentMonthlyFeeResponse>,
       {
         studentId: string;
         month?: string;
         expirationDate?: string;
         status?: string;
         paymentId?: string;
+        page: number;
+        size: number;
       }
     >({
-      query: ({ studentId, month, expirationDate, status }) => {
-        const params = new URLSearchParams();
-        if (month) params.append('month', month);
-        if (expirationDate) params.append('expirationDate', expirationDate);
-        if (status) params.append('status', status);
-        return `/${studentId}/monthly-fees?${params.toString()}`;
-      },
+      query: ({ studentId, month, expirationDate, status, paymentId, page, size }) => ({
+        url: `/${studentId}/monthly-fees`,
+        params: {
+          page,
+          size,
+          month,
+          expirationDate,
+          status,
+          paymentId,
+        },
+      }),
       providesTags: (_result, _error, { studentId }) => [{ type: 'MonthlyFees', id: studentId }],
-      onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
-        await queryFulfilled;
-        dispatch(MetricService.util.invalidateTags(['Metric']));
-      },
     }),
 
     getStudentById: builder.query<StudentDetailResponse, string>({
