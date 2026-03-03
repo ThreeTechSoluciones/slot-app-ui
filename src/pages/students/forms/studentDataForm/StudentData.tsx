@@ -15,8 +15,6 @@ import { InputDateContainer } from './StudentData.styles';
 import { useValidateStudentDniMutation } from '../../../../app/services/StudentService';
 import type { FormRef } from '../../../../app/types/FormRef';
 import type { FormProps } from '../../../../app/types/FormProp';
-import toast from 'react-hot-toast';
-import dniFormatter from '../../../../components/dni/dniFormatter';
 
 export interface StudentDataProps {
   name: string;
@@ -46,7 +44,6 @@ const StudentData = forwardRef<FormRef, FormProps<StudentDataProps>>((props, ref
     register,
     handleSubmit,
     control,
-    setValue,
     formState: { errors },
   } = useForm<FormData>({
     resolver: yupResolver(StudentDataScheme),
