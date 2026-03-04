@@ -134,6 +134,7 @@ export const StudentText = styled.p<{
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  cursor: ${({ $isAbsent }) => ($isAbsent ? 'not-allowed' : 'pointer')};
   color: ${({ $isAbsent }) => ($isAbsent ? NEUTRAL_COLOR : DEFAULT_TEXT_COLOR)};
   font-weight: ${({ $isRecover }) => ($isRecover ? FONT_WEIGHT_BOLD : FONT_WEIGHT_NORMAL)};
   text-decoration: ${({ $isAbsent }) => ($isAbsent ? 'line-through' : 'none')};

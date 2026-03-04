@@ -170,7 +170,10 @@ function Slot(props: SlotParams) {
                   <s.StudentName
                     key={student?.id}
                     title={student?.fullName}
-                    onClick={() => student && handleAbsenceSlot(student, slot.id)}
+                    onClick={() => {
+                      if (isAbsent) return;
+                      handleAbsenceSlot(student, slot.id);
+                    }}
                   >
                     {isAbsent && <s.AbsenceBadge>A</s.AbsenceBadge>}
                     {isRecover && <s.RecoverBadge>R</s.RecoverBadge>}
