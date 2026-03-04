@@ -34,49 +34,13 @@ export const ActionsContainer = styled.div`
   flex-direction: row;
   margin-top: 4px;
   align-items: center;
-  justify-content: space-between;
+  gap: 8px;
 `;
 export const ActionGroup = styled.div`
   display: flex;
-`;
-const TooltipWrapper = styled.button`
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  background-color: transparent;
-  border: none;
+  gap: 8px;
 `;
 
-export const Tooltip = styled.div`
-  position: absolute;
-  top: 120%;
-  left: 50%;
-  transform: translateX(-50%);
-  background: ${DEFAULT_TEXT_COLOR};
-  color: ${BACKGROUND_COLOR};
-  padding: 6px 10px;
-  border-radius: 6px;
-  font-size: ${SMALL_FONT_SIZE};
-  white-space: nowrap;
-  opacity: 0;
-  pointer-events: none;
-  transition: 0.2s ease;
-`;
-
-export const TooltipContainer = styled(TooltipWrapper)<{ disabled?: boolean }>`
-  cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
-  ${(props) =>
-    props.disabled &&
-    `
-    filter: grayscale(1) opacity(0.5);
-    &:hover ${Tooltip} {
-      background: DANGER_COLOR; 
-    }
-  `}
-  &:hover ${Tooltip} {
-    opacity: 1;
-  }
-`;
 export const CancelIcon = styled.img`
   width: 18px;
   height: 18px;

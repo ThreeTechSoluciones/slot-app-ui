@@ -17,17 +17,18 @@ import SlotDetail from '../../../../components/slotDetail/SlotDetail';
 import { useSlotHandler } from '../../../../components/slotRegistrationCalendar/UseSlotHandler';
 import useAuthentication from '../../../../hooks/useAuthentication';
 import { useGetSlotsQuery, useGetUserPlansQuery } from '../../../../app/services/UserService';
-import type { FormProp } from '../../create-student/FormProp.type';
+import type { FormProps } from '../../../../app/types/FormProp';
 import { forwardRef, useImperativeHandle, useMemo, useCallback, useEffect } from 'react';
 import { skipToken } from '@reduxjs/toolkit/query';
 import { DaysOfWeekTranslation } from '../../../../utils/DaysOfWeek';
 import CalendarIcon from '../../../../assets/CalenderIcon.png';
+import type { FormRef } from '../../../../app/types/FormRef';
 
 export interface PlanDataProps {
   planId: string;
   slotIds: string[];
 }
-const PlanData = forwardRef<FormProp<PlanDataProps>, FormProp<PlanDataProps>>((props, ref) => {
+const PlanData = forwardRef<FormRef, FormProps<PlanDataProps>>((props, ref) => {
   const { data, onSubmit: onSubmit } = props;
   const { userId } = useAuthentication();
 
@@ -98,22 +99,22 @@ const PlanData = forwardRef<FormProp<PlanDataProps>, FormProp<PlanDataProps>>((p
 
   useImperativeHandle(
     ref,
-    () =>
-      ({
-        submit: () =>
-          new Promise<boolean>((resolve) => {
-            handleSubmit(
-              async (data) => {
-                const success = onFormSubmit(data);
-                resolve(success);
-              },
-              () => {
-                resolve(false);
-              },
-            )();
-          }),
-      }) as unknown as FormProp<PlanDataProps>,
-    [handleSubmit, onFormSubmit],
+    () => ({
+      submit: () =>
+        new Promise<boolean>((resolve) => {
+          handleSubmit(
+            async (data) => {
+              const success = onFormSubmit(data);
+              resolve(success);
+            },
+            () => {
+              resolve(false);
+            },
+          )();
+        }),
+      getValues: () => getValues(),
+    }),
+    [handleSubmit, onFormSubmit, getValues],
   );
 
   const handleSelectSlot = (id: string, day: string, hour: string) => {

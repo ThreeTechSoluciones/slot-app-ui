@@ -1,5 +1,6 @@
 export const MisAlumnos = '/listado-alumnos';
 export const NuevoAlumno = '/nuevo-alumno';
+export const DarAltaAlumno = '/dar-alta-alumno';
 export const MisPlanes = '/planes';
 export const IniciarSesion = '/login';
 export const DetalleAlumno = '/detalle-alumno';

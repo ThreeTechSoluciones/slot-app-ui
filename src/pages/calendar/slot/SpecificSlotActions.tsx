@@ -13,6 +13,7 @@ import ProgressIcon from '../../../assets/progress-icon.svg';
 import { useGetSpecificSlotStudentsQuery } from '../../../app/services/SpecificSlotService';
 import { skipToken } from '@reduxjs/toolkit/query';
 import type { CalendarAction } from '../CalendarViewPage';
+import { DisabledIcon } from '../../../components/disabled_icon/DisabledIcon';
 
 const STATUS_ICONS: { [key: string]: string } = {
   FINALIZED: CheckIcon,
@@ -47,16 +48,21 @@ const ActionsSkeleton = ({
         />
       </s.SearchFilterContainer>
       <s.ActionGroup>
-        <s.TooltipContainer disabled={isFull || isCanceled} onClick={() => !isFull && onRecover()}>
-          <img src={PlusIcon} alt="Añadir alumno" />
-          <s.Tooltip>
-            {isCanceled ? 'Turno cancelado' : isFull ? 'Cupo lleno' : 'Añadir alumno'}
-          </s.Tooltip>
-        </s.TooltipContainer>
-        <s.TooltipContainer disabled={isCanceled} onClick={() => !isCanceled && onCancel()}>
-          <s.CancelIcon src={PlusIcon} alt="Cancelar turno" />
-          <s.Tooltip>{isCanceled ? 'Turno cancelado' : 'Cancelar turno'}</s.Tooltip>
-        </s.TooltipContainer>
+        <DisabledIcon
+          icon={<img src={PlusIcon} alt="Añadir alumno" />}
+          alt="Añadir alumno"
+          tooltip="Añadir alumno"
+          disabled={isFull || isCanceled}
+          disabledTooltip={isCanceled ? 'Turno cancelado' : 'Cupo lleno'}
+          onClick={onRecover}
+        />
+        <DisabledIcon
+          icon={<s.CancelIcon src={PlusIcon} alt="Cancelar turno" />}
+          tooltip="Cancelar turno"
+          disabled={isCanceled}
+          disabledTooltip="Turno cancelado"
+          onClick={onCancel}
+        />
       </s.ActionGroup>
     </s.ActionsContainer>
   );
