@@ -198,7 +198,7 @@ function Plans() {
           <s.FilterSearchContainer>
             <FilterSearch value={filter} onChange={setFilter} placeholder="Buscar por nombre" />
           </s.FilterSearchContainer>
-          <Button size="small" variant="primary" onClick={handleClearFilters}>
+          <Button fontsize="medium" variant="primary" onClick={handleClearFilters}>
             Limpiar filtros
           </Button>
         </s.LeftContainer>
@@ -206,7 +206,7 @@ function Plans() {
         <s.RightContainer>
           <Button
             variant="primary"
-            size="medium"
+            fontsize="medium"
             icon={<img src={AddIcon} alt="Agregar" />}
             onClick={() => setShowModal('CREATE')}
           >

@@ -4,6 +4,8 @@ import {
   BACKGROUND_COLOR,
   LIGHT_NEUTRAL_COLOR,
   FONT_WEIGHT_BOLD,
+  LARGE_FONT_SIZE,
+  DEFAULT_FONT_SIZE,
 } from '../../../utils/Stylesheet';
 export const ModalOverlay = styled.div`
   position: fixed;
@@ -14,6 +16,7 @@ export const ModalOverlay = styled.div`
   align-items: center;
   z-index: 1000;
 `;
+
 export const ModalContainer = styled.div`
   width: 416px;
   height: 360px;
@@ -26,17 +29,20 @@ export const ModalContainer = styled.div`
   flex-direction: column;
   overflow: hidden;
 `;
+
 export const ModalHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
 `;
+
 export const ModalTitle = styled.h2`
-  font-size: 24px;
+  font-size: ${LARGE_FONT_SIZE};
   margin: 0;
   text-align: center;
   font-weight: ${FONT_WEIGHT_BOLD};
 `;
+
 export const CloseButton = styled.button`
   position: absolute;
   top: 16px;
@@ -46,6 +52,7 @@ export const CloseButton = styled.button`
   cursor: pointer;
   padding: 0;
 `;
+
 export const TextColumn = styled.div`
   display: flex;
   flex-direction: column;
@@ -54,29 +61,31 @@ export const TextColumn = styled.div`
 `;
 
 export const FeeTitle = styled.h3`
-  font-size: 16px;
+  font-size: ${DEFAULT_FONT_SIZE};
   font-weight: ${FONT_WEIGHT_BOLD};
   margin: 0 0 56px 0;
   text-align: center;
 `;
 
 export const FieldLabel = styled.span`
-  font-size: 16px;
+  font-size: ${DEFAULT_FONT_SIZE};
   font-weight: ${FONT_WEIGHT_BOLD};
   line-height: 1.2;
   margin: 0;
 `;
 
 export const Value = styled.p`
-  font-size: 16px;
+  font-size: ${DEFAULT_FONT_SIZE};
   line-height: 1.2;
   margin: 0;
 `;
+
 export const ModalContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: 32px;
 `;
+
 export const ModalRow = styled.div`
   display: flex;
   align-items: center;

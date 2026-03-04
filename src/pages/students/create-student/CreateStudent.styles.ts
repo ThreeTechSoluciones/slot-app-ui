@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import { FONT_WEIGHT_BOLD } from '../../../utils/Stylesheet';
+import { FONT_WEIGHT_BOLD, LARGE_FONT_SIZE } from '../../../utils/Stylesheet';
 
 export const Title = styled.h1`
-  font-size: 24px;
+  font-size: ${LARGE_FONT_SIZE};
   margin-right: 80px;
   margin-top: 32px;
   font-weight: ${FONT_WEIGHT_BOLD};

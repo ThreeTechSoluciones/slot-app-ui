@@ -249,6 +249,7 @@ const PaymentData = ({
           <Button
             variant="primary"
             size="large"
+            fontsize="medium"
             onClick={() => navigate(ListadoCuotas, { state: { studentId: student.id } })}
           >
             Ver cuotas

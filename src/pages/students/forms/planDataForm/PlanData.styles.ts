@@ -6,19 +6,25 @@ import {
   BORDER_RADIUS,
   FONT_WEIGHT_BOLD,
   LIGHT_NEUTRAL_COLOR,
+  DEFAULT_FONT_SIZE,
+  MEDIUM_FONT_SIZE,
 } from '../../../../utils/Stylesheet';
+
 export const WIDTH = '810px';
+
 export const MainContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
 `;
+
 export const FormContainer = styled.form`
   display: flex;
   flex-direction: column;
   align-items: right;
 `;
+
 export const PlanContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -27,7 +33,7 @@ export const PlanContainer = styled.div`
 `;
 
 export const Label = styled.p`
-  font-size: 16px;
+  font-size: ${DEFAULT_FONT_SIZE};
   font-weight: ${FONT_WEIGHT_BOLD};
   margin-top: 8px;
   margin-bottom: 8px;
@@ -39,7 +45,7 @@ export const Select = styled.select`
   height: 56px;
   border-radius: ${BORDER_RADIUS};
   border: 1px solid ${DEFAULT_TEXT_COLOR};
-  font-size: 12px;
+  font-size: ${MEDIUM_FONT_SIZE};
   padding-left: 16px;
   padding-right: 32px;
   background: none;
@@ -52,14 +58,16 @@ export const Select = styled.select`
     color: ${NEUTRAL_COLOR};
   }
 `;
+
 export const SlotTitleContainer = styled.h2`
-  font-size: 16px;
+  font-size: ${DEFAULT_FONT_SIZE};
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: 8px;
   margin: 0;
 `;
+
 export const SlotsContainer = styled.div`
   width: 810px;
   max-width: 810px;
@@ -73,6 +81,7 @@ export const SlotsContainer = styled.div`
   flex-direction: column;
   margin-top: 10px;
 `;
+
 export const SlotDetailContainer = styled.div`
   flex: 1;
   overflow-x: auto;

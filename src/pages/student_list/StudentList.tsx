@@ -175,20 +175,21 @@ function StudentList() {
             <Button
               size="small"
               variant="primary"
-              fontsize="small"
+              fontsize="medium"
               onClick={() => {
                 setFilter('');
                 setSituationFilter('');
                 setStatusFilter('');
               }}
             >
-              Limpiar filtros
+              Limpiar <br />
+              filtros
             </Button>
           </s.LeftContainer>
           <s.RightContainer>
             <Button
               variant="primary"
-              size="medium"
+              fontsize="medium"
               icon={<img src={AddIcon} alt="Add Icon" />}
               onClick={() => navigate(NuevoAlumno)}
             >

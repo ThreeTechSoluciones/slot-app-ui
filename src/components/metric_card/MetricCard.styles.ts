@@ -1,9 +1,12 @@
 import styled from 'styled-components';
 import {
   BORDER_RADIUS,
+  DEFAULT_FONT_SIZE,
   DEFAULT_TEXT_COLOR,
   FONT_WEIGHT_BOLD,
+  LARGE_FONT_SIZE,
   LIGHT_NEUTRAL_COLOR,
+  SMALL_FONT_SIZE,
 } from '../../utils/Stylesheet';
 
 export const MetricsContainer = styled.div`
@@ -30,7 +33,7 @@ export const Card = styled.div<{ $borderColor: string }>`
 `;
 
 export const Title = styled.p<{ $color: string }>`
-  font-size: 16px;
+  font-size: ${DEFAULT_FONT_SIZE};
   color: ${({ $color }) => $color};
   font-weight: ${FONT_WEIGHT_BOLD};
   margin-bottom: 2px;
@@ -45,7 +48,7 @@ export const ValueContainer = styled.div`
 `;
 
 export const Value = styled.p`
-  font-size: 24px;
+  font-size: ${LARGE_FONT_SIZE};
   color: ${DEFAULT_TEXT_COLOR};
   font-weight: ${FONT_WEIGHT_BOLD};
   margin: 0;
@@ -60,7 +63,7 @@ export const IconWrapper = styled.div<{ $color: string }>`
 `;
 
 export const Description = styled.p`
-  font-size: 12px;
+  font-size: ${SMALL_FONT_SIZE};
   color: ${DEFAULT_TEXT_COLOR};
   margin: 0;
 `;

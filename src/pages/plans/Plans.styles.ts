@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { FONT_WEIGHT_BOLD, DEFAULT_TEXT_COLOR } from '../../utils/Stylesheet';
+import { FONT_WEIGHT_BOLD, DEFAULT_TEXT_COLOR, LARGE_FONT_SIZE } from '../../utils/Stylesheet';
 
 export const PlansContainer = styled.div`
   width: 100%;
@@ -9,7 +9,7 @@ export const PlansContainer = styled.div`
 `;
 
 export const Title = styled.h1`
-  font-size: 24px;
+  font-size: ${LARGE_FONT_SIZE};
   font-weight: ${FONT_WEIGHT_BOLD};
   color: ${DEFAULT_TEXT_COLOR};
   text-align: left;
