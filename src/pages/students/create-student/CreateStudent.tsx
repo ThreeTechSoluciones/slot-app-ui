@@ -57,10 +57,10 @@ function CreateStudent() {
       .unwrap()
       .then(() => {
         navigate(MisAlumnos);
-        toast.success('El estudiante ha sido registrado');
+        toast.success('Estudiante registrado');
       })
       .catch(() => {
-        toast.error('Ha ocurrido un error en la creación del estudiante');
+        toast.error('Ocurrió un error en la creación del estudiante');
       });
   };
 
