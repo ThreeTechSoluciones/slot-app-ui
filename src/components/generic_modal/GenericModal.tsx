@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import {
   ModalOverlay,
   ModalContainer,
@@ -42,10 +42,18 @@ export const GenericModal: React.FC<GenericModalProps> = ({
   width = '480px',
   height = '550px',
 }) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    containerRef.current?.focus();
+  }, []);
+
   if (!isOpen) return null;
+
   return (
     <ModalOverlay>
       <ModalContainer
+        ref={containerRef}
         $width={width}
         $height={height}
         tabIndex={0}
@@ -64,9 +72,7 @@ export const GenericModal: React.FC<GenericModalProps> = ({
           )}
           <ModalTitle $isConfirmModal={isConfirmModal}>{title}</ModalTitle>
         </ModalHeader>
-
         <ModalBody>{children}</ModalBody>
-
         <ModalFooter>
           <Button variant="primary" fontsize="medium" onClick={onCancel}>
             {cancelText}
