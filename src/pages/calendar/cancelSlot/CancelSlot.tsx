@@ -23,7 +23,7 @@ export const CancelSlot = ({
     return cancelSlot({ specificSlotId })
       .unwrap()
       .then(() => {
-        toast.success('El turno fue cancelado correctamente');
+        toast.success('Turno cancelado');
         onCancel();
       });
   };

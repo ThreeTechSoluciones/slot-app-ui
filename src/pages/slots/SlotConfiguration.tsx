@@ -82,7 +82,7 @@ function SlotConfiguration() {
         .unwrap()
         .then(() => {
           setShowModal(false);
-          toast.success('La capacidad de los turnos ha sido actualizada');
+          toast.success('Capacidad actualizada');
         });
     }
   };
@@ -93,7 +93,7 @@ function SlotConfiguration() {
       updateSlot({ slotId: currentSlot?.id!, startTime: response.startTime })
         .unwrap()
         .then(() => {
-          toast.success('El turno ha sido actualizado');
+          toast.success('Turno actualizado');
           setShowModal(false);
         });
     }
@@ -104,7 +104,7 @@ function SlotConfiguration() {
     deleteSlot({ slotId: currentSlot?.id! })
       .unwrap()
       .then(() => {
-        toast.success('El turno ha sido eliminado');
+        toast.success('Turno eliminado');
       });
   };
 
@@ -119,7 +119,7 @@ function SlotConfiguration() {
         .unwrap()
         .then(() => {
           setShowModal(false);
-          toast.success('El turno ha sido registrado');
+          toast.success('Turno registrado');
           setTimeout(() => {
             const elementId = `slot-${response.startTime.replace(':', '-')}`;
             const element = document.getElementById(elementId);
@@ -299,7 +299,7 @@ function SlotConfiguration() {
       )}
       {showConfirm && (
         <ConfirmDialog
-          message="¿Estás seguro de que quieres eliminar el turno?"
+          message="¿Estás seguro de que deseas eliminar el turno?"
           onConfirm={() => handleDeleteSlot()}
           onCancel={() => setShowConfirm(false)}
         />

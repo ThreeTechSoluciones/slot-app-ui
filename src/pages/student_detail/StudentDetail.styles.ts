@@ -24,7 +24,7 @@ export const HeaderContainer = styled.div`
   width: 100%;
   justify-content: space-between;
   align-items: center;
-  margin-top: 3rem;
+  margin-top: 32px;
 `;
 
 export const ButtonWrapper = styled.div`

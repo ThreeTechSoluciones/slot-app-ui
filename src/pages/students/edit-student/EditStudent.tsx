@@ -149,7 +149,7 @@ function EditStudent() {
       .unwrap()
       .then(() => {
         navigate(-1);
-        toast.success('Los datos del estudiante han sido actualizados');
+        toast.success(`Datos del alumno actualizados`);
       });
   };
 

@@ -79,6 +79,4 @@ export const WarningContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
-  border-right: 5px solid ${LIGHT_NEUTRAL_COLOR};
-  border-top: 5px solid ${LIGHT_NEUTRAL_COLOR};
 `;

@@ -14,7 +14,7 @@ export const Title = styled.h1`
   color: ${DEFAULT_TEXT_COLOR};
   text-align: left;
   margin-left: 80px;
-  margin-top: 56px;
+  margin-top: 32px;
 `;
 
 export const FiltersContainer = styled.div`

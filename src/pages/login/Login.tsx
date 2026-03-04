@@ -41,7 +41,7 @@ function Login() {
       .unwrap()
       .then(() => {
         navigate(Calendario);
-        toast.success(`¡Bienvenido/a ${username}, has iniciado sesión con éxito!`);
+        toast.success(`¡Bienvenido/a ${username}!`);
       });
   };
 

@@ -23,6 +23,7 @@ import {
 } from '../../routes/RoutesUtils';
 import StudentMetrics from './StudentsMetrics';
 import { Pagination } from '../../components/pagination/Pagination';
+import dniFormatter from '../../components/dni/dniFormatter';
 
 function StudentList() {
   const { userId } = useAuthentication();
@@ -40,14 +41,14 @@ function StudentList() {
   } = useGetUserStudentsQuery(
     userId
       ? {
-          userId,
-          filter,
-          page: page - 1,
-          size,
-          status: situationFilter || undefined,
-          isActive: statusFilter === '' ? undefined : statusFilter === 'activo',
-          sort: sort.length > 0 ? sort : undefined,
-        }
+        userId,
+        filter,
+        page: page - 1,
+        size,
+        status: situationFilter || undefined,
+        isActive: statusFilter === '' ? undefined : statusFilter === 'activo',
+        sort: sort.length > 0 ? sort : undefined,
+      }
       : skipToken,
     { refetchOnMountOrArgChange: true },
   );
@@ -66,6 +67,7 @@ function StudentList() {
         />
       ),
       accessor: 'dni',
+      render: (student) => <span>{dniFormatter(student.dni)}</span>,
     },
 
     {
@@ -139,11 +141,10 @@ function StudentList() {
   return (
     <s.StudentsContainer>
       <s.ContentContainer>
-        <s.Title>LISTADO DE ALUMNOS</s.Title>
+        <s.Title>MIS ALUMNOS</s.Title>
         <s.MetricsContainer>
           <StudentMetrics />
         </s.MetricsContainer>
-
         <s.FiltersContainer>
           <s.LeftContainer>
             <s.FilterSearchContainer>
