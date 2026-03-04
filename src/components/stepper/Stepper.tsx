@@ -6,7 +6,7 @@ import {
   StepperContainer,
   FormContainer,
 } from './Stepper.styles';
-import { createRef, useRef, useState } from 'react';
+import { createRef, useEffect, useRef, useState } from 'react';
 
 type Step = {
   title: string;
@@ -40,6 +40,17 @@ function Stepper({ steps, onCancel }: StepperProps) {
   const backStep = () => {
     currentStep === 0 ? onCancel() : setCurrentStep((prev) => prev - 1);
   };
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        nextStep();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [currentStep]);
 
   const maxSteps = steps.length;
 
