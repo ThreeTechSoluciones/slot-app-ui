@@ -190,6 +190,8 @@ function StudentFeesList() {
       },
     },
   ];
+
+  console.log('Fees data:', fees);
   return (
     <s.StudentsContainer>
       <s.ContentContainer>
@@ -208,7 +210,7 @@ function StudentFeesList() {
             {student?.name} {student?.lastName}
           </s.SubTitle>
           <s.SubTitle>Cantidad de días: {student?.numberOfDays}</s.SubTitle>
-          <s.SubTitle>Día de pago: {student?.paymentDay}</s.SubTitle>
+          <s.SubTitle>Día de vencimiento: {student?.paymentDay}</s.SubTitle>
         </s.InformationStudent>
         <s.MetricsContainer>
           <PaymentMetrics studentId={student.id} />
