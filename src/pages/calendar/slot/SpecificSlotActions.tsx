@@ -154,7 +154,6 @@ function Slot(props: SlotParams) {
             isFull={isFull}
           />
           <SlotInfoSkeleton slot={slot} isFull={isFull} />
-
           {slot.status === 'CANCELED' ? (
             <s.CanceledSlot>Turno cancelado</s.CanceledSlot>
           ) : (
@@ -177,16 +176,17 @@ function Slot(props: SlotParams) {
                 );
               })}
               {filter && filteredStudents?.length === 0 && (
-                <SearchNotFound message={`No hay resultados para "${filter}"`} iconWidth={20} iconHeight={20} fontSize='14px' />
+                <SearchNotFound
+                  message={`No hay resultados para "${filter}"`}
+                  iconWidth={20}
+                  iconHeight={20}
+                  fontSize='14px' />
               )}
-
             </s.SlotStudentsContainer>
           )}
         </>
       )}
-
     </s.SpecificSlot>
   );
 }
-
 export default Slot;
