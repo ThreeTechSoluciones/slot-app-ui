@@ -24,6 +24,7 @@ import {
 } from '../../utils/StudentDetailInfo';
 import { SearchNotFound } from '../../components/search_not_found/SearchNotFound';
 import SlotDetail from '../../components/slotDetail/SlotDetail';
+import { DisabledIcon } from '../../components/disabled_icon/DisabledIcon';
 
 const StudentDetail = () => {
   const { studentId } = useLocation().state;
@@ -67,7 +68,7 @@ const StudentDetail = () => {
         </s.NotFoundStudentMessage>
       </div>
     );
-
+  const isStudentInactive = !student.status;
   return (
     <s.MainContainer>
       {showConfirm && (
@@ -122,9 +123,9 @@ const StudentDetail = () => {
         </s.Title>
       </s.StudentNameContainer>
       <s.InfoBoxesContainer>
-        <StudentData student={student} navigate={navigate} />
-        <PaymentData student={student} navigate={navigate} />
-        <SlotData student={student} navigate={navigate} />
+        <StudentData student={student} navigate={navigate} isStudentInactive={isStudentInactive} />
+        <PaymentData student={student} navigate={navigate} isStudentInactive={isStudentInactive} />
+        <SlotData student={student} navigate={navigate} isStudentInactive={isStudentInactive} />
       </s.InfoBoxesContainer>
     </s.MainContainer>
   );
@@ -134,11 +135,14 @@ export default StudentDetail;
 const StudentData = ({
   student,
   navigate,
+  isStudentInactive,
 }: {
   student: StudentDetailResponse;
   navigate: (path: string, options?: { state?: any }) => void;
+  isStudentInactive: boolean;
 }) => {
   const info = studentPersonalInfo(student);
+
   return (
     <s.StudentInfoContainer>
       <s.HeaderBoxes>
@@ -149,15 +153,17 @@ const StudentData = ({
           Datos del alumno
         </s.SubTitle>
         <s.EditIconStyles>
-          <img
-            src={EditIcon}
-            alt="edit-icon"
+          <DisabledIcon
+            icon={<img src={EditIcon} alt="edit-icon" />}
+            tooltip="Editar datos del alumno"
+            disabled={isStudentInactive}
+            disabledTooltip="Alumno inactivo"
             onClick={() =>
               navigate(getEditarEstudianteStep(1), {
                 state: { studentId: student.id },
               })
             }
-          ></img>
+          />
         </s.EditIconStyles>
       </s.HeaderBoxes>
       <s.AllInformationContainer>
@@ -180,9 +186,11 @@ const StudentData = ({
 const PaymentData = ({
   student,
   navigate,
+  isStudentInactive,
 }: {
   student: StudentDetailResponse;
   navigate: (path: string, options?: { state?: any }) => void;
+  isStudentInactive: boolean;
 }) => {
   const info = studentPaymentInfo(student);
 
@@ -195,14 +203,18 @@ const PaymentData = ({
           </s.IconStyles>
           Datos de pago y estados
         </s.SubTitle>
-        <s.EditIconStyles
-          onClick={() =>
-            navigate(getEditarEstudianteStep(2), {
-              state: { studentId: student.id },
-            })
-          }
-        >
-          <img src={EditIcon} alt="edit-icon"></img>
+        <s.EditIconStyles>
+          <DisabledIcon
+            icon={<img src={EditIcon} alt="edit-icon" />}
+            tooltip="Editar datos de pago"
+            disabled={isStudentInactive}
+            disabledTooltip="Alumno inactivo"
+            onClick={() =>
+              navigate(getEditarEstudianteStep(2), {
+                state: { studentId: student.id },
+              })
+            }
+          />
         </s.EditIconStyles>
       </s.HeaderBoxes>
       <s.AllInformationContainer>
@@ -228,9 +240,11 @@ const PaymentData = ({
 const SlotData = ({
   student,
   navigate,
+  isStudentInactive,
 }: {
   student: StudentDetailResponse;
   navigate: (path: string, options?: { state?: any }) => void;
+  isStudentInactive: boolean;
 }) => {
   const slots = mapStudentSlotInfo(student);
   const hasSlots = slots.length > 0;
@@ -248,14 +262,18 @@ const SlotData = ({
           Turnos asignados
         </s.SlotTitleContainer>
 
-        <s.EditIconStyles
-          onClick={() =>
-            navigate(getEditarEstudianteStep(3), {
-              state: { studentId: student.id },
-            })
-          }
-        >
-          <img src={EditIcon} alt="edit-icon" />
+        <s.EditIconStyles>
+          <DisabledIcon
+            icon={<img src={EditIcon} alt="edit-icon" />}
+            tooltip="Editar turnos"
+            disabled={isStudentInactive}
+            disabledTooltip="Alumno inactivo"
+            onClick={() =>
+              navigate(getEditarEstudianteStep(3), {
+                state: { studentId: student.id },
+              })
+            }
+          />
         </s.EditIconStyles>
       </s.HeaderBoxes>
 

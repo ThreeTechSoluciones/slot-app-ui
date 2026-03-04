@@ -6,7 +6,7 @@ export const MainContainer = styled.div`
   align-items: center;
   flex-direction: column;
   gap: 1rem;
-  padding-top: 3.5rem;
+  padding-top: 2rem;
 `;
 export const HeaderContainer = styled.div`
   width: 100%;
