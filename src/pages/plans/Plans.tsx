@@ -25,6 +25,7 @@ import useAuthentication from '../../hooks/useAuthentication';
 import EditPlan from './EditPlan/EditPlan';
 import { formatDateToDash } from '../../utils/DateFormatter';
 import { Pagination } from '../../components/pagination/Pagination';
+import type { SortConfig } from '../../app/types/sort';
 
 function Plans() {
   const formRef = useRef<any>(null);
@@ -36,12 +37,23 @@ function Plans() {
   const [createPlan] = useCreatePlanMutation();
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(5);
+  const [sort, setSort] = useState<SortConfig[]>([]);
   const { userId } = useAuthentication();
   const {
     data: plansData,
     isLoading,
     isError,
-  } = useGetUserPlansQuery(userId ? { userId, page: page - 1, size, planName: filter } : skipToken);
+  } = useGetUserPlansQuery(
+    userId
+      ? {
+        userId,
+        page: page - 1,
+        size,
+        planName: filter,
+        sort: sort.length > 0 ? sort : undefined,
+      }
+      : skipToken,
+  );
 
   const handleClearFilters = () => {
     setFilter('');
@@ -147,16 +159,31 @@ function Plans() {
   };
   const columns: Column<PlanResponse>[] = [
     {
-      header: <SortableButton text="Nombre del plan" />,
+      header: (
+        <SortableButton
+          text="Nombre del plan"
+          onSort={(isAsc) => setSort([{ property: 'name', direction: isAsc ? 'ASC' : 'DESC' }])}
+        />
+      ),
       accessor: 'name',
     },
     {
-      header: <SortableButton text="Cantidad de días asignados" />,
+      header: (
+        <SortableButton
+          text="Cantidad de días asignados"
+          onSort={(isAsc) => setSort([{ property: 'numberOfDays', direction: isAsc ? 'ASC' : 'DESC' }])}
+        />
+      ),
       accessor: 'numberOfDays',
       render: (plan) => <span>{plan.numberOfDays}</span>,
     },
     {
-      header: <SortableButton text="Precio actual" />,
+      header: (
+        <SortableButton
+          text="Precio actual"
+          onSort={(isAsc) => setSort([{ property: 'price', direction: isAsc ? 'ASC' : 'DESC' }])}
+        />
+      ),
       accessor: 'price',
       render: (plan) => <span>{formatCurrency(plan.price)}</span>,
     },
@@ -192,7 +219,6 @@ function Plans() {
   return (
     <s.PlansContainer>
       <s.Title>MIS PLANES</s.Title>
-
       <s.FiltersContainer>
         <s.LeftContainer>
           <s.FilterSearchContainer>
@@ -202,7 +228,6 @@ function Plans() {
             Limpiar filtros
           </Button>
         </s.LeftContainer>
-
         <s.RightContainer>
           <Button
             variant="primary"
@@ -214,7 +239,6 @@ function Plans() {
           </Button>
         </s.RightContainer>
       </s.FiltersContainer>
-
       <Table columns={columns} data={plansData.content} />
       <s.PaginationContainer>
         <Pagination
@@ -229,7 +253,6 @@ function Plans() {
           }}
         />
       </s.PaginationContainer>
-
       {showModal && MODALS[showModal]}
     </s.PlansContainer>
   );
