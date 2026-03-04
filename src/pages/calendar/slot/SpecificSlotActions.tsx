@@ -68,6 +68,7 @@ const ActionsSkeleton = ({
           disabledTooltip={
             isCanceled ? 'Turno cancelado' : isFinalized ? 'Turno finalizado' : 'Cancelar turno'
           }
+        >
           <s.CancelIcon src={PlusIcon} alt="Cancelar turno" />
         </DisabledIcon>
       </s.ActionGroup>
