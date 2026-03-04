@@ -1,4 +1,6 @@
-html, body, #root {
+html,
+body,
+#root {
   height: 100%;
   width: 100%;
   margin: 0;
@@ -10,7 +12,7 @@ html, body, #root {
 }
 
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Inter', sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -26,5 +28,13 @@ html, body, #root {
 
 body {
   margin: 0;
+  font-family: 'Inter', sans-serif;
 }
 
+button,
+input,
+textarea,
+select {
+  font-family: inherit;
+  font-size: inherit;
+}

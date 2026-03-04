@@ -1,0 +1,17 @@
+import '@fontsource/inter/500.css';
+import '@fontsource/inter/700.css';
+export const BRAND_COLOR = '#F0E21E';
+export const LIGHT_NEUTRAL_COLOR = '#F0F0F0';
+export const NEUTRAL_COLOR = '#7C7C7C';
+export const DEFAULT_TEXT_COLOR = '#000000';
+export const BACKGROUND_COLOR = '#FFFFFF';
+export const WARNING_COLOR = '#D97706';
+export const DANGER_COLOR = '#E32626';
+export const SUCCESS_COLOR = '#04A33C';
+export const BORDER_RADIUS = '10px';
+export const FONT_WEIGHT_NORMAL = '500';
+export const FONT_WEIGHT_BOLD = '700';
+export const DEFAULT_FONT_SIZE = '16px';
+export const SMALL_FONT_SIZE = '12px';
+export const MEDIUM_FONT_SIZE = '14px';
+export const LARGE_FONT_SIZE = '24px';
