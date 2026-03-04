@@ -23,6 +23,7 @@ import {
 } from '../../routes/RoutesUtils';
 import StudentMetrics from './StudentsMetrics';
 import { Pagination } from '../../components/pagination/Pagination';
+import dniFormatter from '../../components/dni/dniFormatter';
 
 function StudentList() {
   const { userId } = useAuthentication();
@@ -66,6 +67,7 @@ function StudentList() {
         />
       ),
       accessor: 'dni',
+      render: (student) => <span>{dniFormatter(student.dni)}</span>,
     },
 
     {
@@ -139,11 +141,10 @@ function StudentList() {
   return (
     <s.StudentsContainer>
       <s.ContentContainer>
-        <s.Title>LISTADO DE ALUMNOS</s.Title>
+        <s.Title>MIS ALUMNOS</s.Title>
         <s.MetricsContainer>
           <StudentMetrics />
         </s.MetricsContainer>
-
         <s.FiltersContainer>
           <s.LeftContainer>
             <s.FilterSearchContainer>
@@ -174,20 +175,21 @@ function StudentList() {
             <Button
               size="small"
               variant="primary"
-              fontsize="small"
+              fontsize="medium"
               onClick={() => {
                 setFilter('');
                 setSituationFilter('');
                 setStatusFilter('');
               }}
             >
-              Limpiar filtros
+              Limpiar <br />
+              filtros
             </Button>
           </s.LeftContainer>
           <s.RightContainer>
             <Button
               variant="primary"
-              size="medium"
+              fontsize="medium"
               icon={<img src={AddIcon} alt="Add Icon" />}
               onClick={() => navigate(NuevoAlumno)}
             >

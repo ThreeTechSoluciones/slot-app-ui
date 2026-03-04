@@ -68,11 +68,11 @@ export const GenericModal: React.FC<GenericModalProps> = ({
         <ModalBody>{children}</ModalBody>
 
         <ModalFooter>
-          <Button variant="primary" size="medium" onClick={onCancel}>
+          <Button variant="primary" fontsize="medium" onClick={onCancel}>
             {cancelText}
           </Button>
           {onConfirm && (
-            <Button variant={confirmVariant} size="medium" onClick={onConfirm}>
+            <Button variant={confirmVariant} fontsize="medium" onClick={onConfirm}>
               {confirmText}
             </Button>
           )}

@@ -1,5 +1,10 @@
 import styled from 'styled-components';
-import { BORDER_RADIUS, BRAND_COLOR, LIGHT_NEUTRAL_COLOR } from '../../utils/Stylesheet';
+import {
+  BORDER_RADIUS,
+  BRAND_COLOR,
+  LIGHT_NEUTRAL_COLOR,
+  SMALL_FONT_SIZE,
+} from '../../utils/Stylesheet';
 
 export const DropdownContainer = styled.div`
   position: relative;
@@ -48,7 +53,7 @@ export const ButtonOption = styled.button`
   color: black;
   border: none;
   padding: 10px 9px;
-  font-size: 12px;
+  font-size: ${SMALL_FONT_SIZE};
   text-align: center;
   cursor: pointer;
   &:hover {

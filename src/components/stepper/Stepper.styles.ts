@@ -1,5 +1,10 @@
 import styled from 'styled-components';
-import { BRAND_COLOR, NEUTRAL_COLOR } from '../../utils/Stylesheet';
+import {
+  BRAND_COLOR,
+  LARGE_FONT_SIZE,
+  MEDIUM_FONT_SIZE,
+  NEUTRAL_COLOR,
+} from '../../utils/Stylesheet';
 
 export const MainContainer = styled.div`
   display: flex;
@@ -8,7 +13,7 @@ export const MainContainer = styled.div`
   align-items: center;
 `;
 export const Title = styled.h1`
-  font-size: 24px;
+  font-size: ${LARGE_FONT_SIZE};
   font-weight: bold;
   margin-left: 80px;
 `;
@@ -33,7 +38,7 @@ export const Button = styled.button`
   background: ${BRAND_COLOR};
   border-radius: 10px;
   border: none;
-  font-size: 12px;
+  font-size: ${MEDIUM_FONT_SIZE};
   color: black;
   &:hover {
     cursor: pointer;

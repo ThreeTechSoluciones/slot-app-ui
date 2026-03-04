@@ -4,6 +4,8 @@ import {
   LIGHT_NEUTRAL_COLOR,
   DEFAULT_TEXT_COLOR,
   FONT_WEIGHT_BOLD,
+  DEFAULT_FONT_SIZE,
+  SMALL_FONT_SIZE,
 } from '../../utils/Stylesheet';
 
 export const SlotContainer = styled.div`
@@ -34,5 +36,5 @@ export const Text = styled.p<TextProps>`
   margin: 0 0 0 8px;
   padding: 0px;
   font-weight: ${FONT_WEIGHT_BOLD};
-  font-size: ${(props) => (props.$isADay ? '16px' : '12px')};
+  font-size: ${(props) => (props.$isADay ? DEFAULT_FONT_SIZE : SMALL_FONT_SIZE)};
 `;

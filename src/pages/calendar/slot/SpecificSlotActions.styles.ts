@@ -2,11 +2,13 @@ import styled from 'styled-components';
 import {
   BACKGROUND_COLOR,
   DANGER_COLOR,
+  DEFAULT_FONT_SIZE,
   DEFAULT_TEXT_COLOR,
   FONT_WEIGHT_BOLD,
   FONT_WEIGHT_NORMAL,
   LIGHT_NEUTRAL_COLOR,
   NEUTRAL_COLOR,
+  SMALL_FONT_SIZE,
   SUCCESS_COLOR,
   WARNING_COLOR,
 } from '../../../utils/Stylesheet';
@@ -32,7 +34,7 @@ export const ActionsContainer = styled.div`
   flex-direction: row;
   margin-top: 4px;
   align-items: center;
-  justify-content: space-between;
+  gap: 8px;
 `;
 export const ActionGroup = styled.div`
   display: flex;
@@ -49,6 +51,7 @@ export const SearchFilterContainer = styled.div`
   display: flex;
   height: 34px;
 `;
+
 export const SlotInfoContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -66,11 +69,12 @@ interface SlotInfoProps {
   $isFull?: boolean;
   $status?: string;
 }
+
 export const SlotInfo = styled.span<SlotInfoProps>`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
+  font-size: ${SMALL_FONT_SIZE};
   color: ${BACKGROUND_COLOR};
   font-weight: ${FONT_WEIGHT_BOLD};
   border-radius: 5px;
@@ -95,7 +99,7 @@ export const CanceledSlot = styled.p`
   align-items: center;
   justify-content: center;
   color: ${NEUTRAL_COLOR};
-  font-size: 16px;
+  font-size: ${DEFAULT_FONT_SIZE};
   font-weight: ${FONT_WEIGHT_BOLD};
 `;
 export const SlotStudentsContainer = styled.div`
@@ -124,7 +128,7 @@ export const StudentText = styled.p<{
   $isAbsent?: boolean;
   $isRecover?: boolean;
 }>`
-  font-size: 16px;
+  font-size: ${DEFAULT_FONT_SIZE};
   flex: 1;
   min-width: 0;
   overflow: hidden;
@@ -140,7 +144,7 @@ export const StudentText = styled.p<{
 export const AbsenceBadge = styled.div`
   background-color: ${NEUTRAL_COLOR};
   color: ${BACKGROUND_COLOR};
-  font-size: 11px;
+  font-size: ${SMALL_FONT_SIZE};
   font-weight: ${FONT_WEIGHT_BOLD};
   margin-left: 6px;
   width: 16px;

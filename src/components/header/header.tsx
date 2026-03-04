@@ -31,7 +31,7 @@ function Header() {
   const handleLogout = () => {
     setShowConfirm(false);
     dispatch(clearUser());
-    toast.success('Has cerrado sesión con éxito');
+    toast.success('Cerraste sesión');
   };
 
   const navigate = useNavigate();
