@@ -15,6 +15,8 @@ import {
 
 export const InformationStudent = styled.div``;
 export const StudentsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
   width: 100%;
   padding-top: 20px;
   min-height: 100vh;
@@ -126,3 +128,10 @@ export const FeeStatus = styled.div<{
 `;
 
 export const DatePickerWrapper = styled.div``;
+export const ContentContainer = styled.div`
+  flex: 1;
+`;
+export const PaginationContainer = styled.div`
+  padding: 8px 0 8px 0;
+  margin: auto;
+`;

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { DEFAULT_FONT_SIZE, DEFAULT_TEXT_COLOR } from '../../utils/Stylesheet';
+import { DEFAULT_TEXT_COLOR } from '../../utils/Stylesheet';
 
 export const Container = styled.div`
   width: 100%;
@@ -12,14 +12,12 @@ export const Container = styled.div`
   box-sizing: border-box;
 `;
 
-export const Icon = styled.img`
-  width: 40px;
-  height: 40px;
-`;
-
-export const Message = styled.p`
+interface MessageProps {
+  $fontSize: string;
+}
+export const Message = styled.p<MessageProps>`
   text-align: center;
   color: ${DEFAULT_TEXT_COLOR};
-  font-size: ${DEFAULT_FONT_SIZE};
   max-width: 470px;
+  font-size: ${(props) => props.$fontSize};
 `;

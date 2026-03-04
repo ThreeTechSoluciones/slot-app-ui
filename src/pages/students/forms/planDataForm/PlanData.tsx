@@ -18,7 +18,7 @@ import { useSlotHandler } from '../../../../components/slotRegistrationCalendar/
 import useAuthentication from '../../../../hooks/useAuthentication';
 import { useGetSlotsQuery, useGetUserPlansQuery } from '../../../../app/services/UserService';
 import type { FormProps } from '../../../../app/types/FormProp';
-import { forwardRef, useImperativeHandle, useMemo, useCallback, useEffect } from 'react';
+import { forwardRef, useImperativeHandle, useMemo, useCallback, useEffect, useState } from 'react';
 import { skipToken } from '@reduxjs/toolkit/query';
 import { DaysOfWeekTranslation } from '../../../../utils/DaysOfWeek';
 import CalendarIcon from '../../../../assets/CalenderIcon.png';
@@ -35,7 +35,14 @@ const PlanData = forwardRef<FormRef, FormProps<PlanDataProps>>((props, ref) => {
   const { data: slotsData, isLoading: isLoadingCalendar } = useGetSlotsQuery(
     userId ? { userId, dayOfWeek: '' } : skipToken,
   );
-  const { data: planTypes } = useGetUserPlansQuery(userId ? { userId } : skipToken);
+
+  const page = 1;
+
+  const size = 100;
+
+  const { data: planTypes } = useGetUserPlansQuery(
+    userId ? { userId, page: page - 1, size } : skipToken,
+  );
 
   const schema = useMemo(() => planDataScheme(planTypes?.content), [planTypes]);
 

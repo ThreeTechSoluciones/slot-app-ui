@@ -13,7 +13,7 @@ export const MetricService = createApi({
         method: 'GET',
         params: { studentId },
       }),
-      providesTags: ['Metric'],
+      providesTags: [{ type: 'Metric', id: 'Payment' }],
     }),
     getStudentSummary: builder.query<StudentSummary, void>({
       query: () => ({

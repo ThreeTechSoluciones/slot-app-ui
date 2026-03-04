@@ -15,6 +15,7 @@ import { skipToken } from '@reduxjs/toolkit/query';
 import type { CalendarAction } from '../CalendarViewPage';
 import { DisabledIcon } from '../../../components/disabled_icon/DisabledIcon';
 import { Tooltip } from '../../../components/tooltip/Tooltip';
+import { SearchNotFound } from '../../../components/search_not_found/SearchNotFound';
 
 const STATUS_ICONS: { [key: string]: string } = {
   FINALIZED: CheckIcon,
@@ -28,6 +29,7 @@ const ActionsSkeleton = ({
   onCancel,
   isCanceled,
   isFull,
+  isFinalized,
 }: {
   specificSlotId: string;
   availableCapacity: number;
@@ -37,6 +39,7 @@ const ActionsSkeleton = ({
   onCancel: () => void;
   isCanceled: boolean;
   isFull: boolean;
+  isFinalized: boolean;
 }) => {
   return (
     <s.ActionsContainer>
@@ -59,11 +62,12 @@ const ActionsSkeleton = ({
         </DisabledIcon>
 
         <DisabledIcon
-          disabled={isCanceled}
+          disabled={isCanceled || isFinalized}
           onClick={onCancel}
           tooltip="Cancelar turno"
-          disabledTooltip="Turno cancelado"
-        >
+          disabledTooltip={
+            isCanceled ? 'Turno cancelado' : isFinalized ? 'Turno finalizado' : 'Cancelar turno'
+          }
           <s.CancelIcon src={PlusIcon} alt="Cancelar turno" />
         </DisabledIcon>
       </s.ActionGroup>
@@ -147,6 +151,8 @@ function Slot(props: SlotParams) {
   const students = filter ? filteredStudents : slot.students;
   const availableCapacity = slot.maxCapacity - slot.capacity;
   const isFull = slot.capacity === slot.maxCapacity;
+  const isFinalized = (status: string) => status === 'FINALIZED';
+
   return (
     <s.SpecificSlot key={rowIndex} $columnsCount={columnsCount}>
       {slot && (
@@ -160,6 +166,7 @@ function Slot(props: SlotParams) {
             onCancel={() => handleCancelSlot(slot.id)}
             isCanceled={slot.status === 'CANCELED'}
             isFull={isFull}
+            isFinalized={isFinalized(slot.status)}
           />
           <SlotInfoSkeleton slot={slot} isFull={isFull} />
           {slot.status === 'CANCELED' ? (
@@ -187,6 +194,14 @@ function Slot(props: SlotParams) {
                   </s.StudentName>
                 );
               })}
+              {filter && filteredStudents?.length === 0 && (
+                <SearchNotFound
+                  message={`No hay resultados para "${filter}"`}
+                  iconWidth={20}
+                  iconHeight={20}
+                  fontSize="14px"
+                />
+              )}
             </s.SlotStudentsContainer>
           )}
         </>
@@ -194,5 +209,4 @@ function Slot(props: SlotParams) {
     </s.SpecificSlot>
   );
 }
-
 export default Slot;
