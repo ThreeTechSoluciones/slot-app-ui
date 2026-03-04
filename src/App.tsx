@@ -13,6 +13,7 @@ import {
   ListadoCuotas,
   getEditarEstudianteStep,
   Calendario,
+  DarAltaAlumno,
 } from './routes/RoutesUtils';
 import CreateStudent from './pages/students/create-student/CreateStudent';
 import StudentFeesList from './pages/student_fees_list/FeesList';
@@ -22,6 +23,7 @@ import EditStudent from './pages/students/edit-student/EditStudent';
 import CalendarView from './pages/calendar/CalendarViewPage';
 import { MainContent } from './App.styles';
 import NotFoundPage from './pages/not_found_page/NotFoundPage';
+import ActivateStudent from './pages/student_detail/ActivateStudent';
 
 function App() {
   return (
@@ -32,6 +34,7 @@ function App() {
           <Route path={MisAlumnos} element={<StudentList />} />
           <Route path={MisPlanes} element={<Plans />} />
           <Route path={NuevoAlumno} element={<CreateStudent />} />
+          <Route path={DarAltaAlumno} element={<ActivateStudent />} />
           <Route path={DetalleAlumno} element={<StudentDetail />} />
           <Route path={ListadoCuotas} element={<StudentFeesList />} />
           <Route path={MisTurnos} element={<SlotConfiguration />} />

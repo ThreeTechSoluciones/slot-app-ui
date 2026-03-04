@@ -1,6 +1,6 @@
 export interface StudentResponse {
   id: string;
-  dni: number;
+  dni: number | string;
   name: string;
   lastname: string;
   status: string;

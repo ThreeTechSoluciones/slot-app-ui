@@ -5,6 +5,7 @@ import {
   BRAND_COLOR,
   NEUTRAL_COLOR,
   DEFAULT_TEXT_COLOR,
+  MEDIUM_FONT_SIZE,
 } from '../../utils/Stylesheet';
 
 export const ModalSlotContainer = styled.div`
@@ -47,7 +48,7 @@ export const Button = styled.button`
   background: ${BRAND_COLOR};
   border-radius: ${BORDER_RADIUS};
   border: none;
-  font-size: 12px;
+  font-size: ${MEDIUM_FONT_SIZE};
   color: ${DEFAULT_TEXT_COLOR};
   &:hover {
     cursor: pointer;

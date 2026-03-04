@@ -190,44 +190,44 @@ function StudentFeesList() {
       },
     },
   ];
+
   return (
     <s.StudentsContainer>
-      <s.ContentContainer>
-        <s.InformationStudent>
-          <s.TitleContainer>
-            <img
-              src={BackIcon}
-              alt="back-icon"
-              onClick={() => navigate(MisAlumnos)}
-              style={{ cursor: 'pointer' }}
-            />
-            <s.Title>LISTADO DE CUOTAS</s.Title>
-          </s.TitleContainer>
-          <s.SubTitle $isBold={true}>
-            <img src={StudentIcon} alt="student-icon" width={16} height={16} />
-            {student?.name} {student?.lastName}
-          </s.SubTitle>
-          <s.SubTitle>Cantidad de días: {student?.numberOfDays}</s.SubTitle>
-          <s.SubTitle>Día de pago: {student?.paymentDay}</s.SubTitle>
-        </s.InformationStudent>
-        <s.MetricsContainer>
-          <PaymentMetrics studentId={student.id} />
-        </s.MetricsContainer>
-        <s.FiltersContainer>
-          <s.LeftContainer>
-            <Filter
-              placeholder="Filtrar por mes"
-              options={Object.entries(MonthsOfYear).map(([label, value]) => ({
-                label,
-                value: value.trim(),
-              }))}
-              value={monthFilter}
-              onSelect={setMonthFilter}
-            />
-            <DateFilter
-              value={expirationDateFilter}
-              onChange={(d) => setExpirationDateFilter(d ?? undefined)}
-            />
+      <s.InformationStudent>
+        <s.TitleContainer>
+          <img
+            src={BackIcon}
+            alt="back-icon"
+            onClick={() => navigate(MisAlumnos)}
+            style={{ cursor: 'pointer' }}
+          />
+          <s.Title>LISTADO DE CUOTAS</s.Title>
+        </s.TitleContainer>
+        <s.SubTitle $isBold={true}>
+          <img src={StudentIcon} alt="student-icon" width={16} height={16} />
+          {student?.name} {student?.lastName}
+        </s.SubTitle>
+        <s.SubTitle>Cantidad de días: {student?.numberOfDays}</s.SubTitle>
+        <s.SubTitle>Día de vencimiento: {student?.paymentDay}</s.SubTitle>
+      </s.InformationStudent>
+      <s.MetricsContainer>
+        <PaymentMetrics studentId={student.id} />
+      </s.MetricsContainer>
+      <s.FiltersContainer>
+        <s.LeftContainer>
+          <Filter
+            placeholder="Filtrar por mes"
+            options={Object.entries(MonthsOfYear).map(([label, value]) => ({
+              label,
+              value: value.trim(),
+            }))}
+            value={monthFilter}
+            onSelect={setMonthFilter}
+          />
+          <DateFilter
+            value={expirationDateFilter}
+            onChange={(d) => setExpirationDateFilter(d ?? undefined)}
+          />
 
             <Filter
               placeholder="Filtrar por estado"

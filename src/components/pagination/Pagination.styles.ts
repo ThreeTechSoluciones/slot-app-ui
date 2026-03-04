@@ -5,6 +5,7 @@ import {
   DEFAULT_TEXT_COLOR,
   FONT_WEIGHT_BOLD,
   LIGHT_NEUTRAL_COLOR,
+  MEDIUM_FONT_SIZE,
   NEUTRAL_COLOR,
 } from '../../utils/Stylesheet';
 
@@ -46,16 +47,15 @@ export const ArrowIconContainer = styled.div<{
 `;
 
 export const PageIndicator = styled.div`
-  font-size: 14px;
+  font-size: ${MEDIUM_FONT_SIZE};
   font-weight: ${FONT_WEIGHT_BOLD};
   color: ${DEFAULT_TEXT_COLOR};
   padding: 6px 12px;
 `;
 
 export const PageSizeSelect = styled.select`
-  font-size: 14px;
+  font-size: ${MEDIUM_FONT_SIZE};
   color: ${DEFAULT_TEXT_COLOR};
-  font-family: 'Inter', sans-serif;
   padding: 6px 8px;
   border-radius: ${BORDER_RADIUS};
   background-color: ${LIGHT_NEUTRAL_COLOR};

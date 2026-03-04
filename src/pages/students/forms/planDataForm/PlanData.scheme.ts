@@ -3,7 +3,7 @@ import type { PlanResponse } from '../../../../app/types/responses/PlanResponse.
 
 export const planDataScheme = (plans: PlanResponse[] | undefined) => {
   return yup.object().shape({
-    planId: yup.string().required('Debe seleccionar un plan'),
+    planId: yup.string().required('El plan es requerido'),
 
     slotIds: yup
       .array()
@@ -16,12 +16,12 @@ export const planDataScheme = (plans: PlanResponse[] | undefined) => {
         if (value?.length !== selectedPlan.numberOfDays) {
           if (!value?.length) {
             return this.createError({
-              message: 'Debes seleccionar al menos un turno',
+              message: 'Debe seleccionar al menos un turno',
             });
           }
           if (value.length !== selectedPlan.numberOfDays) {
             return this.createError({
-              message: `El plan seleccionado permite ${selectedPlan.numberOfDays} ${selectedPlan.numberOfDays === 1 ? 'turno' : 'turnos'}, actualmente tenés ${value.length} seleccionado${value.length === 1 ? '' : 's'}`,
+              message: `El plan requiere ${selectedPlan.numberOfDays} ${selectedPlan.numberOfDays === 1 ? 'turno' : 'turnos'}, actualmente tenés ${value.length} seleccionado${value.length === 1 ? '' : 's'}`,
             });
           }
         }
