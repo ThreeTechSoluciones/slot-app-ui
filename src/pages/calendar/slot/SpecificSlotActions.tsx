@@ -13,6 +13,7 @@ import ProgressIcon from '../../../assets/progress-icon.svg';
 import { useGetSpecificSlotStudentsQuery } from '../../../app/services/SpecificSlotService';
 import { skipToken } from '@reduxjs/toolkit/query';
 import type { CalendarAction } from '../CalendarViewPage';
+import { SearchNotFound } from '../../../components/search_not_found/SearchNotFound';
 
 const STATUS_ICONS: { [key: string]: string } = {
   FINALIZED: CheckIcon,
@@ -174,6 +175,13 @@ function Slot(props: SlotParams) {
                   </s.StudentName>
                 );
               })}
+              {filter && filteredStudents?.length === 0 && (
+                <SearchNotFound
+                  message={`No hay resultados para "${filter}"`}
+                  iconWidth={20}
+                  iconHeight={20}
+                  fontSize='14px' />
+              )}
             </s.SlotStudentsContainer>
           )}
         </>
@@ -181,5 +189,4 @@ function Slot(props: SlotParams) {
     </s.SpecificSlot>
   );
 }
-
 export default Slot;

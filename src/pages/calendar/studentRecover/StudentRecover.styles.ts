@@ -1,9 +1,11 @@
 import styled from 'styled-components';
 import {
+  DEFAULT_FONT_SIZE,
   DEFAULT_TEXT_COLOR,
   FONT_WEIGHT_BOLD,
   FONT_WEIGHT_NORMAL,
   LIGHT_NEUTRAL_COLOR,
+  SMALL_FONT_SIZE,
   SUCCESS_COLOR,
 } from '../../../utils/Stylesheet';
 export const RecoverContainer = styled.div`
@@ -16,7 +18,7 @@ export const RecoverContainer = styled.div`
   box-sizing: border-box;
 `;
 export const RecoverSubtitle = styled.p`
-  font-size: 16px;
+  font-size: ${DEFAULT_FONT_SIZE};
   color: ${DEFAULT_TEXT_COLOR};
 `;
 export const RecoverList = styled.div`
@@ -82,7 +84,7 @@ export const RecoverBadge = styled.div`
   border-radius: 50%;
   background-color: ${LIGHT_NEUTRAL_COLOR};
   color: ${DEFAULT_TEXT_COLOR};
-  font-size: 12px;
+  font-size: ${SMALL_FONT_SIZE};
   font-weight: 600;
   margin-right: 8px;
   display: flex;

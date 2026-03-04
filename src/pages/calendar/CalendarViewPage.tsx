@@ -21,18 +21,18 @@ import { CalendarMonth } from '../../utils/MonthsOfYear';
 import InputDate from '../../components/date/inputDate';
 export type CalendarAction =
   | {
-      type: 'ABSENCE';
-      studentId: string;
-      studentName: string;
-      specificSlotId: string;
-    }
+    type: 'ABSENCE';
+    studentId: string;
+    studentName: string;
+    specificSlotId: string;
+  }
   | { type: 'RECOVER'; specificSlotId: string; availableCapacity: number }
   | {
-      type: 'CANCEL';
-      specificSlotId: string;
-      dayOfWeek: string;
-      slot: { startTime: string; endTime: string };
-    };
+    type: 'CANCEL';
+    specificSlotId: string;
+    dayOfWeek: string;
+    slot: { startTime: string; endTime: string };
+  };
 
 function CalendarView() {
   const { userId } = useAuthentication();
@@ -68,7 +68,7 @@ function CalendarView() {
       specificSlotId: slotAction.specificSlotId,
     })
       .unwrap()
-      .then(() => toast.success('Se ha registrado la inasistencia'))
+      .then(() => toast.success(`Ausencia registrada`))
       .finally(closeModal);
   };
 

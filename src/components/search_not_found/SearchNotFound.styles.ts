@@ -12,14 +12,12 @@ export const Container = styled.div`
   box-sizing: border-box;
 `;
 
-export const Icon = styled.img`
-  width: 40px;
-  height: 40px;
-`;
-
-export const Message = styled.p`
+interface MessageProps {
+  $fontSize: string;
+}
+export const Message = styled.p<MessageProps>`
   text-align: center;
   color: ${DEFAULT_TEXT_COLOR};
-  font-size: 16px;
   max-width: 470px;
+  font-size: ${(props) => props.$fontSize};
 `;

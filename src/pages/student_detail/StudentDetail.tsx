@@ -68,7 +68,7 @@ const StudentDetail = () => {
     desactivateStudent(studentId)
       .unwrap()
       .then(() => {
-        toast.success('El alumno ha sido dado de baja.');
+        toast.success('Alumno dado de baja.');
       })
       .finally(() => {
         setShowConfirm(false);
@@ -78,7 +78,7 @@ const StudentDetail = () => {
     activateStudent(studentId)
       .unwrap()
       .then(() => {
-        toast.success('El alumno ha sido dado de alta.');
+        toast.success('Alumno dado de alta.');
       })
       .finally(() => {
         setShowConfirm(false);
@@ -105,9 +105,8 @@ const StudentDetail = () => {
     <MainContainer>
       {showConfirm && (
         <ConfirmDialog
-          message={`¿Estás seguro de ${
-            student.status ? 'dar de baja' : 'dar de alta'
-          } a ${student.name} ${student.lastName}?`}
+          message={`¿Estás seguro de ${student.status ? 'dar de baja' : 'dar de alta'
+            } a ${student.name} ${student.lastName}?`}
           onConfirm={handleConfirm}
           onCancel={() => setShowConfirm(false)}
         />
@@ -250,6 +249,7 @@ const PaymentData = ({
           <Button
             variant="primary"
             size="large"
+            fontsize="medium"
             onClick={() => navigate(ListadoCuotas, { state: { studentId: student.id } })}
           >
             Ver cuotas

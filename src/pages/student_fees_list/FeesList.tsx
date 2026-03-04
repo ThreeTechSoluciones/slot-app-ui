@@ -199,7 +199,7 @@ function StudentFeesList() {
           {student?.name} {student?.lastName}
         </s.SubTitle>
         <s.SubTitle>Cantidad de días: {student?.numberOfDays}</s.SubTitle>
-        <s.SubTitle>Día de pago: {student?.paymentDay}</s.SubTitle>
+        <s.SubTitle>Día de vencimiento: {student?.paymentDay}</s.SubTitle>
       </s.InformationStudent>
       <s.MetricsContainer>
         <PaymentMetrics studentId={student.id} />
@@ -229,7 +229,7 @@ function StudentFeesList() {
 
           <Button
             variant="primary"
-            size="small"
+            fontsize="medium"
             onClick={() => {
               setStatusFilter('');
               setExpirationDateFilter(undefined);
@@ -242,7 +242,7 @@ function StudentFeesList() {
         <s.RightContainer>
           <Button
             variant="primary"
-            size="medium"
+            fontsize="medium"
             icon={<img src={AddIcon} alt="Add Icon" />}
             onClick={() => setShowConfirmDialog(true)}
           >

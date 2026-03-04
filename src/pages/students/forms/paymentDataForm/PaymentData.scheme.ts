@@ -2,7 +2,7 @@ import * as yup from 'yup';
 import { PaymentPlanName } from '../../../../app/types/models/PaymentPlanName';
 
 export const paymentDataScheme = yup.object().shape({
-  paymentPlanName: yup.string().required('Debe seleccionar un plan de pago'),
+  paymentPlanName: yup.string().required('El plan de pago es requerido'),
 
   extraClasses: yup
     .number()
@@ -16,8 +16,8 @@ export const paymentDataScheme = yup.object().shape({
         schema
           .typeError('Solo se permiten números')
           .max(7, 'No puede superar 7 clases')
-          .min(0, 'No puede ser negativo')
-          .test('validateDay', 'Debe ingresar clases extras', (value) => {
+          .min(0, 'Las clases no pueden ser negativas')
+          .test('validateDay', 'Las clases extras son requeridas', (value) => {
             const today = new Date();
             const dayOfMonth = today.getDate();
             if (dayOfMonth > 10) {
@@ -42,8 +42,8 @@ export const paymentDataScheme = yup.object().shape({
       then: (schema) =>
         schema
           .typeError('Solo se permiten números')
-          .min(0, 'No puede ser negativo')
-          .test('validateDay', 'Debe ingresar el precio', (value) => {
+          .min(0, 'El precio no puede ser negativo')
+          .test('validateDay', 'El precio es requerido', (value) => {
             const today = new Date();
             const dayOfMonth = today.getDate();
             if (dayOfMonth > 10) {
@@ -62,7 +62,7 @@ export const paymentDataScheme = yup.object().shape({
       is: (val: string) => val === PaymentPlanName.SPECIFIC_DAY,
       then: (schema) =>
         schema
-          .required('Debe ingresar el día de pago')
+          .required('El día de pago es requerido')
           .typeError('Solo se permiten números')
           .min(11, 'Se permiten pagos a partir del día 11')
           .max(28, 'Se permiten pagos hasta el día 28'),
