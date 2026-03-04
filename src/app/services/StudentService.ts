@@ -1,4 +1,4 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createApi } from '@reduxjs/toolkit/query/react';
 import { UserService } from './UserService';
 import type { CreateStudentRequest } from '../types/requests/CreateStudentRequest.type';
 import type { StudentResponse } from '../types/responses/StudentResponse.type';
@@ -9,13 +9,12 @@ import { SpecificSlotService } from './SpecificSlotService';
 import { MetricService } from './MetricService';
 import type { Page } from '../types/responses/common/Page';
 import type { ActivateStudentRequest } from '../types/requests/ActivateStudentRequest.type';
+import { createAuthenticatedBaseQuery } from './baseQuery';
 
 export const StudentService = createApi({
   reducerPath: 'students',
   tagTypes: ['Student', 'MonthlyFees'],
-  baseQuery: fetchBaseQuery({
-    baseUrl: `${import.meta.env.VITE_BACKEND_URL}/students`,
-  }),
+  baseQuery: createAuthenticatedBaseQuery(`${import.meta.env.VITE_BACKEND_URL}/students`),
   endpoints: (builder) => ({
     deleteStudent: builder.mutation<void, string>({
       query: (studentId) => ({

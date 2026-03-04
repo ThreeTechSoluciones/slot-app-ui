@@ -1,12 +1,11 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createApi } from '@reduxjs/toolkit/query/react';
 import { UserService } from './UserService';
+import { createAuthenticatedBaseQuery } from './baseQuery';
 
 export const PriceService = createApi({
   reducerPath: 'prices',
   tagTypes: ['userPrices'],
-  baseQuery: fetchBaseQuery({
-    baseUrl: `${import.meta.env.VITE_BACKEND_URL}/prices`,
-  }),
+  baseQuery: createAuthenticatedBaseQuery(`${import.meta.env.VITE_BACKEND_URL}/prices`),
   endpoints: (builder) => ({
     updatePrice: builder.mutation<void, { priceId: string; amount: number }>({
       query: ({ priceId, amount }) => ({
