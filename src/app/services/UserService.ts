@@ -81,12 +81,26 @@ export const UserService = createApi({
     }),
     getUserPlans: builder.query<
       Page<PlanResponse>,
-      { userId: string; page: number; size: number; planName?: string }
+      {
+        userId: string;
+        page: number;
+        size: number;
+        planName?: string;
+        sort?: SortConfig | SortConfig[];
+      }
     >({
-      query: ({ userId, planName, size, page }) => ({
-        url: `/${userId}/plans`,
-        params: { planName, size, page },
-      }),
+      query: ({ userId, planName, size, page, sort }) => {
+        let sortParams: string | string[] | undefined;
+        if (sort) {
+          sortParams = Array.isArray(sort)
+            ? sort.map((s) => `${s.property},${s.direction}`)
+            : `${sort.property},${sort.direction}`;
+        }
+        return {
+          url: `/${userId}/plans`,
+          params: { planName, size, page, sort: sortParams },
+        };
+      },
       providesTags: (result) =>
         result
           ? [
@@ -98,7 +112,6 @@ export const UserService = createApi({
             ]
           : [{ type: 'userPlans', id: 'LIST' }],
     }),
-
     getUserPreferences: builder.query<UserPreferencesResponse, string>({
       query: (userId) => `${userId}/userPreferences`,
       providesTags: (_result, _error, userId) => [{ type: 'userPreferences', id: userId }],

@@ -8,6 +8,7 @@ import type { StudentMonthlyFeeResponse } from '../types/responses/StudentMonthl
 import { SpecificSlotService } from './SpecificSlotService';
 import { MetricService } from './MetricService';
 import type { Page } from '../types/responses/common/Page';
+import type { ActivateStudentRequest } from '../types/requests/ActivateStudentRequest.type';
 
 export const StudentService = createApi({
   reducerPath: 'students',
@@ -101,12 +102,13 @@ export const StudentService = createApi({
         dispatch(UserService.util.invalidateTags(['userCalendar']));
       },
     }),
-    activateStudent: builder.mutation<void, string>({
-      query: (studentId) => ({
+    activateStudent: builder.mutation<void, ActivateStudentRequest>({
+      query: ({ studentId, ...body }) => ({
         url: `/${studentId}/activate`,
         method: 'POST',
+        body,
       }),
-      invalidatesTags: (_result, _error, id) => [{ type: 'Student', id }],
+      invalidatesTags: (_result, _error, { studentId }) => [{ type: 'Student', id: studentId }],
       onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
         await queryFulfilled;
         dispatch(UserService.util.invalidateTags(['userStudents']));

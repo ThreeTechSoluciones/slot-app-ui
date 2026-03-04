@@ -1,22 +1,22 @@
 import * as yup from 'yup';
 
 export const editPlanSchema = yup.object({
-  name: yup.string().required('El nombre es requerido'),
+  name: yup.string().required('El nombre del plan es requerido'),
   numberOfDays: yup
     .number()
     .required('El número de días es requerido')
-    .max(7, 'No puede superar 7 días')
-    .min(1, 'No puede ser menor a 1 día'),
+    .max(7, 'El plan no puede superar 7 días')
+    .min(1, 'El plan no puede ser menor a 1 día'),
   amount: yup
     .number()
     .nullable()
-    .typeError('El precio debe ser un número válido')
+    .typeError('Solo se permiten números')
     .transform((value, originalValue) => (originalValue === '' ? undefined : value)),
 
   startDate: yup
     .date()
-    .required('Debe seleccionar una fecha de vigencia')
-    .test('not-in-past', 'La fecha es menor al día actual', (value) => {
+    .required('La fecha de vigencia es requerida')
+    .test('not-in-past', 'La fecha es anterior a hoy', (value) => {
       const selectedDate = new Date(value);
       const today = new Date();
       today.setHours(0, 0, 0, 0);

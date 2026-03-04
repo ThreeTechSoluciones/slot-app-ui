@@ -191,7 +191,6 @@ function StudentFeesList() {
     },
   ];
 
-  console.log('Fees data:', fees);
   return (
     <s.StudentsContainer>
       <s.ContentContainer>
