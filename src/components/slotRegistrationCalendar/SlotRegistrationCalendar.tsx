@@ -41,7 +41,7 @@ function SlotRegistrationCalendar({
 export default SlotRegistrationCalendar;
 const WarningMessage = () => (
   <WarningContainer>
-    <SearchNotFound message='Aún no hay turnos registrados.'></SearchNotFound>
+    <SearchNotFound message="Aún no hay turnos registrados."></SearchNotFound>
   </WarningContainer>
 );
 const Slots = ({ selectedSlots, onSelectSlot, onDeleteSlot, listSlots }: CalendarProps) => {

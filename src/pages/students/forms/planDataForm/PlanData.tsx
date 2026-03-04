@@ -28,7 +28,6 @@ export interface PlanDataProps {
   planId: string;
   slotIds: string[];
 }
-
 const PlanData = forwardRef<FormRef, FormProps<PlanDataProps>>((props, ref) => {
   const { data, onSubmit: onSubmit } = props;
   const { userId } = useAuthentication();
@@ -107,8 +106,7 @@ const PlanData = forwardRef<FormRef, FormProps<PlanDataProps>>((props, ref) => {
 
   useImperativeHandle(
     ref,
-    () =>
-    ({
+    () => ({
       submit: () =>
         new Promise<boolean>((resolve) => {
           handleSubmit(
@@ -121,8 +119,9 @@ const PlanData = forwardRef<FormRef, FormProps<PlanDataProps>>((props, ref) => {
             },
           )();
         }),
+      getValues: () => getValues(),
     }),
-    [handleSubmit, onFormSubmit],
+    [handleSubmit, onFormSubmit, getValues],
   );
 
   const handleSelectSlot = (id: string, day: string, hour: string) => {
