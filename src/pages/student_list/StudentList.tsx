@@ -141,11 +141,10 @@ function StudentList() {
   return (
     <s.StudentsContainer>
       <s.ContentContainer>
-        <s.Title>LISTADO DE ALUMNOS</s.Title>
+        <s.Title>MIS ALUMNOS</s.Title>
         <s.MetricsContainer>
           <StudentMetrics />
         </s.MetricsContainer>
-
         <s.FiltersContainer>
           <s.LeftContainer>
             <s.FilterSearchContainer>

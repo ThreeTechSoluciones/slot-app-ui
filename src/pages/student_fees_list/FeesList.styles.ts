@@ -22,6 +22,8 @@ export const TitleContainer = styled.div`
   display: flex;
   margin-left: 76px;
   gap: 24px;
+  align-items: center;
+  margin-top: 32px;
 `;
 export const Title = styled.h1`
   display: flex;
