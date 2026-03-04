@@ -4,6 +4,9 @@ import {
   BACKGROUND_COLOR,
   LIGHT_NEUTRAL_COLOR,
   FONT_WEIGHT_BOLD,
+  LARGE_FONT_SIZE,
+  MEDIUM_FONT_SIZE,
+  DEFAULT_FONT_SIZE,
 } from '../../utils/Stylesheet';
 export const ModalOverlay = styled.div`
   position: fixed;
@@ -60,12 +63,12 @@ export const ModalTitle = styled.h2<TitleProps>`
   align-items: center;
   display: flex;
   justify-content: center;
-  font-size: 24px;
+  font-size: ${LARGE_FONT_SIZE};
   font-weight: ${FONT_WEIGHT_BOLD};
 `;
 export const ModalBody = styled.div`
   margin-bottom: 25px;
-  font-size: 16px;
+  font-size: ${DEFAULT_FONT_SIZE};
 `;
 export const ModalFooter = styled.div`
   display: flex;

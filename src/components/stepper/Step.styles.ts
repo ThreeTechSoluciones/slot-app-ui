@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { SUCCESS_COLOR } from '../../utils/Stylesheet';
+import { SMALL_FONT_SIZE, SUCCESS_COLOR } from '../../utils/Stylesheet';
 
 interface CircleProps {
   $isCurrentStep?: boolean;
@@ -60,7 +60,7 @@ export const Circle = styled.div<CircleProps>`
 export const Title = styled.p`
   margin: 0px;
   padding: 0px;
-  font-size: 12px;
+  font-size: ${SMALL_FONT_SIZE};
   max-width: 60px;
   display: flex;
   text-align: center;
