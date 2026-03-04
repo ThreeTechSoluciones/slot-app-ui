@@ -6,7 +6,7 @@ import {
   useUpdateStudentMutation,
 } from '../../../app/services/StudentService';
 import useAuthentication from '../../../hooks/useAuthentication';
-import { useRef, type JSX } from 'react';
+import { useEffect, useRef, type JSX } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 import { useParams } from 'react-router-dom';
 import {
@@ -48,6 +48,18 @@ function EditStudent() {
   const [updateStudent] = useUpdateStudentMutation();
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        handleClick();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [numberOfStepNum]);
 
   const showStudentData = (studentSaveData: StudentDataProps) => {
     const formattedBirthday = formatDateToISO(studentSaveData.birthday);

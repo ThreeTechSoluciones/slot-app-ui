@@ -52,12 +52,19 @@ const StudentData = forwardRef<FormRef, FormProps<StudentDataProps>>((props, ref
       ...studentRegistrationForm,
     },
   });
+
   const [validateStudentDni] = useValidateStudentDniMutation();
+
   useImperativeHandle(ref, () => ({
     submit: () =>
       new Promise<boolean>((resolve) => {
         handleSubmit(
           (data) => {
+            if (data.dni === studentRegistrationForm.dni) {
+              onSubmit?.(data);
+              resolve(true);
+              return;
+            }
             validateStudentDni({ dni: data.dni })
               .unwrap()
               .then(() => {
