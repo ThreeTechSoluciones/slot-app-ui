@@ -1,4 +1,5 @@
 import styled, { keyframes } from 'styled-components';
+import { DEFAULT_FONT_SIZE } from '../../utils/Stylesheet';
 export const MIN_HEIGHT_HEADER = '96px';
 interface OptionProps {
   $isLast?: boolean;
@@ -19,7 +20,7 @@ export const LeftOptionsContainer = styled.section`
   margin-left: 80px;
   min-height: ${MIN_HEIGHT_HEADER};
   align-items: center;
-  font-size: 16px;
+  font-size: ${DEFAULT_FONT_SIZE};
 `;
 export const RightOptionsContainer = styled(LeftOptionsContainer)`
   gap: 24px;

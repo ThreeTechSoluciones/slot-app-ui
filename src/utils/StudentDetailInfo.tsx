@@ -1,6 +1,6 @@
 import type { StudentDetailResponse } from '../app/types/responses/StudentDetailResponse.type';
 import { DaysOfWeekTranslation } from '../utils/DaysOfWeek';
-import { capitalize } from '../utils/CapitalizeWords';
+import dniFormatter from '../components/dni/dniFormatter';
 import {
   StudentStatusStyle,
   StudentSituationStyle,
@@ -15,7 +15,7 @@ interface InfoItem {
 export const studentPersonalInfo = (student: StudentDetailResponse): InfoItem[] => [
   { title: 'Nombre', data: student.name },
   { title: 'Apellido', data: student.lastName },
-  { title: 'DNI', data: student.dni },
+  { title: 'DNI', data: dniFormatter(student.dni) },
   { title: 'Fecha de ingreso', data: student.admissionDate },
   {
     title: 'Fecha de nacimiento',

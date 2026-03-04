@@ -1,5 +1,11 @@
 import styled from 'styled-components';
-import { BORDER_RADIUS, LIGHT_NEUTRAL_COLOR, NEUTRAL_COLOR } from '../../utils/Stylesheet';
+import {
+  BORDER_RADIUS,
+  LIGHT_NEUTRAL_COLOR,
+  MEDIUM_FONT_SIZE,
+  NEUTRAL_COLOR,
+  SMALL_FONT_SIZE,
+} from '../../utils/Stylesheet';
 
 export const DateFilterContainer = styled.div`
   display: flex;
@@ -17,13 +23,13 @@ export const DatePickerWrapper = styled.div<DatePickerWrapperProps>`
   position: relative;
   z-index: 1;
   &::before {
-    content: 'Filtrar por fecha de vencimiento';
+    content: 'Filtrar por vencimiento';
     position: absolute;
     left: 16px;
     top: 50%;
     transform: translateY(-50%);
     color: ${NEUTRAL_COLOR};
-    font-size: 12px;
+    font-size: ${MEDIUM_FONT_SIZE};
     pointer-events: none;
     z-index: 1;
     display: ${(props) => (props.$hasValue ? 'none' : 'block')};
@@ -62,7 +68,7 @@ export const DatePickerWrapper = styled.div<DatePickerWrapperProps>`
   .react-date-picker__inputGroup {
     align-items: center;
     max-width: 100px;
-    font-size: 12px;
+    font-size: ${SMALL_FONT_SIZE};
     flex: 1;
     line-height: 1;
     display: ${(props) => (props.$hasValue ? 'flex' : 'none')};

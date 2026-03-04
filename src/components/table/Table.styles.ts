@@ -3,6 +3,7 @@ import {
   BACKGROUND_COLOR,
   BORDER_RADIUS,
   BRAND_COLOR,
+  DEFAULT_FONT_SIZE,
   LIGHT_NEUTRAL_COLOR,
 } from '../../utils/Stylesheet';
 export const TableStyle = styled.table`
@@ -16,7 +17,7 @@ export const TableStyle = styled.table`
 
 export const Thead = styled.thead`
   th {
-    font-size: 16px;
+    font-size: ${DEFAULT_FONT_SIZE};
     height: 50px;
     max-height: 50px;
     overflow: hidden;
@@ -37,7 +38,7 @@ export const Tbody = styled.tbody`
   }
 `;
 export const Td = styled.td`
-  font-size: 16px;
+  font-size: ${DEFAULT_FONT_SIZE};
   text-align: center;
   vertical-align: middle;
 `;

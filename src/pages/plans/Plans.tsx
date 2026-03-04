@@ -72,7 +72,7 @@ function Plans() {
     await handleMutation(
       () => createPlan(finalRequest).unwrap(),
       () => setShowModal(null),
-      'Plan creado correctamente',
+      'Plan registrado',
     );
   };
 
@@ -89,7 +89,7 @@ function Plans() {
     await handleMutation(
       () => editPlan(finalRequest).unwrap(),
       () => setShowModal(null),
-      'Plan editado correctamente',
+      'Plan editado',
     );
   };
   //ELIMINAR PLAN
@@ -102,7 +102,7 @@ function Plans() {
         setShowModal(null);
         setSelectedPlan(null);
       },
-      'Plan eliminado correctamente',
+      'Plan eliminado',
     );
   };
   const MODALS = {
@@ -191,14 +191,14 @@ function Plans() {
   if (!plansData) return <div>No hay información disponible.</div>;
   return (
     <s.PlansContainer>
-      <s.Title>GESTIÓN DE PLANES</s.Title>
+      <s.Title>MIS PLANES</s.Title>
 
       <s.FiltersContainer>
         <s.LeftContainer>
           <s.FilterSearchContainer>
             <FilterSearch value={filter} onChange={setFilter} placeholder="Buscar por nombre" />
           </s.FilterSearchContainer>
-          <Button size="small" variant="primary" onClick={handleClearFilters}>
+          <Button fontsize="medium" variant="primary" onClick={handleClearFilters}>
             Limpiar filtros
           </Button>
         </s.LeftContainer>
@@ -206,7 +206,7 @@ function Plans() {
         <s.RightContainer>
           <Button
             variant="primary"
-            size="medium"
+            fontsize="medium"
             icon={<img src={AddIcon} alt="Agregar" />}
             onClick={() => setShowModal('CREATE')}
           >

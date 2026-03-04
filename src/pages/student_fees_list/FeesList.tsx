@@ -230,7 +230,7 @@ function StudentFeesList() {
 
           <Button
             variant="primary"
-            size="small"
+            fontsize="medium"
             onClick={() => {
               setStatusFilter('');
               setExpirationDateFilter(undefined);
@@ -243,7 +243,7 @@ function StudentFeesList() {
         <s.RightContainer>
           <Button
             variant="primary"
-            size="medium"
+            fontsize="medium"
             icon={<img src={AddIcon} alt="Add Icon" />}
             onClick={() => setShowConfirmDialog(true)}
           >

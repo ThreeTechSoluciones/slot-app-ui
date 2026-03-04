@@ -36,7 +36,7 @@ const StudentDetail = () => {
     desactivateStudent(studentId)
       .unwrap()
       .then(() => {
-        toast.success('El alumno ha sido dado de baja.');
+        toast.success('Alumno dado de baja.');
       })
       .finally(() => {
         setShowConfirm(false);
@@ -216,6 +216,7 @@ const PaymentData = ({
           <Button
             variant="primary"
             size="large"
+            fontsize="medium"
             onClick={() => navigate(ListadoCuotas, { state: { studentId: student.id } })}
           >
             Ver cuotas
