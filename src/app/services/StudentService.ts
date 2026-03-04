@@ -7,12 +7,9 @@ import type { UpdateStudentRequest } from '../types/requests/UpdateStudentReques
 import type { StudentMonthlyFeeResponse } from '../types/responses/StudentMonthlyFee.type';
 import { SpecificSlotService } from './SpecificSlotService';
 import { MetricService } from './MetricService';
-<<<<<<< Updated upstream
 import type { Page } from '../types/responses/common/Page';
 import type { ActivateStudentRequest } from '../types/requests/ActivateStudentRequest.type';
-=======
 import { createAuthenticatedBaseQuery } from './baseQuery';
->>>>>>> Stashed changes
 
 export const StudentService = createApi({
   reducerPath: 'students',
