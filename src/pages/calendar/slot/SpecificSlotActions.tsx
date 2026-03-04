@@ -14,6 +14,7 @@ import { useGetSpecificSlotStudentsQuery } from '../../../app/services/SpecificS
 import { skipToken } from '@reduxjs/toolkit/query';
 import type { CalendarAction } from '../CalendarViewPage';
 import { DisabledIcon } from '../../../components/disabled_icon/DisabledIcon';
+import { Tooltip } from '../../../components/tooltip/Tooltip';
 import { SearchNotFound } from '../../../components/search_not_found/SearchNotFound';
 
 const STATUS_ICONS: { [key: string]: string } = {
@@ -52,22 +53,24 @@ const ActionsSkeleton = ({
       </s.SearchFilterContainer>
       <s.ActionGroup>
         <DisabledIcon
-          icon={<img src={PlusIcon} alt="Añadir alumno" />}
-          alt="Añadir alumno"
-          tooltip="Añadir alumno"
           disabled={isFull || isCanceled}
-          disabledTooltip={isCanceled ? 'Turno cancelado' : 'Cupo lleno'}
           onClick={onRecover}
-        />
+          tooltip="Añadir alumno"
+          disabledTooltip={isCanceled ? 'Turno cancelado' : 'Cupo lleno'}
+        >
+          <img src={PlusIcon} alt="Añadir alumno" />
+        </DisabledIcon>
+
         <DisabledIcon
-          icon={<s.CancelIcon src={PlusIcon} alt="Cancelar turno" />}
-          tooltip="Cancelar turno"
           disabled={isCanceled || isFinalized}
+          onClick={onCancel}
+          tooltip="Cancelar turno"
           disabledTooltip={
             isCanceled ? 'Turno cancelado' : isFinalized ? 'Turno finalizado' : 'Cancelar turno'
           }
-          onClick={onCancel}
-        />
+        >
+          <s.CancelIcon src={PlusIcon} alt="Cancelar turno" />
+        </DisabledIcon>
       </s.ActionGroup>
     </s.ActionsContainer>
   );
@@ -177,14 +180,18 @@ function Slot(props: SlotParams) {
                 return (
                   <s.StudentName
                     key={student?.id}
-                    title={student?.fullName}
-                    onClick={() => student && handleAbsenceSlot(student, slot.id)}
+                    onClick={() => {
+                      if (isAbsent) return;
+                      handleAbsenceSlot(student, slot.id);
+                    }}
                   >
                     {isAbsent && <s.AbsenceBadge>A</s.AbsenceBadge>}
                     {isRecover && <s.RecoverBadge>R</s.RecoverBadge>}
-                    <s.StudentText $isAbsent={isAbsent} $isRecover={isRecover}>
-                      {student?.fullName}
-                    </s.StudentText>
+                    <Tooltip content={student?.fullName}>
+                      <s.StudentText $isAbsent={isAbsent} $isRecover={isRecover}>
+                        {student?.fullName}
+                      </s.StudentText>
+                    </Tooltip>
                   </s.StudentName>
                 );
               })}
