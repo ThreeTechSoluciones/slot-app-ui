@@ -17,7 +17,7 @@ export const MonthlyFeeService = createApi({
       async onQueryStarted({ studentId }, { dispatch, queryFulfilled }) {
         await queryFulfilled;
         dispatch(StudentService.util.invalidateTags([{ type: 'MonthlyFees', id: studentId }]));
-        dispatch(MetricService.util.invalidateTags([{ type: 'Metric' }]));
+        dispatch(MetricService.util.invalidateTags([{ type: 'Metric', id: 'Payment' }]));
       },
     }),
   }),

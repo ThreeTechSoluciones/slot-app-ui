@@ -37,11 +37,7 @@ function Modal({ onClose, children, showButtons = true, onConfirm }: ModalSlotPr
 
   return (
     <ModalSlotContainer>
-      <ModalContent
-        ref={contentRef}
-        tabIndex={0}
-        onKeyDown={handleKeyDown}
-      >
+      <ModalContent ref={contentRef} tabIndex={0} onKeyDown={handleKeyDown}>
         {children}
         {showButtons && (
           <ModalActions>

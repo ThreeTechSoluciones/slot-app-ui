@@ -63,7 +63,9 @@ const ActionsSkeleton = ({
           icon={<s.CancelIcon src={PlusIcon} alt="Cancelar turno" />}
           tooltip="Cancelar turno"
           disabled={isCanceled || isFinalized}
-          disabledTooltip={isCanceled ? 'Turno cancelado' : isFinalized ? 'Turno finalizado' : 'Cancelar turno'}
+          disabledTooltip={
+            isCanceled ? 'Turno cancelado' : isFinalized ? 'Turno finalizado' : 'Cancelar turno'
+          }
           onClick={onCancel}
         />
       </s.ActionGroup>
@@ -191,7 +193,8 @@ function Slot(props: SlotParams) {
                   message={`No hay resultados para "${filter}"`}
                   iconWidth={20}
                   iconHeight={20}
-                  fontSize='14px' />
+                  fontSize="14px"
+                />
               )}
             </s.SlotStudentsContainer>
           )}

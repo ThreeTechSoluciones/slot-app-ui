@@ -60,12 +60,12 @@ export const UserService = createApi({
       providesTags: (result) =>
         result
           ? [
-            { type: 'userStudents', id: 'LIST' },
-            ...result.content.map(({ id }) => ({
-              type: 'userStudents' as const,
-              id,
-            })),
-          ]
+              { type: 'userStudents', id: 'LIST' },
+              ...result.content.map(({ id }) => ({
+                type: 'userStudents' as const,
+                id,
+              })),
+            ]
           : [{ type: 'userStudents', id: 'LIST' }],
     }),
 
@@ -74,9 +74,9 @@ export const UserService = createApi({
       providesTags: (result) =>
         result
           ? [
-            { type: 'userPrices', id: 'LIST' },
-            ...result.map(({ id }) => ({ type: 'userPrices' as const, id })),
-          ]
+              { type: 'userPrices', id: 'LIST' },
+              ...result.map(({ id }) => ({ type: 'userPrices' as const, id })),
+            ]
           : [{ type: 'userPrices', id: 'LIST' }],
     }),
     getUserPlans: builder.query<
@@ -104,12 +104,12 @@ export const UserService = createApi({
       providesTags: (result) =>
         result
           ? [
-            { type: 'userPlans', id: 'LIST' },
-            ...result.content.map(({ id }) => ({
-              type: 'userPlans' as const,
-              id,
-            })),
-          ]
+              { type: 'userPlans', id: 'LIST' },
+              ...result.content.map(({ id }) => ({
+                type: 'userPlans' as const,
+                id,
+              })),
+            ]
           : [{ type: 'userPlans', id: 'LIST' }],
     }),
     getUserPreferences: builder.query<UserPreferencesResponse, string>({

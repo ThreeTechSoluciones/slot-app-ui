@@ -46,12 +46,12 @@ function Plans() {
   } = useGetUserPlansQuery(
     userId
       ? {
-        userId,
-        page: page - 1,
-        size,
-        planName: filter,
-        sort: sort.length > 0 ? sort : undefined,
-      }
+          userId,
+          page: page - 1,
+          size,
+          planName: filter,
+          sort: sort.length > 0 ? sort : undefined,
+        }
       : skipToken,
   );
 
@@ -171,7 +171,9 @@ function Plans() {
       header: (
         <SortableButton
           text="Cantidad de días asignados"
-          onSort={(isAsc) => setSort([{ property: 'numberOfDays', direction: isAsc ? 'ASC' : 'DESC' }])}
+          onSort={(isAsc) =>
+            setSort([{ property: 'numberOfDays', direction: isAsc ? 'ASC' : 'DESC' }])
+          }
         />
       ),
       accessor: 'numberOfDays',
