@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import Arrow from '../../../../assets/Arrow.png';
+import Arrow from '../../../../assets/arrow.png';
 import {
   NEUTRAL_COLOR,
   DEFAULT_TEXT_COLOR,
