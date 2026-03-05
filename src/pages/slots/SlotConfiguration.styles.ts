@@ -13,7 +13,7 @@ import {
   MEDIUM_FONT_SIZE,
   SMALL_FONT_SIZE,
 } from '../../utils/Stylesheet';
-import Arrow from '../../assets/Arrow.png';
+import Arrow from '../../assets/arrow.png';
 
 export const MainContainer = styled.div`
   display: flex;
