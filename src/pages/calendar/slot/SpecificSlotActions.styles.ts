@@ -82,12 +82,12 @@ export const SlotInfo = styled.span<SlotInfoProps>`
   margin-left: 2px;
 `;
 
-export const SlotCapacity = styled(SlotInfo) <SlotInfoProps>`
+export const SlotCapacity = styled(SlotInfo)<SlotInfoProps>`
   background-color: ${({ $isCanceled, $isFull }) =>
     $isCanceled ? NEUTRAL_COLOR : $isFull ? DANGER_COLOR : SUCCESS_COLOR};
 `;
 
-export const SlotStatus = styled(SlotInfo) <SlotInfoProps>`
+export const SlotStatus = styled(SlotInfo)<SlotInfoProps>`
   background-color: ${({ $status }) => {
     if ($status === 'FINALIZED') return SUCCESS_COLOR;
     if ($status === 'IN_PROGRESS') return WARNING_COLOR;

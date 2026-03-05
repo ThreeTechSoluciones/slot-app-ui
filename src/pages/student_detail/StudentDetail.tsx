@@ -154,7 +154,6 @@ const StudentData = ({
         </s.SubTitle>
         <s.EditIconStyles>
           <DisabledIcon
-            icon={<img src={EditIcon} alt="edit-icon" />}
             tooltip="Editar datos del alumno"
             disabled={isStudentInactive}
             disabledTooltip="Alumno inactivo"
@@ -163,7 +162,9 @@ const StudentData = ({
                 state: { studentId: student.id },
               })
             }
-          />
+          >
+            <img src={EditIcon} alt="edit-icon" />
+          </DisabledIcon>
         </s.EditIconStyles>
       </s.HeaderBoxes>
       <s.AllInformationContainer>
@@ -205,7 +206,6 @@ const PaymentData = ({
         </s.SubTitle>
         <s.EditIconStyles>
           <DisabledIcon
-            icon={<img src={EditIcon} alt="edit-icon" />}
             tooltip="Editar datos de pago"
             disabled={isStudentInactive}
             disabledTooltip="Alumno inactivo"
@@ -214,7 +214,9 @@ const PaymentData = ({
                 state: { studentId: student.id },
               })
             }
-          />
+          >
+            <img src={EditIcon} alt="edit-icon" />
+          </DisabledIcon>
         </s.EditIconStyles>
       </s.HeaderBoxes>
       <s.AllInformationContainer>
@@ -265,7 +267,6 @@ const SlotData = ({
 
         <s.EditIconStyles>
           <DisabledIcon
-            icon={<img src={EditIcon} alt="edit-icon" />}
             tooltip="Editar turnos"
             disabled={isStudentInactive}
             disabledTooltip="Alumno inactivo"
@@ -274,7 +275,9 @@ const SlotData = ({
                 state: { studentId: student.id },
               })
             }
-          />
+          >
+            <img src={EditIcon} alt="edit-icon" />
+          </DisabledIcon>
         </s.EditIconStyles>
       </s.HeaderBoxes>
 
