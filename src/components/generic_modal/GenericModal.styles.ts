@@ -5,7 +5,6 @@ import {
   LIGHT_NEUTRAL_COLOR,
   FONT_WEIGHT_BOLD,
   LARGE_FONT_SIZE,
-  MEDIUM_FONT_SIZE,
   DEFAULT_FONT_SIZE,
 } from '../../utils/Stylesheet';
 export const ModalOverlay = styled.div`

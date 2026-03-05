@@ -7,7 +7,7 @@ import { ErrorMessage } from '../../../components/error_message/ErrorMessage';
 import { forwardRef, useImperativeHandle } from 'react';
 import type { FormSubmitHandle } from './FormSubmitHandle.type';
 
-const EditCapacityForm = forwardRef<FormSubmitHandle>((props, ref) => {
+const EditCapacityForm = forwardRef<FormSubmitHandle>((_props, ref) => {
   type FormData = yup.InferType<typeof EditCapacityScheme>;
 
   const {

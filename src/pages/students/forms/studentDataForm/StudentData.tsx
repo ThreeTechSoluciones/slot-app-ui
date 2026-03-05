@@ -54,6 +54,12 @@ const StudentData = forwardRef<FormRef, FormProps<StudentDataProps>>((props, ref
   });
 
   const [validateStudentDni] = useValidateStudentDniMutation();
+  const { getValues } = useForm<FormData>({
+    resolver: yupResolver(StudentDataScheme),
+    defaultValues: {
+      ...studentRegistrationForm,
+    },
+  });
 
   useImperativeHandle(ref, () => ({
     submit: () =>
@@ -88,6 +94,7 @@ const StudentData = forwardRef<FormRef, FormProps<StudentDataProps>>((props, ref
           () => resolve(false),
         )();
       }),
+    getValues,
   }));
 
   return (

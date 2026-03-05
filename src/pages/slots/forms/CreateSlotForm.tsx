@@ -7,7 +7,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { ErrorMessage } from '../../../components/error_message/ErrorMessage';
 import type { FormSubmitHandle } from './FormSubmitHandle.type';
 
-const CreateSlotForm = forwardRef<FormSubmitHandle>((props, ref) => {
+const CreateSlotForm = forwardRef<FormSubmitHandle>((_props, ref) => {
   type FormData = yup.InferType<typeof SlotScheme>;
   const {
     register,
