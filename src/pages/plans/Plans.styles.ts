@@ -45,4 +45,5 @@ export const FilterSearchContainer = styled.div`
 `;
 export const PaginationContainer = styled.div`
   margin-top: auto;
+  padding: 35px 0px 35px 0px;
 `;

@@ -58,14 +58,14 @@ const CommonStatusAndSituation = styled.p`
   font-weight: 700;
 `;
 
-export const SituationText = styled(CommonStatusAndSituation)<{
+export const SituationText = styled(CommonStatusAndSituation) <{
   $status: string;
 }>`
   background-color: ${({ $status }) =>
     $status === 'En término' ? `${SUCCESS_COLOR}` : `${DANGER_COLOR}`};
 `;
 
-export const StatusText = styled(CommonStatusAndSituation)<{
+export const StatusText = styled(CommonStatusAndSituation) <{
   $isActive: boolean;
 }>`
   background-color: ${({ $isActive }) => ($isActive ? `${SUCCESS_COLOR}` : `${NEUTRAL_COLOR}`)};
@@ -82,6 +82,6 @@ export const ContentContainer = styled.div`
 `;
 
 export const PaginationContainer = styled.div`
-  padding: 8px 0 8px 0;
-  margin: auto;
+  margin-top: auto;
+  padding: 35px 0px 35px 0px;
 `;

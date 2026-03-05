@@ -132,6 +132,6 @@ export const ContentContainer = styled.div`
   flex: 1;
 `;
 export const PaginationContainer = styled.div`
-  padding: 8px 0 8px 0;
-  margin: auto;
+  margin-top: auto;
+  padding: 35px 0px 35px 0px;
 `;
