@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { formatCurrency } from '../../utils/Formatter';
 import type { Column } from '../../app/types/table';
 import type { PlanResponse } from '../../app/types/responses/PlanResponse.type';
@@ -215,6 +215,9 @@ function Plans() {
       ),
     },
   ];
+  useEffect(() => {
+    setPage(1);
+  }, [filter]);
   if (isLoading) return <div>Cargando...</div>;
   if (isError) return <div>Ocurrió un error a la hora de cargar a los planes.</div>;
   if (!plansData) return <div>No hay información disponible.</div>;
