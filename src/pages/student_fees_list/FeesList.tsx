@@ -133,7 +133,7 @@ function StudentFeesList() {
     {
       header: (
         <SortableButton
-          text="Nro de cuota"
+          text="Número de cuota"
           onSort={(isAsc) => setSort([{ property: 'number', direction: isAsc ? 'ASC' : 'DESC' }])}
         />
       ),
