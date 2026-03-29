@@ -10,6 +10,7 @@ import { MetricService } from './MetricService';
 import type { Page } from '../types/responses/common/Page';
 import type { ActivateStudentRequest } from '../types/requests/ActivateStudentRequest.type';
 import { createAuthenticatedBaseQuery } from './baseQuery';
+import type { SortConfig } from '../types/sort';
 
 export const StudentService = createApi({
   reducerPath: 'students',
@@ -67,19 +68,29 @@ export const StudentService = createApi({
         paymentId?: string;
         page: number;
         size: number;
+        sort?: SortConfig | SortConfig[];
       }
     >({
-      query: ({ studentId, month, expirationDate, status, paymentId, page, size }) => ({
-        url: `/${studentId}/monthly-fees`,
-        params: {
-          page,
-          size,
-          month,
-          expirationDate,
-          status,
-          paymentId,
-        },
-      }),
+      query: ({ studentId, month, expirationDate, status, paymentId, page, size, sort }) => {
+        let sortParams: string | string[] | undefined;
+        if (sort) {
+          sortParams = Array.isArray(sort)
+            ? sort.map((s) => `${s.property},${s.direction}`)
+            : `${sort.property},${sort.direction}`;
+        }
+        return {
+          url: `/${studentId}/monthly-fees`,
+          params: {
+            page,
+            size,
+            month,
+            expirationDate,
+            status,
+            paymentId,
+            sort: sortParams,
+          },
+        };
+      },
       providesTags: (_result, _error, { studentId }) => [{ type: 'MonthlyFees', id: studentId }],
     }),
 

@@ -20,7 +20,6 @@ import {
 } from '../../app/services/StudentService';
 import { skipToken } from '@reduxjs/toolkit/query/react';
 import { translateMonth } from '../../utils/TranslateMonths';
-import { formatCurrency } from '../../utils/Formatter';
 import DateFilter from '../../components/date_filter/DateFilter';
 import { toast } from 'react-hot-toast';
 import { useUpdateMonthlyFeeMutation } from '../../app/services/MonthlyFeeService';
@@ -40,6 +39,7 @@ import type {
 import PaymentMetrics from './PaymentMetrics';
 import { Pagination } from '../../components/pagination/Pagination';
 import { SearchNotFound } from '../../components/search_not_found/SearchNotFound';
+import type { SortConfig } from '../../app/types/sort';
 function StudentFeesList() {
   const location = useLocation();
   const { studentId } = location.state || {};
@@ -61,6 +61,7 @@ function StudentFeesList() {
   const [payMonthlyFee] = useUpdateMonthlyFeeMutation();
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(5);
+  const [sort, setSort] = useState<SortConfig[]>([]);
   const formattedExpirationDate = expirationDateFilter
     ? formatDateToIsoString(expirationDateFilter)
     : undefined;
@@ -71,13 +72,14 @@ function StudentFeesList() {
   } = useGetStudentMonthlyFeesQuery(
     student?.id
       ? {
-          studentId: student.id,
-          month: monthFilter || undefined,
-          expirationDate: formattedExpirationDate,
-          status: statusFilter || undefined,
-          page: page - 1,
-          size,
-        }
+        studentId: student.id,
+        month: monthFilter || undefined,
+        expirationDate: formattedExpirationDate,
+        status: statusFilter || undefined,
+        page: page - 1,
+        size,
+        sort: sort.length > 0 ? sort : undefined,
+      }
       : skipToken,
   );
 
@@ -85,7 +87,7 @@ function StudentFeesList() {
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   useEffect(() => {
     setPage(1);
-  }, [monthFilter, statusFilter, formattedExpirationDate]);
+  }, [monthFilter, statusFilter, formattedExpirationDate, sort]);
   if (fetchingStudent) return <p>Cargando información del alumno...</p>;
   if (errorFetchingStudent) return <p>Error al cargar la información del alumno.</p>;
   if (!student) return <p>Alumno no encontrado.</p>;
@@ -129,26 +131,41 @@ function StudentFeesList() {
   if (!fees) return <SearchNotFound message="No hay información disponible." />;
   const columns: Column<StudentMonthlyFeeResponse>[] = [
     {
-      header: <SortableButton text="N° de cuota" />,
+      header: (
+        <SortableButton
+          text="Nro de cuota"
+          onSort={(isAsc) => setSort([{ property: 'number', direction: isAsc ? 'ASC' : 'DESC' }])}
+        />
+      ),
       accessor: 'number',
     },
-
     {
-      header: <SortableButton text="Mes" />,
-      accessor: 'month',
-      render: (student) => <span>{translateMonth(student.month)} </span>,
+      header: (
+        <SortableButton
+          text="Monto"
+          onSort={(isAsc) => setSort([{ property: 'amount', direction: isAsc ? 'ASC' : 'DESC' }])}
+        />
+      ),
+      accessor: 'amount',
     },
-
     {
-      header: <SortableButton text={'Fecha de\nvencimiento'} allowWrap />,
+      header: (
+        <SortableButton
+          text={'Fecha de\nvencimiento'} allowWrap
+          onSort={(isAsc) => setSort([{ property: 'expirationDate', direction: isAsc ? 'ASC' : 'DESC' }])}
+        />
+      ),
       accessor: 'expirationDate',
       render: (student) => <span>{student.expirationDate}</span>,
     },
     {
-      header: <SortableButton text="Monto" />,
-      accessor: 'amount',
-      render: (student) => <span>{formatCurrency(student.amount)}</span>,
+      header: "Mes",
+      accessor: 'month',
+      render: (student) => <span>{translateMonth(student.month)} </span>,
     },
+
+
+
     {
       header: 'Estado',
       accessor: 'status',
@@ -244,6 +261,7 @@ function StudentFeesList() {
                 setStatusFilter('');
                 setExpirationDateFilter(undefined);
                 setMonthFilter('');
+                setSort([]);
               }}
             >
               Limpiar filtros
