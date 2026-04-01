@@ -1,4 +1,4 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createApi } from '@reduxjs/toolkit/query/react';
 import { UserService } from './UserService';
 import type { CreateStudentRequest } from '../types/requests/CreateStudentRequest.type';
 import type { StudentResponse } from '../types/responses/StudentResponse.type';
@@ -7,13 +7,14 @@ import type { UpdateStudentRequest } from '../types/requests/UpdateStudentReques
 import type { StudentMonthlyFeeResponse } from '../types/responses/StudentMonthlyFee.type';
 import { SpecificSlotService } from './SpecificSlotService';
 import { MetricService } from './MetricService';
+import type { Page } from '../types/responses/common/Page';
+import type { ActivateStudentRequest } from '../types/requests/ActivateStudentRequest.type';
+import { createAuthenticatedBaseQuery } from './baseQuery';
 
 export const StudentService = createApi({
   reducerPath: 'students',
   tagTypes: ['Student', 'MonthlyFees'],
-  baseQuery: fetchBaseQuery({
-    baseUrl: `${import.meta.env.VITE_BACKEND_URL}/students`,
-  }),
+  baseQuery: createAuthenticatedBaseQuery(`${import.meta.env.VITE_BACKEND_URL}/students`),
   endpoints: (builder) => ({
     deleteStudent: builder.mutation<void, string>({
       query: (studentId) => ({
@@ -48,31 +49,38 @@ export const StudentService = createApi({
       invalidatesTags: (_result, _error, { studentId }) => [{ type: 'MonthlyFees', id: studentId }],
       onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
         await queryFulfilled;
-        dispatch(MetricService.util.invalidateTags([{ type: 'Metric', id: 'Summary' }]));
+        dispatch(
+          MetricService.util.invalidateTags([
+            { type: 'Metric', id: 'Summary' },
+            { type: 'Metric', id: 'Payment' },
+          ]),
+        );
       },
     }),
     getStudentMonthlyFees: builder.query<
-      StudentMonthlyFeeResponse[],
+      Page<StudentMonthlyFeeResponse>,
       {
         studentId: string;
         month?: string;
         expirationDate?: string;
         status?: string;
         paymentId?: string;
+        page: number;
+        size: number;
       }
     >({
-      query: ({ studentId, month, expirationDate, status }) => {
-        const params = new URLSearchParams();
-        if (month) params.append('month', month);
-        if (expirationDate) params.append('expirationDate', expirationDate);
-        if (status) params.append('status', status);
-        return `/${studentId}/monthly-fees?${params.toString()}`;
-      },
+      query: ({ studentId, month, expirationDate, status, paymentId, page, size }) => ({
+        url: `/${studentId}/monthly-fees`,
+        params: {
+          page,
+          size,
+          month,
+          expirationDate,
+          status,
+          paymentId,
+        },
+      }),
       providesTags: (_result, _error, { studentId }) => [{ type: 'MonthlyFees', id: studentId }],
-      onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
-        await queryFulfilled;
-        dispatch(MetricService.util.invalidateTags(['Metric']));
-      },
     }),
 
     getStudentById: builder.query<StudentDetailResponse, string>({
@@ -93,12 +101,13 @@ export const StudentService = createApi({
         dispatch(UserService.util.invalidateTags(['userCalendar']));
       },
     }),
-    activateStudent: builder.mutation<void, string>({
-      query: (studentId) => ({
+    activateStudent: builder.mutation<void, ActivateStudentRequest>({
+      query: ({ studentId, ...body }) => ({
         url: `/${studentId}/activate`,
         method: 'POST',
+        body,
       }),
-      invalidatesTags: (_result, _error, id) => [{ type: 'Student', id }],
+      invalidatesTags: (_result, _error, { studentId }) => [{ type: 'Student', id: studentId }],
       onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
         await queryFulfilled;
         dispatch(UserService.util.invalidateTags(['userStudents']));

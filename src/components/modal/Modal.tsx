@@ -1,8 +1,8 @@
-import type { JSX } from 'react';
+import { useRef, useEffect, type JSX } from 'react';
 import {
-  ModalActions,
-  ModalContent,
   ModalSlotContainer,
+  ModalContent,
+  ModalActions,
   Button,
   ButtonsContainer,
 } from './Modal.styles';
@@ -16,6 +16,12 @@ interface ModalSlotProps {
 }
 
 function Modal({ onClose, children, showButtons = true, onConfirm }: ModalSlotProps) {
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    contentRef.current?.focus();
+  }, []);
+
   const handleConfirm = () => {
     if (onConfirm) {
       onConfirm();
@@ -31,7 +37,7 @@ function Modal({ onClose, children, showButtons = true, onConfirm }: ModalSlotPr
 
   return (
     <ModalSlotContainer>
-      <ModalContent onKeyDown={handleKeyDown}>
+      <ModalContent ref={contentRef} tabIndex={0} onKeyDown={handleKeyDown}>
         {children}
         {showButtons && (
           <ModalActions>
@@ -45,4 +51,5 @@ function Modal({ onClose, children, showButtons = true, onConfirm }: ModalSlotPr
     </ModalSlotContainer>
   );
 }
+
 export default Modal;

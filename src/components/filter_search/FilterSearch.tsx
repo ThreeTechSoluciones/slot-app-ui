@@ -1,7 +1,6 @@
 import SearchIcon from '../../assets/search.svg';
 import * as s from './FilterSearch.styles';
 import { useEffect, useState } from 'react';
-import { NEUTRAL_COLOR } from '../../utils/Stylesheet';
 
 interface FilterSearchProps {
   placeholder?: string;

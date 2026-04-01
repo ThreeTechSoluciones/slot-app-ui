@@ -1,10 +1,10 @@
 import { isRejectedWithValue } from '@reduxjs/toolkit';
-import type { MiddlewareAPI, Middleware } from '@reduxjs/toolkit';
+import type { Middleware } from '@reduxjs/toolkit';
 import toast from 'react-hot-toast';
 
 const DEFAULT_ERROR_MESSAGE = ['Hubo un problema al realizar la accion. Intente nuevamente'];
 
-export const errorHandler: Middleware = (api: MiddlewareAPI) => (next) => (action) => {
+export const errorHandler: Middleware = () => (next) => (action) => {
   if (isRejectedWithValue(action)) {
     const messages = getErrorMessages(action);
     messages.map((message: string) => {
@@ -15,6 +15,6 @@ export const errorHandler: Middleware = (api: MiddlewareAPI) => (next) => (actio
   return next(action);
 };
 
-const getErrorMessages = (action) => {
+const getErrorMessages = (action: any) => {
   return action.payload?.data?.errors || DEFAULT_ERROR_MESSAGE;
 };

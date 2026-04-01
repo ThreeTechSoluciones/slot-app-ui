@@ -7,7 +7,7 @@ import {
 } from './SlotRegistrationCalendar.styles';
 import { SUCCESS_COLOR } from '../../utils/Stylesheet';
 import type { Slot } from '../slotDetail/SlotDetail';
-import { DaysOfWeekTranslation } from '../../utils/DaysOfWeek';
+import { SearchNotFound } from '../search_not_found/SearchNotFound';
 type DayWithSlots = { day: string; slots: Slot[] };
 type CalendarProps = {
   selectedSlots: { id: string }[];
@@ -39,7 +39,9 @@ function SlotRegistrationCalendar({
 }
 export default SlotRegistrationCalendar;
 const WarningMessage = () => (
-  <WarningContainer>No hay turnos disponibles para los próximos días.</WarningContainer>
+  <WarningContainer>
+    <SearchNotFound message="Aún no hay turnos registrados."></SearchNotFound>
+  </WarningContainer>
 );
 const Slots = ({ selectedSlots, onSelectSlot, onDeleteSlot, listSlots }: CalendarProps) => {
   const maxTurnos = Math.max(...listSlots.map((day) => day.slots.length));

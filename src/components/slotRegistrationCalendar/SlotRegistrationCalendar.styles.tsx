@@ -7,6 +7,8 @@ import {
   DEFAULT_TEXT_COLOR,
   FONT_WEIGHT_BOLD,
   BACKGROUND_COLOR,
+  MEDIUM_FONT_SIZE,
+  SMALL_FONT_SIZE,
 } from '../../utils/Stylesheet';
 
 interface HourProps {
@@ -48,7 +50,7 @@ export const Day = styled.p`
   align-items: center;
   margin: 0px;
   padding: 0px;
-  font-size: 14px;
+  font-size: ${MEDIUM_FONT_SIZE};
   font-weight: ${FONT_WEIGHT_BOLD};
   color: ${DEFAULT_TEXT_COLOR};
   background-color: ${LIGHT_NEUTRAL_COLOR};
@@ -57,7 +59,7 @@ export const Hour = styled.button<HourProps>`
   display: flex;
   width: 80px;
   height: 32px;
-  font-size: 12px;
+  font-size: ${SMALL_FONT_SIZE};
   border-radius: ${BORDER_RADIUS};
   justify-content: center;
   align-items: center;
@@ -77,6 +79,4 @@ export const WarningContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
-  border-right: 5px solid ${LIGHT_NEUTRAL_COLOR};
-  border-top: 5px solid ${LIGHT_NEUTRAL_COLOR};
 `;

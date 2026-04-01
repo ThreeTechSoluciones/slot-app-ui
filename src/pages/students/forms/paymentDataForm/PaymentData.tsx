@@ -34,6 +34,7 @@ const PaymentData = forwardRef<FormRef, FormProps<PaymentDataProps>>((props, ref
     watch,
     control,
     setValue,
+    getValues,
     formState: { errors },
   } = useForm<FormData>({
     resolver: yupResolver(paymentDataScheme) as any,
@@ -68,7 +69,8 @@ const PaymentData = forwardRef<FormRef, FormProps<PaymentDataProps>>((props, ref
     return (
       <s.InputsContainer>
         <s.Text $isRegister={actionType !== 'edit'}>
-          Este campo se habilitará una vez seleccione el plan de pago.
+          Si el alumno empezó luego del día 10, puede indicar la cantidad de clases extras para
+          realizar el primer pago.
         </s.Text>
         <s.SecondaryInputsContainer>
           <s.FieldContainer>
@@ -110,6 +112,7 @@ const PaymentData = forwardRef<FormRef, FormProps<PaymentDataProps>>((props, ref
           },
         )();
       }),
+    getValues: () => getValues(),
   }));
 
   return (

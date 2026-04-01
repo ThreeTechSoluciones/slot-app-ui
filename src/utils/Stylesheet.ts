@@ -12,3 +12,6 @@ export const BORDER_RADIUS = '10px';
 export const FONT_WEIGHT_NORMAL = '500';
 export const FONT_WEIGHT_BOLD = '700';
 export const DEFAULT_FONT_SIZE = '16px';
+export const SMALL_FONT_SIZE = '12px';
+export const MEDIUM_FONT_SIZE = '14px';
+export const LARGE_FONT_SIZE = '24px';

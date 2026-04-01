@@ -25,13 +25,15 @@ export const StudentRecover = ({
   const { data: studentsResponse } = useGetUserStudentsQuery({
     userId: userId!,
     filterByAbsences: true,
+    page: 0,
+    size: 100,
   });
   const students = studentsResponse?.content ?? [];
   const handleConfirmRecover = async (studentId: string, specificSlotId: string) => {
     return recoverSlot({ studentId, specificSlotId })
       .unwrap()
       .then(() => {
-        toast.success('Se ha registrado la recuperación de la clase con éxito');
+        toast.success(`Recuperación registrada`);
         onCancel();
       });
   };

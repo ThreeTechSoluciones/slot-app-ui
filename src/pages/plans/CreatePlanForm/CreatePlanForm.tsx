@@ -3,7 +3,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as s from './CreatePlanForm.styles';
 import { createPlanSchema } from './CreatePlanForm.scheme';
-import type { FormProp } from '../../../app/types/FormProp';
+import type { FormProps } from '../../../app/types/FormProp';
 import { ErrorMessage } from '../../../components/error_message/ErrorMessage';
 import CurrencyInput from '../../../utils/InputPrice/CurrencyInput';
 import SpinInput from '../../../components/number_input/SpinInput';
@@ -14,7 +14,7 @@ export interface CreatePlanProp {
   amount: number;
 }
 
-const CreatePlanForm = forwardRef<FormProp<CreatePlanProp>, FormProp<CreatePlanProp>>(
+const CreatePlanForm = forwardRef<FormProps<CreatePlanProp>, FormProps<CreatePlanProp>>(
   (props, ref) => {
     const { data } = props;
     const planForm = data;
@@ -48,7 +48,7 @@ const CreatePlanForm = forwardRef<FormProp<CreatePlanProp>, FormProp<CreatePlanP
                 },
               )();
             }),
-        }) as unknown as FormProp<CreatePlanProp>,
+        }) as unknown as FormProps<CreatePlanProp>,
     );
 
     return (

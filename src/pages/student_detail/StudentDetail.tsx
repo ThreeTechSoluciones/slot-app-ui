@@ -1,35 +1,7 @@
-import {
-  InformationContainer,
-  Label,
-  MainContainer,
-  StudentNameContainer,
-  HeaderBoxes,
-  IconStyles,
-  ButtonWrapper,
-  AllInformationContainer,
-  PaymentInfoContainer,
-  SlotInfoContainer,
-  SearchNotFoundStyles,
-  NotFoundStudentMessage,
-  InfoBoxesContainer,
-  StudentInfo,
-  EditIconStyles,
-  HeaderContainer,
-  StudentInfoContainer,
-  ButtonContainer,
-  SubTitle,
-  Title,
-  SlotTitleContainer,
-  PlanContainer,
-  TitleContainer,
-  SlotsContainer,
-  AssignedPlan,
-  DaysPlan,
-} from './StudentDetail.styles';
+import * as s from './StudentDetail.styles';
 import { useLocation } from 'react-router';
 import { useNavigate } from 'react-router-dom';
 import {
-  useActivateStudentMutation,
   useDeleteStudentMutation,
   useGetStudentByIdQuery,
 } from '../../app/services/StudentService';
@@ -41,7 +13,7 @@ import DesactivateIcon from '../../assets/desactivate-icon.svg';
 import CalendarIcon from '../../assets/CalenderIcon.png';
 import Button from '../../components/button/Button';
 import { ConfirmDialog } from '../../components/confirm_dialog/ConfirmDialog';
-import { getEditarEstudianteStep, ListadoCuotas } from '../../routes/RoutesUtils';
+import { DarAltaAlumno, getEditarEstudianteStep, ListadoCuotas } from '../../routes/RoutesUtils';
 import toast from 'react-hot-toast';
 import { useState } from 'react';
 import type { StudentDetailResponse } from '../../app/types/responses/StudentDetailResponse.type';
@@ -52,68 +24,63 @@ import {
 } from '../../utils/StudentDetailInfo';
 import { SearchNotFound } from '../../components/search_not_found/SearchNotFound';
 import SlotDetail from '../../components/slotDetail/SlotDetail';
+import { DisabledIcon } from '../../components/disabled_icon/DisabledIcon';
 
 const StudentDetail = () => {
   const { studentId } = useLocation().state;
   const { data: student, isError, isLoading } = useGetStudentByIdQuery(studentId);
-  const [activateStudent] = useActivateStudentMutation();
   const [desactivateStudent] = useDeleteStudentMutation();
   const [showConfirm, setShowConfirm] = useState(false);
   const navigate = useNavigate();
 
-  const handleOpenConfirm = () => {
-    setShowConfirm(true);
-  };
   const deactivateStudentAndShowMessage = (studentId: string) => {
     desactivateStudent(studentId)
       .unwrap()
       .then(() => {
-        toast.success('El alumno ha sido dado de baja.');
+        toast.success('Alumno dado de baja.');
       })
       .finally(() => {
         setShowConfirm(false);
       });
   };
-  const activateStudentAndShowMessage = (studentId: string) => {
-    activateStudent(studentId)
-      .unwrap()
-      .then(() => {
-        toast.success('El alumno ha sido dado de alta.');
-      })
-      .finally(() => {
-        setShowConfirm(false);
-      });
+  const handleNavigateToActivate = () => {
+    navigate(DarAltaAlumno, {
+      state: {
+        studentId: student?.id,
+      },
+    });
   };
   const handleConfirm = () => {
-    student?.status
-      ? deactivateStudentAndShowMessage(studentId)
-      : activateStudentAndShowMessage(studentId);
+    if (student?.status) {
+      setShowConfirm(true);
+    } else {
+      handleNavigateToActivate();
+    }
   };
 
   if (isLoading) return <div>Cargando...</div>;
   if (isError || !student)
     return (
       <div>
-        <NotFoundStudentMessage>
+        <s.NotFoundStudentMessage>
           Ocurrió un error al buscar la información del alumno. <br />
           Intente nuevamente
-        </NotFoundStudentMessage>
+        </s.NotFoundStudentMessage>
       </div>
     );
-
+  const isStudentInactive = !student.status;
   return (
-    <MainContainer>
+    <s.MainContainer>
       {showConfirm && (
         <ConfirmDialog
-          message={`¿Estás seguro de ${
-            student.status ? 'dar de baja' : 'dar de alta'
-          } a ${student.name} ${student.lastName}?`}
-          onConfirm={handleConfirm}
+          message={`¿Estás seguro de dar de baja
+           a ${student.name} ${student.lastName}?`}
+          onConfirm={() => deactivateStudentAndShowMessage(studentId)}
           onCancel={() => setShowConfirm(false)}
         />
       )}
-      <HeaderContainer>
-        <TitleContainer>
+      <s.HeaderContainer>
+        <s.TitleContainer>
           <img
             src={BackIcon}
             alt="back-icon"
@@ -121,10 +88,10 @@ const StudentDetail = () => {
             style={{ cursor: 'pointer' }}
           />
 
-          <Title>DETALLE DEL ALUMNO</Title>
-        </TitleContainer>
+          <s.Title>DETALLE DEL ALUMNO</s.Title>
+        </s.TitleContainer>
 
-        <ButtonWrapper>
+        <s.ButtonWrapper>
           <Button
             size="medium"
             fontsize="large"
@@ -140,27 +107,27 @@ const StudentDetail = () => {
                 />
               )
             }
-            onClick={handleOpenConfirm}
+            onClick={handleConfirm}
           >
             {student.status ? 'Dar de baja' : 'Dar de alta'}
           </Button>
-        </ButtonWrapper>
-      </HeaderContainer>
+        </s.ButtonWrapper>
+      </s.HeaderContainer>
 
-      <StudentNameContainer>
-        <Title>
-          <IconStyles>
+      <s.StudentNameContainer>
+        <s.Title>
+          <s.IconStyles>
             <img src={StudentIcon} alt="student-icon" />
-          </IconStyles>
+          </s.IconStyles>
           {student.name} {student.lastName}
-        </Title>
-      </StudentNameContainer>
-      <InfoBoxesContainer>
-        <StudentData student={student} navigate={navigate} />
-        <PaymentData student={student} navigate={navigate} />
-        <SlotData student={student} navigate={navigate} />
-      </InfoBoxesContainer>
-    </MainContainer>
+        </s.Title>
+      </s.StudentNameContainer>
+      <s.InfoBoxesContainer>
+        <StudentData student={student} navigate={navigate} isStudentInactive={isStudentInactive} />
+        <PaymentData student={student} navigate={navigate} isStudentInactive={isStudentInactive} />
+        <SlotData student={student} navigate={navigate} isStudentInactive={isStudentInactive} />
+      </s.InfoBoxesContainer>
+    </s.MainContainer>
   );
 };
 
@@ -168,111 +135,127 @@ export default StudentDetail;
 const StudentData = ({
   student,
   navigate,
+  isStudentInactive,
 }: {
   student: StudentDetailResponse;
   navigate: (path: string, options?: { state?: any }) => void;
+  isStudentInactive: boolean;
 }) => {
   const info = studentPersonalInfo(student);
+
   return (
-    <StudentInfoContainer>
-      <HeaderBoxes>
-        <SubTitle>
-          <IconStyles>
+    <s.StudentInfoContainer>
+      <s.HeaderBoxes>
+        <s.SubTitle>
+          <s.IconStyles>
             <img src={StudentIcon} alt="student-icon" width={20} height={20} />
-          </IconStyles>
+          </s.IconStyles>
           Datos del alumno
-        </SubTitle>
-        <EditIconStyles>
-          <img
-            src={EditIcon}
-            alt="edit-icon"
+        </s.SubTitle>
+        <s.EditIconStyles>
+          <DisabledIcon
+            tooltip="Editar datos del alumno"
+            disabled={isStudentInactive}
+            disabledTooltip="Alumno inactivo"
             onClick={() =>
               navigate(getEditarEstudianteStep(1), {
                 state: { studentId: student.id },
               })
             }
-          ></img>
-        </EditIconStyles>
-      </HeaderBoxes>
-      <AllInformationContainer>
+          >
+            <img src={EditIcon} alt="edit-icon" />
+          </DisabledIcon>
+        </s.EditIconStyles>
+      </s.HeaderBoxes>
+      <s.AllInformationContainer>
         {info.map((item, index) => (
-          <InformationContainer key={index}>
-            <Label>{item.title}</Label>
-            <StudentInfo>{item.data}</StudentInfo>
-          </InformationContainer>
+          <s.InformationContainer key={index}>
+            <s.Label>{item.title}</s.Label>
+            <s.StudentInfo>{item.data}</s.StudentInfo>
+          </s.InformationContainer>
         ))}
-      </AllInformationContainer>
+      </s.AllInformationContainer>
       {student.pathologies && student.pathologies.trim() !== '' && (
-        <InformationContainer key={'Patologías'}>
-          <Label>Patologías</Label>
-          <StudentInfo>{student.pathologies}</StudentInfo>
-        </InformationContainer>
+        <s.InformationContainer key={'Patologías'}>
+          <s.Label>Patologías</s.Label>
+          <s.StudentInfo>{student.pathologies}</s.StudentInfo>
+        </s.InformationContainer>
       )}
-    </StudentInfoContainer>
+    </s.StudentInfoContainer>
   );
 };
 const PaymentData = ({
   student,
   navigate,
+  isStudentInactive,
 }: {
   student: StudentDetailResponse;
   navigate: (path: string, options?: { state?: any }) => void;
+  isStudentInactive: boolean;
 }) => {
   const info = studentPaymentInfo(student);
 
   return (
-    <PaymentInfoContainer>
-      <HeaderBoxes>
-        <SubTitle>
-          <IconStyles>
+    <s.PaymentInfoContainer>
+      <s.HeaderBoxes>
+        <s.SubTitle>
+          <s.IconStyles>
             <img src={InfoIcon} alt="info-icon" />
-          </IconStyles>
+          </s.IconStyles>
           Datos de pago y estados
-        </SubTitle>
-        <EditIconStyles
-          onClick={() =>
-            navigate(getEditarEstudianteStep(2), {
-              state: { studentId: student.id },
-            })
-          }
-        >
-          <img src={EditIcon} alt="edit-icon"></img>
-        </EditIconStyles>
-      </HeaderBoxes>
-      <AllInformationContainer>
+        </s.SubTitle>
+        <s.EditIconStyles>
+          <DisabledIcon
+            tooltip="Editar datos de pago"
+            disabled={isStudentInactive}
+            disabledTooltip="Alumno inactivo"
+            onClick={() =>
+              navigate(getEditarEstudianteStep(2), {
+                state: { studentId: student.id },
+              })
+            }
+          >
+            <img src={EditIcon} alt="edit-icon" />
+          </DisabledIcon>
+        </s.EditIconStyles>
+      </s.HeaderBoxes>
+      <s.AllInformationContainer>
         {info.map((item, index) => (
-          <InformationContainer key={index}>
-            <Label>{item.title}</Label>
-            {item.component ? item.component : <StudentInfo>{item.data}</StudentInfo>}
-          </InformationContainer>
+          <s.InformationContainer key={index}>
+            <s.Label>{item.title}</s.Label>
+            {item.component ? item.component : <s.StudentInfo>{item.data}</s.StudentInfo>}
+          </s.InformationContainer>
         ))}
-        <ButtonContainer>
+        <s.ButtonContainer>
           <Button
             variant="primary"
             size="large"
+            fontsize="medium"
             onClick={() => navigate(ListadoCuotas, { state: { studentId: student.id } })}
           >
             Ver cuotas
           </Button>
-        </ButtonContainer>
-      </AllInformationContainer>
-    </PaymentInfoContainer>
+        </s.ButtonContainer>
+      </s.AllInformationContainer>
+    </s.PaymentInfoContainer>
   );
 };
 const SlotData = ({
   student,
   navigate,
+  isStudentInactive,
 }: {
   student: StudentDetailResponse;
   navigate: (path: string, options?: { state?: any }) => void;
+  isStudentInactive: boolean;
 }) => {
   const slots = mapStudentSlotInfo(student);
   const hasSlots = slots.length > 0;
 
   return (
-    <SlotInfoContainer>
-      <HeaderBoxes>
-        <SlotTitleContainer>
+    <s.SlotInfoContainer>
+      <s.HeaderBoxes>
+        <s.SlotTitleContainer>
           <img
             src={CalendarIcon}
             width={'24px'}
@@ -280,33 +263,38 @@ const SlotData = ({
             style={{ paddingLeft: '16px' }}
           ></img>
           Turnos asignados
-        </SlotTitleContainer>
+        </s.SlotTitleContainer>
 
-        <EditIconStyles
-          onClick={() =>
-            navigate(getEditarEstudianteStep(3), {
-              state: { studentId: student.id },
-            })
-          }
-        >
-          <img src={EditIcon} alt="edit-icon" />
-        </EditIconStyles>
-      </HeaderBoxes>
+        <s.EditIconStyles>
+          <DisabledIcon
+            tooltip="Editar turnos"
+            disabled={isStudentInactive}
+            disabledTooltip="Alumno inactivo"
+            onClick={() =>
+              navigate(getEditarEstudianteStep(3), {
+                state: { studentId: student.id },
+              })
+            }
+          >
+            <img src={EditIcon} alt="edit-icon" />
+          </DisabledIcon>
+        </s.EditIconStyles>
+      </s.HeaderBoxes>
 
-      <PlanContainer>
-        <AssignedPlan>Plan asignado</AssignedPlan>
-        <DaysPlan>{student.plan}</DaysPlan>
-      </PlanContainer>
+      <s.PlanContainer>
+        <s.AssignedPlan>Plan asignado</s.AssignedPlan>
+        <s.DaysPlan>{student.plan}</s.DaysPlan>
+      </s.PlanContainer>
 
       {hasSlots ? (
-        <SlotsContainer>
+        <s.SlotsContainer>
           <SlotDetail slots={slots} />
-        </SlotsContainer>
+        </s.SlotsContainer>
       ) : (
-        <SearchNotFoundStyles>
+        <s.SearchNotFoundStyles>
           <SearchNotFound message="Este alumno aún no tiene turnos asignados" />
-        </SearchNotFoundStyles>
+        </s.SearchNotFoundStyles>
       )}
-    </SlotInfoContainer>
+    </s.SlotInfoContainer>
   );
 };

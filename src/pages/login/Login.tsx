@@ -41,7 +41,7 @@ function Login() {
       .unwrap()
       .then(() => {
         navigate(Calendario);
-        toast.success(`¡Bienvenido/a ${username}, has iniciado sesión con éxito!`);
+        toast.success(`¡Bienvenido/a ${username}!`);
       });
   };
 
@@ -58,13 +58,13 @@ function Login() {
         <img src={LogoCeci} alt="Logo" />
       </Logo>
       <Form onSubmit={handleSubmit(onSubmit)}>
-        <Label>Usuario*</Label>
+        <Label>Usuario</Label>
         <InputContainer>
-          <Input autoFocus placeholder="Usuario" {...register('username')}></Input>
-          <Img src={UserIcon} width={'24'} height={'24'} style={{ filter: 'brightness(0)' }}></Img>
+          <Input placeholder="Usuario" {...register('username')}></Input>
+          <Img src={UserIcon} width={'26'} height={'26'} style={{ filter: 'brightness(0)' }}></Img>
         </InputContainer>
         <ErrorMessage error={errors.username} />
-        <Label>Contraseña*</Label>
+        <Label>Contraseña</Label>
         <InputContainer>
           <Input
             type={showPassword ? 'text' : 'password'}

@@ -13,6 +13,9 @@ import ProgressIcon from '../../../assets/progress-icon.svg';
 import { useGetSpecificSlotStudentsQuery } from '../../../app/services/SpecificSlotService';
 import { skipToken } from '@reduxjs/toolkit/query';
 import type { CalendarAction } from '../CalendarViewPage';
+import { DisabledIcon } from '../../../components/disabled_icon/DisabledIcon';
+import { Tooltip } from '../../../components/tooltip/Tooltip';
+import { SearchNotFound } from '../../../components/search_not_found/SearchNotFound';
 
 const STATUS_ICONS: { [key: string]: string } = {
   FINALIZED: CheckIcon,
@@ -26,6 +29,7 @@ const ActionsSkeleton = ({
   onCancel,
   isCanceled,
   isFull,
+  isFinalized,
 }: {
   specificSlotId: string;
   availableCapacity: number;
@@ -35,6 +39,7 @@ const ActionsSkeleton = ({
   onCancel: () => void;
   isCanceled: boolean;
   isFull: boolean;
+  isFinalized: boolean;
 }) => {
   return (
     <s.ActionsContainer>
@@ -47,16 +52,25 @@ const ActionsSkeleton = ({
         />
       </s.SearchFilterContainer>
       <s.ActionGroup>
-        <s.TooltipContainer disabled={isFull || isCanceled} onClick={() => !isFull && onRecover()}>
+        <DisabledIcon
+          disabled={isFull || isCanceled}
+          onClick={onRecover}
+          tooltip="Añadir alumno"
+          disabledTooltip={isCanceled ? 'Turno cancelado' : 'Cupo lleno'}
+        >
           <img src={PlusIcon} alt="Añadir alumno" />
-          <s.Tooltip>
-            {isCanceled ? 'Turno cancelado' : isFull ? 'Cupo lleno' : 'Añadir alumno'}
-          </s.Tooltip>
-        </s.TooltipContainer>
-        <s.TooltipContainer disabled={isCanceled} onClick={() => !isCanceled && onCancel()}>
+        </DisabledIcon>
+
+        <DisabledIcon
+          disabled={isCanceled || isFinalized}
+          onClick={onCancel}
+          tooltip="Cancelar turno"
+          disabledTooltip={
+            isCanceled ? 'Turno cancelado' : isFinalized ? 'Turno finalizado' : 'Cancelar turno'
+          }
+        >
           <s.CancelIcon src={PlusIcon} alt="Cancelar turno" />
-          <s.Tooltip>{isCanceled ? 'Turno cancelado' : 'Cancelar turno'}</s.Tooltip>
-        </s.TooltipContainer>
+        </DisabledIcon>
       </s.ActionGroup>
     </s.ActionsContainer>
   );
@@ -138,6 +152,8 @@ function Slot(props: SlotParams) {
   const students = filter ? filteredStudents : slot.students;
   const availableCapacity = slot.maxCapacity - slot.capacity;
   const isFull = slot.capacity === slot.maxCapacity;
+  const isFinalized = (status: string) => status === 'FINALIZED';
+
   return (
     <s.SpecificSlot key={rowIndex} $columnsCount={columnsCount}>
       {slot && (
@@ -151,6 +167,7 @@ function Slot(props: SlotParams) {
             onCancel={() => handleCancelSlot(slot.id)}
             isCanceled={slot.status === 'CANCELED'}
             isFull={isFull}
+            isFinalized={isFinalized(slot.status)}
           />
           <SlotInfoSkeleton slot={slot} isFull={isFull} />
           {slot.status === 'CANCELED' ? (
@@ -163,17 +180,29 @@ function Slot(props: SlotParams) {
                 return (
                   <s.StudentName
                     key={student?.id}
-                    title={student?.fullName}
-                    onClick={() => student && handleAbsenceSlot(student, slot.id)}
+                    onClick={() => {
+                      if (isAbsent) return;
+                      handleAbsenceSlot(student, slot.id);
+                    }}
                   >
                     {isAbsent && <s.AbsenceBadge>A</s.AbsenceBadge>}
                     {isRecover && <s.RecoverBadge>R</s.RecoverBadge>}
-                    <s.StudentText $isAbsent={isAbsent} $isRecover={isRecover}>
-                      {student?.fullName}
-                    </s.StudentText>
+                    <Tooltip content={student?.fullName}>
+                      <s.StudentText $isAbsent={isAbsent} $isRecover={isRecover}>
+                        {student?.fullName}
+                      </s.StudentText>
+                    </Tooltip>
                   </s.StudentName>
                 );
               })}
+              {filter && filteredStudents?.length === 0 && (
+                <SearchNotFound
+                  message={`No hay resultados para "${filter}"`}
+                  iconWidth={20}
+                  iconHeight={20}
+                  fontSize="14px"
+                />
+              )}
             </s.SlotStudentsContainer>
           )}
         </>
@@ -181,5 +210,4 @@ function Slot(props: SlotParams) {
     </s.SpecificSlot>
   );
 }
-
 export default Slot;

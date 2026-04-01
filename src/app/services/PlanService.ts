@@ -1,15 +1,14 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createApi } from '@reduxjs/toolkit/query/react';
 import type { PlanResponse } from '../types/responses/PlanResponse.type';
 import type { CreatePlanRequest } from '../types/requests/PlansRequest/CreatePlansRequest.type';
 import { UserService } from './UserService';
 import type { UpdatePlanRequest } from '../types/requests/PlansRequest/UpdatePlanRequest';
+import { createAuthenticatedBaseQuery } from './baseQuery';
 
 export const PlanService = createApi({
   reducerPath: 'plans',
   tagTypes: ['Plan'],
-  baseQuery: fetchBaseQuery({
-    baseUrl: `${import.meta.env.VITE_BACKEND_URL}/plans`,
-  }),
+  baseQuery: createAuthenticatedBaseQuery(`${import.meta.env.VITE_BACKEND_URL}/plans`),
   endpoints: (builder) => ({
     createPlan: builder.mutation<PlanResponse, CreatePlanRequest>({
       query: (body) => ({
@@ -17,7 +16,7 @@ export const PlanService = createApi({
         method: 'POST',
         body,
       }),
-      invalidatesTags: (_result, _error, id) => [{ type: 'Plan', id: 'LIST' }],
+      invalidatesTags: (_result, _error) => [{ type: 'Plan', id: 'LIST' }],
       onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
         await queryFulfilled;
         dispatch(UserService.util.invalidateTags(['userPlans']));
@@ -41,7 +40,7 @@ export const PlanService = createApi({
         url: `/${planId}`,
         method: 'DELETE',
       }),
-      invalidatesTags: (_result, _error, id) => [{ type: 'Plan', id: 'LIST' }],
+      invalidatesTags: (_result, _error) => [{ type: 'Plan', id: 'LIST' }],
       onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
         await queryFulfilled;
         dispatch(UserService.util.invalidateTags(['userPlans']));

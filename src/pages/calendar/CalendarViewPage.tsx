@@ -68,7 +68,7 @@ function CalendarView() {
       specificSlotId: slotAction.specificSlotId,
     })
       .unwrap()
-      .then(() => toast.success('Se ha registrado la inasistencia'))
+      .then(() => toast.success(`Ausencia registrada`))
       .finally(closeModal);
   };
 

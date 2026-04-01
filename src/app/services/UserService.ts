@@ -1,4 +1,4 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createApi } from '@reduxjs/toolkit/query/react';
 import type { StudentResponse } from '../types/responses/StudentResponse.type';
 import type { PriceResponse } from '../types/responses/PriceResponse.type';
 import type { PlanResponse } from '../types/responses/PlanResponse.type';
@@ -9,6 +9,7 @@ import type { UserPreferencesResponse } from '../types/responses/UserPreferences
 import type { CalendarResponse } from '../types/responses/CalendarResponse.type';
 import type { CalendarParams } from '../types/requests/GetCalendarViewRequest.type';
 import type { GetSlotsByDayParams } from '../types/requests/GetUserSlotsRequest.type';
+import { createAuthenticatedBaseQuery } from './baseQuery';
 
 export const UserService = createApi({
   reducerPath: 'users',
@@ -20,9 +21,7 @@ export const UserService = createApi({
     'userPreferences',
     'userCalendar',
   ],
-  baseQuery: fetchBaseQuery({
-    baseUrl: `${import.meta.env.VITE_BACKEND_URL}/users`,
-  }),
+  baseQuery: createAuthenticatedBaseQuery(`${import.meta.env.VITE_BACKEND_URL}/users`),
   endpoints: (builder) => ({
     getUserStudents: builder.query<
       Page<StudentResponse>,
@@ -81,12 +80,26 @@ export const UserService = createApi({
     }),
     getUserPlans: builder.query<
       Page<PlanResponse>,
-      { userId: string; page: number; size: number; planName?: string }
+      {
+        userId: string;
+        page: number;
+        size: number;
+        planName?: string;
+        sort?: SortConfig | SortConfig[];
+      }
     >({
-      query: ({ userId, planName, size, page }) => ({
-        url: `/${userId}/plans`,
-        params: { planName, size, page },
-      }),
+      query: ({ userId, planName, size, page, sort }) => {
+        let sortParams: string | string[] | undefined;
+        if (sort) {
+          sortParams = Array.isArray(sort)
+            ? sort.map((s) => `${s.property},${s.direction}`)
+            : `${sort.property},${sort.direction}`;
+        }
+        return {
+          url: `/${userId}/plans`,
+          params: { planName, size, page, sort: sortParams },
+        };
+      },
       providesTags: (result) =>
         result
           ? [
@@ -98,7 +111,6 @@ export const UserService = createApi({
             ]
           : [{ type: 'userPlans', id: 'LIST' }],
     }),
-
     getUserPreferences: builder.query<UserPreferencesResponse, string>({
       query: (userId) => `${userId}/userPreferences`,
       providesTags: (_result, _error, userId) => [{ type: 'userPreferences', id: userId }],

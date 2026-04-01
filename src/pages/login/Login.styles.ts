@@ -3,7 +3,8 @@ import {
   BORDER_RADIUS,
   NEUTRAL_COLOR,
   DEFAULT_TEXT_COLOR,
-  LIGHT_NEUTRAL_COLOR,
+  BRAND_COLOR,
+  MEDIUM_FONT_SIZE,
 } from '../../utils/Stylesheet';
 
 export const MainContainer = styled.div`
@@ -62,7 +63,7 @@ export const Input = styled.input`
   height: 56px;
   border: 1px solid black;
   border-radius: ${BORDER_RADIUS};
-  font-size: 12px;
+  font-size: ${MEDIUM_FONT_SIZE};
   padding-left: 16px;
   background: white;
   color: ${DEFAULT_TEXT_COLOR};
@@ -74,7 +75,6 @@ export const Input = styled.input`
     display: none !important;
     pointer-events: none;
   }
-
   &::placeholder {
     color: ${NEUTRAL_COLOR};
   }
@@ -83,6 +83,7 @@ export const Input = styled.input`
     box-shadow: 0 0 0 3.5px rgba(0, 0, 0, 0.25);
   }
 `;
+
 interface ImgProps {
   $isInteractive?: boolean;
 }
@@ -103,10 +104,10 @@ export const Button = styled.button`
   margin-top: 24px;
   width: 412px;
   height: 56px;
-  background-color: #f0e21e;
+  background-color: ${BRAND_COLOR};
   border-radius: 10px;
   border: none;
-  font-size: 12px;
+  font-size: ${MEDIUM_FONT_SIZE};
   color: black;
   &:hover {
     cursor: pointer;

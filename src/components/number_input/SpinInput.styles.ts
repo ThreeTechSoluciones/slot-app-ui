@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { BORDER_RADIUS, DEFAULT_TEXT_COLOR } from '../../utils/Stylesheet';
+import { BORDER_RADIUS, DEFAULT_TEXT_COLOR, MEDIUM_FONT_SIZE } from '../../utils/Stylesheet';
 
 export const Input = styled.input`
   border: 1px solid ${DEFAULT_TEXT_COLOR};
@@ -8,11 +8,11 @@ export const Input = styled.input`
   width: 100%;
   box-sizing: border-box;
   padding: 0 12px;
-  font-size: 16px;
+  font-size: ${MEDIUM_FONT_SIZE};
   color: ${DEFAULT_TEXT_COLOR};
   background-color: white;
   &::placeholder {
-    font-size: 12px;
+    font-size: ${MEDIUM_FONT_SIZE};
   }
   &[type='number'] {
     -moz-appearance: textfield;

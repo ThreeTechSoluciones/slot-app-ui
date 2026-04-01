@@ -15,7 +15,7 @@ import { InputDateContainer } from './StudentData.styles';
 import { useValidateStudentDniMutation } from '../../../../app/services/StudentService';
 import type { FormRef } from '../../../../app/types/FormRef';
 import type { FormProps } from '../../../../app/types/FormProp';
-import toast from 'react-hot-toast';
+import dniFormatter from '../../../../components/dni/dniFormatter';
 
 export interface StudentDataProps {
   name: string;
@@ -52,12 +52,25 @@ const StudentData = forwardRef<FormRef, FormProps<StudentDataProps>>((props, ref
       ...studentRegistrationForm,
     },
   });
+
   const [validateStudentDni] = useValidateStudentDniMutation();
+  const { getValues } = useForm<FormData>({
+    resolver: yupResolver(StudentDataScheme),
+    defaultValues: {
+      ...studentRegistrationForm,
+    },
+  });
+
   useImperativeHandle(ref, () => ({
     submit: () =>
       new Promise<boolean>((resolve) => {
         handleSubmit(
           (data) => {
+            if (data.dni === studentRegistrationForm.dni) {
+              onSubmit?.(data);
+              resolve(true);
+              return;
+            }
             validateStudentDni({ dni: data.dni })
               .unwrap()
               .then(() => {
@@ -81,6 +94,7 @@ const StudentData = forwardRef<FormRef, FormProps<StudentDataProps>>((props, ref
           () => resolve(false),
         )();
       }),
+    getValues,
   }));
 
   return (
@@ -98,10 +112,20 @@ const StudentData = forwardRef<FormRef, FormProps<StudentDataProps>>((props, ref
         </div>
         <div>
           <Label>DNI</Label>
-          <Input
-            placeholder="56987256 (ingresar solo números, sin puntos ni espacios)"
-            {...register('dni')}
-          ></Input>
+          <Controller
+            name="dni"
+            control={control}
+            render={({ field }) => (
+              <Input
+                placeholder="56987256 (ingresar solo números, sin puntos ni espacios)"
+                value={dniFormatter(field.value)}
+                onChange={(e) => {
+                  const cleanValue = e.target.value.replace(/\D/g, '');
+                  field.onChange(cleanValue);
+                }}
+              ></Input>
+            )}
+          />
           <ErrorMessage error={errors.dni} />
         </div>
         <div>

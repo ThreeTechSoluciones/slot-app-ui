@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { NEUTRAL_COLOR } from '../../../utils/Stylesheet';
+import { DEFAULT_FONT_SIZE, MEDIUM_FONT_SIZE, NEUTRAL_COLOR } from '../../../utils/Stylesheet';
 import { DEFAULT_TEXT_COLOR, BORDER_RADIUS, BACKGROUND_COLOR } from '../../../utils/Stylesheet';
 
 export const FormContainer = styled.form`
@@ -13,12 +13,17 @@ export const Input = styled.input`
   height: 56px;
   border: 1px solid black;
   border-radius: ${BORDER_RADIUS};
+<<<<<<< HEAD
+=======
+  font-size: ${MEDIUM_FONT_SIZE};
+>>>>>>> dev
   padding-left: 16px;
   margin-bottom: 4px;
   color: ${DEFAULT_TEXT_COLOR};
   background-color: ${BACKGROUND_COLOR};
   &::placeholder {
     color: ${NEUTRAL_COLOR};
+    font-size: ${MEDIUM_FONT_SIZE};
   }
   &:focus {
     outline: none;
@@ -27,7 +32,7 @@ export const Input = styled.input`
 `;
 
 export const Label = styled.label`
-  font-size: 16px;
+  font-size: ${DEFAULT_FONT_SIZE};
 `;
 
 export const InputContainer = styled.div`
