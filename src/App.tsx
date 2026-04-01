@@ -26,6 +26,9 @@ import NotFoundPage from './pages/not_found_page/NotFoundPage';
 import ActivateStudent from './pages/student_detail/ActivateStudent';
 
 function App() {
+  /* This is a simple log statement to indicate the environment */
+  console.log('Welcome to SlotApp! Environment:', import.meta.env.VITE_ENV);
+
   return (
     <MainContent>
       <Routes>

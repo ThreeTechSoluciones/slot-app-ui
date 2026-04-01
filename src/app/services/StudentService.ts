@@ -26,6 +26,7 @@ export const StudentService = createApi({
         await queryFulfilled;
         dispatch(UserService.util.invalidateTags(['userStudents']));
         dispatch(MetricService.util.invalidateTags([{ type: 'Metric', id: 'Summary' }]));
+        dispatch(UserService.util.invalidateTags(['userCalendar']));
       },
     }),
 
@@ -112,6 +113,7 @@ export const StudentService = createApi({
         await queryFulfilled;
         dispatch(UserService.util.invalidateTags(['userStudents']));
         dispatch(MetricService.util.invalidateTags([{ type: 'Metric', id: 'Summary' }]));
+        dispatch(UserService.util.invalidateTags(['userCalendar']));
       },
     }),
     markStudentAbsence: builder.mutation<void, { studentId: string; specificSlotId: string }>({
