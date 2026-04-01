@@ -1,6 +1,9 @@
 import styled from 'styled-components';
 import { FONT_WEIGHT_BOLD, DEFAULT_TEXT_COLOR, LARGE_FONT_SIZE } from '../../utils/Stylesheet';
 
+export const LoaderContainer = styled.div`
+  display: flex;
+`;
 export const PlansContainer = styled.div`
   width: 100%;
   min-height: 85vh;

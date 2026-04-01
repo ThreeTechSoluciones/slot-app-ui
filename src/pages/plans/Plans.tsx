@@ -26,6 +26,8 @@ import EditPlan from './EditPlan/EditPlan';
 import { formatDateToDash } from '../../utils/DateFormatter';
 import { Pagination } from '../../components/pagination/Pagination';
 import type { SortConfig } from '../../app/types/sort';
+import Loader from '../../components/loader/Loader';
+import BicycleLoader from '../../components/bicycle_animation/BicycleLoader';
 
 function Plans() {
   const formRef = useRef<any>(null);
@@ -215,7 +217,14 @@ function Plans() {
       ),
     },
   ];
-  if (isLoading) return <div>Cargando...</div>;
+  if (isLoading)
+    return (
+      <s.PlansContainer style={{ justifyContent: 'center', alignItems: 'center' }}>
+        <Loader>
+          <BicycleLoader />
+        </Loader>
+      </s.PlansContainer>
+    );
   if (isError) return <div>Ocurrió un error a la hora de cargar a los planes.</div>;
   if (!plansData) return <div>No hay información disponible.</div>;
   return (

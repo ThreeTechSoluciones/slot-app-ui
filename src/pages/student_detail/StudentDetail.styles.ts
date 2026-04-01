@@ -16,7 +16,7 @@ export const MainContainer = styled.div`
   margin: 0px 20px 20px 0px;
   overflow: hidden;
   width: 100%;
-  height: 100%;
+  min-height: calc(100vh - 80px);
 `;
 
 export const HeaderContainer = styled.div`

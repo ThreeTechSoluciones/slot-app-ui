@@ -3,7 +3,7 @@ import { MetricCards, type MetricItem } from '../../components/metric_card/Metri
 import { FiCheckCircle, FiXCircle } from 'react-icons/fi';
 import { CgDanger } from 'react-icons/cg';
 import { DANGER_COLOR, SUCCESS_COLOR, WARNING_COLOR } from '../../utils/Stylesheet';
-
+import Spinner from '../../components/spinner/Spinner';
 interface PaymentMetricsProps {
   studentId: string;
 }
@@ -11,7 +11,8 @@ interface PaymentMetricsProps {
 const PaymentMetrics = ({ studentId }: PaymentMetricsProps) => {
   const { data: metrics, isLoading, isError } = useGetStudentPaymentMetricsQuery({ studentId });
 
-  if (isLoading) return <div>Cargando estadísticas...</div>;
+  if (isLoading) return <Spinner text="Cargando estadísticas..." />;
+
   if (isError || !metrics) return null;
 
   const items: MetricItem[] = [

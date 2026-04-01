@@ -24,6 +24,8 @@ import {
 import { ConfirmDialog } from '../../components/confirm_dialog/ConfirmDialog';
 import EditCapacityForm from './forms/EditCapacityForm';
 import type { SlotResponse } from '../../app/types/responses/SlotResponse.type';
+import Loader from '../../components/loader/Loader';
+import BicycleLoader from '../../components/bicycle_animation/BicycleLoader';
 
 function SlotConfiguration() {
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -56,7 +58,7 @@ function SlotConfiguration() {
 
   const editSlotRef = useRef<any>(null);
 
-  const { data: registeredSlots } = useGetSlotsQuery(
+  const { data: registeredSlots, isLoading: isLoadingSlots } = useGetSlotsQuery(
     { userId: userId!, dayOfWeek: selectEnglishValue },
     { skip: selectEnglishValue === '' },
   );
@@ -283,7 +285,17 @@ function SlotConfiguration() {
       onConfirm: handleEditSlotModal,
     },
   };
-
+  if (isLoading || isLoadingSlots) {
+    return (
+      <s.MainContainer
+        style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '85vh' }}
+      >
+        <Loader>
+          <BicycleLoader />
+        </Loader>
+      </s.MainContainer>
+    );
+  }
   return (
     <s.MainContainer>
       <s.Title>MIS TURNOS</s.Title>

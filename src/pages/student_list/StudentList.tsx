@@ -24,6 +24,8 @@ import {
 import StudentMetrics from './StudentsMetrics';
 import { Pagination } from '../../components/pagination/Pagination';
 import dniFormatter from '../../components/dni/dniFormatter';
+import Loader from '../../components/loader/Loader';
+import BicycleLoader from '../../components/bicycle_animation/BicycleLoader';
 
 function StudentList() {
   const { userId } = useAuthentication();
@@ -55,7 +57,14 @@ function StudentList() {
   useEffect(() => {
     setPage(1);
   }, [filter, situationFilter, statusFilter]);
-  if (isLoading) return <div>Cargando...</div>;
+  if (isLoading)
+    return (
+      <s.StudentsContainer style={{ justifyContent: 'center', alignItems: 'center' }}>
+        <Loader>
+          <BicycleLoader />
+        </Loader>
+      </s.StudentsContainer>
+    );
   if (isError) return <div>Ocurrió un error a la hora de cargar a los estudiantes.</div>;
   if (!studentsPage) return <div>No hay información disponible.</div>;
   const columns: Column<StudentResponse>[] = [

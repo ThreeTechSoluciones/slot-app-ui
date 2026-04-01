@@ -25,6 +25,8 @@ import {
 import { SearchNotFound } from '../../components/search_not_found/SearchNotFound';
 import SlotDetail from '../../components/slotDetail/SlotDetail';
 import { DisabledIcon } from '../../components/disabled_icon/DisabledIcon';
+import Loader from '../../components/loader/Loader';
+import BicycleLoader from '../../components/bicycle_animation/BicycleLoader';
 
 const StudentDetail = () => {
   const { studentId } = useLocation().state;
@@ -58,7 +60,15 @@ const StudentDetail = () => {
     }
   };
 
-  if (isLoading) return <div>Cargando...</div>;
+  if (isLoading)
+    return (
+      <s.MainContainer style={{ justifyContent: 'center' }}>
+        <Loader>
+          <BicycleLoader />
+        </Loader>
+      </s.MainContainer>
+    );
+
   if (isError || !student)
     return (
       <div>

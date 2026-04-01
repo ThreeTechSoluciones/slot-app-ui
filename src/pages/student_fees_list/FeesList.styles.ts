@@ -19,7 +19,7 @@ export const StudentsContainer = styled.div`
   flex-direction: column;
   width: 100%;
   padding-top: 20px;
-  min-height: 100vh;
+  min-height: calc(100vh - 80px);
 `;
 
 export const TitleContainer = styled.div`

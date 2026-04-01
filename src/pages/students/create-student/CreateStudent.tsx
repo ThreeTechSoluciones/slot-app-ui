@@ -10,12 +10,14 @@ import type { CreateStudentRequest } from '../../../app/types/requests/CreateStu
 import { TitleContainer, Title, MainContainer } from './CreateStudent.styles';
 import Stepper from '../../../components/stepper/Stepper';
 import { MisAlumnos } from '../../../routes/RoutesUtils';
+import Loader from '../../../components/loader/Loader';
+import BicycleLoader from '../../../components/bicycle_animation/BicycleLoader';
 
 function CreateStudent() {
   const [studentData, setStudentData] = useState<StudentDataProps | undefined>(undefined);
   const [paymentData, setPaymentData] = useState<PaymentDataProps | undefined>(undefined);
   const [planData, setPlanData] = useState<PlanDataProps | undefined>(undefined);
-  const [createStudent] = useCreateStudentMutation();
+  const [createStudent, { isLoading }] = useCreateStudentMutation();
   const { userId } = useAuthentication();
 
   const handleStudentDataForm = (data: StudentDataProps) => {
@@ -81,7 +83,14 @@ function CreateStudent() {
       props: { onSubmit: handlePlanDataForm, data: planData },
     },
   ];
-
+  if (isLoading)
+    return (
+      <MainContainer style={{ justifyContent: 'center', alignItems: 'center' }}>
+        <Loader>
+          <BicycleLoader />
+        </Loader>
+      </MainContainer>
+    );
   return (
     <MainContainer>
       <TitleContainer>

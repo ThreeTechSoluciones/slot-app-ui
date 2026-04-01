@@ -20,6 +20,8 @@ import CalendarIcon from '../../../assets/calendar-icon.svg';
 import { formatCurrency } from '../../../utils/Formatter';
 import { useGetPaymentInfoQuery } from '../../../app/services/PaymentService';
 import { skipToken } from '@reduxjs/toolkit/query';
+import Loader from '../../../components/loader/Loader';
+import Spinner from '../../../components/spinner/Spinner';
 
 interface PaymentInfoModalProps {
   isOpen: boolean;
@@ -34,7 +36,12 @@ const PaymentInfoModal: React.FC<PaymentInfoModalProps> = ({ isOpen, onClose, pa
     return (
       <ModalOverlay>
         <ModalContainer>
-          <div>Cargando información del pago...</div>
+          <CloseButton onClick={onClose}>
+            <img src={CancelIcon} alt="Close" />
+          </CloseButton>
+          <Loader>
+            <Spinner text="Cargando información del pago..." />
+          </Loader>
         </ModalContainer>
       </ModalOverlay>
     );

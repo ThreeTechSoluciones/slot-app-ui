@@ -12,6 +12,7 @@ import { useRef, useState } from 'react';
 import type { FormRef } from '../../app/types/FormRef';
 import BackIcon from '../../assets/back-icon.svg';
 import { ConfirmDialog } from '../../components/confirm_dialog/ConfirmDialog';
+import Spinner from '../../components/spinner/Spinner';
 
 const ActivateStudent = () => {
   const { studentId } = useLocation().state;
@@ -77,7 +78,13 @@ const ActivateStudent = () => {
       </s.DataContainer>
       <s.ButtonContainer>
         <Button variant="primary" size="medium" onClick={() => setShowConfirm(true)}>
-          {isActivating ? 'Activando...' : 'Confirmar alta'}
+          {isActivating ? (
+            <p style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <Spinner text="Activando..." />
+            </p>
+          ) : (
+            'Confirmar alta'
+          )}
         </Button>
       </s.ButtonContainer>
     </s.MainContainer>
