@@ -8,6 +8,7 @@ import {
   DEFAULT_FONT_SIZE,
   SMALL_FONT_SIZE,
   FOCUS_STYLE,
+  BORDER_RADIUS,
 } from '../../../../utils/Stylesheet';
 
 export const MainContainer = styled.div`
@@ -35,11 +36,11 @@ export const BaseStyle = styled.input`
   }
 `;
 
-export const Input = styled(BaseStyle)<{ disabled?: boolean }>`
+export const Input = styled(BaseStyle) <{ disabled?: boolean }>`
   background: ${(props) => (props.disabled ? LIGHT_NEUTRAL_COLOR : 'none')};
   border: ${(props) => (props.disabled ? LIGHT_NEUTRAL_COLOR : '1px solid black')};
   outline: none;
-  border-radius: 10px;
+  border-radius: ${BORDER_RADIUS};
   &::placeholder {
     color: ${(props) => (props.disabled ? LIGHT_NEUTRAL_COLOR : NEUTRAL_COLOR)};
   }
