@@ -7,6 +7,7 @@ import {
   DEFAULT_FONT_SIZE,
   MEDIUM_FONT_SIZE,
   SMALL_FONT_SIZE,
+  FOCUS_STYLE,
 } from '../../../../utils/Stylesheet';
 
 export const FORM_WIDTH = '410px';
@@ -53,6 +54,9 @@ export const BaseStyle = styled.input`
     color: ${NEUTRAL_COLOR};
     font-size: ${MEDIUM_FONT_SIZE};
   }
+  &:focus {
+    ${FOCUS_STYLE};
+  }
 `;
 
 export const Select = styled(BaseStyle).attrs({ as: 'select' })`
@@ -80,10 +84,8 @@ export const Input = styled(BaseStyle)`
     color: ${NEUTRAL_COLOR};
     font-size: ${MEDIUM_FONT_SIZE};
   }
-  }
-     &:focus {
-    outline: none;
-    box-shadow: 0 0 0 3.5px rgba(0, 0, 0, 0.25);
+  &:focus {
+    ${FOCUS_STYLE};
   }
 `;
 export const InputsContainer = styled.div`

@@ -42,6 +42,7 @@ export default function CurrencyInput({
       width={width}
       placeholder={placeholder}
       style={style}
+      autoFocus
     />
   );
 }

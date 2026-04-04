@@ -9,6 +9,7 @@ const OnlyNumberInput: React.FC<OnlyNumberInputProps> = ({ register, ...props })
     <NumberInput
       {...register}
       type="number"
+      autoFocus
       onKeyDown={(e) => {
         if (e.key === '.' || e.key === ',' || e.key === '-' || e.key === '+') {
           e.preventDefault();

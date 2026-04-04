@@ -8,6 +8,7 @@ import {
   LIGHT_NEUTRAL_COLOR,
   DEFAULT_FONT_SIZE,
   MEDIUM_FONT_SIZE,
+  FOCUS_STYLE,
 } from '../../../../utils/Stylesheet';
 
 export const WIDTH = '810px';
@@ -56,6 +57,9 @@ export const Select = styled.select`
   background: url(${Arrow}) no-repeat right 12px center;
   &::placeholder {
     color: ${NEUTRAL_COLOR};
+  }
+  &:focus {
+    ${FOCUS_STYLE};
   }
 `;
 

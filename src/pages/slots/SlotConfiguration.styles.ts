@@ -113,8 +113,8 @@ export const Button = styled.button<ButtonProps>`
   color: ${DEFAULT_TEXT_COLOR};
   &:hover {
     ${(props) =>
-    !props.$isDisabled &&
-    `
+      !props.$isDisabled &&
+      `
             cursor: pointer;
             background: ${NEUTRAL_COLOR};
         `}

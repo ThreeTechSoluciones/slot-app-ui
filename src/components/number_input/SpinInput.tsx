@@ -41,6 +41,7 @@ export const SpinInput = ({
         onChange={(e) => onChange(Number(e.target.value))}
         placeholder={placeholder}
         disabled={disabled}
+        autoFocus
       />
       <InputIcon
         src={LessIcon}

@@ -7,6 +7,7 @@ import {
   MEDIUM_FONT_SIZE,
   DEFAULT_FONT_SIZE,
   SMALL_FONT_SIZE,
+  FOCUS_STYLE,
 } from '../../../../utils/Stylesheet';
 
 export const MainContainer = styled.div`
@@ -34,15 +35,16 @@ export const BaseStyle = styled.input`
   }
 `;
 
-export const Input = styled(BaseStyle) <{ disabled?: boolean }>`
+export const Input = styled(BaseStyle)<{ disabled?: boolean }>`
   background: ${(props) => (props.disabled ? LIGHT_NEUTRAL_COLOR : 'none')};
   border: ${(props) => (props.disabled ? LIGHT_NEUTRAL_COLOR : '1px solid black')};
+  outline: none;
+  border-radius: 10px;
   &::placeholder {
     color: ${(props) => (props.disabled ? LIGHT_NEUTRAL_COLOR : NEUTRAL_COLOR)};
   }
-    &:focus {
-    outline: none;
-    box-shadow: 0 0 0 3.5px rgba(0, 0, 0, 0.25);
+  &:focus {
+    ${FOCUS_STYLE};
   }
 `;
 
@@ -50,6 +52,9 @@ export const Description = styled(BaseStyle).attrs({ as: 'textarea' })`
   width: 392px;
   height: 108px;
   padding-top: 16px;
+  &:focus {
+    ${FOCUS_STYLE};
+  }
 `;
 
 export const ButtonsContainer = styled.div`

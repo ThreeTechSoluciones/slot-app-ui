@@ -60,7 +60,7 @@ function Login() {
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Label>Usuario</Label>
         <InputContainer>
-          <Input placeholder="Usuario" {...register('username')}></Input>
+          <Input autoFocus placeholder="Usuario" {...register('username')}></Input>
           <Img src={UserIcon} width={'26'} height={'26'} style={{ filter: 'brightness(0)' }}></Img>
         </InputContainer>
         <ErrorMessage error={errors.username} />

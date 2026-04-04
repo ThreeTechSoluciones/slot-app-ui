@@ -19,7 +19,12 @@ function Modal({ onClose, children, showButtons = true, onConfirm }: ModalSlotPr
   const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    contentRef.current?.focus();
+    const input = contentRef.current?.querySelector('input');
+    if (input) {
+      input.focus();
+    } else {
+      contentRef.current?.focus();
+    }
   }, []);
 
   const handleConfirm = () => {

@@ -8,6 +8,7 @@ import {
   MEDIUM_FONT_SIZE,
   DEFAULT_FONT_SIZE,
   SMALL_FONT_SIZE,
+  FOCUS_STYLE,
 } from '../../../utils/Stylesheet';
 
 export const FormStyle = styled.form`
@@ -50,6 +51,15 @@ export const Input = styled.input<InputProps>`
   border: ${(props) =>
     props.$isNonEditable ? `2px solid ${LIGHT_NEUTRAL_COLOR}` : `1px solid ${DEFAULT_TEXT_COLOR}`};
   pointer-events: ${(props) => (props.$isNonEditable ? 'none' : 'auto')};
+  ${(props) => !props.$isNonEditable && FOCUS_STYLE};
+  ${(props) =>
+    props.$isNonEditable &&
+    `
+  &:focus {
+    outline: none;
+    box-shadow: none;
+  }
+`};
 `;
 
 export const InputWrapper = styled.div`
@@ -90,6 +100,18 @@ export const DatePickerCustomWrapper = styled.div`
   }
   .react-calendar {
     max-width: 90vw !important;
+  }
+  &:focus {
+    ${FOCUS_STYLE};
+  }
+  input:focus {
+    outline: none;
+    box-shadow: none;
+  }
+
+  /* aplicar tu estilo al wrapper cuando hay foco */
+  &:focus-within .react-date-picker__wrapper {
+    ${FOCUS_STYLE};
   }
 `;
 

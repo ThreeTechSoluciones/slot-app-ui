@@ -7,12 +7,15 @@ import {
   BORDER_RADIUS,
   DEFAULT_FONT_SIZE,
   SMALL_FONT_SIZE,
+  MEDIUM_FONT_SIZE,
+  FOCUS_STYLE,
 } from '../../utils/Stylesheet';
 
 interface StyledWrapperProps {
   $calendarPosition?: 'bottom' | 'top';
   $width: string;
 }
+
 export const StyledWrapper = styled.div<StyledWrapperProps>`
   position: relative;
   .react-date-picker__wrapper {
@@ -25,6 +28,9 @@ export const StyledWrapper = styled.div<StyledWrapperProps>`
     padding: 0 16px;
     background: none;
     color: ${DEFAULT_TEXT_COLOR};
+    &:focus-within {
+      ${FOCUS_STYLE}
+    }
   }
   .react-date-picker {
     width: 100%;
@@ -35,14 +41,14 @@ export const StyledWrapper = styled.div<StyledWrapperProps>`
     z-index: 9999;
 
     ${(props) =>
-      props.$calendarPosition === 'top'
-        ? `
+    props.$calendarPosition === 'top'
+      ? `
           bottom: 100%;
           left: 0;
           margin-bottom: 4px;
 
         `
-        : `
+      : `
           top: 100%;
           left: 0;
           margin-top: 4px;
@@ -82,7 +88,6 @@ export const StyledWrapper = styled.div<StyledWrapperProps>`
   .react-calendar__tile {
     color: black;
     border-radius: ${BORDER_RADIUS};
-
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -97,7 +102,7 @@ export const StyledWrapper = styled.div<StyledWrapperProps>`
   }
 
   .react-date-picker__inputGroup {
-    font-size: ${DEFAULT_FONT_SIZE};
+    font-size: ${MEDIUM_FONT_SIZE};
   }
 
   //HOVER SOBRE DIAS

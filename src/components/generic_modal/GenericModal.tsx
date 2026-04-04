@@ -45,7 +45,12 @@ export const GenericModal: React.FC<GenericModalProps> = ({
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    containerRef.current?.focus();
+    const input = containerRef.current?.querySelector('input');
+    if (input) {
+      input.focus();
+    } else {
+      containerRef.current?.focus();
+    }
   }, []);
 
   if (!isOpen) return null;

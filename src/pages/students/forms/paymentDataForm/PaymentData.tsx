@@ -60,7 +60,7 @@ const PaymentData = forwardRef<FormRef, FormProps<PaymentDataProps>>((props, ref
     return (
       <s.FieldContainer>
         <s.Label>Día de pago</s.Label>
-        <s.Input autoFocus placeholder="15" {...register('paymentDay')} />
+        <s.Input placeholder="15" {...register('paymentDay')} />
         <ErrorMessage error={errors.paymentDay} />
       </s.FieldContainer>
     );

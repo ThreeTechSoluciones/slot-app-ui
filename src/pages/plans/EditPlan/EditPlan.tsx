@@ -131,6 +131,7 @@ const EditPlanForm = forwardRef<FormProps<EditPlanFormData>, EditPlanFormProps>(
                     clearIcon={null}
                     format="dd/MM/yyyy"
                     calendarPosition="top"
+                    autoFocus
                     calendarIcon={
                       <img src={CalendarIcon} alt="Calendario" style={{ width: 20, height: 20 }} />
                     }

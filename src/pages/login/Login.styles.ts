@@ -5,6 +5,7 @@ import {
   DEFAULT_TEXT_COLOR,
   BRAND_COLOR,
   MEDIUM_FONT_SIZE,
+  FOCUS_STYLE,
 } from '../../utils/Stylesheet';
 
 export const MainContainer = styled.div`
@@ -78,9 +79,8 @@ export const Input = styled.input`
   &::placeholder {
     color: ${NEUTRAL_COLOR};
   }
- &:focus {
-    outline: none;
-    box-shadow: 0 0 0 3.5px rgba(0, 0, 0, 0.25);
+  &:focus {
+    ${FOCUS_STYLE};
   }
 `;
 
