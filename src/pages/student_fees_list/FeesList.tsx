@@ -40,6 +40,7 @@ import PaymentMetrics from './PaymentMetrics';
 import { Pagination } from '../../components/pagination/Pagination';
 import { SearchNotFound } from '../../components/search_not_found/SearchNotFound';
 import type { SortConfig } from '../../app/types/sort';
+import { formatCurrency } from '../../utils/Formatter';
 function StudentFeesList() {
   const location = useLocation();
   const { studentId } = location.state || {};
@@ -147,6 +148,7 @@ function StudentFeesList() {
         />
       ),
       accessor: 'amount',
+      render: (fee) => <span>{formatCurrency(fee.amount)}</span>,
     },
     {
       header: (

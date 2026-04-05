@@ -10,6 +10,7 @@ import type { CalendarResponse } from '../types/responses/CalendarResponse.type'
 import type { CalendarParams } from '../types/requests/GetCalendarViewRequest.type';
 import type { GetSlotsByDayParams } from '../types/requests/GetUserSlotsRequest.type';
 import { createAuthenticatedBaseQuery } from './baseQuery';
+import { buildSortParams } from '../../utils/SortParams';
 
 export const UserService = createApi({
   reducerPath: 'users',
@@ -37,12 +38,6 @@ export const UserService = createApi({
       }
     >({
       query: ({ userId, filter, page, size, status, isActive, sort, filterByAbsences }) => {
-        let sortParams: string | string[] | undefined;
-        if (sort) {
-          sortParams = Array.isArray(sort)
-            ? sort.map((s) => `${s.property},${s.direction}`)
-            : `${sort.property},${sort.direction}`;
-        }
         return {
           url: `/${userId}/students`,
           params: {
@@ -51,7 +46,7 @@ export const UserService = createApi({
             filter,
             status,
             isActive,
-            sort: sortParams,
+            sort: buildSortParams(sort),
             filterByAbsences,
           },
         };
@@ -59,12 +54,12 @@ export const UserService = createApi({
       providesTags: (result) =>
         result
           ? [
-              { type: 'userStudents', id: 'LIST' },
-              ...result.content.map(({ id }) => ({
-                type: 'userStudents' as const,
-                id,
-              })),
-            ]
+            { type: 'userStudents', id: 'LIST' },
+            ...result.content.map(({ id }) => ({
+              type: 'userStudents' as const,
+              id,
+            })),
+          ]
           : [{ type: 'userStudents', id: 'LIST' }],
     }),
 
@@ -73,9 +68,9 @@ export const UserService = createApi({
       providesTags: (result) =>
         result
           ? [
-              { type: 'userPrices', id: 'LIST' },
-              ...result.map(({ id }) => ({ type: 'userPrices' as const, id })),
-            ]
+            { type: 'userPrices', id: 'LIST' },
+            ...result.map(({ id }) => ({ type: 'userPrices' as const, id })),
+          ]
           : [{ type: 'userPrices', id: 'LIST' }],
     }),
     getUserPlans: builder.query<
@@ -89,26 +84,20 @@ export const UserService = createApi({
       }
     >({
       query: ({ userId, planName, size, page, sort }) => {
-        let sortParams: string | string[] | undefined;
-        if (sort) {
-          sortParams = Array.isArray(sort)
-            ? sort.map((s) => `${s.property},${s.direction}`)
-            : `${sort.property},${sort.direction}`;
-        }
         return {
           url: `/${userId}/plans`,
-          params: { planName, size, page, sort: sortParams },
+          params: { planName, size, page, sort: buildSortParams(sort) },
         };
       },
       providesTags: (result) =>
         result
           ? [
-              { type: 'userPlans', id: 'LIST' },
-              ...result.content.map(({ id }) => ({
-                type: 'userPlans' as const,
-                id,
-              })),
-            ]
+            { type: 'userPlans', id: 'LIST' },
+            ...result.content.map(({ id }) => ({
+              type: 'userPlans' as const,
+              id,
+            })),
+          ]
           : [{ type: 'userPlans', id: 'LIST' }],
     }),
     getUserPreferences: builder.query<UserPreferencesResponse, string>({
