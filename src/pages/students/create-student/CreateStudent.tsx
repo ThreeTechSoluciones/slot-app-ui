@@ -10,7 +10,6 @@ import type { CreateStudentRequest } from '../../../app/types/requests/CreateStu
 import { TitleContainer, Title, MainContainer } from './CreateStudent.styles';
 import Stepper from '../../../components/stepper/Stepper';
 import { MisAlumnos } from '../../../routes/RoutesUtils';
-import Loader from '../../../components/loader/Loader';
 import BicycleLoader from '../../../components/bicycle_animation/BicycleLoader';
 
 function CreateStudent() {
@@ -83,14 +82,7 @@ function CreateStudent() {
       props: { onSubmit: handlePlanDataForm, data: planData },
     },
   ];
-  if (isLoading)
-    return (
-      <MainContainer style={{ justifyContent: 'center', alignItems: 'center' }}>
-        <Loader>
-          <BicycleLoader />
-        </Loader>
-      </MainContainer>
-    );
+  if (isLoading) return <BicycleLoader />;
   return (
     <MainContainer>
       <TitleContainer>

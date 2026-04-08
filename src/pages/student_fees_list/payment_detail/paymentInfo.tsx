@@ -40,7 +40,7 @@ const PaymentInfoModal: React.FC<PaymentInfoModalProps> = ({ isOpen, onClose, pa
             <img src={CancelIcon} alt="Close" />
           </CloseButton>
           <Loader>
-            <Spinner text="Cargando información del pago..." />
+            <Spinner text="Cargando información del pago..." fontSize={16} />
           </Loader>
         </ModalContainer>
       </ModalOverlay>

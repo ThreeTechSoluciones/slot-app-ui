@@ -40,7 +40,6 @@ import type {
 import PaymentMetrics from './PaymentMetrics';
 import { Pagination } from '../../components/pagination/Pagination';
 import { SearchNotFound } from '../../components/search_not_found/SearchNotFound';
-import Loader from '../../components/loader/Loader';
 import BicycleLoader from '../../components/bicycle_animation/BicycleLoader';
 function StudentFeesList() {
   const location = useLocation();
@@ -88,7 +87,7 @@ function StudentFeesList() {
   useEffect(() => {
     setPage(1);
   }, [monthFilter, statusFilter, formattedExpirationDate]);
-  if (fetchingStudent) return <p>Cargando información del alumno...</p>;
+  if (fetchingStudent) return <BicycleLoader />;
   if (errorFetchingStudent) return <p>Error al cargar la información del alumno.</p>;
   if (!student) return <p>Alumno no encontrado.</p>;
   const handleConfirmCreateFee = async () => {
@@ -126,14 +125,7 @@ function StudentFeesList() {
       });
   };
 
-  if (isLoading)
-    return (
-      <s.StudentsContainer style={{ justifyContent: 'center', alignItems: 'center' }}>
-        <Loader>
-          <BicycleLoader />
-        </Loader>
-      </s.StudentsContainer>
-    );
+  if (isLoading) return <BicycleLoader />;
   if (isError) return <p>Error al cargar cuotas.</p>;
   if (!fees) return <SearchNotFound message="No hay información disponible." />;
   const columns: Column<StudentMonthlyFeeResponse>[] = [

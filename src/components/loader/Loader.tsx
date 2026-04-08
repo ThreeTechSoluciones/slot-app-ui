@@ -1,5 +1,5 @@
 interface LoaderProps {
-  children?: React.ReactNode;
+  children: React.ReactNode;
   text?: string;
 }
 
@@ -9,13 +9,13 @@ const Loader = ({ children, text }: LoaderProps) => {
       style={{
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: '100%',
-        width: '100%',
+        position: 'absolute',
+        top: ' 50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
       }}
     >
-      {children ? children : <div />}
+      {children}
       <span>{text}</span>
     </div>
   );

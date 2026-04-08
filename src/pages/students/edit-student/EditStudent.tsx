@@ -14,7 +14,6 @@ import { formatDateToDash, formatDateToISO } from '../../../utils/DateFormatter'
 import toast from 'react-hot-toast';
 import type { UpdateStudentRequest } from '../../../app/types/requests/UpdateStudentRequest.type';
 import BackIcon from '../../../assets/back-icon.svg';
-import Loader from '../../../components/loader/Loader';
 import BicycleLoader from '../../../components/bicycle_animation/BicycleLoader';
 
 function EditStudent() {
@@ -69,14 +68,7 @@ function EditStudent() {
     };
   };
 
-  if (isLoading)
-    return (
-      <s.MainContainer style={{ justifyContent: 'center', alignItems: 'center' }}>
-        <Loader>
-          <BicycleLoader />
-        </Loader>
-      </s.MainContainer>
-    );
+  if (isLoading) return <BicycleLoader />;
 
   if (isError || !studentSaveData) {
     return <p>Hubo un error al obtener la informacion del estudiante. Intente nuevamente</p>;

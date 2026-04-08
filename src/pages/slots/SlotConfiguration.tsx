@@ -24,7 +24,6 @@ import {
 import { ConfirmDialog } from '../../components/confirm_dialog/ConfirmDialog';
 import EditCapacityForm from './forms/EditCapacityForm';
 import type { SlotResponse } from '../../app/types/responses/SlotResponse.type';
-import Loader from '../../components/loader/Loader';
 import BicycleLoader from '../../components/bicycle_animation/BicycleLoader';
 
 function SlotConfiguration() {
@@ -42,7 +41,11 @@ function SlotConfiguration() {
 
   const [updateSlotCapacity] = useUpdateSlotsCapacityMutation();
 
-  const { data: userPreferences, isLoading, isError } = useGetUserPreferencesQuery(userId!);
+  const {
+    data: userPreferences,
+    isLoading: isLoadingUserPreferences,
+    isError,
+  } = useGetUserPreferencesQuery(userId!);
 
   const [updateSlot] = useUpdateSlotMutation();
 
@@ -142,7 +145,7 @@ function SlotConfiguration() {
 
   const SlotConfigurationSkeleton = () => {
     const getPlaceholder = () => {
-      if (isLoading) return 'Cargando...';
+      if (isLoadingUserPreferences) return 'Cargando...';
       if (isError) return 'Error al cargar capacidad';
       if (userPreferences?.capacity) return `${userPreferences.capacity} cupos por turno`;
       return 'Sin capacidad definida';
@@ -285,17 +288,7 @@ function SlotConfiguration() {
       onConfirm: handleEditSlotModal,
     },
   };
-  if (isLoading || isLoadingSlots) {
-    return (
-      <s.MainContainer
-        style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '85vh' }}
-      >
-        <Loader>
-          <BicycleLoader />
-        </Loader>
-      </s.MainContainer>
-    );
-  }
+
   return (
     <s.MainContainer>
       <s.Title>MIS TURNOS</s.Title>
@@ -320,7 +313,23 @@ function SlotConfiguration() {
         <SlotConfigurationSkeleton />
         {selectEnglishValue !== '' && (
           <s.AnimatedContainer>
-            {totalSlots === 0 ? <NonExistingSlotsSkeleton /> : <VisualizeSlotsSkeleton />}
+            {isLoadingSlots ? (
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  width: '336px',
+                  minHeight: '336px',
+                  position: 'relative',
+                }}
+              >
+                <BicycleLoader />
+              </div>
+            ) : totalSlots === 0 ? (
+              <NonExistingSlotsSkeleton />
+            ) : (
+              <VisualizeSlotsSkeleton />
+            )}
           </s.AnimatedContainer>
         )}
       </s.SkeletonsContainer>

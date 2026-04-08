@@ -166,8 +166,7 @@ const PlanData = forwardRef<FormRef, FormProps<PlanDataProps>>((props, ref) => {
               marginTop: '8px',
             }}
           >
-            <Spinner />
-            <p>Cargando turnos...</p>
+            <Spinner text="Cargando turnos..." />
           </div>
         ) : (
           <SlotRegistrationCalendar
