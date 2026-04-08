@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { FOCUS_STYLE } from '../../utils/Stylesheet';
 
 interface NumberInputProps {
-  autoFocus?: boolean;
+  $autoFocus?: boolean;
 }
 
 export const NumberInput = styled.input<NumberInputProps>`
@@ -14,8 +14,8 @@ export const NumberInput = styled.input<NumberInputProps>`
   }
   /* Para Firefox */
   appearance: textfield;
-  ${({ autoFocus }) =>
-    autoFocus &&
+  ${({ $autoFocus }) =>
+    $autoFocus &&
     `
     &:focus {
       ${FOCUS_STYLE}
