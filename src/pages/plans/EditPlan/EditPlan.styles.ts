@@ -50,12 +50,16 @@ export const Input = styled.input<InputProps>`
   border: ${(props) =>
     props.$isNonEditable ? `2px solid ${LIGHT_NEUTRAL_COLOR}` : `1px solid ${DEFAULT_TEXT_COLOR}`};
   pointer-events: ${(props) => (props.$isNonEditable ? 'none' : 'auto')};
-  ${(props) => !props.$isNonEditable && `
+  ${(props) =>
+    !props.$isNonEditable &&
+    `
     &:focus {
       ${FOCUS_STYLE}
     }
   `}
-  ${(props) => props.$isNonEditable && `
+  ${(props) =>
+    props.$isNonEditable &&
+    `
     &:focus {
       outline: none;
       box-shadow: none;

@@ -10,6 +10,7 @@ import type { CalendarResponse } from '../types/responses/CalendarResponse.type'
 import type { CalendarParams } from '../types/requests/GetCalendarViewRequest.type';
 import type { GetSlotsByDayParams } from '../types/requests/GetUserSlotsRequest.type';
 import { createAuthenticatedBaseQuery } from './baseQuery';
+import { buildSortParams } from '../../utils/SortParams';
 
 export const UserService = createApi({
   reducerPath: 'users',
@@ -37,12 +38,6 @@ export const UserService = createApi({
       }
     >({
       query: ({ userId, filter, page, size, status, isActive, sort, filterByAbsences }) => {
-        let sortParams: string | string[] | undefined;
-        if (sort) {
-          sortParams = Array.isArray(sort)
-            ? sort.map((s) => `${s.property},${s.direction}`)
-            : `${sort.property},${sort.direction}`;
-        }
         return {
           url: `/${userId}/students`,
           params: {
@@ -51,7 +46,7 @@ export const UserService = createApi({
             filter,
             status,
             isActive,
-            sort: sortParams,
+            sort: buildSortParams(sort),
             filterByAbsences,
           },
         };
@@ -89,15 +84,9 @@ export const UserService = createApi({
       }
     >({
       query: ({ userId, planName, size, page, sort }) => {
-        let sortParams: string | string[] | undefined;
-        if (sort) {
-          sortParams = Array.isArray(sort)
-            ? sort.map((s) => `${s.property},${s.direction}`)
-            : `${sort.property},${sort.direction}`;
-        }
         return {
           url: `/${userId}/plans`,
-          params: { planName, size, page, sort: sortParams },
+          params: { planName, size, page, sort: buildSortParams(sort) },
         };
       },
       providesTags: (result) =>
@@ -124,6 +113,7 @@ export const UserService = createApi({
       invalidatesTags: (_result, _error, { userId }) => [
         'userCalendar',
         { type: 'userSlots', id: userId },
+        { type: 'userSlots', id: 'LIST' },
         { type: 'userPreferences', id: userId },
       ],
     }),

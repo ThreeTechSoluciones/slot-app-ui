@@ -75,19 +75,7 @@ const EditPlanForm = forwardRef<FormProps<EditPlanFormData>, EditPlanFormProps>(
         </s.InputContainer>
         <s.InputContainer>
           <s.Label>Cantidad de días por semana</s.Label>
-          <Controller
-            name="numberOfDays"
-            control={control}
-            render={({ field }) => (
-              <SpinInput
-                value={field.value}
-                onChange={field.onChange}
-                min={1}
-                max={7}
-                placeholder="Ej: 2 días"
-              />
-            )}
-          />
+          <s.Input $isNonEditable={true} value={numberOfDays} readOnly />
           <ErrorMessage error={errors.numberOfDays} />
         </s.InputContainer>
         <s.InputContainer>
