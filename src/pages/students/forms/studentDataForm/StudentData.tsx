@@ -142,6 +142,7 @@ const StudentData = forwardRef<FormRef, FormProps<StudentDataProps>>((props, ref
                   format="dd/MM/yyyy"
                   calendarPosition="top"
                   locale="es-ES"
+                  autoFocus={true}
                   clearIcon={null}
                   calendarIcon={
                     <img src={CalendarIcon} alt="Calendario" style={{ width: 20, height: 20 }} />

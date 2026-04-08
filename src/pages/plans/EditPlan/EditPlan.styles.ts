@@ -46,20 +46,11 @@ export const Input = styled.input<InputProps>`
   padding: 0 12px;
   font-size: ${MEDIUM_FONT_SIZE};
   color: ${DEFAULT_TEXT_COLOR};
-  background-color: ${BACKGROUND_COLOR};
   background-color: ${(props) => (props.$isNonEditable ? LIGHT_NEUTRAL_COLOR : BACKGROUND_COLOR)};
   border: ${(props) =>
     props.$isNonEditable ? `2px solid ${LIGHT_NEUTRAL_COLOR}` : `1px solid ${DEFAULT_TEXT_COLOR}`};
   pointer-events: ${(props) => (props.$isNonEditable ? 'none' : 'auto')};
-  ${(props) => !props.$isNonEditable && FOCUS_STYLE};
-  ${(props) =>
-    props.$isNonEditable &&
-    `
-  &:focus {
-    outline: none;
-    box-shadow: none;
-  }
-`};
+  
 `;
 
 export const InputWrapper = styled.div`
@@ -104,12 +95,6 @@ export const DatePickerCustomWrapper = styled.div`
   &:focus {
     ${FOCUS_STYLE};
   }
-  input:focus {
-    outline: none;
-    box-shadow: none;
-  }
-
-  /* aplicar tu estilo al wrapper cuando hay foco */
   &:focus-within .react-date-picker__wrapper {
     ${FOCUS_STYLE};
   }

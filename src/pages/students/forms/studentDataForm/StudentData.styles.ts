@@ -36,7 +36,7 @@ export const BaseStyle = styled.input`
   }
 `;
 
-export const Input = styled(BaseStyle) <{ disabled?: boolean }>`
+export const Input = styled(BaseStyle)<{ disabled?: boolean }>`
   background: ${(props) => (props.disabled ? LIGHT_NEUTRAL_COLOR : 'none')};
   border: ${(props) => (props.disabled ? LIGHT_NEUTRAL_COLOR : '1px solid black')};
   outline: none;

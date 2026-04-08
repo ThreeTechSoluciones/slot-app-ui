@@ -69,7 +69,8 @@ const EditPlanForm = forwardRef<FormProps<EditPlanFormData>, EditPlanFormProps>(
           <Controller
             name="name"
             control={control}
-            render={({ field }) => <s.Input autoFocus {...field} />}
+            render={({ field }) => <s.Input {...field}
+              autoFocus />}
           />
           <ErrorMessage error={errors.name} />
         </s.InputContainer>
@@ -131,7 +132,6 @@ const EditPlanForm = forwardRef<FormProps<EditPlanFormData>, EditPlanFormProps>(
                     clearIcon={null}
                     format="dd/MM/yyyy"
                     calendarPosition="top"
-                    autoFocus
                     calendarIcon={
                       <img src={CalendarIcon} alt="Calendario" style={{ width: 20, height: 20 }} />
                     }

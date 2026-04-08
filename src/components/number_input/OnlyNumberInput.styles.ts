@@ -1,7 +1,11 @@
 import styled from 'styled-components';
 import { FOCUS_STYLE } from '../../utils/Stylesheet';
 
-export const NumberInput = styled.input`
+interface NumberInputProps {
+  autoFocus?: boolean;
+}
+
+export const NumberInput = styled.input <NumberInputProps>`
   /* Para Chrome, Edge y Safari */
   &::-webkit-outer-spin-button,
   &::-webkit-inner-spin-button {
@@ -10,7 +14,9 @@ export const NumberInput = styled.input`
   }
   /* Para Firefox */
   appearance: textfield;
-  &:focus {
-    ${FOCUS_STYLE};
-  }
+ ${({ autoFocus }) => autoFocus && `
+    &:focus {
+      ${FOCUS_STYLE}
+    }
+  `}
 `;

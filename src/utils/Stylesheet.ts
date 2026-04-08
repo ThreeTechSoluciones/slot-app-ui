@@ -17,6 +17,6 @@ export const MEDIUM_FONT_SIZE = '14px';
 export const LARGE_FONT_SIZE = '24px';
 export const FOCUS_STYLE = `
     border: 2.3px solid #000000 !important;
-    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.08) !important;
-    outline: none !important;
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.08);
+    outline: none;
 `;

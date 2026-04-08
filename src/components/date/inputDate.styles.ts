@@ -14,6 +14,7 @@ import {
 interface StyledWrapperProps {
   $calendarPosition?: 'bottom' | 'top';
   $width: string;
+  $autoFocus?: boolean;
 }
 
 export const StyledWrapper = styled.div<StyledWrapperProps>`
@@ -27,10 +28,16 @@ export const StyledWrapper = styled.div<StyledWrapperProps>`
     font-size: ${DEFAULT_FONT_SIZE};
     padding: 0 16px;
     background: none;
-    color: ${DEFAULT_TEXT_COLOR};
+    ${({ $autoFocus }) => $autoFocus === true && `
+  &:focus-within {
+    ${FOCUS_STYLE}
+  }
     &:focus-within {
-      ${FOCUS_STYLE}
-    }
+    ${FOCUS_STYLE}
+  }
+`}
+    color: ${DEFAULT_TEXT_COLOR};
+    
   }
   .react-date-picker {
     width: 100%;
