@@ -25,13 +25,14 @@ export const PriceInput = styled.input<PriceInputProps>`
     color: ${(props) => (props.disabled ? LIGHT_NEUTRAL_COLOR : NEUTRAL_COLOR)};
     font-size: ${MEDIUM_FONT_SIZE};
   }
-  ${({ autoFocus }) => autoFocus && `
+  ${({ autoFocus }) =>
+    autoFocus &&
+    `
     &:focus {
       ${FOCUS_STYLE}
     }
   `}
   &:focus {
-      ${FOCUS_STYLE}
-    }
+    ${FOCUS_STYLE}
+  }
 `;
-

@@ -50,7 +50,17 @@ export const Input = styled.input<InputProps>`
   border: ${(props) =>
     props.$isNonEditable ? `2px solid ${LIGHT_NEUTRAL_COLOR}` : `1px solid ${DEFAULT_TEXT_COLOR}`};
   pointer-events: ${(props) => (props.$isNonEditable ? 'none' : 'auto')};
-  
+  ${(props) => !props.$isNonEditable && `
+    &:focus {
+      ${FOCUS_STYLE}
+    }
+  `}
+  ${(props) => props.$isNonEditable && `
+    &:focus {
+      outline: none;
+      box-shadow: none;
+    }
+  `}
 `;
 
 export const InputWrapper = styled.div`
@@ -91,12 +101,6 @@ export const DatePickerCustomWrapper = styled.div`
   }
   .react-calendar {
     max-width: 90vw !important;
-  }
-  &:focus {
-    ${FOCUS_STYLE};
-  }
-  &:focus-within .react-date-picker__wrapper {
-    ${FOCUS_STYLE};
   }
 `;
 

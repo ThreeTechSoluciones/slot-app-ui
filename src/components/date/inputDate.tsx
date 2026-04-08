@@ -15,7 +15,12 @@ export default function InputDate({
   ...props
 }: InputDateProps) {
   return (
-    <StyledWrapper $calendarPosition={calendarPosition} $width={width} style={style} $autoFocus={autoFocus}>
+    <StyledWrapper
+      $calendarPosition={calendarPosition}
+      $width={width}
+      style={style}
+      $autoFocus={autoFocus}
+    >
       <DatePicker {...props} />
     </StyledWrapper>
   );

@@ -5,7 +5,7 @@ interface NumberInputProps {
   autoFocus?: boolean;
 }
 
-export const NumberInput = styled.input <NumberInputProps>`
+export const NumberInput = styled.input<NumberInputProps>`
   /* Para Chrome, Edge y Safari */
   &::-webkit-outer-spin-button,
   &::-webkit-inner-spin-button {
@@ -14,7 +14,9 @@ export const NumberInput = styled.input <NumberInputProps>`
   }
   /* Para Firefox */
   appearance: textfield;
- ${({ autoFocus }) => autoFocus && `
+  ${({ autoFocus }) =>
+    autoFocus &&
+    `
     &:focus {
       ${FOCUS_STYLE}
     }

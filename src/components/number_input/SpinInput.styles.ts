@@ -8,7 +8,7 @@ import {
 
 interface SpinInputProps {
   $autoFocus?: boolean;
-};
+}
 
 export const Input = styled.input<SpinInputProps>`
   border: 1px solid ${DEFAULT_TEXT_COLOR};
@@ -37,12 +37,14 @@ export const Input = styled.input<SpinInputProps>`
     appearance: none;
     -moz-appearance: none;
   }
-  ${({ $autoFocus }) => $autoFocus === true && `
+  ${({ $autoFocus }) =>
+    $autoFocus === true &&
+    `
   &:focus {
     ${FOCUS_STYLE}
   }
 `}
- &:focus {
+  &:focus {
     ${FOCUS_STYLE}
   }
 `;
