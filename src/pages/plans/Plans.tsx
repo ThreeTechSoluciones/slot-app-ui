@@ -31,13 +31,14 @@ enum ModalType {
   DELETE = 'DELETE',
   CREATE = 'CREATE',
   EDIT = 'EDIT',
+  NONE = 'NONE',
 }
 
 function Plans() {
   const formRef = useRef<any>(null);
   const [filter, setFilter] = useState<string>('');
   
-  const [modalType, setModalType] = useState<ModalType | null>(null);
+  const [modalType, setModalType] = useState<ModalType>(ModalType.NONE);
   const [showModal, setShowModal] = useState<boolean>(false);
 
   const [selectedPlan, setSelectedPlan] = useState<PlanResponse | null>(null);
@@ -65,6 +66,12 @@ function Plans() {
   );
 
   const handleClearFilters = () => setFilter('');
+
+  const closeModal = () => {
+    setModalType(ModalType.NONE);
+    setSelectedPlan(null);
+    setShowModal(false);
+  }
   
   const handleMutation = async (
     action: () => Promise<any>,
@@ -91,7 +98,7 @@ function Plans() {
     };
     await handleMutation(
       () => createPlan(finalRequest).unwrap(),
-      () => setModalType(null),
+      () => closeModal(),
       'Plan registrado',
     );
   };
@@ -107,7 +114,7 @@ function Plans() {
     };
     await handleMutation(
       () => editPlan(finalRequest).unwrap(),
-      () => setModalType(null),
+      () => closeModal(),
       'Plan editado',
     );
   };
@@ -117,10 +124,7 @@ function Plans() {
 
     await handleMutation(
       () => deletePlan(selectedPlan.id).unwrap(),
-      () => {
-        setModalType(null);
-        setSelectedPlan(null);
-      },
+      () => closeModal(),
       'Plan eliminado',
     );
   };
@@ -146,12 +150,14 @@ function Plans() {
       title: 'Registrar nuevo plan',
     },
     [ModalType.EDIT]: {
-      // TODO: Revisar chequeo de selectedPlan.id en handleEditPlan, ya que el modal se abre al hacer click en editar plan, por lo que debería haber un selectedPlan.id definido
-      children: selectedPlan && <EditPlan ref={formRef} planId={selectedPlan.id} planName={selectedPlan.name} numberOfDays={selectedPlan.numberOfDays} currentAmount={selectedPlan.price} />,
+      children: <EditPlan ref={formRef} planId={selectedPlan?.id!} planName={selectedPlan?.name!} numberOfDays={selectedPlan?.numberOfDays!} currentAmount={selectedPlan?.price!} />,
       primaryButtonText: 'Editar',
       secondaryButtonText: 'Cancelar',
       onConfirm: handleEditPlan,
-      title: 'Editar plan',
+      title: 'EDITAR PLAN',
+    },
+    [ModalType.NONE]: {
+      children: <></>,
     }
   }
 
@@ -256,18 +262,16 @@ function Plans() {
           }}
         />
       </s.PaginationContainer>
-      {modalType && (
-        <Modal 
-          active={showModal}
-          title={modalConfig[modalType].title}
-          primaryButtonText={modalConfig[modalType].primaryButtonText}
-          secondaryButtonText={modalConfig[modalType].secondaryButtonText}
-          onConfirm={modalConfig[modalType].onConfirm}
-          onCancel={() => setShowModal(false)}
-        >
-          { modalConfig[modalType].children }
-        </Modal>
-      )}
+      <Modal 
+        active={showModal}
+        title={modalConfig[modalType].title}
+        primaryButtonText={modalConfig[modalType].primaryButtonText}
+        secondaryButtonText={modalConfig[modalType].secondaryButtonText}
+        onConfirm={modalConfig[modalType].onConfirm}
+        onCancel={() => setShowModal(false)}
+      >
+        { modalConfig[modalType].children }
+      </Modal>
     </s.PlansContainer>
   );
 }

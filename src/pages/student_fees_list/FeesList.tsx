@@ -218,13 +218,17 @@ function StudentFeesList() {
 
     const modalConfig: Record<ModalType, ModalProps> = {
       [ModalType.NEW_MONTLHY_FEE]: {
-        children: <ConfirmDialog message={`¿Estás seguro de que deseas generar una cuota para ${student.name} ${student.lastName}?`} />,
+        children: <ConfirmDialog 
+          message={
+            <>¿Estás seguro de que deseas generar<br /> una cuota para <strong>{student.name} {student.lastName}</strong>?</>
+          } 
+        />,
         primaryButtonText: 'Crear cuota',
         secondaryButtonText: 'Cancelar',
         onConfirm: handleConfirmCreateFee
       },
       [ModalType.PAY_MONTHLY_FEE]: {
-        children: <ConfirmDialog message="¿Estás seguro de registrar esta cuota como pagada?" />,
+        children: <ConfirmDialog message="¿Estás seguro de realizar este pago?" />,
         primaryButtonText: 'Sí, pagar',
         secondaryButtonText: 'No, cancelar',
         onConfirm: handleConfirmPay

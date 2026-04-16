@@ -1,5 +1,3 @@
-import type { ReactElement } from 'react';
-
 export enum CalendarActionsType {
   ABSENCE = 'ABSENCE',
   RECOVER = 'RECOVER',
@@ -16,11 +14,3 @@ export type CalendarAction = {
   dayOfWeek?: string;
   slot?: { startTime: string; endTime: string };
 }
-
-export type CalendarModalType = {
-  content: ReactElement<any, any>; // TODO: Revisar types
-  primaryButtonText: string;
-  secondaryButtonText: string;
-  onConfirm: () => void;
-  title: string;
-};

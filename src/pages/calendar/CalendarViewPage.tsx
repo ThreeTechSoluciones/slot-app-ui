@@ -23,6 +23,7 @@ import { ConfirmDialog } from '../../components/confirm_dialog/ConfirmDialog';
 import { useCancelSpecificSlotMutation } from '../../app/services/SpecificSlotService';
 import RegisterAbsence from './registerAbsence/RegisterAbsence';
 import { StudentRecover } from './studentRecover/StudentRecover';
+import { capitalize } from '../../utils/CapitalizeWords';
 
 const EMPTY_ACTION: CalendarAction = {
   type: CalendarActionsType.NONE,
@@ -149,24 +150,26 @@ function CalendarView() {
 
   const modalConfig: Record<CalendarActionsType, ModalProps> = {
     [CalendarActionsType.CANCEL]: {
-      children: <ConfirmDialog message="¿Estás seguro que deseas cancelar el turno?" />,
+      children: <ConfirmDialog 
+        message={
+          <>¿Estás seguro de cancelar el turno del 
+            <br />{capitalize(DaysOfWeekTranslation[slotAction.dayOfWeek!])} de {slotAction.slot?.startTime} a {slotAction.slot?.endTime}?
+          </>
+        } 
+      />,
       primaryButtonText: 'Cancelar',
       secondaryButtonText: 'No',
       onConfirm: handleConfirmCancel,
-      title: 'Cancelar turno',
     },
 
     [CalendarActionsType.ABSENCE]: {
-      // TODO: Agregar nombre del estudiante en el texto
       children: <RegisterAbsence studentName={slotAction.studentName} />,
       primaryButtonText: 'Registrar Inasistencia',
       secondaryButtonText: 'Cancelar',
       onConfirm: handleConfirmAbsence,
-      // title: 'Registrar Inasistencia',
     },
     [CalendarActionsType.RECOVER]: {
-      // TODO: Agregar capacidad disponible y nombre del turno en el texto
-      children: <StudentRecover availableCapacity={27} setSelectedStudent={setSelectedStudent} />,
+      children: <StudentRecover availableCapacity={slotAction.availableCapacity!} setSelectedStudent={setSelectedStudent} />,
       primaryButtonText: 'Registrar',
       secondaryButtonText: 'Cancelar',
       onConfirm: handleConfirmRecover,
