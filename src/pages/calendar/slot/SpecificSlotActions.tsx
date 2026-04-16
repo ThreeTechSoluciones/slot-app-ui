@@ -111,7 +111,7 @@ interface SlotParams {
   dayOfWeek: string;
   rowIndex: number;
   columnsCount: number;
-  setSlotAction: React.Dispatch<React.SetStateAction<CalendarAction | null>>;
+  setSlotAction: React.Dispatch<React.SetStateAction<CalendarAction>>;
   setOpenModal: (openModal: boolean) => void;
 }
 

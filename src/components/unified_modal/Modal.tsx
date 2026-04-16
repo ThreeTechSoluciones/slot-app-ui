@@ -82,12 +82,12 @@ function Modal({
         {showButtons && (
           <ButtonsContainer>
             {secondaryButtonText && (
-              <Button size="full" onClick={onCancel}>
+              <Button fontsize="medium" size="full" onClick={onCancel}>
                 {secondaryButtonText}
               </Button>
             )}
             {primaryButtonText && (
-              <Button size="full" onClick={handleConfirm}>
+              <Button fontsize="medium" size="full" onClick={handleConfirm}>
                 {primaryButtonText}
               </Button>
             )}

@@ -24,6 +24,11 @@ import { useCancelSpecificSlotMutation } from '../../app/services/SpecificSlotSe
 import RegisterAbsence from './registerAbsence/RegisterAbsence';
 import { StudentRecover } from './studentRecover/StudentRecover';
 
+const EMPTY_ACTION: CalendarAction = {
+  type: CalendarActionsType.NONE,
+  specificSlotId: ''
+}
+
 function CalendarView() {
   const { userId } = useAuthentication();
 
@@ -34,10 +39,10 @@ function CalendarView() {
   const [markAbsence] = useMarkStudentAbsenceMutation();
   const [cancelSlot] = useCancelSpecificSlotMutation();
 
-  const [slotAction, setSlotAction] = useState<CalendarAction | null>(null);
+  const [slotAction, setSlotAction] = useState<CalendarAction>(EMPTY_ACTION);
   const [selectedStudent, setSelectedStudent] = useState<string | null>(null);
 
-  const closeModal = () => setSlotAction(null);
+  const closeModal = () => setSlotAction(EMPTY_ACTION);
 
   const { data: calendarData } = useGetCalendarViewQuery({
     userId: userId!,
@@ -56,7 +61,9 @@ function CalendarView() {
   };
 
   const handleConfirmAbsence = () => {
-    if (slotAction?.type !== 'ABSENCE') return;
+    if (slotAction?.type !== 'ABSENCE' || !slotAction.specificSlotId || !slotAction.studentId) return;
+
+
     markAbsence({
       studentId: slotAction.studentId,
       specificSlotId: slotAction.specificSlotId,
@@ -127,7 +134,7 @@ function CalendarView() {
   };
 
   const handleConfirmRecover = async () => {
-    if (!slotAction || slotAction?.type !== 'RECOVER' || !selectedStudent) return;
+    if (!slotAction || slotAction?.type !== 'RECOVER' || !selectedStudent || !slotAction.specificSlotId) return;
 
     const studentId = selectedStudent;
     const specificSlotId = slotAction.specificSlotId;
@@ -151,11 +158,11 @@ function CalendarView() {
 
     [CalendarActionsType.ABSENCE]: {
       // TODO: Agregar nombre del estudiante en el texto
-      children: <RegisterAbsence />,
+      children: <RegisterAbsence studentName={slotAction.studentName} />,
       primaryButtonText: 'Registrar Inasistencia',
       secondaryButtonText: 'Cancelar',
       onConfirm: handleConfirmAbsence,
-      title: 'Registrar Inasistencia',
+      // title: 'Registrar Inasistencia',
     },
     [CalendarActionsType.RECOVER]: {
       // TODO: Agregar capacidad disponible y nombre del turno en el texto
@@ -165,10 +172,23 @@ function CalendarView() {
       onConfirm: handleConfirmRecover,
       title: 'AGREGAR ALUMNO',
     },
+    [CalendarActionsType.NONE]: {
+      children: <></>,
+    }
   };
 
   return (
     <s.MainContainer>
+      <Modal
+        active={openModal}
+        title={modalConfig[slotAction.type].title}
+        primaryButtonText={modalConfig[slotAction.type].primaryButtonText}
+        secondaryButtonText={modalConfig[slotAction.type].secondaryButtonText}
+        onConfirm={modalConfig[slotAction.type].onConfirm}
+        onCancel={() => setOpenModal(false)}
+      >
+        {modalConfig[slotAction.type].children}
+      </Modal>
       <SelectDateContainer />
       <s.CalendarContainer $columnsCount={columnsCount}>
         <s.ScheduledTime>
@@ -204,18 +224,6 @@ function CalendarView() {
             })}
           </s.DayColumn>
         ))}
-        {slotAction && (
-          <Modal
-            active={openModal}
-            title={modalConfig[slotAction.type].title}
-            primaryButtonText={modalConfig[slotAction.type].primaryButtonText}
-            secondaryButtonText={modalConfig[slotAction.type].secondaryButtonText}
-            onConfirm={modalConfig[slotAction.type].onConfirm}
-            onCancel={() => setOpenModal(false)}
-          >
-            {modalConfig[slotAction.type].children}
-          </Modal>
-        )}
       </s.CalendarContainer>
     </s.MainContainer>
   );
