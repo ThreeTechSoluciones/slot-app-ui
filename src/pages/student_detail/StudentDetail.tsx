@@ -79,7 +79,9 @@ const StudentDetail = () => {
         primaryButtonText="Confirmar"
         secondaryButtonText="Cancelar"
       >
-        <ConfirmDialog message={`¿Estás seguro de dar de baja a ${student.name} ${student.lastName}?`}/>
+        <ConfirmDialog
+          message={`¿Estás seguro de dar de baja a ${student.name} ${student.lastName}?`}
+        />
       </Modal>
       <s.HeaderContainer>
         <s.TitleContainer>

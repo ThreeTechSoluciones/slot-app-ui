@@ -28,11 +28,9 @@ export const ModalContainer = styled.div`
 export const HeaderContainer = styled.div`
   display: flex;
   flex-direction: row;
-`
-
-export const TitleContainer = styled.div`
-
 `;
+
+export const TitleContainer = styled.div``;
 
 export const CloseButton = styled.button`
   position: relative;

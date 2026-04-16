@@ -59,7 +59,9 @@ const ActivateStudent = () => {
         primaryButtonText="Confirmar"
         secondaryButtonText="Cancelar"
       >
-        <ConfirmDialog message={`¿Estás seguro de dar de alta a ${student?.name} ${student?.lastName}?`}/>
+        <ConfirmDialog
+          message={`¿Estás seguro de dar de alta a ${student?.name} ${student?.lastName}?`}
+        />
       </Modal>
       <s.HeaderContainer>
         <img

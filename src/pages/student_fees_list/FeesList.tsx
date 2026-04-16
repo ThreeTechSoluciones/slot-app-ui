@@ -99,7 +99,7 @@ function StudentFeesList() {
   const openModal = (type: ModalType) => {
     setModalType(type);
     setShowModal(true);
-  }
+  };
 
   const handleOpenPayModal = (feeId: string) => {
     setSelectedFeeId(feeId);
@@ -216,32 +216,41 @@ function StudentFeesList() {
     },
   ];
 
-    const modalConfig: Record<ModalType, ModalProps> = {
-      [ModalType.NEW_MONTLHY_FEE]: {
-        children: <ConfirmDialog 
+  const modalConfig: Record<ModalType, ModalProps> = {
+    [ModalType.NEW_MONTLHY_FEE]: {
+      children: (
+        <ConfirmDialog
           message={
-            <>¿Estás seguro de que deseas generar<br /> una cuota para <strong>{student.name} {student.lastName}</strong>?</>
-          } 
-        />,
-        primaryButtonText: 'Crear cuota',
-        secondaryButtonText: 'Cancelar',
-        onConfirm: handleConfirmCreateFee
+            <>
+              ¿Estás seguro de que deseas generar
+              <br /> una cuota para{' '}
+              <strong>
+                {student.name} {student.lastName}
+              </strong>
+              ?
+            </>
+          }
+        />
+      ),
+      primaryButtonText: 'Crear cuota',
+      secondaryButtonText: 'Cancelar',
+      onConfirm: handleConfirmCreateFee,
+    },
+    [ModalType.PAY_MONTHLY_FEE]: {
+      children: <ConfirmDialog message="¿Estás seguro de realizar este pago?" />,
+      primaryButtonText: 'Sí, pagar',
+      secondaryButtonText: 'No, cancelar',
+      onConfirm: handleConfirmPay,
+    },
+    [ModalType.PAYMENT_DETAIL]: {
+      children: <PaymentInfoModal paymentId={selectedPaymentId} />,
+      onClose: () => {
+        setModalType(null);
+        setShowModal(false);
       },
-      [ModalType.PAY_MONTHLY_FEE]: {
-        children: <ConfirmDialog message="¿Estás seguro de realizar este pago?" />,
-        primaryButtonText: 'Sí, pagar',
-        secondaryButtonText: 'No, cancelar',
-        onConfirm: handleConfirmPay
-      },
-      [ModalType.PAYMENT_DETAIL]: {
-        children: <PaymentInfoModal paymentId={selectedPaymentId} />,
-        onClose: () => {
-          setModalType(null)
-          setShowModal(false)
-        },
-        title: 'DETALLE DEL PAGO'
-      }
-    };
+      title: 'DETALLE DEL PAGO',
+    },
+  };
 
   return (
     <s.StudentsContainer>
@@ -312,24 +321,22 @@ function StudentFeesList() {
               Nueva cuota
             </Button>
           </s.RightContainer>
-        </s.FiltersContainer>    
+        </s.FiltersContainer>
         <Table columns={columns} data={fees.content} />
       </s.ContentContainer>
-      {
-        modalType && (
-          <Modal
-            active={showModal}
-            title={modalConfig[modalType].title}
-            primaryButtonText={modalConfig[modalType].primaryButtonText}
-            secondaryButtonText={modalConfig[modalType].secondaryButtonText}
-            onConfirm={modalConfig[modalType].onConfirm}
-            onCancel={() => setShowModal(false)}
-            onClose={modalConfig[modalType].onClose}
-          >
-            {modalConfig[modalType].children}
-          </Modal>
-        )
-      }
+      {modalType && (
+        <Modal
+          active={showModal}
+          title={modalConfig[modalType].title}
+          primaryButtonText={modalConfig[modalType].primaryButtonText}
+          secondaryButtonText={modalConfig[modalType].secondaryButtonText}
+          onConfirm={modalConfig[modalType].onConfirm}
+          onCancel={() => setShowModal(false)}
+          onClose={modalConfig[modalType].onClose}
+        >
+          {modalConfig[modalType].children}
+        </Modal>
+      )}
 
       <s.PaginationContainer>
         <Pagination

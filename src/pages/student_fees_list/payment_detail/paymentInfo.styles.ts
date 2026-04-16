@@ -64,7 +64,7 @@ export const ModalContent = styled.div`
 export const MonthlyFeeText = styled.h3`
   align-self: center;
   font-size: ${DEFAULT_FONT_SIZE};
-  font-weight: ${FONT_WEIGHT_BOLD}; 
+  font-weight: ${FONT_WEIGHT_BOLD};
 `;
 
 export const ModalRow = styled.div`

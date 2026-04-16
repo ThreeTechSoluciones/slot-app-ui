@@ -13,4 +13,4 @@ export type CalendarAction = {
   availableCapacity?: number;
   dayOfWeek?: string;
   slot?: { startTime: string; endTime: string };
-}
+};

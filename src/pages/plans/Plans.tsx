@@ -37,7 +37,7 @@ enum ModalType {
 function Plans() {
   const formRef = useRef<any>(null);
   const [filter, setFilter] = useState<string>('');
-  
+
   const [modalType, setModalType] = useState<ModalType>(ModalType.NONE);
   const [showModal, setShowModal] = useState<boolean>(false);
 
@@ -71,8 +71,8 @@ function Plans() {
     setModalType(ModalType.NONE);
     setSelectedPlan(null);
     setShowModal(false);
-  }
-  
+  };
+
   const handleMutation = async (
     action: () => Promise<any>,
     onSuccess: () => void,
@@ -132,7 +132,7 @@ function Plans() {
   const openModal = (type: ModalType) => {
     setModalType(type);
     setShowModal(true);
-  }
+  };
 
   const modalConfig: Record<ModalType, ModalProps> = {
     [ModalType.DELETE]: {
@@ -140,7 +140,7 @@ function Plans() {
       children: <ConfirmDialog message="¿Estás seguro de que deseas eliminar este plan?" />,
       primaryButtonText: 'Eliminar',
       secondaryButtonText: 'Cancelar',
-      onConfirm: handleDeletePlan
+      onConfirm: handleDeletePlan,
     },
     [ModalType.CREATE]: {
       children: <CreatePlanForm ref={formRef} />,
@@ -150,7 +150,15 @@ function Plans() {
       title: 'Registrar nuevo plan',
     },
     [ModalType.EDIT]: {
-      children: <EditPlan ref={formRef} planId={selectedPlan?.id!} planName={selectedPlan?.name!} numberOfDays={selectedPlan?.numberOfDays!} currentAmount={selectedPlan?.price!} />,
+      children: (
+        <EditPlan
+          ref={formRef}
+          planId={selectedPlan?.id!}
+          planName={selectedPlan?.name!}
+          numberOfDays={selectedPlan?.numberOfDays!}
+          currentAmount={selectedPlan?.price!}
+        />
+      ),
       primaryButtonText: 'Editar',
       secondaryButtonText: 'Cancelar',
       onConfirm: handleEditPlan,
@@ -158,8 +166,8 @@ function Plans() {
     },
     [ModalType.NONE]: {
       children: <></>,
-    }
-  }
+    },
+  };
 
   const columns: Column<PlanResponse>[] = [
     {
@@ -262,7 +270,7 @@ function Plans() {
           }}
         />
       </s.PaginationContainer>
-      <Modal 
+      <Modal
         active={showModal}
         title={modalConfig[modalType].title}
         primaryButtonText={modalConfig[modalType].primaryButtonText}
@@ -270,7 +278,7 @@ function Plans() {
         onConfirm={modalConfig[modalType].onConfirm}
         onCancel={() => setShowModal(false)}
       >
-        { modalConfig[modalType].children }
+        {modalConfig[modalType].children}
       </Modal>
     </s.PlansContainer>
   );

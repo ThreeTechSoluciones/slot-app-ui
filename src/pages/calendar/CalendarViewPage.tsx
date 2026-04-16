@@ -27,8 +27,8 @@ import { capitalize } from '../../utils/CapitalizeWords';
 
 const EMPTY_ACTION: CalendarAction = {
   type: CalendarActionsType.NONE,
-  specificSlotId: ''
-}
+  specificSlotId: '',
+};
 
 function CalendarView() {
   const { userId } = useAuthentication();
@@ -62,8 +62,8 @@ function CalendarView() {
   };
 
   const handleConfirmAbsence = () => {
-    if (slotAction?.type !== 'ABSENCE' || !slotAction.specificSlotId || !slotAction.studentId) return;
-
+    if (slotAction?.type !== 'ABSENCE' || !slotAction.specificSlotId || !slotAction.studentId)
+      return;
 
     markAbsence({
       studentId: slotAction.studentId,
@@ -135,7 +135,13 @@ function CalendarView() {
   };
 
   const handleConfirmRecover = async () => {
-    if (!slotAction || slotAction?.type !== 'RECOVER' || !selectedStudent || !slotAction.specificSlotId) return;
+    if (
+      !slotAction ||
+      slotAction?.type !== 'RECOVER' ||
+      !selectedStudent ||
+      !slotAction.specificSlotId
+    )
+      return;
 
     const studentId = selectedStudent;
     const specificSlotId = slotAction.specificSlotId;
@@ -150,13 +156,18 @@ function CalendarView() {
 
   const modalConfig: Record<CalendarActionsType, ModalProps> = {
     [CalendarActionsType.CANCEL]: {
-      children: <ConfirmDialog 
-        message={
-          <>¿Estás seguro de cancelar el turno del 
-            <br />{capitalize(DaysOfWeekTranslation[slotAction.dayOfWeek!])} de {slotAction.slot?.startTime} a {slotAction.slot?.endTime}?
-          </>
-        } 
-      />,
+      children: (
+        <ConfirmDialog
+          message={
+            <>
+              ¿Estás seguro de cancelar el turno del
+              <br />
+              {capitalize(DaysOfWeekTranslation[slotAction.dayOfWeek!])} de{' '}
+              {slotAction.slot?.startTime} a {slotAction.slot?.endTime}?
+            </>
+          }
+        />
+      ),
       primaryButtonText: 'Cancelar',
       secondaryButtonText: 'No',
       onConfirm: handleConfirmCancel,
@@ -169,7 +180,12 @@ function CalendarView() {
       onConfirm: handleConfirmAbsence,
     },
     [CalendarActionsType.RECOVER]: {
-      children: <StudentRecover availableCapacity={slotAction.availableCapacity!} setSelectedStudent={setSelectedStudent} />,
+      children: (
+        <StudentRecover
+          availableCapacity={slotAction.availableCapacity!}
+          setSelectedStudent={setSelectedStudent}
+        />
+      ),
       primaryButtonText: 'Registrar',
       secondaryButtonText: 'Cancelar',
       onConfirm: handleConfirmRecover,
@@ -177,7 +193,7 @@ function CalendarView() {
     },
     [CalendarActionsType.NONE]: {
       children: <></>,
-    }
+    },
   };
 
   return (

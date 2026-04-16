@@ -23,7 +23,7 @@ interface PaymentInfoModalProps {
 const PaymentInfoModal: React.FC<PaymentInfoModalProps> = ({ paymentId }) => {
   const { data: payment, isLoading, isError } = useGetPaymentInfoQuery(paymentId ?? skipToken);
   if (!paymentId) return null;
-  
+
   if (isLoading) {
     return (
       <PaymentInfoContainer>
@@ -31,7 +31,7 @@ const PaymentInfoModal: React.FC<PaymentInfoModalProps> = ({ paymentId }) => {
       </PaymentInfoContainer>
     );
   }
-  
+
   if (isError || !payment) {
     return (
       <PaymentInfoContainer>
