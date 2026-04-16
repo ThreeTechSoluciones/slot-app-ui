@@ -64,8 +64,8 @@ function Modal({
   };
 
   return (
-    <Background onKeyDown={handleKeyDown}>
-      <ModalContainer>
+    <Background onKeyDown={handleKeyDown} onClick={() => handleCancel()}>
+      <ModalContainer onClick={(e) => e.stopPropagation()}>
         <HeaderContainer>
           {title && (
             <TitleContainer>

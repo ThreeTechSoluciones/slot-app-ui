@@ -4,6 +4,7 @@ import { BORDER_RADIUS } from '../../utils/Stylesheet';
 export const Background = styled.div`
   position: fixed;
   background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(3px);
   top: 0;
   left: 0;
   width: 100%;
