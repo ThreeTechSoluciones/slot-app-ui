@@ -1,7 +1,6 @@
 import React from 'react';
 import {
-  ModalOverlay,
-  ModalContainer,
+  PaymentInfoContainer,
   TextColumn,
   FieldLabel,
   Value,
@@ -9,7 +8,7 @@ import {
   ModalRow,
   IconCircle,
   MonthlyFeeText,
-} from './paymentInfo.styles';
+} from './PaymentInfo.styles';
 import HashtagIcon from '../../../assets/hashtag-icon.svg';
 import PesoIcon from '../../../assets/peso-icon.svg';
 import CalendarIcon from '../../../assets/calendar-icon.svg';
@@ -27,26 +26,22 @@ const PaymentInfoModal: React.FC<PaymentInfoModalProps> = ({ paymentId }) => {
   
   if (isLoading) {
     return (
-      <ModalOverlay>
-        <ModalContainer>
-          <div>Cargando información del pago...</div>
-        </ModalContainer>
-      </ModalOverlay>
+      <PaymentInfoContainer>
+        <div>Cargando información del pago...</div>
+      </PaymentInfoContainer>
     );
   }
   
   if (isError || !payment) {
     return (
-      <ModalOverlay>
-        <ModalContainer>
-          <div>Error al cargar la información del pago</div>
-        </ModalContainer>
-      </ModalOverlay>
+      <PaymentInfoContainer>
+        <div>Error al cargar la información del pago</div>
+      </PaymentInfoContainer>
     );
   }
 
   return (
-    <ModalContainer>
+    <PaymentInfoContainer>
       <MonthlyFeeText>{`#Cuota N°${payment.monthlyFeeNumber}`}</MonthlyFeeText>
       <ModalContent>
         <ModalRow>
@@ -79,7 +74,7 @@ const PaymentInfoModal: React.FC<PaymentInfoModalProps> = ({ paymentId }) => {
           </TextColumn>
         </ModalRow>
       </ModalContent>
-    </ModalContainer>
+    </PaymentInfoContainer>
   );
 };
 

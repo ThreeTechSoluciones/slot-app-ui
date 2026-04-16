@@ -1,31 +1,14 @@
 import styled from 'styled-components';
 import {
-  BORDER_RADIUS,
-  BACKGROUND_COLOR,
   LIGHT_NEUTRAL_COLOR,
   FONT_WEIGHT_BOLD,
   LARGE_FONT_SIZE,
   DEFAULT_FONT_SIZE,
 } from '../../../utils/Stylesheet';
-export const ModalOverlay = styled.div`
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-`;
 
-export const ModalContainer = styled.div`
+export const PaymentInfoContainer = styled.div`
   display: flex;
   flex-direction: column;
-`;
-
-export const ModalHeader = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
 `;
 
 export const ModalTitle = styled.h2`
