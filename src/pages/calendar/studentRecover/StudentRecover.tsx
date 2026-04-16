@@ -1,11 +1,8 @@
 import { useState } from 'react';
 import * as s from './StudentRecover.styles';
-import { GenericModal } from '../../../components/generic_modal/GenericModal';
 import CheckIcon from '../../../assets/check.svg';
-import { useRecoverStudentSlotMutation } from '../../../app/services/StudentService';
 import { useGetUserStudentsQuery } from '../../../app/services/UserService';
 import useAuthentication from '../../../hooks/useAuthentication';
-import toast from 'react-hot-toast';
 import type { StudentResponse } from '../../../app/types/responses/StudentResponse.type';
 
 interface StudentRecoverProps {

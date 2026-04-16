@@ -40,12 +40,8 @@ function Modal({
 
   const showButtons = primaryButtonText || secondaryButtonText;
 
-  console.log('Modal renderizado con props:');
-
   const handleConfirm = () => {
-    console.log('Confirm button clicked');
     if (onConfirm) {
-      console.log('Executing onConfirm callback');
       onConfirm();
     }
   };

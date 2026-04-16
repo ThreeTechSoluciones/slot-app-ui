@@ -12,7 +12,6 @@ import AddIcon from '../../assets/add-icon.svg';
 import * as s from './Plans.styles';
 import { ConfirmDialog } from '../../components/confirm_dialog/ConfirmDialog';
 import { toast } from 'react-hot-toast';
-import { GenericModal } from '../../components/generic_modal/GenericModal';
 import CreatePlanForm from './CreatePlanForm/CreatePlanForm';
 import {
   useCreatePlanMutation,
