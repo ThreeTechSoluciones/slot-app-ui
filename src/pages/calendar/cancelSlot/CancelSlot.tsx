@@ -5,7 +5,7 @@ import { ConfirmDialog } from '../../../components/confirm_dialog/ConfirmDialog'
 interface SlotCancelProps {
   isOpen: boolean;
   onCancel: () => void;
-  specificSlotId: string;
+  specificSlotId?: string | null;
   slot?: { startTime: string; endTime: string };
   dayOfWeek: string;
 }
@@ -18,6 +18,8 @@ export const CancelSlot = ({
   dayOfWeek,
 }: SlotCancelProps) => {
   const [cancelSlot] = useCancelSpecificSlotMutation();
+
+  if(!specificSlotId) return;
 
   const handleConfirmCancel = async () => {
     return cancelSlot({ specificSlotId })
@@ -33,8 +35,6 @@ export const CancelSlot = ({
   return (
     <ConfirmDialog
       message={message}
-      onConfirm={handleConfirmCancel}
-      onCancel={onCancel}
-    ></ConfirmDialog>
+    />
   );
 };

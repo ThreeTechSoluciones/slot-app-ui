@@ -9,19 +9,16 @@ import toast from 'react-hot-toast';
 import type { StudentResponse } from '../../../app/types/responses/StudentResponse.type';
 
 interface StudentRecoverProps {
-  onCancel: () => void;
-  selectedSlotId: string;
   availableCapacity: number;
+  setSelectedStudent: (studentId: string | null) => void;
 }
 
 export const StudentRecover = ({
-  onCancel,
-  selectedSlotId,
   availableCapacity,
+  setSelectedStudent,
 }: StudentRecoverProps) => {
   const [selectedStudentId, setSelectedStudentId] = useState<string | null>(null);
   const { userId } = useAuthentication();
-  const [recoverSlot] = useRecoverStudentSlotMutation();
   const { data: studentsResponse } = useGetUserStudentsQuery({
     userId: userId!,
     filterByAbsences: true,
@@ -29,23 +26,17 @@ export const StudentRecover = ({
     size: 100,
   });
   const students = studentsResponse?.content ?? [];
-  const handleConfirmRecover = async (studentId: string, specificSlotId: string) => {
-    return recoverSlot({ studentId, specificSlotId })
-      .unwrap()
-      .then(() => {
-        toast.success(`Recuperación registrada`);
-        onCancel();
-      });
-  };
+  
   const Student = (student: StudentResponse) => {
     const isSelected = selectedStudentId === student.id;
     return (
       <s.RecoverItem
         key={student.id}
         $selected={isSelected}
-        onClick={() =>
+        onClick={() => {
+          setSelectedStudent(student.id);
           setSelectedStudentId((prevId) => (prevId === student.id ? null : student.id))
-        }
+        }}
       >
         <s.RecoverItemLeft>
           <s.RecoverCheckbox $checked={isSelected}>
@@ -60,37 +51,22 @@ export const StudentRecover = ({
       </s.RecoverItem>
     );
   };
-  return (
-    <GenericModal
-      isOpen={true}
-      title="AGREGAR ALUMNO"
-      isConfirmModal
-      onCancel={onCancel}
-      onConfirm={() =>
-        selectedStudentId
-          ? handleConfirmRecover(selectedStudentId, selectedSlotId)
-          : toast.error('Por favor, seleccione un alumno.')
-      }
-      confirmText="Registrar"
-      cancelText="Cancelar"
-      width="480px"
-      height="auto"
-    >
-      <s.RecoverContainer>
-        <s.RecoverSubtitle>Capacidad disponible: {availableCapacity}</s.RecoverSubtitle>
 
-        <s.RecoverList>
-          {students.length > 0 ? (
-            students.map((student) => {
-              return <Student key={student.id} {...student} />;
-            })
-          ) : (
-            <p style={{ textAlign: 'center', padding: '20px' }}>
-              No hay alumnos con recuperaciones pendientes.
-            </p>
-          )}
-        </s.RecoverList>
-      </s.RecoverContainer>
-    </GenericModal>
+  return (
+    <s.RecoverContainer>
+      <s.RecoverSubtitle>Capacidad disponible: {availableCapacity}</s.RecoverSubtitle>
+
+      <s.RecoverList>
+        {students.length > 0 ? (
+          students.map((student) => {
+            return <Student key={student.id} {...student} />;
+          })
+        ) : (
+          <p style={{ textAlign: 'center', padding: '20px' }}>
+            No hay alumnos con recuperaciones pendientes.
+          </p>
+        )}
+      </s.RecoverList>
+    </s.RecoverContainer>
   );
 };

@@ -73,14 +73,14 @@ function StudentFeesList() {
   } = useGetStudentMonthlyFeesQuery(
     student?.id
       ? {
-        studentId: student.id,
-        month: monthFilter || undefined,
-        expirationDate: formattedExpirationDate,
-        status: statusFilter || undefined,
-        page: page - 1,
-        size,
-        sort: sort.length > 0 ? sort : undefined,
-      }
+          studentId: student.id,
+          month: monthFilter || undefined,
+          expirationDate: formattedExpirationDate,
+          status: statusFilter || undefined,
+          page: page - 1,
+          size,
+          sort: sort.length > 0 ? sort : undefined,
+        }
       : skipToken,
   );
 
@@ -153,20 +153,21 @@ function StudentFeesList() {
     {
       header: (
         <SortableButton
-          text={'Fecha de\nvencimiento'} allowWrap
-          onSort={(isAsc) => setSort([{ property: 'expirationDate', direction: isAsc ? 'ASC' : 'DESC' }])}
+          text={'Fecha de\nvencimiento'}
+          allowWrap
+          onSort={(isAsc) =>
+            setSort([{ property: 'expirationDate', direction: isAsc ? 'ASC' : 'DESC' }])
+          }
         />
       ),
       accessor: 'expirationDate',
       render: (student) => <span>{student.expirationDate}</span>,
     },
     {
-      header: "Mes",
+      header: 'Mes',
       accessor: 'month',
       render: (student) => <span>{translateMonth(student.month)} </span>,
     },
-
-
 
     {
       header: 'Estado',

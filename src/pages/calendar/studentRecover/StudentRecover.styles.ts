@@ -13,8 +13,7 @@ export const RecoverContainer = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 12px;
-  padding: 0 32px;
-  width: 100%;
+  width: 480px;
   box-sizing: border-box;
 `;
 export const RecoverSubtitle = styled.p`
