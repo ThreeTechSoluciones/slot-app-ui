@@ -12,6 +12,7 @@ import { useRef, useState } from 'react';
 import type { FormRef } from '../../app/types/FormRef';
 import BackIcon from '../../assets/back-icon.svg';
 import { ConfirmDialog } from '../../components/confirm_dialog/ConfirmDialog';
+import Modal from '../../components/unified_modal/Modal';
 
 const ActivateStudent = () => {
   const { studentId } = useLocation().state;
@@ -48,16 +49,18 @@ const ActivateStudent = () => {
 
   return (
     <s.MainContainer>
-      {showConfirm && (
-        <ConfirmDialog
-          message={`¿Estás seguro de dar de alta a ${student?.name} ${student?.lastName}?`}
-          onConfirm={() => {
-            setShowConfirm(false);
-            handleActivate();
-          }}
-          onCancel={() => setShowConfirm(false)}
-        />
-      )}
+      <Modal
+        active={showConfirm}
+        onConfirm={() => {
+          setShowConfirm(false);
+          handleActivate();
+        }}
+        onCancel={() => setShowConfirm(false)}
+        primaryButtonText="Confirmar"
+        secondaryButtonText="Cancelar"
+      >
+        <ConfirmDialog message={`¿Estás seguro de dar de alta a ${student?.name} ${student?.lastName}?`}/>
+      </Modal>
       <s.HeaderContainer>
         <img
           src={BackIcon}

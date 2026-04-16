@@ -25,6 +25,7 @@ import {
 import { SearchNotFound } from '../../components/search_not_found/SearchNotFound';
 import SlotDetail from '../../components/slotDetail/SlotDetail';
 import { DisabledIcon } from '../../components/disabled_icon/DisabledIcon';
+import Modal from '../../components/unified_modal/Modal';
 
 const StudentDetail = () => {
   const { studentId } = useLocation().state;
@@ -71,14 +72,15 @@ const StudentDetail = () => {
   const isStudentInactive = !student.status;
   return (
     <s.MainContainer>
-      {showConfirm && (
-        <ConfirmDialog
-          message={`¿Estás seguro de dar de baja
-           a ${student.name} ${student.lastName}?`}
-          onConfirm={() => deactivateStudentAndShowMessage(studentId)}
-          onCancel={() => setShowConfirm(false)}
-        />
-      )}
+      <Modal
+        active={showConfirm}
+        onConfirm={() => deactivateStudentAndShowMessage(studentId)}
+        onCancel={() => setShowConfirm(false)}
+        primaryButtonText="Confirmar"
+        secondaryButtonText="Cancelar"
+      >
+        <ConfirmDialog message={`¿Estás seguro de dar de baja a ${student.name} ${student.lastName}?`}/>
+      </Modal>
       <s.HeaderContainer>
         <s.TitleContainer>
           <img
