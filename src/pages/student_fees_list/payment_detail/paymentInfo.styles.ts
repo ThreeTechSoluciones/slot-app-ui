@@ -18,16 +18,8 @@ export const ModalOverlay = styled.div`
 `;
 
 export const ModalContainer = styled.div`
-  width: 416px;
-  height: 360px;
-  max-height: 90vh;
-  background: ${BACKGROUND_COLOR};
-  padding: 24px;
-  border-radius: ${BORDER_RADIUS};
-  position: relative;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
 `;
 
 export const ModalHeader = styled.div`
@@ -86,11 +78,16 @@ export const ModalContent = styled.div`
   gap: 32px;
 `;
 
+export const MonthlyFeeText = styled.h3`
+  align-self: center;
+  font-size: ${DEFAULT_FONT_SIZE};
+  font-weight: ${FONT_WEIGHT_BOLD}; 
+`;
+
 export const ModalRow = styled.div`
   display: flex;
   align-items: center;
   gap: 16px;
-  margin-left: 32px;
 `;
 
 export const IconCircle = styled.div`

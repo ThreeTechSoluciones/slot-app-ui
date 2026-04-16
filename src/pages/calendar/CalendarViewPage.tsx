@@ -17,7 +17,7 @@ import BackIcon from '../../assets/back-arrow-icon.svg';
 import CalendarIcon from '../../assets/calendar-icon.svg';
 import { CalendarMonth } from '../../utils/MonthsOfYear';
 import InputDate from '../../components/date/inputDate';
-import { CalendarActionsType, type CalendarAction, type CalendarModalType } from './CalendarUtils';
+import { CalendarActionsType, type CalendarAction } from './CalendarUtils';
 import Modal, { type ModalProps } from '../../components/unified_modal/Modal';
 import { ConfirmDialog } from '../../components/confirm_dialog/ConfirmDialog';
 import { useCancelSpecificSlotMutation } from '../../app/services/SpecificSlotService';

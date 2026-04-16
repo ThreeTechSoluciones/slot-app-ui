@@ -16,5 +16,4 @@ export const QuestionStyle = styled.div`
 export const MessageStyle = styled.p`
   font-size: ${DEFAULT_FONT_SIZE};
   font-weight: ${FONT_WEIGHT_NORMAL};
-  initial-letter: 0.15px;
 `;

@@ -5,8 +5,11 @@ import {
   Background,
   TitleContainer,
   ContentContainer,
+  HeaderContainer,
+  CloseButton,
 } from './Modal.styles';
 import Button from '../button/Button';
+import CancelIcon from '../../assets/cancel-icon.svg';
 
 export interface ModalProps {
   onClose?: () => void;
@@ -67,11 +70,18 @@ function Modal({
   return (
     <Background onKeyDown={handleKeyDown}>
       <ModalContainer>
-        {title && (
-          <TitleContainer>
-            <h2>{title}</h2>
-          </TitleContainer>
-        )}
+        <HeaderContainer>
+          {title && (
+            <TitleContainer>
+              <h2>{title}</h2>
+            </TitleContainer>
+          )}
+          {onClose && (
+            <CloseButton onClick={onClose}>
+              <img src={CancelIcon} alt="Close" />
+            </CloseButton>
+          )}
+        </HeaderContainer>
         <ContentContainer>{children}</ContentContainer>
         {showButtons && (
           <ButtonsContainer>
