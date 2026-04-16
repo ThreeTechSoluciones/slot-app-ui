@@ -4,7 +4,7 @@ export enum ModalType {
   CREATE = 'Create',
   EDIT_START_TIME = 'EditStartTime',
   EDIT_CAPACITY = 'EditCapacity',
-  CONFIRM_DELETE = 'ConfirmDelete'
+  CONFIRM_DELETE = 'ConfirmDelete',
 }
 
 export type ModalConfig = {

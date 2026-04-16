@@ -1,23 +1,23 @@
-import type { ReactElement } from "react";
+import type { ReactElement } from 'react';
 
 export enum CalendarActionsType {
-    ABSENCE = 'ABSENCE',
-    RECOVER = 'RECOVER',
-    CANCEL = 'CANCEL'
+  ABSENCE = 'ABSENCE',
+  RECOVER = 'RECOVER',
+  CANCEL = 'CANCEL',
 }
-export type CalendarAction = 
-    {
-        type: CalendarActionsType.ABSENCE;
-        studentId: string;
-        studentName: string;
-        specificSlotId: string;
-    } | 
-    { 
-        type: CalendarActionsType.RECOVER; 
-        specificSlotId: string; 
-        availableCapacity: number 
-    } | 
-    {
+export type CalendarAction =
+  | {
+      type: CalendarActionsType.ABSENCE;
+      studentId: string;
+      studentName: string;
+      specificSlotId: string;
+    }
+  | {
+      type: CalendarActionsType.RECOVER;
+      specificSlotId: string;
+      availableCapacity: number;
+    }
+  | {
       type: CalendarActionsType.CANCEL;
       specificSlotId: string;
       dayOfWeek: string;
@@ -25,8 +25,9 @@ export type CalendarAction =
     };
 
 export type CalendarModalType = {
-    content: ReactElement<any, any>; // TODO: Revisar types
-    primaryButtonText: string;
-    secondaryButtonText: string;
-    onConfirm: () => void;
-}
+  content: ReactElement<any, any>; // TODO: Revisar types
+  primaryButtonText: string;
+  secondaryButtonText: string;
+  onConfirm: () => void;
+  title: string;
+};

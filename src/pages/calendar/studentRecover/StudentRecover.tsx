@@ -13,10 +13,7 @@ interface StudentRecoverProps {
   setSelectedStudent: (studentId: string | null) => void;
 }
 
-export const StudentRecover = ({
-  availableCapacity,
-  setSelectedStudent,
-}: StudentRecoverProps) => {
+export const StudentRecover = ({ availableCapacity, setSelectedStudent }: StudentRecoverProps) => {
   const [selectedStudentId, setSelectedStudentId] = useState<string | null>(null);
   const { userId } = useAuthentication();
   const { data: studentsResponse } = useGetUserStudentsQuery({
@@ -26,7 +23,7 @@ export const StudentRecover = ({
     size: 100,
   });
   const students = studentsResponse?.content ?? [];
-  
+
   const Student = (student: StudentResponse) => {
     const isSelected = selectedStudentId === student.id;
     return (
@@ -35,7 +32,7 @@ export const StudentRecover = ({
         $selected={isSelected}
         onClick={() => {
           setSelectedStudent(student.id);
-          setSelectedStudentId((prevId) => (prevId === student.id ? null : student.id))
+          setSelectedStudentId((prevId) => (prevId === student.id ? null : student.id));
         }}
       >
         <s.RecoverItemLeft>

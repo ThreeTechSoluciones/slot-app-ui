@@ -235,7 +235,7 @@ function SlotConfiguration() {
                 onClick={() => {
                   setCurrentSlot(slot);
                   // setShowConfirm(true);
-                  openModal(ModalType.CONFIRM_DELETE)
+                  openModal(ModalType.CONFIRM_DELETE);
                 }}
               ></img>
             </s.ActionsContainer>
@@ -288,8 +288,8 @@ function SlotConfiguration() {
     [ModalType.CONFIRM_DELETE]: {
       contentRef: deleteSlotRef,
       content: <ConfirmDialog message="¿Estás seguro de que deseas eliminar el turno?" />,
-      onConfirm: handleDeleteSlot
-    }
+      onConfirm: handleDeleteSlot,
+    },
   };
 
   return (

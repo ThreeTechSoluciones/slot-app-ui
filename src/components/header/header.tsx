@@ -66,10 +66,10 @@ function Header() {
         onCancel={() => setShowConfirm(false)}
         active={showConfirm}
         onConfirm={handleLogout}
-        primaryButtonText='Aceptar'
-        secondaryButtonText='Cancelar'
+        primaryButtonText="Aceptar"
+        secondaryButtonText="Cancelar"
       >
-        <ConfirmDialog message='¿Estás seguro de que quieres cerrar sesión?' />
+        <ConfirmDialog message="¿Estás seguro de que quieres cerrar sesión?" />
       </Modal>
     </MainContainer>
   );

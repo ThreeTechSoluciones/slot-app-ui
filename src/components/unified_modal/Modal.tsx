@@ -8,16 +8,19 @@ import {
 } from './Modal.styles';
 import Button from '../button/Button';
 
-interface ModalSlotProps {
+export interface ModalProps {
   onClose?: () => void;
   onConfirm?: () => void;
   onCancel?: () => void;
   children: JSX.Element;
   contentRef?: React.RefObject<any>;
-  active: boolean;
   title?: string;
   primaryButtonText?: string;
   secondaryButtonText?: string;
+}
+
+interface PrivateModalProps extends ModalProps {
+  active: boolean;
 }
 
 function Modal({
@@ -29,12 +32,12 @@ function Modal({
   active = false,
   primaryButtonText,
   secondaryButtonText,
-}: ModalSlotProps) {
+}: PrivateModalProps) {
   if (!active) return;
 
   const showButtons = primaryButtonText || secondaryButtonText;
 
-  console.log('Modal renderizado con props:')
+  console.log('Modal renderizado con props:');
 
   const handleConfirm = () => {
     console.log('Confirm button clicked');
@@ -46,9 +49,9 @@ function Modal({
 
   const handleCancel = () => {
     if (onCancel) {
-      onCancel()
+      onCancel();
     }
-  }
+  };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
@@ -56,8 +59,8 @@ function Modal({
       handleConfirm();
     }
 
-    if(e.key === 'Escape') {
-      handleCancel()
+    if (e.key === 'Escape') {
+      handleCancel();
     }
   };
 

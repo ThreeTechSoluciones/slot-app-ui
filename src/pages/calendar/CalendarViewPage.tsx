@@ -1,6 +1,9 @@
 import * as s from './CalendarViewPage.styles';
 import { useGetCalendarViewQuery } from '../../app/services/UserService';
-import { useMarkStudentAbsenceMutation, useRecoverStudentSlotMutation } from '../../app/services/StudentService';
+import {
+  useMarkStudentAbsenceMutation,
+  useRecoverStudentSlotMutation,
+} from '../../app/services/StudentService';
 import useAuthentication from '../../hooks/useAuthentication';
 import { DaysOfWeekTranslation } from '../../utils/DaysOfWeek';
 import { CalendarViewName } from '../../app/types/models/CalendarViewName';
@@ -15,7 +18,7 @@ import CalendarIcon from '../../assets/calendar-icon.svg';
 import { CalendarMonth } from '../../utils/MonthsOfYear';
 import InputDate from '../../components/date/inputDate';
 import { CalendarActionsType, type CalendarAction, type CalendarModalType } from './CalendarUtils';
-import Modal from '../../components/unified_modal/Modal';
+import Modal, { type ModalProps } from '../../components/unified_modal/Modal';
 import { ConfirmDialog } from '../../components/confirm_dialog/ConfirmDialog';
 import { useCancelSpecificSlotMutation } from '../../app/services/SpecificSlotService';
 import RegisterAbsence from './registerAbsence/RegisterAbsence';
@@ -26,7 +29,7 @@ function CalendarView() {
 
   const [selectDate, setSelectDate] = useState<Date>(new Date());
   const [openModal, setOpenModal] = useState<boolean>(false);
-  
+
   const [recoverSlot] = useRecoverStudentSlotMutation();
   const [markAbsence] = useMarkStudentAbsenceMutation();
   const [cancelSlot] = useCancelSpecificSlotMutation();
@@ -113,7 +116,7 @@ function CalendarView() {
     if (!specificSlotId) {
       toast.error('Hubo un error al cancelar el turno. Intenta nuevamente.');
       return;
-    };
+    }
 
     cancelSlot({ specificSlotId })
       .unwrap()
@@ -123,9 +126,8 @@ function CalendarView() {
       });
   };
 
-  
   const handleConfirmRecover = async () => {
-    if (!slotAction ||  slotAction?.type !== 'RECOVER' || !selectedStudent) return;
+    if (!slotAction || slotAction?.type !== 'RECOVER' || !selectedStudent) return;
 
     const studentId = selectedStudent;
     const specificSlotId = slotAction.specificSlotId;
@@ -138,32 +140,31 @@ function CalendarView() {
       });
   };
 
-  
-  const modalConfig: Record<CalendarActionsType, CalendarModalType> = {
+  const modalConfig: Record<CalendarActionsType, ModalProps> = {
     [CalendarActionsType.CANCEL]: {
-      content: <ConfirmDialog message='¿Estás seguro que deseas cancelar el turno?' />,
+      children: <ConfirmDialog message="¿Estás seguro que deseas cancelar el turno?" />,
       primaryButtonText: 'Cancelar',
       secondaryButtonText: 'No',
       onConfirm: handleConfirmCancel,
-      title: 'Cancelar turno'
+      title: 'Cancelar turno',
     },
 
     [CalendarActionsType.ABSENCE]: {
       // TODO: Agregar nombre del estudiante en el texto
-      content: <RegisterAbsence />,
+      children: <RegisterAbsence />,
       primaryButtonText: 'Registrar Inasistencia',
       secondaryButtonText: 'Cancelar',
       onConfirm: handleConfirmAbsence,
-      title: 'Registrar Inasistencia'
+      title: 'Registrar Inasistencia',
     },
     [CalendarActionsType.RECOVER]: {
       // TODO: Agregar capacidad disponible y nombre del turno en el texto
-      content: <StudentRecover availableCapacity={27} setSelectedStudent={setSelectedStudent} />,
+      children: <StudentRecover availableCapacity={27} setSelectedStudent={setSelectedStudent} />,
       primaryButtonText: 'Registrar',
       secondaryButtonText: 'Cancelar',
       onConfirm: handleConfirmRecover,
-      title: 'AGREGAR ALUMNO'
-    }
+      title: 'AGREGAR ALUMNO',
+    },
   };
 
   return (
@@ -212,7 +213,7 @@ function CalendarView() {
             onConfirm={modalConfig[slotAction.type].onConfirm}
             onCancel={() => setOpenModal(false)}
           >
-            {modalConfig[slotAction.type].content}
+            {modalConfig[slotAction.type].children}
           </Modal>
         )}
       </s.CalendarContainer>

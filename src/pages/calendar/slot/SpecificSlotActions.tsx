@@ -130,7 +130,7 @@ function Slot(props: SlotParams) {
       studentId: student.id,
       studentName: student.fullName,
       specificSlotId,
-    })
+    });
   };
 
   const handleRecoverSlot = (specificSlotId: string, availableCapacity: number) => {
@@ -138,7 +138,7 @@ function Slot(props: SlotParams) {
       type: CalendarActionsType.RECOVER,
       specificSlotId,
       availableCapacity,
-    })
+    });
   };
   const handleCancelSlot = (specificSlotId: string) => {
     setFilter('');
@@ -147,13 +147,13 @@ function Slot(props: SlotParams) {
       specificSlotId,
       dayOfWeek,
       slot: { startTime: slot.startTime, endTime: slot.endTime },
-    })
+    });
   };
 
   const openModalWithAction = (action: CalendarAction) => {
     setSlotAction(action);
     setOpenModal(true);
-  }
+  };
 
   const students = filter ? filteredStudents : slot.students;
   const availableCapacity = slot.maxCapacity - slot.capacity;
