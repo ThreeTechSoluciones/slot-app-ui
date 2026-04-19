@@ -6,7 +6,7 @@ import {
   BRAND_COLOR,
   MEDIUM_FONT_SIZE,
   DEFAULT_FONT_SIZE,
-} from '../../utils/Stylesheet';
+} from '../../../utils/Stylesheet';
 
 export const MainContainer = styled.div`
   display: flex;
@@ -16,7 +16,32 @@ export const MainContainer = styled.div`
   min-height: 100vh;
   overflow-y: auto;
 `;
+export const Header = styled.div`
+  width: 100%;
+  max-width: 412px;
+  position: relative;
+  margin-bottom: 72px;
+  margin-right: 150px;
+`;
 
+export const BackContainer = styled.div`
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+
+  p {
+    font-size: 20px;
+  }
+
+  img {
+    width: 31px;
+    height: 31px;
+  }
+`;
 export const Title = styled.h1`
   font-size: 24px;
   margin: 0px;
@@ -115,12 +140,11 @@ export const Button = styled.button`
     background: ${NEUTRAL_COLOR};
   }
 `;
-export const ForgotPasswordText = styled.p`
+
+export const VerificationCodeText = styled.p`
   color: ${DEFAULT_TEXT_COLOR};
-  text-decoration: underline;
   font-size: ${DEFAULT_FONT_SIZE};
   display: flex;
   justify-content: center;
   align-items: center;
-  cursor: pointer;
 `;

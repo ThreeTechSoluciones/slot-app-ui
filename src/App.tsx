@@ -14,6 +14,7 @@ import {
   getEditarEstudianteStep,
   Calendario,
   DarAltaAlumno,
+  RecuperarContraseña,
 } from './routes/RoutesUtils';
 import CreateStudent from './pages/students/create-student/CreateStudent';
 import StudentFeesList from './pages/student_fees_list/FeesList';
@@ -24,15 +25,17 @@ import CalendarView from './pages/calendar/CalendarViewPage';
 import { MainContent } from './App.styles';
 import NotFoundPage from './pages/not_found_page/NotFoundPage';
 import ActivateStudent from './pages/student_detail/ActivateStudent';
+import SendCodeStep from './pages/password_recovery/SendCodeStep';
 
 function App() {
   /* This is a simple log statement to indicate the environment */
-  console.log('Welcome to SlotApp! Environment:', import.meta.env.VITE_ENV);
+  console.log('Welcome to SlotApp! Environment:', import.meta.env.VITE_BACKEND_URL);
 
   return (
     <MainContent>
       <Routes>
         <Route path={IniciarSesion} element={<Login />} />
+        <Route path={RecuperarContraseña} element={<SendCodeStep />} />
         <Route element={<PrivateRoute />}>
           <Route path={MisAlumnos} element={<StudentList />} />
           <Route path={MisPlanes} element={<Plans />} />

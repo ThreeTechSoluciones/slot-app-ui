@@ -8,21 +8,11 @@ import { loginScheme } from './login.scheme';
 import { useSigninMutation } from '../../app/services/AuthService';
 import { encryptToBase64 } from '../../utils/Base64Utils';
 import { useNavigate } from 'react-router';
-import {
-  MainContainer,
-  Title,
-  Logo,
-  Form,
-  Label,
-  InputContainer,
-  Input,
-  Button,
-  Img,
-} from './Login.styles';
+import * as s from './Login.styles';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 import { ErrorMessage } from '../../components/error_message/ErrorMessage';
-import { Calendario } from '../../routes/RoutesUtils';
+import { Calendario, RecuperarContraseña } from '../../routes/RoutesUtils';
 
 function Login() {
   const [signin] = useSigninMutation({ fixedCacheKey: 'shared-auth' });
@@ -52,27 +42,32 @@ function Login() {
   };
 
   return (
-    <MainContainer>
-      <Title>¡BIENVENIDO DE NUEVO!</Title>
-      <Logo>
+    <s.MainContainer>
+      <s.Title>¡BIENVENIDO DE NUEVO!</s.Title>
+      <s.Logo>
         <img src={LogoCeci} alt="Logo" />
-      </Logo>
-      <Form onSubmit={handleSubmit(onSubmit)}>
-        <Label>Usuario</Label>
-        <InputContainer>
-          <Input placeholder="Usuario" {...register('username')}></Input>
-          <Img src={UserIcon} width={'26'} height={'26'} style={{ filter: 'brightness(0)' }}></Img>
-        </InputContainer>
+      </s.Logo>
+      <s.Form onSubmit={handleSubmit(onSubmit)}>
+        <s.Label>Usuario</s.Label>
+        <s.InputContainer>
+          <s.Input placeholder="Usuario" {...register('username')}></s.Input>
+          <s.Img
+            src={UserIcon}
+            width={'26'}
+            height={'26'}
+            style={{ filter: 'brightness(0)' }}
+          ></s.Img>
+        </s.InputContainer>
         <ErrorMessage error={errors.username} />
-        <Label>Contraseña</Label>
-        <InputContainer>
-          <Input
+        <s.Label>Contraseña</s.Label>
+        <s.InputContainer>
+          <s.Input
             type={showPassword ? 'text' : 'password'}
             placeholder="Contraseña"
             {...register('password')}
-          ></Input>
+          ></s.Input>
           {showPassword ? (
-            <Img
+            <s.Img
               $isInteractive={true}
               onClick={changePasswordVisibility}
               src={OpenEyeIcon}
@@ -80,7 +75,7 @@ function Login() {
               height={'24'}
             />
           ) : (
-            <Img
+            <s.Img
               $isInteractive={true}
               onClick={changePasswordVisibility}
               src={ClosedEyeIcon}
@@ -88,11 +83,15 @@ function Login() {
               height={'24'}
             />
           )}
-        </InputContainer>
+        </s.InputContainer>
         <ErrorMessage error={errors.password} />
-        <Button type="submit">Aceptar</Button>
-      </Form>
-    </MainContainer>
+
+        <s.Button type="submit">Aceptar</s.Button>
+        <s.ForgotPasswordText onClick={() => navigate(RecuperarContraseña)}>
+          ¿Olvidaste tu contraseña?
+        </s.ForgotPasswordText>
+      </s.Form>
+    </s.MainContainer>
   );
 }
 export default Login;

@@ -22,7 +22,22 @@ export const AuthService = createApi({
         });
       },
     }),
+    restorePassword: builder.mutation<void, { username: string }>({
+      query: (body) => ({
+        url: '/restore-password',
+        method: 'POST',
+        body,
+      }),
+    }),
+    validateToken: builder.mutation<void, { token: string }>({
+      query: (body) => ({
+        url: '/restore-password/token/validate',
+        method: 'POST',
+        body,
+      }),
+    }),
   }),
 });
 
-export const { useSigninMutation } = AuthService;
+export const { useSigninMutation, useRestorePasswordMutation, useValidateTokenMutation } =
+  AuthService;
