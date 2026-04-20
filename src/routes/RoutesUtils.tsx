@@ -9,3 +9,5 @@ export const MisTurnos = '/turnos';
 export const getEditarEstudianteStep = (step: number | string) => `/editar-estudiante/${step}`;
 export const Calendario = '/calendar';
 export const RecuperarContraseña = '/recuperar-contrasena';
+export const VerificarCodigo = '/verificar-codigo';
+export const ModificarContraseña = '/modificar-contrasena';

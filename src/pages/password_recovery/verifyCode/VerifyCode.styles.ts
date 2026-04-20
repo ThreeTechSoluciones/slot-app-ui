@@ -1,24 +1,16 @@
 import styled from 'styled-components';
 import {
-  BORDER_RADIUS,
-  NEUTRAL_COLOR,
   DEFAULT_TEXT_COLOR,
-  MEDIUM_FONT_SIZE,
+  FONT_WEIGHT_BOLD,
   DEFAULT_FONT_SIZE,
+  NEUTRAL_COLOR,
 } from '../../../utils/Stylesheet';
-
 export const MainContainer = styled.div`
   display: flex;
   flex-direction: column;
-  height: 100vh;
-`;
-export const FormContainer = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
-  width: 100%;
+  height: 100vh;
+  overflow: hidden;
 `;
 export const Header = styled.div`
   width: 100%;
@@ -69,60 +61,52 @@ export const Logo = styled.div`
     transform: scale(1.05);
   }
 `;
-export const Form = styled.form`
+export const EmailContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 8px;
-`;
-export const Label = styled.label`
-  font-size: 16px;
-  font-weight: bold;
-  margin-top: 8px;
-  margin-bottom: 8px;
-  padding: 0px;
-`;
-
-export const InputContainer = styled.div`
-  display: flex;
-  flex-direction: row;
   align-items: center;
-  position: relative;
-`;
-
-export const Input = styled.input`
-  width: 392px;
-  height: 56px;
-  border: 1px solid black;
-  border-radius: ${BORDER_RADIUS};
-  font-size: ${MEDIUM_FONT_SIZE};
-  padding-left: 16px;
-  background: white;
-  color: ${DEFAULT_TEXT_COLOR};
-  &::-ms-reveal,
-  &::-ms-clear,
-  &::-webkit-textfield-decoration-container,
-  &::-webkit-clear-button,
-  &::-webkit-inner-spin-button {
-    display: none !important;
-    pointer-events: none;
-  }
-  &::placeholder {
-    color: ${NEUTRAL_COLOR};
-  }
-  &:focus {
-    outline: none;
-    background: none;
+  margin-top: 8px;
+  strong {
+    font-size: 16px;
+    font-weight: ${FONT_WEIGHT_BOLD};
   }
 `;
-
-export const Img = styled.img`
-  position: absolute;
-  right: 24px;
+export const IconContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  span {
+    font-size: 16px;
+    color: ${DEFAULT_TEXT_COLOR};
+  }
 `;
-
-export const VerificationCodeText = styled.p`
-  color: ${DEFAULT_TEXT_COLOR};
+export const OtpContainer = styled.div`
+  margin-top: 20px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+`;
+export const Description = styled.p`
   font-size: ${DEFAULT_FONT_SIZE};
-  text-align: center;
+  color: ${DEFAULT_TEXT_COLOR};
+  font-weight: ${FONT_WEIGHT_BOLD};
+`;
+export const ResendCodeContainer = styled.div`
   margin-top: 16px;
+  text-align: center;
+`;
+export const ResendCode = styled.p`
+  text-decoration: underline;
+  cursor: pointer;
+  font-weight: ${FONT_WEIGHT_BOLD};
+  color: ${DEFAULT_TEXT_COLOR};
+  transition:
+    color 0.3s ease,
+    opacity 0.3s ease;
+
+  &:hover {
+    color: ${NEUTRAL_COLOR};
+    opacity: 0.8;
+  }
 `;

@@ -3,31 +3,58 @@ import {
   BORDER_RADIUS,
   NEUTRAL_COLOR,
   DEFAULT_TEXT_COLOR,
-  BRAND_COLOR,
   MEDIUM_FONT_SIZE,
-  DEFAULT_FONT_SIZE,
   FONT_WEIGHT_BOLD,
-} from '../../utils/Stylesheet';
+} from '../../../utils/Stylesheet';
 
 export const MainContainer = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  min-height: 100vh;
-  overflow-y: auto;
+  height: 100vh;
+  overflow: hidden;
+`;
+
+export const Header = styled.div`
+  width: 100%;
+  height: 80px;
+  position: relative;
+`;
+
+export const BackContainer = styled.div`
+  position: absolute;
+  left: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+
+  p {
+    font-size: 20px;
+    margin: 0;
+  }
+
+  img {
+    width: 31px;
+    height: 31px;
+  }
 `;
 
 export const Title = styled.h1`
   font-size: 24px;
-  margin: 0px;
+  margin: 0;
+  text-align: center;
 `;
+
 export const Logo = styled.div`
   width: 120px;
   height: 122px;
   margin-top: 40px;
   border-radius: 50%;
   overflow: hidden;
+
   img {
     width: 100%;
     height: 100%;
@@ -36,22 +63,27 @@ export const Logo = styled.div`
       filter 0.3s ease-in-out,
       transform 0.3s ease-in-out;
   }
+
   img:hover {
     filter: drop-shadow(0px 0px 8px #f0e21e);
     transform: scale(1.05);
   }
 `;
-export const Form = styled.form`
+
+export const Form = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   gap: 8px;
+  width: 100%;
+  max-width: 392px;
+  margin-top: 24px;
 `;
+
 export const Label = styled.label`
   font-size: 16px;
-  font-weight: bold;
-  margin-top: 8px;
-  margin-bottom: 8px;
-  padding: 0px;
+  font-weight: ${FONT_WEIGHT_BOLD};
+  margin: 4px 0;
 `;
 
 export const InputContainer = styled.div`
@@ -74,16 +106,17 @@ export const Input = styled.input`
   &::-ms-clear,
   &::-webkit-textfield-decoration-container,
   &::-webkit-clear-button,
-  &::-webkit-inner-spin-button {
+  &::-webkit-inner-spin-button,
+  &::-webkit-credentials-auto-fill-button {
     display: none !important;
     pointer-events: none;
   }
   &::placeholder {
     color: ${NEUTRAL_COLOR};
   }
+
   &:focus {
     outline: none;
-    background: none;
   }
 `;
 
@@ -93,44 +126,16 @@ interface ImgProps {
 
 export const Img = styled.img<ImgProps>`
   position: absolute;
-  right: 24px;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+
   ${({ $isInteractive }) =>
     $isInteractive &&
     `
-        &:hover {
-          cursor: pointer;
-        }
-      `}
+      cursor: pointer;
+    `}
 `;
-
-export const Button = styled.button`
-  margin-top: 24px;
-  width: 412px;
-  height: 56px;
-  background-color: ${BRAND_COLOR};
-  border-radius: 10px;
-  border: none;
-  font-size: ${MEDIUM_FONT_SIZE};
-  color: black;
-  &:hover {
-    cursor: pointer;
-    background: ${NEUTRAL_COLOR};
-  }
-`;
-export const ForgotPasswordText = styled.p`
-  color: ${DEFAULT_TEXT_COLOR};
-  text-decoration: underline;
-  font-size: ${DEFAULT_FONT_SIZE};
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  transition:
-    color 0.3s ease,
-    opacity 0.3s ease;
-
-  &:hover {
-    color: ${NEUTRAL_COLOR};
-    opacity: 0.8;
-  }
+export const ErrorContainer = styled.div`
+  min-height: 18px;
 `;

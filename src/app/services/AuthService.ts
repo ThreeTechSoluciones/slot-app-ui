@@ -36,8 +36,22 @@ export const AuthService = createApi({
         body,
       }),
     }),
+    confirmRestorePassword: builder.mutation<
+      void,
+      { username: string; password: string; repeatedPassword: string; token: string }
+    >({
+      query: (body) => ({
+        url: '/restore-password/confirm',
+        method: 'POST',
+        body,
+      }),
+    }),
   }),
 });
 
-export const { useSigninMutation, useRestorePasswordMutation, useValidateTokenMutation } =
-  AuthService;
+export const {
+  useSigninMutation,
+  useRestorePasswordMutation,
+  useValidateTokenMutation,
+  useConfirmRestorePasswordMutation,
+} = AuthService;
