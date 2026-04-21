@@ -43,7 +43,10 @@ function CalendarView() {
   const [slotAction, setSlotAction] = useState<CalendarAction>(EMPTY_ACTION);
   const [selectedStudent, setSelectedStudent] = useState<string | null>(null);
 
-  const closeModal = () => setSlotAction(EMPTY_ACTION);
+  const closeModal = () => {
+    setSlotAction(EMPTY_ACTION);
+    setOpenModal(false);
+  };
 
   const { data: calendarData } = useGetCalendarViewQuery({
     userId: userId!,
