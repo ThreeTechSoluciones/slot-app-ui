@@ -7,6 +7,7 @@ import {
   ContentContainer,
   HeaderContainer,
   CloseButton,
+  Title
 } from './Modal.styles';
 import Button from '../button/Button';
 import CancelIcon from '../../assets/cancel-icon.svg';
@@ -66,16 +67,16 @@ function Modal({
   return (
     <Background onKeyDown={handleKeyDown} onClick={() => handleCancel()}>
       <ModalContainer onClick={(e) => e.stopPropagation()}>
+        {onClose && (
+          <CloseButton onClick={onClose}>
+            <img src={CancelIcon} alt="Close" />
+          </CloseButton>
+        )}
         <HeaderContainer>
           {title && (
             <TitleContainer>
-              <h2>{title}</h2>
+              <Title>{title}</Title >
             </TitleContainer>
-          )}
-          {onClose && (
-            <CloseButton onClick={onClose}>
-              <img src={CancelIcon} alt="Close" />
-            </CloseButton>
           )}
         </HeaderContainer>
         <ContentContainer>{children}</ContentContainer>

@@ -32,14 +32,17 @@ export const HeaderContainer = styled.div`
 
 export const TitleContainer = styled.div``;
 
+export const Title = styled.h2`
+  margin: 0;
+`;
+
 export const CloseButton = styled.button`
   position: relative;
-  top: 0px;
-  right: 0px;
+  bottom: 10px;
+  left: 50%;
   border: none;
   background-color: transparent;
   cursor: pointer;
-  padding: 0;
 `;
 
 export const ContentContainer = styled.div`
