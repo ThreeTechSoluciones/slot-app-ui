@@ -8,7 +8,7 @@ import {
   ModalRow,
   IconCircle,
   MonthlyFeeText,
-} from './PaymentInfoo.styles';
+} from './PaymentInfo.styles';
 import HashtagIcon from '../../../assets/hashtag-icon.svg';
 import PesoIcon from '../../../assets/peso-icon.svg';
 import CalendarIcon from '../../../assets/calendar-icon.svg';

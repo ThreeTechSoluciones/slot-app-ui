@@ -23,7 +23,7 @@ import { translateMonth } from '../../utils/TranslateMonths';
 import DateFilter from '../../components/date_filter/DateFilter';
 import { toast } from 'react-hot-toast';
 import { useUpdateMonthlyFeeMutation } from '../../app/services/MonthlyFeeService';
-import PaymentInfoModal from './payment_detail/PaymentInfoo';
+import PaymentInfoModal from './payment_detail/PaymentInfo';
 import { MonthsOfYear } from '../../utils/MonthsOfYear';
 import {
   ModalType,
