@@ -1,49 +1,52 @@
 import * as s from './CalendarViewPage.styles';
 import { useGetCalendarViewQuery } from '../../app/services/UserService';
-import { useMarkStudentAbsenceMutation } from '../../app/services/StudentService';
+import {
+  useMarkStudentAbsenceMutation,
+  useRecoverStudentSlotMutation,
+} from '../../app/services/StudentService';
 import useAuthentication from '../../hooks/useAuthentication';
-import StudentIcon from '../../assets/student-icon.svg';
 import { DaysOfWeekTranslation } from '../../utils/DaysOfWeek';
 import { CalendarViewName } from '../../app/types/models/CalendarViewName';
 import { SearchNotFound } from '../../components/search_not_found/SearchNotFound';
 import { useState } from 'react';
-import { GenericModal } from '../../components/generic_modal/GenericModal';
 import { toast } from 'react-hot-toast';
 import { formatDateToIsoString } from '../../utils/DateFormatter';
-import { StudentRecover } from './studentRecover/StudentRecover';
-import { CancelSlot } from './cancelSlot/CancelSlot';
-import { capitalize } from '../../utils/CapitalizeWords';
 import Slot from './slot/SpecificSlotActions';
 import NextIcon from '../../assets/next-arrow-icon.svg';
 import BackIcon from '../../assets/back-arrow-icon.svg';
 import CalendarIcon from '../../assets/calendar-icon.svg';
 import { CalendarMonth } from '../../utils/MonthsOfYear';
 import InputDate from '../../components/date/inputDate';
-export type CalendarAction =
-  | {
-      type: 'ABSENCE';
-      studentId: string;
-      studentName: string;
-      specificSlotId: string;
-    }
-  | { type: 'RECOVER'; specificSlotId: string; availableCapacity: number }
-  | {
-      type: 'CANCEL';
-      specificSlotId: string;
-      dayOfWeek: string;
-      slot: { startTime: string; endTime: string };
-    };
+import { CalendarActionsType, type CalendarAction } from './CalendarUtils';
+import Modal, { type ModalProps } from '../../components/unified_modal/Modal';
+import { ConfirmDialog } from '../../components/confirm_dialog/ConfirmDialog';
+import { useCancelSpecificSlotMutation } from '../../app/services/SpecificSlotService';
+import RegisterAbsence from './registerAbsence/RegisterAbsence';
+import { StudentRecover } from './studentRecover/StudentRecover';
+import { capitalize } from '../../utils/CapitalizeWords';
+
+const EMPTY_ACTION: CalendarAction = {
+  type: CalendarActionsType.NONE,
+  specificSlotId: '',
+};
 
 function CalendarView() {
   const { userId } = useAuthentication();
 
   const [selectDate, setSelectDate] = useState<Date>(new Date());
+  const [openModal, setOpenModal] = useState<boolean>(false);
 
+  const [recoverSlot] = useRecoverStudentSlotMutation();
   const [markAbsence] = useMarkStudentAbsenceMutation();
+  const [cancelSlot] = useCancelSpecificSlotMutation();
 
-  const [slotAction, setSlotAction] = useState<CalendarAction | null>(null);
+  const [slotAction, setSlotAction] = useState<CalendarAction>(EMPTY_ACTION);
+  const [selectedStudent, setSelectedStudent] = useState<string | null>(null);
 
-  const closeModal = () => setSlotAction(null);
+  const closeModal = () => {
+    setSlotAction(EMPTY_ACTION);
+    setOpenModal(false);
+  };
 
   const { data: calendarData } = useGetCalendarViewQuery({
     userId: userId!,
@@ -62,7 +65,9 @@ function CalendarView() {
   };
 
   const handleConfirmAbsence = () => {
-    if (slotAction?.type !== 'ABSENCE') return;
+    if (slotAction?.type !== 'ABSENCE' || !slotAction.specificSlotId || !slotAction.studentId)
+      return;
+
     markAbsence({
       studentId: slotAction.studentId,
       specificSlotId: slotAction.specificSlotId,
@@ -117,8 +122,95 @@ function CalendarView() {
     );
   }
 
+  const handleConfirmCancel = async () => {
+    const specificSlotId = slotAction?.specificSlotId;
+    if (!specificSlotId) {
+      toast.error('Hubo un error al cancelar el turno. Intenta nuevamente.');
+      return;
+    }
+
+    cancelSlot({ specificSlotId })
+      .unwrap()
+      .then(() => {
+        toast.success('Turno cancelado');
+        closeModal();
+      });
+  };
+
+  const handleConfirmRecover = async () => {
+    if (
+      !slotAction ||
+      slotAction?.type !== 'RECOVER' ||
+      !selectedStudent ||
+      !slotAction.specificSlotId
+    )
+      return;
+
+    const studentId = selectedStudent;
+    const specificSlotId = slotAction.specificSlotId;
+
+    return recoverSlot({ studentId, specificSlotId })
+      .unwrap()
+      .then(() => {
+        toast.success(`Recuperación registrada`);
+        closeModal();
+      });
+  };
+
+  const modalConfig: Record<CalendarActionsType, ModalProps> = {
+    [CalendarActionsType.CANCEL]: {
+      children: (
+        <ConfirmDialog
+          message={
+            <>
+              ¿Estás seguro de cancelar el turno del
+              <br />
+              {capitalize(DaysOfWeekTranslation[slotAction.dayOfWeek!])} de{' '}
+              {slotAction.slot?.startTime} a {slotAction.slot?.endTime}?
+            </>
+          }
+        />
+      ),
+      primaryButtonText: 'Cancelar',
+      secondaryButtonText: 'No',
+      onConfirm: handleConfirmCancel,
+    },
+
+    [CalendarActionsType.ABSENCE]: {
+      children: <RegisterAbsence studentName={slotAction.studentName} />,
+      primaryButtonText: 'Registrar Inasistencia',
+      secondaryButtonText: 'Cancelar',
+      onConfirm: handleConfirmAbsence,
+    },
+    [CalendarActionsType.RECOVER]: {
+      children: (
+        <StudentRecover
+          availableCapacity={slotAction.availableCapacity!}
+          setSelectedStudent={setSelectedStudent}
+        />
+      ),
+      primaryButtonText: 'Registrar',
+      secondaryButtonText: 'Cancelar',
+      onConfirm: handleConfirmRecover,
+      title: 'AGREGAR ALUMNO',
+    },
+    [CalendarActionsType.NONE]: {
+      children: <></>,
+    },
+  };
+
   return (
     <s.MainContainer>
+      <Modal
+        active={openModal}
+        title={modalConfig[slotAction.type].title}
+        primaryButtonText={modalConfig[slotAction.type].primaryButtonText}
+        secondaryButtonText={modalConfig[slotAction.type].secondaryButtonText}
+        onConfirm={modalConfig[slotAction.type].onConfirm}
+        onCancel={() => setOpenModal(false)}
+      >
+        {modalConfig[slotAction.type].children}
+      </Modal>
       <SelectDateContainer />
       <s.CalendarContainer $columnsCount={columnsCount}>
         <s.ScheduledTime>
@@ -148,41 +240,12 @@ function CalendarView() {
                   dayOfWeek={day.dayOfWeek}
                   rowIndex={rowIndex}
                   setSlotAction={setSlotAction}
+                  setOpenModal={setOpenModal}
                 />
               );
             })}
           </s.DayColumn>
         ))}
-        {slotAction?.type === 'ABSENCE' && (
-          <GenericModal
-            isOpen={true}
-            icon={StudentIcon}
-            title={slotAction.studentName}
-            isConfirmModal
-            onCancel={closeModal}
-            onConfirm={handleConfirmAbsence}
-            confirmText="Registrar Inasistencia"
-            cancelText="Cancelar"
-            width="480px"
-            height="226px"
-          ></GenericModal>
-        )}
-        {slotAction && slotAction.type === 'RECOVER' && (
-          <StudentRecover
-            selectedSlotId={slotAction.specificSlotId}
-            availableCapacity={slotAction.availableCapacity}
-            onCancel={closeModal}
-          />
-        )}
-        {slotAction?.type === 'CANCEL' && (
-          <CancelSlot
-            isOpen
-            specificSlotId={slotAction.specificSlotId}
-            onCancel={closeModal}
-            dayOfWeek={capitalize(DaysOfWeekTranslation[slotAction.dayOfWeek])}
-            slot={slotAction.slot}
-          />
-        )}
       </s.CalendarContainer>
     </s.MainContainer>
   );

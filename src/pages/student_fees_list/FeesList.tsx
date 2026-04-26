@@ -23,24 +23,22 @@ import { translateMonth } from '../../utils/TranslateMonths';
 import DateFilter from '../../components/date_filter/DateFilter';
 import { toast } from 'react-hot-toast';
 import { useUpdateMonthlyFeeMutation } from '../../app/services/MonthlyFeeService';
-import PaymentInfoModal from './payment_detail/paymentInfo';
+import PaymentInfoModal from './payment_detail/PaymentInfo';
 import { MonthsOfYear } from '../../utils/MonthsOfYear';
 import {
+  ModalType,
   MONTHLY_FEE_STATUS_CAN_BE_PAID,
   MONTHLY_FEE_STATUS_CAN_VIEW_PAYMENT,
   MonthlyFeesStatusOptions,
 } from '../../utils/MonthlyFeesStatus';
 import { formatDateToIsoString } from '../../utils/DateFormatter';
 import { MisAlumnos } from '../../routes/RoutesUtils';
-import type {
-  PAY_MONTHLY_FEE_MODAL_TYPE,
-  PAYMENT_DETAIL_MODAL_TYPE,
-} from '../../utils/MonthlyFeesStatus';
 import PaymentMetrics from './PaymentMetrics';
 import { Pagination } from '../../components/pagination/Pagination';
 import { SearchNotFound } from '../../components/search_not_found/SearchNotFound';
 import type { SortConfig } from '../../app/types/sort';
 import { formatCurrency } from '../../utils/Formatter';
+import Modal, { type ModalProps } from '../../components/unified_modal/Modal';
 function StudentFeesList() {
   const location = useLocation();
   const { studentId } = location.state || {};
@@ -54,11 +52,12 @@ function StudentFeesList() {
   const [monthFilter, setMonthFilter] = useState('');
   const [expirationDateFilter, setExpirationDateFilter] = useState<Date | undefined>(undefined);
   const [statusFilter, setStatusFilter] = useState('');
-  const [modalType, setModalType] = useState<
-    PAY_MONTHLY_FEE_MODAL_TYPE | PAYMENT_DETAIL_MODAL_TYPE | null
-  >(null);
+  const [modalType, setModalType] = useState<ModalType | null>(null);
+
   const [selectedFeeId, setSelectedFeeId] = useState<string | null>(null);
   const [selectedPaymentId, setSelectedPaymentId] = useState<string | null>(null);
+  const [showModal, setShowModal] = useState(false);
+
   const [payMonthlyFee] = useUpdateMonthlyFeeMutation();
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(5);
@@ -85,26 +84,32 @@ function StudentFeesList() {
   );
 
   const [createMonthlyFee] = useCreateStudentMonthlyFeeMutation();
-  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   useEffect(() => {
     setPage(1);
   }, [monthFilter, statusFilter, formattedExpirationDate, sort]);
   if (fetchingStudent) return <p>Cargando información del alumno...</p>;
   if (errorFetchingStudent) return <p>Error al cargar la información del alumno.</p>;
   if (!student) return <p>Alumno no encontrado.</p>;
+
   const handleConfirmCreateFee = async () => {
     await createMonthlyFee({ studentId: student.id });
-    setShowConfirmDialog(false);
+    setShowModal(false);
+  };
+
+  const openModal = (type: ModalType) => {
+    setModalType(type);
+    setShowModal(true);
   };
 
   const handleOpenPayModal = (feeId: string) => {
     setSelectedFeeId(feeId);
-    setModalType('pay');
+    openModal(ModalType.PAY_MONTHLY_FEE);
   };
   const handleOpenPaymentInfoModal = (paymentId: string) => {
     setSelectedPaymentId(paymentId);
-    setModalType('details');
+    openModal(ModalType.PAYMENT_DETAIL);
   };
+
   const handleConfirmPay = async () => {
     if (!student?.id) {
       toast.error('Alumno no disponible para registrar la cuota como pagada');
@@ -211,6 +216,42 @@ function StudentFeesList() {
     },
   ];
 
+  const modalConfig: Record<ModalType, ModalProps> = {
+    [ModalType.NEW_MONTLHY_FEE]: {
+      children: (
+        <ConfirmDialog
+          message={
+            <>
+              ¿Estás seguro de que deseas generar
+              <br /> una cuota para{' '}
+              <strong>
+                {student.name} {student.lastName}
+              </strong>
+              ?
+            </>
+          }
+        />
+      ),
+      primaryButtonText: 'Crear cuota',
+      secondaryButtonText: 'Cancelar',
+      onConfirm: handleConfirmCreateFee,
+    },
+    [ModalType.PAY_MONTHLY_FEE]: {
+      children: <ConfirmDialog message="¿Estás seguro de realizar este pago?" />,
+      primaryButtonText: 'Sí, pagar',
+      secondaryButtonText: 'No, cancelar',
+      onConfirm: handleConfirmPay,
+    },
+    [ModalType.PAYMENT_DETAIL]: {
+      children: <PaymentInfoModal paymentId={selectedPaymentId} />,
+      onClose: () => {
+        setModalType(null);
+        setShowModal(false);
+      },
+      title: 'DETALLE DEL PAGO',
+    },
+  };
+
   return (
     <s.StudentsContainer>
       <s.ContentContainer>
@@ -275,35 +316,27 @@ function StudentFeesList() {
               variant="primary"
               size="medium"
               icon={<img src={AddIcon} alt="Add Icon" />}
-              onClick={() => setShowConfirmDialog(true)}
+              onClick={() => openModal(ModalType.NEW_MONTLHY_FEE)}
             >
               Nueva cuota
             </Button>
-            {showConfirmDialog && (
-              <ConfirmDialog
-                message={`¿Estás seguro de que deseas generar una cuota para ${student.name} ${student.lastName}?`}
-                onConfirm={handleConfirmCreateFee}
-                onCancel={() => setShowConfirmDialog(false)}
-              />
-            )}
           </s.RightContainer>
         </s.FiltersContainer>
-        {modalType === 'pay' && (
-          <ConfirmDialog
-            message="¿Estás seguro de realizar este pago?"
-            onConfirm={handleConfirmPay}
-            onCancel={() => setModalType(null)}
-          />
-        )}
-        {modalType === 'details' && (
-          <PaymentInfoModal
-            isOpen={modalType === 'details'}
-            onClose={() => setModalType(null)}
-            paymentId={selectedPaymentId}
-          />
-        )}
         <Table columns={columns} data={fees.content} />
       </s.ContentContainer>
+      {modalType && (
+        <Modal
+          active={showModal}
+          title={modalConfig[modalType].title}
+          primaryButtonText={modalConfig[modalType].primaryButtonText}
+          secondaryButtonText={modalConfig[modalType].secondaryButtonText}
+          onConfirm={modalConfig[modalType].onConfirm}
+          onCancel={() => setShowModal(false)}
+          onClose={modalConfig[modalType].onClose}
+        >
+          {modalConfig[modalType].children}
+        </Modal>
+      )}
 
       <s.PaginationContainer>
         <Pagination
