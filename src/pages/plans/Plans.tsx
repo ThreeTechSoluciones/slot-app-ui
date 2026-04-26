@@ -26,6 +26,8 @@ import EditPlan from './EditPlan/EditPlan';
 import { formatDateToDash } from '../../utils/DateFormatter';
 import { Pagination } from '../../components/pagination/Pagination';
 import type { SortConfig } from '../../app/types/sort';
+import { formatDate } from 'react-calendar/dist/shared/dateFormatter.js';
+import ArrowIcon from '../../assets/arrow3.svg';
 
 function Plans() {
   const formRef = useRef<any>(null);
@@ -46,12 +48,12 @@ function Plans() {
   } = useGetUserPlansQuery(
     userId
       ? {
-          userId,
-          page: page - 1,
-          size,
-          planName: filter,
-          sort: sort.length > 0 ? sort : undefined,
-        }
+        userId,
+        page: page - 1,
+        size,
+        planName: filter,
+        sort: sort.length > 0 ? sort : undefined,
+      }
       : skipToken,
   );
 
@@ -152,7 +154,7 @@ function Plans() {
           planId={selectedPlan.id}
           planName={selectedPlan.name}
           numberOfDays={selectedPlan.numberOfDays}
-          currentAmount={selectedPlan.price}
+          currentAmount={selectedPlan.currentPrice}
         />
       </GenericModal>
     ),
@@ -170,7 +172,7 @@ function Plans() {
     {
       header: (
         <SortableButton
-          text="Cantidad de días asignados"
+          text="Cantidad de días"
           onSort={(isAsc) =>
             setSort([{ property: 'numberOfDays', direction: isAsc ? 'ASC' : 'DESC' }])
           }
@@ -183,12 +185,42 @@ function Plans() {
       header: (
         <SortableButton
           text="Precio actual"
-          onSort={(isAsc) => setSort([{ property: 'price', direction: isAsc ? 'ASC' : 'DESC' }])}
+          onSort={(isAsc) => setSort([{ property: 'currentPrice', direction: isAsc ? 'ASC' : 'DESC' }])}
         />
       ),
-      accessor: 'price',
-      render: (plan) => <span>{formatCurrency(plan.price)}</span>,
+      accessor: 'currentPrice',
+      render: (plan) => <span>{formatCurrency(plan.currentPrice)}</span>,
     },
+    {
+      header: 'Próximo precio',
+      accessor: 'nextPrice',
+      render: (plan) => {
+        const totalFuturePrices = plan.futurePrices?.length
+          ? plan.futurePrices.length + 1
+          : plan.nextPrice
+            ? 1
+            : null;
+
+        return (
+          <s.NextPriceContainer>
+            <s.NextPriceData>
+              <s.Price>{plan.nextPrice ? formatCurrency(plan.nextPrice.amount) : '-'}</s.Price>
+              <s.Date>{plan.nextPrice?.startDate ? `(${plan.nextPrice.startDate})` : ''}</s.Date>
+            </s.NextPriceData>
+            <s.ShowFuturePricesButton>
+              {totalFuturePrices !== null ? (
+                <>
+                  {totalFuturePrices}
+                  <img src={ArrowIcon} alt="Flecha" />
+                </>
+              ) : '+'}
+            </s.ShowFuturePricesButton>
+          </s.NextPriceContainer>
+        );
+      },
+    },
+
+
     {
       header: 'Acciones',
       render: (plan) => (

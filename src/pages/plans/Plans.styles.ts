@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { FONT_WEIGHT_BOLD, DEFAULT_TEXT_COLOR, LARGE_FONT_SIZE } from '../../utils/Stylesheet';
+import { FONT_WEIGHT_BOLD, DEFAULT_TEXT_COLOR, LARGE_FONT_SIZE, DEFAULT_FONT_SIZE, SMALL_FONT_SIZE, NEUTRAL_COLOR, BORDER_RADIUS } from '../../utils/Stylesheet';
 
 export const PlansContainer = styled.div`
   width: 100%;
@@ -46,4 +46,57 @@ export const FilterSearchContainer = styled.div`
 export const PaginationContainer = styled.div`
   margin-top: auto;
   padding: 35px 0px 35px 0px;
+`;
+
+export const NextPriceContainer = styled.div`
+display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center; 
+ position: relative;
+
+
+`;
+
+
+export const NextPriceData = styled.div`
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  flex: 1;   
+   
+
+ 
+`;
+
+export const Price = styled.span`
+  font-size: ${DEFAULT_FONT_SIZE};
+  color: ${DEFAULT_TEXT_COLOR};
+`;
+
+export const Date = styled.span`
+  font-size: ${SMALL_FONT_SIZE};
+  color: ${NEUTRAL_COLOR};
+  font-weight: ${FONT_WEIGHT_BOLD};
+`;
+
+export const ShowFuturePricesButton = styled.button`
+ position: absolute;  // ← sale del flujo, no empuja el precio
+   display: flex;
+  align-items: center;
+  justify-content: center;
+  right: 2px;   
+  background-color: #D9D9D9;
+  border-radius: ${BORDER_RADIUS};
+  border: none;
+  width: 50px;
+  height: 30px;
+  color: ${DEFAULT_TEXT_COLOR};
+  font-size: ${DEFAULT_FONT_SIZE};
+  cursor: pointer;
+  padding: 0;
+   min-width: 50px;  
+  
 `;

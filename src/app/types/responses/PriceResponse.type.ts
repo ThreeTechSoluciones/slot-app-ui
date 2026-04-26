@@ -1,5 +1,7 @@
 export interface PriceResponse {
   id: string;
-  name: string;
+  startDate: string;
   amount: number;
+  daysUntilActive: number;
+
 }

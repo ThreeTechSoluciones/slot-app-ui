@@ -1,6 +1,10 @@
+import type { PriceResponse } from "./PriceResponse.type";
+
 export interface PlanResponse {
   id: string;
   name: string;
-  price: number;
+  currentPrice: number;
+  nextPrice: PriceResponse | null;
+  futurePrices: PriceResponse[];
   numberOfDays: number;
 }
