@@ -181,6 +181,12 @@ const StudentData = ({
           <s.StudentInfo>{student.pathologies}</s.StudentInfo>
         </s.InformationContainer>
       )}
+      {student.email && student.email.trim() !== '' && (
+        <s.InformationContainer key={'Email'}>
+          <s.Label>Email</s.Label>
+          <s.StudentInfo>{student.email}</s.StudentInfo>
+        </s.InformationContainer>
+      )}
     </s.StudentInfoContainer>
   );
 };

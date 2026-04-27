@@ -2,8 +2,7 @@ import * as yup from 'yup';
 
 export const editPlanSchema = yup.object({
   name: yup.string().required('El nombre del plan es requerido'),
-  numberOfDays: yup
-    .number(),
+  numberOfDays: yup.number(),
   amount: yup
     .number()
     .nullable()
