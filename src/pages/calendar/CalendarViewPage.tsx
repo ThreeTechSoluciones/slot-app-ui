@@ -19,6 +19,7 @@ import BackIcon from '../../assets/back-arrow-icon.svg';
 import CalendarIcon from '../../assets/calendar-icon.svg';
 import { CalendarMonth } from '../../utils/MonthsOfYear';
 import InputDate from '../../components/date/inputDate';
+import BicycleLoader from '../../components/bicycle_animation/BicycleLoader';
 export type CalendarAction =
   | {
       type: 'ABSENCE';
@@ -45,7 +46,11 @@ function CalendarView() {
 
   const closeModal = () => setSlotAction(null);
 
-  const { data: calendarData } = useGetCalendarViewQuery({
+  const {
+    data: calendarData,
+
+    isFetching,
+  } = useGetCalendarViewQuery({
     userId: userId!,
     date: formatDateToIsoString(selectDate),
     typeOfView: CalendarViewName.WEEKLY,
@@ -111,7 +116,7 @@ function CalendarView() {
       <s.NoResponseContainer>
         <SelectDateContainer />
         <s.Spacing>
-          <SearchNotFound message="No hay turnos para mostrar" />
+          {isFetching ? <BicycleLoader /> : <SearchNotFound message="No hay turnos para mostrar" />}
         </s.Spacing>
       </s.NoResponseContainer>
     );
