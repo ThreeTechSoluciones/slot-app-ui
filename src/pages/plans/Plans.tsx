@@ -22,17 +22,19 @@ import { useGetUserPlansQuery } from '../../app/services/UserService';
 import { skipToken } from '@reduxjs/toolkit/query/react';
 import useAuthentication from '../../hooks/useAuthentication';
 import EditPlan from './EditPlan/EditPlan';
-import { formatDateToDash } from '../../utils/DateFormatter';
+import { formatDateReverse, formatDateToDash } from '../../utils/DateFormatter';
 import { Pagination } from '../../components/pagination/Pagination';
 import type { SortConfig } from '../../app/types/sort';
 import Modal, { type ModalProps } from '../../components/unified_modal/Modal';
 import ArrowIcon from '../../assets/arrow3.svg';
+import FuturePricesList from './FuturePricesList';
 
 enum ModalType {
   DELETE = 'DELETE',
   CREATE = 'CREATE',
   EDIT = 'EDIT',
   NONE = 'NONE',
+  SHOW_FUTURE_PRICES = 'SHOW_FUTURE_PRICES',
 }
 
 function Plans() {
@@ -41,7 +43,7 @@ function Plans() {
 
   const [modalType, setModalType] = useState<ModalType>(ModalType.NONE);
   const [showModal, setShowModal] = useState<boolean>(false);
-
+  const [showCompleteEdit, setShowCompleteEdit] = useState<boolean>(true);
   const [selectedPlan, setSelectedPlan] = useState<PlanResponse | null>(null);
   const [editPlan] = useUpdatePlanMutation();
   const [deletePlan] = useDeletePlanMutation();
@@ -135,6 +137,38 @@ function Plans() {
     setShowModal(true);
   };
 
+  interface FuturePricesComponentProps {
+    plan: PlanResponse;
+    onClick: () => void;
+  }
+
+  const FuturePricesComponent = ({ plan, onClick }: FuturePricesComponentProps) => {
+    const totalFuturePrices = plan.futurePrices?.length
+      ? plan.futurePrices.length + 1
+      : plan.nextPrice
+        ? 1
+        : null;
+
+    return (
+      <s.NextPriceContainer>
+        <s.NextPriceData>
+          <s.Price>{plan.nextPrice ? formatCurrency(plan.nextPrice.amount) : '-'}</s.Price>
+          <s.Date>{plan.nextPrice?.startDate ? formatDateReverse(plan.nextPrice.startDate) : ''}</s.Date>
+        </s.NextPriceData>
+        <s.ShowFuturePricesButton onClick={onClick}>
+          {totalFuturePrices !== null ? (
+            <>
+              {totalFuturePrices}
+              <img src={ArrowIcon} alt="Flecha" />
+            </>
+          ) : (
+            '+'
+          )}
+        </s.ShowFuturePricesButton>
+      </s.NextPriceContainer>
+    );
+  };
+
   const modalConfig: Record<ModalType, ModalProps> = {
     [ModalType.DELETE]: {
       // TODO: Revisar borde lateral izquierdo en amarillo que aparece al usar el ConfirmDialog dentro del Modal
@@ -158,15 +192,28 @@ function Plans() {
           planName={selectedPlan?.name!}
           numberOfDays={selectedPlan?.numberOfDays!}
           currentAmount={selectedPlan?.currentPrice!}
+          showCompleteEdit={showCompleteEdit}
         />
       ),
       primaryButtonText: 'Editar',
       secondaryButtonText: 'Cancelar',
       onConfirm: handleEditPlan,
-      title: 'EDITAR PLAN',
+      title: showCompleteEdit ? 'Editar plan' : 'Programar nuevo precio',
     },
     [ModalType.NONE]: {
       children: <></>,
+    },
+    [ModalType.SHOW_FUTURE_PRICES]: {
+      children:
+        <FuturePricesList
+          selectedPlan={selectedPlan}
+          nextPrice={selectedPlan?.nextPrice}
+          futurePrices={selectedPlan?.futurePrices}
+          onAddPrice={() => {
+            setShowCompleteEdit(false);
+            openModal(ModalType.EDIT);
+          }}
+        />,
     },
   };
 
@@ -196,7 +243,9 @@ function Plans() {
       header: (
         <SortableButton
           text="Precio actual"
-          onSort={(isAsc) => setSort([{ property: 'currentPrice', direction: isAsc ? 'ASC' : 'DESC' }])}
+          onSort={(isAsc) =>
+            setSort([{ property: 'currentPrice', direction: isAsc ? 'ASC' : 'DESC' }])
+          }
         />
       ),
       accessor: 'currentPrice',
@@ -213,24 +262,21 @@ function Plans() {
             : null;
 
         return (
-          <s.NextPriceContainer>
-            <s.NextPriceData>
-              <s.Price>{plan.nextPrice ? formatCurrency(plan.nextPrice.amount) : '-'}</s.Price>
-              <s.Date>{plan.nextPrice?.startDate ? `(${plan.nextPrice.startDate})` : ''}</s.Date>
-            </s.NextPriceData>
-            <s.ShowFuturePricesButton>
-              {totalFuturePrices !== null ? (
-                <>
-                  {totalFuturePrices}
-                  <img src={ArrowIcon} alt="Flecha" />
-                </>
-              ) : '+'}
-            </s.ShowFuturePricesButton>
-          </s.NextPriceContainer>
+          <FuturePricesComponent
+            plan={plan}
+            onClick={() => {
+              setSelectedPlan(plan);
+              if (totalFuturePrices !== null) {
+                openModal(ModalType.SHOW_FUTURE_PRICES);
+              } else {
+                setShowCompleteEdit(false);
+                openModal(ModalType.EDIT);
+              }
+            }}
+          />
         );
       },
     },
-
 
     {
       header: 'Acciones',
@@ -244,6 +290,7 @@ function Plans() {
               onClick: () => {
                 openModal(ModalType.EDIT);
                 setSelectedPlan(plan);
+                setShowCompleteEdit(true);
               },
             },
             {

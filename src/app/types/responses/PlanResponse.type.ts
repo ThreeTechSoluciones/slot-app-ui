@@ -1,4 +1,4 @@
-import type { PriceResponse } from "./PriceResponse.type";
+import type { PriceResponse } from './PriceResponse.type';
 
 export interface PlanResponse {
   id: string;

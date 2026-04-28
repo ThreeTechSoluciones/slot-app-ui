@@ -3,5 +3,4 @@ export interface PriceResponse {
   startDate: string;
   amount: number;
   daysUntilActive: number;
-
 }

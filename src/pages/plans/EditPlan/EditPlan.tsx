@@ -23,11 +23,12 @@ export interface EditPlanFormProps {
   planName: string;
   numberOfDays: number;
   currentAmount: number;
+  showCompleteEdit?: boolean;
 }
 
 const EditPlanForm = forwardRef<FormProps<EditPlanFormData>, EditPlanFormProps>((props, ref) => {
   type FormData = yup.InferType<typeof editPlanSchema>;
-  const { planId, planName, numberOfDays, currentAmount } = props;
+  const { planId, planName, numberOfDays, currentAmount, showCompleteEdit } = props;
   const {
     handleSubmit,
     control,
@@ -63,27 +64,32 @@ const EditPlanForm = forwardRef<FormProps<EditPlanFormData>, EditPlanFormProps>(
   return (
     <s.FormStyle>
       <s.InfoContainer>
-        <s.InputContainer>
-          <s.Label>Nombre del plan</s.Label>
-          <Controller
-            name="name"
-            control={control}
-            render={({ field }) => <s.Input {...field} />}
-          />
-          <ErrorMessage error={errors.name} />
-        </s.InputContainer>
-        <s.InputContainer>
-          <s.Label>Cantidad de días por semana</s.Label>
-          <s.Input $isNonEditable={true} value={numberOfDays} readOnly />
-          <ErrorMessage error={errors.numberOfDays} />
-        </s.InputContainer>
+        {showCompleteEdit && (
+          <>
+            <s.InputContainer>
+              <s.Label>Nombre del plan</s.Label>
+              <Controller
+                name="name"
+                control={control}
+                render={({ field }) => <s.Input {...field} />}
+              />
+              <ErrorMessage error={errors.name} />
+            </s.InputContainer>
+            <s.InputContainer>
+              <s.Label>Cantidad de días por semana</s.Label>
+              <s.Input $isNonEditable={true} value={numberOfDays} readOnly />
+              <ErrorMessage error={errors.numberOfDays} />
+            </s.InputContainer>
+          </>
+        )}
         <s.InputContainer>
           <s.Label>Precio vigente</s.Label>
           <s.Input $isNonEditable={true} value={formatCurrency(currentAmount!)} readOnly />
         </s.InputContainer>
       </s.InfoContainer>
+
       <s.EditPriceOptionContainer>
-        <s.Label>Actualizar precio (opcional)</s.Label>
+        <s.Label> {showCompleteEdit ? 'Actualizar precio (opcional)' : ''} </s.Label>
         <s.Description>
           {' '}
           Ingresá el nuevo monto y la fecha a partir de la cual será válido.

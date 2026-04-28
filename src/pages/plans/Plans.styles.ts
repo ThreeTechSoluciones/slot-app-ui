@@ -1,5 +1,13 @@
 import styled from 'styled-components';
-import { FONT_WEIGHT_BOLD, DEFAULT_TEXT_COLOR, LARGE_FONT_SIZE, DEFAULT_FONT_SIZE, SMALL_FONT_SIZE, NEUTRAL_COLOR, BORDER_RADIUS } from '../../utils/Stylesheet';
+import {
+  FONT_WEIGHT_BOLD,
+  DEFAULT_TEXT_COLOR,
+  LARGE_FONT_SIZE,
+  DEFAULT_FONT_SIZE,
+  SMALL_FONT_SIZE,
+  NEUTRAL_COLOR,
+  BORDER_RADIUS,
+} from '../../utils/Stylesheet';
 
 export const PlansContainer = styled.div`
   width: 100%;
@@ -49,26 +57,19 @@ export const PaginationContainer = styled.div`
 `;
 
 export const NextPriceContainer = styled.div`
-display: flex;
+  display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center; 
- position: relative;
-
-
+  justify-content: center;
+  position: relative;
 `;
 
-
 export const NextPriceData = styled.div`
-
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  flex: 1;   
-   
-
- 
+  flex: 1;
 `;
 
 export const Price = styled.span`
@@ -83,12 +84,12 @@ export const Date = styled.span`
 `;
 
 export const ShowFuturePricesButton = styled.button`
- position: absolute;  // ← sale del flujo, no empuja el precio
-   display: flex;
+  position: absolute; 
+  display: flex;
   align-items: center;
   justify-content: center;
-  right: 2px;   
-  background-color: #D9D9D9;
+  right: 2px;
+  background-color: #d9d9d9;
   border-radius: ${BORDER_RADIUS};
   border: none;
   width: 50px;
@@ -97,6 +98,8 @@ export const ShowFuturePricesButton = styled.button`
   font-size: ${DEFAULT_FONT_SIZE};
   cursor: pointer;
   padding: 0;
-   min-width: 50px;  
-  
+  min-width: 50px;
+  &:hover {
+     font-weight: ${FONT_WEIGHT_BOLD};
+  }
 `;
