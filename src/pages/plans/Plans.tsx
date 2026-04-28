@@ -28,6 +28,10 @@ import type { SortConfig } from '../../app/types/sort';
 import Modal, { type ModalProps } from '../../components/unified_modal/Modal';
 import ArrowIcon from '../../assets/arrow3.svg';
 import FuturePricesList from './FuturePricesList';
+import PlusIcon from '../../assets/plus-icon-2.svg';
+import { Tooltip } from '../../components/tooltip/Tooltip';
+import { getTotalFuturePrices } from './PricesUtil';
+
 
 enum ModalType {
   DELETE = 'DELETE',
@@ -40,7 +44,6 @@ enum ModalType {
 function Plans() {
   const formRef = useRef<any>(null);
   const [filter, setFilter] = useState<string>('');
-
   const [modalType, setModalType] = useState<ModalType>(ModalType.NONE);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [showCompleteEdit, setShowCompleteEdit] = useState<boolean>(true);
@@ -142,27 +145,31 @@ function Plans() {
     onClick: () => void;
   }
 
-  const FuturePricesComponent = ({ plan, onClick }: FuturePricesComponentProps) => {
-    const totalFuturePrices = plan.futurePrices?.length
-      ? plan.futurePrices.length + 1
-      : plan.nextPrice
-        ? 1
-        : null;
 
+
+  const FuturePricesComponent = ({ plan, onClick }: FuturePricesComponentProps) => {
+    const totalFuturePrices = getTotalFuturePrices(plan);
     return (
       <s.NextPriceContainer>
+        <s.NextPriceSpacer />
         <s.NextPriceData>
           <s.Price>{plan.nextPrice ? formatCurrency(plan.nextPrice.amount) : '-'}</s.Price>
-          <s.Date>{plan.nextPrice?.startDate ? formatDateReverse(plan.nextPrice.startDate) : ''}</s.Date>
+          <s.Date>
+            {plan.nextPrice?.startDate ? formatDateReverse(plan.nextPrice.startDate) : ''}
+          </s.Date>
         </s.NextPriceData>
         <s.ShowFuturePricesButton onClick={onClick}>
           {totalFuturePrices !== null ? (
-            <>
-              {totalFuturePrices}
-              <img src={ArrowIcon} alt="Flecha" />
-            </>
+            <Tooltip content="Ver próximos precios">
+              <s.ButtonContent>
+                {totalFuturePrices}
+                <img src={ArrowIcon} alt="Flecha" />
+              </s.ButtonContent>
+            </Tooltip>
           ) : (
-            '+'
+            <Tooltip content="Programar un precio">
+              <img src={PlusIcon} alt="Agregar" />
+            </Tooltip>
           )}
         </s.ShowFuturePricesButton>
       </s.NextPriceContainer>
@@ -195,7 +202,7 @@ function Plans() {
           showCompleteEdit={showCompleteEdit}
         />
       ),
-      primaryButtonText: 'Editar',
+      primaryButtonText: 'Aceptar',
       secondaryButtonText: 'Cancelar',
       onConfirm: handleEditPlan,
       title: showCompleteEdit ? 'Editar plan' : 'Programar nuevo precio',
@@ -204,7 +211,7 @@ function Plans() {
       children: <></>,
     },
     [ModalType.SHOW_FUTURE_PRICES]: {
-      children:
+      children: (
         <FuturePricesList
           selectedPlan={selectedPlan}
           nextPrice={selectedPlan?.nextPrice}
@@ -213,7 +220,8 @@ function Plans() {
             setShowCompleteEdit(false);
             openModal(ModalType.EDIT);
           }}
-        />,
+        />
+      ),
     },
   };
 
@@ -255,12 +263,7 @@ function Plans() {
       header: 'Próximo precio',
       accessor: 'nextPrice',
       render: (plan) => {
-        const totalFuturePrices = plan.futurePrices?.length
-          ? plan.futurePrices.length + 1
-          : plan.nextPrice
-            ? 1
-            : null;
-
+        const totalFuturePrices = getTotalFuturePrices(plan);
         return (
           <FuturePricesComponent
             plan={plan}

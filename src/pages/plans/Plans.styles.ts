@@ -8,6 +8,7 @@ import {
   NEUTRAL_COLOR,
   BORDER_RADIUS,
 } from '../../utils/Stylesheet';
+import { Tooltip } from '../../components/tooltip/Tooltip';
 
 export const PlansContainer = styled.div`
   width: 100%;
@@ -61,7 +62,8 @@ export const NextPriceContainer = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  position: relative;
+  width: 100%; 
+  flex:1;
 `;
 
 export const NextPriceData = styled.div`
@@ -70,6 +72,7 @@ export const NextPriceData = styled.div`
   align-items: center;
   text-align: center;
   flex: 1;
+  
 `;
 
 export const Price = styled.span`
@@ -84,11 +87,13 @@ export const Date = styled.span`
 `;
 
 export const ShowFuturePricesButton = styled.button`
-  position: absolute; 
+margin-left: auto; 
+  flex-shrink: 0;
+  
   display: flex;
   align-items: center;
   justify-content: center;
-  right: 2px;
+
   background-color: #d9d9d9;
   border-radius: ${BORDER_RADIUS};
   border: none;
@@ -99,7 +104,25 @@ export const ShowFuturePricesButton = styled.button`
   cursor: pointer;
   padding: 0;
   min-width: 50px;
+   transition: background-color 0.15s ease, transform 0.1s ease;
+
   &:hover {
-     font-weight: ${FONT_WEIGHT_BOLD};
+  
+    transform: scale(1.10);
   }
+
+
+`;
+
+
+export const ButtonContent = styled.div`
+display: flex;
+align - items: center;
+justify - content: center;
+gap: 2px;
+width: 100 %;
+`;
+
+export const NextPriceSpacer = styled.div`
+  width: 40px;
 `;

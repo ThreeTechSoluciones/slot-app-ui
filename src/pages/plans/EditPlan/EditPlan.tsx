@@ -87,7 +87,6 @@ const EditPlanForm = forwardRef<FormProps<EditPlanFormData>, EditPlanFormProps>(
           <s.Input $isNonEditable={true} value={formatCurrency(currentAmount!)} readOnly />
         </s.InputContainer>
       </s.InfoContainer>
-
       <s.EditPriceOptionContainer>
         <s.Label> {showCompleteEdit ? 'Actualizar precio (opcional)' : ''} </s.Label>
         <s.Description>
