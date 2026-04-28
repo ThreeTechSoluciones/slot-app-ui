@@ -6,27 +6,23 @@ import {
 import toast from 'react-hot-toast';
 import * as s from './VerifyCode.styles';
 import Button from '../../../components/button/Button';
-import LogoCeci from '../../../assets/logoCeci.png';
 import BackIcon from '../../../assets/back-icon.svg';
 import MailIcon from '../../../assets/mail-icon.svg';
 import OtpInput from '../../../components/otpInput/OtpInput';
 import { useState } from 'react';
 import { ModificarContraseña } from '../../../routes/RoutesUtils';
+import { ResendTimer } from '../../../components/resend_timer/ResendTimer';
+import { Logo } from '../../../components/logo/Logo';
 
 function VerifyCode() {
   const navigate = useNavigate();
   const [validateToken] = useValidateTokenMutation();
   const [restorePassword] = useRestorePasswordMutation();
   const [token, setToken] = useState('');
-  const [isResending, setIsResending] = useState(false);
   const location = useLocation();
   const username = location.state?.username;
+  const email = location.state?.email;
   const handleVerifyCode = () => {
-    if (token.length !== 6) {
-      toast.error('El código debe tener 6 caracteres');
-      return;
-    }
-
     validateToken({ token })
       .unwrap()
       .then(() => {
@@ -37,14 +33,10 @@ function VerifyCode() {
       });
   };
   const handleResendCode = () => {
-    setIsResending(true);
     restorePassword({ username })
       .unwrap()
       .then(() => {
         toast.success('Código reenviado');
-      })
-      .finally(() => {
-        setIsResending(false);
       });
   };
   return (
@@ -58,9 +50,7 @@ function VerifyCode() {
 
       <s.Title>VERIFICAR CÓDIGO</s.Title>
 
-      <s.Logo>
-        <img src={LogoCeci} alt="Logo" />
-      </s.Logo>
+      <Logo />
 
       <s.EmailContainer>
         <s.IconContainer>
@@ -68,7 +58,7 @@ function VerifyCode() {
           <span>Código enviado a:</span>
         </s.IconContainer>
 
-        <strong>ceciboroni@gmail.com</strong>
+        {email && <strong>{email}</strong>}
       </s.EmailContainer>
 
       <s.OtpContainer>
@@ -82,9 +72,7 @@ function VerifyCode() {
 
       <s.ResendCodeContainer>
         ¿No recibiste el código?
-        <s.ResendCode onClick={handleResendCode}>
-          {isResending ? 'Enviando...' : 'Reenviar código'}
-        </s.ResendCode>
+        <ResendTimer seconds={600} onResend={handleResendCode} />
       </s.ResendCodeContainer>
     </s.MainContainer>
   );

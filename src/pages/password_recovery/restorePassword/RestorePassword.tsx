@@ -1,11 +1,7 @@
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useState } from 'react';
 import toast from 'react-hot-toast';
 import * as s from './RestorePassword.styles';
-import LogoCeci from '../../../assets/logoCeci.png';
 import BackIcon from '../../../assets/back-icon.svg';
-import OpenEyeIcon from '../../../assets/openEye-icon.png';
-import ClosedEyeIcon from '../../../assets/closeEye-icon.png';
 import Button from '../../../components/button/Button';
 import { useConfirmRestorePasswordMutation } from '../../../app/services/AuthService';
 import { IniciarSesion } from '../../../routes/RoutesUtils';
@@ -13,6 +9,8 @@ import { useForm } from 'react-hook-form';
 import { restorePasswordScheme } from './RestorePassword.scheme';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ErrorMessage } from '../../../components/error_message/ErrorMessage';
+import { PasswordInput } from '../../../components/password_input/PasswordInput';
+import { Logo } from '../../../components/logo/Logo';
 type FormData = {
   password: string;
   repeatedPassword: string;
@@ -26,8 +24,6 @@ function RestorePassword() {
 
   const [confirmRestorePassword] = useConfirmRestorePasswordMutation();
 
-  const [showPassword, setShowPassword] = useState(false);
-  const [showRepeatedPassword, setShowRepeatedPassword] = useState(false);
   const {
     register,
     handleSubmit,
@@ -65,46 +61,23 @@ function RestorePassword() {
 
       <s.Title>MODIFICAR CONTRASEÑA</s.Title>
 
-      <s.Logo>
-        <img src={LogoCeci} alt="Logo" />
-      </s.Logo>
+      <Logo />
 
       <s.Form>
-        <s.Label>Nueva contraseña*</s.Label>
-
-        <s.InputContainer>
-          <s.Input
-            type={showPassword ? 'text' : 'password'}
-            placeholder="Ingresar nueva contraseña"
-            {...register('password')}
-          />
-          <s.Img
-            src={showPassword ? OpenEyeIcon : ClosedEyeIcon}
-            width="24"
-            height="24"
-            $isInteractive
-            onClick={() => setShowPassword((prev) => !prev)}
-          />
-        </s.InputContainer>
+        <s.Label>Nueva contraseña</s.Label>
+        <PasswordInput
+          placeholder="Ingresar nueva contraseña"
+          registration={register('password')}
+        />
         <s.ErrorContainer>
           <ErrorMessage error={errors.password} />
         </s.ErrorContainer>
 
-        <s.Label>Confirmar nueva contraseña*</s.Label>
-        <s.InputContainer>
-          <s.Input
-            type={showRepeatedPassword ? 'text' : 'password'}
-            placeholder="Repetir nueva contraseña"
-            {...register('repeatedPassword')}
-          />
-          <s.Img
-            src={showRepeatedPassword ? OpenEyeIcon : ClosedEyeIcon}
-            width="24"
-            height="24"
-            $isInteractive
-            onClick={() => setShowRepeatedPassword((prev) => !prev)}
-          />
-        </s.InputContainer>
+        <s.Label>Confirmar nueva contraseña</s.Label>
+        <PasswordInput
+          placeholder="Repetir nueva contraseña"
+          registration={register('repeatedPassword')}
+        />
         <s.ErrorContainer>
           <ErrorMessage error={errors.repeatedPassword} />
         </s.ErrorContainer>

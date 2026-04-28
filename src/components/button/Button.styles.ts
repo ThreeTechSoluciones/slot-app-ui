@@ -20,7 +20,7 @@ export const StyledButton = styled.button<{
   align-items: center;
   border-radius: ${BORDER_RADIUS};
   cursor: pointer;
-  width: ${({ $size }) => ($size === 'small' ? '104px' : $size === 'medium' ? '192px' : '412px')};
+  width: ${({ $size }) => ($size === 'small' ? '104px' : $size === 'medium' ? '192px' : '392px')};
   height: ${({ $size }) => ($size === 'small' ? '48px' : $size === 'medium' ? '48px' : '56px')};
   font-size: ${({ $size }) => ($size === 'small' ? '12px' : $size === 'medium' ? '12px' : '16px')};
 

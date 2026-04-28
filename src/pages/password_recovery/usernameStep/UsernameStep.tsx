@@ -4,13 +4,14 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { usernameScheme } from './usernameStep.scheme';
 import { ErrorMessage } from '../../../components/error_message/ErrorMessage';
 import UserIcon from '../../../assets/user-icon.svg';
-import LogoCeci from '../../../assets/logoCeci.png';
 import BackIcon from '../../../assets/back-icon.svg';
 import * as s from './UsernameStep.styles';
 import Button from '../../../components/button/Button';
 import { VerificarCodigo } from '../../../routes/RoutesUtils';
 import { useRestorePasswordMutation } from '../../../app/services/AuthService';
 import toast from 'react-hot-toast';
+import { InputField } from '../../../components/input_field/InputField';
+import { Logo } from '../../../components/logo/Logo';
 
 type UsernameForm = {
   username: string;
@@ -28,9 +29,9 @@ function UsernameStep() {
   const handleSendCode = (username: string) => {
     restorePassword({ username })
       .unwrap()
-      .then(() => {
+      .then((res) => {
         toast.success('Código enviado');
-        navigate(VerificarCodigo, { state: { username } });
+        navigate(VerificarCodigo, { state: { username, email: res.email } });
       });
   };
   return (
@@ -44,19 +45,20 @@ function UsernameStep() {
       <s.FormContainer>
         <s.Title>MODIFICAR CONTRASEÑA</s.Title>
 
-        <s.Logo>
-          <img src={LogoCeci} alt="Logo" />
-        </s.Logo>
+        <Logo />
 
         <s.Form onSubmit={handleSubmit((data) => handleSendCode(data.username))}>
-          <s.Label>Usuario*</s.Label>
+          <s.Label>Usuario</s.Label>
+          <InputField
+            placeholder="Ingrese su usuario"
+            registration={register('username')}
+            icon={UserIcon}
+            iconStyle={{ filter: 'brightness(0)' }}
+          />
 
-          <s.InputContainer>
-            <s.Input placeholder="Ingrese su usuario" {...register('username')} />
-            <s.Img src={UserIcon} width={'26'} height={'26'} style={{ filter: 'brightness(0)' }} />
-          </s.InputContainer>
-
-          <ErrorMessage error={errors.username} />
+          <s.ErrorContainer>
+            <ErrorMessage error={errors.username} />
+          </s.ErrorContainer>
 
           <Button type="submit" size="large" fontsize="medium">
             Aceptar
