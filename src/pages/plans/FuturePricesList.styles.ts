@@ -24,20 +24,6 @@ export const TitleContainer = styled.div`
   width: 400px;
 `;
 
-interface FuturePriceItemProps {
-  $isLast?: boolean;
-  $isOnlyOne?: boolean;
-}
-
-export const FuturePriceItem = styled.div<FuturePriceItemProps>`
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  border-bottom: ${(props) => (props.$isLast ? 'none' : `1.5px solid ${DEFAULT_TEXT_COLOR}`)};
-  height: ${(props) => (props.$isOnlyOne ? '80px' : `50px`)};
-  width: 380px;
-`;
-
 export const Title = styled.p`
   font-size: ${DEFAULT_FONT_SIZE};
   font-weight: ${FONT_WEIGHT_BOLD};
@@ -54,6 +40,33 @@ export const Subtitle = styled.p`
   margin: 0px 0px 16px 0px;
 `;
 
+
+interface FuturePriceItemProps {
+  $isLast?: boolean;
+  $isOnlyOne?: boolean;
+}
+
+export const FuturePriceItem = styled.div<FuturePriceItemProps>`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  border-bottom: ${(props) => (props.$isLast ? 'none' : `1.5px solid ${DEFAULT_TEXT_COLOR}`)};
+  height: ${(props) => (props.$isOnlyOne ? '80px' : `50px`)};
+  width: 380px;
+  padding: 8px 0px 8px 0px;
+`;
+
+export const FuturePricesListContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+  overflow-y: auto;
+  max-height: 240px;
+  padding-right: 12px;
+`;
+
+
 export const PriceInfoContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -64,16 +77,12 @@ export const Price = styled.div`
   font-size: ${DEFAULT_FONT_SIZE};
   color: ${DEFAULT_TEXT_COLOR};
   font-weight: ${FONT_WEIGHT_NORMAL};
-  margin: 0px;
-  padding: 0px;
 `;
 
 export const StartDate = styled.div`
   font-size: ${MEDIUM_FONT_SIZE};
   font-weight: ${FONT_WEIGHT_BOLD};
   color: ${NEUTRAL_COLOR};
-  margin: 0px;
-  padding: 0px;
 `;
 
 export const DaysUntilActiveComp = styled.div<{ $variant: 'next' | 'future' }>`
@@ -101,12 +110,3 @@ export const DaysUntilActiveComp = styled.div<{ $variant: 'next' | 'future' }>`
   `}
 `;
 
-export const FuturePricesListContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  margin-bottom: 16px;
-  overflow-y: auto;
-  max-height: 240px;
-  padding-right: 12px;
-`;

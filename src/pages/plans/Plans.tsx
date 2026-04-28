@@ -30,8 +30,7 @@ import ArrowIcon from '../../assets/arrow3.svg';
 import FuturePricesList from './FuturePricesList';
 import PlusIcon from '../../assets/plus-icon-2.svg';
 import { Tooltip } from '../../components/tooltip/Tooltip';
-import { getTotalFuturePrices } from './PricesUtil';
-
+import { getTotalFuturePrices } from '../../utils/PricesUtil';
 
 enum ModalType {
   DELETE = 'DELETE',
@@ -144,8 +143,6 @@ function Plans() {
     plan: PlanResponse;
     onClick: () => void;
   }
-
-
 
   const FuturePricesComponent = ({ plan, onClick }: FuturePricesComponentProps) => {
     const totalFuturePrices = getTotalFuturePrices(plan);
@@ -364,5 +361,4 @@ function Plans() {
     </s.PlansContainer>
   );
 }
-
 export default Plans;

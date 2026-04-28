@@ -19,7 +19,7 @@ import { formatDateReverse } from '../../utils/DateFormatter';
 import Button from '../../components/button/Button';
 import AddIcon from '../../assets/add-icon.svg';
 import { Tooltip } from '../../components/tooltip/Tooltip';
-import { getTotalFuturePrices } from './PricesUtil';
+import { getTotalFuturePrices } from '../../utils/PricesUtil';
 
 interface FuturePricesListProps {
   selectedPlan: PlanResponse | null | undefined;
@@ -46,8 +46,6 @@ const PriceItem = ({ price, daysUntilActive, isLast, isOnlyOne }: PriceItemProps
     <img src={DeleteIcon} alt="Delete" width={24} height={24} />
   </FuturePriceItem>
 );
-
-
 
 function FuturePricesList({
   selectedPlan,

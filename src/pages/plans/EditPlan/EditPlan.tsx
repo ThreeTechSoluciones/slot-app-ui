@@ -88,7 +88,7 @@ const EditPlanForm = forwardRef<FormProps<EditPlanFormData>, EditPlanFormProps>(
         </s.InputContainer>
       </s.InfoContainer>
       <s.EditPriceOptionContainer>
-        <s.Label> {showCompleteEdit ? 'Actualizar precio (opcional)' : ''} </s.Label>
+        <s.Label>Nuevo precio</s.Label>
         <s.Description>
           {' '}
           Ingresá el nuevo monto y la fecha a partir de la cual será válido.
