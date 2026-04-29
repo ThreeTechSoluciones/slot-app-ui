@@ -115,12 +115,15 @@ const StudentDetail = () => {
       </s.HeaderContainer>
 
       <s.StudentNameContainer>
-        <s.Title>
+        <s.TitleRow>
           <s.IconStyles>
             <img src={StudentIcon} alt="student-icon" />
           </s.IconStyles>
-          {student.name} {student.lastName}
-        </s.Title>
+          <s.Title>
+            {student.name} {student.lastName}
+          </s.Title>
+        </s.TitleRow>
+        {student.email?.trim() && <s.Email>{student.email}</s.Email>}
       </s.StudentNameContainer>
       <s.InfoBoxesContainer>
         <StudentData student={student} navigate={navigate} isStudentInactive={isStudentInactive} />
@@ -179,12 +182,6 @@ const StudentData = ({
         <s.InformationContainer key={'Patologías'}>
           <s.Label>Patologías</s.Label>
           <s.StudentInfo>{student.pathologies}</s.StudentInfo>
-        </s.InformationContainer>
-      )}
-      {student.email && student.email.trim() !== '' && (
-        <s.InformationContainer key={'Email'}>
-          <s.Label>Email</s.Label>
-          <s.StudentInfo>{student.email}</s.StudentInfo>
         </s.InformationContainer>
       )}
     </s.StudentInfoContainer>
