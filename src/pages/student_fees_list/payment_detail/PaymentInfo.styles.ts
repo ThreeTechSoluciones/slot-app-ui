@@ -9,6 +9,7 @@ import {
 export const PaymentInfoContainer = styled.div`
   display: flex;
   flex-direction: column;
+  width: 40vh;
 `;
 
 export const ModalTitle = styled.h2`
