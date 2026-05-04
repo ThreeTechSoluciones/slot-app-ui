@@ -238,8 +238,8 @@ function StudentFeesList() {
     },
     [ModalType.PAY_MONTHLY_FEE]: {
       children: <ConfirmDialog message="¿Estás seguro de realizar este pago?" />,
-      primaryButtonText: 'Sí, pagar',
-      secondaryButtonText: 'No, cancelar',
+      primaryButtonText: 'Aceptar',
+      secondaryButtonText: 'Cancelar',
       onConfirm: handleConfirmPay,
     },
     [ModalType.PAYMENT_DETAIL]: {

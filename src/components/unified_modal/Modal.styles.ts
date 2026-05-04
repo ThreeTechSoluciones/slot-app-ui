@@ -28,12 +28,16 @@ export const ModalContainer = styled.div`
 export const HeaderContainer = styled.div`
   display: flex;
   flex-direction: row;
+  width: 100%;
+  justify-content: left;
+  margin-bottom: 4px;
 `;
 
 export const TitleContainer = styled.div``;
 
 export const Title = styled.h2`
   margin: 0;
+  text-transform: uppercase;
 `;
 
 export const CloseButton = styled.button`
