@@ -7,4 +7,5 @@ export interface PlanResponse {
   nextPrice: PriceResponse | null;
   futurePrices: PriceResponse[];
   numberOfDays: number;
+  totalFuturePrices: number | null;
 }

@@ -1,25 +1,13 @@
-import {
-  FuturePriceItem,
-  Price,
-  PriceInfoContainer,
-  Subtitle,
-  Title,
-  StartDate,
-  DaysUntilActiveComp,
-  TitleContainer,
-  FuturePricesContainer,
-  FuturePricesListContainer,
-} from './FuturePricesList.styles';
-import CalendarIcon from '../../assets/calendar-icon.svg';
-import DeleteIcon from '../../assets/delete-icon.png';
-import type { PlanResponse } from '../../app/types/responses/PlanResponse.type';
-import type { PriceResponse } from '../../app/types/responses/PriceResponse.type';
-import { formatCurrency } from '../../utils/Formatter';
-import { formatDateReverse } from '../../utils/DateFormatter';
-import Button from '../../components/button/Button';
-import AddIcon from '../../assets/add-icon.svg';
-import { Tooltip } from '../../components/tooltip/Tooltip';
-import { getTotalFuturePrices } from '../../utils/PricesUtil';
+import * as s from './FuturePricesList.styles';
+import CalendarIcon from '../../../assets/calendar-icon.svg';
+import DeleteIcon from '../../../assets/delete-icon.png';
+import type { PlanResponse } from '../../../app/types/responses/PlanResponse.type';
+import type { PriceResponse } from '../../../app/types/responses/PriceResponse.type';
+import { formatCurrency } from '../../../utils/Formatter';
+import { formatDateReverse } from '../../../utils/DateFormatter';
+import Button from '../../../components/button/Button';
+import AddIcon from '../../../assets/add-icon.svg';
+import { Tooltip } from '../../../components/tooltip/Tooltip';
 
 interface FuturePricesListProps {
   selectedPlan: PlanResponse | null | undefined;
@@ -36,15 +24,15 @@ interface PriceItemProps {
 }
 
 const PriceItem = ({ price, daysUntilActive, isLast, isOnlyOne }: PriceItemProps) => (
-  <FuturePriceItem $isLast={isLast} $isOnlyOne={isOnlyOne}>
+  <s.FuturePriceItem $isLast={isLast} $isOnlyOne={isOnlyOne}>
     <img src={CalendarIcon} alt="Calendar" width={20} height={20} />
-    <PriceInfoContainer>
-      <Price>{formatCurrency(price.amount)}</Price>
-      <StartDate>{formatDateReverse(price.startDate)}</StartDate>
-    </PriceInfoContainer>
+    <s.PriceInfoContainer>
+      <s.Price>{formatCurrency(price.amount)}</s.Price>
+      <s.StartDate>{formatDateReverse(price.startDate)}</s.StartDate>
+    </s.PriceInfoContainer>
     {daysUntilActive}
     <img src={DeleteIcon} alt="Delete" width={24} height={24} />
-  </FuturePriceItem>
+  </s.FuturePriceItem>
 );
 
 function FuturePricesList({
@@ -53,24 +41,26 @@ function FuturePricesList({
   futurePrices,
   onAddPrice,
 }: FuturePricesListProps) {
-  const totalFuturePrices = getTotalFuturePrices(selectedPlan);
+  const totalFuturePrices = selectedPlan?.totalFuturePrices;
   return (
-    <FuturePricesContainer>
-      <TitleContainer>
-        <Title>Próximos precios</Title>
-        <Subtitle>
+    <s.FuturePricesContainer>
+      <s.TitleContainer>
+        <s.Title>Próximos precios</s.Title>
+        <s.Subtitle>
           {totalFuturePrices === 1
             ? '1 cambio de precio programado'
             : `${totalFuturePrices} cambios de precio programados`}
-        </Subtitle>
-      </TitleContainer>
-      <FuturePricesListContainer>
+        </s.Subtitle>
+      </s.TitleContainer>
+      <s.FuturePricesListContainer>
         {nextPrice && (
           <PriceItem
             price={nextPrice}
             daysUntilActive={
-              <Tooltip content={`Comienza en ${nextPrice?.daysUntilActive} ${nextPrice?.daysUntilActive === 1 ? 'día' : 'días'}`}>
-                <DaysUntilActiveComp $variant="next">Próximo</DaysUntilActiveComp>
+              <Tooltip
+                content={`Comienza en ${nextPrice?.daysUntilActive} ${nextPrice?.daysUntilActive === 1 ? 'día' : 'días'}`}
+              >
+                <s.DaysUntilActiveComp $variant="next">Próximo</s.DaysUntilActiveComp>
               </Tooltip>
             }
             isLast={!futurePrices?.length}
@@ -82,15 +72,15 @@ function FuturePricesList({
             key={price.id}
             price={price}
             daysUntilActive={
-              <DaysUntilActiveComp $variant="future">
+              <s.DaysUntilActiveComp $variant="future">
                 {price.daysUntilActive} días
-              </DaysUntilActiveComp>
+              </s.DaysUntilActiveComp>
             }
             isLast={index === futurePrices.length - 1}
             isOnlyOne={totalFuturePrices === 1}
           />
         ))}
-      </FuturePricesListContainer>
+      </s.FuturePricesListContainer>
       <Button
         onClick={onAddPrice}
         variant="primary"
@@ -100,7 +90,7 @@ function FuturePricesList({
       >
         Programar nuevo precio
       </Button>
-    </FuturePricesContainer>
+    </s.FuturePricesContainer>
   );
 }
 export default FuturePricesList;

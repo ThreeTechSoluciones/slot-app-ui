@@ -22,15 +22,12 @@ import { useGetUserPlansQuery } from '../../app/services/UserService';
 import { skipToken } from '@reduxjs/toolkit/query/react';
 import useAuthentication from '../../hooks/useAuthentication';
 import EditPlan from './EditPlan/EditPlan';
-import { formatDateReverse, formatDateToDash } from '../../utils/DateFormatter';
+import { formatDateToDash } from '../../utils/DateFormatter';
 import { Pagination } from '../../components/pagination/Pagination';
 import type { SortConfig } from '../../app/types/sort';
 import Modal, { type ModalProps } from '../../components/unified_modal/Modal';
-import ArrowIcon from '../../assets/arrow3.svg';
-import FuturePricesList from './FuturePricesList';
-import PlusIcon from '../../assets/plus-icon-2.svg';
-import { Tooltip } from '../../components/tooltip/Tooltip';
-import { getTotalFuturePrices } from '../../utils/PricesUtil';
+import FuturePricesList from './FuturePrices/FuturePricesList';
+import FuturePricesComponent from './FuturePrices/FuturePricesComponent';
 
 enum ModalType {
   DELETE = 'DELETE',
@@ -139,39 +136,8 @@ function Plans() {
     setShowModal(true);
   };
 
-  interface FuturePricesComponentProps {
-    plan: PlanResponse;
-    onClick: () => void;
-  }
 
-  const FuturePricesComponent = ({ plan, onClick }: FuturePricesComponentProps) => {
-    const totalFuturePrices = getTotalFuturePrices(plan);
-    return (
-      <s.NextPriceContainer>
-        <s.NextPriceSpacer />
-        <s.NextPriceData>
-          <s.Price>{plan.nextPrice ? formatCurrency(plan.nextPrice.amount) : '-'}</s.Price>
-          <s.Date>
-            {plan.nextPrice?.startDate ? formatDateReverse(plan.nextPrice.startDate) : ''}
-          </s.Date>
-        </s.NextPriceData>
-        <s.ShowFuturePricesButton onClick={onClick}>
-          {totalFuturePrices !== null ? (
-            <Tooltip content="Ver próximos precios">
-              <s.ButtonContent>
-                {totalFuturePrices}
-                <img src={ArrowIcon} alt="Flecha" />
-              </s.ButtonContent>
-            </Tooltip>
-          ) : (
-            <Tooltip content="Programar un precio">
-              <img src={PlusIcon} alt="Agregar" />
-            </Tooltip>
-          )}
-        </s.ShowFuturePricesButton>
-      </s.NextPriceContainer>
-    );
-  };
+
 
   const modalConfig: Record<ModalType, ModalProps> = {
     [ModalType.DELETE]: {
@@ -260,13 +226,13 @@ function Plans() {
       header: 'Próximo precio',
       accessor: 'nextPrice',
       render: (plan) => {
-        const totalFuturePrices = getTotalFuturePrices(plan);
+        const totalFuturePrices = plan.totalFuturePrices;
         return (
           <FuturePricesComponent
             plan={plan}
             onClick={() => {
               setSelectedPlan(plan);
-              if (totalFuturePrices !== null) {
+              if (totalFuturePrices !== null && totalFuturePrices !== 0) {
                 openModal(ModalType.SHOW_FUTURE_PRICES);
               } else {
                 setShowCompleteEdit(false);

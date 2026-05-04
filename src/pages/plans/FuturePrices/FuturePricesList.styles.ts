@@ -8,7 +8,7 @@ import {
   MEDIUM_FONT_SIZE,
   NEUTRAL_COLOR,
   WARNING_COLOR,
-} from '../../utils/Stylesheet';
+} from '../../../utils/Stylesheet';
 
 export const FuturePricesContainer = styled.div`
   display: flex;
@@ -40,7 +40,6 @@ export const Subtitle = styled.p`
   margin: 0px 0px 16px 0px;
 `;
 
-
 interface FuturePriceItemProps {
   $isLast?: boolean;
   $isOnlyOne?: boolean;
@@ -65,7 +64,6 @@ export const FuturePricesListContainer = styled.div`
   max-height: 240px;
   padding-right: 12px;
 `;
-
 
 export const PriceInfoContainer = styled.div`
   display: flex;
@@ -109,4 +107,3 @@ export const DaysUntilActiveComp = styled.div<{ $variant: 'next' | 'future' }>`
     background-color: white;
   `}
 `;
-
