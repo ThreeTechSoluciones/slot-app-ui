@@ -1,4 +1,4 @@
-import PlusIcon from '../../assets/plus-icon-circle.webp';
+import PlusIcon from '../../assets/add-icon.svg';
 import LogoCeci from '../../assets/logoCeci.png';
 import LogoutIcon from '../../assets/logout.png';
 import PerfilPicture from '../../assets/perfil.jpg';

@@ -1,12 +1,12 @@
 import * as s from './SlotConfiguration.styles';
-import EditIcon from '../../assets/edit-icon.png';
+import EditIcon from '../../assets/edit-icon.svg';
 import EditSlotForm from './forms/EditSlotForm';
 import { useRef, useState } from 'react';
 import AddIcon from '../../assets/add-icon.svg';
 import Modal from '../../components/modal/Modal';
 import { DaysOfWeek } from '../../utils/DaysOfWeek';
 import DeleteIcon from '../../assets/delete-icon.png';
-import CalendarIcon from '../../assets/calendar-icon.png';
+import CalendarIcon from '../../assets/calendar-icon.svg';
 import CreateSlotForm from './forms/CreateSlotForm';
 import {
   useCreateSlotMutation,
@@ -207,7 +207,7 @@ function SlotConfiguration() {
               (registeredSlots?.day?.numberOfSlots ?? 0) > 3
             }
           >
-            <img src={CalendarIcon} width={35} height={35}></img>
+            <img src={CalendarIcon} width={30} height={30}></img>
             <s.SlotInfoContainer>
               <s.PrimaryText>
                 {slot.startTime} - {slot.endTime}
@@ -250,7 +250,7 @@ function SlotConfiguration() {
           <s.Subtitle>No hay turnos registrados</s.Subtitle>
         </s.TitlesContainer>
         <s.InfoContainer>
-          <img src={CalendarIcon} width={32} height={32}></img>
+          <s.CalendarIcon src={CalendarIcon}></s.CalendarIcon>
           <s.PrimaryText>Aún no existen turnos para este día</s.PrimaryText>
           <s.SecondaryText>Podés registrar tu primer turno</s.SecondaryText>
         </s.InfoContainer>

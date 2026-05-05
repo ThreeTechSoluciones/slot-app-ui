@@ -6,7 +6,7 @@ import type {
 import FilterSearch from '../../../components/filter_search/FilterSearch';
 import { useState } from 'react';
 import PlusIcon from '../../../assets/plus-icon.svg';
-import UserIcon from '../../../assets/white-user-icon.svg';
+import UserIcon from '../../../assets/user-icon.svg';
 import { StatesTranslation } from '../../../utils/StatesTranslation';
 import CheckIcon from '../../../assets/check.svg';
 import ProgressIcon from '../../../assets/progress-icon.svg';
@@ -84,8 +84,8 @@ const SlotInfoSkeleton = ({ slot, isFull }: { slot: SpecificSlotResponse; isFull
           src={UserIcon}
           alt="Capacity"
           style={{
-            width: 16,
-            height: 16,
+            width: 14,
+            height: 12,
             marginRight: 2,
             filter: 'brightness(0) invert(1)',
           }}

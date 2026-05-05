@@ -36,14 +36,14 @@ export const StyledWrapper = styled.div<StyledWrapperProps>`
     z-index: 9999;
 
     ${(props) =>
-    props.$calendarPosition === 'top'
-      ? `
+      props.$calendarPosition === 'top'
+        ? `
           bottom: 100%;
           left: 0;
           margin-bottom: 4px;
 
         `
-      : `
+        : `
           top: 100%;
           left: 0;
           margin-top: 4px;

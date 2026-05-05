@@ -5,12 +5,12 @@ import {
   useDeleteStudentMutation,
   useGetStudentByIdQuery,
 } from '../../app/services/StudentService';
-import StudentIcon from '../../assets/student-icon.svg';
-import BackIcon from '../../assets/back-icon.svg';
+import StudentIcon from '../../assets/user-icon.svg';
+import BackIcon from '../../assets/back-circle-icon.svg';
 import InfoIcon from '../../assets/info-icon.svg';
 import EditIcon from '../../assets/edit-icon.svg';
 import DesactivateIcon from '../../assets/desactivate-icon.svg';
-import CalendarIcon from '../../assets/CalenderIcon.png';
+import CalendarIcon from '../../assets/calendar-icon.svg';
 import Button from '../../components/button/Button';
 import { ConfirmDialog } from '../../components/confirm_dialog/ConfirmDialog';
 import { DarAltaAlumno, getEditarEstudianteStep, ListadoCuotas } from '../../routes/RoutesUtils';

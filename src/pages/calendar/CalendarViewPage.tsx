@@ -2,7 +2,7 @@ import * as s from './CalendarViewPage.styles';
 import { useGetCalendarViewQuery } from '../../app/services/UserService';
 import { useMarkStudentAbsenceMutation } from '../../app/services/StudentService';
 import useAuthentication from '../../hooks/useAuthentication';
-import StudentIcon from '../../assets/student-icon.svg';
+import StudentIcon from '../../assets/user-icon.svg';
 import { DaysOfWeekTranslation } from '../../utils/DaysOfWeek';
 import { CalendarViewName } from '../../app/types/models/CalendarViewName';
 import { SearchNotFound } from '../../components/search_not_found/SearchNotFound';
@@ -14,8 +14,7 @@ import { StudentRecover } from './studentRecover/StudentRecover';
 import { CancelSlot } from './cancelSlot/CancelSlot';
 import { capitalize } from '../../utils/CapitalizeWords';
 import Slot from './slot/SpecificSlotActions';
-import NextIcon from '../../assets/next-arrow-icon.svg';
-import BackIcon from '../../assets/back-arrow-icon.svg';
+import ChevronIcon from '../../assets/chevron-left-icon.svg';
 import CalendarIcon from '../../assets/calendar-icon.svg';
 import { CalendarMonth } from '../../utils/MonthsOfYear';
 import InputDate from '../../components/date/inputDate';
@@ -76,7 +75,7 @@ function CalendarView() {
     return (
       <s.NavigationDateContainer>
         <s.NavigationArrow onClick={() => calculateWeek(-7)}>
-          <img src={BackIcon} />
+          <img src={ChevronIcon} />
         </s.NavigationArrow>
         <s.CustomDisplayContainer>
           <s.CustomDisplay>{calendarPlaceholder()}</s.CustomDisplay>
@@ -99,7 +98,7 @@ function CalendarView() {
           </s.InputDateContainer>
         </s.CustomDisplayContainer>
         <s.NavigationArrow onClick={() => calculateWeek(7)}>
-          <img src={NextIcon} />
+          <img src={ChevronIcon} style={{ transform: 'rotate(180deg)' }} />
         </s.NavigationArrow>
       </s.NavigationDateContainer>
     );
