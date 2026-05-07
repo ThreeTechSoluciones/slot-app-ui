@@ -72,7 +72,7 @@ function VerifyCode() {
 
       <s.ResendCodeContainer>
         ¿No recibiste el código?
-        <ResendTimer seconds={600} onResend={handleResendCode} />
+        <ResendTimer seconds={60} onResend={handleResendCode} />
       </s.ResendCodeContainer>
     </s.MainContainer>
   );
