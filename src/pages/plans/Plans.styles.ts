@@ -1,9 +1,5 @@
 import styled from 'styled-components';
-import {
-  FONT_WEIGHT_BOLD,
-  DEFAULT_TEXT_COLOR,
-  LARGE_FONT_SIZE,
-} from '../../utils/Stylesheet';
+import { FONT_WEIGHT_BOLD, DEFAULT_TEXT_COLOR, LARGE_FONT_SIZE } from '../../utils/Stylesheet';
 
 export const PlansContainer = styled.div`
   width: 100%;
@@ -51,4 +47,3 @@ export const PaginationContainer = styled.div`
   margin-top: auto;
   padding: 35px 0px 35px 0px;
 `;
-

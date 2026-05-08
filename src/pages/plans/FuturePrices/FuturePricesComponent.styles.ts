@@ -1,6 +1,12 @@
-import styled from "styled-components";
-import { BORDER_RADIUS, DEFAULT_TEXT_COLOR, FONT_WEIGHT_BOLD, NEUTRAL_COLOR, SMALL_FONT_SIZE } from "../../../utils/Stylesheet";
-import { DEFAULT_FONT_SIZE } from "../../../utils/Stylesheet";
+import styled from 'styled-components';
+import {
+  BORDER_RADIUS,
+  DEFAULT_TEXT_COLOR,
+  FONT_WEIGHT_BOLD,
+  NEUTRAL_COLOR,
+  SMALL_FONT_SIZE,
+} from '../../../utils/Stylesheet';
+import { DEFAULT_FONT_SIZE } from '../../../utils/Stylesheet';
 
 export const NextPriceContainer = styled.div`
   display: flex;

@@ -1,4 +1,4 @@
-import CalendarIcon from '../../assets/calendar-icon.png';
+import CalendarIcon from '../../assets/calendar-icon.svg';
 import { DateFilterContainer, DatePickerWrapper } from './DateFilter.styles';
 import InputDate from '../date/inputDate';
 

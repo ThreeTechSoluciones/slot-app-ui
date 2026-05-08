@@ -61,7 +61,7 @@ function Login() {
         <Label>Usuario</Label>
         <InputContainer>
           <Input placeholder="Usuario" {...register('username')}></Input>
-          <Img src={UserIcon} width={'26'} height={'26'} style={{ filter: 'brightness(0)' }}></Img>
+          <Img src={UserIcon} width={'18'} height={'18'} style={{ filter: 'brightness(0)' }}></Img>
         </InputContainer>
         <ErrorMessage error={errors.username} />
         <Label>Contraseña</Label>

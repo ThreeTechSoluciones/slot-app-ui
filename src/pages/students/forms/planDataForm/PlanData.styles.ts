@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import Arrow from '../../../../assets/arrow.png';
+import CaretIcon from '../../../../assets/caret-icon.png';
 import {
   NEUTRAL_COLOR,
   DEFAULT_TEXT_COLOR,
@@ -53,7 +53,7 @@ export const Select = styled.select`
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  background: url(${Arrow}) no-repeat right 12px center;
+  background: url(${CaretIcon}) no-repeat right 12px center;
   &::placeholder {
     color: ${NEUTRAL_COLOR};
   }

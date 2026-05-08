@@ -7,7 +7,7 @@ import {
   ContentContainer,
   HeaderContainer,
   CloseButton,
-  Title
+  Title,
 } from './Modal.styles';
 import Button from '../button/Button';
 import CancelIcon from '../../assets/cancel-icon.svg';
@@ -75,7 +75,7 @@ function Modal({
         <HeaderContainer>
           {title && (
             <TitleContainer>
-              <Title>{title}</Title >
+              <Title>{title}</Title>
             </TitleContainer>
           )}
         </HeaderContainer>

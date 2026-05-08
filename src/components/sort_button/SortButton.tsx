@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import ArrowIcon from '../../assets/arrow-icon.png';
-import { HeaderContainer, SortIcon, Text } from '../sort_button/SortButton.styles';
+import SortIcon from '../../assets/sort-icon.png';
+import * as s from '../sort_button/SortButton.styles';
 
 interface SortableHeaderProps {
   text: string;
@@ -17,16 +17,16 @@ export const SortableButton: React.FC<SortableHeaderProps> = ({ text, onSort, al
   };
 
   return (
-    <HeaderContainer onClick={handleClick}>
-      <Text
+    <s.HeaderContainer onClick={handleClick}>
+      <s.Text
         style={{
           whiteSpace: allowWrap ? 'pre-line' : 'nowrap',
           textAlign: 'center',
         }}
       >
         {text}
-      </Text>
-      <SortIcon src={ArrowIcon} alt="sort" $rotated={!asc} />
-    </HeaderContainer>
+      </s.Text>
+      <s.SortIcon src={SortIcon} alt="sort" $rotated={!asc} />
+    </s.HeaderContainer>
   );
 };

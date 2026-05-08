@@ -10,7 +10,7 @@ import {
 import { useLocation, useNavigate } from 'react-router';
 import { useRef, useState } from 'react';
 import type { FormRef } from '../../app/types/FormRef';
-import BackIcon from '../../assets/back-icon.svg';
+import BackIcon from '../../assets/back-circle-icon.svg';
 import { ConfirmDialog } from '../../components/confirm_dialog/ConfirmDialog';
 import Modal from '../../components/unified_modal/Modal';
 
