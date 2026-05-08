@@ -1,4 +1,4 @@
-import PlusIcon from '../../assets/plus-icon-circle.webp';
+import PlusIcon from '../../assets/plus-icon-2.svg';
 import LogoCeci from '../../assets/logoCeci.png';
 import LogoutIcon from '../../assets/logout.png';
 import PerfilPicture from '../../assets/perfil.jpg';
@@ -17,8 +17,10 @@ import {
   Logout,
   Photo,
   Option,
+  LogoutText,
+  Button,
 } from './header.styles';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import { ConfirmDialog } from '../confirm_dialog/ConfirmDialog';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -36,6 +38,8 @@ function Header() {
 
   const navigate = useNavigate();
 
+  const { pathname } = useLocation();
+
   const [showConfirm, setShowConfirm] = useState(false);
 
   return (
@@ -44,19 +48,31 @@ function Header() {
         <Logo>
           <img src={LogoCeci} alt="Logo" />
         </Logo>
-        <Option onClick={() => navigate(Calendario)}>Calendario</Option>
-        <Option onClick={() => navigate(MisAlumnos)}>Mis alumnos</Option>
-        <Option onClick={() => navigate(MisPlanes)}>Mis planes</Option>
-        <Option onClick={() => navigate(MisTurnos)}>Mis turnos</Option>
-        <Option $isLast $hasImg onClick={() => navigate(NuevoAlumno)}>
-          Nuevo alumno
-          <img src={PlusIcon} />
+        <Option $isActive={pathname === Calendario} onClick={() => navigate(Calendario)}>
+          Calendario
         </Option>
+        <Option $isActive={pathname === MisAlumnos} onClick={() => navigate(MisAlumnos)}>
+          Mis alumnos
+        </Option>
+        <Option $isActive={pathname === MisPlanes} onClick={() => navigate(MisPlanes)}>
+          Mis planes
+        </Option>
+        <Option $isActive={pathname === MisTurnos} onClick={() => navigate(MisTurnos)}>
+          Mis turnos
+        </Option>
+        <Button $isActive={pathname === NuevoAlumno} onClick={() => navigate(NuevoAlumno)}>
+          Nuevo alumno
+          <img src={PlusIcon} height="22" width="22" />
+        </Button>
       </LeftOptionsContainer>
       <RightOptionsContainer>
         <Logout onClick={() => setShowConfirm(true)}>
           <img src={LogoutIcon} />
-          Cerrar sesión
+          <LogoutText>
+            Cerrar
+            <br />
+            sesión
+          </LogoutText>
         </Logout>
         <Photo>
           <img src={PerfilPicture} alt="Foto de perfil" />
