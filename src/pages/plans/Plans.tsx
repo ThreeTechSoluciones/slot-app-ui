@@ -58,12 +58,12 @@ function Plans() {
   } = useGetUserPlansQuery(
     userId
       ? {
-          userId,
-          page: page - 1,
-          size,
-          planName: filter,
-          sort: sort.length > 0 ? sort : undefined,
-        }
+        userId,
+        page: page - 1,
+        size,
+        planName: filter,
+        sort: sort.length > 0 ? sort : undefined,
+      }
       : skipToken,
   );
 
@@ -182,6 +182,10 @@ function Plans() {
           }}
         />
       ),
+      onClose: () => {
+        setModalType(ModalType.NONE);
+        setShowModal(false);
+      },
     },
   };
 
@@ -318,6 +322,7 @@ function Plans() {
         secondaryButtonText={modalConfig[modalType].secondaryButtonText}
         onConfirm={modalConfig[modalType].onConfirm}
         onCancel={() => setShowModal(false)}
+        onClose={modalConfig[modalType].onClose}
       >
         {modalConfig[modalType].children}
       </Modal>

@@ -50,8 +50,8 @@ export const FuturePriceItem = styled.div<FuturePriceItemProps>`
   justify-content: center;
   align-items: center;
   gap: 20px;
-  border-bottom: ${(props) => (props.$isLast ? 'none' : `1.5px solid ${DEFAULT_TEXT_COLOR}`)};
-  height: ${(props) => (props.$isOnlyOne ? '80px' : `50px`)};
+  border-bottom: 1.5px solid ${DEFAULT_TEXT_COLOR};
+  height: ${(props) => (props.$isOnlyOne ? '60px' : `50px`)};
   width: 380px;
   padding: 8px 0px 8px 0px;
 `;

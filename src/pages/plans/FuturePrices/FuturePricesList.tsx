@@ -77,7 +77,6 @@ function FuturePricesList({
               </s.DaysUntilActiveComp>
             }
             isLast={index === futurePrices.length - 1}
-            isOnlyOne={totalFuturePrices === 1}
           />
         ))}
       </s.FuturePricesListContainer>

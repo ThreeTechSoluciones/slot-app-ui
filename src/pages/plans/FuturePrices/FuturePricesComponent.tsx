@@ -2,8 +2,8 @@ import type { PlanResponse } from '../../../app/types/responses/PlanResponse.typ
 import { Tooltip } from '../../../components/tooltip/Tooltip';
 import { formatCurrency } from '../../../utils/Formatter';
 import * as s from './FuturePricesComponent.styles';
-import ArrowIcon from '../../../assets/arrow3.svg';
-import PlusIcon from '../../../assets/plus-icon-2.svg';
+import ArrowIcon from '../../../assets/chevron-left-icon.svg';
+import PlusIcon from '../../../assets/plus-icon.svg';
 
 import { formatDateReverse } from '../../../utils/DateFormatter';
 
@@ -28,12 +28,12 @@ const FuturePricesComponent = ({ plan, onClick }: FuturePricesComponentProps) =>
           <Tooltip content="Ver próximos precios">
             <s.ButtonContent>
               {totalFuturePrices}
-              <img src={ArrowIcon} alt="Flecha" />
+              <img src={ArrowIcon} width="12" height="12" style={{ transform: 'rotate(270deg)' }} alt="Flecha" />
             </s.ButtonContent>
           </Tooltip>
         ) : (
           <Tooltip content="Programar un precio">
-            <img src={PlusIcon} alt="Agregar" />
+            <img src={PlusIcon} width="11" height="11" alt="Agregar" />
           </Tooltip>
         )}
       </s.ShowFuturePricesButton>

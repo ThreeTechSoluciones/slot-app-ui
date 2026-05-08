@@ -40,6 +40,7 @@ export const ShowFuturePricesButton = styled.button`
   margin-left: auto;
   flex-shrink: 0;
   display: flex;
+  
   align-items: center;
   justify-content: center;
   background-color: #d9d9d9;
@@ -59,11 +60,11 @@ export const ShowFuturePricesButton = styled.button`
 `;
 
 export const ButtonContent = styled.div`
-display: flex;
-align - items: center;
-justify - content: center;
-gap: 2px;
-width: 100 %;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
 `;
 
 export const NextPriceSpacer = styled.div`
