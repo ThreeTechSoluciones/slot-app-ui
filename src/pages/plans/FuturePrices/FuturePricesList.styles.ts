@@ -17,21 +17,6 @@ export const FuturePricesContainer = styled.div`
   justify-content: center;
 `;
 
-export const TitleContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: left;
-  width: 400px;
-`;
-
-export const Title = styled.p`
-  font-size: ${DEFAULT_FONT_SIZE};
-  font-weight: ${FONT_WEIGHT_BOLD};
-  color: ${DEFAULT_TEXT_COLOR};
-  padding: 0px;
-  margin: 0px;
-`;
-
 export const Subtitle = styled.p`
   font-size: ${MEDIUM_FONT_SIZE};
   font-weight: ${FONT_WEIGHT_BOLD};

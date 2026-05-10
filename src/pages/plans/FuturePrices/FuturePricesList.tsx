@@ -44,14 +44,11 @@ function FuturePricesList({
   const totalFuturePrices = selectedPlan?.totalFuturePrices;
   return (
     <s.FuturePricesContainer>
-      <s.TitleContainer>
-        <s.Title>Próximos precios</s.Title>
-        <s.Subtitle>
-          {totalFuturePrices === 1
-            ? '1 cambio de precio programado'
-            : `${totalFuturePrices} cambios de precio programados`}
-        </s.Subtitle>
-      </s.TitleContainer>
+      <s.Subtitle>
+        {totalFuturePrices === 1
+          ? '1 cambio de precio programado'
+          : `${totalFuturePrices} cambios de precio programados`}
+      </s.Subtitle>
       <s.FuturePricesListContainer>
         {nextPrice && (
           <PriceItem
