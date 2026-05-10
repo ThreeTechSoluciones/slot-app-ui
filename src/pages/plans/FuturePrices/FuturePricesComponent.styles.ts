@@ -40,7 +40,7 @@ export const ShowFuturePricesButton = styled.button`
   margin-left: auto;
   flex-shrink: 0;
   display: flex;
-  
+
   align-items: center;
   justify-content: center;
   background-color: #d9d9d9;

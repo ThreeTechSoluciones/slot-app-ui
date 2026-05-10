@@ -23,7 +23,7 @@ import {
 import { ConfirmDialog } from '../../components/confirm_dialog/ConfirmDialog';
 import EditCapacityForm from './forms/EditCapacityForm';
 import type { SlotResponse } from '../../app/types/responses/SlotResponse.type';
-import Modal from '../../components/unified_modal/Modal';
+import Modal, { type ModalProps } from '../../components/unified_modal/Modal';
 
 function SlotConfiguration() {
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -269,25 +269,33 @@ function SlotConfiguration() {
     );
   };
 
-  const modalConfig: Record<ModalType, ModalConfig> = {
+  const modalConfig: Record<ModalType, ModalProps> = {
     [ModalType.CREATE]: {
       contentRef: createSlotRef,
-      content: <CreateSlotForm ref={createSlotRef} />,
+      children: <CreateSlotForm ref={createSlotRef} />,
+      primaryButtonText: 'Guardar',
+      secondaryButtonText: 'Cancelar',
       onConfirm: handleCreateSlotModal,
     },
     [ModalType.EDIT_CAPACITY]: {
       contentRef: editCapacityRef,
-      content: <EditCapacityForm ref={editCapacityRef} />,
+      children: <EditCapacityForm ref={editCapacityRef} />,
+      primaryButtonText: 'Guardar',
+      secondaryButtonText: 'Cancelar',
       onConfirm: handleEditCapacityModal,
     },
     [ModalType.EDIT_START_TIME]: {
       contentRef: editSlotRef,
-      content: <EditSlotForm ref={editSlotRef} initialStartTime={currentSlot?.startTime} />,
+      children: <EditSlotForm ref={editSlotRef} initialStartTime={currentSlot?.startTime} />,
+      primaryButtonText: 'Guardar',
+      secondaryButtonText: 'Cancelar',
       onConfirm: handleEditSlotModal,
     },
     [ModalType.CONFIRM_DELETE]: {
       contentRef: deleteSlotRef,
-      content: <ConfirmDialog message="¿Estás seguro de que deseas eliminar el turno?" />,
+      children: <ConfirmDialog message="¿Estás seguro de que deseas eliminar el turno?" />,
+      primaryButtonText: 'Eliminar',
+      secondaryButtonText: 'Cancelar',
       onConfirm: handleDeleteSlot,
     },
   };
@@ -301,10 +309,10 @@ function SlotConfiguration() {
           contentRef={modalConfig[modalType].contentRef}
           onCancel={() => setShowModal(false)}
           onConfirm={modalConfig[modalType].onConfirm}
-          secondaryButtonText="Cancelar"
-          primaryButtonText="Guardar"
+          secondaryButtonText={modalConfig[modalType].secondaryButtonText}
+          primaryButtonText={modalConfig[modalType].primaryButtonText}
         >
-          {modalConfig[modalType].content}
+          {modalConfig[modalType].children}
         </Modal>
       )}
       <s.SkeletonsContainer>

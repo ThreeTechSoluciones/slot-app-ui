@@ -170,14 +170,14 @@ function CalendarView() {
           }
         />
       ),
-      primaryButtonText: 'Cancelar',
+      primaryButtonText: 'Aceptar',
       secondaryButtonText: 'No',
       onConfirm: handleConfirmCancel,
     },
 
     [CalendarActionsType.ABSENCE]: {
       children: <RegisterAbsence studentName={slotAction.studentName} />,
-      primaryButtonText: 'Registrar Inasistencia',
+      primaryButtonText: 'Aceptar',
       secondaryButtonText: 'Cancelar',
       onConfirm: handleConfirmAbsence,
     },

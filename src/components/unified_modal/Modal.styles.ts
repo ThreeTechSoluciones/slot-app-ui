@@ -17,7 +17,7 @@ export const Background = styled.div`
 
 export const ModalContainer = styled.div`
   background-color: white;
-  padding: 15px 35px 35px 35px;
+  padding: 35px;
   border-radius: ${BORDER_RADIUS};
   display: flex;
   flex-direction: column;
@@ -26,22 +26,32 @@ export const ModalContainer = styled.div`
 `;
 
 export const HeaderContainer = styled.div`
+  position: relative;
   display: flex;
-  flex-direction: row;
+  width: 100%;
+  height: 24px;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 4px;
 `;
 
-export const TitleContainer = styled.div``;
+export const TitleContainer = styled.div`
+  width: 100%;
+  text-align: center;
+`;
 
 export const Title = styled.h2`
   margin: 0;
+  text-transform: uppercase;
 `;
 
 export const CloseButton = styled.button`
-  position: relative;
-  bottom: 10px;
-  left: 50%;
+  position: absolute;
+  right: -30px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
   border: none;
-  background-color: transparent;
   cursor: pointer;
 `;
 

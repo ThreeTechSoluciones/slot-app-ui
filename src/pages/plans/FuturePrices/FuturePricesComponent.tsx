@@ -28,7 +28,13 @@ const FuturePricesComponent = ({ plan, onClick }: FuturePricesComponentProps) =>
           <Tooltip content="Ver próximos precios">
             <s.ButtonContent>
               {totalFuturePrices}
-              <img src={ArrowIcon} width="12" height="12" style={{ transform: 'rotate(270deg)' }} alt="Flecha" />
+              <img
+                src={ArrowIcon}
+                width="12"
+                height="12"
+                style={{ transform: 'rotate(270deg)' }}
+                alt="Flecha"
+              />
             </s.ButtonContent>
           </Tooltip>
         ) : (
