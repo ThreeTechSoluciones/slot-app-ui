@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
-import { BRAND_COLOR, DEFAULT_FONT_SIZE, MEDIUM_FONT_SIZE } from '../../utils/Stylesheet';
+import { BRAND_COLOR, DEFAULT_FONT_SIZE, MEDIUM_FONT_SIZE, SMALL_FONT_SIZE } from '../../utils/Stylesheet';
 
-export const MIN_HEIGHT_HEADER = '96px';
+export const HEIGHT_HEADER = '96px';
 export const TEXT_COLOR = 'rgba(0, 0, 0, 1)';
 export const TEXT_COLOR_MUTED = 'rgba(0, 0, 0, 0.75)';
 
@@ -10,18 +10,12 @@ interface OptionProps {
 }
 
 const responsiveText = css`
-  @media (max-width: 1100px) {
-    font-size: 14px;
-  }
   @media (max-width: 1080px) {
-    font-size: 12px;
+    font-size: ${MEDIUM_FONT_SIZE};
   }
 `;
 
 const optionResponsiveWidth = css`
-  @media (max-width: 1100px) {
-    width: 150px;
-  }
   @media (max-width: 1080px) {
     width: 120px;
   }
@@ -29,16 +23,16 @@ const optionResponsiveWidth = css`
     width: 100px;
   }
   @media (max-width: 805px) {
-    width: 85px;
+    width: 90px;
   }
   @media (max-width: 685px) {
-    width: 70px;
+    width: 85px;
   }
 `;
 
 const buttonResponsiveWidth = css`
   @media (max-width: 1080px) {
-    width: 120px;
+    width: 122px;
     padding: 0px 2px 0px 6px;
   }
 `;
@@ -55,7 +49,7 @@ export const MainContainer = styled.header`
   display: flex;
   justify-content: space-between;
   width: 100%;
-  min-height: ${MIN_HEIGHT_HEADER};
+  height: ${HEIGHT_HEADER};
   background-color: ${BRAND_COLOR};
   box-sizing: border-box;
   position: fixed;
@@ -67,7 +61,7 @@ export const LeftOptionsContainer = styled.section`
   display: flex;
   align-items: center;
   flex-direction: row;
-  min-height: MIN_HEIGHT_HEADER;
+  height: ${HEIGHT_HEADER};
   font-size: ${DEFAULT_FONT_SIZE};
   margin-left: clamp(8px, 3vw, 80px);
 `;
@@ -121,7 +115,13 @@ export const Button = styled(BaseOption) <OptionProps>`
   background-color: ${BRAND_COLOR};
   border: 2px solid ${TEXT_COLOR_MUTED};
   border-radius: 12px;
-  gap: 2px;
+  gap: 6px;
+  @media (max-width: 1080px) {
+    img {
+      width: 8px;
+      height: 8px;
+    };
+  }
   &:hover {
     border-color: ${TEXT_COLOR};
     img {
@@ -135,7 +135,7 @@ export const Button = styled(BaseOption) <OptionProps>`
   ${({ $isActive }) =>
     $isActive &&
     css`
-      border-color ${TEXT_COLOR};
+      border-color :${TEXT_COLOR};
       img {
         opacity: 1;
       }
@@ -175,7 +175,6 @@ export const Logout = styled.div`
   min-height: 54px;
   line-height: 16px;
   cursor: pointer;
-  margin-right: clamp(0px, calc((1200px - 100vw) * 0.1), 50px);
   @media (max-width: 890px) {
     margin-left: clamp(0px, calc((1200px - 100vw) * 0.1), 30px);
   }
@@ -201,9 +200,7 @@ export const Logout = styled.div`
 export const LogoutText = styled.span`
   font-size: ${DEFAULT_FONT_SIZE};
   white-space: nowrap;
-  @media (max-width: 1100px) {
-    font-size: ${MEDIUM_FONT_SIZE};
-  }
+${responsiveText}
   @media (max-width: 740px) {
     display: none;
   }
