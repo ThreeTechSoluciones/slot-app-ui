@@ -1,5 +1,10 @@
 import styled, { css } from 'styled-components';
-import { BRAND_COLOR, DEFAULT_FONT_SIZE, MEDIUM_FONT_SIZE, SMALL_FONT_SIZE } from '../../utils/Stylesheet';
+import {
+  BRAND_COLOR,
+  DEFAULT_FONT_SIZE,
+  MEDIUM_FONT_SIZE,
+  SMALL_FONT_SIZE,
+} from '../../utils/Stylesheet';
 
 export const HEIGHT_HEADER = '96px';
 export const TEXT_COLOR = 'rgba(0, 0, 0, 1)';
@@ -120,7 +125,7 @@ export const Button = styled(BaseOption)<OptionProps>`
     img {
       width: 8px;
       height: 8px;
-    };
+    }
   }
   &:hover {
     border-color: ${TEXT_COLOR};
@@ -135,7 +140,7 @@ export const Button = styled(BaseOption)<OptionProps>`
   ${({ $isActive }) =>
     $isActive &&
     css`
-      border-color :${TEXT_COLOR};
+      border-color: ${TEXT_COLOR};
       img {
         opacity: 1;
       }
@@ -200,7 +205,7 @@ export const Logout = styled.div`
 export const LogoutText = styled.span`
   font-size: ${DEFAULT_FONT_SIZE};
   white-space: nowrap;
-${responsiveText}
+  ${responsiveText}
   @media (max-width: 740px) {
     display: none;
   }

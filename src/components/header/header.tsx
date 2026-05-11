@@ -46,11 +46,7 @@ function Header() {
           <img src={LogoCeci} alt="Logo" />
         </s.Logo>
         {Object.entries(headerOptions).map(([route, label]) => (
-          <s.Option
-            key={route}
-            $isActive={pathname === route}
-            onClick={() => navigate(route)}
-          >
+          <s.Option key={route} $isActive={pathname === route} onClick={() => navigate(route)}>
             {label}
           </s.Option>
         ))}
