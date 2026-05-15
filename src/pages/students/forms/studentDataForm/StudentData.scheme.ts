@@ -5,7 +5,7 @@ export interface StudentDataFormValues {
   name: string;
   lastName: string;
   cellphoneNumber: string;
-  email: string;
+  email?: string | null;
   pathologies: string | null;
   birthday: string;
 }
@@ -26,23 +26,19 @@ export const StudentDataScheme: yup.ObjectSchema<StudentDataFormValues> = yup.ob
     .matches(/^[0-9]+$/, 'Solo se permiten numeros, sin espacios'),
   email: yup
     .string()
-    .defined()
-    .default('')
-    .test(
-      'email-valido',
-      'Debe ser un email valido',
-      (value) => !value || yup.string().email().isValidSync(value),
-    )
+    .nullable()
+    .transform((value) => (value === '' ? null : value))
+    .email('El mail ingresado no es válido')
     .max(50, 'El email no puede tener mas de 50 caracteres'),
   pathologies: yup
     .string()
     .nullable()
     .default(null)
-    .max(250, 'La descripcion no puede tener mas de 250 caracteres'),
+    .max(250, 'La descripción no puede tener más de 250 caracteres'),
   birthday: yup
     .string()
     .required('La fecha de nacimiento es requerida')
-    .test('fecha-valida', 'La fecha no puede ser posterior a hoy', (value) => {
+    .test('fecha-válida', 'La fecha no puede ser posterior a hoy', (value) => {
       if (!value) return false;
       const fechaIngresada = new Date(value);
       const hoy = new Date();

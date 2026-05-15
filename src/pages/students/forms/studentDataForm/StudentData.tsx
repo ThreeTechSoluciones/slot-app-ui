@@ -34,7 +34,7 @@ const StudentData = forwardRef<FormRef, FormProps<StudentDataProps>>((props, ref
     lastName: '',
     dni: '',
     cellphoneNumber: '',
-    email: '',
+    email: null,
     birthday: '',
     pathologies: '',
   };
@@ -42,7 +42,7 @@ const StudentData = forwardRef<FormRef, FormProps<StudentDataProps>>((props, ref
   const studentRegistrationForm: StudentDataFormValues = {
     ...DEFAULT_STUDENT_DATA,
     ...data,
-    email: data?.email ?? '',
+    email: data?.email ?? null,
     pathologies: data?.pathologies ?? '',
   };
 

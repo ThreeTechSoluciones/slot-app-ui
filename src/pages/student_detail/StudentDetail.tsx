@@ -123,7 +123,7 @@ const StudentDetail = () => {
             {student.name} {student.lastName}
           </s.Title>
         </s.TitleRow>
-        {student.email?.trim() && <s.Email>{student.email}</s.Email>}
+        <s.Email>{student.email}</s.Email>
       </s.StudentNameContainer>
       <s.InfoBoxesContainer>
         <StudentData student={student} navigate={navigate} isStudentInactive={isStudentInactive} />
