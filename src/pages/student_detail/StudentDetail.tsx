@@ -123,12 +123,15 @@ const StudentDetail = () => {
       </s.HeaderContainer>
 
       <s.StudentNameContainer>
-        <s.Title>
+        <s.TitleRow>
           <s.IconStyles>
             <img src={StudentIcon} alt="student-icon" />
           </s.IconStyles>
-          {student.name} {student.lastName}
-        </s.Title>
+          <s.Title>
+            {student.name} {student.lastName}
+          </s.Title>
+        </s.TitleRow>
+        <s.Email>{student.email}</s.Email>
       </s.StudentNameContainer>
       <s.InfoBoxesContainer>
         <StudentData student={student} navigate={navigate} isStudentInactive={isStudentInactive} />

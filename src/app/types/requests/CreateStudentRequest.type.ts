@@ -3,6 +3,7 @@ export type CreateStudentRequest = {
   lastName: string;
   dni: string;
   cellphoneNumber: string;
+  email?: string | null;
   birthday: string;
   pathologies?: string | null;
   paymentPlanName: string;
