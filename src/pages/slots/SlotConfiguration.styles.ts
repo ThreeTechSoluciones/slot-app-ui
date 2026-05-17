@@ -6,14 +6,12 @@ import {
   DEFAULT_TEXT_COLOR,
   LIGHT_NEUTRAL_COLOR,
   FONT_WEIGHT_BOLD,
-  BACKGROUND_COLOR,
   SUCCESS_COLOR,
   DEFAULT_FONT_SIZE,
   LARGE_FONT_SIZE,
   MEDIUM_FONT_SIZE,
   SMALL_FONT_SIZE,
 } from '../../utils/Stylesheet';
-// import CaretIcon from '../../assets/caret-icon.svg';
 
 export const MainContainer = styled.div`
   display: flex;

@@ -238,7 +238,7 @@ function SlotConfiguration() {
                   src={DeleteIcon}
                   onClick={() => {
                     setCurrentSlot(slot);
-                    setShowConfirm(true);
+                    openModal(ModalType.CONFIRM_DELETE);
                   }}
                 ></img>
               </s.IconButton>
