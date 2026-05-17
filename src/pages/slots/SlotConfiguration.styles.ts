@@ -12,6 +12,7 @@ import {
   LARGE_FONT_SIZE,
   MEDIUM_FONT_SIZE,
   SMALL_FONT_SIZE,
+  FOCUS_STYLE,
 } from '../../utils/Stylesheet';
 import Arrow from '../../assets/arrow.png';
 
@@ -69,9 +70,18 @@ export const BaseStyle = styled.input`
   width: 300px;
   height: 48px;
   border-radius: ${BORDER_RADIUS};
+  border: 1px solid black;
   font-size: ${SMALL_FONT_SIZE};
   padding-left: 16px;
   color: ${DEFAULT_TEXT_COLOR};
+  outline: none;
+   &::placeholder {
+      color: ${NEUTRAL_COLOR};
+      font-size: ${MEDIUM_FONT_SIZE};
+    }
+    &:focus {
+      ${FOCUS_STYLE};
+    }
 `;
 
 export const Input = styled(BaseStyle)`
@@ -93,6 +103,7 @@ export const Select = styled(BaseStyle).attrs({ as: 'select' })`
   -moz-appearance: none;
   background: url(${Arrow}) no-repeat right 12px center;
   padding-right: 32px;
+  border: 1px solid black;
 `;
 
 interface ButtonProps {
@@ -113,8 +124,8 @@ export const Button = styled.button<ButtonProps>`
   color: ${DEFAULT_TEXT_COLOR};
   &:hover {
     ${(props) =>
-      !props.$isDisabled &&
-      `
+    !props.$isDisabled &&
+    `
             cursor: pointer;
             background: ${NEUTRAL_COLOR};
         `}

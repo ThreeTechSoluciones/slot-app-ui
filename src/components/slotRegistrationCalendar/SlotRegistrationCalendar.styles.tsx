@@ -74,8 +74,7 @@ export const Hour = styled.button<HourProps>`
   &:hover {
     cursor: ${(props) => (props.$isAvailable ? 'pointer' : 'default')};
   }
-  &:focus {
-    outline: none;
+  &:
     box-shadow: none;
   }
 `;
