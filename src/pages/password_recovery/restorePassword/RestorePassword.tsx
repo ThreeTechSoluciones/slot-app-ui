@@ -1,7 +1,7 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import * as s from './RestorePassword.styles';
-import BackIcon from '../../../assets/back-circle-icon.svg';
+import BackIcon from '../../../assets/arrow-circle-icon.svg';
 import Button from '../../../components/button/Button';
 import { useConfirmRestorePasswordMutation } from '../../../app/services/AuthService';
 import { IniciarSesion } from '../../../routes/RoutesUtils';

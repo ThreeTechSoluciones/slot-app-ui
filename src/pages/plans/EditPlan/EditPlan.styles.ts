@@ -25,7 +25,6 @@ export const InfoContainer = styled.div`
   flex-direction: column;
   width: 100%;
   gap: 8px;
-  margin-top: 8px;
 `;
 
 export const InputContainer = styled.div`

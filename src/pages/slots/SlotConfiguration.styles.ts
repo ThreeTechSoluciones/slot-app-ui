@@ -6,14 +6,12 @@ import {
   DEFAULT_TEXT_COLOR,
   LIGHT_NEUTRAL_COLOR,
   FONT_WEIGHT_BOLD,
-  BACKGROUND_COLOR,
   SUCCESS_COLOR,
   DEFAULT_FONT_SIZE,
   LARGE_FONT_SIZE,
   MEDIUM_FONT_SIZE,
   SMALL_FONT_SIZE,
 } from '../../utils/Stylesheet';
-import CaretIcon from '../../assets/caret-icon.png';
 
 export const MainContainer = styled.div`
   display: flex;
@@ -83,18 +81,39 @@ export const Input = styled(BaseStyle)`
     font-size: ${DEFAULT_FONT_SIZE};
   }
 `;
-
-export const Select = styled(BaseStyle).attrs({ as: 'select' })`
+export const SelectWrapper = styled.div`
+  position: relative;
   width: 316px;
-  border: 1px solid black;
-  appearance: none;
-  font-size: ${MEDIUM_FONT_SIZE};
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  background: url(${CaretIcon}) no-repeat right 12px center;
-  padding-right: 32px;
 `;
 
+export const Select = styled.select`
+  width: 316px;
+  height: 48px;
+
+  border: 1px solid black;
+  border-radius: ${BORDER_RADIUS};
+
+  padding-left: 16px;
+  padding-right: 48px;
+
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  font-size: ${MEDIUM_FONT_SIZE};
+
+  cursor: pointer;
+`;
+
+export const CaretIcon = styled.img`
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 12px;
+  pointer-events: none;
+`;
 interface ButtonProps {
   $isDisabled?: boolean;
 }
@@ -234,21 +253,27 @@ export const SecondaryText = styled.p`
 
 export const ActionsContainer = styled.div`
   display: flex;
-  flex-direction: row;
   margin-left: auto;
+  align-items: center;
+  gap: 8px;
+`;
+export const IconButton = styled.div`
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: red;
+  border-radius: 50%;
   &:hover {
+    background-color: ${BRAND_COLOR};
     cursor: pointer;
   }
   img {
-    background-color: ${BACKGROUND_COLOR};
-    border-radius: 50%;
-    padding: 5px;
-    &:hover {
-      background-color: ${BRAND_COLOR};
-    }
+    display: block;
+    object-fit: contain;
   }
 `;
-
 export const InfoContainer = styled.div`
   display: flex;
   flex-direction: column;

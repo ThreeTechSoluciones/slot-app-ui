@@ -5,6 +5,7 @@ import {
   useRecoverStudentSlotMutation,
 } from '../../app/services/StudentService';
 import useAuthentication from '../../hooks/useAuthentication';
+import StudentIcon from '../../assets/user-icon.svg';
 import { DaysOfWeekTranslation } from '../../utils/DaysOfWeek';
 import { CalendarViewName } from '../../app/types/models/CalendarViewName';
 import { SearchNotFound } from '../../components/search_not_found/SearchNotFound';

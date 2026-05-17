@@ -58,12 +58,12 @@ function Plans() {
   } = useGetUserPlansQuery(
     userId
       ? {
-        userId,
-        page: page - 1,
-        size,
-        planName: filter,
-        sort: sort.length > 0 ? sort : undefined,
-      }
+          userId,
+          page: page - 1,
+          size,
+          planName: filter,
+          sort: sort.length > 0 ? sort : undefined,
+        }
       : skipToken,
   );
 
@@ -180,10 +180,9 @@ function Plans() {
             setShowCompleteEdit(false);
             openModal(ModalType.EDIT);
           }}
-
         />
       ),
-      title: "Próximos precios",
+      title: 'Próximos precios',
       onClose: () => {
         setModalType(ModalType.NONE);
         setShowModal(false);

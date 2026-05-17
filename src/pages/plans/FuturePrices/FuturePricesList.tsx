@@ -1,6 +1,6 @@
 import * as s from './FuturePricesList.styles';
 import CalendarIcon from '../../../assets/calendar-icon.svg';
-import DeleteIcon from '../../../assets/delete-icon.png';
+import DeleteIcon from '../../../assets/delete-icon.svg';
 import type { PlanResponse } from '../../../app/types/responses/PlanResponse.type';
 import type { PriceResponse } from '../../../app/types/responses/PriceResponse.type';
 import { formatCurrency } from '../../../utils/Formatter';

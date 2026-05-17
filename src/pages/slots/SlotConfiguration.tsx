@@ -4,8 +4,9 @@ import EditSlotForm from './forms/EditSlotForm';
 import { useRef, useState } from 'react';
 import AddIcon from '../../assets/add-icon.svg';
 import { DaysOfWeek } from '../../utils/DaysOfWeek';
-import DeleteIcon from '../../assets/delete-icon.png';
+import DeleteIcon from '../../assets/delete-icon.svg';
 import CalendarIcon from '../../assets/calendar-icon.svg';
+import CaretIcon from '../../assets/caret-icon.svg';
 import CreateSlotForm from './forms/CreateSlotForm';
 import {
   useCreateSlotMutation,
@@ -31,8 +32,6 @@ function SlotConfiguration() {
   const [modalType, setModalType] = useState<ModalType>();
 
   const [currentSlot, setCurrentSlot] = useState<SlotResponse | null>(null);
-
-  const [showConfirm, setShowConfirm] = useState(false);
 
   const { userId } = useAuthentication();
 
@@ -165,16 +164,19 @@ function SlotConfiguration() {
         </s.InputContainer>
         <s.InputContainer>
           <s.Label> Día del turno</s.Label>
-          <s.Select onChange={handleSelectValue} value={selectEnglishValue}>
-            <option value="" disabled hidden>
-              Seleccione un día
-            </option>
-            {Object.entries(DaysOfWeek).map(([key, value]) => (
-              <option key={key} value={value}>
-                {key}
+          <s.SelectWrapper>
+            <s.Select onChange={handleSelectValue} value={selectEnglishValue}>
+              <option value="" disabled hidden>
+                Seleccione un día
               </option>
-            ))}
-          </s.Select>
+              {Object.entries(DaysOfWeek).map(([key, value]) => (
+                <option key={key} value={value}>
+                  {key}
+                </option>
+              ))}
+            </s.Select>
+            <s.CaretIcon src={CaretIcon} alt="caret-icon" />
+          </s.SelectWrapper>
         </s.InputContainer>
         <s.Button
           $isDisabled={selectEnglishValue === ''}
@@ -219,25 +221,25 @@ function SlotConfiguration() {
               </s.SecondaryText>
             </s.SlotInfoContainer>
             <s.ActionsContainer>
-              <img
-                src={EditIcon}
-                width={'24px'}
-                height={'24px'}
-                onClick={() => {
-                  setCurrentSlot(slot);
-                  openModal(ModalType.EDIT_START_TIME);
-                }}
-              ></img>
-              <img
-                src={DeleteIcon}
-                width={'24px'}
-                height={'24px'}
-                onClick={() => {
-                  setCurrentSlot(slot);
-                  // setShowConfirm(true);
-                  openModal(ModalType.CONFIRM_DELETE);
-                }}
-              ></img>
+              <s.IconButton>
+                <img
+                  src={EditIcon}
+                  onClick={() => {
+                    setCurrentSlot(slot);
+                    openModal(ModalType.EDIT_START_TIME);
+                  }}
+                ></img>
+              </s.IconButton>
+
+              <s.IconButton>
+                <img
+                  src={DeleteIcon}
+                  onClick={() => {
+                    setCurrentSlot(slot);
+                    openModal(ModalType.CONFIRM_DELETE);
+                  }}
+                ></img>
+              </s.IconButton>
             </s.ActionsContainer>
           </s.SpecificSlotContainer>
         ))}

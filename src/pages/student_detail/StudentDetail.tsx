@@ -6,10 +6,10 @@ import {
   useGetStudentByIdQuery,
 } from '../../app/services/StudentService';
 import StudentIcon from '../../assets/user-icon.svg';
-import BackIcon from '../../assets/back-circle-icon.svg';
+import BackIcon from '../../assets/arrow-circle-icon.svg';
 import InfoIcon from '../../assets/info-icon.svg';
 import EditIcon from '../../assets/edit-icon.svg';
-import DesactivateIcon from '../../assets/desactivate-icon.svg';
+import DesactivateIcon from '../../assets/arrow-circle-icon.svg';
 import CalendarIcon from '../../assets/calendar-icon.svg';
 import Button from '../../components/button/Button';
 import { ConfirmDialog } from '../../components/confirm_dialog/ConfirmDialog';
@@ -102,12 +102,16 @@ const StudentDetail = () => {
             variant={student.status ? 'warning' : 'success'}
             icon={
               student.status ? (
-                <img src={DesactivateIcon} alt="desactivate-icon" />
+                <img
+                  src={DesactivateIcon}
+                  alt="desactivate-icon"
+                  style={{ transform: 'rotate(-90deg)', width: '30px', height: '30px' }}
+                />
               ) : (
                 <img
                   src={DesactivateIcon}
                   alt="activate-icon"
-                  style={{ transform: 'rotate(180deg)' }}
+                  style={{ transform: 'rotate(90deg)', width: '30px', height: '30px' }}
                 />
               )
             }
