@@ -23,6 +23,7 @@ import { skipToken } from '@reduxjs/toolkit/query';
 import { DaysOfWeekTranslation } from '../../../../utils/DaysOfWeek';
 import CalendarIcon from '../../../../assets/calendar-icon.svg';
 import type { FormRef } from '../../../../app/types/FormRef';
+import Spinner from '../../../../components/spinner/Spinner';
 
 export interface PlanDataProps {
   planId: string;
@@ -157,7 +158,16 @@ const PlanData = forwardRef<FormRef, FormProps<PlanDataProps>>((props, ref) => {
           <ErrorMessage error={errors.planId} />
         </PlanContainer>
         {isLoadingCalendar ? (
-          <p>Cargando turnos...</p>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              marginTop: '8px',
+            }}
+          >
+            <Spinner text="Cargando turnos..." />
+          </div>
         ) : (
           <SlotRegistrationCalendar
             listSlots={userSlots}

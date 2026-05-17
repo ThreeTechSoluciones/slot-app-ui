@@ -2,6 +2,7 @@ import { useGetStudentPaymentMetricsQuery } from '../../app/services/MetricServi
 import { MetricCards, type MetricItem } from '../../components/metric_card/MetricCard';
 import { FiCheckCircle, FiXCircle } from 'react-icons/fi';
 import { CgDanger } from 'react-icons/cg';
+import Spinner from '../../components/spinner/Spinner';
 import { DANGER_COLOR, NEUTRAL_COLOR, SUCCESS_COLOR } from '../../utils/Stylesheet';
 
 interface PaymentMetricsProps {
@@ -11,7 +12,8 @@ interface PaymentMetricsProps {
 const PaymentMetrics = ({ studentId }: PaymentMetricsProps) => {
   const { data: metrics, isLoading, isError } = useGetStudentPaymentMetricsQuery({ studentId });
 
-  if (isLoading) return <div>Cargando estadísticas...</div>;
+  if (isLoading) return <Spinner text="Cargando estadísticas..." />;
+
   if (isError || !metrics) return null;
 
   const items: MetricItem[] = [

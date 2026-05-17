@@ -24,6 +24,7 @@ import { useCancelSpecificSlotMutation } from '../../app/services/SpecificSlotSe
 import RegisterAbsence from './registerAbsence/RegisterAbsence';
 import { StudentRecover } from './studentRecover/StudentRecover';
 import { capitalize } from '../../utils/CapitalizeWords';
+import BicycleLoader from '../../components/bicycle_animation/BicycleLoader';
 
 const EMPTY_ACTION: CalendarAction = {
   type: CalendarActionsType.NONE,
@@ -48,7 +49,11 @@ function CalendarView() {
     setOpenModal(false);
   };
 
-  const { data: calendarData } = useGetCalendarViewQuery({
+  const {
+    data: calendarData,
+
+    isFetching,
+  } = useGetCalendarViewQuery({
     userId: userId!,
     date: formatDateToIsoString(selectDate),
     typeOfView: CalendarViewName.WEEKLY,
@@ -116,7 +121,7 @@ function CalendarView() {
       <s.NoResponseContainer>
         <SelectDateContainer />
         <s.Spacing>
-          <SearchNotFound message="No hay turnos para mostrar" />
+          {isFetching ? <BicycleLoader /> : <SearchNotFound message="No hay turnos para mostrar" />}
         </s.Spacing>
       </s.NoResponseContainer>
     );

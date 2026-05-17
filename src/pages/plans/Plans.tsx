@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { formatCurrency } from '../../utils/Formatter';
 import type { Column } from '../../app/types/table';
 import type { PlanResponse } from '../../app/types/responses/PlanResponse.type';
@@ -25,6 +25,7 @@ import EditPlan from './EditPlan/EditPlan';
 import { formatDateToDash } from '../../utils/DateFormatter';
 import { Pagination } from '../../components/pagination/Pagination';
 import type { SortConfig } from '../../app/types/sort';
+import BicycleLoader from '../../components/bicycle_animation/BicycleLoader';
 import Modal, { type ModalProps } from '../../components/unified_modal/Modal';
 import FuturePricesList from './FuturePrices/FuturePricesList';
 import FuturePricesComponent from './FuturePrices/FuturePricesComponent';
@@ -138,7 +139,6 @@ function Plans() {
 
   const modalConfig: Record<ModalType, ModalProps> = {
     [ModalType.DELETE]: {
-      // TODO: Revisar borde lateral izquierdo en amarillo que aparece al usar el ConfirmDialog dentro del Modal
       children: <ConfirmDialog message="¿Estás seguro de que deseas eliminar este plan?" />,
       primaryButtonText: 'Eliminar',
       secondaryButtonText: 'Cancelar',
@@ -273,10 +273,8 @@ function Plans() {
       ),
     },
   ];
-  useEffect(() => {
-    setPage(1);
-  }, [filter]);
-  if (isLoading) return <div>Cargando...</div>;
+
+  if (isLoading) return <BicycleLoader />;
   if (isError) return <div>Ocurrió un error a la hora de cargar a los planes.</div>;
   if (!plansData) return <div>No hay información disponible.</div>;
   return (
