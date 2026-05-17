@@ -60,7 +60,7 @@ const PaymentData = forwardRef<FormRef, FormProps<PaymentDataProps>>((props, ref
     return (
       <s.FieldContainer>
         <s.Label>Día de pago</s.Label>
-        <s.Input placeholder="15" {...register('paymentDay')} />
+        <s.Input autoFocus placeholder="15" {...register('paymentDay')} />
         <ErrorMessage error={errors.paymentDay} />
       </s.FieldContainer>
     );
@@ -75,7 +75,7 @@ const PaymentData = forwardRef<FormRef, FormProps<PaymentDataProps>>((props, ref
         <s.SecondaryInputsContainer>
           <s.FieldContainer>
             <s.Label>Clases extras</s.Label>
-            <s.Input placeholder="Clases extras" {...register('extraClasses')}></s.Input>
+            <s.Input autoFocus placeholder="Clases extras" {...register('extraClasses')}></s.Input>
             <ErrorMessage error={errors.extraClasses} />
           </s.FieldContainer>
           <s.FieldContainer>

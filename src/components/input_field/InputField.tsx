@@ -21,7 +21,7 @@ export function InputField({
   return (
     <s.Container>
       <s.InputContainer>
-        <s.Input type={type} placeholder={placeholder} {...registration} />
+        <s.Input autoFocus type={type} placeholder={placeholder} {...registration} />
 
         {icon && (
           <s.Img

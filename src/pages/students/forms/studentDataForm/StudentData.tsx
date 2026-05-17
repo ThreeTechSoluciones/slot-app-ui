@@ -104,7 +104,7 @@ const StudentData = forwardRef<FormRef, FormProps<StudentDataProps>>((props, ref
       <FormContainer>
         <div>
           <Label>Nombre</Label>
-          <Input placeholder="Juan" {...register('name')}></Input>
+          <Input autoFocus placeholder="Juan" {...register('name')}></Input>
           <ErrorMessage error={errors.name} />
         </div>
         <div>
@@ -144,6 +144,7 @@ const StudentData = forwardRef<FormRef, FormProps<StudentDataProps>>((props, ref
                   format="dd/MM/yyyy"
                   calendarPosition="top"
                   locale="es-ES"
+                  autoFocus={true}
                   clearIcon={null}
                   calendarIcon={
                     <img src={CalendarIcon} alt="Calendario" style={{ width: 20, height: 20 }} />
