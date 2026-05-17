@@ -20,7 +20,7 @@ import {
 import { formatDateToDash, formatDateToISO } from '../../../utils/DateFormatter';
 import toast from 'react-hot-toast';
 import type { UpdateStudentRequest } from '../../../app/types/requests/UpdateStudentRequest.type';
-import BackIcon from '../../../assets/back-circle-icon.svg';
+import BackIcon from '../../../assets/arrow-circle-icon.svg';
 
 function EditStudent() {
   const { userId } = useAuthentication();

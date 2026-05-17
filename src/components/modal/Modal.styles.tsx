@@ -19,6 +19,7 @@ export const ModalSlotContainer = styled.div`
   align-items: center;
   justify-content: center;
   backdrop-filter: blur(5px);
+  z-index: 9999;
 `;
 
 export const ModalContent = styled.div`

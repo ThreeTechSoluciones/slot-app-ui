@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import SortIcon from '../../assets/sort-icon.png';
+import SortIcon from '../../assets/caret-icon.svg';
 import * as s from '../sort_button/SortButton.styles';
 
 interface SortableHeaderProps {

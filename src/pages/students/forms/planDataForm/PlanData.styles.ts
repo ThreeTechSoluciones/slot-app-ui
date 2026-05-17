@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import CaretIcon from '../../../../assets/caret-icon.png';
+import CaretIcon from '../../../../assets/caret-icon.svg';
 import {
   NEUTRAL_COLOR,
   DEFAULT_TEXT_COLOR,
