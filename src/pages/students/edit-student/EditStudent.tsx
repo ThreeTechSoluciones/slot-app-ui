@@ -69,6 +69,7 @@ function EditStudent() {
       lastName: studentSaveData.lastName,
       dni: studentSaveData.dni,
       cellphoneNumber: studentSaveData.cellphoneNumber,
+      email: studentSaveData.email ?? null,
       birthday: formattedBirthday,
       pathologies: studentSaveData.pathologies ?? undefined,
     };
@@ -155,7 +156,6 @@ function EditStudent() {
       ),
     },
   };
-
   const updateStudentData = (data: UpdateStudentRequest) => {
     updateStudent(data)
       .unwrap()

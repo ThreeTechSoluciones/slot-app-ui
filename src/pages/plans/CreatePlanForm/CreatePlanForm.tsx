@@ -56,7 +56,7 @@ const CreatePlanForm = forwardRef<FormProps<CreatePlanProp>, FormProps<CreatePla
         <s.InputContainer>
           <s.LabelStyle>Nombre del plan</s.LabelStyle>
           <s.InputWrapper>
-            <s.InputStyle placeholder="Ej: Pase Libre" {...register('name')} />
+            <s.InputStyle autoFocus placeholder="Ej: Pase Libre" {...register('name')} />
             <ErrorMessage error={errors.name} />
           </s.InputWrapper>
         </s.InputContainer>

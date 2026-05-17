@@ -4,6 +4,7 @@ import {
   NEUTRAL_COLOR,
   DEFAULT_TEXT_COLOR,
   MEDIUM_FONT_SIZE,
+  FOCUS_STYLE,
 } from '../Stylesheet';
 
 type PriceInputProps = {
@@ -23,5 +24,15 @@ export const PriceInput = styled.input<PriceInputProps>`
   &::placeholder {
     color: ${(props) => (props.disabled ? LIGHT_NEUTRAL_COLOR : NEUTRAL_COLOR)};
     font-size: ${MEDIUM_FONT_SIZE};
+  }
+  ${({ autoFocus }) =>
+    autoFocus &&
+    `
+    &:focus {
+      ${FOCUS_STYLE}
+    }
+  `}
+  &:focus {
+    ${FOCUS_STYLE}
   }
 `;

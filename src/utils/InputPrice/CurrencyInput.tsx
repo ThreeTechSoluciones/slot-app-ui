@@ -15,6 +15,7 @@ type CurrencyInputProps = {
   width: string;
   placeholder?: string;
   style?: React.CSSProperties;
+  autoFocus?: boolean;
 };
 
 export default function CurrencyInput({
@@ -23,6 +24,7 @@ export default function CurrencyInput({
   width,
   placeholder,
   style,
+  autoFocus,
 }: CurrencyInputProps) {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const raw = e.target.value.replace(/[^\d]/g, '');
@@ -42,6 +44,7 @@ export default function CurrencyInput({
       width={width}
       placeholder={placeholder}
       style={style}
+      autoFocus={autoFocus}
     />
   );
 }

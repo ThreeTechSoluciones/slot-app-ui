@@ -57,7 +57,7 @@ export const CustomDisplay = styled.div`
   font-weight: ${FONT_WEIGHT_BOLD};
   top: 8px;
   left: 16px;
-  width: 350px;
+  width: 345px;
   height: 40px;
   display: flex;
   align-items: center;

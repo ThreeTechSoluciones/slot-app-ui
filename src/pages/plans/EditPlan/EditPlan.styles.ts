@@ -8,6 +8,7 @@ import {
   MEDIUM_FONT_SIZE,
   DEFAULT_FONT_SIZE,
   SMALL_FONT_SIZE,
+  FOCUS_STYLE,
 } from '../../../utils/Stylesheet';
 
 export const FormStyle = styled.form`
@@ -45,11 +46,25 @@ export const Input = styled.input<InputProps>`
   padding: 0 12px;
   font-size: ${MEDIUM_FONT_SIZE};
   color: ${DEFAULT_TEXT_COLOR};
-  background-color: ${BACKGROUND_COLOR};
   background-color: ${(props) => (props.$isNonEditable ? LIGHT_NEUTRAL_COLOR : BACKGROUND_COLOR)};
   border: ${(props) =>
     props.$isNonEditable ? `2px solid ${LIGHT_NEUTRAL_COLOR}` : `1px solid ${DEFAULT_TEXT_COLOR}`};
   pointer-events: ${(props) => (props.$isNonEditable ? 'none' : 'auto')};
+  ${(props) =>
+    !props.$isNonEditable &&
+    `
+    &:focus {
+      ${FOCUS_STYLE}
+    }
+  `}
+  ${(props) =>
+    props.$isNonEditable &&
+    `
+    &:focus {
+      outline: none;
+      box-shadow: none;
+    }
+  `}
 `;
 
 export const InputWrapper = styled.div`

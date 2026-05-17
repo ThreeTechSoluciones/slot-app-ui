@@ -1,5 +1,10 @@
 import styled from 'styled-components';
-import { NEUTRAL_COLOR, DEFAULT_TEXT_COLOR, DEFAULT_FONT_SIZE } from '../../utils/Stylesheet';
+import {
+  NEUTRAL_COLOR,
+  DEFAULT_TEXT_COLOR,
+  DEFAULT_FONT_SIZE,
+  LARGE_FONT_SIZE,
+} from '../../utils/Stylesheet';
 
 export const MainContainer = styled.div`
   display: flex;
@@ -11,7 +16,7 @@ export const MainContainer = styled.div`
 `;
 
 export const Title = styled.h1`
-  font-size: 24px;
+  font-size: ${LARGE_FONT_SIZE};
   margin: 0px;
 `;
 
@@ -28,6 +33,12 @@ export const Label = styled.label`
   margin-top: 8px;
   margin-bottom: 8px;
   padding: 0px;
+`;
+
+export const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
 `;
 
 export const ForgotPasswordText = styled.p`

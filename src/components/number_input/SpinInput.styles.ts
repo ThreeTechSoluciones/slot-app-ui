@@ -1,7 +1,16 @@
 import styled from 'styled-components';
-import { BORDER_RADIUS, DEFAULT_TEXT_COLOR, MEDIUM_FONT_SIZE } from '../../utils/Stylesheet';
+import {
+  FOCUS_STYLE,
+  BORDER_RADIUS,
+  DEFAULT_TEXT_COLOR,
+  MEDIUM_FONT_SIZE,
+} from '../../utils/Stylesheet';
 
-export const Input = styled.input`
+interface SpinInputProps {
+  $autoFocus?: boolean;
+}
+
+export const Input = styled.input<SpinInputProps>`
   border: 1px solid ${DEFAULT_TEXT_COLOR};
   border-radius: ${BORDER_RADIUS};
   height: 56px;
@@ -27,6 +36,16 @@ export const Input = styled.input`
   &[type='number']::-moz-number-spin-box {
     appearance: none;
     -moz-appearance: none;
+  }
+  ${({ $autoFocus }) =>
+    $autoFocus === true &&
+    `
+  &:focus {
+    ${FOCUS_STYLE}
+  }
+`}
+  &:focus {
+    ${FOCUS_STYLE}
   }
 `;
 export const InputWithIconWrapper = styled.div`

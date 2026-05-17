@@ -87,6 +87,10 @@ export const ActionButton = styled.button`
   display: inline-flex;
   align-items: center;
   gap: 4px;
+  &:focus {
+    outline: none;
+    box-shadow: none;
+  }
 `;
 
 const BaseIcon = styled.img`

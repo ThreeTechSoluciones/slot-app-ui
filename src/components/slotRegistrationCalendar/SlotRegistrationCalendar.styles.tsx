@@ -55,6 +55,7 @@ export const Day = styled.p`
   color: ${DEFAULT_TEXT_COLOR};
   background-color: ${LIGHT_NEUTRAL_COLOR};
 `;
+
 export const Hour = styled.button<HourProps>`
   display: flex;
   width: 80px;
@@ -72,6 +73,9 @@ export const Hour = styled.button<HourProps>`
     props.$isAvailable ? `2px solid ${SUCCESS_COLOR}` : `2px solid ${LIGHT_NEUTRAL_COLOR}`};
   &:hover {
     cursor: ${(props) => (props.$isAvailable ? 'pointer' : 'default')};
+  }
+  &:
+    box-shadow: none;
   }
 `;
 

@@ -8,12 +8,15 @@ import {
   DEFAULT_FONT_SIZE,
   SMALL_FONT_SIZE,
   MEDIUM_FONT_SIZE,
+  FOCUS_STYLE,
 } from '../../utils/Stylesheet';
 
 interface StyledWrapperProps {
   $calendarPosition?: 'bottom' | 'top';
   $width: string;
+  $autoFocus?: boolean;
 }
+
 export const StyledWrapper = styled.div<StyledWrapperProps>`
   position: relative;
   .react-date-picker__wrapper {
@@ -25,6 +28,16 @@ export const StyledWrapper = styled.div<StyledWrapperProps>`
     font-size: ${DEFAULT_FONT_SIZE};
     padding: 0 16px;
     background: none;
+    ${({ $autoFocus }) =>
+      $autoFocus === true &&
+      `
+      &:focus-within {
+        ${FOCUS_STYLE}
+      }
+    `}
+    &:focus-within {
+      ${FOCUS_STYLE}
+    }
     color: ${DEFAULT_TEXT_COLOR};
   }
   .react-date-picker {
@@ -83,7 +96,6 @@ export const StyledWrapper = styled.div<StyledWrapperProps>`
   .react-calendar__tile {
     color: black;
     border-radius: ${BORDER_RADIUS};
-
     width: 40px;
     height: 40px;
     border-radius: 50%;

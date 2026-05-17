@@ -4,6 +4,7 @@ import {
   MEDIUM_FONT_SIZE,
   DEFAULT_TEXT_COLOR,
   NEUTRAL_COLOR,
+  FOCUS_STYLE,
 } from '../../utils/Stylesheet';
 
 export const Container = styled.div`
@@ -34,8 +35,7 @@ export const Input = styled.input`
   }
 
   &:focus {
-    outline: none;
-    background: none;
+    ${FOCUS_STYLE}
   }
 
   &::-ms-reveal,

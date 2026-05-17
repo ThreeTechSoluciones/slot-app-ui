@@ -51,10 +51,12 @@ function Login() {
         <s.Label>Contraseña</s.Label>
         <PasswordInput placeholder="Contraseña" registration={register('password')} />
         <ErrorMessage error={errors.password} />
+        <s.ButtonContainer>
+          <Button type="submit" size="large">
+            Aceptar
+          </Button>
+        </s.ButtonContainer>
 
-        <Button type="submit" size="large">
-          Aceptar
-        </Button>
         <s.ForgotPasswordText onClick={() => navigate(RecuperarContraseña)}>
           ¿Olvidaste tu contraseña?
         </s.ForgotPasswordText>
