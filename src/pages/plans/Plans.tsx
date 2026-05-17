@@ -26,21 +26,23 @@ import { formatDateToDash } from '../../utils/DateFormatter';
 import { Pagination } from '../../components/pagination/Pagination';
 import type { SortConfig } from '../../app/types/sort';
 import Modal, { type ModalProps } from '../../components/unified_modal/Modal';
+import FuturePricesList from './FuturePrices/FuturePricesList';
+import FuturePricesComponent from './FuturePrices/FuturePricesComponent';
 
 enum ModalType {
   DELETE = 'DELETE',
   CREATE = 'CREATE',
   EDIT = 'EDIT',
   NONE = 'NONE',
+  SHOW_FUTURE_PRICES = 'SHOW_FUTURE_PRICES',
 }
 
 function Plans() {
   const formRef = useRef<any>(null);
   const [filter, setFilter] = useState<string>('');
-
   const [modalType, setModalType] = useState<ModalType>(ModalType.NONE);
   const [showModal, setShowModal] = useState<boolean>(false);
-
+  const [showCompleteEdit, setShowCompleteEdit] = useState<boolean>(true);
   const [selectedPlan, setSelectedPlan] = useState<PlanResponse | null>(null);
   const [editPlan] = useUpdatePlanMutation();
   const [deletePlan] = useDeletePlanMutation();
@@ -156,16 +158,35 @@ function Plans() {
           planId={selectedPlan?.id!}
           planName={selectedPlan?.name!}
           numberOfDays={selectedPlan?.numberOfDays!}
-          currentAmount={selectedPlan?.price!}
+          currentAmount={selectedPlan?.currentPrice!}
+          showCompleteEdit={showCompleteEdit}
         />
       ),
-      primaryButtonText: 'Editar',
+      primaryButtonText: 'Aceptar',
       secondaryButtonText: 'Cancelar',
       onConfirm: handleEditPlan,
-      title: 'EDITAR PLAN',
+      title: showCompleteEdit ? 'Editar plan' : 'Programar nuevo precio',
     },
     [ModalType.NONE]: {
       children: <></>,
+    },
+    [ModalType.SHOW_FUTURE_PRICES]: {
+      children: (
+        <FuturePricesList
+          selectedPlan={selectedPlan}
+          nextPrice={selectedPlan?.nextPrice}
+          futurePrices={selectedPlan?.futurePrices}
+          onAddPrice={() => {
+            setShowCompleteEdit(false);
+            openModal(ModalType.EDIT);
+          }}
+        />
+      ),
+      title: 'Próximos precios',
+      onClose: () => {
+        setModalType(ModalType.NONE);
+        setShowModal(false);
+      },
     },
   };
 
@@ -182,7 +203,7 @@ function Plans() {
     {
       header: (
         <SortableButton
-          text="Cantidad de días asignados"
+          text="Cantidad de días"
           onSort={(isAsc) =>
             setSort([{ property: 'numberOfDays', direction: isAsc ? 'ASC' : 'DESC' }])
           }
@@ -195,12 +216,36 @@ function Plans() {
       header: (
         <SortableButton
           text="Precio actual"
-          onSort={(isAsc) => setSort([{ property: 'price', direction: isAsc ? 'ASC' : 'DESC' }])}
+          onSort={(isAsc) =>
+            setSort([{ property: 'currentPrice', direction: isAsc ? 'ASC' : 'DESC' }])
+          }
         />
       ),
-      accessor: 'price',
-      render: (plan) => <span>{formatCurrency(plan.price)}</span>,
+      accessor: 'currentPrice',
+      render: (plan) => <span>{formatCurrency(plan.currentPrice)}</span>,
     },
+    {
+      header: 'Próximo precio',
+      accessor: 'nextPrice',
+      render: (plan) => {
+        const totalFuturePrices = plan.totalFuturePrices;
+        return (
+          <FuturePricesComponent
+            plan={plan}
+            onClick={() => {
+              setSelectedPlan(plan);
+              if (totalFuturePrices !== null && totalFuturePrices !== 0) {
+                openModal(ModalType.SHOW_FUTURE_PRICES);
+              } else {
+                setShowCompleteEdit(false);
+                openModal(ModalType.EDIT);
+              }
+            }}
+          />
+        );
+      },
+    },
+
     {
       header: 'Acciones',
       render: (plan) => (
@@ -213,6 +258,7 @@ function Plans() {
               onClick: () => {
                 openModal(ModalType.EDIT);
                 setSelectedPlan(plan);
+                setShowCompleteEdit(true);
               },
             },
             {
@@ -277,11 +323,11 @@ function Plans() {
         secondaryButtonText={modalConfig[modalType].secondaryButtonText}
         onConfirm={modalConfig[modalType].onConfirm}
         onCancel={() => setShowModal(false)}
+        onClose={modalConfig[modalType].onClose}
       >
         {modalConfig[modalType].children}
       </Modal>
     </s.PlansContainer>
   );
 }
-
 export default Plans;

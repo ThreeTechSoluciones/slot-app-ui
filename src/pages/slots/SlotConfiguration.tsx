@@ -33,8 +33,6 @@ function SlotConfiguration() {
 
   const [currentSlot, setCurrentSlot] = useState<SlotResponse | null>(null);
 
-  const [showConfirm, setShowConfirm] = useState(false);
-
   const { userId } = useAuthentication();
 
   const [createSlot] = useCreateSlotMutation();
