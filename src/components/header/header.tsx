@@ -1,4 +1,4 @@
-import PlusIcon from '../../assets/plus-icon-circle.webp';
+import PlusIcon from '../../assets/plus-icon.svg';
 import LogoCeci from '../../assets/logoCeci.png';
 import LogoutIcon from '../../assets/logout.png';
 import PerfilPicture from '../../assets/perfil.jpg';
@@ -9,16 +9,8 @@ import {
   MisTurnos,
   Calendario,
 } from '../../routes/RoutesUtils';
-import {
-  MainContainer,
-  LeftOptionsContainer,
-  RightOptionsContainer,
-  Logo,
-  Logout,
-  Photo,
-  Option,
-} from './header.styles';
-import { useNavigate } from 'react-router';
+import * as s from './header.styles';
+import { useLocation, useNavigate } from 'react-router';
 import { ConfirmDialog } from '../confirm_dialog/ConfirmDialog';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -28,9 +20,13 @@ import Modal from '../unified_modal/Modal';
 
 function Header() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
-  const [showConfirm, setShowConfirm] = useState(false);
+  const headerOptions = {
+    [Calendario]: 'Calendario',
+    [MisAlumnos]: 'Mis alumnos',
+    [MisPlanes]: 'Mis planes',
+    [MisTurnos]: 'Mis turnos',
+  };
 
   const handleLogout = () => {
     setShowConfirm(false);
@@ -38,30 +34,41 @@ function Header() {
     toast.success('Cerraste sesión');
   };
 
+  const navigate = useNavigate();
+
+  const { pathname } = useLocation();
+
+  const [showConfirm, setShowConfirm] = useState(false);
+
   return (
-    <MainContainer>
-      <LeftOptionsContainer>
-        <Logo>
+    <s.MainContainer>
+      <s.LeftOptionsContainer>
+        <s.Logo>
           <img src={LogoCeci} alt="Logo" />
-        </Logo>
-        <Option onClick={() => navigate(Calendario)}>Calendario</Option>
-        <Option onClick={() => navigate(MisAlumnos)}>Mis alumnos</Option>
-        <Option onClick={() => navigate(MisPlanes)}>Mis planes</Option>
-        <Option onClick={() => navigate(MisTurnos)}>Mis turnos</Option>
-        <Option $isLast $hasImg onClick={() => navigate(NuevoAlumno)}>
+        </s.Logo>
+        {Object.entries(headerOptions).map(([route, label]) => (
+          <s.Option key={route} $isActive={pathname === route} onClick={() => navigate(route)}>
+            {label}
+          </s.Option>
+        ))}
+        <s.Button $isActive={pathname === NuevoAlumno} onClick={() => navigate(NuevoAlumno)}>
           Nuevo alumno
-          <img src={PlusIcon} />
-        </Option>
-      </LeftOptionsContainer>
-      <RightOptionsContainer>
-        <Logout onClick={() => setShowConfirm(true)}>
+          <img src={PlusIcon} height="11" width="11" />
+        </s.Button>
+      </s.LeftOptionsContainer>
+      <s.RightOptionsContainer>
+        <s.Logout onClick={() => setShowConfirm(true)}>
           <img src={LogoutIcon} />
-          Cerrar sesión
-        </Logout>
-        <Photo>
+          <s.LogoutText>
+            Cerrar
+            <br />
+            sesión
+          </s.LogoutText>
+        </s.Logout>
+        <s.Photo>
           <img src={PerfilPicture} alt="Foto de perfil" />
-        </Photo>
-      </RightOptionsContainer>
+        </s.Photo>
+      </s.RightOptionsContainer>
       <Modal
         onCancel={() => setShowConfirm(false)}
         active={showConfirm}
@@ -71,7 +78,7 @@ function Header() {
       >
         <ConfirmDialog message="¿Estás seguro de que quieres cerrar sesión?" />
       </Modal>
-    </MainContainer>
+    </s.MainContainer>
   );
 }
 export default Header;

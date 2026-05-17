@@ -40,6 +40,7 @@ export const NavigationDateContainer = styled.div`
   align-items: center;
   justify-content: center;
   gap: 16px;
+  margin-top: 16px;
 `;
 
 export const InputDateContainer = styled.div`
