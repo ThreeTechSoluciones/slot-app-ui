@@ -16,7 +16,6 @@ export const FormStyle = styled.form`
   align-items: center;
   width: 100%;
   height: auto;
-  padding: 0 36px;
   box-sizing: border-box;
   margin: 0px;
 `;
@@ -25,12 +24,13 @@ export const InfoContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+  gap: 8px;
 `;
 
 export const InputContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
 `;
 
 interface InputProps {

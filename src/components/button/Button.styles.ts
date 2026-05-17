@@ -11,8 +11,32 @@ import {
   DEFAULT_FONT_SIZE,
   MEDIUM_FONT_SIZE,
 } from '../../utils/Stylesheet';
+
+const buttonSizes = {
+  small: {
+    width: '104px',
+    height: '48px',
+    fontSize: '12px',
+  },
+  medium: {
+    width: '192px',
+    height: '48px',
+    fontSize: '12px',
+  },
+  large: {
+    width: '412px',
+    height: '56px',
+    fontSize: '16px',
+  },
+  full: {
+    width: '100%',
+    height: '56px',
+    fontSize: '16px',
+  },
+};
+
 export const StyledButton = styled.button<{
-  $size?: 'small' | 'medium' | 'large';
+  $size?: 'small' | 'medium' | 'large' | 'full';
   $variant?: 'primary' | 'warning' | 'success';
 }>`
   border: none;
@@ -20,9 +44,9 @@ export const StyledButton = styled.button<{
   align-items: center;
   border-radius: ${BORDER_RADIUS};
   cursor: pointer;
-  width: ${({ $size }) => ($size === 'small' ? '104px' : $size === 'medium' ? '192px' : '392px')};
-  height: ${({ $size }) => ($size === 'small' ? '48px' : $size === 'medium' ? '48px' : '56px')};
-  font-size: ${({ $size }) => ($size === 'small' ? '12px' : $size === 'medium' ? '12px' : '16px')};
+  width: ${({ $size }) => buttonSizes[$size || 'medium'].width};
+  height: ${({ $size }) => buttonSizes[$size || 'medium'].height};
+  font-size: ${({ $size }) => buttonSizes[$size || 'medium'].fontSize};
 
   background-color: ${({ $variant }) =>
     $variant === 'primary'

@@ -16,6 +16,7 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { clearUser } from '../../app/slices/AuthSlice';
 import toast from 'react-hot-toast';
+import Modal from '../unified_modal/Modal';
 
 function Header() {
   const dispatch = useDispatch();
@@ -68,13 +69,15 @@ function Header() {
           <img src={PerfilPicture} alt="Foto de perfil" />
         </s.Photo>
       </s.RightOptionsContainer>
-      {showConfirm && (
-        <ConfirmDialog
-          message="¿Estás seguro de que quieres cerrar sesión?"
-          onConfirm={handleLogout}
-          onCancel={() => setShowConfirm(false)}
-        />
-      )}
+      <Modal
+        onCancel={() => setShowConfirm(false)}
+        active={showConfirm}
+        onConfirm={handleLogout}
+        primaryButtonText="Aceptar"
+        secondaryButtonText="Cancelar"
+      >
+        <ConfirmDialog message="¿Estás seguro de que quieres cerrar sesión?" />
+      </Modal>
     </s.MainContainer>
   );
 }
