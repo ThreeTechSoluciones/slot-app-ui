@@ -85,6 +85,7 @@ export const BaseStyle = styled.input`
 export const Input = styled(BaseStyle)`
   background-color: ${LIGHT_NEUTRAL_COLOR};
   font-size: ${DEFAULT_FONT_SIZE};
+  border: 1px solid black;
   border: none;
   &::placeholder {
     color: ${DEFAULT_TEXT_COLOR};
@@ -99,20 +100,23 @@ export const SelectWrapper = styled.div`
 export const Select = styled.select`
   width: 316px;
   height: 48px;
-
   border: 1px solid black;
   border-radius: ${BORDER_RADIUS};
-
   padding-left: 16px;
   padding-right: 48px;
-
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-
   font-size: ${MEDIUM_FONT_SIZE};
-
   cursor: pointer;
+  outline: none;
+  &::placeholder {
+    color: ${NEUTRAL_COLOR};
+    font-size: ${MEDIUM_FONT_SIZE};
+  }
+  &:focus {
+    ${FOCUS_STYLE};
+  }
 `;
 
 export const CaretIcon = styled.img`
@@ -142,8 +146,8 @@ export const Button = styled.button<ButtonProps>`
   color: ${DEFAULT_TEXT_COLOR};
   &:hover {
     ${(props) =>
-    !props.$isDisabled &&
-    `
+      !props.$isDisabled &&
+      `
             cursor: pointer;
             background: ${NEUTRAL_COLOR};
         `}
