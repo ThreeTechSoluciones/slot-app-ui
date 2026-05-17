@@ -3,7 +3,6 @@ import EditIcon from '../../assets/edit-icon.svg';
 import EditSlotForm from './forms/EditSlotForm';
 import { useRef, useState } from 'react';
 import AddIcon from '../../assets/add-icon.svg';
-import Modal from '../../components/modal/Modal';
 import { DaysOfWeek } from '../../utils/DaysOfWeek';
 import DeleteIcon from '../../assets/delete-icon.svg';
 import CalendarIcon from '../../assets/calendar-icon.svg';
@@ -25,6 +24,7 @@ import {
 import { ConfirmDialog } from '../../components/confirm_dialog/ConfirmDialog';
 import EditCapacityForm from './forms/EditCapacityForm';
 import type { SlotResponse } from '../../app/types/responses/SlotResponse.type';
+import Modal, { type ModalProps } from '../../components/unified_modal/Modal';
 
 function SlotConfiguration() {
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -56,6 +56,8 @@ function SlotConfiguration() {
   const createSlotRef = useRef<any>(null);
 
   const editSlotRef = useRef<any>(null);
+
+  const deleteSlotRef = useRef<any>(null);
 
   const { data: registeredSlots } = useGetSlotsQuery(
     { userId: userId!, dayOfWeek: selectEnglishValue },
@@ -100,8 +102,8 @@ function SlotConfiguration() {
     }
   };
 
-  const handleDeleteSlot = () => {
-    setShowConfirm(false);
+  const handleDeleteSlot = async () => {
+    setShowModal(false);
     deleteSlot({ slotId: currentSlot?.id! })
       .unwrap()
       .then(() => {
@@ -271,43 +273,51 @@ function SlotConfiguration() {
     );
   };
 
-  const modalConfig: Record<ModalType, ModalConfig> = {
+  const modalConfig: Record<ModalType, ModalProps> = {
     [ModalType.CREATE]: {
       contentRef: createSlotRef,
-      content: <CreateSlotForm ref={createSlotRef} />,
+      children: <CreateSlotForm ref={createSlotRef} />,
+      primaryButtonText: 'Guardar',
+      secondaryButtonText: 'Cancelar',
       onConfirm: handleCreateSlotModal,
     },
     [ModalType.EDIT_CAPACITY]: {
       contentRef: editCapacityRef,
-      content: <EditCapacityForm ref={editCapacityRef} />,
+      children: <EditCapacityForm ref={editCapacityRef} />,
+      primaryButtonText: 'Guardar',
+      secondaryButtonText: 'Cancelar',
       onConfirm: handleEditCapacityModal,
     },
     [ModalType.EDIT_START_TIME]: {
       contentRef: editSlotRef,
-      content: <EditSlotForm ref={editSlotRef} initialStartTime={currentSlot?.startTime} />,
+      children: <EditSlotForm ref={editSlotRef} initialStartTime={currentSlot?.startTime} />,
+      primaryButtonText: 'Guardar',
+      secondaryButtonText: 'Cancelar',
       onConfirm: handleEditSlotModal,
+    },
+    [ModalType.CONFIRM_DELETE]: {
+      contentRef: deleteSlotRef,
+      children: <ConfirmDialog message="¿Estás seguro de que deseas eliminar el turno?" />,
+      primaryButtonText: 'Eliminar',
+      secondaryButtonText: 'Cancelar',
+      onConfirm: handleDeleteSlot,
     },
   };
 
   return (
     <s.MainContainer>
       <s.Title>MIS TURNOS</s.Title>
-      {showModal && modalType && (
+      {modalType && (
         <Modal
-          onClose={() => setShowModal(false)}
-          showButtons={true}
+          active={showModal}
           contentRef={modalConfig[modalType].contentRef}
+          onCancel={() => setShowModal(false)}
           onConfirm={modalConfig[modalType].onConfirm}
+          secondaryButtonText={modalConfig[modalType].secondaryButtonText}
+          primaryButtonText={modalConfig[modalType].primaryButtonText}
         >
-          {modalConfig[modalType].content}
+          {modalConfig[modalType].children}
         </Modal>
-      )}
-      {showConfirm && (
-        <ConfirmDialog
-          message="¿Estás seguro de que deseas eliminar el turno?"
-          onConfirm={() => handleDeleteSlot()}
-          onCancel={() => setShowConfirm(false)}
-        />
       )}
       <s.SkeletonsContainer>
         <SlotConfigurationSkeleton />

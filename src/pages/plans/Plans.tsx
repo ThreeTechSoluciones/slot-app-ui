@@ -12,7 +12,6 @@ import AddIcon from '../../assets/add-icon.svg';
 import * as s from './Plans.styles';
 import { ConfirmDialog } from '../../components/confirm_dialog/ConfirmDialog';
 import { toast } from 'react-hot-toast';
-import { GenericModal } from '../../components/generic_modal/GenericModal';
 import CreatePlanForm from './CreatePlanForm/CreatePlanForm';
 import {
   useCreatePlanMutation,
@@ -26,11 +25,22 @@ import EditPlan from './EditPlan/EditPlan';
 import { formatDateToDash } from '../../utils/DateFormatter';
 import { Pagination } from '../../components/pagination/Pagination';
 import type { SortConfig } from '../../app/types/sort';
+import Modal, { type ModalProps } from '../../components/unified_modal/Modal';
+
+enum ModalType {
+  DELETE = 'DELETE',
+  CREATE = 'CREATE',
+  EDIT = 'EDIT',
+  NONE = 'NONE',
+}
 
 function Plans() {
   const formRef = useRef<any>(null);
   const [filter, setFilter] = useState<string>('');
-  const [showModal, setShowModal] = useState<'CREATE' | 'EDIT' | 'DELETE' | null>(null);
+
+  const [modalType, setModalType] = useState<ModalType>(ModalType.NONE);
+  const [showModal, setShowModal] = useState<boolean>(false);
+
   const [selectedPlan, setSelectedPlan] = useState<PlanResponse | null>(null);
   const [editPlan] = useUpdatePlanMutation();
   const [deletePlan] = useDeletePlanMutation();
@@ -55,9 +65,14 @@ function Plans() {
       : skipToken,
   );
 
-  const handleClearFilters = () => {
-    setFilter('');
+  const handleClearFilters = () => setFilter('');
+
+  const closeModal = () => {
+    setModalType(ModalType.NONE);
+    setSelectedPlan(null);
+    setShowModal(false);
   };
+
   const handleMutation = async (
     action: () => Promise<any>,
     onSuccess: () => void,
@@ -70,7 +85,7 @@ function Plans() {
     } finally {
     }
   };
-  //CREAR PLAN
+
   const handleCreatePlan = async () => {
     if (!formRef.current) return;
 
@@ -83,12 +98,11 @@ function Plans() {
     };
     await handleMutation(
       () => createPlan(finalRequest).unwrap(),
-      () => setShowModal(null),
+      () => closeModal(),
       'Plan registrado',
     );
   };
 
-  //EDITAR PLAN
   const handleEditPlan = async () => {
     if (!formRef.current) return;
     const data = await formRef.current.submit();
@@ -100,63 +114,61 @@ function Plans() {
     };
     await handleMutation(
       () => editPlan(finalRequest).unwrap(),
-      () => setShowModal(null),
+      () => closeModal(),
       'Plan editado',
     );
   };
-  //ELIMINAR PLAN
+
   const handleDeletePlan = async () => {
     if (!selectedPlan || !selectedPlan.id) return;
 
     await handleMutation(
       () => deletePlan(selectedPlan.id).unwrap(),
-      () => {
-        setShowModal(null);
-        setSelectedPlan(null);
-      },
+      () => closeModal(),
       'Plan eliminado',
     );
   };
-  const MODALS = {
-    DELETE: (
-      <ConfirmDialog
-        message="¿Estás seguro de que deseas eliminar este plan?"
-        onConfirm={handleDeletePlan}
-        onCancel={() => setShowModal(null)}
-      />
-    ),
-    CREATE: (
-      <GenericModal
-        title="REGISTRAR NUEVO PLAN"
-        confirmText="Registrar"
-        onConfirm={handleCreatePlan}
-        onCancel={() => setShowModal(null)}
-        width="480px"
-      >
-        <CreatePlanForm ref={formRef} />
-      </GenericModal>
-    ),
-    EDIT: selectedPlan && (
-      <GenericModal
-        title="EDITAR PLAN"
-        confirmText="Editar"
-        onConfirm={handleEditPlan}
-        onCancel={() => {
-          setShowModal(null);
-          setSelectedPlan(null);
-        }}
-        height="620px"
-      >
+
+  const openModal = (type: ModalType) => {
+    setModalType(type);
+    setShowModal(true);
+  };
+
+  const modalConfig: Record<ModalType, ModalProps> = {
+    [ModalType.DELETE]: {
+      // TODO: Revisar borde lateral izquierdo en amarillo que aparece al usar el ConfirmDialog dentro del Modal
+      children: <ConfirmDialog message="¿Estás seguro de que deseas eliminar este plan?" />,
+      primaryButtonText: 'Eliminar',
+      secondaryButtonText: 'Cancelar',
+      onConfirm: handleDeletePlan,
+    },
+    [ModalType.CREATE]: {
+      children: <CreatePlanForm ref={formRef} />,
+      primaryButtonText: 'Registrar',
+      secondaryButtonText: 'Cancelar',
+      onConfirm: handleCreatePlan,
+      title: 'Registrar nuevo plan',
+    },
+    [ModalType.EDIT]: {
+      children: (
         <EditPlan
           ref={formRef}
-          planId={selectedPlan.id}
-          planName={selectedPlan.name}
-          numberOfDays={selectedPlan.numberOfDays}
-          currentAmount={selectedPlan.price}
+          planId={selectedPlan?.id!}
+          planName={selectedPlan?.name!}
+          numberOfDays={selectedPlan?.numberOfDays!}
+          currentAmount={selectedPlan?.price!}
         />
-      </GenericModal>
-    ),
+      ),
+      primaryButtonText: 'Editar',
+      secondaryButtonText: 'Cancelar',
+      onConfirm: handleEditPlan,
+      title: 'EDITAR PLAN',
+    },
+    [ModalType.NONE]: {
+      children: <></>,
+    },
   };
+
   const columns: Column<PlanResponse>[] = [
     {
       header: (
@@ -199,14 +211,14 @@ function Plans() {
             {
               label: 'Editar plan',
               onClick: () => {
-                setShowModal('EDIT');
+                openModal(ModalType.EDIT);
                 setSelectedPlan(plan);
               },
             },
             {
               label: 'Eliminar',
               onClick: () => {
-                setShowModal('DELETE');
+                openModal(ModalType.DELETE);
                 setSelectedPlan(plan);
               },
             },
@@ -238,7 +250,7 @@ function Plans() {
             variant="primary"
             fontsize="medium"
             icon={<img src={AddIcon} alt="Agregar" />}
-            onClick={() => setShowModal('CREATE')}
+            onClick={() => openModal(ModalType.CREATE)}
           >
             Nuevo plan
           </Button>
@@ -258,7 +270,16 @@ function Plans() {
           }}
         />
       </s.PaginationContainer>
-      {showModal && MODALS[showModal]}
+      <Modal
+        active={showModal}
+        title={modalConfig[modalType].title}
+        primaryButtonText={modalConfig[modalType].primaryButtonText}
+        secondaryButtonText={modalConfig[modalType].secondaryButtonText}
+        onConfirm={modalConfig[modalType].onConfirm}
+        onCancel={() => setShowModal(false)}
+      >
+        {modalConfig[modalType].children}
+      </Modal>
     </s.PlansContainer>
   );
 }

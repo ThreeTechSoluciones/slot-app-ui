@@ -26,6 +26,8 @@ export const Input = styled.input`
 
 export const Label = styled.label`
   font-size: ${DEFAULT_FONT_SIZE};
+  color: ${DEFAULT_TEXT_COLOR};
+  font-weight: bold;
 `;
 
 export const InputContainer = styled.div`
