@@ -24,7 +24,7 @@ const buttonSizes = {
     fontSize: '12px',
   },
   large: {
-    width: '412px',
+    width: '392px',
     height: '56px',
     fontSize: '16px',
   },

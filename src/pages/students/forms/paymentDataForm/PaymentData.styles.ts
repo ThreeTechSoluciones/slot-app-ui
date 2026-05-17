@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import Arrow from '../../../../assets/arrow.png';
+import CaretIcon from '../../../../assets/caret-icon.svg';
 import {
   LIGHT_NEUTRAL_COLOR,
   NEUTRAL_COLOR,
@@ -66,9 +66,8 @@ export const Select = styled(BaseStyle).attrs({ as: 'select' })`
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  background: url(${Arrow}) no-repeat right 12px center;
+  background: url(${CaretIcon}) no-repeat right 12px center;
   padding-right: 32px;
-}
 `;
 
 export const Input = styled(BaseStyle)`

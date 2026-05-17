@@ -1,11 +1,12 @@
 import * as s from './SlotConfiguration.styles';
-import EditIcon from '../../assets/edit-icon.png';
+import EditIcon from '../../assets/edit-icon.svg';
 import EditSlotForm from './forms/EditSlotForm';
 import { useRef, useState } from 'react';
 import AddIcon from '../../assets/add-icon.svg';
 import { DaysOfWeek } from '../../utils/DaysOfWeek';
-import DeleteIcon from '../../assets/delete-icon.png';
-import CalendarIcon from '../../assets/calendar-icon.png';
+import DeleteIcon from '../../assets/delete-icon.svg';
+import CalendarIcon from '../../assets/calendar-icon.svg';
+import CaretIcon from '../../assets/caret-icon.svg';
 import CreateSlotForm from './forms/CreateSlotForm';
 import {
   useCreateSlotMutation,
@@ -165,16 +166,19 @@ function SlotConfiguration() {
         </s.InputContainer>
         <s.InputContainer>
           <s.Label> Día del turno</s.Label>
-          <s.Select onChange={handleSelectValue} value={selectEnglishValue}>
-            <option value="" disabled hidden>
-              Seleccione un día
-            </option>
-            {Object.entries(DaysOfWeek).map(([key, value]) => (
-              <option key={key} value={value}>
-                {key}
+          <s.SelectWrapper>
+            <s.Select onChange={handleSelectValue} value={selectEnglishValue}>
+              <option value="" disabled hidden>
+                Seleccione un día
               </option>
-            ))}
-          </s.Select>
+              {Object.entries(DaysOfWeek).map(([key, value]) => (
+                <option key={key} value={value}>
+                  {key}
+                </option>
+              ))}
+            </s.Select>
+            <s.CaretIcon src={CaretIcon} alt="caret-icon" />
+          </s.SelectWrapper>
         </s.InputContainer>
         <s.Button
           $isDisabled={selectEnglishValue === ''}
@@ -209,7 +213,7 @@ function SlotConfiguration() {
               (registeredSlots?.day?.numberOfSlots ?? 0) > 3
             }
           >
-            <img src={CalendarIcon} width={35} height={35}></img>
+            <img src={CalendarIcon} width={30} height={30}></img>
             <s.SlotInfoContainer>
               <s.PrimaryText>
                 {slot.startTime} - {slot.endTime}
@@ -219,25 +223,25 @@ function SlotConfiguration() {
               </s.SecondaryText>
             </s.SlotInfoContainer>
             <s.ActionsContainer>
-              <img
-                src={EditIcon}
-                width={'24px'}
-                height={'24px'}
-                onClick={() => {
-                  setCurrentSlot(slot);
-                  openModal(ModalType.EDIT_START_TIME);
-                }}
-              ></img>
-              <img
-                src={DeleteIcon}
-                width={'24px'}
-                height={'24px'}
-                onClick={() => {
-                  setCurrentSlot(slot);
-                  // setShowConfirm(true);
-                  openModal(ModalType.CONFIRM_DELETE);
-                }}
-              ></img>
+              <s.IconButton>
+                <img
+                  src={EditIcon}
+                  onClick={() => {
+                    setCurrentSlot(slot);
+                    openModal(ModalType.EDIT_START_TIME);
+                  }}
+                ></img>
+              </s.IconButton>
+
+              <s.IconButton>
+                <img
+                  src={DeleteIcon}
+                  onClick={() => {
+                    setCurrentSlot(slot);
+                    openModal(ModalType.CONFIRM_DELETE);
+                  }}
+                ></img>
+              </s.IconButton>
             </s.ActionsContainer>
           </s.SpecificSlotContainer>
         ))}
@@ -253,7 +257,7 @@ function SlotConfiguration() {
           <s.Subtitle>No hay turnos registrados</s.Subtitle>
         </s.TitlesContainer>
         <s.InfoContainer>
-          <img src={CalendarIcon} width={32} height={32}></img>
+          <s.CalendarIcon src={CalendarIcon}></s.CalendarIcon>
           <s.PrimaryText>Aún no existen turnos para este día</s.PrimaryText>
           <s.SecondaryText>Podés registrar tu primer turno</s.SecondaryText>
         </s.InfoContainer>

@@ -6,7 +6,7 @@ import {
 import toast from 'react-hot-toast';
 import * as s from './VerifyCode.styles';
 import Button from '../../../components/button/Button';
-import BackIcon from '../../../assets/back-icon.svg';
+import BackIcon from '../../../assets/arrow-circle-icon.svg';
 import MailIcon from '../../../assets/mail-icon.svg';
 import OtpInput from '../../../components/otpInput/OtpInput';
 import { useState } from 'react';

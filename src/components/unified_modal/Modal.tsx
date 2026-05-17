@@ -67,7 +67,7 @@ function Modal({
   return (
     <Background onKeyDown={handleKeyDown} onClick={() => handleCancel()}>
       <ModalContainer onClick={(e) => e.stopPropagation()}>
-        { title || onClose ? (
+        {title || onClose ? (
           <HeaderContainer>
             {title && (
               <TitleContainer>
@@ -80,8 +80,8 @@ function Modal({
               </CloseButton>
             )}
           </HeaderContainer>
-        ) : null }
-        
+        ) : null}
+
         <ContentContainer>{children}</ContentContainer>
         {showButtons && (
           <ButtonsContainer>
