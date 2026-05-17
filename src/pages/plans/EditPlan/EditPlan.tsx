@@ -4,7 +4,6 @@ import { formatCurrency } from '../../../utils/Formatter';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Controller, useForm } from 'react-hook-form';
 import { ErrorMessage } from '../../../components/error_message/ErrorMessage';
-import SpinInput from '../../../components/number_input/SpinInput';
 import CurrencyInput from '../../../utils/InputPrice/CurrencyInput';
 import InputDate from '../../../components/date/inputDate';
 import CalendarIcon from '../../../assets/calendar-icon.svg';

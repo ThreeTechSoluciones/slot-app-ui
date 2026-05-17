@@ -2,7 +2,7 @@ import { StyledButton, ButtonContent, ButtonIcon, ButtonText } from './Button.st
 type ButtonProps = {
   children: React.ReactNode;
   onClick?: () => void;
-  size?: 'small' | 'medium' | 'large';
+  size?: 'small' | 'medium' | 'large' | 'full';
   fontsize?: 'small' | 'medium' | 'large';
   variant?: 'primary' | 'warning' | 'success';
   icon?: React.ReactNode;

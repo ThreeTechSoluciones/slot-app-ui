@@ -14,10 +14,9 @@ export const FormStyle = styled.form`
   flex-direction: column;
   justify-content: center;
   text-align: center;
-  width: 408px;
   height: auto;
+  width: 26rem;
   gap: 20px;
-  margin-left: 35px;
 `;
 
 export const InputContainer = styled.div`

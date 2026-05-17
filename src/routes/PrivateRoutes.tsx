@@ -1,12 +1,15 @@
 import { Navigate, Outlet } from 'react-router';
 import useAuthentication from '../hooks/useAuthentication';
 import Header from '../components/header/header';
+import { PrivateContent } from '../App.styles';
 
 function PrivateLayout() {
   return (
     <>
       <Header />
-      <Outlet />
+      <PrivateContent>
+        <Outlet />
+      </PrivateContent>
     </>
   );
 }

@@ -40,6 +40,7 @@ export const NavigationDateContainer = styled.div`
   align-items: center;
   justify-content: center;
   gap: 16px;
+  margin-top: 16px;
 `;
 
 export const InputDateContainer = styled.div`
@@ -60,7 +61,7 @@ export const CustomDisplay = styled.div`
   height: 40px;
   display: flex;
   align-items: center;
-  z-index: 1000;
+  z-index: 1;
 `;
 
 export const NavigationArrow = styled.div`

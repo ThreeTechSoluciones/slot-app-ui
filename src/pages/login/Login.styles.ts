@@ -1,11 +1,9 @@
 import styled from 'styled-components';
 import {
-  BORDER_RADIUS,
   NEUTRAL_COLOR,
   DEFAULT_TEXT_COLOR,
-  BRAND_COLOR,
-  MEDIUM_FONT_SIZE,
-  FOCUS_STYLE,
+  DEFAULT_FONT_SIZE,
+  LARGE_FONT_SIZE,
 } from '../../utils/Stylesheet';
 
 export const MainContainer = styled.div`
@@ -18,7 +16,7 @@ export const MainContainer = styled.div`
 `;
 
 export const Title = styled.h1`
-  font-size: 24px;
+  font-size: ${LARGE_FONT_SIZE};
   margin: 0px;
 `;
 export const Logo = styled.div`
@@ -31,8 +29,9 @@ export const Logo = styled.div`
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: filter 0.3s ease-in-out;
-    transition: transform 0.3s ease-in-out;
+    transition:
+      filter 0.3s ease-in-out,
+      transform 0.3s ease-in-out;
   }
   img:hover {
     filter: drop-shadow(0px 0px 8px #f0e21e);
@@ -40,6 +39,8 @@ export const Logo = styled.div`
   }
 `;
 export const Form = styled.form`
+  width: 100%;
+  max-width: 392px;
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -52,65 +53,26 @@ export const Label = styled.label`
   padding: 0px;
 `;
 
-export const InputContainer = styled.div`
+export const ButtonContainer = styled.div`
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  position: relative;
+  justify-content: center;
+  margin-top: 16px;
 `;
 
-export const Input = styled.input`
-  width: 392px;
-  height: 56px;
-  border: 1px solid black;
-  border-radius: ${BORDER_RADIUS};
-  font-size: ${MEDIUM_FONT_SIZE};
-  padding-left: 16px;
-  background: white;
+export const ForgotPasswordText = styled.p`
   color: ${DEFAULT_TEXT_COLOR};
-  &::-ms-reveal,
-  &::-ms-clear,
-  &::-webkit-textfield-decoration-container,
-  &::-webkit-clear-button,
-  &::-webkit-inner-spin-button {
-    display: none !important;
-    pointer-events: none;
-  }
-  &::placeholder {
-    color: ${NEUTRAL_COLOR};
-  }
-  &:focus {
-    ${FOCUS_STYLE};
-  }
-`;
+  text-decoration: underline;
+  font-size: ${DEFAULT_FONT_SIZE};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition:
+    color 0.3s ease,
+    opacity 0.3s ease;
 
-interface ImgProps {
-  $isInteractive?: boolean;
-}
-
-export const Img = styled.img<ImgProps>`
-  position: absolute;
-  right: 24px;
-  ${({ $isInteractive }) =>
-    $isInteractive &&
-    `
-        &:hover {
-          cursor: pointer;
-        }
-      `}
-`;
-
-export const Button = styled.button`
-  margin-top: 24px;
-  width: 412px;
-  height: 56px;
-  background-color: ${BRAND_COLOR};
-  border-radius: 10px;
-  border: none;
-  font-size: ${MEDIUM_FONT_SIZE};
-  color: black;
   &:hover {
-    cursor: pointer;
-    background: ${NEUTRAL_COLOR};
+    color: ${NEUTRAL_COLOR};
+    opacity: 0.8;
   }
 `;

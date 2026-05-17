@@ -75,13 +75,13 @@ export const BaseStyle = styled.input`
   padding-left: 16px;
   color: ${DEFAULT_TEXT_COLOR};
   outline: none;
-   &::placeholder {
-      color: ${NEUTRAL_COLOR};
-      font-size: ${MEDIUM_FONT_SIZE};
-    }
-    &:focus {
-      ${FOCUS_STYLE};
-    }
+  &::placeholder {
+    color: ${NEUTRAL_COLOR};
+    font-size: ${MEDIUM_FONT_SIZE};
+  }
+  &:focus {
+    ${FOCUS_STYLE};
+  }
 `;
 
 export const Input = styled(BaseStyle)`
@@ -124,8 +124,8 @@ export const Button = styled.button<ButtonProps>`
   color: ${DEFAULT_TEXT_COLOR};
   &:hover {
     ${(props) =>
-    !props.$isDisabled &&
-    `
+      !props.$isDisabled &&
+      `
             cursor: pointer;
             background: ${NEUTRAL_COLOR};
         `}
