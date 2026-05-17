@@ -1,5 +1,5 @@
 import { IconContainer, MainContainer, StyledIcon, Text } from './RegisterAbsence.styles';
-import StudentIcon from '../../../assets/student-icon.svg';
+import StudentIcon from '../../../assets/user-icon.svg';
 
 export default function RegisterAbsence({ studentName }: { studentName?: string }) {
   return (

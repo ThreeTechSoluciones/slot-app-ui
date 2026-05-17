@@ -1,5 +1,5 @@
 import { Container, Message } from './SearchNotFound.styles';
-import SearchIcon from '../../assets/search-icon.svg';
+import SearchEmptyIcon from '../../assets/search-empty.svg';
 import { DEFAULT_FONT_SIZE } from '../../utils/Stylesheet';
 interface SearchNotFoundProps {
   message?: string;
@@ -15,7 +15,7 @@ export function SearchNotFound({
 }: SearchNotFoundProps) {
   return (
     <Container>
-      <img src={SearchIcon} width={iconWidth} height={iconHeight} alt="No results" />
+      <img src={SearchEmptyIcon} width={iconWidth} height={iconHeight} alt="No results" />
       <Message $fontSize={fontSize}>{message}</Message>
     </Container>
   );

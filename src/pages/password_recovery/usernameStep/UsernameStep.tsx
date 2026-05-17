@@ -4,7 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { usernameScheme } from './usernameStep.scheme';
 import { ErrorMessage } from '../../../components/error_message/ErrorMessage';
 import UserIcon from '../../../assets/user-icon.svg';
-import BackIcon from '../../../assets/back-icon.svg';
+import BackIcon from '../../../assets/arrow-circle-icon.svg';
 import * as s from './UsernameStep.styles';
 import Button from '../../../components/button/Button';
 import { VerificarCodigo } from '../../../routes/RoutesUtils';

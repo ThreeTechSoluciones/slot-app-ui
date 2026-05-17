@@ -9,7 +9,7 @@ import { Controller } from 'react-hook-form';
 import 'react-date-picker/dist/DatePicker.css';
 import 'react-calendar/dist/Calendar.css';
 import InputDate from '../../../../components/date/inputDate';
-import CalendarIcon from '../../../../assets/CalenderIcon.png';
+import CalendarIcon from '../../../../assets/calendar-icon.svg';
 import { capitalize } from '../../../../utils/CapitalizeWords';
 import { InputDateContainer } from './StudentData.styles';
 import { useValidateStudentDniMutation } from '../../../../app/services/StudentService';
