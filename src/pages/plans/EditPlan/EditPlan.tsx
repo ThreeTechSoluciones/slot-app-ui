@@ -4,7 +4,6 @@ import { formatCurrency } from '../../../utils/Formatter';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Controller, useForm } from 'react-hook-form';
 import { ErrorMessage } from '../../../components/error_message/ErrorMessage';
-import SpinInput from '../../../components/number_input/SpinInput';
 import CurrencyInput from '../../../utils/InputPrice/CurrencyInput';
 import InputDate from '../../../components/date/inputDate';
 import CalendarIcon from '../../../assets/calendar-icon.svg';
@@ -75,19 +74,7 @@ const EditPlanForm = forwardRef<FormProps<EditPlanFormData>, EditPlanFormProps>(
         </s.InputContainer>
         <s.InputContainer>
           <s.Label>Cantidad de días por semana</s.Label>
-          <Controller
-            name="numberOfDays"
-            control={control}
-            render={({ field }) => (
-              <SpinInput
-                value={field.value}
-                onChange={field.onChange}
-                min={1}
-                max={7}
-                placeholder="Ej: 2 días"
-              />
-            )}
-          />
+          <s.Input $isNonEditable={true} value={numberOfDays} readOnly />
           <ErrorMessage error={errors.numberOfDays} />
         </s.InputContainer>
         <s.InputContainer>

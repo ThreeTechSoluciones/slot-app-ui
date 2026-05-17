@@ -1,15 +1,14 @@
 import { forwardRef, useImperativeHandle } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { MainContainer, FormContainer, Input, Description, Label } from './StudentData.styles';
-import { StudentDataScheme } from './StudentData.scheme';
+import { StudentDataScheme, type StudentDataFormValues } from './StudentData.scheme';
 import { useForm } from 'react-hook-form';
-import * as yup from 'yup';
 import { ErrorMessage } from '../../../../components/error_message/ErrorMessage';
 import { Controller } from 'react-hook-form';
 import 'react-date-picker/dist/DatePicker.css';
 import 'react-calendar/dist/Calendar.css';
 import InputDate from '../../../../components/date/inputDate';
-import CalendarIcon from '../../../../assets/CalenderIcon.png';
+import CalendarIcon from '../../../../assets/calendar-icon.svg';
 import { capitalize } from '../../../../utils/CapitalizeWords';
 import { InputDateContainer } from './StudentData.styles';
 import { useValidateStudentDniMutation } from '../../../../app/services/StudentService';
@@ -22,6 +21,7 @@ export interface StudentDataProps {
   lastName: string;
   dni: string;
   cellphoneNumber: string;
+  email?: string | null;
   birthday: string;
   pathologies?: string | null;
 }
@@ -29,57 +29,59 @@ export interface StudentDataProps {
 const StudentData = forwardRef<FormRef, FormProps<StudentDataProps>>((props, ref) => {
   const { data, onSubmit } = props;
 
-  const DEFAULT_STUDENT_DATA = {
+  const DEFAULT_STUDENT_DATA: StudentDataFormValues = {
     name: '',
     lastName: '',
     dni: '',
     cellphoneNumber: '',
+    email: null,
     birthday: '',
     pathologies: '',
   };
-  const studentRegistrationForm = data || DEFAULT_STUDENT_DATA;
 
-  type FormData = yup.InferType<typeof StudentDataScheme>;
+  const studentRegistrationForm: StudentDataFormValues = {
+    ...DEFAULT_STUDENT_DATA,
+    ...data,
+    email: data?.email ?? null,
+    pathologies: data?.pathologies ?? '',
+  };
 
   const {
     register,
     handleSubmit,
     control,
+    getValues,
     formState: { errors },
-  } = useForm<FormData>({
+  } = useForm<StudentDataFormValues>({
     resolver: yupResolver(StudentDataScheme),
-    defaultValues: {
-      ...studentRegistrationForm,
-    },
+    defaultValues: studentRegistrationForm,
   });
 
   const [validateStudentDni] = useValidateStudentDniMutation();
-  const { getValues } = useForm<FormData>({
-    resolver: yupResolver(StudentDataScheme),
-    defaultValues: {
-      ...studentRegistrationForm,
-    },
-  });
 
   useImperativeHandle(ref, () => ({
     submit: () =>
       new Promise<boolean>((resolve) => {
         handleSubmit(
           (data) => {
+            const formattedData: StudentDataProps = {
+              ...data,
+            };
+
             if (data.dni === studentRegistrationForm.dni) {
-              onSubmit?.(data);
+              onSubmit?.(formattedData);
               resolve(true);
               return;
             }
             validateStudentDni({ dni: data.dni })
               .unwrap()
               .then(() => {
-                const formattedData = {
-                  ...data,
+                const capitalizedData: StudentDataProps = {
+                  ...formattedData,
                   name: capitalize(data.name),
                   lastName: capitalize(data.lastName),
                 };
-                onSubmit?.(formattedData);
+                onSubmit?.(capitalizedData);
                 resolve(true);
               })
               .catch((error) => {
@@ -156,6 +158,11 @@ const StudentData = forwardRef<FormRef, FormProps<StudentDataProps>>((props, ref
           <Label>Número de teléfono</Label>
           <Input placeholder="3534698523" {...register('cellphoneNumber')}></Input>
           <ErrorMessage error={errors.cellphoneNumber} />
+        </div>
+        <div>
+          <Label>Email</Label>
+          <Input placeholder="juangomez@gmail.com" {...register('email')}></Input>
+          <ErrorMessage error={errors.email} />
         </div>
         <div>
           <Label>Patologías o enfermedades (opcional)</Label>

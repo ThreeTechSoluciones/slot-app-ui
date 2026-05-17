@@ -7,6 +7,7 @@ import {
   BORDER_RADIUS,
   DEFAULT_FONT_SIZE,
   SMALL_FONT_SIZE,
+  MEDIUM_FONT_SIZE,
 } from '../../utils/Stylesheet';
 
 interface StyledWrapperProps {
@@ -32,7 +33,7 @@ export const StyledWrapper = styled.div<StyledWrapperProps>`
   //CONTENEDOR REAL DEL CALENDARIO
   .react-date-picker__calendar {
     position: absolute !important;
-    z-index: 9999;
+    z-index: 100;
 
     ${(props) =>
       props.$calendarPosition === 'top'
@@ -97,7 +98,7 @@ export const StyledWrapper = styled.div<StyledWrapperProps>`
   }
 
   .react-date-picker__inputGroup {
-    font-size: ${DEFAULT_FONT_SIZE};
+    font-size: ${MEDIUM_FONT_SIZE};
   }
 
   //HOVER SOBRE DIAS

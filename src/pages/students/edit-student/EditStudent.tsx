@@ -13,8 +13,8 @@ import * as s from './EditStudent.styles';
 import { formatDateToDash, formatDateToISO } from '../../../utils/DateFormatter';
 import toast from 'react-hot-toast';
 import type { UpdateStudentRequest } from '../../../app/types/requests/UpdateStudentRequest.type';
-import BackIcon from '../../../assets/back-icon.svg';
 import BicycleLoader from '../../../components/bicycle_animation/BicycleLoader';
+import BackIcon from '../../../assets/arrow-circle-icon.svg';
 
 function EditStudent() {
   const { userId } = useAuthentication();
@@ -63,6 +63,7 @@ function EditStudent() {
       lastName: studentSaveData.lastName,
       dni: studentSaveData.dni,
       cellphoneNumber: studentSaveData.cellphoneNumber,
+      email: studentSaveData.email ?? null,
       birthday: formattedBirthday,
       pathologies: studentSaveData.pathologies ?? undefined,
     };
@@ -147,7 +148,6 @@ function EditStudent() {
       ),
     },
   };
-
   const updateStudentData = (data: UpdateStudentRequest) => {
     updateStudent(data)
       .unwrap()

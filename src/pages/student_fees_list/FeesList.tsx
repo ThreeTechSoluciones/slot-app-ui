@@ -6,8 +6,8 @@ import Button from '../../components/button/Button';
 import Table from '../../components/table/Table';
 import type { Column } from '../../app/types/table';
 import AddIcon from '../../assets/add-icon.svg';
-import BackIcon from '../../assets/back-icon.svg';
-import StudentIcon from '../../assets/student-icon.svg';
+import BackIcon from '../../assets/arrow-circle-icon.svg';
+import StudentIcon from '../../assets/user-icon.svg';
 import ViewIcon from '../../assets/openEye-icon.png';
 import CoinIcon from '../../assets/coin-icon.svg';
 import type { StudentMonthlyFeeResponse } from '../../app/types/responses/StudentMonthlyFee.type';
@@ -20,27 +20,26 @@ import {
 } from '../../app/services/StudentService';
 import { skipToken } from '@reduxjs/toolkit/query/react';
 import { translateMonth } from '../../utils/TranslateMonths';
-import { formatCurrency } from '../../utils/Formatter';
 import DateFilter from '../../components/date_filter/DateFilter';
 import { toast } from 'react-hot-toast';
 import { useUpdateMonthlyFeeMutation } from '../../app/services/MonthlyFeeService';
-import PaymentInfoModal from './payment_detail/paymentInfo';
+import PaymentInfoModal from './payment_detail/PaymentInfo';
 import { MonthsOfYear } from '../../utils/MonthsOfYear';
 import {
+  ModalType,
   MONTHLY_FEE_STATUS_CAN_BE_PAID,
   MONTHLY_FEE_STATUS_CAN_VIEW_PAYMENT,
   MonthlyFeesStatusOptions,
 } from '../../utils/MonthlyFeesStatus';
 import { formatDateToIsoString } from '../../utils/DateFormatter';
 import { MisAlumnos } from '../../routes/RoutesUtils';
-import type {
-  PAY_MONTHLY_FEE_MODAL_TYPE,
-  PAYMENT_DETAIL_MODAL_TYPE,
-} from '../../utils/MonthlyFeesStatus';
 import PaymentMetrics from './PaymentMetrics';
 import { Pagination } from '../../components/pagination/Pagination';
 import { SearchNotFound } from '../../components/search_not_found/SearchNotFound';
 import BicycleLoader from '../../components/bicycle_animation/BicycleLoader';
+import type { SortConfig } from '../../app/types/sort';
+import { formatCurrency } from '../../utils/Formatter';
+import Modal, { type ModalProps } from '../../components/unified_modal/Modal';
 function StudentFeesList() {
   const location = useLocation();
   const { studentId } = location.state || {};
@@ -54,14 +53,16 @@ function StudentFeesList() {
   const [monthFilter, setMonthFilter] = useState('');
   const [expirationDateFilter, setExpirationDateFilter] = useState<Date | undefined>(undefined);
   const [statusFilter, setStatusFilter] = useState('');
-  const [modalType, setModalType] = useState<
-    PAY_MONTHLY_FEE_MODAL_TYPE | PAYMENT_DETAIL_MODAL_TYPE | null
-  >(null);
+  const [modalType, setModalType] = useState<ModalType | null>(null);
+
   const [selectedFeeId, setSelectedFeeId] = useState<string | null>(null);
   const [selectedPaymentId, setSelectedPaymentId] = useState<string | null>(null);
+  const [showModal, setShowModal] = useState(false);
+
   const [payMonthlyFee] = useUpdateMonthlyFeeMutation();
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(5);
+  const [sort, setSort] = useState<SortConfig[]>([]);
   const formattedExpirationDate = expirationDateFilter
     ? formatDateToIsoString(expirationDateFilter)
     : undefined;
@@ -78,31 +79,38 @@ function StudentFeesList() {
           status: statusFilter || undefined,
           page: page - 1,
           size,
+          sort: sort.length > 0 ? sort : undefined,
         }
       : skipToken,
   );
 
   const [createMonthlyFee] = useCreateStudentMonthlyFeeMutation();
-  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   useEffect(() => {
     setPage(1);
   }, [monthFilter, statusFilter, formattedExpirationDate]);
   if (fetchingStudent) return <BicycleLoader />;
   if (errorFetchingStudent) return <p>Error al cargar la información del alumno.</p>;
   if (!student) return <p>Alumno no encontrado.</p>;
+
   const handleConfirmCreateFee = async () => {
     await createMonthlyFee({ studentId: student.id });
-    setShowConfirmDialog(false);
+    setShowModal(false);
+  };
+
+  const openModal = (type: ModalType) => {
+    setModalType(type);
+    setShowModal(true);
   };
 
   const handleOpenPayModal = (feeId: string) => {
     setSelectedFeeId(feeId);
-    setModalType('pay');
+    openModal(ModalType.PAY_MONTHLY_FEE);
   };
   const handleOpenPaymentInfoModal = (paymentId: string) => {
     setSelectedPaymentId(paymentId);
-    setModalType('details');
+    openModal(ModalType.PAYMENT_DETAIL);
   };
+
   const handleConfirmPay = async () => {
     if (!student?.id) {
       toast.error('Alumno no disponible para registrar la cuota como pagada');
@@ -130,26 +138,43 @@ function StudentFeesList() {
   if (!fees) return <SearchNotFound message="No hay información disponible." />;
   const columns: Column<StudentMonthlyFeeResponse>[] = [
     {
-      header: <SortableButton text="N° de cuota" />,
+      header: (
+        <SortableButton
+          text="Número de cuota"
+          onSort={(isAsc) => setSort([{ property: 'number', direction: isAsc ? 'ASC' : 'DESC' }])}
+        />
+      ),
       accessor: 'number',
     },
-
     {
-      header: <SortableButton text="Mes" />,
-      accessor: 'month',
-      render: (student) => <span>{translateMonth(student.month)} </span>,
+      header: (
+        <SortableButton
+          text="Monto"
+          onSort={(isAsc) => setSort([{ property: 'amount', direction: isAsc ? 'ASC' : 'DESC' }])}
+        />
+      ),
+      accessor: 'amount',
+      render: (fee) => <span>{formatCurrency(fee.amount)}</span>,
     },
-
     {
-      header: <SortableButton text={'Fecha de\nvencimiento'} allowWrap />,
+      header: (
+        <SortableButton
+          text={'Fecha de\nvencimiento'}
+          allowWrap
+          onSort={(isAsc) =>
+            setSort([{ property: 'expirationDate', direction: isAsc ? 'ASC' : 'DESC' }])
+          }
+        />
+      ),
       accessor: 'expirationDate',
       render: (student) => <span>{student.expirationDate}</span>,
     },
     {
-      header: <SortableButton text="Monto" />,
-      accessor: 'amount',
-      render: (student) => <span>{formatCurrency(student.amount)}</span>,
+      header: 'Mes',
+      accessor: 'month',
+      render: (student) => <span>{translateMonth(student.month)} </span>,
     },
+
     {
       header: 'Estado',
       accessor: 'status',
@@ -191,6 +216,42 @@ function StudentFeesList() {
       },
     },
   ];
+
+  const modalConfig: Record<ModalType, ModalProps> = {
+    [ModalType.NEW_MONTLHY_FEE]: {
+      children: (
+        <ConfirmDialog
+          message={
+            <>
+              ¿Estás seguro de que deseas generar
+              <br /> una cuota para{' '}
+              <strong>
+                {student.name} {student.lastName}
+              </strong>
+              ?
+            </>
+          }
+        />
+      ),
+      primaryButtonText: 'Crear cuota',
+      secondaryButtonText: 'Cancelar',
+      onConfirm: handleConfirmCreateFee,
+    },
+    [ModalType.PAY_MONTHLY_FEE]: {
+      children: <ConfirmDialog message="¿Estás seguro de realizar este pago?" />,
+      primaryButtonText: 'Aceptar',
+      secondaryButtonText: 'Cancelar',
+      onConfirm: handleConfirmPay,
+    },
+    [ModalType.PAYMENT_DETAIL]: {
+      children: <PaymentInfoModal paymentId={selectedPaymentId} />,
+      onClose: () => {
+        setModalType(null);
+        setShowModal(false);
+      },
+      title: 'DETALLE DEL PAGO',
+    },
+  };
 
   return (
     <s.StudentsContainer>
@@ -245,6 +306,7 @@ function StudentFeesList() {
                 setStatusFilter('');
                 setExpirationDateFilter(undefined);
                 setMonthFilter('');
+                setSort([]);
               }}
             >
               Limpiar filtros
@@ -255,35 +317,27 @@ function StudentFeesList() {
               variant="primary"
               size="medium"
               icon={<img src={AddIcon} alt="Add Icon" />}
-              onClick={() => setShowConfirmDialog(true)}
+              onClick={() => openModal(ModalType.NEW_MONTLHY_FEE)}
             >
               Nueva cuota
             </Button>
-            {showConfirmDialog && (
-              <ConfirmDialog
-                message={`¿Estás seguro de que deseas generar una cuota para ${student.name} ${student.lastName}?`}
-                onConfirm={handleConfirmCreateFee}
-                onCancel={() => setShowConfirmDialog(false)}
-              />
-            )}
           </s.RightContainer>
         </s.FiltersContainer>
-        {modalType === 'pay' && (
-          <ConfirmDialog
-            message="¿Estás seguro de realizar este pago?"
-            onConfirm={handleConfirmPay}
-            onCancel={() => setModalType(null)}
-          />
-        )}
-        {modalType === 'details' && (
-          <PaymentInfoModal
-            isOpen={modalType === 'details'}
-            onClose={() => setModalType(null)}
-            paymentId={selectedPaymentId}
-          />
-        )}
         <Table columns={columns} data={fees.content} />
       </s.ContentContainer>
+      {modalType && (
+        <Modal
+          active={showModal}
+          title={modalConfig[modalType].title}
+          primaryButtonText={modalConfig[modalType].primaryButtonText}
+          secondaryButtonText={modalConfig[modalType].secondaryButtonText}
+          onConfirm={modalConfig[modalType].onConfirm}
+          onCancel={() => setShowModal(false)}
+          onClose={modalConfig[modalType].onClose}
+        >
+          {modalConfig[modalType].children}
+        </Modal>
+      )}
 
       <s.PaginationContainer>
         <Pagination

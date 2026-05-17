@@ -10,6 +10,8 @@ import { MetricService } from './MetricService';
 import type { Page } from '../types/responses/common/Page';
 import type { ActivateStudentRequest } from '../types/requests/ActivateStudentRequest.type';
 import { createAuthenticatedBaseQuery } from './baseQuery';
+import type { SortConfig } from '../types/sort';
+import { buildSortParams } from '../../utils/SortParams';
 
 export const StudentService = createApi({
   reducerPath: 'students',
@@ -26,6 +28,7 @@ export const StudentService = createApi({
         await queryFulfilled;
         dispatch(UserService.util.invalidateTags(['userStudents']));
         dispatch(MetricService.util.invalidateTags([{ type: 'Metric', id: 'Summary' }]));
+        dispatch(UserService.util.invalidateTags(['userCalendar']));
       },
     }),
 
@@ -41,6 +44,7 @@ export const StudentService = createApi({
         dispatch(MetricService.util.invalidateTags([{ type: 'Metric', id: 'Summary' }]));
       },
     }),
+
     createStudentMonthlyFee: builder.mutation<void, { studentId: string }>({
       query: ({ studentId }) => ({
         url: `/${studentId}/monthly-fees`,
@@ -57,6 +61,7 @@ export const StudentService = createApi({
         );
       },
     }),
+
     getStudentMonthlyFees: builder.query<
       Page<StudentMonthlyFeeResponse>,
       {
@@ -67,19 +72,23 @@ export const StudentService = createApi({
         paymentId?: string;
         page: number;
         size: number;
+        sort?: SortConfig | SortConfig[];
       }
     >({
-      query: ({ studentId, month, expirationDate, status, paymentId, page, size }) => ({
-        url: `/${studentId}/monthly-fees`,
-        params: {
-          page,
-          size,
-          month,
-          expirationDate,
-          status,
-          paymentId,
-        },
-      }),
+      query: ({ studentId, month, expirationDate, status, paymentId, page, size, sort }) => {
+        return {
+          url: `/${studentId}/monthly-fees`,
+          params: {
+            page,
+            size,
+            month,
+            expirationDate,
+            status,
+            paymentId,
+            sort: buildSortParams(sort),
+          },
+        };
+      },
       providesTags: (_result, _error, { studentId }) => [{ type: 'MonthlyFees', id: studentId }],
     }),
 
@@ -101,6 +110,7 @@ export const StudentService = createApi({
         dispatch(UserService.util.invalidateTags(['userCalendar']));
       },
     }),
+
     activateStudent: builder.mutation<void, ActivateStudentRequest>({
       query: ({ studentId, ...body }) => ({
         url: `/${studentId}/activate`,
@@ -112,8 +122,10 @@ export const StudentService = createApi({
         await queryFulfilled;
         dispatch(UserService.util.invalidateTags(['userStudents']));
         dispatch(MetricService.util.invalidateTags([{ type: 'Metric', id: 'Summary' }]));
+        dispatch(UserService.util.invalidateTags(['userCalendar']));
       },
     }),
+
     markStudentAbsence: builder.mutation<void, { studentId: string; specificSlotId: string }>({
       query: ({ studentId, specificSlotId }) => ({
         url: `/${studentId}/slots/specific-slot/${specificSlotId}/absence`,
@@ -126,6 +138,7 @@ export const StudentService = createApi({
         dispatch(SpecificSlotService.util.invalidateTags(['SpecificSlot']));
       },
     }),
+
     recoverStudentSlot: builder.mutation<void, { studentId: string; specificSlotId: string }>({
       query: ({ studentId, specificSlotId }) => ({
         url: `/${studentId}/slots/specific-slot/${specificSlotId}/recover`,
@@ -137,6 +150,7 @@ export const StudentService = createApi({
         dispatch(UserService.util.invalidateTags(['userCalendar', 'userStudents']));
       },
     }),
+
     validateStudentDni: builder.mutation<boolean, { dni: string }>({
       query: ({ dni }) => ({
         url: `/dni/${dni}/validate`,

@@ -7,6 +7,7 @@ import {
   DEFAULT_FONT_SIZE,
   SMALL_FONT_SIZE,
   LARGE_FONT_SIZE,
+  MEDIUM_FONT_SIZE,
 } from '../../utils/Stylesheet';
 
 export const MainContainer = styled.div`
@@ -109,10 +110,19 @@ export const Label = styled.p`
 
 export const StudentNameContainer = styled.div`
   display: flex;
+  flex-direction: column;
   width: 100%;
   max-width: 71rem;
+  margin-top: 16px;
 `;
 
+export const Email = styled.p`
+  font-size: ${MEDIUM_FONT_SIZE};
+  color: ${NEUTRAL_COLOR};
+  margin: 0;
+  margin-left: 40px;
+  margin-bottom: 16px;
+`;
 export const StudentInfo = styled.p`
   font-size: ${DEFAULT_FONT_SIZE};
   margin: 0px;
@@ -142,8 +152,12 @@ export const Title = styled.h1`
   font-size: ${LARGE_FONT_SIZE};
   justify-content: flex-start;
   width: 100%;
+  margin: 0;
 `;
-
+export const TitleRow = styled.div`
+  display: flex;
+  align-items: center;
+`;
 export const SubTitle = styled.h2`
   display: flex;
   align-items: center;

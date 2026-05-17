@@ -2,8 +2,9 @@ import { useGetStudentPaymentMetricsQuery } from '../../app/services/MetricServi
 import { MetricCards, type MetricItem } from '../../components/metric_card/MetricCard';
 import { FiCheckCircle, FiXCircle } from 'react-icons/fi';
 import { CgDanger } from 'react-icons/cg';
-import { DANGER_COLOR, SUCCESS_COLOR, WARNING_COLOR } from '../../utils/Stylesheet';
 import Spinner from '../../components/spinner/Spinner';
+import { DANGER_COLOR, NEUTRAL_COLOR, SUCCESS_COLOR } from '../../utils/Stylesheet';
+
 interface PaymentMetricsProps {
   studentId: string;
 }
@@ -37,9 +38,11 @@ const PaymentMetrics = ({ studentId }: PaymentMetricsProps) => {
       title: 'Pagos Atrasados',
       value: metrics.paidOutOfTimeCount,
       description:
-        metrics.paidOutOfTimeCount === 1 ? 'cuota no fue pagada.' : 'cuotas no fueron pagadas.',
+        metrics.paidOutOfTimeCount === 1
+          ? 'cuota fue pagada fuera de tiempo.'
+          : 'cuotas fueron pagadas fuera de tiempo.',
       icon: <CgDanger size={20} />,
-      color: WARNING_COLOR,
+      color: NEUTRAL_COLOR,
     },
   ];
 

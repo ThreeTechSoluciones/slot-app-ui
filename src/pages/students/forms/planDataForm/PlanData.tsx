@@ -21,7 +21,7 @@ import type { FormProps } from '../../../../app/types/FormProp';
 import { forwardRef, useImperativeHandle, useMemo, useCallback, useEffect } from 'react';
 import { skipToken } from '@reduxjs/toolkit/query';
 import { DaysOfWeekTranslation } from '../../../../utils/DaysOfWeek';
-import CalendarIcon from '../../../../assets/CalenderIcon.png';
+import CalendarIcon from '../../../../assets/calendar-icon.svg';
 import type { FormRef } from '../../../../app/types/FormRef';
 import Spinner from '../../../../components/spinner/Spinner';
 
