@@ -61,7 +61,7 @@ export const CustomDisplay = styled.div`
   height: 40px;
   display: flex;
   align-items: center;
-  z-index: 1;
+  z-index: 101;
 `;
 
 export const NavigationArrow = styled.div`

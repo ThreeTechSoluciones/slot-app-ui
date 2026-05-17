@@ -27,3 +27,8 @@ export const formatDateToDash = (dateInput: Date | string): string => {
   const day = date.getDate().toString().padStart(2, '0');
   return `${year}-${month}-${day}`;
 };
+
+export const formatDateReverse = (date: string): string => {
+  const [year, month, day] = date.split('-');
+  return `${day}/${month}/${year}`;
+};

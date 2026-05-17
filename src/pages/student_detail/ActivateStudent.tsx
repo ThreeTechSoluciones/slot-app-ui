@@ -12,6 +12,7 @@ import { useRef, useState } from 'react';
 import type { FormRef } from '../../app/types/FormRef';
 import BackIcon from '../../assets/arrow-circle-icon.svg';
 import { ConfirmDialog } from '../../components/confirm_dialog/ConfirmDialog';
+import Spinner from '../../components/spinner/Spinner';
 import Modal from '../../components/unified_modal/Modal';
 
 const ActivateStudent = () => {
@@ -82,7 +83,13 @@ const ActivateStudent = () => {
       </s.DataContainer>
       <s.ButtonContainer>
         <Button variant="primary" size="medium" onClick={() => setShowConfirm(true)}>
-          {isActivating ? 'Activando...' : 'Confirmar alta'}
+          {isActivating ? (
+            <p style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <Spinner text="Activando..." />
+            </p>
+          ) : (
+            'Confirmar alta'
+          )}
         </Button>
       </s.ButtonContainer>
     </s.MainContainer>

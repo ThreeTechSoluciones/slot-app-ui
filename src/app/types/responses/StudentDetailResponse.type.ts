@@ -5,6 +5,7 @@ export interface StudentDetailResponse {
   lastName: string;
   dni: string;
   cellphoneNumber: string;
+  email: string;
   birthday: string;
   age: number;
   pathologies: string;

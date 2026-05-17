@@ -25,6 +25,7 @@ import {
 import { SearchNotFound } from '../../components/search_not_found/SearchNotFound';
 import SlotDetail from '../../components/slotDetail/SlotDetail';
 import { DisabledIcon } from '../../components/disabled_icon/DisabledIcon';
+import BicycleLoader from '../../components/bicycle_animation/BicycleLoader';
 import Modal from '../../components/unified_modal/Modal';
 
 const StudentDetail = () => {
@@ -59,7 +60,8 @@ const StudentDetail = () => {
     }
   };
 
-  if (isLoading) return <div>Cargando...</div>;
+  if (isLoading) return <BicycleLoader />;
+
   if (isError || !student)
     return (
       <div>
@@ -123,12 +125,15 @@ const StudentDetail = () => {
       </s.HeaderContainer>
 
       <s.StudentNameContainer>
-        <s.Title>
+        <s.TitleRow>
           <s.IconStyles>
             <img src={StudentIcon} alt="student-icon" />
           </s.IconStyles>
-          {student.name} {student.lastName}
-        </s.Title>
+          <s.Title>
+            {student.name} {student.lastName}
+          </s.Title>
+        </s.TitleRow>
+        <s.Email>{student.email}</s.Email>
       </s.StudentNameContainer>
       <s.InfoBoxesContainer>
         <StudentData student={student} navigate={navigate} isStudentInactive={isStudentInactive} />

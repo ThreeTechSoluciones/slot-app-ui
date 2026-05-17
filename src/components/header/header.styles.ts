@@ -1,10 +1,5 @@
 import styled, { css } from 'styled-components';
-import {
-  BRAND_COLOR,
-  DEFAULT_FONT_SIZE,
-  MEDIUM_FONT_SIZE,
-  SMALL_FONT_SIZE,
-} from '../../utils/Stylesheet';
+import { BRAND_COLOR, DEFAULT_FONT_SIZE, MEDIUM_FONT_SIZE } from '../../utils/Stylesheet';
 
 export const HEIGHT_HEADER = '96px';
 export const TEXT_COLOR = 'rgba(0, 0, 0, 1)';
@@ -59,7 +54,7 @@ export const MainContainer = styled.header`
   box-sizing: border-box;
   position: fixed;
   inset: 0 0 auto 0;
-  z-index: 1005;
+  z-index: 500;
 `;
 
 export const LeftOptionsContainer = styled.section`

@@ -46,7 +46,7 @@ export const StyledWrapper = styled.div<StyledWrapperProps>`
   //CONTENEDOR REAL DEL CALENDARIO
   .react-date-picker__calendar {
     position: absolute !important;
-    z-index: 9999;
+    z-index: 100;
 
     ${(props) =>
       props.$calendarPosition === 'top'

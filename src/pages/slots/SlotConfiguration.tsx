@@ -15,7 +15,7 @@ import {
 } from '../../app/services/SlotService';
 import useAuthentication from '../../hooks/useAuthentication';
 import toast from 'react-hot-toast';
-import { ModalType, type ModalConfig } from '../../utils/SlotsModalsUtils';
+import { ModalType } from '../../utils/SlotsModalsUtils';
 import {
   useGetSlotsQuery,
   useGetUserPreferencesQuery,
@@ -24,6 +24,7 @@ import {
 import { ConfirmDialog } from '../../components/confirm_dialog/ConfirmDialog';
 import EditCapacityForm from './forms/EditCapacityForm';
 import type { SlotResponse } from '../../app/types/responses/SlotResponse.type';
+import BicycleLoader from '../../components/bicycle_animation/BicycleLoader';
 import Modal, { type ModalProps } from '../../components/unified_modal/Modal';
 
 function SlotConfiguration() {
@@ -33,15 +34,17 @@ function SlotConfiguration() {
 
   const [currentSlot, setCurrentSlot] = useState<SlotResponse | null>(null);
 
-  const [showConfirm, setShowConfirm] = useState(false);
-
   const { userId } = useAuthentication();
 
   const [createSlot] = useCreateSlotMutation();
 
   const [updateSlotCapacity] = useUpdateSlotsCapacityMutation();
 
-  const { data: userPreferences, isLoading, isError } = useGetUserPreferencesQuery(userId!);
+  const {
+    data: userPreferences,
+    isLoading: isLoadingUserPreferences,
+    isError,
+  } = useGetUserPreferencesQuery(userId!);
 
   const [updateSlot] = useUpdateSlotMutation();
 
@@ -59,7 +62,7 @@ function SlotConfiguration() {
 
   const deleteSlotRef = useRef<any>(null);
 
-  const { data: registeredSlots } = useGetSlotsQuery(
+  const { data: registeredSlots, isLoading: isLoadingSlots } = useGetSlotsQuery(
     { userId: userId!, dayOfWeek: selectEnglishValue },
     { skip: selectEnglishValue === '' },
   );
@@ -143,7 +146,7 @@ function SlotConfiguration() {
 
   const SlotConfigurationSkeleton = () => {
     const getPlaceholder = () => {
-      if (isLoading) return 'Cargando...';
+      if (isLoadingUserPreferences) return 'Cargando...';
       if (isError) return 'Error al cargar capacidad';
       if (userPreferences?.capacity) return `${userPreferences.capacity} cupos por turno`;
       return 'Sin capacidad definida';
@@ -323,7 +326,23 @@ function SlotConfiguration() {
         <SlotConfigurationSkeleton />
         {selectEnglishValue !== '' && (
           <s.AnimatedContainer>
-            {totalSlots === 0 ? <NonExistingSlotsSkeleton /> : <VisualizeSlotsSkeleton />}
+            {isLoadingSlots ? (
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  width: '336px',
+                  minHeight: '336px',
+                  position: 'relative',
+                }}
+              >
+                <BicycleLoader />
+              </div>
+            ) : totalSlots === 0 ? (
+              <NonExistingSlotsSkeleton />
+            ) : (
+              <VisualizeSlotsSkeleton />
+            )}
           </s.AnimatedContainer>
         )}
       </s.SkeletonsContainer>
