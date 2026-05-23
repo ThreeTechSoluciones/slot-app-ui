@@ -59,12 +59,12 @@ function Plans() {
   } = useGetUserPlansQuery(
     userId
       ? {
-          userId,
-          page: page - 1,
-          size,
-          planName: filter,
-          sort: sort.length > 0 ? sort : undefined,
-        }
+        userId,
+        page: page - 1,
+        size,
+        planName: filter,
+        sort: sort.length > 0 ? sort : undefined,
+      }
       : skipToken,
   );
 
@@ -137,6 +137,8 @@ function Plans() {
     setShowModal(true);
   };
 
+  const updatedSelectedPlan = plansData?.content.find(p => p.id === selectedPlan?.id) ?? selectedPlan;
+
   const modalConfig: Record<ModalType, ModalProps> = {
     [ModalType.DELETE]: {
       children: <ConfirmDialog message="¿Estás seguro de que deseas eliminar este plan?" />,
@@ -173,9 +175,9 @@ function Plans() {
     [ModalType.SHOW_FUTURE_PRICES]: {
       children: (
         <FuturePricesList
-          selectedPlan={selectedPlan}
-          nextPrice={selectedPlan?.nextPrice}
-          futurePrices={selectedPlan?.futurePrices}
+          selectedPlan={updatedSelectedPlan}
+          nextPrice={updatedSelectedPlan?.nextPrice}
+          futurePrices={updatedSelectedPlan?.futurePrices}
           onAddPrice={() => {
             setShowCompleteEdit(false);
             openModal(ModalType.EDIT);
