@@ -6,7 +6,7 @@ import { createAuthenticatedBaseQuery } from './baseQuery';
 export const MonthlyFeeService = createApi({
   reducerPath: 'monthlyFees',
   tagTypes: ['MonthlyFees'],
-  baseQuery: createAuthenticatedBaseQuery(`${import.meta.env.VITE_BACKEND_URL}/monthly-fees`),
+  baseQuery: createAuthenticatedBaseQuery(`/monthly-fees`),
   endpoints: (builder) => ({
     updateMonthlyFee: builder.mutation<void, { feeId: string; studentId: string }>({
       query: ({ feeId }) => ({

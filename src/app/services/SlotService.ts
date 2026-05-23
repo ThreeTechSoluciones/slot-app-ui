@@ -6,7 +6,7 @@ import { createAuthenticatedBaseQuery } from './baseQuery';
 export const SlotService = createApi({
   reducerPath: 'slots',
   tagTypes: ['Slots'],
-  baseQuery: createAuthenticatedBaseQuery(`${import.meta.env.VITE_BACKEND_URL}/slots`),
+  baseQuery: createAuthenticatedBaseQuery(`/slots`),
   endpoints: (builder) => ({
     createSlot: builder.mutation<void, CreateSlotRequest>({
       query: (request: CreateSlotRequest) => ({

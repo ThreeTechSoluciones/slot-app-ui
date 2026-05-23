@@ -5,7 +5,7 @@ import { createAuthenticatedBaseQuery } from './baseQuery';
 export const PriceService = createApi({
   reducerPath: 'prices',
   tagTypes: ['userPrices'],
-  baseQuery: createAuthenticatedBaseQuery(`${import.meta.env.VITE_BACKEND_URL}/prices`),
+  baseQuery: createAuthenticatedBaseQuery(`/prices`),
   endpoints: (builder) => ({
     updatePrice: builder.mutation<void, { priceId: string; amount: number }>({
       query: ({ priceId, amount }) => ({

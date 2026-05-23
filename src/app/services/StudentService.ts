@@ -16,7 +16,7 @@ import { buildSortParams } from '../../utils/SortParams';
 export const StudentService = createApi({
   reducerPath: 'students',
   tagTypes: ['Student', 'MonthlyFees'],
-  baseQuery: createAuthenticatedBaseQuery(`${import.meta.env.VITE_BACKEND_URL}/students`),
+  baseQuery: createAuthenticatedBaseQuery(`/students`),
   endpoints: (builder) => ({
     deleteStudent: builder.mutation<void, string>({
       query: (studentId) => ({

@@ -22,7 +22,7 @@ export const UserService = createApi({
     'userPreferences',
     'userCalendar',
   ],
-  baseQuery: createAuthenticatedBaseQuery(`${import.meta.env.VITE_BACKEND_URL}/users`),
+  baseQuery: createAuthenticatedBaseQuery(`/users`),
   endpoints: (builder) => ({
     getUserStudents: builder.query<
       Page<StudentResponse>,
