@@ -8,22 +8,17 @@ export const PriceService = createApi({
   tagTypes: ['userPrices'],
   baseQuery: createAuthenticatedBaseQuery(`${import.meta.env.VITE_BACKEND_URL}/prices`),
   endpoints: (builder) => ({
-    deletePrice: builder.mutation<void, { futurePriceId: string; planId: string }>({
-      query: ({ futurePriceId }) => ({
-        url: `/${futurePriceId}`,
+    deletePrice: builder.mutation<void, { priceId: string; planId: string }>({
+      query: ({ priceId: priceId }) => ({
+        url: `/${priceId}`,
         method: 'DELETE',
       }),
 
       async onQueryStarted({ planId }, { dispatch, queryFulfilled }) {
         await queryFulfilled;
-        dispatch(
-          UserService.util.invalidateTags([
-            { type: 'userPlans', id: 'LIST' }
-          ])
-        );
+        dispatch(UserService.util.invalidateTags([{ type: 'userPlans', id: 'LIST' }]));
       },
     }),
-
   }),
 });
 

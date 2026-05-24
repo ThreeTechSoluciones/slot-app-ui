@@ -19,6 +19,7 @@ interface FuturePricesListProps {
   nextPrice: PriceResponse | null | undefined;
   futurePrices: PriceResponse[] | null | undefined;
   onAddPrice: () => void;
+  onDeletePrice: (price: PriceResponse) => void;
 }
 
 interface PriceItemProps {
@@ -26,10 +27,16 @@ interface PriceItemProps {
   daysUntilActive: string | React.ReactNode;
   isLast?: boolean;
   isOnlyOne?: boolean;
-  onDelete: (price: PriceResponse) => void;
+  onDeletePrice: (price: PriceResponse) => void;
 }
 
-const PriceItem = ({ price, daysUntilActive, isLast, isOnlyOne, onDelete }: PriceItemProps) => (
+const PriceItem = ({
+  price,
+  daysUntilActive,
+  isLast,
+  isOnlyOne,
+  onDeletePrice,
+}: PriceItemProps) => (
   <s.FuturePriceItem $isLast={isLast} $isOnlyOne={isOnlyOne}>
     <img src={CalendarIcon} alt="Calendar" width={20} height={20} />
     <s.PriceInfoContainer>
@@ -42,7 +49,7 @@ const PriceItem = ({ price, daysUntilActive, isLast, isOnlyOne, onDelete }: Pric
       alt="Delete"
       width={24}
       height={24}
-      onClick={() => onDelete(price)}
+      onClick={() => onDeletePrice(price)}
     />
   </s.FuturePriceItem>
 );
@@ -51,30 +58,10 @@ function FuturePricesList({
   selectedPlan,
   nextPrice,
   futurePrices,
-  onAddPrice
+  onAddPrice,
+  onDeletePrice
 }: FuturePricesListProps) {
-
   const totalFuturePrices = selectedPlan?.totalFuturePrices;
-  const [showConfirm, setShowConfirm] = useState(false);
-  const [priceToDelete, setPriceToDelete] = useState<PriceResponse | null>(null);
-
-  const [deletePrice] = useDeletePriceMutation();
-
-  const handleDeletePrice = async () => {
-    if (!priceToDelete) return;
-    deletePrice({ futurePriceId: priceToDelete.id, planId: selectedPlan?.id! })
-      .unwrap()
-      .then(() => {
-        toast.success('Precio eliminado');
-        setShowConfirm(false);
-        setPriceToDelete(null);
-      });
-  };
-
-  const handleOpenConfirm = (price: PriceResponse) => {
-    setPriceToDelete(price);
-    setShowConfirm(true);
-  };
 
   return (
     <s.FuturePricesContainer>
@@ -96,7 +83,7 @@ function FuturePricesList({
             }
             isLast={!futurePrices?.length}
             isOnlyOne={totalFuturePrices === 1}
-            onDelete={handleOpenConfirm}
+            onDeletePrice={onDeletePrice}
           />
         )}
         {futurePrices?.map((price, index) => (
@@ -109,7 +96,7 @@ function FuturePricesList({
               </s.DaysUntilActiveComp>
             }
             isLast={index === futurePrices.length - 1}
-            onDelete={handleOpenConfirm}
+            onDeletePrice={onDeletePrice}
           />
         ))}
       </s.FuturePricesListContainer>
@@ -122,15 +109,6 @@ function FuturePricesList({
       >
         Programar nuevo precio
       </Button>
-      <Modal
-        onCancel={() => setShowConfirm(false)}
-        active={showConfirm}
-        onConfirm={handleDeletePrice}
-        primaryButtonText="Aceptar"
-        secondaryButtonText="Cancelar"
-      >
-        <ConfirmDialog message="¿Estás seguro de que quieres eliminar este precio?" />
-      </Modal>
     </s.FuturePricesContainer>
   );
 }

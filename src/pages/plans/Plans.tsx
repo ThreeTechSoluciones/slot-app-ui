@@ -29,6 +29,8 @@ import BicycleLoader from '../../components/bicycle_animation/BicycleLoader';
 import Modal, { type ModalProps } from '../../components/unified_modal/Modal';
 import FuturePricesList from './FuturePrices/FuturePricesList';
 import FuturePricesComponent from './FuturePrices/FuturePricesComponent';
+import type { PriceResponse } from '../../app/types/responses/PriceResponse.type';
+import { useDeletePriceMutation } from '../../app/services/PriceService';
 
 enum ModalType {
   DELETE = 'DELETE',
@@ -36,6 +38,7 @@ enum ModalType {
   EDIT = 'EDIT',
   NONE = 'NONE',
   SHOW_FUTURE_PRICES = 'SHOW_FUTURE_PRICES',
+  DELETE_PRICE = 'DELETE_PRICE',
 }
 
 function Plans() {
@@ -137,7 +140,28 @@ function Plans() {
     setShowModal(true);
   };
 
-  const updatedSelectedPlan = plansData?.content.find(p => p.id === selectedPlan?.id) ?? selectedPlan;
+  const [priceToDelete, setPriceToDelete] = useState<PriceResponse | null>(null);
+
+  const [deletePrice] = useDeletePriceMutation();
+
+  const handleDeletePrice = async () => {
+    if (!priceToDelete) return;
+    await deletePrice({ priceId: priceToDelete.id, planId: selectedPlan?.id! })
+      .unwrap()
+      .then(() => {
+        toast.success('Precio eliminado');
+        setPriceToDelete(null);
+      });
+    openModal(ModalType.SHOW_FUTURE_PRICES);
+  };
+
+  const handleOpenDeletePrice = (price: PriceResponse) => {
+    setPriceToDelete(price);
+    openModal(ModalType.DELETE_PRICE);
+  };
+
+  const updatedSelectedPlan =
+    plansData?.content.find((p) => p.id === selectedPlan?.id) ?? selectedPlan;
 
   const modalConfig: Record<ModalType, ModalProps> = {
     [ModalType.DELETE]: {
@@ -182,6 +206,7 @@ function Plans() {
             setShowCompleteEdit(false);
             openModal(ModalType.EDIT);
           }}
+          onDeletePrice={handleOpenDeletePrice}
         />
       ),
       title: 'Próximos precios',
@@ -189,6 +214,13 @@ function Plans() {
         setModalType(ModalType.NONE);
         setShowModal(false);
       },
+    },
+    [ModalType.DELETE_PRICE]: {
+      children: <ConfirmDialog message="¿Estás seguro de que quieres eliminar este precio?" />,
+      primaryButtonText: 'Aceptar',
+      secondaryButtonText: 'Cancelar',
+      onConfirm: handleDeletePrice,
+      onCancel: () => openModal(ModalType.SHOW_FUTURE_PRICES),
     },
   };
 
