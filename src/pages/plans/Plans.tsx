@@ -221,6 +221,7 @@ function Plans() {
       secondaryButtonText: 'Cancelar',
       onConfirm: handleDeletePrice,
       onCancel: () => openModal(ModalType.SHOW_FUTURE_PRICES),
+      onClose: () => openModal(ModalType.SHOW_FUTURE_PRICES),
     },
   };
 
@@ -354,6 +355,7 @@ function Plans() {
         primaryButtonText={modalConfig[modalType].primaryButtonText}
         secondaryButtonText={modalConfig[modalType].secondaryButtonText}
         onConfirm={modalConfig[modalType].onConfirm}
+        onCancel={modalConfig[modalType].onCancel ?? (() => setShowModal(false))}
         onClose={modalConfig[modalType].onClose}
       >
         {modalConfig[modalType].children}
