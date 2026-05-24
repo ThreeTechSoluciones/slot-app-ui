@@ -8,11 +8,6 @@ import { formatDateReverse } from '../../../utils/DateFormatter';
 import Button from '../../../components/button/Button';
 import AddIcon from '../../../assets/add-icon.svg';
 import { Tooltip } from '../../../components/tooltip/Tooltip';
-import { useDeletePriceMutation } from '../../../app/services/PriceService';
-import toast from 'react-hot-toast';
-import { useState } from 'react';
-import Modal from '../../../components/unified_modal/Modal';
-import { ConfirmDialog } from '../../../components/confirm_dialog/ConfirmDialog';
 
 interface FuturePricesListProps {
   selectedPlan: PlanResponse | null | undefined;
