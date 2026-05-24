@@ -8,6 +8,7 @@ interface Props {
   onIconClick?: () => void;
   isInteractiveIcon?: boolean;
   iconStyle?: React.CSSProperties;
+  hasAutofocus?: boolean;
 }
 export function InputField({
   type = 'text',
@@ -17,12 +18,12 @@ export function InputField({
   onIconClick,
   isInteractiveIcon = false,
   iconStyle,
+  hasAutofocus = false
 }: Props) {
   return (
     <s.Container>
       <s.InputContainer>
-        <s.Input autoFocus type={type} placeholder={placeholder} {...registration} />
-
+        <s.Input autoFocus={hasAutofocus} type={type} placeholder={placeholder} {...registration} />
         {icon && (
           <s.Img
             src={icon}

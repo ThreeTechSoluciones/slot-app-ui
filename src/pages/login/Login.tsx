@@ -17,7 +17,6 @@ import { Logo } from '../../components/logo/Logo';
 function Login() {
   const [signin] = useSigninMutation({ fixedCacheKey: 'shared-auth' });
   const navigate = useNavigate();
-
   const {
     register,
     handleSubmit,
@@ -46,6 +45,7 @@ function Login() {
           registration={register('username')}
           icon={UserIcon}
           iconStyle={{ filter: 'brightness(0)', width: '18px', height: '18px' }}
+          hasAutofocus
         />
         <ErrorMessage error={errors.username} />
         <s.Label>Contraseña</s.Label>
@@ -56,7 +56,6 @@ function Login() {
             Aceptar
           </Button>
         </s.ButtonContainer>
-
         <s.ForgotPasswordText onClick={() => navigate(RecuperarContraseña)}>
           ¿Olvidaste tu contraseña?
         </s.ForgotPasswordText>
