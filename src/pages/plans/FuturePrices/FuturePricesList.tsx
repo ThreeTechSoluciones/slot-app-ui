@@ -14,6 +14,7 @@ interface FuturePricesListProps {
   nextPrice: PriceResponse | null | undefined;
   futurePrices: PriceResponse[] | null | undefined;
   onAddPrice: () => void;
+  onDeletePrice: (price: PriceResponse) => void;
 }
 
 interface PriceItemProps {
@@ -21,9 +22,16 @@ interface PriceItemProps {
   daysUntilActive: string | React.ReactNode;
   isLast?: boolean;
   isOnlyOne?: boolean;
+  onDeletePrice: (price: PriceResponse) => void;
 }
 
-const PriceItem = ({ price, daysUntilActive, isLast, isOnlyOne }: PriceItemProps) => (
+const PriceItem = ({
+  price,
+  daysUntilActive,
+  isLast,
+  isOnlyOne,
+  onDeletePrice,
+}: PriceItemProps) => (
   <s.FuturePriceItem $isLast={isLast} $isOnlyOne={isOnlyOne}>
     <img src={CalendarIcon} alt="Calendar" width={20} height={20} />
     <s.PriceInfoContainer>
@@ -31,7 +39,13 @@ const PriceItem = ({ price, daysUntilActive, isLast, isOnlyOne }: PriceItemProps
       <s.StartDate>{formatDateReverse(price.startDate)}</s.StartDate>
     </s.PriceInfoContainer>
     {daysUntilActive}
-    <img src={DeleteIcon} alt="Delete" width={24} height={24} />
+    <s.DeleteIcon
+      src={DeleteIcon}
+      alt="Delete"
+      width={24}
+      height={24}
+      onClick={() => onDeletePrice(price)}
+    />
   </s.FuturePriceItem>
 );
 
@@ -40,8 +54,10 @@ function FuturePricesList({
   nextPrice,
   futurePrices,
   onAddPrice,
+  onDeletePrice
 }: FuturePricesListProps) {
   const totalFuturePrices = selectedPlan?.totalFuturePrices;
+
   return (
     <s.FuturePricesContainer>
       <s.Subtitle>
@@ -62,6 +78,7 @@ function FuturePricesList({
             }
             isLast={!futurePrices?.length}
             isOnlyOne={totalFuturePrices === 1}
+            onDeletePrice={onDeletePrice}
           />
         )}
         {futurePrices?.map((price, index) => (
@@ -74,6 +91,7 @@ function FuturePricesList({
               </s.DaysUntilActiveComp>
             }
             isLast={index === futurePrices.length - 1}
+            onDeletePrice={onDeletePrice}
           />
         ))}
       </s.FuturePricesListContainer>

@@ -1,24 +1,25 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
-import { UserService } from './UserService';
 import { createAuthenticatedBaseQuery } from './baseQuery';
+import { PlanService } from './PlanService';
+import { UserService } from './UserService';
 
 export const PriceService = createApi({
   reducerPath: 'prices',
   tagTypes: ['userPrices'],
   baseQuery: createAuthenticatedBaseQuery(`${import.meta.env.VITE_BACKEND_URL}/prices`),
   endpoints: (builder) => ({
-    updatePrice: builder.mutation<void, { priceId: string; amount: number }>({
-      query: ({ priceId, amount }) => ({
-        url: `${priceId}`,
-        method: 'PATCH',
-        body: { amount },
+    deletePrice: builder.mutation<void, { priceId: string; planId: string }>({
+      query: ({ priceId: priceId }) => ({
+        url: `/${priceId}`,
+        method: 'DELETE',
       }),
-      async onQueryStarted({ priceId }, { dispatch, queryFulfilled }) {
+
+      async onQueryStarted({ planId }, { dispatch, queryFulfilled }) {
         await queryFulfilled;
-        dispatch(UserService.util.invalidateTags([{ type: 'userPrices', id: priceId }]));
+        dispatch(UserService.util.invalidateTags([{ type: 'userPlans', id: 'LIST' }]));
       },
     }),
   }),
 });
 
-export const { useUpdatePriceMutation } = PriceService;
+export const { useDeletePriceMutation } = PriceService;
