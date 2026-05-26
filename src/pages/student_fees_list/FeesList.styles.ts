@@ -102,6 +102,25 @@ export const ViewIconStyle = styled(BaseIcon)``;
 
 export const CoinIconStyles = styled(BaseIcon)``;
 
+export const DeleteButton = styled.button`
+  border: none;
+  background: transparent;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+
+  &:not(:disabled) {
+    cursor: pointer;
+  }
+`;
+
+export const DeleteIcon = styled(BaseIcon)<{ $disabled: boolean }>`
+  width: 20px;
+  height: 20px;
+  opacity: ${({ $disabled }) => ($disabled ? 0.4 : 1)};
+`;
+
 export const FeeStatusContainer = styled.div`
   display: flex;
   justify-content: center;

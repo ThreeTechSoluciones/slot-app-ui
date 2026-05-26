@@ -12,4 +12,5 @@ export enum ModalType {
   PAY_MONTHLY_FEE = 'pay',
   PAYMENT_DETAIL = 'payment_details',
   NEW_MONTLHY_FEE = 'new_monthly_fee',
+  DELETE_MONTHLY_FEE = 'delete_monthly_fee',
 }

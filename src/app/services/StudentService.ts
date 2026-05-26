@@ -92,6 +92,14 @@ export const StudentService = createApi({
       providesTags: (_result, _error, { studentId }) => [{ type: 'MonthlyFees', id: studentId }],
     }),
 
+    deleteStudentMonthlyFee: builder.mutation<void, { studentId: string; monthlyFeeId: string }>({
+      query: ({ studentId, monthlyFeeId }) => ({
+        url: `/${studentId}/monthly-fees/${monthlyFeeId}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: (_result, _error, { studentId }) => [{ type: 'MonthlyFees', id: studentId }],
+    }),
+
     getStudentById: builder.query<StudentDetailResponse, string>({
       query: (id) => `/${id}`,
       providesTags: (_result, _error, id) => [{ type: 'Student', id }],
@@ -168,6 +176,7 @@ export const {
   useActivateStudentMutation,
   useGetStudentMonthlyFeesQuery,
   useCreateStudentMonthlyFeeMutation,
+  useDeleteStudentMonthlyFeeMutation,
   useMarkStudentAbsenceMutation,
   useRecoverStudentSlotMutation,
   useValidateStudentDniMutation,
