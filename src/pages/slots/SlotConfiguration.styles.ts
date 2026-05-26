@@ -99,19 +99,16 @@ export const SelectWrapper = styled.div`
 export const Select = styled.select`
   width: 316px;
   height: 48px;
-
   border: 1px solid black;
   border-radius: ${BORDER_RADIUS};
-
   padding-left: 16px;
   padding-right: 48px;
-
+  background: none;
+  color: ${DEFAULT_TEXT_COLOR};
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-
   font-size: ${MEDIUM_FONT_SIZE};
-
   cursor: pointer;
 `;
 
@@ -142,8 +139,8 @@ export const Button = styled.button<ButtonProps>`
   color: ${DEFAULT_TEXT_COLOR};
   &:hover {
     ${(props) =>
-    !props.$isDisabled &&
-    `
+      !props.$isDisabled &&
+      `
             cursor: pointer;
             background: ${NEUTRAL_COLOR};
         `}
@@ -164,10 +161,10 @@ export const EditCapacity = styled.button`
   img {
     margin-left: 4px;
   }
-    }
-     &:focus {
+
+  &:focus {
     outline: none;
-    border:none;
+    border: none;
   }
 `;
 export const SlotsContainer = styled.div`
@@ -214,10 +211,6 @@ export const SpecificSlotContainer = styled.div<SpecificSlotContainerProps>`
   border-bottom: ${(props) => (props.$isLast ? 'none' : `1px solid ${DEFAULT_TEXT_COLOR}`)};
   margin-bottom: ${(props) => (props.$isLast ? 'px' : 'none')};
   padding: 2px;
-  img {
-    margin-top: 10px;
-    margin-right: 16px;
-  }
   &:hover {
     transform: scale(1.02);
     transition: all 0.2s ease;
@@ -245,7 +238,10 @@ export const SpecificSlotContainer = styled.div<SpecificSlotContainerProps>`
     }
   }
 `;
-
+export const CalendarImage = styled.img`
+  margin-top: 10px;
+  margin-right: 16px;
+`;
 export const SlotInfoContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -278,7 +274,6 @@ export const IconButton = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: red;
   border-radius: 50%;
   &:hover {
     background-color: ${BRAND_COLOR};

@@ -9,6 +9,7 @@ import type { FormRef } from '../../../../app/types/FormRef';
 import { PaymentPlanName, PlanTypeNameArray } from '../../../../app/types/models/PaymentPlanName';
 import CurrencyInput from '../../../../utils/InputPrice/CurrencyInput';
 import { forwardRef, useImperativeHandle } from 'react';
+import CaretIcon from '../../../../assets/caret-icon.svg';
 
 export interface PaymentDataProps {
   paymentPlanName: string;
@@ -125,31 +126,34 @@ const PaymentData = forwardRef<FormRef, FormProps<PaymentDataProps>>((props, ref
             control={control}
             defaultValue=""
             render={({ field }) => (
-              <s.Select
-                {...field}
-                onChange={(e) => {
-                  const value = e.target.value;
-                  field.onChange(value);
+              <s.SelectWrapper>
+                <s.Select
+                  {...field}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    field.onChange(value);
 
-                  if (value === PaymentPlanName.BEGINNING_OF_MONTH) {
-                    setValue('paymentDay', undefined);
-                  }
+                    if (value === PaymentPlanName.BEGINNING_OF_MONTH) {
+                      setValue('paymentDay', undefined);
+                    }
 
-                  if (value === PaymentPlanName.SPECIFIC_DAY) {
-                    setValue('extraClasses', undefined);
-                    setValue('classPrice', undefined);
-                  }
-                }}
-              >
-                <option value="" disabled hidden>
-                  Seleccione una opción
-                </option>
-                {PlanTypeNameArray.map((planType) => (
-                  <option key={planType} value={planType}>
-                    {planType}
+                    if (value === PaymentPlanName.SPECIFIC_DAY) {
+                      setValue('extraClasses', undefined);
+                      setValue('classPrice', undefined);
+                    }
+                  }}
+                >
+                  <option value="" disabled hidden>
+                    Seleccione una opción
                   </option>
-                ))}
-              </s.Select>
+                  {PlanTypeNameArray.map((planType) => (
+                    <option key={planType} value={planType}>
+                      {planType}
+                    </option>
+                  ))}
+                </s.Select>
+                <s.CaretIcon src={CaretIcon} alt="caret-icon" />
+              </s.SelectWrapper>
             )}
           />
 

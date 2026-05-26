@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import CaretIcon from '../../../../assets/caret-icon.svg';
 import {
   NEUTRAL_COLOR,
   DEFAULT_TEXT_COLOR,
@@ -40,7 +39,10 @@ export const Label = styled.p`
   margin-bottom: 8px;
   padding: 0px;
 `;
-
+export const SelectWrapper = styled.div`
+  position: relative;
+  width: 410px;
+`;
 export const Select = styled.select`
   width: 410px;
   height: 56px;
@@ -54,7 +56,7 @@ export const Select = styled.select`
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  background: url(${CaretIcon}) no-repeat right 12px center;
+  cursor: pointer;
   &::placeholder {
     color: ${NEUTRAL_COLOR};
   }
@@ -62,7 +64,15 @@ export const Select = styled.select`
     ${FOCUS_STYLE};
   }
 `;
-
+export const CaretIcon = styled.img`
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 14px;
+  pointer-events: none;
+`;
 export const SlotTitleContainer = styled.h2`
   font-size: ${DEFAULT_FONT_SIZE};
   display: flex;

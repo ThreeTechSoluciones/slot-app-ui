@@ -1,16 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '../../../../components/error_message/ErrorMessage';
 import { planDataScheme } from './PlanData.scheme';
-import {
-  MainContainer,
-  Label,
-  Select,
-  FormContainer,
-  PlanContainer,
-  SlotDetailContainer,
-  SlotTitleContainer,
-  SlotsContainer,
-} from './PlanData.styles';
+import * as s from './PlanData.styles';
 import { yupResolver } from '@hookform/resolvers/yup';
 import SlotRegistrationCalendar from '../../../../components/slotRegistrationCalendar/SlotRegistrationCalendar';
 import SlotDetail from '../../../../components/slotDetail/SlotDetail';
@@ -22,6 +13,7 @@ import { forwardRef, useImperativeHandle, useMemo, useCallback, useEffect } from
 import { skipToken } from '@reduxjs/toolkit/query';
 import { DaysOfWeekTranslation } from '../../../../utils/DaysOfWeek';
 import CalendarIcon from '../../../../assets/calendar-icon.svg';
+import CaretIcon from '../../../../assets/caret-icon.svg';
 import type { FormRef } from '../../../../app/types/FormRef';
 import Spinner from '../../../../components/spinner/Spinner';
 
@@ -141,22 +133,27 @@ const PlanData = forwardRef<FormRef, FormProps<PlanDataProps>>((props, ref) => {
     );
   };
   return (
-    <MainContainer>
-      <FormContainer>
-        <PlanContainer>
-          <Label>Plan</Label>
-          <Select {...register('planId')}>
-            <option value="" disabled hidden>
-              Seleccione una opción
-            </option>
-            {planTypes?.content.map((plan) => (
-              <option key={plan.id} value={plan.id}>
-                {plan.name}
+    <s.MainContainer>
+      <s.FormContainer>
+        <s.PlanContainer>
+          <s.Label>Plan</s.Label>
+          <s.SelectWrapper>
+            <s.Select {...register('planId')}>
+              <option value="" disabled hidden>
+                Seleccione una opción
               </option>
-            ))}
-          </Select>
+              {planTypes?.content.map((plan) => (
+                <option key={plan.id} value={plan.id}>
+                  {plan.name}
+                </option>
+              ))}
+            </s.Select>
+
+            <s.CaretIcon src={CaretIcon} alt="caret-icon" />
+          </s.SelectWrapper>
+
           <ErrorMessage error={errors.planId} />
-        </PlanContainer>
+        </s.PlanContainer>
         {isLoadingCalendar ? (
           <div
             style={{
@@ -176,18 +173,18 @@ const PlanData = forwardRef<FormRef, FormProps<PlanDataProps>>((props, ref) => {
             onDeleteSlot={handleDeleteSlot}
           />
         )}
-      </FormContainer>
+      </s.FormContainer>
       <ErrorMessage error={errors.slotIds} />
-      <SlotsContainer>
-        <SlotTitleContainer>
+      <s.SlotsContainer>
+        <s.SlotTitleContainer>
           <img src={CalendarIcon} width={'24px'} height={'24px'}></img>
           Turnos asignados
-        </SlotTitleContainer>
-        <SlotDetailContainer>
+        </s.SlotTitleContainer>
+        <s.SlotDetailContainer>
           <SlotDetail slots={slots} />
-        </SlotDetailContainer>
-      </SlotsContainer>
-    </MainContainer>
+        </s.SlotDetailContainer>
+      </s.SlotsContainer>
+    </s.MainContainer>
   );
 });
 

@@ -216,7 +216,7 @@ function SlotConfiguration() {
               (registeredSlots?.day?.numberOfSlots ?? 0) > 3
             }
           >
-            <img src={CalendarIcon} width={30} height={30}></img>
+            <s.CalendarImage src={CalendarIcon} width={30} height={30}></s.CalendarImage>
             <s.SlotInfoContainer>
               <s.PrimaryText>
                 {slot.startTime} - {slot.endTime}
