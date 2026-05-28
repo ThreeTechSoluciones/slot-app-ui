@@ -6,14 +6,13 @@ import {
   DEFAULT_TEXT_COLOR,
   LIGHT_NEUTRAL_COLOR,
   FONT_WEIGHT_BOLD,
-  BACKGROUND_COLOR,
   SUCCESS_COLOR,
   DEFAULT_FONT_SIZE,
   LARGE_FONT_SIZE,
   MEDIUM_FONT_SIZE,
   SMALL_FONT_SIZE,
+  FOCUS_STYLE,
 } from '../../utils/Stylesheet';
-import Arrow from '../../assets/Arrow.png';
 
 export const MainContainer = styled.div`
   display: flex;
@@ -69,32 +68,66 @@ export const BaseStyle = styled.input`
   width: 300px;
   height: 48px;
   border-radius: ${BORDER_RADIUS};
+  border: 1px solid black;
   font-size: ${SMALL_FONT_SIZE};
   padding-left: 16px;
   color: ${DEFAULT_TEXT_COLOR};
+  outline: none;
+  &::placeholder {
+    color: ${NEUTRAL_COLOR};
+    font-size: ${MEDIUM_FONT_SIZE};
+  }
+  &:focus {
+    ${FOCUS_STYLE};
+  }
 `;
 
 export const Input = styled(BaseStyle)`
   background-color: ${LIGHT_NEUTRAL_COLOR};
   font-size: ${DEFAULT_FONT_SIZE};
+  border: 1px solid black;
   border: none;
   &::placeholder {
     color: ${DEFAULT_TEXT_COLOR};
     font-size: ${DEFAULT_FONT_SIZE};
   }
 `;
-
-export const Select = styled(BaseStyle).attrs({ as: 'select' })`
+export const SelectWrapper = styled.div`
+  position: relative;
   width: 316px;
-  border: 1px solid black;
-  appearance: none;
-  font-size: ${MEDIUM_FONT_SIZE};
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  background: url(${Arrow}) no-repeat right 12px center;
-  padding-right: 32px;
 `;
 
+export const Select = styled.select`
+  width: 316px;
+  height: 48px;
+  border: 1px solid black;
+  border-radius: ${BORDER_RADIUS};
+  padding-left: 16px;
+  padding-right: 48px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  font-size: ${MEDIUM_FONT_SIZE};
+  cursor: pointer;
+  outline: none;
+  &::placeholder {
+    color: ${NEUTRAL_COLOR};
+    font-size: ${MEDIUM_FONT_SIZE};
+  }
+  &:focus {
+    ${FOCUS_STYLE};
+  }
+`;
+
+export const CaretIcon = styled.img`
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 12px;
+  pointer-events: none;
+`;
 interface ButtonProps {
   $isDisabled?: boolean;
 }
@@ -133,8 +166,12 @@ export const EditCapacity = styled.button`
     cursor: pointer;
   }
   img {
-    margin-left: 8px;
-    margin-top: 4px;
+    margin-left: 4px;
+  }
+    }
+     &:focus {
+    outline: none;
+    border:none;
   }
 `;
 export const SlotsContainer = styled.div`
@@ -235,21 +272,27 @@ export const SecondaryText = styled.p`
 
 export const ActionsContainer = styled.div`
   display: flex;
-  flex-direction: row;
   margin-left: auto;
+  align-items: center;
+  gap: 8px;
+`;
+export const IconButton = styled.div`
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: red;
+  border-radius: 50%;
   &:hover {
+    background-color: ${BRAND_COLOR};
     cursor: pointer;
   }
   img {
-    background-color: ${BACKGROUND_COLOR};
-    border-radius: 50%;
-    padding: 5px;
-    &:hover {
-      background-color: ${BRAND_COLOR};
-    }
+    display: block;
+    object-fit: contain;
   }
 `;
-
 export const InfoContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -257,11 +300,13 @@ export const InfoContainer = styled.div`
   justify-content: center;
   margin-top: 8px;
   margin-bottom: 32px;
-  img {
-    background-color: ${LIGHT_NEUTRAL_COLOR};
-    border-radius: 50%;
-    padding: 4px;
-  }
+`;
+export const CalendarIcon = styled.img`
+  width: 25px;
+  height: 25px;
+  background-color: ${LIGHT_NEUTRAL_COLOR};
+  border-radius: 30%;
+  padding: 4px;
 `;
 export const fadeInSlide = keyframes`
   from {

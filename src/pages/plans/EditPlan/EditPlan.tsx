@@ -1,16 +1,15 @@
 import { forwardRef, useImperativeHandle } from 'react';
 import * as s from './EditPlan.styles';
 import { formatCurrency } from '../../../utils/Formatter';
-import type { FormProp } from '../../../app/types/FormProp';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Controller, useForm } from 'react-hook-form';
 import { ErrorMessage } from '../../../components/error_message/ErrorMessage';
-import SpinInput from '../../../components/number_input/SpinInput';
 import CurrencyInput from '../../../utils/InputPrice/CurrencyInput';
 import InputDate from '../../../components/date/inputDate';
 import CalendarIcon from '../../../assets/calendar-icon.svg';
 import { editPlanSchema } from './EditPlan.scheme';
 import * as yup from 'yup';
+import type { FormProps } from '../../../app/types/FormProp';
 
 export interface EditPlanFormData {
   name: string;
@@ -24,11 +23,12 @@ export interface EditPlanFormProps {
   planName: string;
   numberOfDays: number;
   currentAmount: number;
+  showCompleteEdit?: boolean;
 }
 
-const EditPlanForm = forwardRef<FormProp<any>, EditPlanFormProps>((props, ref) => {
+const EditPlanForm = forwardRef<FormProps<EditPlanFormData>, EditPlanFormProps>((props, ref) => {
   type FormData = yup.InferType<typeof editPlanSchema>;
-  const { planId, planName, numberOfDays, currentAmount } = props;
+  const { planId, planName, numberOfDays, currentAmount, showCompleteEdit } = props;
   const {
     handleSubmit,
     control,
@@ -58,45 +58,37 @@ const EditPlanForm = forwardRef<FormProp<any>, EditPlanFormProps>((props, ref) =
               },
             )();
           }),
-      }) as unknown as FormProp<EditPlanFormProps>,
+      }) as unknown as FormProps<EditPlanFormData>,
   );
 
   return (
     <s.FormStyle>
       <s.InfoContainer>
-        <s.InputContainer>
-          <s.Label>Nombre del plan</s.Label>
-          <Controller
-            name="name"
-            control={control}
-            render={({ field }) => <s.Input {...field} />}
-          />
-          <ErrorMessage error={errors.name} />
-        </s.InputContainer>
-        <s.InputContainer>
-          <s.Label>Cantidad de días por semana</s.Label>
-          <Controller
-            name="numberOfDays"
-            control={control}
-            render={({ field }) => (
-              <SpinInput
-                value={field.value}
-                onChange={field.onChange}
-                min={1}
-                max={7}
-                placeholder="Ej: 2 días"
+        {showCompleteEdit && (
+          <>
+            <s.InputContainer>
+              <s.Label>Nombre del plan</s.Label>
+              <Controller
+                name="name"
+                control={control}
+                render={({ field }) => <s.Input {...field} />}
               />
-            )}
-          />
-          <ErrorMessage error={errors.numberOfDays} />
-        </s.InputContainer>
+              <ErrorMessage error={errors.name} />
+            </s.InputContainer>
+            <s.InputContainer>
+              <s.Label>Cantidad de días por semana</s.Label>
+              <s.Input $isNonEditable={true} value={numberOfDays} readOnly />
+              <ErrorMessage error={errors.numberOfDays} />
+            </s.InputContainer>
+          </>
+        )}
         <s.InputContainer>
           <s.Label>Precio vigente</s.Label>
           <s.Input $isNonEditable={true} value={formatCurrency(currentAmount!)} readOnly />
         </s.InputContainer>
       </s.InfoContainer>
       <s.EditPriceOptionContainer>
-        <s.Label>Actualizar precio (opcional)</s.Label>
+        <s.Label>Nuevo precio</s.Label>
         <s.Description>
           {' '}
           Ingresá el nuevo monto y la fecha a partir de la cual será válido.

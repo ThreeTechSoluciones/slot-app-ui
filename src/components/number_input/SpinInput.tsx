@@ -9,6 +9,7 @@ export interface SpinInputProps {
   max?: number;
   placeholder?: string;
   disabled?: boolean;
+  autoFocus?: boolean;
 }
 
 export const SpinInput = ({
@@ -18,6 +19,7 @@ export const SpinInput = ({
   max,
   placeholder,
   disabled = false,
+  autoFocus = false,
 }: SpinInputProps) => {
   const handleDecrement = () => {
     const current = value || 0;
@@ -41,6 +43,7 @@ export const SpinInput = ({
         onChange={(e) => onChange(Number(e.target.value))}
         placeholder={placeholder}
         disabled={disabled}
+        $autoFocus={autoFocus}
       />
       <InputIcon
         src={LessIcon}

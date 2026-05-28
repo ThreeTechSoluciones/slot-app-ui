@@ -5,12 +5,12 @@ import {
   useDeleteStudentMutation,
   useGetStudentByIdQuery,
 } from '../../app/services/StudentService';
-import StudentIcon from '../../assets/student-icon.svg';
-import BackIcon from '../../assets/back-icon.svg';
+import StudentIcon from '../../assets/user-icon.svg';
+import BackIcon from '../../assets/arrow-circle-icon.svg';
 import InfoIcon from '../../assets/info-icon.svg';
 import EditIcon from '../../assets/edit-icon.svg';
-import DesactivateIcon from '../../assets/desactivate-icon.svg';
-import CalendarIcon from '../../assets/CalenderIcon.png';
+import DesactivateIcon from '../../assets/arrow-circle-icon.svg';
+import CalendarIcon from '../../assets/calendar-icon.svg';
 import Button from '../../components/button/Button';
 import { ConfirmDialog } from '../../components/confirm_dialog/ConfirmDialog';
 import { DarAltaAlumno, getEditarEstudianteStep, ListadoCuotas } from '../../routes/RoutesUtils';
@@ -25,6 +25,8 @@ import {
 import { SearchNotFound } from '../../components/search_not_found/SearchNotFound';
 import SlotDetail from '../../components/slotDetail/SlotDetail';
 import { DisabledIcon } from '../../components/disabled_icon/DisabledIcon';
+import BicycleLoader from '../../components/bicycle_animation/BicycleLoader';
+import Modal from '../../components/unified_modal/Modal';
 
 const StudentDetail = () => {
   const { studentId } = useLocation().state;
@@ -58,7 +60,8 @@ const StudentDetail = () => {
     }
   };
 
-  if (isLoading) return <div>Cargando...</div>;
+  if (isLoading) return <BicycleLoader />;
+
   if (isError || !student)
     return (
       <div>
@@ -71,14 +74,17 @@ const StudentDetail = () => {
   const isStudentInactive = !student.status;
   return (
     <s.MainContainer>
-      {showConfirm && (
+      <Modal
+        active={showConfirm}
+        onConfirm={() => deactivateStudentAndShowMessage(studentId)}
+        onCancel={() => setShowConfirm(false)}
+        primaryButtonText="Confirmar"
+        secondaryButtonText="Cancelar"
+      >
         <ConfirmDialog
-          message={`¿Estás seguro de dar de baja
-           a ${student.name} ${student.lastName}?`}
-          onConfirm={() => deactivateStudentAndShowMessage(studentId)}
-          onCancel={() => setShowConfirm(false)}
+          message={`¿Estás seguro de dar de baja a ${student.name} ${student.lastName}?`}
         />
-      )}
+      </Modal>
       <s.HeaderContainer>
         <s.TitleContainer>
           <img
@@ -98,12 +104,16 @@ const StudentDetail = () => {
             variant={student.status ? 'warning' : 'success'}
             icon={
               student.status ? (
-                <img src={DesactivateIcon} alt="desactivate-icon" />
+                <img
+                  src={DesactivateIcon}
+                  alt="desactivate-icon"
+                  style={{ transform: 'rotate(-90deg)', width: '30px', height: '30px' }}
+                />
               ) : (
                 <img
                   src={DesactivateIcon}
                   alt="activate-icon"
-                  style={{ transform: 'rotate(180deg)' }}
+                  style={{ transform: 'rotate(90deg)', width: '30px', height: '30px' }}
                 />
               )
             }
@@ -115,12 +125,15 @@ const StudentDetail = () => {
       </s.HeaderContainer>
 
       <s.StudentNameContainer>
-        <s.Title>
+        <s.TitleRow>
           <s.IconStyles>
             <img src={StudentIcon} alt="student-icon" />
           </s.IconStyles>
-          {student.name} {student.lastName}
-        </s.Title>
+          <s.Title>
+            {student.name} {student.lastName}
+          </s.Title>
+        </s.TitleRow>
+        <s.Email>{student.email}</s.Email>
       </s.StudentNameContainer>
       <s.InfoBoxesContainer>
         <StudentData student={student} navigate={navigate} isStudentInactive={isStudentInactive} />
@@ -154,7 +167,6 @@ const StudentData = ({
         </s.SubTitle>
         <s.EditIconStyles>
           <DisabledIcon
-            icon={<img src={EditIcon} alt="edit-icon" />}
             tooltip="Editar datos del alumno"
             disabled={isStudentInactive}
             disabledTooltip="Alumno inactivo"
@@ -163,7 +175,9 @@ const StudentData = ({
                 state: { studentId: student.id },
               })
             }
-          />
+          >
+            <img src={EditIcon} alt="edit-icon" />
+          </DisabledIcon>
         </s.EditIconStyles>
       </s.HeaderBoxes>
       <s.AllInformationContainer>
@@ -205,7 +219,6 @@ const PaymentData = ({
         </s.SubTitle>
         <s.EditIconStyles>
           <DisabledIcon
-            icon={<img src={EditIcon} alt="edit-icon" />}
             tooltip="Editar datos de pago"
             disabled={isStudentInactive}
             disabledTooltip="Alumno inactivo"
@@ -214,7 +227,9 @@ const PaymentData = ({
                 state: { studentId: student.id },
               })
             }
-          />
+          >
+            <img src={EditIcon} alt="edit-icon" />
+          </DisabledIcon>
         </s.EditIconStyles>
       </s.HeaderBoxes>
       <s.AllInformationContainer>
@@ -265,7 +280,6 @@ const SlotData = ({
 
         <s.EditIconStyles>
           <DisabledIcon
-            icon={<img src={EditIcon} alt="edit-icon" />}
             tooltip="Editar turnos"
             disabled={isStudentInactive}
             disabledTooltip="Alumno inactivo"
@@ -274,7 +288,9 @@ const SlotData = ({
                 state: { studentId: student.id },
               })
             }
-          />
+          >
+            <img src={EditIcon} alt="edit-icon" />
+          </DisabledIcon>
         </s.EditIconStyles>
       </s.HeaderBoxes>
 

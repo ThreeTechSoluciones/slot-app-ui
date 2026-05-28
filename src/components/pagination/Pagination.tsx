@@ -1,5 +1,5 @@
 import * as s from './Pagination.styles';
-import BackArrow from '../../assets/back-arrow-icon.svg';
+import BackArrow from '../../assets/chevron-left-icon.svg';
 export interface PaginationProps {
   page: number;
   size: number;

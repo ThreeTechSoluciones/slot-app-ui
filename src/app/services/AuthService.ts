@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import type { SigninResponse } from '../types/responses/SigninResponse.type';
 import { setUser } from '../slices/AuthSlice';
+import type { RestorePasswordResponse } from '../types/responses/RestorePasswordResponse.type';
 
 export const AuthService = createApi({
   reducerPath: 'authservice',
@@ -22,7 +23,36 @@ export const AuthService = createApi({
         });
       },
     }),
+    restorePassword: builder.mutation<RestorePasswordResponse, { username: string }>({
+      query: (body) => ({
+        url: '/restore-password',
+        method: 'POST',
+        body,
+      }),
+    }),
+    validateToken: builder.mutation<void, { token: string }>({
+      query: (body) => ({
+        url: '/restore-password/token/validate',
+        method: 'POST',
+        body,
+      }),
+    }),
+    confirmRestorePassword: builder.mutation<
+      void,
+      { username: string; password: string; repeatedPassword: string; token: string }
+    >({
+      query: (body) => ({
+        url: '/restore-password/confirm',
+        method: 'POST',
+        body,
+      }),
+    }),
   }),
 });
 
-export const { useSigninMutation } = AuthService;
+export const {
+  useSigninMutation,
+  useRestorePasswordMutation,
+  useValidateTokenMutation,
+  useConfirmRestorePasswordMutation,
+} = AuthService;

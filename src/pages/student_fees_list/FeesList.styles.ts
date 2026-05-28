@@ -19,7 +19,7 @@ export const StudentsContainer = styled.div`
   flex-direction: column;
   width: 100%;
   padding-top: 20px;
-  min-height: 100vh;
+  min-height: calc(100vh - 80px);
 `;
 
 export const TitleContainer = styled.div`
@@ -87,6 +87,10 @@ export const ActionButton = styled.button`
   display: inline-flex;
   align-items: center;
   gap: 4px;
+  &:focus {
+    outline: none;
+    box-shadow: none;
+  }
 `;
 
 const BaseIcon = styled.img`
@@ -97,6 +101,25 @@ const BaseIcon = styled.img`
 export const ViewIconStyle = styled(BaseIcon)``;
 
 export const CoinIconStyles = styled(BaseIcon)``;
+
+export const DeleteButton = styled.button`
+  border: none;
+  background: transparent;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+
+  &:not(:disabled) {
+    cursor: pointer;
+  }
+`;
+
+export const DeleteIcon = styled(BaseIcon)<{ $disabled: boolean }>`
+  width: 20px;
+  height: 20px;
+  opacity: ${({ $disabled }) => ($disabled ? 0.4 : 1)};
+`;
 
 export const FeeStatusContainer = styled.div`
   display: flex;
@@ -132,6 +155,6 @@ export const ContentContainer = styled.div`
   flex: 1;
 `;
 export const PaginationContainer = styled.div`
-  padding: 8px 0 8px 0;
-  margin: auto;
+  margin-top: auto;
+  padding: 35px 0px 35px 0px;
 `;

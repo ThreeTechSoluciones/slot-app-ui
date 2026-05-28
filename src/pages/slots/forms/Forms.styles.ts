@@ -1,5 +1,10 @@
 import styled from 'styled-components';
-import { DEFAULT_FONT_SIZE, MEDIUM_FONT_SIZE, NEUTRAL_COLOR } from '../../../utils/Stylesheet';
+import {
+  DEFAULT_FONT_SIZE,
+  FOCUS_STYLE,
+  MEDIUM_FONT_SIZE,
+  NEUTRAL_COLOR,
+} from '../../../utils/Stylesheet';
 import { DEFAULT_TEXT_COLOR, BORDER_RADIUS, BACKGROUND_COLOR } from '../../../utils/Stylesheet';
 
 export const FormContainer = styled.form`
@@ -22,10 +27,15 @@ export const Input = styled.input`
     color: ${NEUTRAL_COLOR};
     font-size: ${MEDIUM_FONT_SIZE};
   }
+  &:focus {
+    ${FOCUS_STYLE};
+  }
 `;
 
 export const Label = styled.label`
   font-size: ${DEFAULT_FONT_SIZE};
+  color: ${DEFAULT_TEXT_COLOR};
+  font-weight: bold;
 `;
 
 export const InputContainer = styled.div`

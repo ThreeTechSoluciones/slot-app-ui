@@ -13,14 +13,15 @@ export const RecoverContainer = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 12px;
-  padding: 0 32px;
-  width: 100%;
+  width: 480px;
   box-sizing: border-box;
 `;
+
 export const RecoverSubtitle = styled.p`
   font-size: ${DEFAULT_FONT_SIZE};
   color: ${DEFAULT_TEXT_COLOR};
 `;
+
 export const RecoverList = styled.div`
   display: flex;
   flex-direction: column;
@@ -28,8 +29,9 @@ export const RecoverList = styled.div`
   gap: 12px;
   max-height: 328px;
   overflow-y: auto;
-  padding-right: 4px;
+  padding-right: 10px;
 `;
+
 export const RecoverItem = styled.div<{ $selected?: boolean }>`
   display: flex;
   align-items: center;

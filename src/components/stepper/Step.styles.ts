@@ -68,4 +68,7 @@ export const Title = styled.p`
 export const Img = styled.img`
   position: absolute;
   bottom: 40px;
+  transform: rotate(-90deg);
+  width: 16px;
+  height: 16px;
 `;

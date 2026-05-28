@@ -6,16 +6,16 @@ import type {
 import FilterSearch from '../../../components/filter_search/FilterSearch';
 import { useState } from 'react';
 import PlusIcon from '../../../assets/plus-icon.svg';
-import UserIcon from '../../../assets/white-user-icon.svg';
+import UserIcon from '../../../assets/user-icon.svg';
 import { StatesTranslation } from '../../../utils/StatesTranslation';
 import CheckIcon from '../../../assets/check.svg';
 import ProgressIcon from '../../../assets/progress-icon.svg';
 import { useGetSpecificSlotStudentsQuery } from '../../../app/services/SpecificSlotService';
 import { skipToken } from '@reduxjs/toolkit/query';
-import type { CalendarAction } from '../CalendarViewPage';
 import { DisabledIcon } from '../../../components/disabled_icon/DisabledIcon';
 import { Tooltip } from '../../../components/tooltip/Tooltip';
 import { SearchNotFound } from '../../../components/search_not_found/SearchNotFound';
+import { CalendarActionsType, type CalendarAction } from '../CalendarUtils';
 
 const STATUS_ICONS: { [key: string]: string } = {
   FINALIZED: CheckIcon,
@@ -84,8 +84,8 @@ const SlotInfoSkeleton = ({ slot, isFull }: { slot: SpecificSlotResponse; isFull
           src={UserIcon}
           alt="Capacity"
           style={{
-            width: 16,
-            height: 16,
+            width: 14,
+            height: 12,
             marginRight: 2,
             filter: 'brightness(0) invert(1)',
           }}
@@ -111,11 +111,12 @@ interface SlotParams {
   dayOfWeek: string;
   rowIndex: number;
   columnsCount: number;
-  setSlotAction: React.Dispatch<React.SetStateAction<CalendarAction | null>>;
+  setSlotAction: React.Dispatch<React.SetStateAction<CalendarAction>>;
+  setOpenModal: (openModal: boolean) => void;
 }
 
 function Slot(props: SlotParams) {
-  const { slot, dayOfWeek, rowIndex, columnsCount, setSlotAction } = props;
+  const { slot, dayOfWeek, rowIndex, columnsCount, setSlotAction, setOpenModal } = props;
 
   const [filter, setFilter] = useState<string>('');
 
@@ -124,8 +125,8 @@ function Slot(props: SlotParams) {
   );
 
   const handleAbsenceSlot = (student: Student, specificSlotId: string) => {
-    setSlotAction({
-      type: 'ABSENCE',
+    openModalWithAction({
+      type: CalendarActionsType.ABSENCE,
       studentId: student.id,
       studentName: student.fullName,
       specificSlotId,
@@ -133,20 +134,25 @@ function Slot(props: SlotParams) {
   };
 
   const handleRecoverSlot = (specificSlotId: string, availableCapacity: number) => {
-    setSlotAction({
-      type: 'RECOVER',
+    openModalWithAction({
+      type: CalendarActionsType.RECOVER,
       specificSlotId,
       availableCapacity,
     });
   };
   const handleCancelSlot = (specificSlotId: string) => {
     setFilter('');
-    setSlotAction({
-      type: 'CANCEL',
+    openModalWithAction({
+      type: CalendarActionsType.CANCEL,
       specificSlotId,
       dayOfWeek,
       slot: { startTime: slot.startTime, endTime: slot.endTime },
     });
+  };
+
+  const openModalWithAction = (action: CalendarAction) => {
+    setSlotAction(action);
+    setOpenModal(true);
   };
 
   const students = filter ? filteredStudents : slot.students;

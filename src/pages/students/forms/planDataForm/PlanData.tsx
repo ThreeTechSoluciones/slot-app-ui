@@ -18,11 +18,12 @@ import { useSlotHandler } from '../../../../components/slotRegistrationCalendar/
 import useAuthentication from '../../../../hooks/useAuthentication';
 import { useGetSlotsQuery, useGetUserPlansQuery } from '../../../../app/services/UserService';
 import type { FormProps } from '../../../../app/types/FormProp';
-import { forwardRef, useImperativeHandle, useMemo, useCallback, useEffect, useState } from 'react';
+import { forwardRef, useImperativeHandle, useMemo, useCallback, useEffect } from 'react';
 import { skipToken } from '@reduxjs/toolkit/query';
 import { DaysOfWeekTranslation } from '../../../../utils/DaysOfWeek';
-import CalendarIcon from '../../../../assets/CalenderIcon.png';
+import CalendarIcon from '../../../../assets/calendar-icon.svg';
 import type { FormRef } from '../../../../app/types/FormRef';
+import Spinner from '../../../../components/spinner/Spinner';
 
 export interface PlanDataProps {
   planId: string;
@@ -157,7 +158,16 @@ const PlanData = forwardRef<FormRef, FormProps<PlanDataProps>>((props, ref) => {
           <ErrorMessage error={errors.planId} />
         </PlanContainer>
         {isLoadingCalendar ? (
-          <p>Cargando turnos...</p>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              marginTop: '8px',
+            }}
+          >
+            <Spinner text="Cargando turnos..." />
+          </div>
         ) : (
           <SlotRegistrationCalendar
             listSlots={userSlots}

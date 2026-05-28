@@ -6,6 +6,7 @@ import {
   BACKGROUND_COLOR,
   DEFAULT_FONT_SIZE,
   MEDIUM_FONT_SIZE,
+  FOCUS_STYLE,
 } from '../../../utils/Stylesheet';
 
 export const FormStyle = styled.form`
@@ -13,10 +14,9 @@ export const FormStyle = styled.form`
   flex-direction: column;
   justify-content: center;
   text-align: center;
-  width: 408px;
   height: auto;
+  width: 26rem;
   gap: 20px;
-  margin-left: 35px;
 `;
 
 export const InputContainer = styled.div`
@@ -49,6 +49,9 @@ export const InputStyle = styled.input`
   color: ${DEFAULT_TEXT_COLOR};
   &::placeholder {
     font-size: ${MEDIUM_FONT_SIZE};
+  }
+  &:focus {
+    ${FOCUS_STYLE};
   }
 `;
 

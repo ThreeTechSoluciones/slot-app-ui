@@ -1,12 +1,12 @@
 import * as s from './SlotConfiguration.styles';
-import EditIcon from '../../assets/edit-icon.png';
+import EditIcon from '../../assets/edit-icon.svg';
 import EditSlotForm from './forms/EditSlotForm';
 import { useRef, useState } from 'react';
 import AddIcon from '../../assets/add-icon.svg';
-import Modal from '../../components/modal/Modal';
 import { DaysOfWeek } from '../../utils/DaysOfWeek';
-import DeleteIcon from '../../assets/delete-icon.png';
-import CalendarIcon from '../../assets/calendar-icon.png';
+import DeleteIcon from '../../assets/delete-icon.svg';
+import CalendarIcon from '../../assets/calendar-icon.svg';
+import CaretIcon from '../../assets/caret-icon.svg';
 import CreateSlotForm from './forms/CreateSlotForm';
 import {
   useCreateSlotMutation,
@@ -15,7 +15,7 @@ import {
 } from '../../app/services/SlotService';
 import useAuthentication from '../../hooks/useAuthentication';
 import toast from 'react-hot-toast';
-import { ModalType, type ModalConfig } from '../../utils/SlotsModalsUtils';
+import { ModalType } from '../../utils/SlotsModalsUtils';
 import {
   useGetSlotsQuery,
   useGetUserPreferencesQuery,
@@ -24,6 +24,8 @@ import {
 import { ConfirmDialog } from '../../components/confirm_dialog/ConfirmDialog';
 import EditCapacityForm from './forms/EditCapacityForm';
 import type { SlotResponse } from '../../app/types/responses/SlotResponse.type';
+import BicycleLoader from '../../components/bicycle_animation/BicycleLoader';
+import Modal, { type ModalProps } from '../../components/unified_modal/Modal';
 
 function SlotConfiguration() {
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -32,15 +34,17 @@ function SlotConfiguration() {
 
   const [currentSlot, setCurrentSlot] = useState<SlotResponse | null>(null);
 
-  const [showConfirm, setShowConfirm] = useState(false);
-
   const { userId } = useAuthentication();
 
   const [createSlot] = useCreateSlotMutation();
 
   const [updateSlotCapacity] = useUpdateSlotsCapacityMutation();
 
-  const { data: userPreferences, isLoading, isError } = useGetUserPreferencesQuery(userId!);
+  const {
+    data: userPreferences,
+    isLoading: isLoadingUserPreferences,
+    isError,
+  } = useGetUserPreferencesQuery(userId!);
 
   const [updateSlot] = useUpdateSlotMutation();
 
@@ -56,7 +60,9 @@ function SlotConfiguration() {
 
   const editSlotRef = useRef<any>(null);
 
-  const { data: registeredSlots } = useGetSlotsQuery(
+  const deleteSlotRef = useRef<any>(null);
+
+  const { data: registeredSlots, isLoading: isLoadingSlots } = useGetSlotsQuery(
     { userId: userId!, dayOfWeek: selectEnglishValue },
     { skip: selectEnglishValue === '' },
   );
@@ -99,8 +105,8 @@ function SlotConfiguration() {
     }
   };
 
-  const handleDeleteSlot = () => {
-    setShowConfirm(false);
+  const handleDeleteSlot = async () => {
+    setShowModal(false);
     deleteSlot({ slotId: currentSlot?.id! })
       .unwrap()
       .then(() => {
@@ -140,7 +146,7 @@ function SlotConfiguration() {
 
   const SlotConfigurationSkeleton = () => {
     const getPlaceholder = () => {
-      if (isLoading) return 'Cargando...';
+      if (isLoadingUserPreferences) return 'Cargando...';
       if (isError) return 'Error al cargar capacidad';
       if (userPreferences?.capacity) return `${userPreferences.capacity} cupos por turno`;
       return 'Sin capacidad definida';
@@ -163,16 +169,19 @@ function SlotConfiguration() {
         </s.InputContainer>
         <s.InputContainer>
           <s.Label> Día del turno</s.Label>
-          <s.Select onChange={handleSelectValue} value={selectEnglishValue}>
-            <option value="" disabled hidden>
-              Seleccione un día
-            </option>
-            {Object.entries(DaysOfWeek).map(([key, value]) => (
-              <option key={key} value={value}>
-                {key}
+          <s.SelectWrapper>
+            <s.Select onChange={handleSelectValue} value={selectEnglishValue}>
+              <option value="" disabled hidden>
+                Seleccione un día
               </option>
-            ))}
-          </s.Select>
+              {Object.entries(DaysOfWeek).map(([key, value]) => (
+                <option key={key} value={value}>
+                  {key}
+                </option>
+              ))}
+            </s.Select>
+            <s.CaretIcon src={CaretIcon} alt="caret-icon" />
+          </s.SelectWrapper>
         </s.InputContainer>
         <s.Button
           $isDisabled={selectEnglishValue === ''}
@@ -207,7 +216,7 @@ function SlotConfiguration() {
               (registeredSlots?.day?.numberOfSlots ?? 0) > 3
             }
           >
-            <img src={CalendarIcon} width={35} height={35}></img>
+            <img src={CalendarIcon} width={30} height={30}></img>
             <s.SlotInfoContainer>
               <s.PrimaryText>
                 {slot.startTime} - {slot.endTime}
@@ -217,24 +226,25 @@ function SlotConfiguration() {
               </s.SecondaryText>
             </s.SlotInfoContainer>
             <s.ActionsContainer>
-              <img
-                src={EditIcon}
-                width={'24px'}
-                height={'24px'}
-                onClick={() => {
-                  setCurrentSlot(slot);
-                  openModal(ModalType.EDIT_START_TIME);
-                }}
-              ></img>
-              <img
-                src={DeleteIcon}
-                width={'24px'}
-                height={'24px'}
-                onClick={() => {
-                  setCurrentSlot(slot);
-                  setShowConfirm(true);
-                }}
-              ></img>
+              <s.IconButton>
+                <img
+                  src={EditIcon}
+                  onClick={() => {
+                    setCurrentSlot(slot);
+                    openModal(ModalType.EDIT_START_TIME);
+                  }}
+                ></img>
+              </s.IconButton>
+
+              <s.IconButton>
+                <img
+                  src={DeleteIcon}
+                  onClick={() => {
+                    setCurrentSlot(slot);
+                    openModal(ModalType.CONFIRM_DELETE);
+                  }}
+                ></img>
+              </s.IconButton>
             </s.ActionsContainer>
           </s.SpecificSlotContainer>
         ))}
@@ -250,7 +260,7 @@ function SlotConfiguration() {
           <s.Subtitle>No hay turnos registrados</s.Subtitle>
         </s.TitlesContainer>
         <s.InfoContainer>
-          <img src={CalendarIcon} width={32} height={32}></img>
+          <s.CalendarIcon src={CalendarIcon}></s.CalendarIcon>
           <s.PrimaryText>Aún no existen turnos para este día</s.PrimaryText>
           <s.SecondaryText>Podés registrar tu primer turno</s.SecondaryText>
         </s.InfoContainer>
@@ -266,49 +276,73 @@ function SlotConfiguration() {
     );
   };
 
-  const modalConfig: Record<ModalType, ModalConfig> = {
+  const modalConfig: Record<ModalType, ModalProps> = {
     [ModalType.CREATE]: {
       contentRef: createSlotRef,
-      content: <CreateSlotForm ref={createSlotRef} />,
+      children: <CreateSlotForm ref={createSlotRef} />,
+      primaryButtonText: 'Guardar',
+      secondaryButtonText: 'Cancelar',
       onConfirm: handleCreateSlotModal,
     },
     [ModalType.EDIT_CAPACITY]: {
       contentRef: editCapacityRef,
-      content: <EditCapacityForm ref={editCapacityRef} />,
+      children: <EditCapacityForm ref={editCapacityRef} />,
+      primaryButtonText: 'Guardar',
+      secondaryButtonText: 'Cancelar',
       onConfirm: handleEditCapacityModal,
     },
     [ModalType.EDIT_START_TIME]: {
       contentRef: editSlotRef,
-      content: <EditSlotForm ref={editSlotRef} initialStartTime={currentSlot?.startTime} />,
+      children: <EditSlotForm ref={editSlotRef} initialStartTime={currentSlot?.startTime} />,
+      primaryButtonText: 'Guardar',
+      secondaryButtonText: 'Cancelar',
       onConfirm: handleEditSlotModal,
+    },
+    [ModalType.CONFIRM_DELETE]: {
+      contentRef: deleteSlotRef,
+      children: <ConfirmDialog message="¿Estás seguro de que deseas eliminar el turno?" />,
+      primaryButtonText: 'Eliminar',
+      secondaryButtonText: 'Cancelar',
+      onConfirm: handleDeleteSlot,
     },
   };
 
   return (
     <s.MainContainer>
       <s.Title>MIS TURNOS</s.Title>
-      {showModal && modalType && (
+      {modalType && (
         <Modal
-          onClose={() => setShowModal(false)}
-          showButtons={true}
+          active={showModal}
           contentRef={modalConfig[modalType].contentRef}
+          onCancel={() => setShowModal(false)}
           onConfirm={modalConfig[modalType].onConfirm}
+          secondaryButtonText={modalConfig[modalType].secondaryButtonText}
+          primaryButtonText={modalConfig[modalType].primaryButtonText}
         >
-          {modalConfig[modalType].content}
+          {modalConfig[modalType].children}
         </Modal>
-      )}
-      {showConfirm && (
-        <ConfirmDialog
-          message="¿Estás seguro de que deseas eliminar el turno?"
-          onConfirm={() => handleDeleteSlot()}
-          onCancel={() => setShowConfirm(false)}
-        />
       )}
       <s.SkeletonsContainer>
         <SlotConfigurationSkeleton />
         {selectEnglishValue !== '' && (
           <s.AnimatedContainer>
-            {totalSlots === 0 ? <NonExistingSlotsSkeleton /> : <VisualizeSlotsSkeleton />}
+            {isLoadingSlots ? (
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  width: '336px',
+                  minHeight: '336px',
+                  position: 'relative',
+                }}
+              >
+                <BicycleLoader />
+              </div>
+            ) : totalSlots === 0 ? (
+              <NonExistingSlotsSkeleton />
+            ) : (
+              <VisualizeSlotsSkeleton />
+            )}
           </s.AnimatedContainer>
         )}
       </s.SkeletonsContainer>

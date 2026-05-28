@@ -8,6 +8,7 @@ import {
   MEDIUM_FONT_SIZE,
   DEFAULT_FONT_SIZE,
   SMALL_FONT_SIZE,
+  FOCUS_STYLE,
 } from '../../../utils/Stylesheet';
 
 export const FormStyle = styled.form`
@@ -16,7 +17,6 @@ export const FormStyle = styled.form`
   align-items: center;
   width: 100%;
   height: auto;
-  padding: 0 36px;
   box-sizing: border-box;
   margin: 0px;
 `;
@@ -25,12 +25,13 @@ export const InfoContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+  gap: 8px;
 `;
 
 export const InputContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
 `;
 
 interface InputProps {
@@ -45,11 +46,25 @@ export const Input = styled.input<InputProps>`
   padding: 0 12px;
   font-size: ${MEDIUM_FONT_SIZE};
   color: ${DEFAULT_TEXT_COLOR};
-  background-color: ${BACKGROUND_COLOR};
   background-color: ${(props) => (props.$isNonEditable ? LIGHT_NEUTRAL_COLOR : BACKGROUND_COLOR)};
   border: ${(props) =>
     props.$isNonEditable ? `2px solid ${LIGHT_NEUTRAL_COLOR}` : `1px solid ${DEFAULT_TEXT_COLOR}`};
   pointer-events: ${(props) => (props.$isNonEditable ? 'none' : 'auto')};
+  ${(props) =>
+    !props.$isNonEditable &&
+    `
+    &:focus {
+      ${FOCUS_STYLE}
+    }
+  `}
+  ${(props) =>
+    props.$isNonEditable &&
+    `
+    &:focus {
+      outline: none;
+      box-shadow: none;
+    }
+  `}
 `;
 
 export const InputWrapper = styled.div`

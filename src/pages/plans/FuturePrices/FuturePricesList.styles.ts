@@ -1,0 +1,102 @@
+import styled from 'styled-components';
+import {
+  BORDER_RADIUS,
+  DEFAULT_FONT_SIZE,
+  DEFAULT_TEXT_COLOR,
+  FONT_WEIGHT_BOLD,
+  FONT_WEIGHT_NORMAL,
+  MEDIUM_FONT_SIZE,
+  NEUTRAL_COLOR,
+  WARNING_COLOR,
+} from '../../../utils/Stylesheet';
+
+export const FuturePricesContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const Subtitle = styled.p`
+  font-size: ${MEDIUM_FONT_SIZE};
+  font-weight: ${FONT_WEIGHT_BOLD};
+  color: ${NEUTRAL_COLOR};
+  padding: 0px;
+  margin: 0px 0px 16px 0px;
+`;
+
+interface FuturePriceItemProps {
+  $isLast?: boolean;
+  $isOnlyOne?: boolean;
+}
+
+export const FuturePriceItem = styled.div<FuturePriceItemProps>`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  border-bottom: 1.5px solid ${DEFAULT_TEXT_COLOR};
+  height: ${(props) => (props.$isOnlyOne ? '60px' : `50px`)};
+  width: 380px;
+  padding: 8px 0px 8px 0px;
+`;
+
+export const DeleteIcon = styled.img`
+  cursor: pointer;
+  transition: transform 0.1s ease;
+  &:hover {
+    transform: scale(1.2);
+  }
+`;
+
+export const FuturePricesListContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+  overflow-y: auto;
+  max-height: 240px;
+  padding-right: 12px;
+`;
+
+export const PriceInfoContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 160px;
+`;
+
+export const Price = styled.div`
+  font-size: ${DEFAULT_FONT_SIZE};
+  color: ${DEFAULT_TEXT_COLOR};
+  font-weight: ${FONT_WEIGHT_NORMAL};
+`;
+
+export const StartDate = styled.div`
+  font-size: ${MEDIUM_FONT_SIZE};
+  font-weight: ${FONT_WEIGHT_BOLD};
+  color: ${NEUTRAL_COLOR};
+`;
+
+export const DaysUntilActiveComp = styled.div<{ $variant: 'next' | 'future' }>`
+  font-size: ${MEDIUM_FONT_SIZE};
+  width: 100px;
+  height: 24px;
+  border-radius: ${BORDER_RADIUS};
+  border: 2px solid ${WARNING_COLOR};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: ${FONT_WEIGHT_BOLD};
+  ${({ $variant }) =>
+    $variant === 'next' &&
+    `
+    color: white;
+    background-color: ${WARNING_COLOR};
+  `}
+
+  ${({ $variant }) =>
+    $variant === 'future' &&
+    `
+    color: ${WARNING_COLOR};
+    background-color: white;
+  `}
+`;

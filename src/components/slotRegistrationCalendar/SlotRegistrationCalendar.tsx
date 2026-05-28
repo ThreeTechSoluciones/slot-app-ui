@@ -7,7 +7,6 @@ import {
 } from './SlotRegistrationCalendar.styles';
 import { SUCCESS_COLOR } from '../../utils/Stylesheet';
 import type { Slot } from '../slotDetail/SlotDetail';
-import { DaysOfWeekTranslation } from '../../utils/DaysOfWeek';
 import { SearchNotFound } from '../search_not_found/SearchNotFound';
 type DayWithSlots = { day: string; slots: Slot[] };
 type CalendarProps = {

@@ -12,7 +12,6 @@ import AddIcon from '../../assets/add-icon.svg';
 import * as s from './Plans.styles';
 import { ConfirmDialog } from '../../components/confirm_dialog/ConfirmDialog';
 import { toast } from 'react-hot-toast';
-import { GenericModal } from '../../components/generic_modal/GenericModal';
 import CreatePlanForm from './CreatePlanForm/CreatePlanForm';
 import {
   useCreatePlanMutation,
@@ -26,11 +25,28 @@ import EditPlan from './EditPlan/EditPlan';
 import { formatDateToDash } from '../../utils/DateFormatter';
 import { Pagination } from '../../components/pagination/Pagination';
 import type { SortConfig } from '../../app/types/sort';
+import BicycleLoader from '../../components/bicycle_animation/BicycleLoader';
+import Modal, { type ModalProps } from '../../components/unified_modal/Modal';
+import FuturePricesList from './FuturePrices/FuturePricesList';
+import FuturePricesComponent from './FuturePrices/FuturePricesComponent';
+import type { PriceResponse } from '../../app/types/responses/PriceResponse.type';
+import { useDeletePriceMutation } from '../../app/services/PriceService';
+
+enum ModalType {
+  DELETE = 'DELETE',
+  CREATE = 'CREATE',
+  EDIT = 'EDIT',
+  NONE = 'NONE',
+  SHOW_FUTURE_PRICES = 'SHOW_FUTURE_PRICES',
+  DELETE_PRICE = 'DELETE_PRICE',
+}
 
 function Plans() {
   const formRef = useRef<any>(null);
   const [filter, setFilter] = useState<string>('');
-  const [showModal, setShowModal] = useState<'CREATE' | 'EDIT' | 'DELETE' | null>(null);
+  const [modalType, setModalType] = useState<ModalType>(ModalType.NONE);
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [showCompleteEdit, setShowCompleteEdit] = useState<boolean>(true);
   const [selectedPlan, setSelectedPlan] = useState<PlanResponse | null>(null);
   const [editPlan] = useUpdatePlanMutation();
   const [deletePlan] = useDeletePlanMutation();
@@ -46,18 +62,23 @@ function Plans() {
   } = useGetUserPlansQuery(
     userId
       ? {
-          userId,
-          page: page - 1,
-          size,
-          planName: filter,
-          sort: sort.length > 0 ? sort : undefined,
-        }
+        userId,
+        page: page - 1,
+        size,
+        planName: filter,
+        sort: sort.length > 0 ? sort : undefined,
+      }
       : skipToken,
   );
 
-  const handleClearFilters = () => {
-    setFilter('');
+  const handleClearFilters = () => setFilter('');
+
+  const closeModal = () => {
+    setModalType(ModalType.NONE);
+    setSelectedPlan(null);
+    setShowModal(false);
   };
+
   const handleMutation = async (
     action: () => Promise<any>,
     onSuccess: () => void,
@@ -70,7 +91,7 @@ function Plans() {
     } finally {
     }
   };
-  //CREAR PLAN
+
   const handleCreatePlan = async () => {
     if (!formRef.current) return;
 
@@ -83,12 +104,11 @@ function Plans() {
     };
     await handleMutation(
       () => createPlan(finalRequest).unwrap(),
-      () => setShowModal(null),
+      () => closeModal(),
       'Plan registrado',
     );
   };
 
-  //EDITAR PLAN
   const handleEditPlan = async () => {
     if (!formRef.current) return;
     const data = await formRef.current.submit();
@@ -100,63 +120,111 @@ function Plans() {
     };
     await handleMutation(
       () => editPlan(finalRequest).unwrap(),
-      () => setShowModal(null),
+      () => closeModal(),
       'Plan editado',
     );
   };
-  //ELIMINAR PLAN
+
   const handleDeletePlan = async () => {
     if (!selectedPlan || !selectedPlan.id) return;
 
     await handleMutation(
       () => deletePlan(selectedPlan.id).unwrap(),
-      () => {
-        setShowModal(null);
-        setSelectedPlan(null);
-      },
+      () => closeModal(),
       'Plan eliminado',
     );
   };
-  const MODALS = {
-    DELETE: (
-      <ConfirmDialog
-        message="¿Estás seguro de que deseas eliminar este plan?"
-        onConfirm={handleDeletePlan}
-        onCancel={() => setShowModal(null)}
-      />
-    ),
-    CREATE: (
-      <GenericModal
-        title="REGISTRAR NUEVO PLAN"
-        confirmText="Registrar"
-        onConfirm={handleCreatePlan}
-        onCancel={() => setShowModal(null)}
-        width="480px"
-      >
-        <CreatePlanForm ref={formRef} />
-      </GenericModal>
-    ),
-    EDIT: selectedPlan && (
-      <GenericModal
-        title="EDITAR PLAN"
-        confirmText="Editar"
-        onConfirm={handleEditPlan}
-        onCancel={() => {
-          setShowModal(null);
-          setSelectedPlan(null);
-        }}
-        height="620px"
-      >
+
+  const openModal = (type: ModalType) => {
+    setModalType(type);
+    setShowModal(true);
+  };
+
+  const [priceToDelete, setPriceToDelete] = useState<PriceResponse | null>(null);
+
+  const [deletePrice] = useDeletePriceMutation();
+
+  const handleDeletePrice = async () => {
+    if (!priceToDelete) return;
+    await deletePrice({ priceId: priceToDelete.id, planId: selectedPlan?.id! })
+      .unwrap()
+      .then(() => {
+        toast.success('Precio eliminado');
+        setPriceToDelete(null);
+      });
+    openModal(ModalType.SHOW_FUTURE_PRICES);
+  };
+
+  const handleOpenDeletePrice = (price: PriceResponse) => {
+    setPriceToDelete(price);
+    openModal(ModalType.DELETE_PRICE);
+  };
+
+  const updatedSelectedPlan =
+    plansData?.content.find((p) => p.id === selectedPlan?.id) ?? selectedPlan;
+
+  const modalConfig: Record<ModalType, ModalProps> = {
+    [ModalType.DELETE]: {
+      children: <ConfirmDialog message="¿Estás seguro de que deseas eliminar este plan?" />,
+      primaryButtonText: 'Eliminar',
+      secondaryButtonText: 'Cancelar',
+      onConfirm: handleDeletePlan,
+    },
+    [ModalType.CREATE]: {
+      children: <CreatePlanForm ref={formRef} />,
+      primaryButtonText: 'Registrar',
+      secondaryButtonText: 'Cancelar',
+      onConfirm: handleCreatePlan,
+      title: 'Registrar nuevo plan',
+    },
+    [ModalType.EDIT]: {
+      children: (
         <EditPlan
           ref={formRef}
-          planId={selectedPlan.id}
-          planName={selectedPlan.name}
-          numberOfDays={selectedPlan.numberOfDays}
-          currentAmount={selectedPlan.price}
+          planId={selectedPlan?.id!}
+          planName={selectedPlan?.name!}
+          numberOfDays={selectedPlan?.numberOfDays!}
+          currentAmount={selectedPlan?.currentPrice!}
+          showCompleteEdit={showCompleteEdit}
         />
-      </GenericModal>
-    ),
+      ),
+      primaryButtonText: 'Aceptar',
+      secondaryButtonText: 'Cancelar',
+      onConfirm: handleEditPlan,
+      title: showCompleteEdit ? 'Editar plan' : 'Programar nuevo precio',
+    },
+    [ModalType.NONE]: {
+      children: <></>,
+    },
+    [ModalType.SHOW_FUTURE_PRICES]: {
+      children: (
+        <FuturePricesList
+          selectedPlan={updatedSelectedPlan}
+          nextPrice={updatedSelectedPlan?.nextPrice}
+          futurePrices={updatedSelectedPlan?.futurePrices}
+          onAddPrice={() => {
+            setShowCompleteEdit(false);
+            openModal(ModalType.EDIT);
+          }}
+          onDeletePrice={handleOpenDeletePrice}
+        />
+      ),
+      title: 'Próximos precios',
+      onClose: () => {
+        setModalType(ModalType.NONE);
+        setShowModal(false);
+      },
+    },
+    [ModalType.DELETE_PRICE]: {
+      children: <ConfirmDialog message="¿Estás seguro de que quieres eliminar este precio?" />,
+      primaryButtonText: 'Aceptar',
+      secondaryButtonText: 'Cancelar',
+      onConfirm: handleDeletePrice,
+      onCancel: () => openModal(ModalType.SHOW_FUTURE_PRICES),
+      onClose: () => openModal(ModalType.SHOW_FUTURE_PRICES),
+    },
   };
+
   const columns: Column<PlanResponse>[] = [
     {
       header: (
@@ -170,7 +238,7 @@ function Plans() {
     {
       header: (
         <SortableButton
-          text="Cantidad de días asignados"
+          text="Cantidad de días"
           onSort={(isAsc) =>
             setSort([{ property: 'numberOfDays', direction: isAsc ? 'ASC' : 'DESC' }])
           }
@@ -183,12 +251,36 @@ function Plans() {
       header: (
         <SortableButton
           text="Precio actual"
-          onSort={(isAsc) => setSort([{ property: 'price', direction: isAsc ? 'ASC' : 'DESC' }])}
+          onSort={(isAsc) =>
+            setSort([{ property: 'currentPrice', direction: isAsc ? 'ASC' : 'DESC' }])
+          }
         />
       ),
-      accessor: 'price',
-      render: (plan) => <span>{formatCurrency(plan.price)}</span>,
+      accessor: 'currentPrice',
+      render: (plan) => <span>{formatCurrency(plan.currentPrice)}</span>,
     },
+    {
+      header: 'Próximo precio',
+      accessor: 'nextPrice',
+      render: (plan) => {
+        const totalFuturePrices = plan.totalFuturePrices;
+        return (
+          <FuturePricesComponent
+            plan={plan}
+            onClick={() => {
+              setSelectedPlan(plan);
+              if (totalFuturePrices !== null && totalFuturePrices !== 0) {
+                openModal(ModalType.SHOW_FUTURE_PRICES);
+              } else {
+                setShowCompleteEdit(false);
+                openModal(ModalType.EDIT);
+              }
+            }}
+          />
+        );
+      },
+    },
+
     {
       header: 'Acciones',
       render: (plan) => (
@@ -199,14 +291,15 @@ function Plans() {
             {
               label: 'Editar plan',
               onClick: () => {
-                setShowModal('EDIT');
+                openModal(ModalType.EDIT);
                 setSelectedPlan(plan);
+                setShowCompleteEdit(true);
               },
             },
             {
               label: 'Eliminar',
               onClick: () => {
-                setShowModal('DELETE');
+                openModal(ModalType.DELETE);
                 setSelectedPlan(plan);
               },
             },
@@ -215,7 +308,8 @@ function Plans() {
       ),
     },
   ];
-  if (isLoading) return <div>Cargando...</div>;
+
+  if (isLoading) return <BicycleLoader />;
   if (isError) return <div>Ocurrió un error a la hora de cargar a los planes.</div>;
   if (!plansData) return <div>No hay información disponible.</div>;
   return (
@@ -235,7 +329,7 @@ function Plans() {
             variant="primary"
             fontsize="medium"
             icon={<img src={AddIcon} alt="Agregar" />}
-            onClick={() => setShowModal('CREATE')}
+            onClick={() => openModal(ModalType.CREATE)}
           >
             Nuevo plan
           </Button>
@@ -255,9 +349,18 @@ function Plans() {
           }}
         />
       </s.PaginationContainer>
-      {showModal && MODALS[showModal]}
+      <Modal
+        active={showModal}
+        title={modalConfig[modalType].title}
+        primaryButtonText={modalConfig[modalType].primaryButtonText}
+        secondaryButtonText={modalConfig[modalType].secondaryButtonText}
+        onConfirm={modalConfig[modalType].onConfirm}
+        onCancel={modalConfig[modalType].onCancel ?? (() => setShowModal(false))}
+        onClose={modalConfig[modalType].onClose}
+      >
+        {modalConfig[modalType].children}
+      </Modal>
     </s.PlansContainer>
   );
 }
-
 export default Plans;

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import Arrow from '../../../../assets/arrow.png';
+import CaretIcon from '../../../../assets/caret-icon.svg';
 import {
   LIGHT_NEUTRAL_COLOR,
   NEUTRAL_COLOR,
@@ -7,6 +7,7 @@ import {
   DEFAULT_FONT_SIZE,
   MEDIUM_FONT_SIZE,
   SMALL_FONT_SIZE,
+  FOCUS_STYLE,
 } from '../../../../utils/Stylesheet';
 
 export const FORM_WIDTH = '410px';
@@ -53,6 +54,9 @@ export const BaseStyle = styled.input`
     color: ${NEUTRAL_COLOR};
     font-size: ${MEDIUM_FONT_SIZE};
   }
+  &:focus {
+    ${FOCUS_STYLE};
+  }
 `;
 
 export const Select = styled(BaseStyle).attrs({ as: 'select' })`
@@ -66,9 +70,8 @@ export const Select = styled(BaseStyle).attrs({ as: 'select' })`
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  background: url(${Arrow}) no-repeat right 12px center;
+  background: url(${CaretIcon}) no-repeat right 12px center;
   padding-right: 32px;
-}
 `;
 
 export const Input = styled(BaseStyle)`
@@ -79,6 +82,9 @@ export const Input = styled(BaseStyle)`
     color: ${(props) => (props.disabled ? LIGHT_NEUTRAL_COLOR : NEUTRAL_COLOR)};
     color: ${NEUTRAL_COLOR};
     font-size: ${MEDIUM_FONT_SIZE};
+  }
+  &:focus {
+    ${FOCUS_STYLE};
   }
 `;
 export const InputsContainer = styled.div`

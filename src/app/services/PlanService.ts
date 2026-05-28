@@ -16,7 +16,7 @@ export const PlanService = createApi({
         method: 'POST',
         body,
       }),
-      invalidatesTags: (_result, _error, id) => [{ type: 'Plan', id: 'LIST' }],
+      invalidatesTags: (_result, _error) => [{ type: 'Plan', id: 'LIST' }],
       onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
         await queryFulfilled;
         dispatch(UserService.util.invalidateTags(['userPlans']));
@@ -40,7 +40,7 @@ export const PlanService = createApi({
         url: `/${planId}`,
         method: 'DELETE',
       }),
-      invalidatesTags: (_result, _error, id) => [{ type: 'Plan', id: 'LIST' }],
+      invalidatesTags: (_result, _error) => [{ type: 'Plan', id: 'LIST' }],
       onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
         await queryFulfilled;
         dispatch(UserService.util.invalidateTags(['userPlans']));

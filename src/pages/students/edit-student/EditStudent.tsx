@@ -9,18 +9,12 @@ import useAuthentication from '../../../hooks/useAuthentication';
 import { useEffect, useRef, type JSX } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 import { useParams } from 'react-router-dom';
-import {
-  MainContainer,
-  TitleContainer,
-  Title,
-  ButtonsContainer,
-  Button,
-  FormContainer,
-} from './EditStudent.styles';
+import * as s from './EditStudent.styles';
 import { formatDateToDash, formatDateToISO } from '../../../utils/DateFormatter';
 import toast from 'react-hot-toast';
 import type { UpdateStudentRequest } from '../../../app/types/requests/UpdateStudentRequest.type';
-import BackIcon from '../../../assets/back-icon.svg';
+import BicycleLoader from '../../../components/bicycle_animation/BicycleLoader';
+import BackIcon from '../../../assets/arrow-circle-icon.svg';
 
 function EditStudent() {
   const { userId } = useAuthentication();
@@ -69,14 +63,13 @@ function EditStudent() {
       lastName: studentSaveData.lastName,
       dni: studentSaveData.dni,
       cellphoneNumber: studentSaveData.cellphoneNumber,
+      email: studentSaveData.email ?? null,
       birthday: formattedBirthday,
       pathologies: studentSaveData.pathologies ?? undefined,
     };
   };
 
-  if (isLoading) {
-    return <p>Cargando datos del estudiante...</p>;
-  }
+  if (isLoading) return <BicycleLoader />;
 
   if (isError || !studentSaveData) {
     return <p>Hubo un error al obtener la informacion del estudiante. Intente nuevamente</p>;
@@ -155,7 +148,6 @@ function EditStudent() {
       ),
     },
   };
-
   const updateStudentData = (data: UpdateStudentRequest) => {
     updateStudent(data)
       .unwrap()
@@ -166,9 +158,9 @@ function EditStudent() {
   };
 
   return (
-    <MainContainer>
-      <TitleContainer>
-        <Title>
+    <s.MainContainer>
+      <s.TitleContainer>
+        <s.Title>
           <img
             src={BackIcon}
             alt="back-icon"
@@ -176,16 +168,16 @@ function EditStudent() {
             style={{ cursor: 'pointer' }}
           ></img>
           {forms[numberOfStepNum]?.title}
-        </Title>
-      </TitleContainer>
-      <FormContainer>
+        </s.Title>
+      </s.TitleContainer>
+      <s.FormContainer>
         {forms[numberOfStepNum]?.component ?? <p>Paso no válido</p>}
-        <ButtonsContainer>
-          <Button onClick={() => navigate(-1)}>Cancelar</Button>
-          <Button onClick={handleClick}>Guardar cambios</Button>
-        </ButtonsContainer>
-      </FormContainer>
-    </MainContainer>
+        <s.ButtonsContainer>
+          <s.Button onClick={() => navigate(-1)}>Cancelar</s.Button>
+          <s.Button onClick={handleClick}>Guardar cambios</s.Button>
+        </s.ButtonsContainer>
+      </s.FormContainer>
+    </s.MainContainer>
   );
 }
 export default EditStudent;

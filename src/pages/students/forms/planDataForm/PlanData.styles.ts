@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import Arrow from '../../../../assets/Arrow.png';
+import CaretIcon from '../../../../assets/caret-icon.svg';
 import {
   NEUTRAL_COLOR,
   DEFAULT_TEXT_COLOR,
@@ -8,6 +8,7 @@ import {
   LIGHT_NEUTRAL_COLOR,
   DEFAULT_FONT_SIZE,
   MEDIUM_FONT_SIZE,
+  FOCUS_STYLE,
 } from '../../../../utils/Stylesheet';
 
 export const WIDTH = '810px';
@@ -53,9 +54,12 @@ export const Select = styled.select`
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  background: url(${Arrow}) no-repeat right 12px center;
+  background: url(${CaretIcon}) no-repeat right 12px center;
   &::placeholder {
     color: ${NEUTRAL_COLOR};
+  }
+  &:focus {
+    ${FOCUS_STYLE};
   }
 `;
 

@@ -1,102 +1,207 @@
-import styled, { keyframes } from 'styled-components';
-import { DEFAULT_FONT_SIZE } from '../../utils/Stylesheet';
-export const MIN_HEIGHT_HEADER = '96px';
+import styled, { css } from 'styled-components';
+import { BRAND_COLOR, DEFAULT_FONT_SIZE, MEDIUM_FONT_SIZE } from '../../utils/Stylesheet';
+
+export const HEIGHT_HEADER = '96px';
+export const TEXT_COLOR = 'rgba(0, 0, 0, 1)';
+export const TEXT_COLOR_MUTED = 'rgba(0, 0, 0, 0.75)';
+
 interface OptionProps {
-  $isLast?: boolean;
-  $hasImg?: boolean;
+  $isActive?: boolean;
 }
+
+const responsiveText = css`
+  @media (max-width: 1080px) {
+    font-size: ${MEDIUM_FONT_SIZE};
+  }
+`;
+
+const optionResponsiveWidth = css`
+  @media (max-width: 1080px) {
+    width: 120px;
+  }
+  @media (max-width: 930px) {
+    width: 100px;
+  }
+  @media (max-width: 805px) {
+    width: 90px;
+  }
+  @media (max-width: 685px) {
+    width: 85px;
+  }
+`;
+
+const buttonResponsiveWidth = css`
+  @media (max-width: 1080px) {
+    width: 122px;
+    padding: 0px 2px 0px 6px;
+  }
+`;
+
+const opacityHover = css`
+  color: ${TEXT_COLOR_MUTED};
+  transition: color 0.2s ease;
+  &:hover {
+    color: ${TEXT_COLOR};
+  }
+`;
 
 export const MainContainer = styled.header`
   display: flex;
-  width: 100%;
-  min-height: ${MIN_HEIGHT_HEADER};
-  background-color: #f0e21e;
-  box-sizing: border-box;
   justify-content: space-between;
+  width: 100%;
+  height: ${HEIGHT_HEADER};
+  background-color: ${BRAND_COLOR};
+  box-sizing: border-box;
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 500;
 `;
+
 export const LeftOptionsContainer = styled.section`
   display: flex;
-  flex-direction: row;
-  margin-left: 80px;
-  min-height: ${MIN_HEIGHT_HEADER};
   align-items: center;
+  flex-direction: row;
+  height: ${HEIGHT_HEADER};
   font-size: ${DEFAULT_FONT_SIZE};
+  margin-left: clamp(8px, 3vw, 80px);
 `;
+
 export const RightOptionsContainer = styled(LeftOptionsContainer)`
-  gap: 24px;
-  margin-right: 80px;
+  gap: 30px;
+  margin-left: 0;
+  margin-right: clamp(8px, 3vw, 80px);
 `;
 
-const blurEffect = keyframes`
-  0% {
-    filter: blur(0);
-  }
-  50% {
-    filter: blur(1px);
-  }
-  100% {
-    filter: blur(0);
-  }
-`;
-
-const boldEffect = keyframes`
-  0% {
-    font-weight: 400;
-  }
-  100% {
-    font-weight: 700;
-  }
-`;
-
-export const Option = styled.div<OptionProps>`
-  min-height: 16px;
+const BaseOption = styled.div<OptionProps>`
+  font-size: ${DEFAULT_FONT_SIZE};
   display: flex;
   justify-content: center;
-  text-align: center;
   align-items: center;
-  width: ${({ $hasImg }) => ($hasImg ? '200px' : '172px')};
-  border-right: ${({ $isLast }) => ($isLast ? 'none' : '2px solid black')};
-  gap: ${({ $hasImg }) => ($hasImg ? '4px' : '0')};
-  transition: font-size 0.3s ease-in-out;
-  &:hover {
-    cursor: pointer;
-    font-size: 17px;
-    font-weight: bold;
-    animation:
-      ${blurEffect} 0.2s forwards,
-      ${boldEffect} 0.3s forwards;
+  position: relative;
+  min-height: 16px;
+  cursor: pointer;
+  width: 140px;
+  ${opacityHover}
+  ${responsiveText}
+  ${({ $isActive }) =>
+    $isActive &&
+    css`
+      color: ${TEXT_COLOR};
+    `}
+`;
+
+export const Option = styled(BaseOption)<OptionProps>`
+  ${optionResponsiveWidth}
+  &::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -2px;
+    transform: translateX(-50%);
+    height: 2px;
+    background: ${TEXT_COLOR};
+    transition: width 0.3s ease;
+    width: ${({ $isActive }) => ($isActive ? '70%' : '0')};
   }
-  img {
-    width: ${({ $hasImg }) => ($hasImg ? '16px' : '0')};
-    height: ${({ $hasImg }) => ($hasImg ? '16px' : '0')};
+  &:hover::after {
+    width: 70%;
   }
 `;
 
-export const Logo = styled.div`
+export const Button = styled(BaseOption)<OptionProps>`
+  ${buttonResponsiveWidth}
+  margin-left: 20px;
+  padding: 2px 4px 2px 8px;
+  background-color: ${BRAND_COLOR};
+  border: 2px solid ${TEXT_COLOR_MUTED};
+  border-radius: 12px;
+  gap: 6px;
+  @media (max-width: 1080px) {
+    img {
+      width: 8px;
+      height: 8px;
+    }
+  }
+  &:hover {
+    border-color: ${TEXT_COLOR};
+    img {
+      opacity: 1;
+    }
+  }
+  img {
+    opacity: 0.75;
+    transition: opacity 0.2s ease;
+  }
+  ${({ $isActive }) =>
+    $isActive &&
+    css`
+      border-color: ${TEXT_COLOR};
+      img {
+        opacity: 1;
+      }
+    `}
+`;
+
+const BasePhoto = styled.div`
   width: 72px;
   height: 72px;
   border-radius: 50%;
   overflow: hidden;
+  flex-shrink: 0;
   img {
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
 `;
-export const Photo = styled(Logo)`
-  border: 2px solid black;
+
+export const Logo = styled(BasePhoto)`
+  margin-right: 20px;
 `;
-export const Logout = styled(Option)`
+
+export const Photo = styled(BasePhoto)`
+  border: 2px solid ${TEXT_COLOR};
+  @media (max-width: 1180px) {
+    display: none;
+  }
+`;
+
+export const Logout = styled.div`
+  ${opacityHover}
+  display: flex;
+  align-items: center;
+  gap: 4px;
   width: 88px;
   min-height: 54px;
   line-height: 16px;
-  border: none;
-  img {
-    width: 32px;
-    height: 32px;
+  cursor: pointer;
+  @media (max-width: 890px) {
+    margin-left: clamp(0px, calc((1200px - 100vw) * 0.1), 30px);
   }
   img {
     width: 34px;
     height: 34px;
+    opacity: 0.75;
+    transition: opacity 0.2s ease;
+    flex-shrink: 0;
+    @media (max-width: 1200px) {
+      width: 24px;
+      height: 24px;
+    }
+  }
+  &:hover {
+    border-color: ${TEXT_COLOR};
+    img {
+      opacity: 1;
+    }
+  }
+`;
+
+export const LogoutText = styled.span`
+  font-size: ${DEFAULT_FONT_SIZE};
+  white-space: nowrap;
+  ${responsiveText}
+  @media (max-width: 740px) {
+    display: none;
   }
 `;
