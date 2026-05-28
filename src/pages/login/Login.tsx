@@ -1,4 +1,5 @@
 import UserIcon from '../../assets/user-icon.svg';
+import packageJson from '../../../package.json';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { loginScheme } from './login.scheme';
@@ -15,6 +16,7 @@ import Button from '../../components/button/Button';
 import { Logo } from '../../components/logo/Logo';
 
 function Login() {
+  console.log(`SlotApp v${packageJson.version}`);
   const [signin] = useSigninMutation({ fixedCacheKey: 'shared-auth' });
   const navigate = useNavigate();
   const {
