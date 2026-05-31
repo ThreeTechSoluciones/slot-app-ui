@@ -85,6 +85,7 @@ export const BaseStyle = styled.input`
 export const Input = styled(BaseStyle)`
   background-color: ${LIGHT_NEUTRAL_COLOR};
   font-size: ${DEFAULT_FONT_SIZE};
+  border: 1px solid black;
   border: none;
   &::placeholder {
     color: ${DEFAULT_TEXT_COLOR};
@@ -110,6 +111,14 @@ export const Select = styled.select`
   -moz-appearance: none;
   font-size: ${MEDIUM_FONT_SIZE};
   cursor: pointer;
+  outline: none;
+  &::placeholder {
+    color: ${NEUTRAL_COLOR};
+    font-size: ${MEDIUM_FONT_SIZE};
+  }
+  &:focus {
+    ${FOCUS_STYLE};
+  }
 `;
 
 export const CaretIcon = styled.img`

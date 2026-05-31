@@ -1,4 +1,5 @@
 import UserIcon from '../../assets/user-icon.svg';
+import packageJson from '../../../package.json';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { loginScheme } from './login.scheme';
@@ -15,9 +16,9 @@ import Button from '../../components/button/Button';
 import { Logo } from '../../components/logo/Logo';
 
 function Login() {
+  console.log(`SlotApp v${packageJson.version}`);
   const [signin] = useSigninMutation({ fixedCacheKey: 'shared-auth' });
   const navigate = useNavigate();
-
   const {
     register,
     handleSubmit,
@@ -46,6 +47,7 @@ function Login() {
           registration={register('username')}
           icon={UserIcon}
           iconStyle={{ filter: 'brightness(0)', width: '18px', height: '18px' }}
+          hasAutofocus
         />
         <ErrorMessage error={errors.username} />
         <s.Label>Contraseña</s.Label>
@@ -56,7 +58,6 @@ function Login() {
             Aceptar
           </Button>
         </s.ButtonContainer>
-
         <s.ForgotPasswordText onClick={() => navigate(RecuperarContraseña)}>
           ¿Olvidaste tu contraseña?
         </s.ForgotPasswordText>

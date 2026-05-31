@@ -10,6 +10,7 @@ import BackIcon from '../../assets/arrow-circle-icon.svg';
 import StudentIcon from '../../assets/user-icon.svg';
 import ViewIcon from '../../assets/openEye-icon.png';
 import CoinIcon from '../../assets/coin-icon.svg';
+import DeleteIcon from '../../assets/delete-icon.svg';
 import type { StudentMonthlyFeeResponse } from '../../app/types/responses/StudentMonthlyFee.type';
 import { useEffect, useState } from 'react';
 import { ConfirmDialog } from '../../components/confirm_dialog/ConfirmDialog';
@@ -17,6 +18,7 @@ import {
   useGetStudentByIdQuery,
   useGetStudentMonthlyFeesQuery,
   useCreateStudentMonthlyFeeMutation,
+  useDeleteStudentMonthlyFeeMutation,
 } from '../../app/services/StudentService';
 import { skipToken } from '@reduxjs/toolkit/query/react';
 import { translateMonth } from '../../utils/TranslateMonths';
@@ -40,6 +42,7 @@ import BicycleLoader from '../../components/bicycle_animation/BicycleLoader';
 import type { SortConfig } from '../../app/types/sort';
 import { formatCurrency } from '../../utils/Formatter';
 import Modal, { type ModalProps } from '../../components/unified_modal/Modal';
+import { Tooltip } from '../../components/tooltip/Tooltip';
 function StudentFeesList() {
   const location = useLocation();
   const { studentId } = location.state || {};
@@ -85,6 +88,22 @@ function StudentFeesList() {
   );
 
   const [createMonthlyFee] = useCreateStudentMonthlyFeeMutation();
+  const [deleteStudentMonthlyFee] = useDeleteStudentMonthlyFeeMutation();
+
+  const handleConfirmDeleteFee = async () => {
+    if (!selectedFeeId) return;
+
+    deleteStudentMonthlyFee({
+      studentId,
+      monthlyFeeId: selectedFeeId,
+    })
+      .unwrap()
+      .finally(() => {
+        toast.success('Cuota eliminada');
+        setModalType(null);
+        setSelectedFeeId(null);
+      });
+  };
   useEffect(() => {
     setPage(1);
   }, [monthFilter, statusFilter, formattedExpirationDate]);
@@ -110,7 +129,10 @@ function StudentFeesList() {
     setSelectedPaymentId(paymentId);
     openModal(ModalType.PAYMENT_DETAIL);
   };
-
+  const handleOpenDeleteModal = (feeId: string) => {
+    setSelectedFeeId(feeId);
+    openModal(ModalType.DELETE_MONTHLY_FEE);
+  };
   const handleConfirmPay = async () => {
     if (!student?.id) {
       toast.error('Alumno no disponible para registrar la cuota como pagada');
@@ -215,6 +237,22 @@ function StudentFeesList() {
         return <></>;
       },
     },
+    {
+      header: 'Acciones',
+      render: (student) => {
+        const canDelete = MONTHLY_FEE_STATUS_CAN_BE_PAID.includes(student.status);
+        return (
+          <Tooltip content={canDelete ? 'Eliminar cuota' : 'No se puede eliminar una cuota pagada'}>
+            <s.DeleteButton
+              disabled={!canDelete}
+              onClick={() => canDelete && handleOpenDeleteModal(student.id)}
+            >
+              <s.DeleteIcon src={DeleteIcon} alt="delete-icon" $disabled={!canDelete} />
+            </s.DeleteButton>
+          </Tooltip>
+        );
+      },
+    },
   ];
 
   const modalConfig: Record<ModalType, ModalProps> = {
@@ -242,6 +280,12 @@ function StudentFeesList() {
       primaryButtonText: 'Aceptar',
       secondaryButtonText: 'Cancelar',
       onConfirm: handleConfirmPay,
+    },
+    [ModalType.DELETE_MONTHLY_FEE]: {
+      children: <ConfirmDialog message="¿Estás seguro de que deseas eliminar esta cuota?" />,
+      primaryButtonText: 'Eliminar',
+      secondaryButtonText: 'Cancelar',
+      onConfirm: handleConfirmDeleteFee,
     },
     [ModalType.PAYMENT_DETAIL]: {
       children: <PaymentInfoModal paymentId={selectedPaymentId} />,

@@ -41,6 +41,14 @@ export const FuturePriceItem = styled.div<FuturePriceItemProps>`
   padding: 8px 0px 8px 0px;
 `;
 
+export const DeleteIcon = styled.img`
+  cursor: pointer;
+  transition: transform 0.1s ease;
+  &:hover {
+    transform: scale(1.2);
+  }
+`;
+
 export const FuturePricesListContainer = styled.div`
   display: flex;
   flex-direction: column;
