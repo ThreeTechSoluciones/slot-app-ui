@@ -53,7 +53,7 @@ function UsernameStep() {
             placeholder="Ingrese su usuario"
             registration={register('username')}
             icon={UserIcon}
-            iconStyle={{ filter: 'brightness(0)' }}
+            iconStyle={{ filter: 'brightness(0)', width: '18px', height: '18px' }}
           />
 
           <s.ErrorContainer>

@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import CaretIcon from '../../../../assets/caret-icon.svg';
 import {
   LIGHT_NEUTRAL_COLOR,
   NEUTRAL_COLOR,
@@ -58,7 +57,9 @@ export const BaseStyle = styled.input`
     ${FOCUS_STYLE};
   }
 `;
-
+export const SelectWrapper = styled.div`
+  position: relative;
+`;
 export const Select = styled(BaseStyle).attrs({ as: 'select' })`
   width: 100%;
   height: 56px;
@@ -70,10 +71,18 @@ export const Select = styled(BaseStyle).attrs({ as: 'select' })`
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  background: url(${CaretIcon}) no-repeat right 12px center;
   padding-right: 32px;
+  cursor: pointer;
 `;
-
+export const CaretIcon = styled.img`
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 14px;
+  pointer-events: none;
+`;
 export const Input = styled(BaseStyle)`
   width: 100%;
   background: ${(props) => (props.disabled ? LIGHT_NEUTRAL_COLOR : 'none')};
