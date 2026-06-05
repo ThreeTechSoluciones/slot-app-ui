@@ -1,13 +1,12 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createApi } from '@reduxjs/toolkit/query/react';
 import type { SigninResponse } from '../types/responses/SigninResponse.type';
 import { setUser } from '../slices/AuthSlice';
 import type { RestorePasswordResponse } from '../types/responses/RestorePasswordResponse.type';
+import { createAuthenticatedBaseQuery } from './baseQuery';
 
 export const AuthService = createApi({
   reducerPath: 'authservice',
-  baseQuery: fetchBaseQuery({
-    baseUrl: `${import.meta.env.VITE_BACKEND_URL}/auth`,
-  }),
+  baseQuery: createAuthenticatedBaseQuery(`/auth`),
   endpoints: (builder) => ({
     signin: builder.mutation<SigninResponse, string>({
       query: (credentials: string) => ({
@@ -47,11 +46,24 @@ export const AuthService = createApi({
         body,
       }),
     }),
+    refreshSession: builder.mutation<SigninResponse, void>({
+      query: () => ({
+        url: '/refresh-session',
+        method: 'POST',
+      }),
+      onQueryStarted(_, { dispatch, queryFulfilled }) {
+        queryFulfilled.then((result) => {
+          console.log('___Refresh session result:', result);
+          dispatch(setUser(result.data));
+        });
+      },
+    }),
   }),
 });
 
 export const {
   useSigninMutation,
+  useRefreshSessionMutation,
   useRestorePasswordMutation,
   useValidateTokenMutation,
   useConfirmRestorePasswordMutation,

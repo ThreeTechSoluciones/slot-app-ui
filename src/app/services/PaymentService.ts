@@ -5,7 +5,7 @@ import { createAuthenticatedBaseQuery } from './baseQuery';
 export const PaymentService = createApi({
   reducerPath: 'payments',
   tagTypes: ['Payments'],
-  baseQuery: createAuthenticatedBaseQuery(`${import.meta.env.VITE_BACKEND_URL}/payments`),
+  baseQuery: createAuthenticatedBaseQuery(`/payments`),
   endpoints: (builder) => ({
     getPaymentInfo: builder.query<PaymentInfoResponse, string>({
       query: (paymentId) => `/${paymentId}`,

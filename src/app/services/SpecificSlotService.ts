@@ -7,7 +7,7 @@ import { createAuthenticatedBaseQuery } from './baseQuery';
 export const SpecificSlotService = createApi({
   reducerPath: 'specificSlots',
   tagTypes: ['SpecificSlot'],
-  baseQuery: createAuthenticatedBaseQuery(`${import.meta.env.VITE_BACKEND_URL}/specific-slots`),
+  baseQuery: createAuthenticatedBaseQuery(`/specific-slots`),
   endpoints: (builder) => ({
     getSpecificSlotStudents: builder.query<Student[], FilterParams>({
       query: ({ specificSlotId, filter }: FilterParams) => ({

@@ -5,7 +5,7 @@ import { createAuthenticatedBaseQuery } from './baseQuery';
 export const MetricService = createApi({
   reducerPath: 'metrics',
   tagTypes: ['Metric'],
-  baseQuery: createAuthenticatedBaseQuery(`${import.meta.env.VITE_BACKEND_URL}/metrics`),
+  baseQuery: createAuthenticatedBaseQuery(`/metrics`),
   endpoints: (builder) => ({
     getStudentPaymentMetrics: builder.query<PaymentMetrics, { studentId: string }>({
       query: ({ studentId }) => ({

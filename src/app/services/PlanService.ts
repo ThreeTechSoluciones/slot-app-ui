@@ -8,7 +8,7 @@ import { createAuthenticatedBaseQuery } from './baseQuery';
 export const PlanService = createApi({
   reducerPath: 'plans',
   tagTypes: ['Plan'],
-  baseQuery: createAuthenticatedBaseQuery(`${import.meta.env.VITE_BACKEND_URL}/plans`),
+  baseQuery: createAuthenticatedBaseQuery(`/plans`),
   endpoints: (builder) => ({
     createPlan: builder.mutation<PlanResponse, CreatePlanRequest>({
       query: (body) => ({
