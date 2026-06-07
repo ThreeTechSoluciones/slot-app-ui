@@ -29,6 +29,20 @@ const PaymentData = forwardRef<FormRef, FormProps<PaymentDataProps>>((props, ref
 
   const studentRegistrationForm = data ?? DEFAULT_PAYMENT_DATA;
 
+  const todayIsBetweenFirstAndTenth = (today: Date) => {
+    const day = today.getDate();
+    return day >= 1 && day <= 10;
+  };
+
+  const shouldShowExtraClassesField = (PaymentPlanNameSelected: string) => {
+    const today = new Date();
+    return (
+      PaymentPlanNameSelected === PaymentPlanName.BEGINNING_OF_MONTH &&
+      actionType !== 'edit' &&
+      !todayIsBetweenFirstAndTenth(today)
+    );
+  };
+
   const {
     register,
     handleSubmit,
@@ -162,8 +176,7 @@ const PaymentData = forwardRef<FormRef, FormProps<PaymentDataProps>>((props, ref
         <s.FieldContainer>
           {PaymentPlanNameSelected === '' && <NoPaymentSelectedSkeleton />}
           {PaymentPlanNameSelected === PaymentPlanName.SPECIFIC_DAY && <SpecificDaySkeleton />}
-          {PaymentPlanNameSelected === PaymentPlanName.BEGINNING_OF_MONTH &&
-            actionType !== 'edit' && <BeginningOfMonthSkeleton />}
+          {shouldShowExtraClassesField(PaymentPlanNameSelected) && <BeginningOfMonthSkeleton />}
         </s.FieldContainer>
       </s.FormContainer>
     </s.MainContainer>
